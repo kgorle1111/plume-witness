@@ -57,6 +57,14 @@ def validate(ev: dict[str, Any]) -> list[str]:
             errors.append(f"banned word in user-facing text: '{word}'")
     if not ev["cannot_say"]:
         errors.append("cannot_say must list what the tool cannot claim")
+    if ev["label"] == "real":
+        _need(ev, ("corridor",), "event", errors)
+        if "corridor" in ev:
+            _need(ev["corridor"], ("origin_site_id", "half_width_deg", "max_km", "wind_from_deg"), "corridor", errors)
+        for i, d in enumerate(rc.get("day_incidents") or []):
+            _need(d, ("incident", "entity", "in_corridor", "resolution"), f"record_check.day_incidents[{i}]", errors)
+        if rc.get("day_incidents") is None:
+            errors.append("record_check: a real event must list day_incidents (empty list if none)")
     if ev["label"] == "real" and not ev["provenance"]:
         errors.append("a real event needs provenance")
     return errors
