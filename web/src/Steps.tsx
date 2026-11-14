@@ -112,11 +112,12 @@ interface TraceProps {
 export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
+  const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
   return (
     <>
       <p className="lead">
         {wind
-          ? <>At {hourLabel(wind.hour_cst)} the wind at {ev.wind.site_id} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
+          ? <>At {hourLabel(wind.hour_cst)} the wind at {windSite} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
           : <>No wind reading for {hourLabel(ev.detection.hour_cst)}. Facilities are listed nearest first.</>}
       </p>
       <p className="caveat">Wind direction alone can't tell these apart.</p>
