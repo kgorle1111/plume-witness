@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { parseEvent, type PlumeEvent } from './types'
-import { EventMap } from './EventMap'
+import { MapSlot } from './MapSlot'
 import { Check, Detect, Packet, Trace } from './Steps'
 import './App.css'
 
@@ -116,7 +116,7 @@ function Replay({ ev }: { ev: PlumeEvent }) {
       <main className="layout">
         <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
-          <EventMap ev={ev} corridor={corridor} labelId="map-label" highlightId={highlightId} />
+          <MapSlot ev={ev} corridor={corridor} labelId="map-label" highlightId={highlightId} />
         </section>
         <aside className="panel" aria-label="Event steps">
           <Stepper ev={ev} onHighlight={setHighlightId} />
