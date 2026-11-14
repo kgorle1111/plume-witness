@@ -49,11 +49,35 @@ def test_reporting_facility_is_in_corridor_and_matched(real_event):
     assert rc["reported"]["pounds"] == 7634.0
 
 
-def test_absence_is_never_claimed_from_incomplete_search(real_event):
-    rc = build.record_check([], date(2024, 6, 21), 9, real_event["facilities"], search_complete=False)
+def _outside(incident: str) -> dict:
+    return {"incident": incident, "entity": "Elsewhere Plant", "rn": "RN0", "start_local": "2024-06-21T09:00",
+            "compound": "Benzene", "pounds": 1.0, "facility_id": "X", "distance_km": 30.0, "bearing_deg": 200.0,
+            "in_corridor": False, "resolution": "outside the corridor"}
+
+
+def test_absence_is_never_claimed_from_incomplete_search():
+    rc = build.record_check([], {}, date(2024, 6, 21), 9, search_complete=False)
     assert rc["status"] == "search_incomplete"
     assert rc["matched_facility_id"] is None
     assert all(c["status"] == "search_incomplete" for c in rc["checks"])
+
+
+def test_absence_needs_every_incident_located():
+    unresolved = _outside("1") | {"in_corridor": None, "resolution": "unresolved: facility not located"}
+    rc = build.record_check([unresolved], {}, date(2024, 6, 21), 9, search_complete=True)
+    assert rc["status"] == "search_incomplete"
+
+
+def test_absence_only_with_complete_search_and_all_located():
+    rc = build.record_check([_outside("1")], {}, date(2024, 6, 21), 9, search_complete=True)
+    assert rc["status"] == "no_report_after_deadline"
+
+
+def test_day_search_places_other_report_outside_corridor(real_event):
+    day = {d["incident"]: d for d in real_event["record_check"]["day_incidents"]}
+    assert set(day) == {"425347", "425367"}
+    assert day["425367"]["in_corridor"] is False and day["425347"]["in_corridor"] is True
+    assert "complete" in real_event["record_check"]["search_scope"]
 
 
 def test_corridor_lists_by_distance_not_by_blame(real_event):
