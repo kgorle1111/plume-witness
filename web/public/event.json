@@ -1241,7 +1241,35 @@
    "tz": "local (CDT)",
    "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release"
   },
-  "search_scope": "Checked against the STEERS incidents fetched for this night. A full search of every corridor facility is not automated yet, so a missing match would read 'search incomplete', never 'not reported'."
+  "day_incidents": [
+   {
+    "incident": "425367",
+    "entity": "Nisseki Chemical Texas",
+    "rn": "RN102887270",
+    "start_local": "2024-06-21T08:45",
+    "compound": "Benzene",
+    "pounds": 12.0,
+    "facility_id": "110000462963",
+    "distance_km": 22.9,
+    "bearing_deg": 118.2,
+    "in_corridor": false,
+    "resolution": "outside the corridor (22.9 km, 41\u00b0 off the wind)"
+   },
+   {
+    "incident": "425347",
+    "entity": "Ineos Americas Pasadena Site",
+    "rn": "RN100213958",
+    "start_local": "2024-06-21T09:38",
+    "compound": "Benzene",
+    "pounds": 7634.0,
+    "facility_id": "110000462623",
+    "distance_km": 10.6,
+    "bearing_deg": 75.6,
+    "in_corridor": true,
+    "resolution": "in the upwind corridor"
+   }
+  ],
+  "search_scope": "Searched every STEERS emissions event starting 06/21/2024 in Harris County (2 found; search complete)."
  },
  "corridor": {
   "origin_site_id": "48_201_0069",
@@ -1386,6 +1414,49 @@
    "bytes": 367109,
    "sha256": "be843d8fe40c5e9c7dc2089680398c28492591782fa482b1884f296580b8e14b",
    "fetched_at": "2026-11-14T23:16:37+00:00"
+  },
+  {
+   "file": "steers_search_harris_06212024.html",
+   "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+   "params": {
+    "newsearch": "yes",
+    "event_start_beg_dt": "06/21/2024",
+    "event_start_end_dt": "06/21/2024",
+    "ls_cnty_name": "HARRIS"
+   },
+   "bytes": 8986,
+   "sha256": "e81cf8bf0defe02ea5e10171f2e287aad51d6b37478d02dc1c69859a55f4206c",
+   "fetched_at": "2026-11-14T23:36:13+00:00"
+  },
+  {
+   "file": "steers_425347.html",
+   "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
+   "params": null,
+   "bytes": 10660,
+   "sha256": "af95d2f9ca0da39e569cd91a2431bf6a9ecedbadf4b8560b56902687ba374375",
+   "fetched_at": "2026-11-14T23:36:16+00:00"
+  },
+  {
+   "file": "steers_425367.html",
+   "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425367",
+   "params": null,
+   "bytes": 21644,
+   "sha256": "c2b210c63d81fc1e968cc20510abf794e01ee6d32354e2e6e715804c34b00486",
+   "fetched_at": "2026-11-14T23:36:19+00:00"
+  },
+  {
+   "file": "echo_name_425367.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_fn": "NISSEKI CHEMICAL TEXAS",
+    "p_st": "TX",
+    "qid": "66",
+    "pageno": "1"
+   },
+   "bytes": 2015,
+   "sha256": "fa33714234e3e9c7405abae81d625e0455d5dc561bdb7dfdbcabd612730e1603",
+   "fetched_at": "2026-11-14T23:36:57+00:00"
   }
  ]
 }
