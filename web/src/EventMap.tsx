@@ -126,9 +126,19 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
       return ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
     }
 
-    // Labels on the right part of the view grow leftwards so they don't run off the edge.
     let labelEpoch = 0
-    const onRightSide = (f: Facility) => map.project([f.lon, f.lat]).x > el.clientWidth * 0.6
+    // kn: width estimated at ~6.6px per character of the longest label line; measure text if labels get styled.
+    // Right of the dot if it fits, else left, else centred underneath.
+    const placement = (f: Facility): 'right' | 'left' | 'below' => {
+      const w = 13 + Math.max(...facilityLabel(f).split('\n').map((l) => l.length)) * 6.6
+      const x = map.project([f.lon, f.lat]).x
+      if (x + w <= el.clientWidth - 8) return 'right'
+      if (x - w >= 8) return 'left'
+      return 'below'
+    }
+    const ANCHOR = { right: 'start', left: 'end', below: 'middle' } as const
+    const BASELINE = { right: 'center', left: 'center', below: 'top' } as const
+    const OFFSET = { right: [13, 0], left: [-13, 0], below: [0, 13] } as const
 
     const buildLayers = (narrow: boolean) => [
       wedges.length > 0 &&
@@ -213,10 +223,10 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
         getText: facilityLabel,
         getColor: (f) => (f.id === matchedId ? C.matched : C.text),
         getSize: narrow ? 11 : 12,
-        getTextAnchor: (f) => (onRightSide(f) ? 'end' : 'start'),
-        getAlignmentBaseline: 'center',
-        getPixelOffset: (f) => (onRightSide(f) ? [-13, 0] : [13, 0]),
-        updateTriggers: { getTextAnchor: labelEpoch, getPixelOffset: labelEpoch },
+        getTextAnchor: (f) => ANCHOR[placement(f)],
+        getAlignmentBaseline: (f) => BASELINE[placement(f)],
+        getPixelOffset: (f) => [...OFFSET[placement(f)]],
+        updateTriggers: { getTextAnchor: labelEpoch, getAlignmentBaseline: labelEpoch, getPixelOffset: labelEpoch },
         background: true,
         getBackgroundColor: C.labelBg,
         backgroundPadding: [4, 2],
