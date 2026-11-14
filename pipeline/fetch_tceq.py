@@ -87,6 +87,20 @@ def fetch_echo(lat: float, lon: float, radius_mi: int, tag: str) -> list:
     return ledger
 
 
+def fetch_echo_by_name(name: str, state: str, tag: str) -> list:
+    """Locate a STEERS facility that the radius query missed, by name (EPA ECHO, public)."""
+    ledger: list = []
+    q = {"output": "JSON", "p_fn": name, "p_st": state}
+    qid = json.loads(_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"].get("QueryID")
+    if not qid:
+        return ledger
+    time.sleep(DELAY_S)
+    page = {"output": "JSON", "qid": qid, "pageno": "1"}
+    save(f"echo_name_{tag}.json", ECHO_PAGE, {**q, **page}, _get(ECHO_PAGE + "?" + urllib.parse.urlencode(page)), ledger)
+    _append_provenance(ledger)
+    return ledger
+
+
 STEERS_HOME = "https://www2.tceq.texas.gov/oce/eer/"
 STEERS_SEARCH = "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults"
 
