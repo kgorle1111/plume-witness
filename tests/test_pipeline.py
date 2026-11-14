@@ -95,3 +95,8 @@ def test_banned_words_rejected():
 def test_real_event_without_corridor_fails_contract(real_event):
     broken = {k: v for k, v in real_event.items() if k != "corridor"}
     assert any("corridor" in e for e in validate(broken))
+
+
+def test_corridor_lists_each_facility_once(real_event):
+    ids = [f["id"] for f in real_event["facilities"]]
+    assert len(ids) == len(set(ids))

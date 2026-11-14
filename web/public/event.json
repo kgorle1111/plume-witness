@@ -890,19 +890,6 @@
    "rank": 16
   },
   {
-   "id": "110032992215",
-   "name": "Galena Park Terminal",
-   "lat": 29.742222,
-   "lon": -95.209722,
-   "distance_km": 6.4,
-   "bearing_deg": 51.1,
-   "alignment": 0.947,
-   "in_corridor": true,
-   "source": "EPA ECHO (major emissions source)",
-   "coord_precision": "as published by ECHO",
-   "rank": 17
-  },
-  {
    "id": "110070736926",
    "name": "Sekisui Specialty Chemicals America Pasadena Plant",
    "lat": 29.716944,
@@ -913,7 +900,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 18
+   "rank": 17
   },
   {
    "id": "110009504526",
@@ -926,7 +913,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 19
+   "rank": 18
   },
   {
    "id": "110002344222",
@@ -939,7 +926,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 20
+   "rank": 19
   },
   {
    "id": "110000497800",
@@ -952,7 +939,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 21
+   "rank": 20
   },
   {
    "id": "110056955521",
@@ -965,7 +952,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 22
+   "rank": 21
   },
   {
    "id": "110071821344",
@@ -978,7 +965,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 23
+   "rank": 22
   },
   {
    "id": "110000505481",
@@ -991,7 +978,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 24
+   "rank": 23
   },
   {
    "id": "110000462730",
@@ -1004,7 +991,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 25
+   "rank": 24
   },
   {
    "id": "110009494993",
@@ -1017,7 +1004,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 26
+   "rank": 25
   },
   {
    "id": "110067263071",
@@ -1030,7 +1017,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 27
+   "rank": 26
   },
   {
    "id": "110005028120",
@@ -1043,7 +1030,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 28
+   "rank": 27
   },
   {
    "id": "110064386944",
@@ -1056,7 +1043,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 29
+   "rank": 28
   },
   {
    "id": "110009771880",
@@ -1069,7 +1056,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 30
+   "rank": 29
   },
   {
    "id": "110000462687",
@@ -1082,7 +1069,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 31
+   "rank": 30
   },
   {
    "id": "110070190741",
@@ -1095,7 +1082,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 32
+   "rank": 31
   },
   {
    "id": "110060340162",
@@ -1108,7 +1095,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 33
+   "rank": 32
   },
   {
    "id": "110063890847",
@@ -1121,7 +1108,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 34
+   "rank": 33
   },
   {
    "id": "110056955987",
@@ -1134,7 +1121,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 35
+   "rank": 34
   },
   {
    "id": "110000461009",
@@ -1147,7 +1134,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 36
+   "rank": 35
   },
   {
    "id": "110056638526",
@@ -1160,7 +1147,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 37
+   "rank": 36
   },
   {
    "id": "110000462623",
@@ -1173,7 +1160,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 38
+   "rank": 37
   },
   {
    "id": "110000460965",
@@ -1186,7 +1173,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 39
+   "rank": 38
   },
   {
    "id": "110002081942",
@@ -1199,7 +1186,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 40
+   "rank": 39
   },
   {
    "id": "110000462605",
@@ -1212,7 +1199,7 @@
    "in_corridor": true,
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
-   "rank": 41
+   "rank": 40
   }
  ],
  "record_check": {
@@ -1281,8 +1268,8 @@
   ]
  },
  "packet": {
-  "draft_en": "On June 21, 2024, the Texas state monitor at Houston Milby Park recorded 51.75 ppb of benzene in the 9:00 a.m. CST hour, against a 7-day median of 0.21 ppb. Manchester East Ave N recorded 21.4 ppb in the same hour. Wind there came from 77 degrees at 6.8 mph. 41 major permitted facilities lie in the upwind corridor. One of them, Ineos Americas Pasadena Site, filed emissions-event report 425347 for 7,634 pounds of benzene from 09:38 to 10:42 local time that day. These readings are consistent with that release reaching the monitors. Requested follow-up: confirm whether nearby residents were notified, and whether the reported amount accounts for these readings.",
-  "draft_es": "El 21 de junio de 2024, el monitor estatal de Texas en Houston Milby Park registr\u00f3 51.75 ppb de benceno en la hora de las 9:00 a. m. CST, frente a una mediana de 7 d\u00edas de 0.21 ppb. Manchester East Ave N registr\u00f3 21.4 ppb en la misma hora. El viento ven\u00eda de 77 grados a 6.8 mph. Hay 41 instalaciones permitidas importantes en el corredor de donde ven\u00eda el viento. Una de ellas, Ineos Americas Pasadena Site, present\u00f3 el informe de evento de emisiones 425347 por 7,634 libras de benceno de 09:38 a 10:42, hora local, ese d\u00eda. Estas lecturas son consistentes con que esa emisi\u00f3n lleg\u00f3 a los monitores. Seguimiento solicitado: confirmar si se avis\u00f3 a los residentes cercanos y si la cantidad reportada explica estas lecturas.",
+  "draft_en": "On June 21, 2024, the Texas state monitor at Houston Milby Park recorded 51.75 ppb of benzene in the 9:00 a.m. CST hour, against a 7-day median of 0.21 ppb. Manchester East Ave N recorded 21.4 ppb in the same hour. Wind there came from 77 degrees at 6.8 mph. 40 major permitted facilities lie in the upwind corridor. One of them, Ineos Americas Pasadena Site, filed emissions-event report 425347 for 7,634 pounds of benzene from 09:38 to 10:42 local time that day. These readings are consistent with that release reaching the monitors. Requested follow-up: confirm whether nearby residents were notified, and whether the reported amount accounts for these readings.",
+  "draft_es": "El 21 de junio de 2024, el monitor estatal de Texas en Houston Milby Park registr\u00f3 51.75 ppb de benceno en la hora de las 9:00 a. m. CST, frente a una mediana de 7 d\u00edas de 0.21 ppb. Manchester East Ave N registr\u00f3 21.4 ppb en la misma hora. El viento ven\u00eda de 77 grados a 6.8 mph. Hay 40 instalaciones permitidas importantes en el corredor de donde ven\u00eda el viento. Una de ellas, Ineos Americas Pasadena Site, present\u00f3 el informe de evento de emisiones 425347 por 7,634 libras de benceno de 09:38 a 10:42, hora local, ese d\u00eda. Estas lecturas son consistentes con que esa emisi\u00f3n lleg\u00f3 a los monitores. Seguimiento solicitado: confirmar si se avis\u00f3 a los residentes cercanos y si la cantidad reportada explica estas lecturas.",
   "drafted_by": "template (deterministic, no AI)",
   "guard": {
    "passed": true,

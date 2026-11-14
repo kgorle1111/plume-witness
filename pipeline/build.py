@@ -94,6 +94,8 @@ def corridor(echo: dict, origin: tuple[float, float], wind_from: list[float | No
                     "in_corridor": True, "source": "EPA ECHO (major emissions source)",
                     "coord_precision": "as published by ECHO"})
     out.sort(key=lambda r: r["distance_km"])
+    seen: set[str] = set()
+    out = [r for r in out if not (r["id"] in seen or seen.add(r["id"]))]  # ECHO can list one site twice
     for i, r in enumerate(out, 1):
         r["rank"] = i
     return out
