@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react'
-import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl } from 'maplibre-gl'
+import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
-import { compass, destination, hourLabel } from './format'
+import { destination } from './format'
 
 // MapLibre 6 ships its worker as a separate module; Vite needs its URL (per the OpenFreeMap quick start).
 setWorkerUrl(workerUrl)
@@ -28,17 +28,26 @@ const C = {
   upwind: [190, 30, 45, 200] as RGBA,
   labelBg: [255, 255, 255, 235] as RGBA,
   text: [20, 20, 24, 255] as RGBA,
+  focus: [11, 87, 208, 255] as RGBA,
 }
+
+// With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
+// focus in the Trace list (which stays the full text equivalent).
+const NEAREST_LABELED = 3
 
 interface Props {
   ev: PlumeEvent
   corridor: Facility[]
   labelId: string
+  /** Facility id highlighted from the Trace list (hover or keyboard focus). */
+  highlightId: string | null
 }
 
-export function EventMap({ ev, corridor, labelId }: Props) {
+export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const legend = useRef<HTMLUListElement>(null)
+  const highlight = useRef(highlightId)
+  const applyHighlight = useRef<(id: string | null) => void>(() => {})
 
   useEffect(() => {
     const el = container.current
@@ -50,6 +59,10 @@ export function EventMap({ ev, corridor, labelId }: Props) {
     const matchedId = ev.record_check.matched_facility_id
     const corridorIds = new Set(corridor.map((f) => f.id))
     const order = new Map(corridor.map((f, i) => [f.id, i + 1]))
+    const standing = new Set([...corridor.slice(0, NEAREST_LABELED).map((f) => f.id), ...(matchedId ? [matchedId] : [])])
+    let hoverId: string | null = null
+    // Matched facility drawn last so neighbours never cover it.
+    const drawOrder = [...ev.facilities.filter((f) => f.id !== matchedId), ...ev.facilities.filter((f) => f.id === matchedId)]
 
     // Line length: out to the farthest facility in the corridor, so the line spans what the list shows.
     const reachKm = corridor.length ? Math.max(...corridor.map((f) => f.distance_km)) : 0
@@ -92,6 +105,17 @@ export function EventMap({ ev, corridor, labelId }: Props) {
       return `${n ? `${n}. ` : ''}${f.name}${tag}`
     }
 
+    const isRevealed = (f: Facility) => f.id === hoverId || f.id === highlight.current
+    const labeled = () => {
+      const seen = new Set<string>()
+      // Facility ids can repeat in the data; label each id once.
+      return ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
+    }
+
+    // Labels on the right part of the view grow leftwards so they don't run off the edge.
+    let labelEpoch = 0
+    const onRightSide = (f: Facility) => map.project([f.lon, f.lat]).x > el.clientWidth * 0.6
+
     const buildLayers = (narrow: boolean) => [
       upwindEnd &&
         new PathLayer({
@@ -102,25 +126,6 @@ export function EventMap({ ev, corridor, labelId }: Props) {
           getWidth: 4,
           widthUnits: 'pixels',
           capRounded: true,
-        }),
-      !narrow &&
-        upwindEnd &&
-        wind &&
-        new TextLayer({
-          id: 'upwind-label',
-          data: [{ pos: [(trigger.lon + upwindEnd[0]) / 2, (trigger.lat + upwindEnd[1]) / 2] }],
-          getPosition: (d: { pos: [number, number] }) => d.pos,
-          getText: () => `Upwind at ${hourLabel(wind.hour_cst)}: wind from ${compass(wind.from_deg)} (${wind.from_deg}°)`,
-          getSize: 12,
-          getColor: C.trigger,
-          getTextAnchor: 'middle',
-          getAlignmentBaseline: 'bottom',
-          getPixelOffset: [0, -8],
-          background: true,
-          getBackgroundColor: C.labelBg,
-          backgroundPadding: [4, 2],
-          fontFamily: 'system-ui, sans-serif',
-          characterSet: 'auto',
         }),
       new ScatterplotLayer<Monitor>({
         id: 'monitors',
@@ -153,36 +158,39 @@ export function EventMap({ ev, corridor, labelId }: Props) {
       }),
       new ScatterplotLayer<Facility>({
         id: 'facilities',
-        data: ev.facilities,
+        data: drawOrder,
+        pickable: true,
         getPosition: (f) => [f.lon, f.lat],
-        getRadius: (f) => (f.id === matchedId ? 10 : 8),
+        getRadius: (f) => (isRevealed(f) ? 11 : f.id === matchedId ? 10 : 8),
         radiusUnits: 'pixels',
         getFillColor: facilityColor,
         stroked: true,
-        getLineColor: C.white,
-        getLineWidth: 2,
+        getLineColor: (f) => (isRevealed(f) ? C.focus : C.white),
+        getLineWidth: (f) => (isRevealed(f) ? 3 : 2),
         lineWidthUnits: 'pixels',
+        updateTriggers: { getRadius: [hoverId, highlight.current], getLineColor: [hoverId, highlight.current], getLineWidth: [hoverId, highlight.current] },
       }),
       new TextLayer<Facility>({
         id: 'facility-numbers',
-        data: ev.facilities.filter((f) => order.has(f.id)),
+        data: drawOrder.filter((f) => order.has(f.id)),
         getPosition: (f) => [f.lon, f.lat],
         getText: (f) => String(order.get(f.id)),
-        getSize: 11,
+        getSize: 10,
         getColor: C.white,
         fontFamily: 'system-ui, sans-serif',
         fontWeight: 700,
       }),
       new TextLayer<Facility>({
         id: 'facility-labels',
-        data: ev.facilities,
+        data: labeled(),
         getPosition: (f) => [f.lon, f.lat],
         getText: facilityLabel,
-        getSize: 12,
         getColor: (f) => (f.id === matchedId ? C.matched : C.text),
-        getTextAnchor: 'middle',
-        getAlignmentBaseline: 'top',
-        getPixelOffset: [0, 13],
+        getSize: narrow ? 11 : 12,
+        getTextAnchor: (f) => (onRightSide(f) ? 'end' : 'start'),
+        getAlignmentBaseline: 'center',
+        getPixelOffset: (f) => (onRightSide(f) ? [-13, 0] : [13, 0]),
+        updateTriggers: { getTextAnchor: labelEpoch, getPixelOffset: labelEpoch },
         background: true,
         getBackgroundColor: C.labelBg,
         backgroundPadding: [4, 2],
@@ -209,10 +217,35 @@ export function EventMap({ ev, corridor, labelId }: Props) {
       layers: buildLayers(isNarrow()),
     })
     let narrow = isNarrow()
+    const redraw = () => deck.setProps({ layers: buildLayers(narrow) })
+    applyHighlight.current = (id) => {
+      highlight.current = id
+      redraw()
+    }
+    // Hover (mouse) and tap (touch) reveal a facility's name; picking runs on deck's own buffer.
+    const pickAt = (x: number, y: number) =>
+      (deck.pickObject({ x, y, radius: 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
+    const setHover = (id: string | null) => {
+      if (id === hoverId) return
+      hoverId = id
+      map.getCanvas().style.cursor = id ? 'pointer' : ''
+      redraw()
+    }
+    const onMove = (e: MapMouseEvent) => setHover(pickAt(e.point.x, e.point.y))
+    const onClick = (e: MapMouseEvent) => setHover(pickAt(e.point.x, e.point.y))
+    const onOut = () => setHover(null)
+    map.on('mousemove', onMove)
+    map.on('click', onClick)
+    map.on('mouseout', onOut)
+    const onMoveEnd = () => {
+      labelEpoch++
+      redraw()
+    }
+    map.on('moveend', onMoveEnd)
     const sync = () => {
       if (narrow !== isNarrow()) {
         narrow = isNarrow()
-        deck.setProps({ layers: buildLayers(narrow) })
+        redraw()
       }
       deck.setProps({ viewState: camera() })
     }
@@ -230,10 +263,19 @@ export function EventMap({ ev, corridor, labelId }: Props) {
       pulseMarker.remove()
       map.off('move', sync)
       map.off('resize', sync)
+      map.off('mousemove', onMove)
+      map.off('click', onClick)
+      map.off('mouseout', onOut)
+      map.off('moveend', onMoveEnd)
+      applyHighlight.current = () => {}
       deck.finalize()
       map.remove()
     }
   }, [ev, corridor])
+
+  useEffect(() => {
+    applyHighlight.current(highlightId)
+  }, [highlightId])
 
   return (
     <>

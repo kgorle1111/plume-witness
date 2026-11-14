@@ -35,7 +35,7 @@ function CannotSay({ items }: { items: string[] }) {
   )
 }
 
-function Stepper({ ev }: { ev: PlumeEvent }) {
+function Stepper({ ev, onHighlight }: { ev: PlumeEvent; onHighlight: (id: string | null) => void }) {
   const [active, setActive] = useState(stepFromHash)
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
@@ -89,7 +89,7 @@ function Stepper({ ev }: { ev: PlumeEvent }) {
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2>{STEPS[active].title}</h2>
         {step === 'detect' && <Detect ev={ev} />}
-        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} />}
+        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} />}
         {step === 'check' && <Check ev={ev} />}
         {step === 'packet' && <Packet ev={ev} />}
         <nav className="step-nav" aria-label="Step navigation">
@@ -103,6 +103,7 @@ function Stepper({ ev }: { ev: PlumeEvent }) {
 
 function Replay({ ev }: { ev: PlumeEvent }) {
   const { corridor } = useCorridor(ev)
+  const [highlightId, setHighlightId] = useState<string | null>(null)
   return (
     <div className="app">
       <header className="top">
@@ -115,10 +116,10 @@ function Replay({ ev }: { ev: PlumeEvent }) {
       <main className="layout">
         <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
-          <EventMap ev={ev} corridor={corridor} labelId="map-label" />
+          <EventMap ev={ev} corridor={corridor} labelId="map-label" highlightId={highlightId} />
         </section>
         <aside className="panel" aria-label="Event steps">
-          <Stepper ev={ev} />
+          <Stepper ev={ev} onHighlight={setHighlightId} />
         </aside>
       </main>
     </div>

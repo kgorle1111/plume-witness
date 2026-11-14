@@ -102,7 +102,14 @@ export function Detect({ ev }: { ev: PlumeEvent }) {
   )
 }
 
-export function Trace({ ev, corridor, outside }: { ev: PlumeEvent; corridor: Facility[]; outside: Facility[] }) {
+interface TraceProps {
+  ev: PlumeEvent
+  corridor: Facility[]
+  outside: Facility[]
+  onHighlight: (id: string | null) => void
+}
+
+export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   return (
@@ -114,10 +121,20 @@ export function Trace({ ev, corridor, outside }: { ev: PlumeEvent; corridor: Fac
       </p>
       <p className="caveat">Wind direction alone can't tell these apart.</p>
       <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
+      <p className="muted small">Hover or focus a facility to show its name on the map. On the map, tap or point at a dot.</p>
       {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
         <ol className="facility-list">
           {corridor.map((f) => (
-            <li key={f.id} className={f.id === matched ? 'is-matched' : undefined}>
+            // Key on id + rank: the pipeline can emit the same facility id twice.
+            <li
+              key={`${f.id}-${f.rank}`}
+              className={f.id === matched ? 'is-matched' : undefined}
+              tabIndex={0}
+              onMouseEnter={() => onHighlight(f.id)}
+              onMouseLeave={() => onHighlight(null)}
+              onFocus={() => onHighlight(f.id)}
+              onBlur={() => onHighlight(null)}
+            >
               <span className="fl-name">{f.name}</span>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
@@ -133,7 +150,7 @@ export function Trace({ ev, corridor, outside }: { ev: PlumeEvent; corridor: Fac
       {outside.length > 0 && (
         <details className="outside">
           <summary>Nearby, outside the corridor ({outside.length})</summary>
-          <ul>{outside.map((f) => <li key={f.id}>{f.name} · {f.distance_km} km · bearing {f.bearing_deg}°</li>)}</ul>
+          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{f.name} · {f.distance_km} km · bearing {f.bearing_deg}°</li>)}</ul>
         </details>
       )}
     </>
