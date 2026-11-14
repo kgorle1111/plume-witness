@@ -3,9 +3,9 @@ import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } 
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
-import { PathLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
+import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
-import { destination } from './format'
+import { destination, mergeArcs, sectorRing } from './format'
 
 // MapLibre 6 ships its worker as a separate module; Vite needs its URL (per the OpenFreeMap quick start).
 setWorkerUrl(workerUrl)
@@ -29,7 +29,12 @@ const C = {
   labelBg: [255, 255, 255, 235] as RGBA,
   text: [20, 20, 24, 255] as RGBA,
   focus: [11, 87, 208, 255] as RGBA,
+  corridorFill: [190, 30, 45, 22] as RGBA,
+  corridorLine: [190, 30, 45, 140] as RGBA,
+  corridorText: [140, 20, 30, 255] as RGBA,
 }
+
+const CORRIDOR_LABEL = 'Upwind corridor (wind direction only)'
 
 // With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
 // focus in the Trace list (which stays the full text equivalent).
@@ -68,6 +73,14 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     const reachKm = corridor.length ? Math.max(...corridor.map((f) => f.distance_km)) : 0
     const upwindEnd = wind && reachKm > 0 ? destination(trigger.lat, trigger.lon, wind.from_deg, reachKm) : null
 
+    // Corridor wedge straight from event.json: origin monitor, ±half_width_deg around each wind-from bearing.
+    const cor = ev.corridor
+    const origin = cor && ev.monitors.find((m) => m.site_id === cor.origin_site_id)
+    const arcs = cor && origin ? mergeArcs(cor.wind_from_deg, cor.half_width_deg) : []
+    const wedges = cor && origin ? arcs.map(([a, b]) => ({ ring: sectorRing(origin.lat, origin.lon, a, b, cor.max_km) })) : []
+    const widest = arcs.reduce<[number, number] | null>((w, a) => (!w || a[1] - a[0] > w[1] - w[0] ? a : w), null)
+    const corridorLabelAt = cor && origin && widest ? destination(origin.lat, origin.lon, (widest[0] + widest[1]) / 2, cor.max_km * 0.85) : null
+
     const map = new MlMap({
       container: el,
       style: STYLE_URL,
@@ -81,6 +94,7 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     ev.monitors.forEach((m) => bounds.extend([m.lon, m.lat]))
     ev.facilities.forEach((f) => bounds.extend([f.lon, f.lat]))
     if (upwindEnd) bounds.extend(upwindEnd)
+    wedges.forEach((w) => w.ring.forEach((p) => bounds.extend(p)))
     // Top padding clears the legend; side padding leaves room for the centred labels under each point.
     const fit = () => {
       const side = isNarrow() ? 64 : 80
@@ -117,6 +131,18 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     const onRightSide = (f: Facility) => map.project([f.lon, f.lat]).x > el.clientWidth * 0.6
 
     const buildLayers = (narrow: boolean) => [
+      wedges.length > 0 &&
+        new PolygonLayer<{ ring: [number, number][] }>({
+          id: 'corridor',
+          data: wedges,
+          getPolygon: (d) => d.ring,
+          filled: true,
+          getFillColor: C.corridorFill,
+          stroked: true,
+          getLineColor: C.corridorLine,
+          getLineWidth: 1.5,
+          lineWidthUnits: 'pixels',
+        }),
       upwindEnd &&
         new PathLayer({
           id: 'upwind',
@@ -197,6 +223,24 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
         fontFamily: 'system-ui, sans-serif',
         characterSet: 'auto',
       }),
+      // Drawn last so dots never cover it; phones carry this label in the legend instead.
+      !narrow &&
+        corridorLabelAt &&
+        new TextLayer({
+          id: 'corridor-label',
+          data: [{ pos: corridorLabelAt }],
+          getPosition: (d: { pos: [number, number] }) => d.pos,
+          getText: () => CORRIDOR_LABEL,
+          getSize: 12,
+          getColor: C.corridorText,
+          getTextAnchor: 'middle',
+          getAlignmentBaseline: 'center',
+          background: true,
+          getBackgroundColor: C.labelBg,
+          backgroundPadding: [4, 2],
+          fontFamily: 'system-ui, sans-serif',
+          fontWeight: 600,
+        }),
     ].filter(Boolean)
 
     // kn: standalone Deck synced to the MapLibre camera, because @deck.gl/mapbox 9.4.1 reads map.transform,
@@ -286,6 +330,7 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
         <li><span className="lg lg-facility">1</span> Facility in corridor</li>
         {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed a report</li>}
         <li><span className="lg lg-line" /> Upwind direction</li>
+        {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
       </ul>
     </>
   )

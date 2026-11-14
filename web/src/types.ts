@@ -58,6 +58,14 @@ export interface RecordCheck {
   } | null
 }
 
+/** Wind-sector corridor: origin monitor, ±half_width_deg around each wind-from bearing, out to max_km. */
+export interface Corridor {
+  origin_site_id: string
+  half_width_deg: number
+  max_km: number
+  wind_from_deg: number[]
+}
+
 export interface PlumeEvent {
   schema: string
   label: 'real' | 'fixture'
@@ -77,6 +85,7 @@ export interface PlumeEvent {
     drafted_by: string | null
     guard: { passed: boolean; rejected: string[] }
   }
+  corridor?: Corridor
   cannot_say: string[]
   provenance: unknown[]
 }
