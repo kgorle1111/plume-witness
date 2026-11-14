@@ -13,7 +13,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from pipeline.contract import SCHEMA, validate
-from pipeline.parse import hourly_flags, hourly_table, steers_incident
+from pipeline.parse import hourly_flags, hourly_table, steers_incident, steers_search
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "build"
@@ -103,34 +103,71 @@ def _norm(name: str) -> str:
     return " ".join(name.lower().replace(",", " ").split())
 
 
-def record_check(incidents: list[dict], det_day: date, det_hour_cst: int, facilities: list[dict],
+def place_incidents(incidents: list[dict], facilities: list[dict], echo_rows: list[dict],
+                    origin: tuple[float, float], winds: list[float]) -> list[dict]:
+    """Put every self-report of the day on the map and say whether it falls in the upwind corridor.
+
+    Facilities are matched by exact normalized name; an incident that can't be located stays 'unresolved',
+    and an unresolved incident blocks any absence claim.
+    """
+    in_corr = {_norm(f["name"]): f for f in facilities}
+    located = {_norm(r["AIRName"]): r for r in echo_rows if r.get("FacLat")}
+    out = []
+    for inc in incidents:
+        key = _norm(inc["entity"])
+        row = {"incident": inc["incident"], "entity": inc["entity"].title(), "rn": inc["rn"],
+               "start_local": inc["start_local"], "compound": inc["compound"], "pounds": inc["pounds"]}
+        if key in in_corr:
+            f = in_corr[key]
+            row |= {"facility_id": f["id"], "distance_km": f["distance_km"], "bearing_deg": f["bearing_deg"],
+                    "in_corridor": True, "resolution": "in the upwind corridor"}
+        elif key in located:
+            p = (float(located[key]["FacLat"]), float(located[key]["FacLong"]))
+            d, b = haversine_km(origin, p), bearing_deg(origin, p)
+            off = min(abs((w - b + 180) % 360 - 180) for w in winds)
+            row |= {"facility_id": located[key].get("RegistryID"), "distance_km": round(d, 1),
+                    "bearing_deg": round(b, 1), "in_corridor": False,
+                    "resolution": f"outside the corridor ({d:.1f} km, {off:.0f}° off the wind)"}
+        else:
+            row |= {"facility_id": None, "distance_km": None, "bearing_deg": None, "in_corridor": None,
+                    "resolution": "unresolved: facility not located"}
+        out.append(row)
+    return out
+
+
+def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
                  search_complete: bool) -> dict:
     """Did ANY facility in the corridor file a matching emissions-event report? Checked at T+24h and T+14d.
 
-    Absence is only ever claimed when the search was complete; otherwise the status is search_incomplete.
+    Absence ('no report after deadline') needs a complete search AND every incident of the day located.
+    Otherwise the status is search_incomplete; a named facility is never called unreported on partial data.
     """
     det_local = datetime.combine(det_day, datetime.min.time()) + timedelta(hours=det_hour_cst + STEERS_TZ_OFFSET_H)
-    by_name = {_norm(f["name"]): f for f in facilities}
-    for inc in incidents:
-        fac = by_name.get(_norm(inc["entity"]))
-        start, notified = datetime.fromisoformat(inc["start_local"]), datetime.fromisoformat(inc["notified_local"])
-        if fac and det_local - timedelta(hours=6) <= start <= det_local + timedelta(hours=2):
-            t24 = "reported" if notified <= det_local + timedelta(hours=24) else "not_yet_reported"
-            t14 = "reported" if inc["final"] else "not_yet_reported"
-            return {
-                "status": t14, "incident": inc["incident"], "matched_facility_id": fac["id"],
-                "source_url": STEERS_URL.format(inc["incident"]),
-                "checks": [{"at": "T+24h", "status": t24, "note": f"initial notice filed {inc['notified_local']} local"},
-                           {"at": "T+14d", "status": t14, "note": "final report published" if inc["final"] else ""}],
-                "reported": {"facility": fac["name"], "compound": inc["compound"], "pounds": inc["pounds"],
-                             "start_local": inc["start_local"], "end_local": inc["end_local"], "tz": "local (CDT)",
-                             "cause": inc["cause"]},
-                "search_scope": SCOPE_NOTE,
-            }
-    none = "no_report_after_deadline" if search_complete else "search_incomplete"
+    lo, hi = det_local - timedelta(hours=6), det_local + timedelta(hours=2)
+    hits = [p for p in placed if p["in_corridor"] and lo <= datetime.fromisoformat(p["start_local"]) <= hi]
+    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
+             f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
+    if hits:
+        p = min(hits, key=lambda x: abs(datetime.fromisoformat(x["start_local"]) - det_local))
+        inc = details[p["incident"]]
+        t24 = "reported" if datetime.fromisoformat(inc["notified_local"]) <= det_local + timedelta(hours=24) \
+            else "not_yet_reported"
+        t14 = "reported" if inc["final"] else "not_yet_reported"
+        return {
+            "status": t14, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
+            "source_url": STEERS_URL.format(inc["incident"]),
+            "checks": [{"at": "T+24h", "status": t24, "note": f"initial notice filed {inc['notified_local']} local"},
+                       {"at": "T+14d", "status": t14, "note": "final report published" if inc["final"] else ""}],
+            "reported": {"facility": p["entity"], "compound": inc["compound"], "pounds": inc["pounds"],
+                         "start_local": inc["start_local"], "end_local": inc["end_local"], "tz": "local (CDT)",
+                         "cause": inc["cause"]},
+            "day_incidents": placed, "search_scope": scope,
+        }
+    can_claim_absence = search_complete and all(p["in_corridor"] is not None for p in placed)
+    none = "no_report_after_deadline" if can_claim_absence else "search_incomplete"
     return {"status": none, "incident": None, "matched_facility_id": None, "source_url": STEERS_SEARCH,
             "checks": [{"at": "T+24h", "status": none, "note": ""}, {"at": "T+14d", "status": none, "note": ""}],
-            "reported": None, "search_scope": SCOPE_NOTE}
+            "reported": None, "day_incidents": placed, "search_scope": scope}
 
 
 def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict) -> dict:
@@ -182,8 +219,6 @@ def det_day_str(monitors: list[dict], es: bool = False) -> str:
 
 STEERS_URL = "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target={}"
 STEERS_SEARCH = "https://www2.tceq.texas.gov/oce/eer/"
-SCOPE_NOTE = ("Checked against the STEERS incidents fetched for this night. A full search of every corridor "
-              "facility is not automated yet, so a missing match would read 'search incomplete', never 'not reported'.")
 
 
 def build() -> dict:
@@ -213,8 +248,14 @@ def build() -> dict:
     window = [wdir[max(0, h - 1)], wdir[h]]  # air arriving at hour h left the source up to ~1h earlier at ~7 mph
     echo = json.loads((RAW / EVENT["echo"]).read_text())
     facilities = corridor(echo, (trig["lat"], trig["lon"]), window)
-    incidents = [steers_incident(p) for p in sorted(RAW.glob("steers_*.html"))]
-    rc = record_check(incidents, det_day, h, facilities, search_complete=False)
+    search = steers_search(RAW / f"steers_search_harris_{day.replace('/', '')}.html")
+    details = {r["incident"]: steers_incident(RAW / f"steers_{r['incident']}.html") for r in search["rows"]}
+    complete = search["total"] == search["shown"] == len(details) and search["total"] < 50
+    echo_rows = echo["Results"]["Facilities"] + [
+        r for p in sorted(RAW.glob("echo_name_*.json")) for r in json.loads(p.read_text())["Results"]["Facilities"]]
+    placed = place_incidents(list(details.values()), facilities, echo_rows, (trig["lat"], trig["lon"]),
+                             [w for w in window if w is not None])
+    rc = record_check(placed, details, det_day, h, search_complete=complete)
     ev = {
         "schema": SCHEMA, "label": "real", "event_id": f"steers-{EVENT['incident']}",
         "title": "Benzene spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
