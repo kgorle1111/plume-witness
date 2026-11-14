@@ -90,3 +90,8 @@ def test_banned_words_rejected():
     ev = json.loads((ROOT / "data" / "fixtures" / "event.fixture.json").read_text())
     ev["packet"]["draft_en"] = "This facility made an illegal release."
     assert any("illegal" in e for e in validate(ev))
+
+
+def test_real_event_without_corridor_fails_contract(real_event):
+    broken = {k: v for k, v in real_event.items() if k != "corridor"}
+    assert any("corridor" in e for e in validate(broken))
