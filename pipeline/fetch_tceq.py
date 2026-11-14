@@ -67,10 +67,30 @@ def fetch_event(incident: str, year: str, agc_sites: list[str], met_site_select:
         site_id = met_site_select.split("|")[2]
         save(f"met_{year}_{site_id}_{param}.html", MET_URL, params, _get(MET_URL, params), ledger)
         time.sleep(DELAY_S)
+    _append_provenance(ledger)
+    return ledger
+
+
+ECHO_QUERY = "https://echodata.epa.gov/echo/air_rest_services.get_facilities"
+ECHO_PAGE = "https://echodata.epa.gov/echo/air_rest_services.get_qid"
+
+
+def fetch_echo(lat: float, lon: float, radius_mi: int, tag: str) -> list:
+    """Active air-permitted facilities within radius_mi of a monitor (EPA ECHO, public)."""
+    ledger: list = []
+    q = {"output": "JSON", "p_lat": f"{lat:.4f}", "p_long": f"{lon:.4f}", "p_radius": str(radius_mi), "p_act": "Y"}
+    qid = json.loads(_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"]["QueryID"]
+    time.sleep(DELAY_S)
+    page = {"output": "JSON", "qid": qid, "pageno": "1"}
+    save(f"echo_{tag}.json", ECHO_PAGE, {**q, **page}, _get(ECHO_PAGE + "?" + urllib.parse.urlencode(page)), ledger)
+    _append_provenance(ledger)
+    return ledger
+
+
+def _append_provenance(ledger: list) -> None:
     prov = RAW / "provenance.json"
     old = json.loads(prov.read_text()) if prov.exists() else []
     prov.write_text(json.dumps(old + ledger, indent=1))
-    return ledger
 
 
 if __name__ == "__main__":
@@ -81,5 +101,6 @@ if __name__ == "__main__":
         agc_sites=["48_201_0069", "48_201_0307", "48_201_0057", "48_201_1614"],
         met_site_select="site|Houston Milby Park A169 |48_201_0069|169",
     )
+    out += fetch_echo(29.7063, -95.2611, 8, "milby_8mi")
     for row in out:
         print(f"{row['file']:40s} {row['bytes']:>8d} B  {row['sha256'][:12]}")

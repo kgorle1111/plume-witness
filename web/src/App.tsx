@@ -1,122 +1,149 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { parseEvent, type PlumeEvent } from './types'
+import { EventMap } from './EventMap'
+import { Check, Detect, Packet, Trace } from './Steps'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const STEPS = [
+  { id: 'detect', label: 'Detect', title: 'Detect: what the monitor saw' },
+  { id: 'trace', label: 'Trace', title: 'Trace: in the upwind corridor' },
+  { id: 'check', label: 'Check', title: 'Check: the state record' },
+  { id: 'packet', label: 'Packet', title: 'Packet: review and file' },
+] as const
+type StepId = (typeof STEPS)[number]['id']
 
+// The hash doubles as a deep link (QR code on the table can open a specific step).
+const stepFromHash = (): number => {
+  const i = STEPS.findIndex((s) => `#${s.id}` === window.location.hash)
+  return i < 0 ? 0 : i
+}
+
+/** Corridor facilities nearest first (geometry only; the pipeline's `rank` is not shown as a ranking). */
+function useCorridor(ev: PlumeEvent) {
+  return useMemo(() => {
+    const byDistance = [...ev.facilities].sort((a, b) => a.distance_km - b.distance_km)
+    return { corridor: byDistance.filter((f) => f.in_corridor), outside: byDistance.filter((f) => !f.in_corridor) }
+  }, [ev])
+}
+
+function CannotSay({ items }: { items: string[] }) {
+  return (
+    <details className="cannot-say">
+      <summary>What this can't say ({items.length})</summary>
+      <ul>{items.map((t) => <li key={t}>{t}</li>)}</ul>
+    </details>
+  )
+}
+
+function Stepper({ ev }: { ev: PlumeEvent }) {
+  const [active, setActive] = useState(stepFromHash)
+  const tabs = useRef<(HTMLButtonElement | null)[]>([])
+  const { corridor, outside } = useCorridor(ev)
+
+  useEffect(() => {
+    const onHash = () => setActive(stepFromHash())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  const go =(i: number, focus = false) => {
+    setActive(i)
+    history.replaceState(null, '', `#${STEPS[i].id}`)
+    if (focus) tabs.current[i]?.focus()
+  }
+
+  const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const last = STEPS.length - 1
+    const keys: Record<string, number> = { ArrowRight: active + 1, ArrowDown: active + 1, ArrowLeft: active - 1, ArrowUp: active - 1, Home: 0, End: last }
+    const next = keys[e.key]
+    if (next === undefined) return
+    e.preventDefault()
+    go(Math.max(0, Math.min(last, next)), true)
+  }
+
+  const step: StepId = STEPS[active].id
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+      <div className="stepper" role="tablist" aria-label="Steps" onKeyDown={onKey}>
+        {STEPS.map((s, i) => (
+          <button
+            key={s.id}
+            ref={(el) => { tabs.current[i] = el }}
+            type="button"
+            role="tab"
+            id={`tab-${s.id}`}
+            aria-selected={i === active}
+            aria-controls={`panel-${s.id}`}
+            tabIndex={i === active ? 0 : -1}
+            className="step-tab"
+            onClick={() => go(i)}
+          >
+            <span className="step-num" aria-hidden="true">{i + 1}</span>
+            <span>{s.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <CannotSay items={ev.cannot_say} />
+
+      <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
+        <h2>{STEPS[active].title}</h2>
+        {step === 'detect' && <Detect ev={ev} />}
+        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} />}
+        {step === 'check' && <Check ev={ev} />}
+        {step === 'packet' && <Packet ev={ev} />}
+        <nav className="step-nav" aria-label="Step navigation">
+          {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
+          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}</button>}
+        </nav>
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
     </>
   )
 }
 
-export default App
+function Replay({ ev }: { ev: PlumeEvent }) {
+  const { corridor } = useCorridor(ev)
+  return (
+    <div className="app">
+      <header className="top">
+        <p className="brand">Plume Witness <span className="event-meta">· {ev.date_local} · {ev.compound.name} · {ev.label === 'real' ? 'Real public data' : 'Fixture'}</span></p>
+        <h1 className="event-title">{ev.title}</h1>
+      </header>
+      {ev.label === 'fixture' && (
+        <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
+      )}
+      <main className="layout">
+        <section className="map-wrap" aria-labelledby="map-label">
+          <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
+          <EventMap ev={ev} corridor={corridor} labelId="map-label" />
+        </section>
+        <aside className="panel" aria-label="Event steps">
+          <Stepper ev={ev} />
+        </aside>
+      </main>
+    </div>
+  )
+}
+
+export default function App() {
+  const [ev, setEv] = useState<PlumeEvent | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const ctrl = new AbortController()
+    fetch(`${import.meta.env.BASE_URL}event.json`, { signal: ctrl.signal, cache: 'no-cache' })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Could not load event.json (HTTP ${r.status}). Check that web/public/event.json exists.`)
+        return r.json()
+      })
+      .then((raw) => setEv(parseEvent(raw)))
+      .catch((e: unknown) => {
+        if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
+      })
+    return () => ctrl.abort()
+  }, [])
+
+  if (error) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{error}</p></main>
+  if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
+  return <Replay ev={ev} />
+}

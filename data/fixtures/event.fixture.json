@@ -1,0 +1,620 @@
+{
+ "schema": "plume-witness.event/v1",
+ "label": "fixture",
+ "event_id": "fixture-001",
+ "title": "Benzene spike near a Ship Channel monitor (fixture)",
+ "date_local": "2024-01-01",
+ "time_note": "FIXTURE: invented values for UI development only. Monitor hours are CST as TCEQ publishes them.",
+ "compound": {
+  "name": "benzene",
+  "aqs_param": "45201",
+  "units": "ppb-v"
+ },
+ "monitors": [
+  {
+   "site_id": "FX-A",
+   "name": "Monitor A (fixture)",
+   "lat": 29.7063,
+   "lon": -95.2611,
+   "hourly": [
+    {
+     "hour_cst": 0,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 1,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 2,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 3,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 4,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 5,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 6,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 7,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 8,
+     "value": 3.0,
+     "flag": null
+    },
+    {
+     "hour_cst": 9,
+     "value": 40.0,
+     "flag": null
+    },
+    {
+     "hour_cst": 10,
+     "value": 2.0,
+     "flag": null
+    },
+    {
+     "hour_cst": 11,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 12,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 13,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 14,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 15,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 16,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 17,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 18,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 19,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 20,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 21,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 22,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 23,
+     "value": 0.2,
+     "flag": null
+    }
+   ],
+   "baseline": 0.4,
+   "peak": {
+    "hour_cst": 9,
+    "value": 40.0
+   },
+   "triggered": true
+  },
+  {
+   "site_id": "FX-B",
+   "name": "Monitor B (fixture)",
+   "lat": 29.7194,
+   "lon": -95.2595,
+   "hourly": [
+    {
+     "hour_cst": 0,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 1,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 2,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 3,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 4,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 5,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 6,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 7,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 8,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 9,
+     "value": 15.0,
+     "flag": null
+    },
+    {
+     "hour_cst": 10,
+     "value": 4.0,
+     "flag": null
+    },
+    {
+     "hour_cst": 11,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 12,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 13,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 14,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 15,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 16,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 17,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 18,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 19,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 20,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 21,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 22,
+     "value": 0.3,
+     "flag": null
+    },
+    {
+     "hour_cst": 23,
+     "value": 0.3,
+     "flag": null
+    }
+   ],
+   "baseline": 0.4,
+   "peak": {
+    "hour_cst": 9,
+    "value": 15.0
+   },
+   "triggered": true
+  },
+  {
+   "site_id": "FX-C",
+   "name": "Monitor C (fixture)",
+   "lat": 29.7085,
+   "lon": -95.1141,
+   "hourly": [
+    {
+     "hour_cst": 0,
+     "value": null,
+     "flag": "ST"
+    },
+    {
+     "hour_cst": 1,
+     "value": null,
+     "flag": "ST"
+    },
+    {
+     "hour_cst": 2,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 3,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 4,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 5,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 6,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 7,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 8,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 9,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 10,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 11,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 12,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 13,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 14,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 15,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 16,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 17,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 18,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 19,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 20,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 21,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 22,
+     "value": 0.2,
+     "flag": null
+    },
+    {
+     "hour_cst": 23,
+     "value": 0.2,
+     "flag": null
+    }
+   ],
+   "baseline": 0.2,
+   "peak": {
+    "hour_cst": 5,
+    "value": 0.2
+   },
+   "triggered": false
+  }
+ ],
+ "wind": {
+  "site_id": "FX-A",
+  "hourly": [
+   {
+    "hour_cst": 0,
+    "from_deg": 75,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 1,
+    "from_deg": 76,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 2,
+    "from_deg": 77,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 3,
+    "from_deg": 78,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 4,
+    "from_deg": 79,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 5,
+    "from_deg": 75,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 6,
+    "from_deg": 76,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 7,
+    "from_deg": 77,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 8,
+    "from_deg": 78,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 9,
+    "from_deg": 79,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 10,
+    "from_deg": 75,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 11,
+    "from_deg": 76,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 12,
+    "from_deg": 77,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 13,
+    "from_deg": 78,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 14,
+    "from_deg": 79,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 15,
+    "from_deg": 75,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 16,
+    "from_deg": 76,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 17,
+    "from_deg": 77,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 18,
+    "from_deg": 78,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 19,
+    "from_deg": 79,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 20,
+    "from_deg": 75,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 21,
+    "from_deg": 76,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 22,
+    "from_deg": 77,
+    "speed_mph": 6.0
+   },
+   {
+    "hour_cst": 23,
+    "from_deg": 78,
+    "speed_mph": 6.0
+   }
+  ]
+ },
+ "detection": {
+  "site_id": "FX-A",
+  "hour_cst": 9,
+  "value": 40.0,
+  "baseline": 0.4,
+  "rule": "value >= max(10 x baseline, 10 ppb)"
+ },
+ "facilities": [
+  {
+   "id": "FX-F1",
+   "name": "Facility A (fixture)",
+   "lat": 29.73,
+   "lon": -95.155,
+   "distance_km": 10.6,
+   "bearing_deg": 75.6,
+   "alignment": 0.97,
+   "rank": 1,
+   "source": "fixture"
+  },
+  {
+   "id": "FX-F2",
+   "name": "Facility B (fixture)",
+   "lat": 29.7,
+   "lon": -95.17,
+   "distance_km": 9.1,
+   "bearing_deg": 96.0,
+   "alignment": 0.55,
+   "rank": 2,
+   "source": "fixture"
+  },
+  {
+   "id": "FX-F3",
+   "name": "Facility C (fixture)",
+   "lat": 29.75,
+   "lon": -95.2,
+   "distance_km": 7.3,
+   "bearing_deg": 48.0,
+   "alignment": 0.31,
+   "rank": 3,
+   "source": "fixture"
+  }
+ ],
+ "record_check": {
+  "status": "reported",
+  "incident": "FX-0001",
+  "source_url": "https://example.invalid/fixture",
+  "checks": [
+   {
+    "at": "T+24h",
+    "status": "reported"
+   },
+   {
+    "at": "T+14d",
+    "status": "reported"
+   }
+  ],
+  "reported": {
+   "compound": "Benzene",
+   "pounds": 1000,
+   "start_local": "2024-01-01T09:00",
+   "end_local": "2024-01-01T10:00",
+   "tz": "CST",
+   "cause": "fixture"
+  }
+ },
+ "packet": {
+  "draft_en": "Fixture draft: evidence consistent with a release from the upwind area. A person reviews before filing.",
+  "draft_es": "Borrador de prueba: evidencia consistente con una emisi\u00f3n desde el \u00e1rea en direcci\u00f3n del viento. Una persona lo revisa antes de presentarlo.",
+  "drafted_by": null,
+  "guard": {
+   "passed": true,
+   "rejected": []
+  }
+ },
+ "cannot_say": [
+  "Fixture data. Not a real event."
+ ],
+ "provenance": []
+}
