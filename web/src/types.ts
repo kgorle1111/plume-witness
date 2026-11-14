@@ -56,6 +56,29 @@ export interface RecordCheck {
     tz?: string
     cause?: string
   } | null
+  day_incidents?: DayIncident[]
+}
+
+export interface DayIncident {
+  incident: string
+  entity: string
+  rn?: string
+  start_local?: string
+  compound?: string
+  pounds?: number | null
+  facility_id?: string | null
+  distance_km?: number | null
+  bearing_deg?: number | null
+  in_corridor: boolean
+  resolution: string
+}
+
+/** Wind-sector corridor: origin monitor, ±half_width_deg around each wind-from bearing, out to max_km. */
+export interface Corridor {
+  origin_site_id: string
+  half_width_deg: number
+  max_km: number
+  wind_from_deg: number[]
 }
 
 export interface PlumeEvent {
@@ -77,6 +100,7 @@ export interface PlumeEvent {
     drafted_by: string | null
     guard: { passed: boolean; rejected: string[] }
   }
+  corridor?: Corridor
   cannot_say: string[]
   provenance: unknown[]
 }

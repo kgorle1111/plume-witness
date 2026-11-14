@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Facility, Monitor, PlumeEvent } from './types'
+import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, safeHttpUrl, statusInfo } from './format'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
@@ -102,22 +102,40 @@ export function Detect({ ev }: { ev: PlumeEvent }) {
   )
 }
 
-export function Trace({ ev, corridor, outside }: { ev: PlumeEvent; corridor: Facility[]; outside: Facility[] }) {
+interface TraceProps {
+  ev: PlumeEvent
+  corridor: Facility[]
+  outside: Facility[]
+  onHighlight: (id: string | null) => void
+}
+
+export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
+  const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
   return (
     <>
       <p className="lead">
         {wind
-          ? <>At {hourLabel(wind.hour_cst)} the wind at {ev.wind.site_id} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
+          ? <>At {hourLabel(wind.hour_cst)} the wind at {windSite} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
           : <>No wind reading for {hourLabel(ev.detection.hour_cst)}. Facilities are listed nearest first.</>}
       </p>
       <p className="caveat">Wind direction alone can't tell these apart.</p>
       <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
+      <p className="muted small">Hover or focus a facility to show its name on the map. On the map, tap or point at a dot.</p>
       {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
         <ol className="facility-list">
           {corridor.map((f) => (
-            <li key={f.id} className={f.id === matched ? 'is-matched' : undefined}>
+            // Key on id + rank: the pipeline can emit the same facility id twice.
+            <li
+              key={`${f.id}-${f.rank}`}
+              className={f.id === matched ? 'is-matched' : undefined}
+              tabIndex={0}
+              onMouseEnter={() => onHighlight(f.id)}
+              onMouseLeave={() => onHighlight(null)}
+              onFocus={() => onHighlight(f.id)}
+              onBlur={() => onHighlight(null)}
+            >
               <span className="fl-name">{f.name}</span>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
@@ -133,7 +151,7 @@ export function Trace({ ev, corridor, outside }: { ev: PlumeEvent; corridor: Fac
       {outside.length > 0 && (
         <details className="outside">
           <summary>Nearby, outside the corridor ({outside.length})</summary>
-          <ul>{outside.map((f) => <li key={f.id}>{f.name} · {f.distance_km} km · bearing {f.bearing_deg}°</li>)}</ul>
+          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{f.name} · {f.distance_km} km · bearing {f.bearing_deg}°</li>)}</ul>
         </details>
       )}
     </>
@@ -176,9 +194,35 @@ export function Check({ ev }: { ev: PlumeEvent }) {
           </dl>
         </>
       )}
+      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
       {url
         ? <p><a href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
+    </>
+  )
+}
+
+function DayIncidents({ items }: { items: DayIncident[] }) {
+  return (
+    <>
+      <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
+      <ul className="day-incidents">
+        {items.map((d) => (
+          <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
+            <span className="di-entity">{d.entity}</span>
+            {/* Corridor membership is stated in words; the border colour only repeats it. */}
+            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'}>
+              {d.in_corridor ? 'In the upwind corridor' : 'Not in the corridor'}
+            </span>
+            <span className="di-facts">
+              {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? `started ${localTime(d.start_local)}` : null]
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
+            <span className="muted small">Report #{d.incident}: {d.resolution}</span>
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
