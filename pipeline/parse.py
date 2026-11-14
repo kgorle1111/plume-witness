@@ -53,6 +53,20 @@ def _after(label: str, text: str, until: str) -> str:
     return rest[: j if j >= 0 else 120].strip(" :")
 
 
+def steers_search(path: Path) -> dict:
+    """Rows of a STEERS search results page plus the 'a-b of N Records' count (results cap at 50 per page)."""
+    t = re.sub(r"\s+", " ", _text(path))
+    m = re.search(r"(\d+)-(\d+) of (\d+) Records", t)
+    if not m:
+        if "No records" in t or "0 Records" in t:
+            return {"rows": [], "shown": 0, "total": 0}
+        raise ValueError(f"{path.name}: no record count found; the STEERS results format may have changed")
+    rows = [{"incident": inc, "rn": rn, "entity": name.strip(), "began": began}
+            for inc, rn, name, began in re.findall(
+                r"(\d{6}) (RN\d{9}) (.+?) (\d{2}/\d{2}/\d{4} \d{2}:\d{2} [AP]M)", t)]
+    return {"rows": rows, "shown": int(m.group(2)) - int(m.group(1)) + 1, "total": int(m.group(3))}
+
+
 def steers_incident(path: Path) -> dict:
     """Key facts from a STEERS emissions-event detail page (times are local, as published)."""
     t = re.sub(r"\s+", " ", _text(path))
