@@ -116,5 +116,48 @@
   "bytes": 367109,
   "sha256": "be843d8fe40c5e9c7dc2089680398c28492591782fa482b1884f296580b8e14b",
   "fetched_at": "2026-11-14T23:16:37+00:00"
+ },
+ {
+  "file": "steers_search_harris_06212024.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/21/2024",
+   "event_start_end_dt": "06/21/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8986,
+  "sha256": "e81cf8bf0defe02ea5e10171f2e287aad51d6b37478d02dc1c69859a55f4206c",
+  "fetched_at": "2026-11-14T23:36:13+00:00"
+ },
+ {
+  "file": "steers_425347.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
+  "params": null,
+  "bytes": 10660,
+  "sha256": "af95d2f9ca0da39e569cd91a2431bf6a9ecedbadf4b8560b56902687ba374375",
+  "fetched_at": "2026-11-14T23:36:16+00:00"
+ },
+ {
+  "file": "steers_425367.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425367",
+  "params": null,
+  "bytes": 21644,
+  "sha256": "c2b210c63d81fc1e968cc20510abf794e01ee6d32354e2e6e715804c34b00486",
+  "fetched_at": "2026-11-14T23:36:19+00:00"
+ },
+ {
+  "file": "echo_name_425367.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_fn": "NISSEKI CHEMICAL TEXAS",
+   "p_st": "TX",
+   "qid": "66",
+   "pageno": "1"
+  },
+  "bytes": 2015,
+  "sha256": "fa33714234e3e9c7405abae81d625e0455d5dc561bdb7dfdbcabd612730e1603",
+  "fetched_at": "2026-11-14T23:36:57+00:00"
  }
 ]

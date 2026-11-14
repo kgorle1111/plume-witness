@@ -87,6 +87,53 @@ def fetch_echo(lat: float, lon: float, radius_mi: int, tag: str) -> list:
     return ledger
 
 
+def fetch_echo_by_name(name: str, state: str, tag: str) -> list:
+    """Locate a STEERS facility that the radius query missed, by name (EPA ECHO, public)."""
+    ledger: list = []
+    q = {"output": "JSON", "p_fn": name, "p_st": state}
+    qid = json.loads(_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"].get("QueryID")
+    if not qid:
+        return ledger
+    time.sleep(DELAY_S)
+    page = {"output": "JSON", "qid": qid, "pageno": "1"}
+    save(f"echo_name_{tag}.json", ECHO_PAGE, {**q, **page}, _get(ECHO_PAGE + "?" + urllib.parse.urlencode(page)), ledger)
+    _append_provenance(ledger)
+    return ledger
+
+
+STEERS_HOME = "https://www2.tceq.texas.gov/oce/eer/"
+STEERS_SEARCH = "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults"
+
+
+def fetch_steers_day(day: str, county: str = "HARRIS") -> list:
+    """Every emissions event that STARTED on `day` (MM/DD/YYYY) in `county`, plus each incident's detail page.
+
+    The search needs a session cookie from the home page. Results cap at 50 per page; the parser reports
+    the total so the build can refuse to call a capped search complete.
+    """
+    import http.cookiejar
+    import re
+
+    jar = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+    opener.addheaders = [("User-Agent", UA)]
+    opener.open(STEERS_HOME, timeout=TIMEOUT_S).read()
+    time.sleep(DELAY_S)
+    params = {"newsearch": "yes", "event_start_beg_dt": day, "event_start_end_dt": day, "ls_cnty_name": county}
+    with opener.open(STEERS_SEARCH, data=urllib.parse.urlencode(params).encode(), timeout=TIMEOUT_S) as r:
+        page = r.read()
+    ledger: list = []
+    tag = day.replace("/", "")
+    save(f"steers_search_{county.lower()}_{tag}.html", STEERS_SEARCH, params, page, ledger)
+    for incident in sorted(set(re.findall(rb"target=(\d+)", page))):
+        time.sleep(DELAY_S)
+        inc = incident.decode()
+        url = STEERS_DETAIL.format(incident=inc)
+        save(f"steers_{inc}.html", url, None, _get(url), ledger)
+    _append_provenance(ledger)
+    return ledger
+
+
 def _append_provenance(ledger: list) -> None:
     prov = RAW / "provenance.json"
     old = json.loads(prov.read_text()) if prov.exists() else []
