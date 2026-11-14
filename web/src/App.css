@@ -308,3 +308,12 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   .panel { flex: 0 0 440px; }
   .legend { font-size: 0.8rem; }
 }
+
+.day-incidents { list-style: none; padding: 0; display: grid; gap: 8px; }
+.day-incidents li { display: grid; gap: 2px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
+.day-incidents li.in-corridor { border: 2px solid var(--matched); background: #eefaf3; }
+.di-entity { font-weight: 700; }
+.di-tag { justify-self: start; font-size: 0.78rem; font-weight: 700; color: var(--ink-2); }
+.di-tag.di-in { color: var(--matched); }
+.di-tag.di-in::before { content: '✓ '; }
+.di-facts { font-size: 0.9rem; }

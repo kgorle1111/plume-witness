@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Facility, Monitor, PlumeEvent } from './types'
+import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, safeHttpUrl, statusInfo } from './format'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
@@ -193,9 +193,35 @@ export function Check({ ev }: { ev: PlumeEvent }) {
           </dl>
         </>
       )}
+      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
       {url
         ? <p><a href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
+    </>
+  )
+}
+
+function DayIncidents({ items }: { items: DayIncident[] }) {
+  return (
+    <>
+      <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
+      <ul className="day-incidents">
+        {items.map((d) => (
+          <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
+            <span className="di-entity">{d.entity}</span>
+            {/* Corridor membership is stated in words; the border colour only repeats it. */}
+            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'}>
+              {d.in_corridor ? 'In the upwind corridor' : 'Not in the corridor'}
+            </span>
+            <span className="di-facts">
+              {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? `started ${localTime(d.start_local)}` : null]
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
+            <span className="muted small">Report #{d.incident}: {d.resolution}</span>
+          </li>
+        ))}
+      </ul>
     </>
   )
 }

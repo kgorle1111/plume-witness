@@ -56,6 +56,21 @@ export interface RecordCheck {
     tz?: string
     cause?: string
   } | null
+  day_incidents?: DayIncident[]
+}
+
+export interface DayIncident {
+  incident: string
+  entity: string
+  rn?: string
+  start_local?: string
+  compound?: string
+  pounds?: number | null
+  facility_id?: string | null
+  distance_km?: number | null
+  bearing_deg?: number | null
+  in_corridor: boolean
+  resolution: string
 }
 
 /** Wind-sector corridor: origin monitor, ±half_width_deg around each wind-from bearing, out to max_km. */
