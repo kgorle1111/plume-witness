@@ -1,5 +1,6 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { STATUS_FILL, hourLabel, statusInfo } from './format'
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { STATUS_FILL, hourLabel, statusInfo, statusLabel } from './format'
+import { StatusIcon } from './StatusIcon'
 import { parseSpikes } from './spikes'
 import {
   MONTHS_TOTAL, SPEEDS, TOTAL_DAYS, clampDay, countAt, dayFromParam, fadeDaysFor, isoFromDay, monthOfDay,
@@ -15,6 +16,7 @@ import './SpikeRain.css'
 // MapLibre + deck.gl load after the controls and text have rendered.
 const RainMap = lazy(() => import('./RainMap'))
 
+const OPEN_QUESTION = 'no_report_after_deadline'
 const STATUS_ORDER = ['no_report_after_deadline', 'reported_mismatch', 'search_incomplete', 'reported']
 const nightHref = (id: string) => `${import.meta.env.BASE_URL}?night=${encodeURIComponent(id)}`
 
@@ -285,8 +287,8 @@ export default function SpikeRain() {
             <ul className="rn-counts">
               {STATUS_ORDER.map((s) => (
                 <li key={s}>
-                  <span className="rn-dot" style={{ background: STATUS_FILL[s] }} aria-hidden="true" />
-                  <span className="rn-count-label" lang={lang}>{statusInfo(s)[lang]}</span>
+                  <span className={`rn-dot${s === OPEN_QUESTION ? ' rn-dot-ring' : ''}`} style={{ '--dot': STATUS_FILL[s] } as CSSProperties} aria-hidden="true" />
+                  <span className="rn-count-label" lang={lang}>{statusLabel(s, lang)}</span>
                   <span className="rn-count-n">{monthCounts[s] ?? 0}</span>
                 </li>
               ))}
@@ -306,7 +308,7 @@ export default function SpikeRain() {
                     <a href={nightHref(s.row.night_id)}>
                       <span className="rn-li-when"><time dateTime={s.row.date}>{dateLabel(s.row.date, lang)}</time> · {hourLabel(s.row.hour_cst)}</span>
                       <span className="rn-li-what">{[s.row.site, s.row.compound, s.row.ratio === null ? null : t('rn.ratio', { r: s.row.ratio })].filter(Boolean).join(' · ')}</span>
-                      <span className={`sl-status sl-status-${s.row.status}`} lang={lang}>{statusInfo(s.row.status)[lang]}</span>
+                      <span className={`sl-status sl-status-${s.row.status}`} lang={lang}><StatusIcon kind={statusInfo(s.row.status).icon} size={14} />{statusInfo(s.row.status)[lang]}</span>
                     </a>
                   </li>
                 ))}
