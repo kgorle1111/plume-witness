@@ -1,10 +1,12 @@
 import { lazy, Suspense, useEffect, useState, type MouseEventHandler } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
+import { LANDING_METRICS as M } from './landingMetrics'
 import { LangSwitch } from './LangSwitch'
 import { useT } from './useT'
 import './AtlasLanding.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
+const BASE = import.meta.env.BASE_URL
 
 export function AtlasLanding({ leaving, onEnter, onExit }: {
   leaving: boolean
@@ -56,7 +58,17 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
             <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
-        <a className="atlas-also" href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('landing.also')}</a>
+        <ul className="atlas-metrics" aria-label={t('landing.metrics')}>
+          <li><b>{M.spikes}</b> {t('landing.m.spikes')}</li>
+          <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
+          <li><b>{M.years}</b> {t('landing.m.years')}</li>
+          <li className="atlas-audit"><b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b> {t('landing.m.audit')}</li>
+        </ul>
+        <nav className="atlas-links" aria-label={t('landing.more')}>
+          <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
+          <a href={`${BASE}?view=timeline`}>{t('landing.timeline')}</a>
+          <a href={`${BASE}?view=brief`}>{t('landing.brief')}</a>
+        </nav>
       </section>
     </main>
   )
