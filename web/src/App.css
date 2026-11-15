@@ -622,10 +622,11 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
   pointer-events: none;
 }
 .intro-ctl { position: absolute; top: 8px; right: 8px; z-index: 2; }
-/* After the intro the legend owns the top edge, so "Show globe" sits above the attribution instead. */
+/* In the flat view the legend owns the top edge, so Zoom out sits above the attribution. */
 .intro-ctl.is-flat { top: auto; bottom: 44px; }
 .intro-ctl .btn { min-height: 44px; min-width: 44px; padding: 0 12px; background: rgb(255 255 255 / 0.95); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .intro-ctl.is-flat .btn { padding: 0 10px; }
+.intro-ctl .btn[aria-disabled='true'] { opacity: .65; cursor: default; }
 
 /* Location search (Trace step). */
 .place-search { scroll-margin-top: 64px; display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: #fcfcfd; }

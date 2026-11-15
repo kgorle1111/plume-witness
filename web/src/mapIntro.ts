@@ -2,7 +2,7 @@
 // media queries and passes them in.
 
 export interface IntroEnv {
-  /** At least 1024px wide (the side-by-side layout); phones open flat and keep "Show globe". */
+  /** At least 1024px wide (the side-by-side layout); phones open directly on the flat map. */
   wide: boolean
   reducedMotion: boolean
   /** Browser Data Saver. */
