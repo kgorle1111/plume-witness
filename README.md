@@ -40,6 +40,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 - TCEQ ambient monitoring (AutoGC hourly VOCs, site meteorology)
 - TCEQ Air Emission Event Report Database (STEERS)
+- US Coast Guard National Response Center (NRC) incident reports, a second report source checked after STEERS
 - EPA ECHO / TRI facility locations
 - U.S. Census Bureau ACS 2024 5-year (tract level)
 - Every raw file is stored under `data/raw/` with its source URL, fetch time and SHA-256 in the neighbouring `provenance.json`

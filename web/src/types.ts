@@ -3,7 +3,7 @@
 
 export const SCHEMA = 'plume-witness.event/v1'
 
-export type Status = 'reported' | 'reported_late' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete'
+export type Status = 'reported' | 'reported_late' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete' | 'reported_nrc'
 
 export interface HourValue {
   hour_cst: number
@@ -63,6 +63,23 @@ export interface RecordCheck {
     revisions?: { date: string; text: string }[]
   } | null
   day_incidents?: DayIncident[]
+  /** Present only with status reported_nrc: the federal National Response Center report (pipeline/nrc.py). */
+  nrc?: NrcReport
+  /** NRC reports that name the compound in the match window but could not be placed on the map. */
+  unplaced_other_reports?: string[]
+}
+
+export interface NrcReport {
+  report: string
+  source_url: string
+  company: string | null
+  incident_local: string
+  compound: string
+  material: string
+  amount: number | null
+  unit: string
+  located_by: string
+  distance_km?: number | null
 }
 
 export interface DayIncident {

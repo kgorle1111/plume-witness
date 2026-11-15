@@ -12,3 +12,6 @@ data/build/
 # Internal build notes (planning spec, dated QA log): kept on disk, not published.
 /SPEC.md
 /docs/a11y-audit.md
+
+# NRC yearly xlsx (15-18 MB each): URL + SHA-256 in data/raw/nrc/provenance.json; the typed extract is committed.
+data/raw/nrc/*.xlsx

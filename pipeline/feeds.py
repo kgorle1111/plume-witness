@@ -36,6 +36,8 @@ STATUS_TEXT = {
                                 "This is a question for the state, not a finding.",
     "reported_mismatch": "A report exists for that day, but its compound, place or time does not line up with this spike.",
     "search_incomplete": "The record check could not finish, so this feed says nothing either way.",
+    "reported_nrc": "No state report matched, but a report to the federal National Response Center from the upwind "
+                    "area lists this compound and starts near the spike hour.",
 }
 assert set(STATUS_TEXT) == set(STATUSES), "STATUS_TEXT must cover every contract status"
 CAVEAT = "Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault."

@@ -52,13 +52,19 @@ tool that reads one reads all.
 | `detection` | The trigger: `{site_id, hour_cst, value, baseline, rule}`. Rule: value >= max(10 x baseline, 10 ppb) |
 | `facilities[]` | EPA ECHO major sources near the monitor: `id` (EPA registry id), `name`, `lat`, `lon`, `distance_km`, `bearing_deg`, `alignment`, `in_corridor`, `rank` (nearest first; not a likelihood). On the facility whose report matched, `name` is the filer as the TCEQ report names it, and `echo_names[]` lists every name ECHO gives that site (one EPA registry id can hold several permit holders) |
 | `corridor` | `{origin_site_id, half_width_deg, max_km, wind_from_deg[]}` |
-| `record_check` | The state-record check: `status` (one of `reported`, `reported_late`, `not_yet_reported`, `no_report_after_deadline`, `reported_mismatch`, `search_incomplete`; `reported_late` means the notice or final report is on the record but dated after its check's window, 24 h or 14 days), `incident`, `matched_facility_id`, `source_url` (TCEQ record), `day_incidents[]` (every STEERS report that day with where it sits), `checks[]` (T+24h and T+14d), `search_scope` |
+| `record_check` | The state-record check: `status` (one of `reported`, `reported_late`, `not_yet_reported`, `no_report_after_deadline`, `reported_mismatch`, `search_incomplete`, `reported_nrc`; `reported_late` means the notice or final report is on the record but dated after its check's window, 24 h or 14 days; `reported_nrc` means no STEERS report in the corridor and window, but a National Response Center report there lists the compound), `incident`, `matched_facility_id`, `source_url` (TCEQ record), `day_incidents[]` (every STEERS report that day with where it sits), `checks[]` (T+24h and T+14d, always the STEERS checks), `search_scope`; with `reported_nrc` only, `nrc` (the NRC report: `report` number, `source_url` of the NRC yearly file, `company`, `incident_local`, `material`, `amount` (null when NRC gives none), `unit`, `located_by`); `unplaced_other_reports[]` when an NRC report naming the compound in the match window could not be placed on the map (it blocks an absence claim) |
 | `packet` | English and Spanish evidence summary drafts: a person reviews and files; nothing is sent automatically |
 | `cannot_say[]` | The limits that go with this night |
 | `provenance[]` | Every raw file used: `file`, `url`, request `params`, `bytes`, `sha256`, `fetched_at` |
 
 Provenance: TCEQ AutoGC hourly yearly summaries and site meteorology, TCEQ STEERS emissions-event reports, EPA ECHO
 facility locations. Facility coordinates are as ECHO publishes them and may be approximate.
+
+Second report source: US Coast Guard National Response Center (NRC) incident reports, CY2024 and CY2025 yearly files
+from nrc.uscg.mil, Harris and Jefferson counties (`data/raw/nrc/`; `uv run python -m pipeline.nrc`). An NRC report counts
+only when STEERS has no report in the corridor and window, it started inside the match window (NRC gives no end time),
+it names the compound (CAS number, or a material name that names it), and it sits in the corridor by its own
+coordinates or by the same ECHO name/address rule the STEERS check uses. NRC marks these data initial and not validated.
 
 ### `nights/index.json`
 
@@ -143,8 +149,8 @@ finding about any facility.
 
 - Code: MIT ([`LICENSE`](../LICENSE)).
 - Data: the underlying records are US government and state public records. Cite the original source: **TCEQ**
-  (AutoGC monitoring, STEERS emissions-event reports), **EPA** (ECHO facility data, Toxics Release Inventory), **US Census
-  Bureau** (ACS, TIGERweb). Map tiles: (c) OpenStreetMap contributors.
+  (AutoGC monitoring, STEERS emissions-event reports), **EPA** (ECHO facility data, Toxics Release Inventory), **US Coast
+  Guard National Response Center** (incident reports), **US Census Bureau** (ACS, TIGERweb). Map tiles: (c) OpenStreetMap contributors.
 - Suggested citation for a facility: "Plume Witness, facility history for <name> (EPA registry <id>), <page URL>, compiled
   from TCEQ STEERS and EPA TRI/ECHO public records." Cite the TCEQ record link for any specific report.
 
