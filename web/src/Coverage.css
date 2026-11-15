@@ -18,9 +18,12 @@
 .cv-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .cv-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
-/* The map view switch: one row; each button is a 44px target. */
-.cv-views { width: max-content; max-width: 100%; }
-@media (max-width: 480px) { .cv-views { width: 100%; } .cv-views button { font-size: 0.85rem; padding-inline: 6px; } }
+/* The map view switch: Texas plus one button per region (11 now), so it wraps instead of running off the page; the
+   1px gap over the line colour draws the dividers on every row. Each button is a 44px target. */
+.cv-views.seg { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line); }
+.cv-views button { flex: 1 1 auto; }
+.cv-views.seg button + button { border-left: 0; }
+@media (max-width: 480px) { .cv-views button { font-size: 0.85rem; padding-inline: 8px; } }
 
 /* The Positron tiles stay light in the dark theme; the box behind them is the page's second surface. */
 .cv-map { position: relative; height: 360px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
