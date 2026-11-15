@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo } from './format'
 import { NO_FILTER, dateText, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
+import { Follow } from './Follow'
 import './SpikeLog.css'
 
 // One line per status, written for this log (every spike here is past its reporting deadline).
@@ -154,6 +155,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         <p className="sl-summary">
           <strong>{s.spikes} spikes on {s.spike_days} days</strong>; {reported} with a matching company report.
         </p>
+        <Follow siteId={filters.site || undefined} />
+        <p><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
       </header>
 
       <section className="sl-explain" aria-label="How to read this log">

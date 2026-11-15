@@ -28,6 +28,8 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 - **What the monitors can see** ([docs/detector.md](docs/detector.md)): in 52 of 72 a monitor within 15 km was downwind near the reported start, yet ordinary days at the same monitors and hours spiked just as often (19 of 386 windows) at every trigger setting tested. For these releases, hourly state monitors cannot confirm or contradict a company's report. How often a "no report" result is wrong is not measured.
 - **Also in the data:** a past-spikes log of all 415 spikes in 2024-2025 with a replay of each night, a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)), and a history page for each of 191 major facilities near the monitors (`?view=facilities`): what each reported to the state and to EPA, never a list of nights it was merely upwind.
 - **Open data:** every JSON the site serves is documented, with fields, units, provenance and caveats, in [docs/api.md](docs/api.md).
+- **Also in the data:** a past-spikes log of all 415 spikes in 2024-2025 with a replay of each night, a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), and facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)).
+- **Method brief** for advocates and public comment: [docs/brief.md](docs/brief.md), also on the site as a printable page at `?view=brief`.
 - Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
 
 ## Data (all public)

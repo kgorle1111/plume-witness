@@ -1350,6 +1350,12 @@
    "tz": "local (CDT)",
    "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release",
    "match_basis": "started near the spike",
+   "revisions": [
+    {
+     "date": "2024-12-11",
+     "text": "The Basis Used to Determine Quantities field states 24,476 lbs. of vapor emissions and that should also be 7,634 pounds."
+    }
+   ],
    "travel_h": 0.97,
    "travel_speed_mph": 6.8,
    "travel_distance_km": 10.6,

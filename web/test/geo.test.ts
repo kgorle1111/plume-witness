@@ -40,6 +40,7 @@ test('readout: Ship Channel neighborhoods are near; another city is far', () => 
   assert.equal(galena.kind, 'near')
   if (galena.kind === 'near') {
     assert.equal(galena.monitor.name, 'Galena Park')
+    assert.equal(galena.monitor.site_id, '48_201_0057')
     assert.equal(galena.corridor, 'inside')
     assert.ok(galena.facility)
   }
