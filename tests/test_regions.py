@@ -49,12 +49,13 @@ def test_committed_web_registry_matches_regions_py():
     assert regions.WEB_REGISTRY.read_text(encoding="utf-8") == regions.web_registry_text(), (
         "web/src/regions.generated.json is stale: run `uv run python -m pipeline.regions --write-web`")
     rows = json.loads(regions.WEB_REGISTRY.read_text(encoding="utf-8"))
-    assert [r["key"] for r in rows] == list(regions.REGIONS)
+    assert [r["key"] for r in rows] == list(regions.WEB_REGIONS)
+    assert rows[-1]["key"] == "los_angeles" and rows[-1]["tz"] == "PST" and "tz" not in rows[0]
     assert rows[0] == {"key": "houston", "label": "Houston Ship Channel", "label_es": "Houston Ship Channel",
                        "place": "on the Houston Ship Channel", "place_es": "en el Canal de Navegación de Houston",
                        "dir": "", "backtested": True, "n_sites": 12, "county": "HARRIS"}
     assert rows[1]["dir"] == "regions/beaumont/" and rows[1]["backtested"] is True
-    assert all(r["label"] == regions.REGIONS[r["key"]].label for r in rows), "labels are the place name only"
+    assert all(r["label"] == regions.WEB_REGIONS[r["key"]].label for r in rows), "labels are the place name only"
 
 
 # --- Backtest flags: backtested and n_backtest come from a committed run of `pipeline.backtest --region` ---

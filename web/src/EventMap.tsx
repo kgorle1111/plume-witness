@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent, type StyleSpecification } from 'maplibre-gl'
+import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type JumpToOptions, type MapMouseEvent, type StyleSpecification } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './EventMap.css'
@@ -57,9 +57,11 @@ const C = {
 
 // Opening "global → local" intro: globe projection zoomed out to Earth, then a fly-in to the event.
 // Only MapLibre-native pieces render on the globe; the deck.gl overlay is hidden until the flat replay is back.
-type Phase = 'globe' | 'flying' | 'flat'
+type Phase = 'globe' | 'flying' | 'flat' | 'overview' | 'returning'
 const INTRO_HOLD_MS = 900
 const INTRO_FLY_MS = 2500
+const OVERVIEW_ZOOM = 1.4
+const OVERVIEW_FLY_MS = 1300
 // The pin names the place; the caption says what the replay is one of. Houston's numbers are the landing page's own
 // (landingMetrics.ts, tested against spikes.json), so the two pages can't disagree.
 const introPinLabel = (ev: PlumeEvent) => (ev.region ? ev.region.label : REGIONS.houston.place)
@@ -68,7 +70,7 @@ const introCaption = (ev: PlumeEvent, t: Translate) =>
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
 // 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
-// screens (the same 1024px breakpoint as the side-by-side layout); phones open flat and keep "Show globe".
+// screens (the same 1024px breakpoint as the side-by-side layout); phones open flat.
 // mapIntro.ts has the rest of the rule (night links, embeds, ?intro=0, Data Saver).
 const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
 const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
@@ -135,8 +137,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   const hourRef = useRef(hour)
   const [failure, setFailure] = useState<unknown>(null)
   const [phase, setPhase] = useState<Phase>(() => (introOnLoad() ? 'globe' : 'flat'))
-  const skipIntro = useRef<() => void>(() => {})
-  const replayIntro = useRef<() => void>(() => {})
+  const changeView = useRef<() => void>(() => {})
+  const [globeReady, setGlobeReady] = useState(false)
   const applyHour = useRef<(h: number) => void>(() => {})
   const placeRef = useRef(place)
   const applyPlace = useRef<(p: Place | null) => void>(() => {})
@@ -343,7 +345,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const monitorSize = textPx
     // The legend sits over the top of the map; a label under it is hidden, so that strip counts as off the map.
     const visibleTop = () => (legendOver() && legend.current ? legend.current.offsetTop + legend.current.offsetHeight : 0)
-    // Buttons over the map (Key, Show globe) hide what is under them, so labels keep off them too.
+    // Buttons over the map (Key, Zoom out) hide what is under them, so labels keep off them too.
     const buttonBoxes = (): Box[] => {
       const at = el.getBoundingClientRect()
       return [keyBtn.current, ctl.current].flatMap((b) => {
@@ -762,40 +764,86 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     const pinMarker = new Marker({ element: pin, anchor: 'bottom' }).setLngLat([trigger.lon, trigger.lat])
     let introTimer = 0
-    const setIntroPhase = (p: Phase) => {
+    let styleReady = false
+    let returnCamera: JumpToOptions | null = null
+    const setMapPhase = (p: Phase) => {
       phaseNow = p
       setPhase(p)
       showDeck()
     }
-    const finishIntro = () => {
-      if (phaseNow === 'flat') return
-      setIntroPhase('flat')
+    const restoreFlat = (camera?: JumpToOptions | null) => {
       window.clearTimeout(introTimer)
+      map.off('moveend', finishIntro)
+      map.off('moveend', finishOverview)
       map.stop()
       pinMarker.remove()
-      map.setProjection({ type: 'mercator' })
+      if (styleReady) map.setProjection({ type: 'mercator' })
+      if (camera) map.jumpTo(camera)
+      else fit()
       pulse.style.display = ''
-      fit()
+      setMapPhase('flat')
       sizePulse()
       redraw()
     }
+    const finishIntro = () => restoreFlat()
+    const finishOverview = () => {
+      const saved = returnCamera
+      returnCamera = null
+      restoreFlat(saved)
+    }
     const startIntro = () => {
-      setIntroPhase('globe')
+      setMapPhase('globe')
       pulse.style.display = 'none'
       // Target computed on the flat projection, so the fly lands where fit() will put the camera.
       const padding = fitPadding()
       const target = (padding && map.cameraForBounds(bounds, { padding, maxZoom: 14 })) || { center: [trigger.lon, trigger.lat] as [number, number], zoom: 10 }
       map.setProjection({ type: 'globe' })
-      map.jumpTo({ center: [trigger.lon - 35, trigger.lat - 8], zoom: 1.4, pitch: 0, bearing: 0 })
+      map.jumpTo({ center: [trigger.lon - 35, trigger.lat - 8], zoom: OVERVIEW_ZOOM, pitch: 0, bearing: 0 })
       pinMarker.addTo(map)
       introTimer = window.setTimeout(() => {
-        setIntroPhase('flying')
+        setMapPhase('flying')
         map.once('moveend', finishIntro)
         map.flyTo({ center: target.center, zoom: target.zoom, bearing: 0, pitch: 0, duration: INTRO_FLY_MS, essential: true })
       }, INTRO_HOLD_MS)
     }
-    if (phaseNow !== 'flat') map.once('style.load', startIntro)
-    skipIntro.current = finishIntro
+    const onStyleLoad = () => {
+      styleReady = true
+      setGlobeReady(true)
+      if (phaseNow === 'globe') startIntro()
+    }
+    map.once('style.load', onStyleLoad)
+
+    // Only the button changes projection. Wheel, pinch and keyboard zoom stay in the current projection.
+    const openOverview = () => {
+      if (!styleReady) return
+      map.stop()
+      const center = map.getCenter()
+      returnCamera = {
+        center, zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch(),
+        roll: map.getRoll(), padding: map.getPadding(),
+      }
+      setMapPhase('overview')
+      pulse.style.display = 'none'
+      map.setProjection({ type: 'globe' })
+      const world = {
+        center, zoom: OVERVIEW_ZOOM, bearing: 0, pitch: 0, roll: 0,
+        padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      }
+      if (prefersReducedMotion()) map.jumpTo(world)
+      else map.flyTo({ ...world, duration: OVERVIEW_FLY_MS })
+    }
+    const closeOverview = () => {
+      if (!returnCamera || prefersReducedMotion()) return finishOverview()
+      map.stop()
+      setMapPhase('returning')
+      map.once('moveend', finishOverview)
+      map.flyTo({ ...returnCamera, duration: OVERVIEW_FLY_MS })
+    }
+    changeView.current = () => {
+      if (phaseNow === 'flat') openOverview()
+      else if (phaseNow === 'overview') closeOverview()
+      else if (phaseNow !== 'returning') finishIntro()
+    }
 
     // Searched place: a violet teardrop (no data point on this map is a teardrop), framed with the nearest
     // monitor and facility so the readout's distances are on screen. Far places get no pin and no camera move.
@@ -809,7 +857,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       if (!p) return
       const r = placeReadout(ev, p)
       if (r.kind === 'far') return
-      if (phaseNow !== 'flat') finishIntro()
+      if (returnCamera) finishOverview()
+      else if (phaseNow !== 'flat') finishIntro()
       ;(placeEl.querySelector('.place-label') as HTMLElement).textContent = p.label
       placeMarker.setLngLat([p.lon, p.lat]).addTo(map)
       const frame = new LngLatBounds([p.lon, p.lat], [p.lon, p.lat])
@@ -827,16 +876,15 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       map.fitBounds(frame, { padding: { ...padding, top }, maxZoom: 12, duration: reduceMotion ? 0 : 1200 })
     }
     if (placeRef.current) applyPlace.current(placeRef.current)
-    replayIntro.current = () => {
-      if (phaseNow === 'flat') startIntro()
-    }
 
     return () => {
       ro.disconnect()
       window.clearTimeout(introTimer)
       window.clearTimeout(foldTimer)
-      skipIntro.current = () => {}
-      replayIntro.current = () => {}
+      changeView.current = () => {}
+      map.off('style.load', onStyleLoad)
+      map.off('moveend', finishIntro)
+      map.off('moveend', finishOverview)
       applyPlace.current = () => {}
       placeMarker.remove()
       pinMarker.remove()
@@ -897,6 +945,9 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   }, [choices])
 
   const placeShown = place !== null && placeReadout(ev, place).kind === 'near'
+  const playingIntro = phase === 'globe' || phase === 'flying'
+  const viewLabel = t(playingIntro ? 'map.skipIntro' : phase === 'flat' ? 'map.zoomOut' : 'map.zoomIn')
+  const viewDisabled = phase === 'returning' || (phase === 'flat' && !globeReady)
 
   // Re-thrown during render (after every hook) so MapSlot's error boundary shows its fallback.
   if (failure) throw failure
@@ -922,24 +973,19 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           <button type="button" className="map-choose-close" onClick={() => setChoices(null)}>{t('map.chooseClose')}</button>
         </div>
       )}
-      {phase !== 'flat' && (
+      {playingIntro && (
         <p className="intro-caption" role="status">
           {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
           <span className="sr-only">{introPinLabel(ev)}. </span>{introCaption(ev, t)}
         </p>
       )}
       <div ref={ctl} className={phase === 'flat' ? 'intro-ctl is-flat' : 'intro-ctl'}>
-        {phase !== 'flat'
-          ? <button type="button" className="btn" onClick={() => skipIntro.current()}>{t('map.skipIntro')}</button>
-          : !prefersReducedMotion() && (
-            <button type="button" className="btn" aria-label={t('map.showGlobe')} onClick={() => replayIntro.current()}>
-              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <circle cx="10" cy="10" r="8" /><ellipse cx="10" cy="10" rx="3.6" ry="8" /><path d="M2 10h16M3.5 5.5h13M3.5 14.5h13" />
-              </svg>
-              {/* Phones show the icon only so the button covers less of the map. */}
-              <span className="wide-only"> {t('map.showGlobe')}</span>
-            </button>
-          )}
+        <button type="button" className="btn" aria-disabled={viewDisabled || undefined} onClick={() => changeView.current()}>
+          {!playingIntro && <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6">
+            <path d={phase === 'flat' ? 'M3 8h10' : 'M3 8h10M8 3v10'} />
+          </svg>}
+          {viewLabel}
+        </button>
       </div>
       {/* Key (top of this fragment) is shown below 1440px wide (App.css); the legend is visual only, so the button
           just shows or hides it. */}

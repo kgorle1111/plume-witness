@@ -51,26 +51,37 @@ function clampPx(css: string, selector: string, vw: number, rootPx: number): num
   return Math.min(max * rootPx, Math.max(min * rootPx, base * rootPx + (slope * vw) / 100))
 }
 
-test('header nav and brand scale up on wide screens, outside the replay, and keep their sizes up to 1024px (D02)', () => {
+/** A plain `font-size: Nrem` on a top-level rule, in rem. */
+function remSize(css: string, selector: string): number {
+  const m = new RegExp(`^\\${selector} \\{[^}]*font-size: ([\\d.]+)rem;`, 'm').exec(css)
+  assert.ok(m, `${selector} has no rem font-size`)
+  return Number(m[1])
+}
+
+test('header nav and brand are at least 14px at every width, and 16px from 1600px (D02, R1b)', () => {
   const css = readFileSync(new URL('../src/SiteHeader.css', import.meta.url), 'utf8')
-  // Up to 1024px nothing grows, so the phone header rows wrap no more than they did (measured at 320-1024px).
-  for (const vw of [320, 375, 768, 1024]) {
-    assert.ok(Math.abs(clampPx(css, '.site-nav', vw, 16) - 12.8) < 0.01, `nav at ${vw}px`)
-    assert.ok(Math.abs(clampPx(css, '.brand-row', vw, 16) - 12) < 0.01, `brand at ${vw}px`)
+  // index.css sets a 112.5% (18px) root from 1600px.
+  const root = (vw: number) => (vw >= 1600 ? 18 : 16)
+  for (const vw of [320, 375, 768, 1024, 1280, 1600, 1920]) {
+    const min = vw >= 1600 ? 16 : 14
+    assert.ok(clampPx(css, '.site-nav', vw, root(vw)) >= min, `nav at ${vw}px`)
+    // The brand row and the replay's (.top) nav use the base sizes.
+    assert.ok(remSize(css, '.brand-row') * root(vw) >= min, `brand at ${vw}px`)
+    assert.ok(remSize(css, '.site-nav') * root(vw) >= min, `replay nav at ${vw}px`)
   }
-  // 1280x720 laptops: the nav reaches body size; the uppercase brand 14px. index.css sets a 112.5% root at 1600px.
+  // 1280x720 laptops: outside the replay the nav reaches body size.
   assert.ok(clampPx(css, '.site-nav', 1280, 16) >= 16)
-  assert.ok(clampPx(css, '.brand-row', 1280, 16) >= 14)
   assert.ok(clampPx(css, '.site-nav', 1600, 18) >= 18)
-  // The replay's header (.top) keeps the base sizes: its nav already wraps at 1024-1100px beside the night picker.
-  assert.match(css, /^\.site-nav \{[^}]*font-size: 0\.8rem;/m)
-  assert.match(css, /^\.brand-row \{[^}]*font-size: 0\.75rem;/m)
 })
 
-test('the landing links to the neighborhood way in on Past spikes, in both languages (U9)', async () => {
+test('the landing puts neighborhood entry in the site nav without a second nav, in both languages', async () => {
   for (const [l, text] of [['en', 'Start from your neighborhood'], ['es', 'Empiece por su vecindario']] as const) {
     await setLang(l)
-    const m = new RegExp(`<a href="([^"]+)">${text}</a>`).exec(await landing())
+    const html = await landing()
+    const nav = /<nav class="site-nav"[^>]*>([\s\S]*?)<\/nav>/.exec(html)
+    assert.ok(nav, `${l}: no site navigation`)
+    assert.equal((html.match(/<nav\b/g) ?? []).length, 1, `${l}: duplicate landing navigation`)
+    const m = new RegExp(`<a href="([^"]+)">${text}</a>`).exec(nav[1])
     assert.ok(m, `${l}: no neighborhood link`)
     const url = new URL(m[1], 'https://x.org/')
     assert.equal(pageFromLocation(url), 'spikes', `${l}: ${m[1]} must open Past spikes, where the chips are`)

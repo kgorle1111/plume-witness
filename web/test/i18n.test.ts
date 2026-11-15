@@ -82,8 +82,8 @@ test('one state record, one label, on the replay, the map and the facility page'
   }
 })
 
-test('the brief has one name in English: the nav says what the page kicker says', () => {
-  assert.equal(STRINGS.en['app.linkBrief'], STRINGS.en['brief.kicker'])
+test('the brief has one name in each language: the nav says what the page kicker says (S174)', () => {
+  for (const l of ['en', 'es'] as const) assert.equal(STRINGS[l]['app.linkBrief'], STRINGS[l]['brief.kicker'], l)
 })
 
 test('agency and system acronyms are spelled out where the spike log and the landing first show them', () => {
@@ -97,5 +97,28 @@ test('agency and system acronyms are spelled out where the spike log and the lan
     assert.match(STRINGS[l]['spikes.summary'], full[l][0], l)
     assert.match(STRINGS[l]['spikes.source'], /\(AutoGC\)/, l)
     assert.match(STRINGS[l]['spikes.source'], /STEERS[ ,(]+(State of Texas|el sistema)/, l)
+  }
+})
+
+test('Los Angeles copy: same {slots}, no banned word, PST for CST, and Texas untouched', async () => {
+  const { REGION_OVERRIDES, setRegionCopy, rawString } = await import('../src/i18n.ts')
+  for (const [region, byLang] of Object.entries(REGION_OVERRIDES)) {
+    for (const l of ['en', 'es'] as const) {
+      for (const [k, v] of Object.entries(byLang[l])) {
+        assert.deepEqual(slots(v!), slots(STRINGS[l][k as keyof typeof STRINGS.en]), `${region}:${l}:${k} slots`)
+        for (const re of BANNED_WORDS) assert.ok(!re.test(v!), `${region}:${l}:${k} contains a banned word (${re})`)
+        assert.ok(!/TCEQ|STEERS|Texas/.test(v!), `${region}:${l}:${k} names Texas`)
+      }
+    }
+  }
+  try {
+    setRegionCopy('los_angeles', 'PST')
+    assert.equal(translate('en', 'spark.colHour'), 'Hour (PST)')
+    assert.match(rawString('en', 'spikes.source'), /South Coast AQMD/)
+    setRegionCopy('houston', 'CST')
+    assert.equal(translate('en', 'spark.colHour'), 'Hour (CST)')
+    assert.equal(rawString('en', 'spikes.source'), STRINGS.en['spikes.source'])
+  } finally {
+    setRegionCopy(null)
   }
 })

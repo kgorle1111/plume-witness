@@ -45,6 +45,9 @@ const EN = {
   'lang.nameEs': 'Spanish',
   'lang.switched': 'Switched to {lang}. Approve that draft before filing.',
   'cannot.title': 'What this can’t say',
+  // The record search's reach, per pipeline/build.py record_check + trace, backtest.py window_reports/earlier_reports and
+  // nrc.py candidates (match window [spike - 6 h, spike + 2 h], LOOKBACK_DAYS = 30). Shown with every night's limits.
+  'cannot.searchScope': 'The record search looks only at reports for the county or counties named in the Check step: emissions events that started on the spike’s day, National Response Center reports from the hours around it, and, where the Check step says so, emissions events that started just after midnight or in the 30 days before and were still running.',
 
   // Step panels (Steps.tsx). Data from event.json (names, causes, search scope, quotes) stays as published.
   'spark.summary': '24 hourly readings at {name}. Highest {peak} {unit} at {hour}; baseline {base} {unit}.',
@@ -279,7 +282,8 @@ const EN = {
   'map.introCaption': '{spikes} spikes at {monitors} air monitors, 2024–2025. This is one of them.',
   'map.introCaptionRegion': 'One of its spikes, replayed.',
   'map.skipIntro': 'Skip intro',
-  'map.showGlobe': 'Show globe',
+  'map.zoomOut': 'Zoom out',
+  'map.zoomIn': 'Zoom in',
   'map.lgFlagged': 'Flagged monitor',
   'map.lgMonitor': 'Monitor (size = {unit})',
   'map.lgNoData': 'No data',
@@ -345,8 +349,6 @@ const EN = {
   // Landing page
   'landing.title': 'Trace air pollution',
   'landing.sub': 'Houston Ship Channel · benzene and 1,3-butadiene · 2024–2025',
-  'landing.pause': 'Pause the globe',
-  'landing.spin': 'Spin the globe',
   'landing.purpose': 'Follow pollution spikes upwind and check them against public emissions reports to see what matches.',
   'landing.reframe': 'Hourly state monitors are a coarse instrument, so we don’t claim to detect releases. We turn {spikes} spikes into {noReport} specific questions for the state that no report in the state’s or federal records answers.',
   'landing.enter': 'See one real spike, step by step',
@@ -486,6 +488,7 @@ const EN = {
   'spikes.hReplay': 'Replay',
   'spikes.tceqReport': 'TCEQ report {id}',
   'spikes.replayLink': 'Replay this spike',
+  'spikes.replayShort': 'Replay →',
   'spikes.replayAria': 'Replay this spike: {date}, {compound} at {site}',
   'spikes.noReplay': 'No replay (no wind data)',
   'spikes.sortBy': 'Sort by',
@@ -728,6 +731,13 @@ const EN = {
   'scope.none': 'No matching report found in a complete search.',
   'scope.unlocated': 'A report open at that time could not be located, so the search is incomplete.',
   'scope.nrc': 'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.',
+  'spikes.reason.register': "No complete list of emissions reports",
+  'spikes.reason.registerLong': "Los Angeles County has no public list of every emissions event: Cal OES spill reports and National Response Center (NRC) reports give a start time and no end time, so a missing match cannot be claimed.",
+  'spikes.reasonShort.register': "no complete report list",
+  'scope.laSearched': "Searched Cal OES spill reports and National Response Center (NRC) reports for Los Angeles County that started in the match window.",
+  'scope.laIncomplete': "Neither source lists every emissions event or gives an end time, so the search is incomplete.",
+  'det.timeNoteLa': "Monitor hours are PST as South Coast AQMD publishes them; the reports use local time ({tz}). South Coast AQMD’s public hourly history for these stations ends in December 2022.",
+  'trc.windAirport': "Wind source: borrowed from {site}, the nearest airport weather station within 6.2 mi (10 km); {trig} has no wind reading in the public files.",
   'scope.complete': 'complete',
   'scope.incomplete': 'incomplete',
   'rw.arrival': 'air could arrive ~{time} {tz}, traveling {km} on a {mph} mph wind',
@@ -738,13 +748,13 @@ const EN = {
   'map.reload': 'Reload the page',
   // Statewide coverage (?view=coverage, Coverage.tsx). Counts come from coverage.json; a 0 is never "clean air".
   'nav.coverage': 'Coverage',
-  'cv.loading': 'Loading the statewide monitor list…',
-  'cv.kicker': 'Statewide coverage',
-  'cv.title': 'Every state benzene monitor in Texas',
+  'cv.loading': 'Loading the monitor list…',
+  'cv.kicker': 'Coverage',
+  'cv.title': 'Every state benzene monitor in Texas, and Los Angeles',
   'cv.docTitle': 'Coverage · Plume Witness',
-  'cv.sub': 'The Texas Commission on Environmental Quality (TCEQ) runs hourly benzene monitors, called AutoGC, around the state. This page lists each one, what it recorded, and which ones Plume Witness replays.',
+  'cv.sub': 'The Texas Commission on Environmental Quality (TCEQ) runs hourly benzene monitors, called AutoGC, around the state. In Los Angeles, the South Coast Air Quality Management District (South Coast AQMD) runs the same kind of monitor at its Rule 1180 community stations near the refineries in Carson, Wilmington, Long Beach, Torrance and El Segundo. This page lists each one, what it recorded, and which ones Plume Witness replays.',
   'cv.summaryTitle': 'In short',
-  'cv.summary': '{monitors} state hourly benzene monitors are in this list; {withData} recorded readings in {years}. {crossed} of them crossed the trigger at least once ({spikes} spikes in all).',
+  'cv.summary': '{monitors} hourly benzene monitors are in this list; {withData} recorded readings in {years}. {crossed} of them crossed the trigger at least once ({spikes} spikes in all).',
   'cv.summaryNoData': '{n} had no readings in the state file for these years (hollow rings on the map).',
   'cv.summaryRegions': 'Regions you can replay here ({k}): {list}.',
   'cv.summaryNoRegions': 'No region in this list can be replayed here.',
@@ -753,7 +763,7 @@ const EN = {
   'cv.noYears': 'the years covered',
   'cv.asOf': 'List generated: {generated}.',
   'cv.mapTitle': 'Map',
-  'cv.mapLabel': 'Map of Texas with {n} state benzene monitors. The table below lists every one.',
+  'cv.mapLabel': 'Map of Texas and Los Angeles with {n} hourly benzene monitors. The table below lists every one.',
   'cv.mapLoading': 'Loading the map…',
   'cv.mapFailed': 'The map could not load. The table below lists every monitor.',
   'cv.basemapFailed': 'The base map did not load; the markers are drawn on a blank background.',
@@ -771,7 +781,7 @@ const EN = {
   'cv.tipZero': '{name}: no hour crossed the trigger',
   'cv.tipNone': '{name}: no data',
   'cv.tableTitle': 'All monitors',
-  'cv.tableCaption': 'Every state hourly benzene monitor in the list ({n}). Select a column heading to sort.',
+  'cv.tableCaption': 'Every hourly benzene monitor in the list ({n}). Select a column heading to sort.',
   'cv.scrollLabel': 'Monitor table; scrolls sideways on narrow screens',
   'cv.cSite': 'Monitor',
   'cv.cCounty': 'County',
@@ -795,11 +805,13 @@ const EN = {
   'cv.cvZero': 'A 0 means no hour crossed the trigger in these years. It does not mean the air was clean or safe: smaller rises, other chemicals and hours the monitor was offline are not counted here.',
   'cv.cvNoData': '“No data” means the state file had no hourly readings for that monitor in these years. That is a gap in the record, not a zero.',
   'cv.cvProvisional': 'TCEQ labels these hourly readings provisional; it can revise or invalidate them later. A highest value can be a single hour.',
+  'cv.cvLa': 'Los Angeles: the readings are South Coast AQMD’s public hourly history for its Rule 1180 community stations, which runs from March 2020 to December 2022; later hours are not in it. That history has no wind, so the replay reads the nearest airport weather station within 6.2 mi (10 km), and Los Angeles County has no public list of every emissions event, so a missing report there is “Can’t say”.',
+  'cv.cvLaCheckGas': 'Los Angeles: an hour when all seven compounds the analyzer reports (benzene, 1,3-butadiene, toluene, ethylbenzene, styrene and the xylenes) read 5 ppb or more at once is the analyzer’s check gas, not outdoor air. Those hours are left out of the spikes and the highest values.',
   'cv.cvQuestion': 'A spike is a question to check, not a finding. Only monitors in a replayed region have their spikes checked against the state’s record of company reports, and there a missing match is still a question, not a finding.',
   'cv.cvWind': '“Wind from” is where the replay reads wind direction for that monitor; “None” means no usable wind record, so its spikes cannot be traced upwind.',
   'cv.cvNotAlert': 'This page is not a health alert or an air-quality forecast.',
   'cv.notPublishedTitle': 'Coverage data not available',
-  'cv.notPublished': 'The statewide monitor list (coverage.json) is not on this site. Past spikes and the replay still work.',
+  'cv.notPublished': 'The monitor list (coverage.json) is not on this site. Past spikes and the replay still work.',
   'cv.errTitle': 'Could not load the monitor list',
 } as const
 
@@ -840,6 +852,7 @@ const ES: Record<StringKey, string> = {
   'lang.nameEs': 'español',
   'lang.switched': 'Cambió a {lang}. Apruebe ese borrador antes de presentarlo.',
   'cannot.title': 'Lo que esto no puede decir',
+  'cannot.searchScope': 'La búsqueda de registros solo revisa reportes del condado o los condados que nombra el paso Verificar: eventos de emisiones que empezaron el día del pico, reportes del National Response Center de las horas cercanas y, donde el paso Verificar lo indica, eventos de emisiones que empezaron justo después de la medianoche o en los 30 días anteriores y seguían en curso.',
 
   'spark.summary': '24 lecturas por hora en {name}. Máximo de {peak} {unit} a las {hour}; línea base de {base} {unit}.',
   'spark.missingHours': ' {n} horas no tienen valor.',
@@ -1055,7 +1068,7 @@ const ES: Record<StringKey, string> = {
   'app.mapKey': 'Leyenda',
   'app.siteLinks': 'Sitio',
   'app.linkTimeline': 'Cronología',
-  'app.linkBrief': 'Resumen',
+  'app.linkBrief': 'Resumen del método',
   'app.title.benzene': 'Pico de benceno {where}',
   'app.title.butadiene': 'Pico de 1,3-butadieno {where}',
   'app.cmp.benzene': 'benceno',
@@ -1070,7 +1083,8 @@ const ES: Record<StringKey, string> = {
   'map.introCaption': '{spikes} picos en {monitors} monitores de aire, 2024–2025. Este es uno de ellos.',
   'map.introCaptionRegion': 'Uno de sus picos, paso a paso.',
   'map.skipIntro': 'Saltar la introducción',
-  'map.showGlobe': 'Ver el globo',
+  'map.zoomOut': 'Alejar',
+  'map.zoomIn': 'Acercar',
   'map.lgFlagged': 'Monitor que dio la alerta',
   'map.lgMonitor': 'Monitor (tamaño = {unit})',
   'map.lgNoData': 'Sin datos',
@@ -1132,8 +1146,6 @@ const ES: Record<StringKey, string> = {
 
   'landing.title': 'Rastree la contaminación del aire',
   'landing.sub': 'Canal de Navegación de Houston · benceno y 1,3-butadieno · 2024–2025',
-  'landing.pause': 'Pausar el globo',
-  'landing.spin': 'Girar el globo',
   'landing.purpose': 'Siga los picos de contaminación viento arriba y compárelos con los reportes públicos de emisiones para ver qué coincide.',
   'landing.reframe': 'Los monitores estatales por hora son un instrumento poco preciso, así que no afirmamos detectar emisiones. Convertimos {spikes} picos en {noReport} preguntas concretas para el estado que ningún reporte de los registros estatales o federales responde.',
   'landing.enter': 'Vea un pico real, paso a paso',
@@ -1269,6 +1281,7 @@ const ES: Record<StringKey, string> = {
   'spikes.hReplay': 'Recorrido',
   'spikes.tceqReport': 'Reporte de TCEQ {id}',
   'spikes.replayLink': 'Ver este pico',
+  'spikes.replayShort': 'Ver →',
   'spikes.replayAria': 'Ver este pico: {date}, {compound} en {site}',
   'spikes.noReplay': 'Sin recorrido (sin datos de viento)',
   'spikes.sortBy': 'Ordenar por',
@@ -1504,6 +1517,13 @@ const ES: Record<StringKey, string> = {
   'scope.none': 'No se encontró un reporte que coincida en una búsqueda completa.',
   'scope.unlocated': 'No se pudo ubicar un reporte abierto en ese momento, así que la búsqueda está incompleta.',
   'scope.nrc': 'También se buscaron reportes al Centro Nacional de Respuesta (NRC) del condado: uno del corredor viento arriba, en la ventana de coincidencia, menciona el compuesto.',
+  'spikes.reason.register': "No hay una lista completa de reportes de emisiones",
+  'spikes.reason.registerLong': "El condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones: los reportes de derrames de Cal OES y los reportes al Centro Nacional de Respuesta (NRC) dan una hora de inicio y ninguna de fin, así que no se puede afirmar que falte un reporte que coincida.",
+  'spikes.reasonShort.register': "sin lista completa de reportes",
+  'scope.laSearched': "Se buscaron reportes de derrames de Cal OES y reportes al Centro Nacional de Respuesta (NRC) del condado de Los Ángeles que empezaron en la ventana de coincidencia.",
+  'scope.laIncomplete': "Ninguna de las dos fuentes lista todos los eventos de emisiones ni da una hora de fin, así que la búsqueda está incompleta.",
+  'det.timeNoteLa': "Las horas del monitor están en PST, como las publica South Coast AQMD; los reportes usan la hora local ({tz}). El historial público por hora de South Coast AQMD para estas estaciones termina en diciembre de 2022.",
+  'trc.windAirport': "Fuente del viento: tomado de {site}, la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km); {trig} no tiene lectura de viento en los archivos públicos.",
   'scope.complete': 'completa',
   'scope.incomplete': 'incompleta',
   'rw.arrival': 'el aire podría llegar ~{time} {tz}, tras viajar {km} con un viento de {mph} mph',
@@ -1513,13 +1533,13 @@ const ES: Record<StringKey, string> = {
   'map.updated': 'Este sitio se actualizó desde que abrió la página. Recargue la página para cargar el mapa.',
   'map.reload': 'Recargar la página',
   'nav.coverage': 'Cobertura',
-  'cv.loading': 'Cargando la lista estatal de monitores…',
-  'cv.kicker': 'Cobertura estatal',
-  'cv.title': 'Todos los monitores estatales de benceno en Texas',
+  'cv.loading': 'Cargando la lista de monitores…',
+  'cv.kicker': 'Cobertura',
+  'cv.title': 'Todos los monitores estatales de benceno en Texas, y Los Ángeles',
   'cv.docTitle': 'Cobertura · Plume Witness',
-  'cv.sub': 'La Comisión de Calidad Ambiental de Texas (TCEQ) opera monitores de benceno por hora, llamados AutoGC, en todo el estado. Esta página lista cada uno, lo que registró y cuáles reproduce Plume Witness.',
+  'cv.sub': 'La Comisión de Calidad Ambiental de Texas (TCEQ) opera monitores de benceno por hora, llamados AutoGC, en todo el estado. En Los Ángeles, el Distrito de Gestión de la Calidad del Aire de la Costa Sur (South Coast AQMD) opera el mismo tipo de monitor en sus estaciones comunitarias de la Regla 1180, cerca de las refinerías de Carson, Wilmington, Long Beach, Torrance y El Segundo. Esta página lista cada uno, lo que registró y cuáles reproduce Plume Witness.',
   'cv.summaryTitle': 'En resumen',
-  'cv.summary': '{monitors} monitores estatales de benceno por hora están en esta lista; {withData} registraron lecturas en {years}. {crossed} de ellos cruzaron el umbral al menos una vez ({spikes} picos en total).',
+  'cv.summary': '{monitors} monitores de benceno por hora están en esta lista; {withData} registraron lecturas en {years}. {crossed} de ellos cruzaron el umbral al menos una vez ({spikes} picos en total).',
   'cv.summaryNoData': '{n} no tuvieron lecturas en el archivo estatal en estos años (anillos huecos en el mapa).',
   'cv.summaryRegions': 'Regiones que puede reproducir aquí ({k}): {list}.',
   'cv.summaryNoRegions': 'Ninguna región de esta lista se puede reproducir aquí.',
@@ -1528,7 +1548,7 @@ const ES: Record<StringKey, string> = {
   'cv.noYears': 'los años cubiertos',
   'cv.asOf': 'Lista generada: {generated}.',
   'cv.mapTitle': 'Mapa',
-  'cv.mapLabel': 'Mapa de Texas con {n} monitores estatales de benceno. La tabla de abajo lista cada uno.',
+  'cv.mapLabel': 'Mapa de Texas y Los Ángeles con {n} monitores de benceno por hora. La tabla de abajo lista cada uno.',
   'cv.mapLoading': 'Cargando el mapa…',
   'cv.mapFailed': 'No se pudo cargar el mapa. La tabla de abajo lista cada monitor.',
   'cv.basemapFailed': 'El mapa base no se cargó; los marcadores se dibujan sobre un fondo en blanco.',
@@ -1546,7 +1566,7 @@ const ES: Record<StringKey, string> = {
   'cv.tipZero': '{name}: ninguna hora cruzó el umbral',
   'cv.tipNone': '{name}: sin datos',
   'cv.tableTitle': 'Todos los monitores',
-  'cv.tableCaption': 'Cada monitor estatal de benceno por hora de la lista ({n}). Seleccione un encabezado de columna para ordenar.',
+  'cv.tableCaption': 'Cada monitor de benceno por hora de la lista ({n}). Seleccione un encabezado de columna para ordenar.',
   'cv.scrollLabel': 'Tabla de monitores; se desplaza de lado en pantallas angostas',
   'cv.cSite': 'Monitor',
   'cv.cCounty': 'Condado',
@@ -1570,11 +1590,13 @@ const ES: Record<StringKey, string> = {
   'cv.cvZero': 'Un 0 significa que ninguna hora cruzó el umbral en estos años. No significa que el aire estuviera limpio ni que fuera seguro: las subidas menores, otras sustancias químicas y las horas en que el monitor estuvo fuera de servicio no se cuentan aquí.',
   'cv.cvNoData': '«Sin datos» significa que el archivo estatal no tenía lecturas por hora de ese monitor en estos años. Es un hueco en el registro, no un cero.',
   'cv.cvProvisional': 'La TCEQ marca estas lecturas por hora como provisionales; puede revisarlas o invalidarlas después. Un valor más alto puede ser una sola hora.',
+  'cv.cvLa': 'Los Ángeles: las lecturas son el historial público por hora de South Coast AQMD para sus estaciones comunitarias de la Regla 1180, que va de marzo de 2020 a diciembre de 2022; las horas posteriores no están en él. Ese historial no tiene viento, así que la reproducción usa la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km), y el condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones, así que ahí la falta de un reporte es «No se puede decir».',
+  'cv.cvLaCheckGas': 'Los Ángeles: una hora en que los siete compuestos que reporta el analizador (benceno, 1,3-butadieno, tolueno, etilbenceno, estireno y los xilenos) marcaron 5 ppb o más a la vez es el gas de verificación del analizador, no aire exterior. Esas horas quedan fuera de los picos y de los valores más altos.',
   'cv.cvQuestion': 'Un pico es una pregunta que revisar, no una conclusión. Solo los monitores de una región reproducida tienen sus picos revisados contra el registro estatal de reportes de las empresas, y allí la falta de un reporte que coincida sigue siendo una pregunta, no una conclusión.',
   'cv.cvWind': '«Viento desde» es dónde la reproducción lee la dirección del viento para ese monitor; «Ninguno» significa que no hay un registro de viento utilizable, así que sus picos no se pueden rastrear viento arriba.',
   'cv.cvNotAlert': 'Esta página no es una alerta de salud ni un pronóstico de calidad del aire.',
   'cv.notPublishedTitle': 'Los datos de cobertura no están disponibles',
-  'cv.notPublished': 'La lista estatal de monitores (coverage.json) no está en este sitio. Los picos anteriores y la reproducción siguen funcionando.',
+  'cv.notPublished': 'La lista de monitores (coverage.json) no está en este sitio. Los picos anteriores y la reproducción siguen funcionando.',
   'cv.errTitle': 'No se pudo cargar la lista de monitores',
 }
 
@@ -1587,8 +1609,75 @@ export function fmt(template: string, vars?: Vars): string {
   return vars ? template.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m)) : template
 }
 
+// ---- region copy ----
+// A region outside Texas (Los Angeles) has its own agency, report sources and clock. The page's region is set once at
+// load (main.tsx); these strings then replace the Texas wording, and "CST" reads as the region's zone. Texas sets
+// nothing, so every Texas page reads exactly as before.
+const REGION_STRINGS: Record<string, Record<Lang, Partial<Record<StringKey, string>>>> = {
+  los_angeles: {
+    en: {
+      'step.check.title': 'Check: the report records',
+      'det.lead': 'A South Coast AQMD community monitor recorded a {compound} reading far above its usual level.',
+      'prov.tip': 'South Coast AQMD publishes these hourly readings in its Rule 1180 historical files and can revise them.',
+      'chk.askState': 'What you can do: draft a note →',
+      'chk.searchRecord': 'Search Cal OES spill reports yourself',
+      'trc.windBorrowed': 'Wind source: borrowed from {site}, the nearest airport weather station within 6.2 mi (10 km); {trig} has no wind reading in the public files.',
+      'spikes.what': '**What a spike is.** An hour when a South Coast AQMD community monitor read benzene or 1,3-butadiene at or above 10 times its own 7-day median and at least 10 parts per billion (ppb). There is one row per day and compound; it shows the first monitor and hour (PST) that crossed the line.',
+      'spikes.summary': '**{spikes} spikes on {days} days**; {reported} with a matching report in Cal OES spill reports or National Response Center (NRC) reports.',
+      'spikes.noMatch': '**“Can’t say” is a question, not a finding.** Los Angeles County has no public list of every emissions event. The tool searched Cal OES spill reports and National Response Center (NRC) reports, which give a start time and no end time, so a missing match cannot be claimed{missed}.{search}',
+      'spikes.falseAlarm': '**Not measured: the false-alarm rate.** How many spikes are instrument faults or non-industrial sources is not known. South Coast AQMD can revise these hourly readings.',
+      'spikes.source': 'Source: hourly readings from the automated gas chromatographs (AutoGC) at South Coast AQMD’s Rule 1180 community monitors, wind from airport weather stations (ASOS, via the Iowa Environmental Mesonet), and Cal OES spill reports and National Response Center (NRC) reports, via the Plume Witness {via} ({code}). Rows list monitors, never facilities.',
+      'pkt.dlgHow': 'A filing path for Los Angeles is not set up here yet. To send the note, copy the approved draft and submit it yourself.',
+      'pkt.dlgSearchLink': 'Cal OES spill reports (no matching report was found):',
+      'det.siteId': 'station code {id}',
+      'spikes.title': 'Past spikes, 2020–2022',
+      'pkt.file': 'File it yourself (no filing path set up here yet)',
+    },
+    es: {
+      'step.check.title': 'Verificar: los registros de reportes',
+      'det.lead': 'Un monitor comunitario de South Coast AQMD registró una lectura de {compound} muy por encima de su nivel habitual.',
+      'prov.tip': 'South Coast AQMD publica estas lecturas por hora en sus archivos históricos de la Regla 1180 y puede revisarlas.',
+      'chk.askState': 'Qué puede hacer: preparar una nota →',
+      'chk.searchRecord': 'Busque usted mismo en los reportes de derrames de Cal OES',
+      'trc.windBorrowed': 'Fuente del viento: tomado de {site}, la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km); {trig} no tiene lectura de viento en los archivos públicos.',
+      'spikes.what': '**Qué es un pico.** Una hora en que un monitor comunitario de South Coast AQMD midió benceno o 1,3-butadieno a 10 veces o más su propia mediana de 7 días y al menos 10 partes por mil millones (ppb). Hay una fila por día y compuesto; muestra el primer monitor y la hora (PST) que cruzó el umbral.',
+      'spikes.summary': '**{spikes} picos en {days} días**; {reported} con un reporte que coincide en los reportes de derrames de Cal OES o en los reportes al Centro Nacional de Respuesta (NRC).',
+      'spikes.noMatch': '**«No se puede decir» es una pregunta, no una conclusión.** El condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones. La herramienta buscó en los reportes de derrames de Cal OES y en los reportes al Centro Nacional de Respuesta (NRC), que dan una hora de inicio y ninguna de fin, así que no se puede afirmar que falte un reporte{missed}.{search}',
+      'spikes.falseAlarm': '**No medido: la tasa de falsas alarmas.** No se sabe cuántos picos son fallas de instrumentos o fuentes no industriales. South Coast AQMD puede revisar estas lecturas por hora.',
+      'spikes.source': 'Fuente: lecturas horarias de los cromatógrafos de gases automáticos (AutoGC) de los monitores comunitarios de la Regla 1180 de South Coast AQMD, viento de estaciones meteorológicas de aeropuerto (ASOS, mediante el Iowa Environmental Mesonet), y reportes de derrames de Cal OES y reportes al Centro Nacional de Respuesta (NRC), mediante la {via} de Plume Witness ({code}). Las filas listan monitores, nunca instalaciones.',
+      'pkt.dlgHow': 'Aquí todavía no hay una vía para presentar la nota en Los Ángeles. Para enviarla, copie el borrador aprobado y preséntelo usted mismo.',
+      'pkt.dlgSearchLink': 'Reportes de derrames de Cal OES (no se encontró un reporte que coincida):',
+      'det.siteId': 'código de estación {id}',
+      'spikes.title': 'Picos anteriores, 2020–2022',
+      'pkt.file': 'Preséntelo usted mismo (aquí todavía no hay una vía para presentarlo)',
+    },
+  },
+}
+let activeRegion: string | null = null
+let zone = 'CST'
+
+/** Sets the page's region copy and clock label (main.tsx, from ?region=). A Texas region leaves both at Texas's. */
+export function setRegionCopy(region: string | null, tz = 'CST'): void {
+  activeRegion = region !== null && Object.hasOwn(REGION_STRINGS, region) ? region : null
+  zone = tz
+}
+
+/** The clock label monitor hours are shown in: CST for Texas, PST for Los Angeles. */
+export function zoneLabel(): string {
+  return zone
+}
+
+/** The string for a key in the page's region (Texas: the plain table), with CST read as the region's zone. */
+export function rawString(lang: Lang, key: StringKey): string {
+  const s = (activeRegion !== null ? REGION_STRINGS[activeRegion][lang][key] : undefined) ?? STRINGS[lang][key]
+  return zone === 'CST' ? s : s.replace(/\bCST\b/g, zone)
+}
+
+/** Every region override, for the tests (banned words, slots). */
+export const REGION_OVERRIDES = REGION_STRINGS
+
 export function translate(lang: Lang, key: StringKey, vars?: Vars): string {
-  return fmt(STRINGS[lang][key], vars)
+  return fmt(rawString(lang, key), vars)
 }
 
 // ---- language setting ----

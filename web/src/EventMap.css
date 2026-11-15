@@ -16,7 +16,7 @@
    of growing from one line to two. */
 .map-canvas.attrib-pending .maplibregl-ctrl-attrib { visibility: hidden; }
 
-/* "The base map didn't load": bottom left, clear of the credit (bottom right) and "Show globe". */
+/* "The base map didn't load": bottom left, clear of the credit and view control on the right. */
 .map-note {
   position: absolute;
   left: 8px;

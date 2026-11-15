@@ -9,8 +9,14 @@ import './dark.css'
 import Site from './Site'
 import { registerServiceWorker } from './pwa'
 import { initTheme } from './theme'
+import { setRegionCopy } from './i18n'
+import { regionFrom } from './region'
 
 initTheme()
+{
+  const region = regionFrom(window.location.search)
+  setRegionCopy(region.key, region.tz)
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

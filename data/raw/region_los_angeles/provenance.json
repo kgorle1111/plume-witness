@@ -1,0 +1,334 @@
+[
+ {
+  "file": "region_los_angeles/1hr_q1_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q1/1hr_q1_2020.zip?sfvrsn=ca54b661_2",
+  "params": null,
+  "bytes": 17340,
+  "sha256": "2eb767632ef2f005620833a046920705f81c36e36ed690d6b610cc6f215afa22",
+  "fetched_at": "2026-11-15T16:50:02+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q1_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q1/1hr_q1_2021.zip?sfvrsn=4d55b661_2",
+  "params": null,
+  "bytes": 398953,
+  "sha256": "e6c16ed6bae48ffabb9406ee986ea490a63faf34959c626fa27c641ef71efe7f",
+  "fetched_at": "2026-11-15T16:50:12+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q1_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q1/1hr_q1_2022.zip?sfvrsn=ce55b661_2",
+  "params": null,
+  "bytes": 576794,
+  "sha256": "c25c251b678046dc6effe492a7405e957c94005aba32fd482db66d34d9683bce",
+  "fetched_at": "2026-11-15T16:50:22+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q2/1hr_q2_2020.zip?sfvrsn=2055b661_2",
+  "params": null,
+  "bytes": 250120,
+  "sha256": "030b0441ef5a64b18fca6bad1766e5430ce912dd3ab01cc5c7df8687a52d41fe",
+  "fetched_at": "2026-11-15T16:50:04+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q2/1hr_q2_2021.zip?sfvrsn=9d55b661_2",
+  "params": null,
+  "bytes": 390238,
+  "sha256": "054de606c9f41a3afe7697f0a5b0273a16dfd22bf92908ada4705cd3bd7f532b",
+  "fetched_at": "2026-11-15T16:50:14+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q2/1hr_q2_2022.zip?sfvrsn=7f52b661_2",
+  "params": null,
+  "bytes": 481488,
+  "sha256": "d6333eb6c570916935fcfdc5f67f1b255744d3111b2a62a84fe6c11d1d9ca70d",
+  "fetched_at": "2026-11-15T16:50:24+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q3/1hr_q3_2020.zip?sfvrsn=e55b661_2",
+  "params": null,
+  "bytes": 277764,
+  "sha256": "4f1831552607d5092309acff7b0791817f1e974e6e76d9942607c8b20cbda351",
+  "fetched_at": "2026-11-15T16:50:07+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q3/1hr_q3_2021.zip?sfvrsn=8a55b661_2",
+  "params": null,
+  "bytes": 492251,
+  "sha256": "3a40604f986e5badefe947539dcf7113f6250a2b2fe612e9a981c65310fc162e",
+  "fetched_at": "2026-11-15T16:50:17+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q3/1hr_q3_2022.zip?sfvrsn=5952b661_2",
+  "params": null,
+  "bytes": 535087,
+  "sha256": "dc7e45ba75922150c3010bf4d04d6a419e20175833efc376c1aac868af178664",
+  "fetched_at": "2026-11-15T16:50:27+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q4/1hr_q4_2020.zip?sfvrsn=6c55b661_2",
+  "params": null,
+  "bytes": 405626,
+  "sha256": "41654497e99e03ad9872ce8dcaef8c6d03c85166e7512a6d7ebe53aa806be513",
+  "fetched_at": "2026-11-15T16:50:09+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q4/1hr_q4_2021.zip?sfvrsn=e855b661_2",
+  "params": null,
+  "bytes": 578937,
+  "sha256": "2d8734baed0b40793b43b9263a05846dffdd69169c28c21eba367205dc32d325",
+  "fetched_at": "2026-11-15T16:50:19+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q4/1hr_q4_2022.zip?sfvrsn=bf52b661_2",
+  "params": null,
+  "bytes": 603926,
+  "sha256": "57536537a42abd3960f0d73a0b5bfbb5e2a68141f6065bf609729619e16a9839",
+  "fetched_at": "2026-11-15T16:49:36+00:00"
+ },
+ {
+  "file": "region_los_angeles/r1180_bulk_download.html",
+  "url": "https://www.aqmd.gov/home/rules-compliance/rules/support-documents/rule-1180-refinery-fenceline-monitoring-plans/rule-1180-community-air-monitoring/rule-1180-historical-data-bulk-download",
+  "params": null,
+  "bytes": 141370,
+  "sha256": "0a270bb3a851aa8b19a638dda8825e3773b6c7039c00ebcad300f3c7210a732f",
+  "fetched_at": "2026-11-15T16:49:21+00:00"
+ },
+ {
+  "file": "region_los_angeles/r1180_portal.html",
+  "url": "https://xappprod.aqmd.gov/Rule1180CommunityAirMonitoring/",
+  "params": null,
+  "bytes": 62502,
+  "sha256": "d85ee6a4fb3f36b9f79c468a4b0098d648a33f38d2b4a88bcccc38194756e1d5",
+  "fetched_at": "2026-11-15T16:52:54+00:00"
+ },
+ {
+  "file": "region_los_angeles/asos_LGB_202110_202212.csv",
+  "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=LGB&data=drct&data=sknt&year1=2021&month1=10&day1=1&year2=2022&month2=12&day2=1&tz=Etc%2FGMT%2B8&format=onlycomma&latlon=yes&missing=M&report_type=3",
+  "params": null,
+  "bytes": 513138,
+  "sha256": "15d3f4dacbd8721779b123dae68c8c6fb988c25cfe1a9ff39eb30b32ed45e9b6",
+  "fetched_at": "2026-11-15T17:25:27+00:00"
+ },
+ {
+  "file": "region_los_angeles/asos_TOA_202110_202212.csv",
+  "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=TOA&data=drct&data=sknt&year1=2021&month1=10&day1=1&year2=2022&month2=12&day2=1&tz=Etc%2FGMT%2B8&format=onlycomma&latlon=yes&missing=M&report_type=3",
+  "params": null,
+  "bytes": 186891,
+  "sha256": "466df27a7d895441709a3f083e0660c1f272b8d6635543938a91ce8280e6d926",
+  "fetched_at": "2026-11-15T17:25:30+00:00"
+ },
+ {
+  "file": "region_los_angeles/asos_HHR_202110_202212.csv",
+  "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=HHR&data=drct&data=sknt&year1=2021&month1=10&day1=1&year2=2022&month2=12&day2=1&tz=Etc%2FGMT%2B8&format=onlycomma&latlon=yes&missing=M&report_type=3",
+  "params": null,
+  "bytes": 510304,
+  "sha256": "3e1fd8784ec807d83d60c63fdaa084534cd6040124b61986a2ee77aa87186f1f",
+  "fetched_at": "2026-11-15T17:25:34+00:00"
+ },
+ {
+  "file": "region_los_angeles/asos_LAX_202110_202212.csv",
+  "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=LAX&data=drct&data=sknt&year1=2021&month1=10&day1=1&year2=2022&month2=12&day2=1&tz=Etc%2FGMT%2B8&format=onlycomma&latlon=yes&missing=M&report_type=3",
+  "params": null,
+  "bytes": 516667,
+  "sha256": "cc3e34ff40ecdeff8c470f1fc7e7604bcfe5270303cc9134a58bc30975f8dbe1",
+  "fetched_at": "2026-11-15T17:25:37+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_HDSN_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8024",
+   "p_long": "-118.2199",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "736",
+   "pageno": "1"
+  },
+  "bytes": 211798,
+  "sha256": "3e2091fad8003a54d97c7960d556eb706528853a1932f55ea958bbdf07b3e1ea",
+  "fetched_at": "2026-11-15T17:25:46+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_IPRT_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.7815",
+   "p_long": "-118.2137",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "761",
+   "pageno": "1"
+  },
+  "bytes": 194929,
+  "sha256": "adcc1eaaa358aa51f71f3d9f616c521aae7c66ae18696ca561cac05b55dc1e28",
+  "fetched_at": "2026-11-15T17:25:53+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_SLKE_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8195",
+   "p_long": "-118.2115",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "776",
+   "pageno": "1"
+  },
+  "bytes": 233543,
+  "sha256": "8d455fc57f9f5df94c9f9a92255a79949b4be3b4ca419b70baf3c30890e0724d",
+  "fetched_at": "2026-11-15T17:25:59+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_JUDS_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8251",
+   "p_long": "-118.2683",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "789",
+   "pageno": "1"
+  },
+  "bytes": 220246,
+  "sha256": "2e70132152df2a6ffeb86922aea67c40295320eb0735198cba69ed5274188c14",
+  "fetched_at": "2026-11-15T17:26:07+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_UMCW_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.7822",
+   "p_long": "-118.2675",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "804",
+   "pageno": "1"
+  },
+  "bytes": 196573,
+  "sha256": "c2cd8ecbb3770e17d1ff27b3a45c450fb66a9d19c247f31b06fc710106ffdb14",
+  "fetched_at": "2026-11-15T17:26:13+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_MHAN_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8902",
+   "p_long": "-118.4015",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "815",
+   "pageno": "1"
+  },
+  "bytes": 94130,
+  "sha256": "2fbdcdd0fd8d0b077f2702fb07edb85e0263d720e4354f18cec20e2f60886412",
+  "fetched_at": "2026-11-15T17:26:20+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_ELSG_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.9206",
+   "p_long": "-118.4071",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "833",
+   "pageno": "1"
+  },
+  "bytes": 105588,
+  "sha256": "c683798a8ebaead8109129a84b1ab2b31e308d7f847f5e6f4af8caa85b5dc29f",
+  "fetched_at": "2026-11-15T17:26:26+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_ANTH_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.9189",
+   "p_long": "-118.4079",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "844",
+   "pageno": "1"
+  },
+  "bytes": 100636,
+  "sha256": "c756df0910194f6ee80e423d36ea1e39ac4d8df196e14ae4ee78806c6b542308",
+  "fetched_at": "2026-11-15T17:26:33+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_GUEN_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8705",
+   "p_long": "-118.3134",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "857",
+   "pageno": "1"
+  },
+  "bytes": 240602,
+  "sha256": "4ebbc9b6b4dca09dff4bc63d059e88a27fa26c771781c5611aecc565df1a44b8",
+  "fetched_at": "2026-11-15T17:26:40+00:00"
+ },
+ {
+  "file": "region_los_angeles/echo_r1180_ELMA_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.8376",
+   "p_long": "-118.3314",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "870",
+   "pageno": "1"
+  },
+  "bytes": 212971,
+  "sha256": "1a7940dfbf7174e18949523c6ef66d44bce12603ef947e35cfbf27cd55f9cbc4",
+  "fetched_at": "2026-11-15T17:26:48+00:00"
+ },
+ {
+  "file": "region_los_angeles/nrc_la_2021_2022.json",
+  "url": null,
+  "params": null,
+  "bytes": 483940,
+  "sha256": "b2093481da2e25ab4255e648b1a9ed3d88831b4f6fa9e7e7864e312dc9ce21be",
+  "fetched_at": null,
+  "derived_from": [
+   "nrc/CY21.xlsx",
+   "nrc/CY22.xlsx"
+  ],
+  "generated_by": "uv run python -m pipeline.la_replay extract",
+  "in_git": true
+ },
+ {
+  "file": "region_los_angeles/caloes_la_2021_2022.json",
+  "url": null,
+  "params": null,
+  "bytes": 1080254,
+  "sha256": "af4dc78016a964580c6d91575f3e5b05bfb35d15c6e41e8cae5164a131de00a2",
+  "fetched_at": null,
+  "derived_from": [
+   "2021-HazMat-Spill-Reports.xlsx",
+   "2022-Spill-Reports.xls.xlsx"
+  ],
+  "generated_by": "uv run python -m pipeline.la_replay extract",
+  "in_git": true
+ }
+]

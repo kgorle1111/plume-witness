@@ -27,17 +27,17 @@ curl -s https://kgorle1111.github.io/plume-witness/spikes.json \
 
 | File | What it is | Size |
 |---|---|---|
-| `event.json` | The demo night (2024-06-21, Milby Park): `nights/2024-06-21_45201_48_201_0069.json` from the same run, indented | 61 KB |
-| `nights/index.json` | One row per replayable spike night (466: the 468 spikes minus the 2 with no wind data, which have no replay) | 99 KB |
-| `nights/<id>.json` | One full replay per spike night; same schema as `event.json` | about 30 KB each |
+| `event.json` | The demo spike (2024-06-21, Milby Park): `nights/2024-06-21_45201_48_201_0069.json` from the same run, indented | 61 KB |
+| `nights/index.json` | One row per replayable spike (466: the 468 spikes minus the 2 with no wind data, which have no replay) | 99 KB |
+| `nights/<id>.json` | One full replay per spike; same schema as `event.json` | about 30 KB each |
 | `spikes.json` | The past-spikes log | 190 KB |
 | `rose.json` | Which wind directions high readings arrive from, per monitor | 128 KB |
 | `people.json` | Census population within 3 km of each monitor | 23 KB |
 | `tri.json` | EPA TRI yearly benzene and 1,3-butadiene air totals per facility | 138 KB |
 | `facilities/index.json`, `facilities/<registry_id>.json` | Facility history (194 facilities) | 410 KB total |
-| `coverage.json` | Every Texas AutoGC monitor on TCEQ's form (45): data, wind source, highest readings, spikes per monitor | 18 KB |
+| `coverage.json` | Every Texas AutoGC monitor on TCEQ's form (45) and 10 Los Angeles Rule 1180 stations: data, wind source, highest readings, spikes per monitor | 22 KB |
 | `regions/<key>/spikes.json`, `regions/<key>/nights/` | The same spike log and replays for each other region (keys in `web/src/regions.generated.json`) | small |
-| `packet.ai.json` | One model-drafted evidence packet for the demo night (published only because its number-and-id guard passed; see the README) | 2 KB |
+| `packet.ai.json` | One model-drafted evidence packet for the demo spike (published only because its number-and-id guard passed; see the README) | 2 KB |
 
 ### `event.json` and `nights/<id>.json`
 
@@ -56,7 +56,7 @@ tool that reads one reads all.
 | `corridor` | `{origin_site_id, half_width_deg, max_km, wind_from_deg[]}` |
 | `record_check` | The state-record check: `status` (one of `reported`, `reported_late`, `not_yet_reported`, `no_report_after_deadline`, `reported_mismatch`, `search_incomplete`, `reported_nrc`; as `status`, `reported_late` comes from the T+14d check alone: a FINAL report dated more than 14 days after the event ended (an initial notice filed more than 24 h after discovery makes only the T+24h entry of `checks[]` `reported_late`); a matched report with no FINAL report on file yet takes its T+24h status, and only its T+14d entry of `checks[]` is `not_yet_reported` (final report pending); `reported_nrc` means no STEERS report in the corridor and window, but a National Response Center report there lists the compound), `incident`, `matched_facility_id`, `source_url` (TCEQ record), `reported` (the matched report: `facility`, `compound` and `pounds` (on a match, the monitored compound and its pounds summed over the report's emission points, for the whole release, exact as printed; a report that names the compound only inside a lumped row, such as "BTEX - benzene, toluene, ethylbenzene, xylene", gives that row as `compound`, the mixture's pounds and `lumped: true`; on `reported_mismatch`, the report's first contaminant line), `start_local`, `end_local`, `match_basis`, `cause`), `day_incidents[]` (every STEERS report that day with where it sits), `checks[]` (T+24h and T+14d, always the STEERS checks), `search_scope`; with `reported_nrc` only, `nrc` (the NRC report: `report` number, `source_url` of the NRC yearly file, `company`, `incident_local`, `material`, `amount` (null when NRC gives none), `unit`, `located_by`); `unplaced_other_reports[]` when an NRC report naming the compound in the match window could not be placed on the map (it blocks an absence claim) |
 | `packet` | English and Spanish evidence summary drafts: a person reviews and files; nothing is sent automatically |
-| `cannot_say[]` | The limits that go with this night |
+| `cannot_say[]` | The limits that go with this spike |
 | `provenance[]` | Every raw file used: `file`, `url`, request `params`, `bytes`, `sha256`, `fetched_at` |
 
 Provenance: TCEQ AutoGC hourly yearly summaries and site meteorology, TCEQ STEERS emissions-event reports, EPA ECHO
@@ -70,7 +70,7 @@ coordinates or by the same ECHO name/address rule the STEERS check uses. NRC mar
 
 ### `nights/index.json`
 
-Array of `{id, date, site, site_name, compound, value, hour_cst, status, search_complete}`. `id` is the night's file
+Array of `{id, date, site, site_name, compound, value, hour_cst, status, search_complete}`. `id` is the spike's file
 stem and the app's `?night=<id>` parameter: `<date>_<aqs_param>_<site_id>`. `value` is ppb at `hour_cst` (CST).
 
 ### `spikes.json`
@@ -96,7 +96,16 @@ Written by [`pipeline/coverage.py`](../pipeline/coverage.py) from TCEQ's AutoGC 
 wind; `borrowed`: the nearest monitor's in its region, within 10 km; null with no data), `years` with hourly values,
 `max_benzene_ppb`, `max_butadiene_ppb` (highest hourly values, 2024-2025, null with no data), `spikes` and
 `by_status` (that monitor's rows in its region's spike log). A monitor with readings but `spikes: 0` never crossed the
-trigger in 2024-2025.
+trigger in 2024-2025. `area` is `texas` for those rows.
+
+After them come the Los Angeles rows (`area: "los_angeles"`), written by
+[`pipeline/la1180.py`](../pipeline/la1180.py) from South Coast AQMD's Rule 1180 community-station hourly files
+(`data/raw/region_los_angeles/`, quarters 2020 Q1 to 2022 Q4, with `provenance.json`). `site_id` is `r1180_` plus the
+station's code in those files (`r1180_HDSN`); coordinates are the South Coast AQMD data portal's. `region_key` and
+`wind_source` are null (no replay, and the files carry no wind), `years` are 2020-2022, and `spikes` counts the rows
+the unchanged trigger (`build.detect`) finds over all the stations together; `by_status` is empty because those spikes
+are not checked against reports. Hours when all seven reported compounds read 5 ppb or more at once (the analyzer's
+check gas) are dropped before the counts and the highest values.
 
 ### `rose.json`
 
@@ -125,7 +134,7 @@ estimates of routine releases: not measurements, not events. See [`tri.md`](tri.
 
 Schemas `plume-witness.facilities-index/v1` and `plume-witness.facility/v1`, generated by
 [`pipeline/facilities.py`](../pipeline/facilities.py) (`uv run python -m pipeline.facilities`, cache only, no network).
-`<registry_id>` is the 12-digit EPA registry id, the same `id` the `facilities[]` array in a night file uses.
+`<registry_id>` is the 12-digit EPA registry id, the same `id` the `facilities[]` array in a spike file uses.
 
 `index.json`: `universe`, `report_years`, `coverage`, `caveats[]`, `facilities[]` of `{id, name, address,
 distance_km, nearest_monitor, reports, tri_years, matched_nights}`. `coverage` says how many cached TCEQ reports could
@@ -141,21 +150,21 @@ Each facility file:
 | `echo_url` | EPA ECHO facility report |
 | `reports_to_state.reports[]` | Emissions-event reports the facility filed with TCEQ that started in 2024-2025: `incident`, `filed_by` (the regulated entity named on the TCEQ report), `event_type` (as TCEQ labels it) and `event_type_code` (e.g. `emissions_event`), `start_local`, `end_local` (local time), `benzene_lbs`, `butadiene_lbs` (summed over emission points, exact as printed; 0 = not listed on its own row), `benzene_lumped` (only when benzene is named just inside a lumped row such as "BTEX - benzene, ...": `[{cell, pounds}]`, the row as filed and the mixture's pounds), `cause_excerpt` (the facility's own words, at most 200 characters; withheld, with `cause_withheld: true`, if it contains a word this project does not republish), `url` (the TCEQ record) |
 | `reports_to_epa` | The facility's `tri.json` entry: `status` (a code: `tri_data`, `no_tri_id` or `linked_no_benzene_or_butadiene_form`), `reason` (English), `tri_ids`, `years` |
-| `matched_nights[]` | Replayed nights where the facility sat in the upwind corridor **and** its own report was the match (status `reported`): `night_id`, `date`, `hour_cst`, `monitor`, `compound`, `value_ppb`, `incident`, `distance_km`, `bearing_deg` |
+| `matched_nights[]` | Replayed spikes where the facility sat in the upwind corridor **and** its own report was the match (status `reported`): `night_id`, `date`, `hour_cst`, `monitor`, `compound`, `value_ppb`, `incident`, `distance_km`, `bearing_deg` |
 | `caveats[]` | Always includes: "Being upwind of a spike is not evidence of anything; wind at one monitor cannot tell facilities apart." |
 
-What is deliberately not here: any list of nights a facility was upwind with no matching report. One monitor's wind
+What is deliberately not here: any list of spikes a facility was upwind with no matching report. One monitor's wind
 cannot tell facilities apart, so that list would read as blame. A test fails the build if such a field appears.
 
 Caveats specific to this file: pounds are the facility's own estimates from the TCEQ record; the compound totals are
 only for benzene and 1,3-butadiene (the TCEQ record lists every compound); an empty `reports` list means no report in the
 cached pages, not that none exists.
 
-## Embedding a night
+## Embedding a spike
 
 `?night=<id>&embed=1` renders a compact view for an `<iframe>`: the map, one step (Detect, Trace or Check, chosen by the
 URL hash such as `#trace`) in a sentence or two, and an "Open in Plume Witness" link to the full replay. The
-"Embed this night" button on any replay shows the iframe HTML to copy. The embed carries the same limits: it makes no
+"Embed this spike" button on any replay shows the iframe HTML to copy. The embed carries the same limits: it makes no
 finding about any facility.
 
 ## License and citation

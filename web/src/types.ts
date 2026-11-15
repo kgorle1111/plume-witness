@@ -132,7 +132,7 @@ export interface PlumeEvent {
   compound: { name: string; aqs_param: string; units: string }
   monitors: Monitor[]
   /** source/source_note are absent when the wind is the flagged monitor's own met-form wind (the original shape). */
-  wind: { site_id: string; hourly: WindHour[]; source?: 'own_autogc' | 'borrowed_met' | 'borrowed_autogc'; source_note?: string }
+  wind: { site_id: string; hourly: WindHour[]; source?: 'own_autogc' | 'borrowed_met' | 'borrowed_autogc' | 'borrowed_asos'; source_note?: string; name?: string }
   detection: { site_id: string; hour_cst: number; value: number; baseline: number; rule: string }
   facilities: Facility[]
   record_check: RecordCheck

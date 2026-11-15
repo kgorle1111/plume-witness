@@ -1,8 +1,11 @@
-"""Every Texas AutoGC monitor, and what the site has for it: web/public/coverage.json.
+"""Every Texas AutoGC monitor and every Los Angeles Rule 1180 station, and what the site has for each:
+web/public/coverage.json.
 
 The monitor list is the TCEQ AutoGC yearly-summary form (data/raw/texas_coverage/agc_form.html, 45 sites). Each site
 is in one region (pipeline.regions) or in NO_DATA_SITES; a form site in neither fails the build, so a monitor TCEQ adds
 cannot drop out of the page unseen. Spike counts are read back from each region's published spikes.json.
+Los Angeles (area "los_angeles") is the South Coast AQMD Rule 1180 stations (pipeline.la1180): counted with the same
+build.detect, listed with no region (nothing there is replayed) and no wind (the public files carry none).
 
     uv run python -m pipeline.coverage   (after pipeline.spikes for every region)
 """
@@ -13,7 +16,7 @@ import re
 from datetime import date
 from pathlib import Path
 
-from pipeline import backtest, build, regions
+from pipeline import backtest, build, la1180, regions
 from pipeline.parse import hourly_table
 
 OUT = regions.WEB_PUBLIC / "coverage.json"
@@ -105,9 +108,38 @@ def build_coverage(today: str | None = None) -> dict:
             "county": regions.site_county(site).title(), "region_key": region.key if region else None,
             "lat": round(lat, 6), "lon": round(lon, 6), "has_data": has_data,
             "wind_source": wind_source(region, site) if region else None, "years": sorted(years),
-            **maxima, "spikes": len(rows), "by_status": dict(sorted(by_status.items())),
+            **maxima, "spikes": len(rows), "by_status": dict(sorted(by_status.items())), "area": "texas",
         })
-    return {"generated": today or date.today().isoformat(), "trigger": TRIGGER, "sites": sites}
+    return {"generated": today or date.today().isoformat(), "trigger": TRIGGER, "sites": sites + la_sites()}
+
+
+def la_sites() -> list[dict]:
+    """The Rule 1180 stations, in file-code order, with their rows of the Los Angeles spike log (pipeline.la_replay).
+    Wind is "borrowed" where an airport weather station lies within the borrow cap (the replay's only wind)."""
+    from pipeline import la_replay  # imported here: la_replay builds on regions and spikes
+
+    places, summary = la1180.stations(), la1180.summary()
+    airports = la_replay.read_asos()
+    rows = _spike_rows(regions.LOS_ANGELES)
+    out = []
+    for code, (name, lat, lon) in places.items():
+        s = summary[code]
+        mine = [r for r in rows if r["site_id"] == code]
+        if len(mine) != len(s["spikes"]):
+            raise ValueError(f"{code}: {len(s['spikes'])} spikes in la1180 but {len(mine)} in the spike log; rerun "
+                             "`uv run python -m pipeline.la_replay`")
+        by_status: dict[str, int] = {}
+        for r in mine:
+            by_status[r["status"]] = by_status.get(r["status"], 0) + 1
+        near = min(build.haversine_km((lat, lon), (a["lat"], a["lon"])) for a in airports.values())
+        out.append({
+            "site_id": f"r1180_{code}", "name": name, "county": la1180.COUNTY, "region_key": regions.LOS_ANGELES.key,
+            "lat": round(lat, 6), "lon": round(lon, 6), "has_data": bool(s["years"]),
+            "wind_source": "borrowed" if near <= backtest.BORROW_MAX_KM else None,
+            "years": s["years"], "max_benzene_ppb": s["max"]["45201"], "max_butadiene_ppb": s["max"]["43218"],
+            "spikes": len(mine), "by_status": dict(sorted(by_status.items())), "area": "los_angeles",
+        })
+    return out
 
 
 def dumps(cov: dict) -> str:

@@ -108,5 +108,17 @@
   "backtested": false,
   "n_sites": 1,
   "county": "EL PASO"
+ },
+ {
+  "key": "los_angeles",
+  "label": "Los Angeles",
+  "label_es": "Los Ángeles",
+  "place": "in Los Angeles",
+  "place_es": "en Los Ángeles",
+  "dir": "regions/los_angeles/",
+  "backtested": false,
+  "n_sites": 10,
+  "county": "LOS ANGELES",
+  "tz": "PST"
  }
 ]

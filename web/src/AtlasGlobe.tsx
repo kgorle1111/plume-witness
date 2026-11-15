@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 // Natural Earth public-domain coastlines, via world-atlas 2.0.2 (land-110m.json).
 import topology from './atlas-land.json'
-import { HOUSTON, project, swayCenter, unproject } from './globeView'
+import { spinCenter, unproject } from './globeView'
 
 const mapWidth = 1440
 const mapHeight = 720
@@ -105,20 +105,10 @@ function prepareGlobe(canvas: HTMLCanvasElement) {
       data[index + 2] = 241 - 10 * shade - 68 * green - ink * 0.72
     }
     ctx.putImageData(image, 0, 0)
-    // Houston, so the globe says where this is about (the sway keeps it on the near side).
-    const houston = project(HOUSTON.lat, HOUSTON.lon, angle)
-    if (!houston.visible) return
-    ctx.beginPath()
-    ctx.arc(center + houston.x * radius, center - houston.y * radius, 13, 0, 2 * Math.PI)
-    ctx.fillStyle = '#be1e2d'
-    ctx.fill()
-    ctx.lineWidth = 5
-    ctx.strokeStyle = '#fff'
-    ctx.stroke()
   }
 }
 
-function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
+function spinGlobe(canvas: HTMLCanvasElement) {
   const draw = prepareGlobe(canvas)
   if (!draw) return null
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -134,7 +124,7 @@ function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
     if (!last) last = now
     if (now - last >= interval) {
       seconds += Math.min(75, now - last) / 1000
-      draw(swayCenter(seconds))
+      draw(spinCenter(seconds))
       last = now
     }
     frameId = requestAnimationFrame(frame)
@@ -142,41 +132,30 @@ function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
   const syncMotion = () => {
     cancelAnimationFrame(frameId)
     last = 0
-    if (onScreen && !reducedMotion.matches && !isPaused()) frameId = requestAnimationFrame(frame)
+    if (onScreen && !reducedMotion.matches) frameId = requestAnimationFrame(frame)
   }
   const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
     onScreen = entry.isIntersecting
     syncMotion()
   })
 
-  draw(swayCenter(seconds))
+  draw(spinCenter(seconds))
   syncMotion()
   observer?.observe(canvas)
   reducedMotion.addEventListener('change', syncMotion)
-  return {
-    sync: syncMotion,
-    stop: () => {
-      cancelAnimationFrame(frameId)
-      observer?.disconnect()
-      reducedMotion.removeEventListener('change', syncMotion)
-    },
+  return () => {
+    cancelAnimationFrame(frameId)
+    observer?.disconnect()
+    reducedMotion.removeEventListener('change', syncMotion)
   }
 }
 
-/** `paused` is the landing page's pause control (WCAG 2.2.2): the sway runs for as long as the globe is on screen. */
-export default function AtlasGlobe({ paused }: { paused: boolean }) {
+export default function AtlasGlobe() {
   const canvas = useRef<HTMLCanvasElement>(null)
-  const pausedRef = useRef(paused)
-  const spin = useRef<ReturnType<typeof spinGlobe>>(null)
   useEffect(() => {
     const element = canvas.current
     if (!element) return
-    spin.current = spinGlobe(element, () => pausedRef.current)
-    return () => { spin.current?.stop(); spin.current = null }
+    return spinGlobe(element) ?? undefined
   }, [])
-  useEffect(() => {
-    pausedRef.current = paused
-    spin.current?.sync()
-  }, [paused])
   return <canvas ref={canvas} width={504} height={504} aria-hidden="true" />
 }

@@ -38,7 +38,8 @@ export interface SpikeFile {
   corridor: string | null
   /** The calendar years the scan covered, e.g. ['2024', '2025']. */
   years: string[]
-  tceq_search_page: string
+  /** Texas: TCEQ's emissions-event search; null where there is no such search (Los Angeles). */
+  tceq_search_page: string | null
   summary: { spikes: number; spike_days: number; by_status: Record<string, number>; known_missed_reports: number | null }
   rows: SpikeRow[]
 }
@@ -105,6 +106,14 @@ export function toCsv(rows: SpikeRow[]): string {
 
 export type SortKey = 'date' | 'value' | 'ratio'
 export type Dir = 'asc' | 'desc'
+
+/** The log opens on its biggest spikes ("× baseline", highest first): newest-first led with a screen of grey "Can't
+ *  say: wind too light" rows. The default is left out of the URL; any other sort is written, so a choice survives. */
+export const DEFAULT_SORT: SortKey = 'ratio'
+const SORT_KEYS: readonly SortKey[] = ['date', 'value', 'ratio']
+export const sortFromParam = (v: string | null): SortKey => SORT_KEYS.find((k) => k === v) ?? DEFAULT_SORT
+export const sortParam = (sort: SortKey): string => (sort === DEFAULT_SORT ? '' : sort)
+
 export interface Filters { site: string; compound: string; status: string; year: string }
 export const NO_FILTER: Filters = { site: '', compound: '', status: '', year: '' }
 
@@ -198,13 +207,14 @@ export function optionCounts(all: SpikeRow[], f: Filters, k: keyof Filters): Map
  *  step", never to a cause it may not be. */
 export type ReasonKey =
   | 'spikes.reason.calm' | 'spikes.reason.placed' | 'spikes.reason.earlier' | 'spikes.reason.week' | 'spikes.reason.noWind'
-  | 'spikes.reason.check'
+  | 'spikes.reason.check' | 'spikes.reason.register'
 const REASON_CODES: Record<string, ReasonKey> = {
   calm_wind: 'spikes.reason.calm',
   report_not_placed: 'spikes.reason.placed',
   earlier_search_incomplete: 'spikes.reason.earlier',
   day_search_incomplete: 'spikes.reason.week',
   no_wind: 'spikes.reason.noWind',
+  no_register: 'spikes.reason.register',
 }
 const REASONS: Record<string, ReasonKey> = {
   'A report filed that day could not be placed on the map, so absence cannot be claimed.': 'spikes.reason.check',
@@ -212,7 +222,7 @@ const REASONS: Record<string, ReasonKey> = {
   'No wind data for that day, so no upwind area could be drawn.': 'spikes.reason.noWind',
 }
 /** The codes the legend explains, in the pipeline's order of checks. */
-export const REASON_CODE_KEYS: readonly ReasonKey[] = Object.values(REASON_CODES)
+export const REASON_CODE_KEYS: readonly ReasonKey[] = Object.values(REASON_CODES).filter((k) => k !== 'spikes.reason.register')
 const own = (m: Record<string, ReasonKey>, k: string | undefined): ReasonKey | null =>
   (k !== undefined && Object.hasOwn(m, k) ? m[k] : null)
 export const reasonKey = (row: Pick<SpikeRow, 'reason' | 'reason_code'>): ReasonKey | null =>
@@ -226,6 +236,7 @@ const REASON_SHORT: Partial<Record<ReasonKey, StringKey>> = {
   'spikes.reason.earlier': 'spikes.reasonShort.earlier',
   'spikes.reason.week': 'spikes.reasonShort.week',
   'spikes.reason.noWind': 'spikes.reasonShort.noWind',
+  'spikes.reason.register': 'spikes.reasonShort.register',
 }
 const shortReason = (row: Pick<SpikeRow, 'status' | 'reason' | 'reason_code'>): StringKey | null => {
   const k = row.status === 'search_incomplete' ? reasonKey(row) : null
