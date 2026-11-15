@@ -1200,35 +1200,100 @@
    "source": "EPA ECHO (major emissions source)",
    "coord_precision": "as published by ECHO",
    "rank": 40
+  },
+  {
+   "id": "110017743254",
+   "name": "Deer Park Energy Center",
+   "lat": 29.711828,
+   "lon": -95.127334,
+   "distance_km": 12.9,
+   "bearing_deg": 87.2,
+   "alignment": 0.924,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 41
+  },
+  {
+   "id": "110037567781",
+   "name": "Accp Houston Facility",
+   "lat": 29.767034,
+   "lon": -95.145994,
+   "distance_km": 13.0,
+   "bearing_deg": 58.7,
+   "alignment": 0.974,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 42
+  },
+  {
+   "id": "110031267064",
+   "name": "Airgas Carbonic Deer Park Plant",
+   "lat": 29.7138,
+   "lon": -95.124036,
+   "distance_km": 13.3,
+   "bearing_deg": 86.3,
+   "alignment": 0.929,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 43
+  },
+  {
+   "id": "110000822566",
+   "name": "Eagle Railcar Services Channelview Tx",
+   "lat": 29.7788,
+   "lon": -95.14436,
+   "distance_km": 13.9,
+   "bearing_deg": 54.4,
+   "alignment": 0.961,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 44
+  },
+  {
+   "id": "110024271786",
+   "name": "Epolp Houston Ship Channel Marine Loading Facility",
+   "lat": 29.74939,
+   "lon": -95.12361,
+   "distance_km": 14.1,
+   "bearing_deg": 70.1,
+   "alignment": 0.983,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 45
+  },
+  {
+   "id": "110056537804",
+   "name": "Lubrizol Deer Park",
+   "lat": 29.71727,
+   "lon": -95.11327,
+   "distance_km": 14.3,
+   "bearing_deg": 85.1,
+   "alignment": 0.936,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 46
+  },
+  {
+   "id": "110043782788",
+   "name": "Deer Park Pvc",
+   "lat": 29.72613,
+   "lon": -95.10802,
+   "distance_km": 15.0,
+   "bearing_deg": 81.5,
+   "alignment": 0.954,
+   "in_corridor": true,
+   "source": "EPA ECHO (major emissions source)",
+   "coord_precision": "as published by ECHO",
+   "rank": 47
   }
  ],
  "record_check": {
-  "status": "reported",
-  "incident": "425347",
-  "matched_facility_id": "110000462623",
-  "source_url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
-  "checks": [
-   {
-    "at": "T+24h",
-    "status": "reported",
-    "note": "initial notice filed 2024-06-21T14:38 local"
-   },
-   {
-    "at": "T+14d",
-    "status": "reported",
-    "note": "final report dated 2024-07-03, 12 days after the event ended"
-   }
-  ],
-  "compound_match": true,
-  "reported": {
-   "facility": "Ineos Americas Pasadena Site",
-   "compound": "Benzene",
-   "pounds": 7634.0,
-   "start_local": "2024-06-21T09:38",
-   "end_local": "2024-06-21T10:42",
-   "tz": "local (CDT)",
-   "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release"
-  },
   "day_incidents": [
    {
     "incident": "425367",
@@ -1257,7 +1322,44 @@
     "resolution": "in the upwind corridor"
    }
   ],
-  "search_scope": "Searched every STEERS emissions event starting 06/21/2024 in Harris County (2 found; search complete)."
+  "ongoing_incidents": [],
+  "search_scope": "Searched every STEERS emissions event starting 06/21/2024 in Harris County (2 found; search complete). Events that started on earlier days were not searched.",
+  "status": "reported",
+  "incident": "425347",
+  "matched_facility_id": "110000462623",
+  "source_url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
+  "checks": [
+   {
+    "at": "T+24h",
+    "status": "reported",
+    "note": "initial notice filed 2024-06-21T14:38 local, 5.0 h after the reported discovery 2024-06-21T09:38"
+   },
+   {
+    "at": "T+14d",
+    "status": "reported",
+    "note": "final report dated 2024-07-03, 12 days after the event ended"
+   }
+  ],
+  "compound_match": true,
+  "reported": {
+   "facility": "Ineos Americas Pasadena Site",
+   "compound": "Benzene",
+   "pounds": 7634.0,
+   "start_local": "2024-06-21T09:38",
+   "end_local": "2024-06-21T10:42",
+   "tz": "local (CDT)",
+   "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release",
+   "match_basis": "started near the spike",
+   "travel_h": 0.97,
+   "travel_speed_mph": 6.8,
+   "travel_distance_km": 10.6,
+   "start_to_spike_h": 0.37,
+   "arrival_local": "2024-06-21T10:36",
+   "spike_hour_local": [
+    "2024-06-21T10:00",
+    "2024-06-21T11:00"
+   ]
+  }
  },
  "corridor": {
   "origin_site_id": "48_201_0069",
@@ -1269,8 +1371,8 @@
   ]
  },
  "packet": {
-  "draft_en": "On June 21, 2024, the Texas state monitor at Houston Milby Park recorded 51.75 ppb of benzene in the 9:00 a.m. CST hour, against a 7-day median of 0.21 ppb. Manchester East Ave N recorded 21.4 ppb in the same hour. Wind there came from 77 degrees at 6.8 mph. 40 major permitted facilities lie in the upwind corridor. One of them, Ineos Americas Pasadena Site, filed emissions-event report 425347 for 7,634 pounds of benzene from 09:38 to 10:42 local time that day. These readings are consistent with that release reaching the monitors. Requested follow-up: confirm whether nearby residents were notified, and whether the reported amount accounts for these readings.",
-  "draft_es": "El 21 de junio de 2024, el monitor estatal de Texas en Houston Milby Park registr\u00f3 51.75 ppb de benceno en la hora de las 9:00 a. m. CST, frente a una mediana de 7 d\u00edas de 0.21 ppb. Manchester East Ave N registr\u00f3 21.4 ppb en la misma hora. El viento ven\u00eda de 77 grados a 6.8 mph. Hay 40 instalaciones permitidas importantes en el corredor de donde ven\u00eda el viento. Una de ellas, Ineos Americas Pasadena Site, present\u00f3 el informe de evento de emisiones 425347 por 7,634 libras de benceno de 09:38 a 10:42, hora local, ese d\u00eda. Estas lecturas son consistentes con que esa emisi\u00f3n lleg\u00f3 a los monitores. Seguimiento solicitado: confirmar si se avis\u00f3 a los residentes cercanos y si la cantidad reportada explica estas lecturas.",
+  "draft_en": "On June 21, 2024, the Texas state monitor at Houston Milby Park recorded 51.75 ppb of benzene in the 9:00 a.m. CST hour, against a 7-day median of 0.21 ppb. Manchester East Ave N recorded 21.4 ppb in the same hour. Wind there came from 77 degrees at 6.8 mph. 47 major permitted facilities lie in the upwind corridor. One of them, Ineos Americas Pasadena Site, filed emissions-event report 425347 for 7,634 pounds of benzene from 09:38 to 10:42 local time that day. These readings are consistent with that release reaching the monitors. Requested follow-up: confirm whether nearby residents were notified, and whether the reported amount accounts for these readings.",
+  "draft_es": "El 21 de junio de 2024, el monitor estatal de Texas en Houston Milby Park registr\u00f3 51.75 ppb de benceno en la hora de las 9:00 a. m. CST, frente a una mediana de 7 d\u00edas de 0.21 ppb. Manchester East Ave N registr\u00f3 21.4 ppb en la misma hora. El viento ven\u00eda de 77 grados a 6.8 mph. Hay 47 instalaciones permitidas importantes en el corredor de donde ven\u00eda el viento. Una de ellas, Ineos Americas Pasadena Site, present\u00f3 el informe de evento de emisiones 425347 por 7,634 libras de benceno de 09:38 a 10:42, hora local, ese d\u00eda. Estas lecturas son consistentes con que esa emisi\u00f3n lleg\u00f3 a los monitores. Seguimiento solicitado: confirmar si se avis\u00f3 a los residentes cercanos y si la cantidad reportada explica estas lecturas.",
   "drafted_by": "template (deterministic, no AI)",
   "guard": {
    "passed": true,
@@ -1279,10 +1381,10 @@
  },
  "cannot_say": [
   "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
-  "'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
+  "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
   "The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart.",
   "Facility coordinates are as published by EPA ECHO and may be approximate.",
-  "Only regulator-grade state monitors are used; many neighborhoods have none."
+  "Only regulator-grade monitors whose data the state publishes are used (including two industry-funded Houston Regional Monitoring sites), never low-cost sensors."
  ],
  "provenance": [
   {
@@ -1402,6 +1504,23 @@
    "bytes": 367109,
    "sha256": "be843d8fe40c5e9c7dc2089680398c28492591782fa482b1884f296580b8e14b",
    "fetched_at": "2026-11-14T23:16:37+00:00"
+  },
+  {
+   "file": "echo_milby_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7063",
+    "p_long": "-95.2611",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "146",
+    "pageno": "1"
+   },
+   "bytes": 529376,
+   "sha256": "f379b0276e861593fc0a63212c464ee24abd181f178d02780daf08a7af7e9783",
+   "fetched_at": "2026-11-14T23:57:42+00:00",
+   "copied_from": "backtest/echo_48_201_0069_10mi.json"
   },
   {
    "file": "steers_search_harris_06212024.html",

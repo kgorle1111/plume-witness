@@ -116,3 +116,33 @@ def test_near_start_is_a_subset_of_detected_and_holds_the_golden_row(result):
     assert all(r["detected"] for r in ev if r["spike_near_start"])
     assert s["spike_near_start_and_matched"] <= s["spike_near_start"] <= s["detected"]
     assert _row(result, "425347")["spike_near_start"] is True
+
+
+def test_butadiene_spelled_with_a_space_counts_but_lookalikes_do_not(tmp_path):
+    p = tmp_path / "steers_2.html"
+    p.write_text("<p>1,3 Butadiene 5 POUNDS</p><p>2-Methyl-1,3 butadiene 4 POUNDS</p>")
+    assert backtest.compound_pounds(p) == {"45201": 0.0, "43218": 5.0}
+
+
+def _week(raw: Path, beg: str, end: str) -> None:
+    (raw / f"steers_search_harris_{beg}_{end}.html").write_text("<p>No records</p>")
+
+
+def test_earlier_days_unsearched_means_incomplete(tmp_path):
+    part, full = tmp_path / "part", tmp_path / "full"  # separate dirs: week listings are cached per directory
+    for raw in (part, full):
+        raw.mkdir()
+        _week(raw, "20240617", "20240623")
+    _week(full, "20240520", "20240616")
+    _, complete, note = backtest.earlier_reports("06/21/2024", {}, [], part)
+    assert complete is False and "incomplete" in note
+    _, complete, _ = backtest.earlier_reports("06/21/2024", {}, [], full)
+    assert complete is True
+    _, complete, _ = backtest.earlier_reports("06/21/2024", {}, ["steers_search_harris_20240520_20240616.html"], full)
+    assert complete is False
+
+
+def test_spike_matched_by_a_report_started_the_day_before(result):
+    r = next(r for r in result["spikes"] if r["day"] == "06/13/2024" and r["param"] == "45201")
+    assert r["status"] != "no_report_after_deadline" and r["matched_incident"] == "424533"
+    assert r["matched_ongoing"] is True

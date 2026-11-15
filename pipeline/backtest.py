@@ -8,7 +8,9 @@ Per candidate, the unchanged pipeline (build.trace) runs on the event's start da
   monitors = AutoGC sites within 15 km of the facility (a farther monitor's corridor can never reach it);
   compound = benzene if the event reported benzene, else 1,3-butadiene;
   wind = the triggering monitor's own wind (nearest site with wind if it has none; recorded);
-  day reports = every STEERS row that started that day (from the week searches; same query, wider window).
+  day reports = every STEERS row that started that day (from the week searches; same query, wider window),
+  plus every earlier-started row still open within 6 h of that day (its own Ended column);
+  absence also needs the build.LOOKBACK_DAYS before the day covered by complete week searches.
 Outcomes: detected, reporting facility in the corridor (as the pipeline places it), matched (record_check picked
 this very incident).
 
@@ -130,29 +132,65 @@ def load_winds(year: str, day: str, sites: dict[str, tuple[float, float]], raw: 
     return out
 
 
-def day_reports(day: str, rows_by_day: dict, incomplete_weeks: list[str], raw: Path = BT) -> tuple:
-    """Every STEERS report that started on `day`, and whether that list is complete enough to claim absence."""
-    day_rows = rows_by_day.get(day, [])
-    covered = searched(day, raw)
+def _details(rows: list[dict], raw: Path) -> tuple[dict[str, dict], list[str]]:
     details, unreadable = {}, []
-    for r in day_rows:
+    for r in rows:
         try:
             details[r["incident"]] = steers_incident(raw / f"steers_{r['incident']}.html")
         except (FileNotFoundError, ValueError) as e:
             unreadable.append(f"{r['incident']}: {type(e).__name__}")
+    return details, unreadable
+
+
+def day_reports(day: str, rows_by_day: dict, incomplete_weeks: list[str], raw: Path = BT) -> tuple:
+    """Every STEERS report that started on `day`, and whether that list is complete enough to claim absence."""
+    day_rows = rows_by_day.get(day, [])
+    covered = searched(day, raw)
+    details, unreadable = _details(day_rows, raw)
     complete = (covered and not any(r["search_file"] in incomplete_weeks for r in day_rows) and not unreadable
                 and len(details) == len(day_rows))
     return details, complete, unreadable
 
 
+def earlier_reports(day: str, rows_by_day: dict, incomplete_weeks: list[str], raw: Path = BT) -> tuple:
+    """Reports that started before `day` and were still open at or after 6 h before its first hour.
+
+    That is a superset of what can overlap any spike that day; record_check keeps the overlapping ones. Complete
+    only if every one of the build.LOOKBACK_DAYS before the day sits in a complete saved week search and every
+    such report's detail page is readable (an unreadable one might have been running, so it blocks absence).
+    """
+    d0 = datetime.strptime(day, "%m/%d/%Y")
+    floor = d0 - timedelta(hours=-build.MATCH_WINDOW_H[0])
+    rows = [r for rs in rows_by_day.values() for r in rs
+            if _stamp(r["began"]) < d0 and (r.get("ended") is None or _stamp(r["ended"]) >= floor)]
+    details, unreadable = _details(rows, raw)
+    days = [(d0 - timedelta(days=k)).strftime("%Y%m%d") for k in range(1, build.LOOKBACK_DAYS + 1)]
+    weeks = _weeks(raw)
+    covered = all(any(b <= d <= e and name not in incomplete_weeks for b, e, name in weeks) for d in days)
+    complete = covered and not unreadable
+    note = (f"Also searched reports that started in the {build.LOOKBACK_DAYS} days before and were still running "
+            f"({len(details)} open that day; earlier search {'complete' if complete else 'incomplete'}).")
+    return details, complete, note
+
+
+def _stamp(s: str) -> datetime:
+    return datetime.strptime(s, "%m/%d/%Y %I:%M %p")
+
+
+_WEEKS: dict[Path, list[tuple[str, str, str]]] = {}
+
+
+def _weeks(raw: Path) -> list[tuple[str, str, str]]:
+    """(begin YYYYMMDD, end YYYYMMDD, file name) for every saved week search."""
+    if raw not in _WEEKS:
+        _WEEKS[raw] = [(*p.stem.split("_")[-2:], p.name) for p in raw.glob("steers_search_harris_*.html")]
+    return _WEEKS[raw]
+
+
 def searched(day: str, raw: Path = BT) -> bool:
     """True only if a saved week search covers the day: an unsearched day has zero rows, which is not 'none'."""
     d = datetime.strptime(day, "%m/%d/%Y").strftime("%Y%m%d")
-    for p in raw.glob("steers_search_harris_*.html"):
-        beg, end = p.stem.split("_")[-2:]
-        if beg <= d <= end:
-            return True
-    return False
+    return any(b <= d <= e for b, e, _ in _weeks(raw))
 
 
 def geo_in_corridor(fac: tuple[float, float], trig: dict, window: list[float]) -> bool:
@@ -224,10 +262,11 @@ def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: li
     for day, param, mons, det in spike_days(sites, raw, full):
         det_day = datetime.strptime(day, "%m/%d/%Y").date()
         details, complete, _ = day_reports(day, rows_by_day, incomplete_weeks, raw)
+        earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                        details, complete, det_day, param)
+                        details, complete, det_day, param, earlier, earlier_ok, note)
         yield {"day": day, "param": param, "det_day": det_day, "monitors": mons, "det": det, "details": details,
-               "complete": complete, "trace": t}
+               "complete": complete, "earlier": earlier, "earlier_complete": earlier_ok, "trace": t}
 
 
 def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict], incomplete_weeks: list[str],
@@ -236,17 +275,27 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
     rows = []
     for sp in traced_spikes(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw):
         day, param, det, t, complete = sp["day"], sp["param"], sp["det"], sp["trace"], sp["complete"]
+        earlier_ok, det_day = sp["earlier_complete"], sp["det_day"]
         row = {"day": day, "param": param, "site_id": det["site_id"], "hour_cst": det["hour_cst"],
                "value": det["value"], "baseline": det["baseline"], "search_complete": complete,
-               "day_reports": len(rows_by_day.get(day, []))}
+               "earlier_search_complete": earlier_ok, "day_reports": len(rows_by_day.get(day, []))}
         if "record_check" not in t:
             rows.append(row | {"status": "no_wind", "matched_incident": None, "candidate_reports_in_corridor": 0})
             continue
         rc = t["record_check"]
-        same_day = [c for c in candidates if c["day"] == day]
-        in_geo = [c["incident"] for c in same_day if geo_in_corridor(c["fac_latlon"], t["trig"], t["window"])]
+        det_local = build._local(det_day, det["hour_cst"])
+        lo = det_local + timedelta(hours=build.MATCH_WINDOW_H[0])
+        hi = det_local + timedelta(hours=build.MATCH_WINDOW_H[1])
+        # a candidate report counts if it was running in the match window (it may have started on an earlier day)
+        running = [c for c in candidates if _stamp(c["began_local"]) <= hi
+                   and (c["ended_local"] is None or _stamp(c["ended_local"]) >= lo)]
+        in_geo = [c["incident"] for c in running if geo_in_corridor(c["fac_latlon"], t["trig"], t["window"])]
         rows.append(row | {"status": rc["status"], "matched_incident": rc["incident"], "corridor_size":
-                           len(t["facilities"]), "candidate_reports_in_corridor": len(in_geo)})
+                           len(t["facilities"]), "calm_mph": t["calm_mph"],
+                           "ongoing_reports": len(rc["ongoing_incidents"]),
+                           "matched_ongoing": bool(rc["reported"]) and rc["reported"]["match_basis"] != "started near "
+                                              "the spike",
+                           "candidate_reports_in_corridor": len(in_geo)})
     return rows
 
 
@@ -283,16 +332,19 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
     if not monitors:
         return out | {"reason": "no monitor data for the day"}
     details, complete, unreadable = day_reports(day, rows_by_day, incomplete_weeks, raw)
+    earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
     det = build.detect(monitors)
     if det is None:
         return out | {"reason": "no monitor crossed the trigger rule"}
     out |= {"detected": True, "detection": {k: det[k] for k in ("site_id", "hour_cst", "value", "baseline")},
-            "search_complete": complete, "unreadable_day_reports": unreadable}
+            "search_complete": complete, "earlier_search_complete": earlier_ok, "unreadable_day_reports": unreadable}
     # the corridor is drawn from ECHO around the triggering monitor (10 mi = 16 km > the 15 km corridor)
     t = build.trace(monitors, load_winds(year, day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                    details, complete, det_day, param)
+                    details, complete, det_day, param, earlier, earlier_ok, note)
     if "record_check" not in t:
         return out | {"reason": "no wind for the detection hours"}
+    if t["calm_mph"] is not None:
+        out["calm_mph"] = t["calm_mph"]
     rc = t["record_check"]
     mine = next((d for d in rc["day_incidents"] if d["incident"] == c["incident"]), None)
     out |= {"wind_site": t["wind"]["site_id"], "wind_from_deg": t["window"],
@@ -304,11 +356,13 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
             "matched_other_incident": rc["incident"] if rc["incident"] not in (None, c["incident"]) else None}
     if out["matched"]:
         return out
+    if t["calm_mph"] is not None:
+        return out | {"reason": "wind too light to trace"}
     if mine is None or mine["in_corridor"] is None:
         return out | {"reason": "pipeline could not locate the reporting facility"}
     if not mine["in_corridor"]:
         return out | {"reason": "reporting facility outside the corridor"}
-    return out | {"reason": "in corridor, but report start is outside the detection-time window"}
+    return out | {"reason": "in corridor, but report time does not overlap the detection-time window"}
 
 
 def select_candidates(universe: list[dict], echo_rows: list[dict], sites: dict, raw: Path = BT) -> tuple:
@@ -345,7 +399,7 @@ def select_candidates(universe: list[dict], echo_rows: list[dict], sites: dict, 
             continue
         funnel["candidates"] += 1
         candidates.append({"incident": r["incident"], "entity": r["entity"], "rn": r["rn"], "day": r["began"][:10],
-                           "began_local": r["began"], "param": "45201" if lbs["45201"] else "43218",
+                           "began_local": r["began"], "ended_local": r.get("ended"), "param": "45201" if lbs["45201"] else "43218",
                            "benzene_lbs": lbs["45201"], "butadiene_lbs": lbs["43218"],
                            "fac_registry_id": fac["RegistryID"], "fac_latlon": ll, "located_by": how,
                            "nearest_site_km": round(dmin, 1)})
@@ -373,6 +427,10 @@ def run(raw: Path = BT) -> dict:
         "false_no_report": sum(1 for r in said_none if r["candidate_reports_in_corridor"]),
         "no_report_found_after_complete_search": sum(1 for r in said_none if not r["candidate_reports_in_corridor"]),
         "abstained_search_incomplete": sum(1 for r in spikes if r["status"] == "search_incomplete"),
+        "abstained_calm_wind": sum(1 for r in spikes if r.get("calm_mph") is not None),
+        "abstained_earlier_days_unsearched": sum(1 for r in spikes if r["status"] == "search_incomplete"
+                                                 and r["search_complete"] and not r["earlier_search_complete"]),
+        "matched_an_ongoing_report": sum(1 for r in spikes if r.get("matched_ongoing")),
     }
     summary = {
         "candidates": len(results), "detected": len(det),
@@ -394,7 +452,9 @@ def run(raw: Path = BT) -> dict:
                       "trigger": f"value >= max({build.TRIGGER_RATIO:g} x {build.BASELINE_DAYS}-day median, "
                                  f"{build.TRIGGER_FLOOR_PPB:g} ppb), earliest hour of the event's start day",
                       "corridor": f"+/-{build.CORRIDOR_HALF_ANGLE} deg of upwind, <= {build.CORRIDOR_RADIUS_KM} km",
-                      "match": "record_check picks this incident: in corridor, start within -6h..+2h of detection"},
+                      "match": "record_check picks this incident: in corridor, report [start, end] overlaps -6h..+2h of "
+                               "detection (it may have started on an earlier day)",
+                      "calm_mph": build.CALM_MPH, "lookback_days": build.LOOKBACK_DAYS},
             "summary": summary, "spike_summary": spike_summary, "funnel": funnel, "incomplete_week_searches": incomplete_weeks,
             "unlocated": unlocated, "events": results, "spikes": spikes}
 
@@ -454,7 +514,7 @@ day instead of the candidate. Compound used: benzene for {by_param["45201"]} eve
 | Question | Answer | Denominator |
 |---|---|---|
 | (a) Matched / missed | {m} matched, {n - m} missed ({n - d} never detected, {d - m} detected but not matched) | {n} reported candidate events ({d} detected) |
-| (b) False "no report": the check said *no report after deadline* although a candidate report's facility sat inside that spike's corridor (ECHO coordinates) | {sp["false_no_report"]} | {sp["spikes"]} detected spikes |
+| (b) False "no report": the check said *no report after deadline* although a candidate report running in the match window had its facility inside that spike's corridor (ECHO coordinates) | {sp["false_no_report"]} | {sp["spikes"]} detected spikes |
 | (c) Real spikes with no matching report in the corridor after a complete search | {sp["no_report_found_after_complete_search"]} | {sp["spikes"]} detected spikes |
 
 (b) cross-check from the candidate side: of the {d} detected candidates, the check said *no report after
@@ -465,8 +525,11 @@ had the reporting facility geometrically inside the corridor; it abstained (*sea
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
 {len(SITE_NAMES)} sites: {sp["spikes"]} (day, compound) spikes on {sp["spike_days"]} distinct days. Status of each
 spike's record check: {", ".join(f"{k} {v}" for k, v in sp["by_status"].items())}. The pipeline abstains rather than
-claim absence when the day's search is not complete ({sp["abstained_search_incomplete"]} spikes).
-"No matching report found" is not "unreported" and not "illegal": Texas requires a report only above a reportable
+claim absence when the day's search or the {build.LOOKBACK_DAYS} days before it are not completely searched, or
+the wind is too light to trace ({sp["abstained_search_incomplete"]} spikes; {sp["abstained_calm_wind"]} of them
+under {build.CALM_MPH:g} mph, {sp["abstained_earlier_days_unsearched"]} because earlier days were not searched).
+{sp["matched_an_ongoing_report"]} spikes matched a report that started on an earlier day and was still running.
+"No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
 the corridor is geometry only. These spikes are counted, never named.
 
@@ -505,7 +568,13 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
   always borrow.
   Facilities come from EPA ECHO major sources within 10 mi of the triggering monitor.
 - **Match (unchanged pipeline):** {res["rules"]["match"]}. STEERS local time is converted with America/Chicago DST.
-- **Day's reports:** every STEERS row that started that day, taken from the week search (same query, wider window).
+- **Day's reports:** every STEERS row that started that day, taken from the week search (same query, wider window),
+  plus every row that started earlier and was still open (its Ended column) within 6 h of the day's first hour.
+  Absence also needs the {build.LOOKBACK_DAYS} days before covered by complete week searches, so spikes in early
+  January 2024 always abstain. A report that started more than {build.LOOKBACK_DAYS} days earlier is still matched
+  when it is in the saved searches, but its absence is not guaranteed.
+- **Calm wind:** when the wind at the detection hour or the hour before is under {build.CALM_MPH:g} mph, no
+  corridor is drawn and the check abstains (*search incomplete*, "wind too light to trace").
 
 ## What this does NOT measure
 

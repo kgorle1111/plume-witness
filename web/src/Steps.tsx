@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
+import { incidentNote } from './note'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -31,12 +32,12 @@ function InfoIcon() {
   )
 }
 
-export function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status, lang = 'en' }: { status: string; lang?: Lang }) {
   const info = statusInfo(status)
   return (
-    <span className={`status status-${status}`}>
+    <span className={`status status-${status}`} lang={lang}>
       <StatusIcon kind={info.icon} />
-      <span>{info.en}</span>
+      <span>{info[lang]}</span>
     </span>
   )
 }
@@ -198,7 +199,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   )
 }
 
-export function Check({ ev }: { ev: PlumeEvent }) {
+export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const rc = ev.record_check
   const url = safeHttpUrl(rc.source_url)
   const matched = ev.facilities.find((f) => f.id === rc.matched_facility_id)
@@ -207,7 +208,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
     <>
       <h3 className="question">Did any facility in the corridor file a matching report?</h3>
       <div className="status-block">
-        <StatusBadge status={rc.status} />
+        <StatusBadge status={rc.status} lang={lang} />
         <p className="muted small">{rc.search_scope}</p>
       </div>
       {matched && (
@@ -218,7 +219,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
       <h3 className="list-heading">Checks over time</h3>
       <ul className="checks">
         {rc.checks.map((c) => (
-          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} /></li>
+          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} lang={lang} /></li>
         ))}
       </ul>
       {r && (
@@ -234,7 +235,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
           </dl>
         </>
       )}
-      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
+      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} lang={lang} />}
       {url
         ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
@@ -242,7 +243,15 @@ export function Check({ ev }: { ev: PlumeEvent }) {
   )
 }
 
-function DayIncidents({ items }: { items: DayIncident[] }) {
+// kn: Spanish not yet reviewed by a community reader, like the status labels.
+const CORRIDOR_TAG = {
+  in: { en: 'In the upwind corridor', es: 'En el corredor viento arriba' },
+  out: { en: 'Not in the corridor', es: 'Fuera del corredor' },
+  // A report that couldn't be placed is neither in nor out; "not in" read as a verdict on its location.
+  unknown: { en: 'Location unknown', es: 'Ubicación desconocida' },
+} as const
+
+function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
   return (
     <>
       <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
@@ -251,8 +260,8 @@ function DayIncidents({ items }: { items: DayIncident[] }) {
           <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
             <span className="di-entity">{d.entity}</span>
             {/* Corridor membership is stated in words; the border colour only repeats it. */}
-            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'}>
-              {d.in_corridor ? 'In the upwind corridor' : 'Not in the corridor'}
+            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'} lang={lang}>
+              {CORRIDOR_TAG[d.in_corridor === true ? 'in' : d.in_corridor === false ? 'out' : 'unknown'][lang]}
             </span>
             <span className="di-facts">
               {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? `started ${localTime(d.start_local)}` : null]
@@ -326,10 +335,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     setSpeaking(true)
   }
 
-  const copy = async () => {
+  const copy = async (text: string, done: string) => {
     try {
-      await navigator.clipboard.writeText(drafts[lang])
-      setNotice('Draft copied.')
+      await navigator.clipboard.writeText(text)
+      setNotice(done)
     } catch {
       setNotice('Copy failed. Select the text and copy it by hand.')
     }
@@ -391,7 +400,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak}>
           {speaking ? 'Stop reading' : 'Read aloud'}
         </button>
-        <button type="button" className="btn" onClick={copy}>Copy draft</button>
+        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'Draft copied.')}>Copy draft</button>
+        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'Incident note copied. It is a draft for review, not a finding.')}>
+          Copy as incident note
+        </button>
       </div>
       {!canSpeak && <p className="muted small">Read aloud isn't available in this browser.</p>}
       <p className="sr-only" aria-live="polite">{notice}</p>

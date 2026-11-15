@@ -192,8 +192,14 @@
 }
 .step-tab[aria-selected='true'] .step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+/* Limits panel and the page language switch share one row; the switch keeps its own width. */
+.limits-bar { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 8px; margin: 12px 16px 0; }
+.seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
+/* Open, the limits list needs the full width; the switch drops below it rather than squeezing it. */
+.limits-bar:has(> .cannot-say[open]) { grid-template-columns: 1fr; }
+.limits-bar:has(> .cannot-say[open]) > .seg { justify-self: end; }
+.es-note { margin: 6px 16px 0; }
 .cannot-say {
-  margin: 12px 16px 0;
   border: 1px solid var(--amber-line);
   border-radius: var(--radius);
   background: #fffaf0;

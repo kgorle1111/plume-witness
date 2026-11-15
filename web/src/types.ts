@@ -69,7 +69,8 @@ export interface DayIncident {
   facility_id?: string | null
   distance_km?: number | null
   bearing_deg?: number | null
-  in_corridor: boolean
+  /** null when the report couldn't be placed on the map (pipeline/build.py writes None). */
+  in_corridor: boolean | null
   resolution: string
 }
 

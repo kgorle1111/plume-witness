@@ -1,16 +1,50 @@
 import type { Status } from './types'
 
-// Status words are fixed by the contract's STATUSES; never add a verdict word here.
-export const STATUS_TEXT: Record<Status, { en: string; icon: 'check' | 'clock' | 'alert' | 'mismatch' | 'question' }> = {
-  reported: { en: 'Reported', icon: 'check' },
-  not_yet_reported: { en: 'Not yet reported', icon: 'clock' },
-  no_report_after_deadline: { en: 'No report after the deadline', icon: 'alert' },
-  reported_mismatch: { en: "Reported, but doesn't match", icon: 'mismatch' },
-  search_incomplete: { en: 'Search incomplete', icon: 'question' },
+// Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
+// kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
+export const STATUS_TEXT: Record<Status, { en: string; es: string; icon: 'check' | 'clock' | 'alert' | 'mismatch' | 'question' }> = {
+  reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
+  not_yet_reported: { en: 'Not yet reported', es: 'Aún no reportado', icon: 'clock' },
+  no_report_after_deadline: { en: 'No report after the deadline', es: 'Sin reporte después del plazo', icon: 'alert' },
+  reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
+  search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'question' },
 }
 
 export function statusInfo(s: string) {
-  return (STATUS_TEXT as Record<string, (typeof STATUS_TEXT)[Status]>)[s] ?? { en: `Unknown status (${s})`, icon: 'alert' as const }
+  return (STATUS_TEXT as Record<string, (typeof STATUS_TEXT)[Status]>)[s]
+    ?? { en: `Unknown status (${s})`, es: `Estado desconocido (${s})`, icon: 'alert' as const }
+}
+
+// Spanish for event.json's cannot_say lines, keyed by the English text. A line that isn't here (for example
+// after the pipeline rewords it) falls back to English instead of showing a stale translation. A trailing
+// citation such as "(30 TAC 101.201)" is matched separately and carried over unchanged.
+const CANNOT_SAY_ES: Record<string, string> = {
+  'A matching report is not proof the facility caused every reading; other sources can add to a spike':
+    'Un reporte que coincide no prueba que la instalación causó cada lectura; otras fuentes pueden sumarse a un pico',
+  'The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart':
+    'El corredor viento arriba sale de la dirección del viento en un monitor (solo geometría), no de un modelo de dispersión; no puede distinguir entre instalaciones en la misma dirección',
+  'Facility coordinates are as published by EPA ECHO and may be approximate':
+    'Las coordenadas de las instalaciones son las que publica EPA ECHO y pueden ser aproximadas',
+  'Only regulator-grade state monitors are used; many neighborhoods have none':
+    'Solo se usan monitores estatales de grado regulatorio; muchos vecindarios no tienen ninguno',
+  // Pending rewording of the "reportable quantity" line in the pipeline; the current wording falls back to English.
+  "A missing report is not a finding about any facility: Texas requires a report only above a reportable quantity, and air readings can't measure how much was released":
+    'La falta de un reporte no es una conclusión sobre ninguna instalación: Texas exige un reporte solo por encima de una cantidad reportable, y las lecturas del aire no pueden medir cuánto se liberó',
+}
+
+const normKey = (t: string) => t.replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').trim().replace(/\.$/, '')
+const CANNOT_SAY_ES_NORM = new Map(Object.entries(CANNOT_SAY_ES).map(([k, v]) => [normKey(k), v]))
+
+/** Spanish for one cannot_say line, or null when there is no reviewed-for-meaning match (caller shows English). */
+export function cannotSayEs(en: string): string | null {
+  const m = /^(.*?)\s*(\([^()]*\))\.?\s*$/.exec(en)
+  const direct = CANNOT_SAY_ES_NORM.get(normKey(en))
+  if (direct) return `${direct}.`
+  if (m) {
+    const base = CANNOT_SAY_ES_NORM.get(normKey(m[1]))
+    if (base) return `${base} ${m[2]}.`
+  }
+  return null
 }
 
 export function hourLabel(h: number): string {
