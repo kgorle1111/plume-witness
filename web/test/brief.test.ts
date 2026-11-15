@@ -31,7 +31,7 @@ test('the brief renders every section it promises, with one title', () => {
 
 test('the brief keeps its headline numbers with their denominators', () => {
   const t = allText(blocks)
-  for (const s of ['52 of 72', '3 of 72', '19 of 386', '95% CI 61-81%', '95% CI 1-12%', '95% CI 3-8%']) assert.ok(t.includes(s), s)
+  for (const s of ['60 of 77', '5 of 77', '26 of 410', '95% CI 68-86%', '95% CI 3-14%', '95% CI 4-9%']) assert.ok(t.includes(s), s)
 })
 
 test('the brief avoids words that assert wrongdoing or proof', () => {
