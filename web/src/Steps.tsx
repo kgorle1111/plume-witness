@@ -406,6 +406,9 @@ const localTime = (stamp: string | undefined, t: Translate) => (stamp ? stamp.re
 const LANG_NAME: Record<Lang, StringKey> = { en: 'lang.nameEn', es: 'lang.nameEs' }
 // kn: one regulator (both regions are in Texas); per-region link when a night outside Texas lands.
 const COMPLAINT_URL = 'https://www.tceq.texas.gov/compliance/complaints'
+// Shown as the contact number on pcs.harriscountytx.gov (checked 2026-11-14).
+const PCS_PHONE = '(713) 920-2831'
+const PCS_TEL = 'tel:+17139202831'
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
 /** Stored as a key, not text, so a notice follows the site language when it changes. */
@@ -594,6 +597,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <p>{withSlot(t('pkt.dlgApproved'), 'lang', <strong>{langName(lang)}</strong>)}</p>
         <p>{t('pkt.dlgNothingSent')}</p>
         <p>{t('pkt.dlgHow')}</p>
+        <p>{withSlot(t('pkt.dlgCall'), 'phone', <a href={PCS_TEL}>{PCS_PHONE}</a>)}</p>
         <div className="row">
           <button type="button" className="btn" onClick={copyApproved}>{t('pkt.dlgCopy')}</button>
           <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
