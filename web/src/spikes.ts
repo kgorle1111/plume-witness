@@ -105,3 +105,27 @@ export function selectRows(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir)
     return (ka < kb ? -1 : ka > kb ? 1 : spikeKey(a).localeCompare(spikeKey(b))) * sign
   })
 }
+
+/** Rows drawn per page of the log: the table and the cards build every row as DOM, so 415 at once made the page
+ *  33,000 px tall on a laptop and 99,000 px on a phone. */
+export const PAGE_SIZE = 50
+
+export interface LogView {
+  /** Every row that passes the filters, in sort order: the CSV and the calendar use these, never the page. */
+  rows: SpikeRow[]
+  /** The first `limit` of `rows`: what the table or cards draw. */
+  shown: SpikeRow[]
+  /** Rows not drawn yet. */
+  remaining: number
+  /** How many one "Show more" press adds: a page, or what is left when that is less. */
+  next: number
+}
+
+/** Filter and sort first, page last, so a page is always the top of the filtered, sorted list. */
+export function logView(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir, limit: number): LogView {
+  const rows = selectRows(all, f, sort, dir)
+  const n = Number.isFinite(limit) && limit >= 1 ? Math.floor(limit) : PAGE_SIZE
+  const shown = rows.slice(0, n)
+  const remaining = rows.length - shown.length
+  return { rows, shown, remaining, next: Math.min(PAGE_SIZE, remaining) }
+}
