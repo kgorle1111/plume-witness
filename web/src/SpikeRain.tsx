@@ -1,7 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { STATUS_FILL, hourLabel, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
-import { parseSpikes, spikeKey } from './spikes'
+import { parseSpikes, rowStatusLabel, spikeKey } from './spikes'
 import {
   MONTHS_TOTAL, SPEEDS, TOTAL_DAYS, clampDay, countAt, dayFromParam, fadeDaysFor, isoFromDay, monthOfDay,
   monthStartDay, monthSummary, prefixCounts, timeSpikes, visibleAt, type SpeedKey, type Timed,
@@ -392,7 +392,7 @@ export default function SpikeRain() {
                       <RowLink id={s.row.night_id}>
                         <span className="rn-li-when"><time dateTime={s.row.date}>{dateLabel(s.row.date, lang)}</time> · {hourLabel(s.row.hour_cst)}</span>
                         <span className="rn-li-what">{[s.row.site, compoundLabel(lang, s.row.compound), s.row.ratio === null ? null : t('rn.ratio', { r: s.row.ratio })].filter(Boolean).join(' · ')}</span>
-                        <span className={`sl-status sl-status-${s.row.status}`} lang={lang}><StatusIcon kind={statusInfo(s.row.status).icon} size={14} />{statusLabel(s.row.status, lang)}</span>
+                        <span className={`sl-status sl-status-${s.row.status}`} lang={lang}><StatusIcon kind={statusInfo(s.row.status).icon} size={14} />{rowStatusLabel(s.row, lang)}</span>
                       </RowLink>
                     </li>
                   ))}

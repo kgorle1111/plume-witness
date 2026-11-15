@@ -15,7 +15,7 @@ export const STATUS_TEXT: Record<Status, StatusLabel> = {
     full: { en: 'No matching report (a question)', es: 'Sin reporte que coincida (una pregunta)' },
   },
   reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
-  search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'partial' },
+  search_incomplete: { en: 'Can’t say', es: 'No se puede decir', icon: 'partial' },
   reported_nrc: { en: 'Reported to NRC', es: 'Reportado al NRC', icon: 'second' },
 }
 
