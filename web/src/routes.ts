@@ -1,8 +1,8 @@
 import { REGIONS, regionFrom, regionQuery, type Regions } from './region.ts'
 
-export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline' | 'coverage'
+export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline' | 'coverage' | 'story'
 
-const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities', 'timeline', 'coverage'])
+const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities', 'timeline', 'coverage', 'story'])
 
 /** Existing replay links keep their original query parameters and step hashes; only a bare URL opens the landing page. */
 export function pageFromLocation({ search, hash }: Pick<Location, 'search' | 'hash'>): Page {
