@@ -118,6 +118,23 @@
   "fetched_at": "2026-11-14T23:16:37+00:00"
  },
  {
+  "file": "echo_milby_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.7063",
+   "p_long": "-95.2611",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "146",
+   "pageno": "1"
+  },
+  "bytes": 529376,
+  "sha256": "f379b0276e861593fc0a63212c464ee24abd181f178d02780daf08a7af7e9783",
+  "fetched_at": "2026-11-14T23:57:42+00:00",
+  "copied_from": "backtest/echo_48_201_0069_10mi.json"
+ },
+ {
   "file": "steers_search_harris_06212024.html",
   "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
   "params": {

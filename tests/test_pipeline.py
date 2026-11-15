@@ -202,7 +202,8 @@ def test_calm_wind_draws_no_corridor_and_claims_nothing():
     rc = t["record_check"]
     assert t["facilities"] == [] and t["calm_mph"] == 2.0
     assert rc["status"] == "search_incomplete" and rc["matched_facility_id"] is None
-    assert "wind too light to trace (2 mph)" in rc["search_scope"]
+    assert "Wind too light to trace (2 mph)" in rc["search_scope"]
+    assert rc["checks"][0]["note"] == "wind too light to trace (2 mph)"
     assert all(d["in_corridor"] is None for d in rc["day_incidents"])
 
 

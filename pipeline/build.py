@@ -21,7 +21,7 @@ RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "build"
 
 # One demo event; build() takes any config of this shape. Monitor coordinates are TCEQ TAMIS site records.
 EVENT = {
-    "day": "06/21/2024", "year": "2024", "incident": "425347", "echo": "echo_milby_8mi.json", "param": "45201",
+    "day": "06/21/2024", "year": "2024", "incident": "425347", "echo": "echo_milby_10mi.json", "param": "45201",
     "monitors": [
         ("48_201_0069", "Houston Milby Park", 29.7062725, -95.2611331),
         ("48_201_0307", "Manchester East Ave N", 29.7193939, -95.2594661),
@@ -213,7 +213,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
              f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
     scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
     if calm_note:
-        scope += f" {calm_note}: no corridor drawn and no absence claimed."
+        scope += f" {calm_note[0].upper()}{calm_note[1:]}: no corridor drawn, so the search is incomplete."
     base = {"day_incidents": placed, "ongoing_incidents": still_open, "search_scope": scope}
     in_time = [] if calm_note else [p for p in placed + still_open if p["in_corridor"] and overlaps(p)]
     # A report only matches if it lists the compound the monitor saw; otherwise it is reported_mismatch.
@@ -250,6 +250,8 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     none = "no_report_after_deadline" if can_claim_absence else "search_incomplete"
     if can_claim_absence:
         base["search_scope"] += " No matching report found in a complete search."
+    elif not located:
+        base["search_scope"] += " A report open at that time could not be located, so the search is incomplete."
     return base | {"status": none, "incident": None, "matched_facility_id": None, "source_url": STEERS_SEARCH,
                    "checks": [{"at": "T+24h", "status": none, "note": calm_note},
                               {"at": "T+14d", "status": none, "note": calm_note}],
@@ -267,6 +269,11 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
     also_en = "".join(f" {m['name']} recorded {m['hourly'][det['hour_cst']]['value']} ppb in the same hour." for m in others)
     also_es = "".join(f" {m['name']} registró {m['hourly'][det['hour_cst']]['value']} ppb en la misma hora." for m in others)
     n = len(facilities)
+    calm = rc["checks"][0]["note"].startswith("wind too light")
+    corr_en = (" The wind was too light to trace where the air came from, so no upwind corridor is drawn." if calm
+               else f" {n} major permitted facilities lie in the upwind corridor.")
+    corr_es = (" El viento era demasiado débil para saber de dónde venía el aire, así que no se traza un corredor."
+               if calm else f" Hay {n} instalaciones permitidas importantes en el corredor de donde venía el viento.")
     if rc["status"] == "reported_mismatch":
         r = rc["reported"]
         rec_en = (f" One of them, {r['facility']}, filed report {rc['incident']} for a release starting near that hour, "
@@ -303,13 +310,11 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   "a esa hora.")
     en = (f"On {det_day_str(day)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
           f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en} Wind there came "
-          f"from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph. {n} major permitted facilities lie in the "
-          f"upwind corridor.{rec_en}{ask_en}")
+          f"from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph.{corr_en}{rec_en}{ask_en}")
     es = (f"El {det_day_str(day, es=True)}, el monitor estatal de Texas en {trig['name']} registró "
           f"{det['value']} ppb de {name_es} en la hora de las {h12.replace('a.m.', 'a. m.').replace('p.m.', 'p. m.')} "
           f"CST, frente a una mediana de 7 días de {det['baseline']} ppb.{also_es} El viento venía de "
-          f"{w['from_deg']:.0f} grados a {w['speed_mph']} mph. Hay {n} instalaciones permitidas importantes en el "
-          f"corredor de donde venía el viento.{rec_es}{ask_es}")
+          f"{w['from_deg']:.0f} grados a {w['speed_mph']} mph.{corr_es}{rec_es}{ask_es}")
     return {"draft_en": en, "draft_es": es, "drafted_by": "template (deterministic, no AI)",
             "guard": {"passed": True, "rejected": []}}
 
@@ -396,7 +401,8 @@ CANNOT_SAY = [
     ("The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion "
      "model; it cannot tell facilities along the same bearing apart."),
     "Facility coordinates are as published by EPA ECHO and may be approximate.",
-    "Only regulator-grade state monitors are used; many neighborhoods have none.",
+    ("Only regulator-grade monitors whose data the state publishes are used (including two industry-funded "
+     "Houston Regional Monitoring sites), never low-cost sensors."),
 ]
 
 
