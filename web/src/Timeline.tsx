@@ -68,7 +68,8 @@ export function Timeline({ ev, hour, onHour }: Props) {
     if (!h) return t('tl.noData')
     return h.value === null ? (h.flag ? `${t('tl.noData')} (${h.flag})` : t('tl.noData')) : readingText(h.value, h.flag, unitShort(units))
   }
-  const wind = ev.wind.hourly.find((w) => w.hour_cst === hour)
+  // An hour with speed but no direction (an airport's variable wind) has no "from": say no wind data, not "N (null°)".
+  const wind = ev.wind.hourly.find((w) => w.hour_cst === hour && w.from_deg !== null)
   const windText = wind ? t('tl.wind', { dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph }) : t('tl.noWind')
   const status = `${hourLabel(hour)}: ${trigger.name} ${reading(trigger)}, ${windText}`
 
