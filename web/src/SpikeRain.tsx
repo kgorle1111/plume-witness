@@ -250,8 +250,9 @@ export default function SpikeRain() {
             <div className="rn-buttons">
               {!reduced && (
                 <button type="button" className="btn btn-primary rn-play" onClick={toggle} disabled={!mapReady}>
-                  {playing ? t('rn.pause') : atEnd ? t('rn.replay') : t('rn.play')}
-                  <span className="rn-key" aria-hidden="true">{t('rn.space')}</span>
+                  {/* Until the map can draw, the button says so instead of offering Play or Pause it cannot do. */}
+                  {!mapReady && !mapFailed ? t('rn.mapLoading') : playing ? t('rn.pause') : atEnd ? t('rn.replay') : t('rn.play')}
+                  {mapReady && <span className="rn-key" aria-hidden="true">{t('rn.space')}</span>}
                 </button>
               )}
               {!reduced && (

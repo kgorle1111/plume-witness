@@ -27,6 +27,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
+        <p className="atlas-sub">{t('landing.sub')}</p>
         <div className="atlas-plate" aria-hidden="true">
           <div className="atlas-grid" />
           <svg className="atlas-survey" viewBox="0 0 650 462" fill="none">

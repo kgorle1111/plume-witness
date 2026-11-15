@@ -25,9 +25,19 @@
 .fx-search input { min-height: 44px; padding: 0 12px; border: 1px solid var(--ink-3); border-radius: 8px; width: 100%; }
 .fx-page .small { font-size: 0.88rem; }
 
-/* Touch: 44px-tall hit areas for stand-alone links (project bar; WCAG 2.5.5). Links inside sentences keep the inline exception. */
+.fx-registered { color: var(--ink-2); font-size: 0.88rem; overflow-wrap: anywhere; }
+/* Phones: four number columns in 343 px. Tighter cells; the compound column is dropped when there is only one. */
+@media (max-width: 480px) {
+  .fx-table { font-size: 0.82rem; }
+  .fx-table th, .fx-table td { padding: 6px 4px; }
+}
+
+/* 44px-tall hit areas for stand-alone links on any pointer (WCAG 2.5.5): the ECHO record, each TCEQ record, each
+   replay link and the JSON links. Links inside sentences keep the inline exception. */
+.fx-sub a, .fx-card-head a, .fx-night-link a, .fx-links a { display: inline-flex; align-items: center; min-height: 44px; vertical-align: middle; }
+/* Touch: the list's 191 name links too (on a mouse they stay compact so the list stays scannable). */
 @media (pointer: coarse) {
-  .fx-back, .fx-rows .fx-card > a, .fx-card-head a, .fx-night-link a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+  .fx-back, .fx-rows .fx-card > a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
   .fx-rows .fx-card > a { justify-self: start; }
 }
 

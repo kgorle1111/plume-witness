@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
-import { facilityHref, parseFacility, parseIndex, searchFacilities } from '../src/facilities.ts'
+import { displayName, facilityHref, parseFacility, parseIndex, searchFacilities } from '../src/facilities.ts'
 
 const dir = new URL('../public/facilities/', import.meta.url)
 const index = parseIndex(JSON.parse(readFileSync(new URL('index.json', dir), 'utf8')))
@@ -34,4 +34,27 @@ test('search needs every word, in name, address, id or monitor', () => {
 
 test('facility links carry a 12-digit id and the site base', () => {
   assert.equal(facilityHref('110000462623', '/plume-witness/'), '/plume-witness/?view=facility&id=110000462623')
+})
+
+test('display names: EPA capitals become title case; acronyms, brands and ordinals read right', () => {
+  const cases: [string, string][] = [
+    ['INEOS AMERICAS PASADENA SITE', 'INEOS Americas Pasadena Site'],
+    ['ACCP HOUSTON FACILITY', 'ACCP Houston Facility'],
+    ['AFTON LUBE AND FUEL ADDITIVES PLANT', 'Afton Lube and Fuel Additives Plant'],
+    ['THE UNIVERSITY OF TEXAS M D ANDERSON CANCER CENTER HOUSTON', 'The University of Texas M D Anderson Cancer Center Houston'],
+    ['ANHEUSER-BUSCH HOUSTON BREWERY', 'Anheuser-Busch Houston Brewery'],
+    ['MCCARTY ROAD LANDFILL TX', 'McCarty Road Landfill TX'],
+    ['PWE WWTP 69TH STREET', 'PWE WWTP 69th Street'],
+    ['SUNOCO BAYPORT BPT1', 'Sunoco Bayport BPT1'],
+    ['EXXONMOBIL BAYTOWN REFINERY', 'ExxonMobil Baytown Refinery'],
+    ['ACME CO INC', 'Acme Co Inc'],
+    ['ACME HOLDINGS LLC', 'Acme Holdings LLC'],
+    ['W & P DEVELOPMENT', 'W & P Development'],
+    ['Already Mixed Case', 'Already Mixed Case'],
+  ]
+  for (const [raw, want] of cases) assert.equal(displayName(raw), want, raw)
+})
+
+test('every indexed name keeps its letters when displayed (only case changes)', () => {
+  for (const r of index.facilities) assert.equal(displayName(r.name).toUpperCase(), r.name.toUpperCase(), r.name)
 })

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
-  REGISTRY_ID, facilitiesHref, facilityHref, lbs, localTime, parseFacility, parseIndex, searchFacilities,
+  REGISTRY_ID, displayName, facilitiesHref, facilityHref, lbs, localTime, parseFacility, parseIndex, searchFacilities,
   type FacilityFile, type FacilityIndex,
 } from './facilities'
 import { hourLabel, safeHttpUrl } from './format'
@@ -84,21 +84,27 @@ function TriTable({ f }: { f: FacilityFile }) {
     return <p className="small">{f.reports_to_epa.reason ?? t('fx.noTri')}</p>
   }
   const rows = years.flatMap((y) => Object.entries(f.reports_to_epa.years[y]).map(([compound, v]) => ({ y, compound, v })))
+  const compounds = new Set(rows.map((r) => r.compound))
+  // One compound: say it once above the table, so the four number columns fit a 343 px phone column.
+  const only = compounds.size === 1 ? rows[0].compound : null
   return (
-    <div className="fx-scroll">
-      <table className="fx-table">
-        <caption className="sr-only">{t('fx.triCaption')}</caption>
-        <thead><tr><th scope="col">{t('fx.cYear')}</th><th scope="col">{t('fx.cCompound')}</th><th scope="col" className="num">{t('fx.cStack')}</th><th scope="col" className="num">{t('fx.cFugitive')}</th><th scope="col" className="num">{t('fx.cTotal')}</th></tr></thead>
-        <tbody>
-          {rows.map(({ y, compound, v }) => (
-            <tr key={`${y}-${compound}`}>
-              <th scope="row">{y}</th><td>{compound === 'butadiene' ? '1,3-butadiene' : compound}</td>
-              <td className="num">{lb(v.stack_lbs)}</td><td className="num">{lb(v.fugitive_lbs)}</td><td className="num">{lb(v.total_lbs)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {only && <p className="small">{t('fx.triOnly', { compound: t(only === 'butadiene' ? 'fx.butadiene' : 'fx.benzene') })}</p>}
+      <div className="fx-scroll">
+        <table className="fx-table">
+          <caption className="sr-only">{t('fx.triCaption')}</caption>
+          <thead><tr><th scope="col">{t('fx.cYear')}</th>{!only && <th scope="col">{t('fx.cCompound')}</th>}<th scope="col" className="num">{t('fx.cStack')}</th><th scope="col" className="num">{t('fx.cFugitive')}</th><th scope="col" className="num">{t('fx.cTotal')}</th></tr></thead>
+          <tbody>
+            {rows.map(({ y, compound, v }) => (
+              <tr key={`${y}-${compound}`}>
+                <th scope="row">{y}</th>{!only && <td>{compound === 'butadiene' ? '1,3-butadiene' : compound}</td>}
+                <td className="num">{lb(v.stack_lbs)}</td><td className="num">{lb(v.fugitive_lbs)}</td><td className="num">{lb(v.total_lbs)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
@@ -111,14 +117,15 @@ function IncidentLink({ f, incident }: { f: FacilityFile; incident: string }) {
 function FacilityPage({ id }: { id: string }) {
   const t = useT()
   const { data: f, error } = useJson(`facilities/${id}.json`, (raw) => parseFacility(raw, id))
-  useEffect(() => { if (f) document.title = t('fx.docTitle', { name: f.name }) }, [f, t])
+  useEffect(() => { if (f) document.title = t('fx.docTitle', { name: displayName(f.name) }) }, [f, t])
   if (error) return <Message title={t('fx.notFound')} text={errorText(error, `facilities/${id}.json`, t)} />
   if (!f) return <main className="state-msg" aria-busy="true"><p>{t('fx.loadingOne')}</p></main>
   const echo = safeHttpUrl(f.echo_url)
   const n = f.reports_to_state.count
   const cite = t('fx.cite', { name: f.name, id: f.registry_id, url: `${window.location.origin}${window.location.pathname}?view=facility&id=${f.registry_id}` })
   return (
-    <Shell kicker={t('fx.kicker')} title={f.name}>
+    <Shell kicker={t('fx.kicker')} title={displayName(f.name)}>
+      {displayName(f.name) !== f.name && <p className="fx-registered">{t('fx.registered', { name: f.name })}</p>}
       <p className="fx-sub"><T k="fx.sub" v={{ address: f.address, km: f.distance_km, monitor: f.nearest_monitor, link: echo ? <a href={echo} rel="noopener" target="_blank">{t('fx.echo')}</a> : '' }} /></p>
       <p className="fx-note" role="note">{t('fx.upwindNote')} {t('fx.pageNote')}</p>
 
@@ -155,7 +162,7 @@ function FacilityPage({ id }: { id: string }) {
       <section aria-labelledby="fx-cite">
         <h2 id="fx-cite">{t('fx.hCite')}</h2>
         <p className="small fx-cite">{cite}</p>
-        <p className="small"><a href={`${BASE}facilities/${f.registry_id}.json`}>{t('fx.json')}</a> · <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/api.md" rel="noopener">{t('fx.fields')}</a></p>
+        <p className="small fx-links"><a href={`${BASE}facilities/${f.registry_id}.json`}>{t('fx.json')}</a> · <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/api.md" rel="noopener">{t('fx.fields')}</a></p>
       </section>
     </Shell>
   )
@@ -187,7 +194,7 @@ function FacilityList() {
       <ul className="fx-list fx-rows">
         {rows.map((r) => (
           <li key={r.id} className="fx-card">
-            <a href={facilityHref(r.id, BASE)}>{r.name}</a>
+            <a href={facilityHref(r.id, BASE)}>{displayName(r.name)}</a>
             <span className="small muted">{r.address} · {r.distance_km} km from {r.nearest_monitor}</span>
             <span className="small">{[t(r.reports === 1 ? 'fx.reportsOne' : 'fx.reportsMany', { n: r.reports }), r.tri_years ? t(r.tri_years === 1 ? 'fx.triOne' : 'fx.triMany', { n: r.tri_years }) : t('fx.triNone'), r.matched_nights ? t(r.matched_nights === 1 ? 'fx.matchedOne' : 'fx.matchedMany', { n: r.matched_nights }) : null].filter(Boolean).join(' · ')}</span>
           </li>
