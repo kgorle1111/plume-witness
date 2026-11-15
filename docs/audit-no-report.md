@@ -1,4 +1,4 @@
-# Audit: are the "no matching report" nights right?
+# Audit: are the "no matching report" spikes right?
 
 Hand audit of a random sample of the spikes that the backtest labels `no_report_after_deadline` (172 of the 415 detected
 spikes of the 8-monitor scan when the sample was drawn, 170 after the address-placement change below;
@@ -9,9 +9,9 @@ comes from the cached pages in `data/raw/backtest/`.
 
 **Population.** The sample comes from the 8-monitor scan, saved as `docs/audit-no-report-population.json`. The
 published spike log uses 12 Harris County monitors and tries each monitor's own AutoGC-form wind before a
-neighbour's; it has 167 no-report spikes. In it, 8 of the 10 audited nights keep their id and status; 2025-06-12
+neighbour's; it has 167 no-report spikes. In it, 8 of the 10 audited spikes keep their id and status; 2025-06-12
 (1,3-butadiene) triggers first at Channelview Drive Water Tower (still no matching report), and 2025-10-31 (benzene)
-triggers first at Pasadena Richey Elementary School and abstains (search incomplete). The 4 Galena Park nights use
+triggers first at Pasadena Richey Elementary School and abstains (Can’t say). The 4 Galena Park spikes use
 Galena Park's own AutoGC-form wind there, not Milby Park's or Manchester's, so the wind lines in their evidence below
 describe the borrowed wind the audit read; for 2025-09-19 that own wind is what the evidence says would settle it,
 and it was not re-read by hand. The audit does not cover spikes at the 4 monitors outside the 8-monitor scan.
@@ -25,21 +25,21 @@ and it was not re-read by hand. The audit does not cover spikes at the 4 monitor
 | spike doubtful | 0 |
 | can't tell | 2 |
 
-**Likely missed + spike doubtful: 0 of 10, 95% Wilson interval 0-28%.** If both "can't tell" nights were
-counted as errors, it would be 2 of 10 (6-51%). Ten nights cannot rule out an error rate in the 20s; they do
+**Likely missed + spike doubtful: 0 of 10, 95% Wilson interval 0-28%.** If both "can't tell" spikes were
+counted as errors, it would be 2 of 10 (6-51%). Ten spikes cannot rule out an error rate in the 20s; they do
 rule out a tool that is wrong most of the time.
 
-An automated sweep of all 170 nights (checks 1 and 3 below, no hand reading) adds one number the sample is too
+An automated sweep of all 170 spikes (checks 1 and 3 below, no hand reading) adds one number the sample is too
 small to see: on **5 of 170 (2.9%, 95% CI 1.3-6.7%)** a report that lists the spiking compound was running at the
 spike, inside a wider 45 deg wedge but outside the pipeline's 22.5 deg corridor. None of those 5 is in the sample.
 That is the size of the main systematic weakness found (A below).
 
 ## In plain language
 
-- We picked 10 "no matching report" nights at random and checked each one by hand against every report filed
+- We picked 10 "no matching report" spikes at random and checked each one by hand against every report filed
   within 12 hours. In 8 the gap held up, 2 could not be settled from public data, and in none did we find a
-  report we had missed (0 of 10; with 10 nights the true miss rate could still be as high as 28%).
-- Across all 170 such nights, widening the upwind wedge from 22.5 to 45 degrees would have found a report
+  report we had missed (0 of 10; with 10 spikes the true miss rate could still be as high as 28%).
+- Across all 170 such spikes, widening the upwind wedge from 22.5 to 45 degrees would have found a report
   listing the same chemical on 5 of them, about 1 in 35.
 - "No matching report" is never a finding about a facility: Texas requires a report only above a reportable
   quantity, and traffic, ships, tanks and permitted emissions also raise readings.
@@ -49,7 +49,7 @@ That is the size of the main systematic weakness found (A below).
 The sample below was drawn from 172 spikes when the pipeline placed a report at the last ECHO site that shared its
 name. `build.place_incidents` uses `build.locate` (name, then the report's own street number, then street
 address); a name that stays ambiguous is marked unresolved and the check abstains. That change moved
-four spikes (all at two monitors, none in the 10-night sample): two nights at one monitor went from
+four spikes (all at two monitors, none in the 10-spike sample): two spikes at one monitor went from
 `no_report_after_deadline` to `search_incomplete` because the name is shared and the address does not settle it, and two
 went from `reported_mismatch` to `reported` (the report was placed outside the corridor because the corridor
 list holds one name per site, while ECHO lists that site under five names). The population is 170 after it. The 10 hand
@@ -68,16 +68,16 @@ in shuffled order, skipping any whose monitor already has 3, until there are 10 
 Galena Park and Houston Milby Park each hit the cap of 3. Sorting first means the sample does not depend on the
 order of the JSON file; a test pins the 10 ids.
 
-**Rebuild.** Each night is rebuilt with the pipeline code (`backtest.scan_monitors`, `build.detect`,
+**Rebuild.** Each spike is rebuilt with the pipeline code (`backtest.scan_monitors`, `build.detect`,
 `backtest.day_reports`, `backtest.earlier_reports`, `build.trace`) on the same 8 monitors the sample was drawn from.
-When the audit was done, all 10 sampled nights, and all 170 in the sweep, reproduced `no_report_after_deadline`
-with the same monitor, hour and value. Rerun on 2026-11-15 with today's code, every night still triggers at the same
+When the audit was done, all 10 sampled spikes, and all 170 in the sweep, reproduced `no_report_after_deadline`
+with the same monitor, hour and value. Rerun on 2026-11-15 with today's code, every spike still triggers at the same
 monitor (the 10 sampled at the same hour and value), and 142 of the 170 (9 of the 10 sampled) still reproduce. The other 28 no longer claim absence: 27
 abstain because the wind is now under 3 mph in the detection hour or the hour before (25 of them read the monitor's
 own AutoGC-form wind, which the audit-time code did not use, and one, 2025-11-05, reads the previous day's 23:00
-for its hour-0 spike), and 2025-07-26 has no wind direction for its detection hours. The sampled night that no
+for its hour-0 spike), and 2025-07-26 has no wind direction for its detection hours. The sampled spike that no
 longer reproduces is 2025-10-31 (HRM-16 Deer Park's own wind, 2.1 mph); its verdict stays as written, for the
-night as the pipeline then read it.
+spike as the pipeline then read it.
 
 **Checks** (`audit_no_report.evidence`), then a hand reading of the evidence and the cached detail pages:
 
@@ -102,7 +102,7 @@ When in doubt, "can't tell".
 incident number; a test checks this against every entity, owner and ECHO name in the cached data. No row is
 "likely missed", so no incident number appears anywhere below.
 
-## The 10 nights
+## The 10 spikes
 
 Times are CST hour of the hourly reading; values in ppb (7-day median baseline in brackets).
 
@@ -119,10 +119,10 @@ Times are CST hour of the hourly reading; values in ppb (7-day median baseline i
 | 2025-09-19 | Galena Park | benzene | 20 | 13.21 (0.64) | can't tell | 1 | A flaring report was running at the spike hour, 11.3 km away and 38 deg off the wind: inside the 45 deg wedge, outside the 22.5 deg corridor. It lists SO2, CO, H2S and light hydrocarbons, no benzene and no lumped VOC line. Wind borrowed from Milby Park 3.8 km away, and it turned from 142 to 181 deg in the next hour. Would decide it: wind measured at Galena Park, or a speciated analysis of that flaring. |
 | 2025-10-31 | HRM-16 Deer Park | benzene | 7 | 10.65 (0.19) | gap stands | 1 | Two reports within +/-12 h: a maintenance activity 18.5 km away, neither compound; one 9.3 km away, 119 deg off the wind (2.5 lb benzene). Neither inside the 45 deg wedge. Wind borrowed from Lynchburg Ferry. |
 
-## Sweep of all 170 nights (automated, not hand-read)
+## Sweep of all 170 spikes (automated, not hand-read)
 
 The first column is the sweep the hand audit was read against; the findings below quote it. The second is
-`docs/audit-no-report.json` as `--write` regenerates it with today's code on the same 8 monitors: most nights now
+`docs/audit-no-report.json` as `--write` regenerates it with today's code on the same 8 monitors: most spikes now
 read their own monitor's AutoGC-form wind instead of a neighbour's, which moves the wedge rows.
 
 | Check | When audited | Today's code (2026-11-15) |
@@ -142,37 +142,37 @@ read their own monitor's AutoGC-form wind instead of a neighbour's, which moves 
 
 ## Systematic findings
 
-**A. The 22.5 deg corridor misses some reports just outside it.** On 5 of 170 nights a report listing the
+**A. The 22.5 deg corridor misses some reports just outside it.** On 5 of 170 spikes a report listing the
 spiking compound (in three cases thousands of pounds of 1,3-butadiene, 13.3 km away and 38-42 deg off the wind)
-was running at the spike, outside the corridor but inside 45 deg. 43% of these nights borrow wind from another
+was running at the spike, outside the corridor but inside 45 deg. 43% of these spikes borrow wind from another
 site, which makes a 22.5 deg half-angle tighter than the wind data support. Proposal (not adopted): keep 22.5 deg for "in the
 corridor", but when a report that lists the compound is running inside 45 deg, return `search_incomplete` with
 the reason "a report just outside the corridor was running" instead of `no_report_after_deadline`, and show it
-on the night page as nearby, not matched. Cost: on this data it moves about 5 of 170 nights out of the count.
+on the spike page as nearby, not matched. Cost: on this data it moves about 5 of 170 spikes out of the count.
 
 **B. Duplicate names were placed at an arbitrary site (changed; see "Facility placement by address" above).** The
 earlier lookup mapped a report to ECHO by exact name and kept the last row when several sites share the name. 8 of
-170 nights had a running report placed at a different site than its own street address. None of the 8 changed a
-night's status in the audit sample, but the change moved four spikes elsewhere in the 415. Reports are placed with
+170 spikes had a running report placed at a different site than its own street address. None of the 8 changed a
+spike's status in the audit sample, but the change moved four spikes elsewhere in the 415. Reports are placed with
 `build.locate` (name plus street number, then street address) and an ambiguous name is unresolved, which blocks an
 absence claim.
 
 **C. Lumped VOC lines do not cause false "no report" labels.** By construction, any report that is in the
-corridor and running in the window already turns the night into `reported` or `reported_mismatch`, whatever
+corridor and running in the window already turns the spike into `reported` or `reported_mismatch`, whatever
 compounds it lists. A lumped VOC line only matters for `reported` vs `reported_mismatch`, and for the wider
-wedge in A (3 of 170 nights). Proposal (not adopted): when the only line that could contain the compound is a lumped VOC line,
+wedge in A (3 of 170 spikes). Proposal (not adopted): when the only line that could contain the compound is a lumped VOC line,
 label the match "compound not itemized" rather than `reported_mismatch`.
 
 **D. Trigger hours right after a calibration check.** 30 of 170 trigger hours (18%) follow an hour flagged ST,
 BL or another QA code; at the two site-years checked, about 6% of all hours do. Readings right after a span
 check are over-represented among 10 ppb readings (2.8% vs 0.6% at Lynchburg Ferry in 2024). Proposal (not adopted): mark these
-nights on the page and, before calling one a gap, require a second hour over the trigger or wait for TCEQ's
+spikes on the page and, before calling one a gap, require a second hour over the trigger or wait for TCEQ's
 validated data.
 
 ## What this audit does not cover
 
 - Reports filed outside Harris County. The saved searches are Harris County only; every corridor facility in
-  the 10 sampled nights is in Harris County, but a 45 deg wedge can reach beyond it.
+  the 10 sampled spikes is in Harris County, but a 45 deg wedge can reach beyond it.
 - Releases below a reportable quantity, permitted emissions, ships, tanks and traffic. These never produce a
   STEERS report, so "gap stands" means only that no matching report exists in the saved searches.
 - One reviewer, no second blind reading. The evidence and verdicts are in `pipeline/audit_no_report.py`
