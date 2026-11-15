@@ -568,7 +568,9 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .ps-label { font-size: 0.9rem; }
 .ps-row { display: flex; gap: 8px; }
 .ps-input {
+  /* width 0: an input's default ~200px intrinsic width set the Trace panel's minimum and scrolled the page sideways at 320px (WCAG 1.4.10). */
   flex: 1 1 auto;
+  width: 0;
   min-width: 0;
   min-height: 44px;
   padding: 0 12px;
