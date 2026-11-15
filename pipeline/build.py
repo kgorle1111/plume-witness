@@ -240,8 +240,10 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         return datetime.fromisoformat(inc["start_local"]) <= hi and datetime.fromisoformat(inc["end_local"]) >= lo
 
     still_open = [p for p in ongoing or [] if overlaps(p)]
+    # placed may also hold next-day reports (a window past midnight); the next-day count is in earlier_note
+    today = sum(1 for p in placed if (p.get("start_local") or "")[:10] <= det_day.isoformat())
     scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in {county} County "
-             f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
+             f"({today} found; search {'complete' if search_complete else 'incomplete'}).")
     scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
     if calm_note:
         scope += f" {calm_note[0].upper()}{calm_note[1:]}: no corridor drawn, so the search is incomplete."
@@ -261,7 +263,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         t24 = "reported" if notice_h <= 24 else "not_yet_reported"
         t14, t14_note = final_check(inc)
         status = "reported_mismatch" if mismatch else t14
-        basis = ("started near the spike" if start.date() == det_day
+        basis = ("started near the spike" if start.date() >= det_day
                  else f"ongoing (started {start.date().isoformat()})")
         return base | {
             "status": status, "incident": inc["incident"], "matched_facility_id": p["facility_id"],

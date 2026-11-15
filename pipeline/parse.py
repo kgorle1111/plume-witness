@@ -78,7 +78,10 @@ def steers_search(path: Path) -> dict:
     t = re.sub(r"\s+", " ", _text(path))
     m = re.search(r"(\d+)-(\d+) of (\d+) Records", t)
     if not m:
-        if "No records" in t or "0 Records" in t or "No results were found" in t:
+        # An empty week counts only on a real results page that echoes its search criteria: an error or
+        # maintenance page that happens to say "No results" must not read as a complete, empty week.
+        real = "Search Results" in t and re.search(r"Search Criteria Event Start Date Range: \d{2}/\d{2}/\d{4} to", t)
+        if real and ("No records" in t or "0 Records" in t or "No results were found" in t):
             return {"rows": [], "shown": 0, "total": 0}
         raise ValueError(f"{path.name}: no record count found; the STEERS results format may have changed")
     stamp = r"\d{2}/\d{2}/\d{4} \d{2}:\d{2} [AP]M"

@@ -5133,7 +5133,7 @@
    "hour_cst": 23,
    "value": 10.57,
    "baseline": 0.165,
-   "search_complete": true,
+   "search_complete": false,
    "earlier_search_complete": true,
    "day_reports": 0,
    "status": "search_incomplete",

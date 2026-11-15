@@ -265,3 +265,9 @@ def test_mismatch_sentence_follows_the_match_basis():
     en, es = drafts(same_day)
     assert "from 05:10 to 09:00 local time that day" in en and "started 2024" not in en
     assert "de 05:10 a 09:00, hora local, ese día" in es
+
+
+def test_demo_search_completeness_comes_from_the_search_page(monkeypatch):
+    real = build.steers_search
+    monkeypatch.setattr(build, "steers_search", lambda p: real(p) | {"total": 60})  # a capped, partial listing
+    assert "search incomplete" in build.build()["record_check"]["search_scope"]
