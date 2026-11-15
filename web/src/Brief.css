@@ -31,7 +31,7 @@
 }
 
 @media print {
-  @page { margin: 10mm 12mm; }
+  @page { margin: 10mm; }
   :root { font-size: 9pt; }
   body, .br-page { background: #fff; color: #000; }
   /* SiteHeader.css hides these in print, but its .site-head:not(.top) { display: flex } outranks that rule; this
@@ -39,15 +39,18 @@
   .site-shell:has(.br-page) > :is(.site-head, .site-foot, .site-region-note) { display: none; }
   .br-print, .br-kicker, .br-es { display: none; }
   .br-page { max-width: none; padding: 0; }
-  .br-doc { gap: 3pt; line-height: 1.25; }
+  .br-doc { gap: 3pt; line-height: 1.22; }
   .br-doc h1 { font-size: 15pt; }
-  .br-doc h2 { font-size: 11pt; margin-top: 6pt; padding-top: 4pt; border-top: 0.5pt solid #999; break-after: avoid; page-break-after: avoid; }
+  .br-doc h2 { font-size: 11pt; margin-top: 4pt; padding-top: 3pt; border-top: 0.5pt solid #999; break-after: avoid; page-break-after: avoid; }
   .br-doc li, .br-doc p { orphans: 2; widows: 2; }
-  .br-doc ul, .br-doc ol { gap: 2pt; }
+  .br-doc ul, .br-doc ol { gap: 1pt; }
+  .br-impact { margin-top: 3pt; }
   .br-doc > ol:first-of-type { background: none; border: 0.75pt solid #000; padding: 6pt 8pt 6pt 2em; }
   .br-doc a { color: #000; text-decoration: none; }
-  /* Citations stay readable on paper: inline [doc.md] marks stay as text, and the closing source list prints each URL once. */
-  .br-doc > ul:last-of-type a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 7.5pt; color: #333; word-break: break-all; }
+  /* Citations stay readable on paper: inline [doc.md] marks stay as text, and the closing Sources line prints each URL once.
+     The other Reproducibility links already show their address as their text (brief.test.ts holds that), so repeating
+     the href there only cost a line. */
+  .br-doc > ul:last-of-type > li:last-child a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 7.5pt; color: #333; word-break: break-all; }
   /* Paper is light whatever the screen theme: dark.css re-values these tokens under [data-theme='dark']. */
   :root:root:has(.br-page) {
     color-scheme: light;
