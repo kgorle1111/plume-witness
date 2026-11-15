@@ -38,6 +38,23 @@ const C = {
 
 const CORRIDOR_LABEL = 'Upwind corridor (wind direction only)'
 
+// Opening "global → local" intro: globe projection zoomed out to Earth, then a fly-in to the event.
+// Only MapLibre-native pieces render on the globe; the deck.gl overlay is hidden until the flat replay is back.
+type Phase = 'globe' | 'flying' | 'flat'
+const INTRO_HOLD_MS = 900
+const INTRO_FLY_MS = 2500
+const INTRO_PIN_LABEL = 'Houston Ship Channel: 1 real night replayed'
+const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+// `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
+const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
+// The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
+// 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
+// screens (the same 1024px breakpoint as the side-by-side layout); phones open flat and keep "Show globe".
+// Browsers in Data Saver mode don't get it on load either.
+const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
+const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
+const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOptedOut() && !saveData()
+
 // With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
 // focus in the Trace list (which stays the full text equivalent).
 const NEAREST_LABELED = 3
@@ -58,6 +75,9 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
   const hourRef = useRef(hour)
   const [failure, setFailure] = useState<unknown>(null)
+  const [phase, setPhase] = useState<Phase>(() => (introOnLoad() ? 'globe' : 'flat'))
+  const skipIntro = useRef<() => void>(() => {})
+  const replayIntro = useRef<() => void>(() => {})
   const applyHour = useRef<(h: number) => void>(() => {})
 
   useEffect(() => {
@@ -81,7 +101,9 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     const upwindEnd = wind && reachKm > 0 ? destination(trigger.lat, trigger.lon, wind.from_deg, reachKm) : null
 
     // Replay: each monitor's circle grows and reddens with that hour's reading; a missing hour is a hollow ring.
-    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    const reduceMotion = prefersReducedMotion()
+    // Mirrors the React `phase` state for code running inside MapLibre/deck callbacks.
+    let phaseNow: Phase = introOnLoad() ? 'globe' : 'flat'
     const maxReading = Math.max(...ev.monitors.flatMap((m) => m.hourly.map((h) => h.value ?? 0)), 1e-9)
     const readingAt = (m: Monitor) => m.hourly.find((h) => h.hour_cst === hourRef.current)
     const share = (v: number) => Math.sqrt(Math.max(0, v) / maxReading)
@@ -124,8 +146,9 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     const map = new MlMap({
       container: el,
       style: STYLE_URL,
-      center: [trigger.lon, trigger.lat],
-      zoom: 11,
+      // The intro starts zoomed out to Earth (projection switches to globe once the style loads).
+      center: phaseNow === 'flat' ? [trigger.lon, trigger.lat] : [trigger.lon - 35, trigger.lat - 8],
+      zoom: phaseNow === 'flat' ? 11 : 1.4,
       attributionControl: { compact: false, customAttribution: ATTRIBUTION },
       // The surrounding section already names the map; this names the interactive canvas inside it.
       locale: { 'Map.Title': 'Interactive map: arrow keys pan, plus and minus zoom' },
@@ -139,16 +162,21 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     // Top padding clears the legend; side padding leaves room for the centred labels under each point.
     // Padding is clamped to the container: a map shorter or narrower than its padding has no room to fit
     // into (MapLibre warns, and older builds threw NaN coordinates). Below ~40px there's nothing to fit.
-    const fit = () => {
+    const fitPadding = () => {
       const w = el.clientWidth, h = el.clientHeight
-      if (w < 40 || h < 40) return
+      if (w < 40 || h < 40) return null
       const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 32) / 2))
       const side = room(isNarrow() ? 64 : 80, w)
       const wantTop = (legend.current?.offsetHeight ?? 0) + 28, wantBottom = 48
       const scale = Math.min(1, Math.max(0, h - 32) / (wantTop + wantBottom))
-      map.fitBounds(bounds, { padding: { top: wantTop * scale, bottom: wantBottom * scale, left: side, right: side }, maxZoom: 14, duration: 0 })
+      return { top: wantTop * scale, bottom: wantBottom * scale, left: side, right: side }
     }
-    fit()
+    const fit = () => {
+      const padding = fitPadding()
+      if (padding) map.fitBounds(bounds, { padding, maxZoom: 14, duration: 0 })
+    }
+    // With the intro, the flat view is fitted when the intro ends (finishIntro), by this same fit().
+    if (phaseNow === 'flat') fit()
 
     // Pulse ring on the trigger monitor is a CSS-animated DOM marker; CSS honours prefers-reduced-motion.
     // MapLibre positions a marker through its element's `transform`, so the animated ring is a child.
@@ -156,6 +184,7 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     pulse.className = 'pulse-anchor'
     pulse.setAttribute('aria-hidden', 'true')
     pulse.appendChild(document.createElement('div')).className = 'pulse-ring'
+    if (phaseNow !== 'flat') pulse.style.display = 'none'
     const pulseMarker = new Marker({ element: pulse }).setLngLat([trigger.lon, trigger.lat]).addTo(map)
     // The ring hugs the trigger circle, whose size now follows the replay hour.
     const sizePulse = () => {
@@ -376,7 +405,7 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     }
     // Hover (mouse) and tap (touch) reveal a facility's name; picking runs on deck's own buffer.
     const pickAt = (x: number, y: number) =>
-      (deck.pickObject({ x, y, radius: 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
+      phaseNow !== 'flat' ? null : (deck.pickObject({ x, y, radius: 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
     const setHover = (id: string | null) => {
       if (id === hoverId) return
       hoverId = id
@@ -401,7 +430,14 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
         redraw()
       }
       deck.setProps({ viewState: camera() })
+      showDeck()
     }
+    // kn: the standalone deck overlay only matches MapLibre's camera when flat and untilted; it is hidden on the
+    // globe and while the map is pitched, and shown again the moment the flat, untilted replay is back.
+    const showDeck = () => {
+      deckHost.style.visibility = phaseNow === 'flat' && map.getPitch() === 0 ? '' : 'hidden'
+    }
+    showDeck()
     map.on('move', sync)
     map.on('resize', sync)
 
@@ -409,15 +445,65 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     const ro = new ResizeObserver(() => {
       try {
         map.resize()
-        fit()
+        if (phaseNow === 'flat') fit()
       } catch (e) {
         setFailure(e)
       }
     })
     ro.observe(el)
 
+    // Intro: one MapLibre marker on the globe, a hold, a fly-in, then the exact flat replay (same fit()).
+    const pin = document.createElement('div')
+    pin.className = 'intro-pin'
+    pin.setAttribute('aria-hidden', 'true')
+    pin.innerHTML = '<span class="intro-dot"></span><span class="intro-label"></span>'
+    ;(pin.querySelector('.intro-label') as HTMLElement).textContent = INTRO_PIN_LABEL
+    const pinMarker = new Marker({ element: pin, anchor: 'bottom' }).setLngLat([trigger.lon, trigger.lat])
+    let introTimer = 0
+    const setIntroPhase = (p: Phase) => {
+      phaseNow = p
+      setPhase(p)
+      showDeck()
+    }
+    const finishIntro = () => {
+      if (phaseNow === 'flat') return
+      setIntroPhase('flat')
+      window.clearTimeout(introTimer)
+      map.stop()
+      pinMarker.remove()
+      map.setProjection({ type: 'mercator' })
+      pulse.style.display = ''
+      fit()
+      sizePulse()
+      redraw()
+    }
+    const startIntro = () => {
+      setIntroPhase('globe')
+      pulse.style.display = 'none'
+      // Target computed on the flat projection, so the fly lands where fit() will put the camera.
+      const padding = fitPadding()
+      const target = (padding && map.cameraForBounds(bounds, { padding, maxZoom: 14 })) || { center: [trigger.lon, trigger.lat] as [number, number], zoom: 10 }
+      map.setProjection({ type: 'globe' })
+      map.jumpTo({ center: [trigger.lon - 35, trigger.lat - 8], zoom: 1.4, pitch: 0, bearing: 0 })
+      pinMarker.addTo(map)
+      introTimer = window.setTimeout(() => {
+        setIntroPhase('flying')
+        map.once('moveend', finishIntro)
+        map.flyTo({ center: target.center, zoom: target.zoom, bearing: 0, pitch: 0, duration: INTRO_FLY_MS, essential: true })
+      }, INTRO_HOLD_MS)
+    }
+    if (phaseNow !== 'flat') map.once('style.load', startIntro)
+    skipIntro.current = finishIntro
+    replayIntro.current = () => {
+      if (phaseNow === 'flat') startIntro()
+    }
+
     return () => {
       ro.disconnect()
+      window.clearTimeout(introTimer)
+      skipIntro.current = () => {}
+      replayIntro.current = () => {}
+      pinMarker.remove()
       pulseMarker.remove()
       map.off('move', sync)
       map.off('resize', sync)
@@ -445,8 +531,28 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
 
   return (
     <>
-      <div ref={container} className="map-canvas" />
-      <ul ref={legend} className="legend" aria-hidden="true">
+      <div ref={container} className="map-canvas" data-phase={phase} />
+      {phase !== 'flat' && (
+        <p className="intro-caption" role="status">
+          {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
+          <span className="sr-only">{INTRO_PIN_LABEL}. </span>More cities later. One real night replayed here.
+        </p>
+      )}
+      <div className={phase === 'flat' ? 'intro-ctl is-flat' : 'intro-ctl'}>
+        {phase !== 'flat'
+          ? <button type="button" className="btn" onClick={() => skipIntro.current()}>Skip intro</button>
+          : !prefersReducedMotion() && (
+            <button type="button" className="btn" aria-label="Show globe" onClick={() => replayIntro.current()}>
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <circle cx="10" cy="10" r="8" /><ellipse cx="10" cy="10" rx="3.6" ry="8" /><path d="M2 10h16M3.5 5.5h13M3.5 14.5h13" />
+              </svg>
+              {/* Phones show the icon only so the button covers less of the map. */}
+              <span className="wide-only"> Show globe</span>
+            </button>
+          )}
+      </div>
+      {/* Hidden (not removed) during the intro: fit() measures its height for the top padding. */}
+      <ul ref={legend} className={phase === 'flat' ? 'legend' : 'legend is-hidden'} aria-hidden="true">
         <li><span className="lg lg-pulse" /> Flagged monitor</li>
         <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
         <li><span className="lg lg-nodata" /> No data</li>
