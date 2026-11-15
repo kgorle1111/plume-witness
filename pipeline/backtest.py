@@ -24,6 +24,7 @@ from pathlib import Path
 
 from pipeline import build
 from pipeline.parse import _text, lbs_by_param, steers_incident, steers_search
+from pipeline.regions import ALL_SITE_NAMES, HOUSTON_SITES
 
 ROOT = Path(__file__).resolve().parent.parent
 BT = ROOT / "data" / "raw" / "backtest"
@@ -35,12 +36,8 @@ CANDIDATE_RADIUS_KM = 15.0
 NEAR_START_H = (-1, 6)
 YEARS = ("2024", "2025")
 
-# Ship Channel AutoGC sites; coordinates are the TAMIS site records saved in data/raw/backtest/tamis_*.html.
-SITE_NAMES = {
-    "48_201_0069": "Houston Milby Park", "48_201_0307": "Manchester East Ave N", "48_201_0057": "Galena Park",
-    "48_201_1614": "HRM-16 Deer Park", "48_201_1035": "Clinton", "48_201_1015": "Lynchburg Ferry",
-    "48_201_0803": "HRM-3 Haden Road", "48_201_0026": "Channelview",
-}
+# Ship Channel AutoGC sites (the backtested region); other regions' sites live in pipeline.regions.
+SITE_NAMES = HOUSTON_SITES
 
 
 def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
@@ -95,7 +92,7 @@ def locate(entity: str, address: str, echo_rows: list[dict]) -> tuple[dict | Non
 def load_universe(raw: Path = BT) -> tuple[list[dict], list[str]]:
     """Every STEERS row (any event type) from the week searches, and any week whose page is not complete."""
     rows, incomplete = [], []
-    for p in sorted(raw.glob("steers_search_harris_*.html")):
+    for p in sorted(raw.glob("steers_search_*_*_*.html")):
         s = steers_search(p)
         if not (s["total"] == s["shown"] == len(s["rows"])):
             incomplete.append(p.name)
@@ -105,7 +102,7 @@ def load_universe(raw: Path = BT) -> tuple[list[dict], list[str]]:
 
 
 def load_echo(raw: Path = BT) -> tuple[dict[str, dict], list[dict]]:
-    per_site = {s: json.loads((raw / f"echo_{s}_10mi.json").read_text()) for s in SITE_NAMES
+    per_site = {s: json.loads((raw / f"echo_{s}_10mi.json").read_text()) for s in ALL_SITE_NAMES
                 if (raw / f"echo_{s}_10mi.json").exists()}
     rows = [r for e in per_site.values() for r in e["Results"]["Facilities"]]
     rows += [r for p in sorted(raw.glob("echo_name_*.json")) for r in json.loads(p.read_text())["Results"]["Facilities"]]
@@ -183,7 +180,7 @@ _WEEKS: dict[Path, list[tuple[str, str, str]]] = {}
 def _weeks(raw: Path) -> list[tuple[str, str, str]]:
     """(begin YYYYMMDD, end YYYYMMDD, file name) for every saved week search."""
     if raw not in _WEEKS:
-        _WEEKS[raw] = [(*p.stem.split("_")[-2:], p.name) for p in raw.glob("steers_search_harris_*.html")]
+        _WEEKS[raw] = [(*p.stem.split("_")[-2:], p.name) for p in raw.glob("steers_search_*_*_*.html")]
     return _WEEKS[raw]
 
 
@@ -224,7 +221,7 @@ def scan_monitors(day: str, param: str, sites: dict, raw: Path = BT, full: bool 
         except ValueError:
             continue
         vals = table[day]
-        m = {"site_id": s, "name": SITE_NAMES[s], "lat": lat, "lon": lon, "baseline": base,
+        m = {"site_id": s, "name": ALL_SITE_NAMES[s], "lat": lat, "lon": lon, "baseline": base,
              "hourly": [{"hour_cst": h, "value": vals[h]} for h in range(24)], "triggered": False}
         if full:
             flags = build.hourly_flags(raw / f"agc_{day[-4:]}_{s}_{param}.html", day)
@@ -255,7 +252,7 @@ def spike_days(sites: dict, raw: Path = BT, full: bool = False) -> list[tuple[st
 
 
 def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict],
-                  incomplete_weeks: list[str], raw: Path = BT, full: bool = False):
+                  incomplete_weeks: list[str], raw: Path = BT, full: bool = False, county: str = "Harris"):
     """Run build.trace on every detected spike; yields the spike with its trace and the day's search state.
 
     The one loop behind both the backtest's spike scan and pipeline.nights (the replayable night files)."""
@@ -264,16 +261,18 @@ def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: li
         details, complete, _ = day_reports(day, rows_by_day, incomplete_weeks, raw)
         earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                        details, complete, det_day, param, earlier, earlier_ok, note)
+                        details, complete, det_day, param, earlier, earlier_ok, note, county=county)
         yield {"day": day, "param": param, "det_day": det_day, "monitors": mons, "det": det, "details": details,
                "complete": complete, "earlier": earlier, "earlier_complete": earlier_ok, "trace": t}
 
 
 def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict], incomplete_weeks: list[str],
-               candidates: list[dict], raw: Path = BT) -> list[dict]:
-    """Run the record check on every detected spike, report or not. Rows carry counts and ids, never names."""
+               candidates: list[dict], raw: Path = BT, county: str = "Harris") -> list[dict]:
+    """Run the record check on every detected spike, report or not. Rows carry counts and ids, never names.
+
+    candidates [] (a region with no backtest) leaves candidate_reports_in_corridor 0: no ground truth, not "none"."""
     rows = []
-    for sp in traced_spikes(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw):
+    for sp in traced_spikes(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw, county=county):
         day, param, det, t, complete = sp["day"], sp["param"], sp["det"], sp["trace"], sp["complete"]
         earlier_ok, det_day = sp["earlier_complete"], sp["det_day"]
         row = {"day": day, "param": param, "site_id": det["site_id"], "hour_cst": det["hour_cst"],

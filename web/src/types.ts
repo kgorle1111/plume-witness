@@ -108,6 +108,8 @@ export interface PlumeEvent {
     guard: { passed: boolean; rejected: string[] }
   }
   corridor?: Corridor
+  /** Present only on a night from a region other than Houston (pipeline/regions.py). */
+  region?: { key: string; label: string; backtested: boolean; note: string | null }
   cannot_say: string[]
   provenance: unknown[]
 }

@@ -11,7 +11,8 @@ Phases (all public, no login):
 5. STEERS detail page for every emissions event found, plus every other row on a candidate day
 6. EPA ECHO air facilities within 10 mi of each site
 
-Usage: uv run python -m pipeline.fetch_backtest
+Usage: uv run python -m pipeline.fetch_backtest [phase ...]
+       uv run python -m pipeline.fetch_backtest --region beaumont [phase ...]   (data/raw/region_beaumont/, no backtest)
 """
 
 import hashlib
@@ -26,6 +27,7 @@ import urllib.request
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
+from pipeline import regions
 from pipeline.fetch_tceq import (
     AGC_URL,
     DELAY_S,
@@ -64,8 +66,16 @@ SITES = {
     "48_201_0026": ["site|Channelview C15/AH115 |48_201_0026|15", "site|Channelview C15/AH115 |48_201_0026|115"],
 }
 
+COUNTY = "HARRIS"
 _ledger: list[dict] = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
 _skipped: list[str] = []
+
+
+def use_region(r: regions.Region) -> None:
+    """Point every phase at another region's sites, county and raw dir (with its own ledger)."""
+    global BT, LEDGER, SITES, COUNTY, _ledger
+    BT, LEDGER, SITES, COUNTY = r.raw, r.raw / "provenance.json", r.met_selects, r.county
+    _ledger = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
 
 
 def log(msg: str) -> None:
@@ -80,7 +90,7 @@ def _save(name: str, url: str, params: dict | None, content: bytes) -> Path | No
     BT.mkdir(parents=True, exist_ok=True)
     path = BT / name
     path.write_bytes(content)
-    _ledger.append({"file": f"backtest/{name}", "url": url, "params": params, "bytes": len(content),
+    _ledger.append({"file": f"{BT.name}/{name}", "url": url, "params": params, "bytes": len(content),
                     "sha256": hashlib.sha256(content).hexdigest(),
                     "fetched_at": datetime.now(UTC).isoformat(timespec="seconds")})
     LEDGER.write_text(json.dumps(_ledger, indent=1))
@@ -157,7 +167,7 @@ def _steers_opener() -> urllib.request.OpenerDirector:
 
 def _search(opener, beg: date, end: date) -> bytes:
     params = {"newsearch": "yes", "event_start_beg_dt": beg.strftime("%m/%d/%Y"),
-              "event_start_end_dt": end.strftime("%m/%d/%Y"), "ls_cnty_name": "HARRIS"}
+              "event_start_end_dt": end.strftime("%m/%d/%Y"), "ls_cnty_name": COUNTY}
     time.sleep(DELAY_S)
     with opener.open(STEERS_SEARCH, data=urllib.parse.urlencode(params).encode(), timeout=TIMEOUT_S) as r:
         page = r.read()
@@ -183,7 +193,7 @@ def fetch_steers_weeks() -> None:
         d += timedelta(days=7)
     while todo:
         beg, end = todo.pop(0)
-        name = f"steers_search_harris_{beg:%Y%m%d}_{end:%Y%m%d}.html"
+        name = f"steers_search_{COUNTY.lower()}_{beg:%Y%m%d}_{end:%Y%m%d}.html"
         if (BT / name).exists():
             continue
         params, page = _search(opener, beg, end)
@@ -209,13 +219,13 @@ def fetch_steers_weeks() -> None:
 def _search_rows() -> list[dict]:
     from pipeline.parse import steers_search
     rows = []
-    for p in sorted(BT.glob("steers_search_harris_*.html")):
+    for p in sorted(BT.glob(f"steers_search_{COUNTY.lower()}_*.html")):
         rows += steers_search(p)["rows"]
     return rows
 
 
 def fetch_steers_details(only_emissions: bool = True, days: set[str] | None = None) -> None:
-    t_all = b" ".join(re.sub(rb"\s+", b" ", p.read_bytes()) for p in BT.glob("steers_search_harris_*.html"))
+    t_all = b" ".join(re.sub(rb"\s+", b" ", p.read_bytes()) for p in BT.glob(f"steers_search_{COUNTY.lower()}_*.html"))
     for r in _search_rows():
         inc = r["incident"]
         if (BT / f"steers_{inc}.html").exists():
@@ -269,16 +279,31 @@ def fetch_candidate_day_details() -> None:
 def fetch_spike_day_details() -> None:
     """Every report that started on a day the trigger fires: needed before the check may call a search complete."""
     from pipeline import backtest
-    sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
-    fetch_steers_details(days={d for d, _, _, _ in backtest.spike_days(sites)})
+    sites = {s: backtest.site_coords(s, BT) for s in SITES}
+    fetch_steers_details(days={d for d, _, _, _ in backtest.spike_days(sites, BT)})
+
+
+def fetch_forms() -> None:
+    """The AutoGC and met form pages: the site lists the region's monitors were taken from."""
+    for name, url in (("agc_form.html", AGC_URL), ("met_form.html", MET_URL)):
+        if not (BT / name).exists():
+            _save(name, url, None, _polite_get(url))
+            log(f"form {name}")
 
 
 if __name__ == "__main__":
-    phases = sys.argv[1:] or ["sites", "echo", "agc", "met", "weeks", "details", "daydetails", "spikedetails"]
-    for ph in phases:
+    args = sys.argv[1:]
+    region = regions.HOUSTON
+    if args[:1] == ["--region"]:
+        region, args = regions.get(args[1]), args[2:]
+        use_region(region)
+    # daydetails reads the backtest's candidate set, which only a backtested region has
+    default = ["sites", "echo", "agc", "met", "weeks", "details"] + (["daydetails"] if region.backtested else
+                                                                      ["forms"]) + ["spikedetails"]
+    for ph in args or default:
         {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
          "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,
-         "spikedetails": fetch_spike_day_details}[ph]()
+         "spikedetails": fetch_spike_day_details, "forms": fetch_forms}[ph]()
     total = sum(p.stat().st_size for p in BT.iterdir())
     log(f"done: {len(_ledger)} files in ledger, {total / 1e6:.1f} MB on disk")
     for s in _skipped:

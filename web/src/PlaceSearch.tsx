@@ -123,7 +123,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
         </div>
         <p id="ps-note" className="muted small">Searches are sent to OpenStreetMap.</p>
       </form>
-      <div className="ps-picks">
+      {!ev.region && <div className="ps-picks">
         <p className="muted small" id="ps-picks-label">Or pick a Ship Channel neighborhood (nothing is sent):</p>
         <div className="chips" role="group" aria-labelledby="ps-picks-label">
           {PICKS.map((p) => (
@@ -133,7 +133,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
             </button>
           ))}
         </div>
-      </div>
+      </div>}
       {/* One polite region for results and errors, so each outcome is announced once. It is always rendered
           (an empty region that appears with its first message is often skipped by screen readers), and atomic
           so switching places reads the whole readout, not just the numbers that changed. */}
@@ -141,7 +141,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
         {error && <p className="ps-error">{error}</p>}
         {place && r && (
           r.kind === 'far' ? (
-            <p className="ps-far"><strong>{place.label}</strong>: Plume Witness only has Houston Ship Channel data so far (this replay: one night, {ev.date_local}).</p>
+            <p className="ps-far"><strong>{place.label}</strong>: {ev.region ? `this replay covers ${ev.region.label} monitors only` : 'Plume Witness only has Houston Ship Channel data so far'} (this replay: one night, {ev.date_local}).</p>
           ) : (
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
