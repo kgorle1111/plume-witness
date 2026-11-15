@@ -9,7 +9,7 @@ comes from the cached pages in `data/raw/backtest/`.
 
 **Population.** The sample comes from the 8-monitor scan, saved as `docs/audit-no-report-population.json`. The
 published spike log uses 12 Harris County monitors and tries each monitor's own AutoGC-form wind before a
-neighbour's; it has 168 no-report spikes. In it, 8 of the 10 audited nights keep their id and status; 2025-06-12
+neighbour's; it has 167 no-report spikes. In it, 8 of the 10 audited nights keep their id and status; 2025-06-12
 (1,3-butadiene) triggers first at Channelview Drive Water Tower (still no matching report), and 2025-10-31 (benzene)
 triggers first at Pasadena Richey Elementary School and abstains (search incomplete). The 4 Galena Park nights use
 Galena Park's own AutoGC-form wind there, not Milby Park's or Manchester's, so the wind lines in their evidence below
