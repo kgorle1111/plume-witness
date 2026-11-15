@@ -1,0 +1,125 @@
+[
+ {
+  "file": "census/tigerweb_tracts_harris.json",
+  "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer/8/query",
+  "params": {
+   "where": "STATE='48' AND COUNTY='201'",
+   "outFields": "GEOID,NAME,INTPTLAT,INTPTLON",
+   "returnGeometry": "false",
+   "orderByFields": "GEOID",
+   "resultRecordCount": "5000",
+   "f": "json"
+  },
+  "bytes": 133227,
+  "sha256": "9a6404d07eba1031231a3159db58f43bbcc6db4c401b37567b897b153af5506e",
+  "fetched_at": "2026-11-15T02:52:41+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_b01003_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat",
+  "params": {
+   "byte_range": [
+    5765724,
+    5799448
+   ],
+   "source_bytes": 18313708,
+   "source_last_modified": "Thu, 29 Jan 2026 12:31:45 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 27,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 33755,
+  "sha256": "8563e2a5a441c53d0757bf8a5b1b96b07eb308f88f387f1a4b478e49af6e9d78",
+  "fetched_at": "2026-11-15T02:53:00+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_b03003_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b03003.dat",
+  "params": {
+   "byte_range": [
+    5227528,
+    5280974
+   ],
+   "source_bytes": 24753322,
+   "source_last_modified": "Thu, 29 Jan 2026 12:32:31 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 27,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 53525,
+  "sha256": "9131ecce27f2c58e1eaba54966292f654454b1906524852726644864147b3695",
+  "fetched_at": "2026-11-15T02:53:15+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_b01001_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01001.dat",
+  "params": {
+   "byte_range": [
+    60765926,
+    61148599
+   ],
+   "source_bytes": 200356282,
+   "source_last_modified": "Thu, 29 Jan 2026 12:30:41 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 33,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 383856,
+  "sha256": "658de9aea3c889cb4fec8778cf9ca37fa41699710f35fa2b57d8c5ca04aadf0a",
+  "fetched_at": "2026-11-15T02:53:33+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_c16001_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c16001.dat",
+  "params": {
+   "byte_range": [
+    26565232,
+    26835286
+   ],
+   "source_bytes": 70921995,
+   "source_last_modified": "Thu, 29 Jan 2026 13:24:35 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 31,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 270973,
+  "sha256": "1c3deacf8ae68633b3b90ce555521c58d126086fedb9ff9fb68d9a181fefa37e",
+  "fetched_at": "2026-11-15T02:54:43+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_b19013_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b19013.dat",
+  "params": {
+   "byte_range": [
+    3738668,
+    3775692
+   ],
+   "source_bytes": 17917916,
+   "source_last_modified": "Thu, 29 Jan 2026 12:57:38 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 27,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 37055,
+  "sha256": "c8d07d1e96f13a18e64511ad996f1bcce28167d31699d4c106a2be10a449605e",
+  "fetched_at": "2026-11-15T02:54:57+00:00"
+ },
+ {
+  "file": "census/acs2024_5yr_c16002_harris_tracts.dat",
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c16002.dat",
+  "params": {
+   "byte_range": [
+    11934146,
+    12058406
+   ],
+   "source_bytes": 56262227,
+   "source_last_modified": "Thu, 29 Jan 2026 13:24:39 GMT",
+   "geo_id_prefix": "1400000US48201",
+   "probe_requests": 29,
+   "note": "header line + the contiguous Harris County tract rows of the nationwide file"
+  },
+  "bytes": 124603,
+  "sha256": "2d8789b628b9f46fd603d258dddb21e418cb4d88cd767912cee1e9a7f64c2ee2",
+  "fetched_at": "2026-11-15T02:55:13+00:00"
+ }
+]
