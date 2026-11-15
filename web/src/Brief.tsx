@@ -2,8 +2,6 @@
 import { Fragment, useEffect, type ReactNode } from 'react'
 import src from '../../docs/brief.md?raw'
 import { parseMarkdown, type Inline } from './md.ts'
-import { DEMO_REPLAY_HREF } from './demoHref'
-import { LangSwitch } from './LangSwitch'
 import { useLang, useT } from './useT'
 import './Brief.css'
 
@@ -27,15 +25,12 @@ export default function Brief() {
   const lang = useLang()
   return (
     <main className="br-page">
-      <nav className="br-bar" aria-label={t('brief.actions')}>
-        <a href={DEMO_REPLAY_HREF}>{t('common.backReplay')}</a>
-        <a href={`${import.meta.env.BASE_URL}?view=spikes`}>{t('brief.spikesLog')}</a>
-        <LangSwitch />
+      <div className="br-bar">
         <span className="br-print">
           <button type="button" onClick={() => window.print()}>{t('brief.print')}</button>
           <small>{t('brief.pdfHelp')}</small>
         </span>
-      </nav>
+      </div>
       {lang === 'es' && <p className="br-en-note" role="note">{t('brief.english')}</p>}
       <article className="br-doc" lang="en">
         {blocks.map((b, k) => {

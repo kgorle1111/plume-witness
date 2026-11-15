@@ -12,13 +12,7 @@
   padding: 8px 16px 8px;
   border-bottom: 1px solid var(--line);
 }
-/* Brand row (wordmark, site links), eyebrow (date · compound · data tag), then the title on its own line. */
-.brand-row { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 16px; font-size: 0.75rem; }
-.brand { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
-.brand-mark { flex: none; }
-.brand-name { font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); }
-.top-links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin-left: auto; font-size: 0.8rem; }
-.top-links a { white-space: nowrap; }
+/* Brand row (SiteHeader.css), eyebrow (date · compound · data tag), then the title on its own line. */
 .eyebrow { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 6px; font-size: 0.75rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .data-tag {
   padding: 0 8px;
@@ -36,9 +30,9 @@
   .top-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 16px; }
   .top-tools .night-picker { flex: 1 1 20rem; }
 }
-/* Phones keep one header link (Past spikes); the footer repeats Facilities and Past spikes. */
+/* Phones keep one replay header link (Past spikes); the footer repeats Facilities and Past spikes. */
 @media (max-width: 640px) {
-  .top-links .top-link-more { display: none; }
+  .top .site-nav .top-link-more { display: none; }
 }
 
 .fixture-banner {
@@ -296,7 +290,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 /* Touch: 44px-tall hit areas without growing the replay header or the hour scrubber (project bar; WCAG 2.5.5). */
 @media (pointer: coarse) {
   /* position: relative lifts the padding above the next line, which would otherwise take the tap. */
-  .spikes-link, .top-links a, .fl-name { position: relative; display: inline-block; padding-block: 14px; margin-block: -14px; }
+  .fl-name { position: relative; display: inline-block; padding-block: 14px; margin-block: -14px; }
   .tl-all summary { padding-block: 13px; }
 }
 .hourly-table table { border-collapse: collapse; width: 100%; max-width: 320px; }
@@ -475,7 +469,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
     column-gap: 24px;
   }
   .brand-row { grid-area: brand; }
-  .top-links { margin-left: 8px; }
+  .top .site-nav { margin-left: 8px; }
   .eyebrow { grid-area: eyebrow; }
   .event-title { grid-area: title; font-size: 1.15rem; }
   .top > .lang-switch { grid-area: lang; justify-self: end; }

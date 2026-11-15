@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState, type MouseEventHandler } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { LANDING_METRICS as M } from './landingMetrics'
-import { LangSwitch } from './LangSwitch'
+import { SiteHeader } from './SiteHeader'
 import { useT } from './useT'
 import './AtlasLanding.css'
 
@@ -23,16 +23,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       inert={leaving}
       onAnimationEnd={(event) => { if (leaving && event.target === event.currentTarget) onExit() }}
     >
-      <header className="atlas-masthead">
-        <div className="atlas-signature">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="16" cy="16" r="11.5" /><ellipse cx="16" cy="16" rx="5.5" ry="11.5" />
-            <path d="M5 12h22M5 20h22M2 16h28M16 2v28" /><circle className="atlas-logo-dot" cx="23" cy="12" r="2.8" />
-          </svg>
-          <span>Plume Witness</span>
-        </div>
-        <LangSwitch />
-      </header>
+      <SiteHeader className="atlas-masthead" />
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
@@ -67,6 +58,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
         <nav className="atlas-links" aria-label={t('landing.more')}>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
           <a href={`${BASE}?view=timeline`}>{t('landing.timeline')}</a>
+          <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
           <a href={`${BASE}?view=brief`}>{t('landing.brief')}</a>
         </nav>
       </section>

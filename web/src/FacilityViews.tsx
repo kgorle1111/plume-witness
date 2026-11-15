@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { SiteFooter } from './SiteFooter'
 import {
   REGISTRY_ID, facilitiesHref, facilityHref, lbs, localTime, parseFacility, parseIndex, searchFacilities,
   type FacilityFile, type FacilityIndex,
 } from './facilities'
 import { hourLabel, safeHttpUrl } from './format'
-import { DEMO_REPLAY_HREF } from './demoHref'
-import { LangSwitch, T } from './LangSwitch'
+import { T } from './LangSwitch'
 import { useT, type Translate } from './useT'
 import './Facilities.css'
 
@@ -41,21 +39,16 @@ function useJson<T>(file: string, parse: (raw: unknown) => T): { data: T | null;
   return state
 }
 
+// Site.tsx wraps this in the site header and footer.
 function Shell({ kicker, title, children }: { kicker: string; title: string; children: React.ReactNode }) {
-  const t = useT()
   return (
-    <div className="fx-shell">
-      <main className="fx-page">
-        <a className="fx-back" href={DEMO_REPLAY_HREF}>{t('common.backReplayPlain')}</a>
-        <LangSwitch />
-        <header className="fx-head">
-          <p className="fx-kicker">{kicker}</p>
-          <h1>{title}</h1>
-        </header>
-        {children}
-      </main>
-      <SiteFooter />
-    </div>
+    <main className="fx-page">
+      <header className="fx-head">
+        <p className="fx-kicker">{kicker}</p>
+        <h1>{title}</h1>
+      </header>
+      {children}
+    </main>
   )
 }
 
@@ -120,7 +113,7 @@ function FacilityPage({ id }: { id: string }) {
   const { data: f, error } = useJson(`facilities/${id}.json`, (raw) => parseFacility(raw, id))
   useEffect(() => { if (f) document.title = t('fx.docTitle', { name: f.name }) }, [f, t])
   if (error) return <Message title={t('fx.notFound')} text={errorText(error, `facilities/${id}.json`, t)} />
-  if (!f) return <main className="state-msg"><p>{t('fx.loadingOne')}</p></main>
+  if (!f) return <main className="state-msg" aria-busy="true"><p>{t('fx.loadingOne')}</p></main>
   const echo = safeHttpUrl(f.echo_url)
   const n = f.reports_to_state.count
   const cite = t('fx.cite', { name: f.name, id: f.registry_id, url: `${window.location.origin}${window.location.pathname}?view=facility&id=${f.registry_id}` })
@@ -181,7 +174,7 @@ function FacilityList() {
     history.replaceState(null, '', `${window.location.pathname}?${p.toString()}`)
   }, [q])
   if (error) return <Message title={t('common.facilities')} text={errorText(error, 'facilities/index.json', t)} />
-  if (!data) return <main className="state-msg"><p>{t('fx.loadingList')}</p></main>
+  if (!data) return <main className="state-msg" aria-busy="true"><p>{t('fx.loadingList')}</p></main>
   return (
     <Shell kicker={t('common.facilities')} title={t('fx.listTitle')}>
       <p className="fx-note" role="note">{t('fx.upwindNote')}</p>

@@ -1,4 +1,5 @@
 import { InstallHint } from './InstallHint'
+import { navHref } from './routes'
 import { ThemeToggle } from './ThemeToggle'
 import { useT } from './useT'
 
@@ -9,10 +10,10 @@ export function SiteFooter() {
   const t = useT()
   return (
     <footer className="site-foot">
-      <span>{t('foot.license')}</span>
+      <span title={t('foot.license')}>{t('foot.license')}</span>
       <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/api.md" rel="noopener">{t('foot.docs')}</a>
-      <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
-      <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
+      <a href={navHref(BASE, 'facilities', window.location.search)}>{t('common.facilities')}</a>
+      <a href={navHref(BASE, 'spikes', window.location.search)}>{t('common.pastSpikes')}</a>
       <details className="site-about">
         <summary>{t('foot.about')}</summary>
         <div className="site-about-body">

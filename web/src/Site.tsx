@@ -1,14 +1,22 @@
 import { Suspense, lazy, useEffect, useRef, useState, type MouseEvent } from 'react'
 import App from './App'
 import { AtlasLanding } from './AtlasLanding'
-import { pageFromLocation } from './routes'
+import { pageFromLocation, type Page } from './routes'
+import { regionFrom } from './region'
+import { SiteFooter } from './SiteFooter'
+import { SiteHeader } from './SiteHeader'
 import { useT } from './useT'
+import type { StringKey } from './i18n'
 
 // ?view=spikes opens the past-spikes log; its code and spikes.json load only then.
 const SpikeLog = lazy(() => import('./SpikeLog'))
 const SpikeRain = lazy(() => import('./SpikeRain'))
 const Brief = lazy(() => import('./Brief'))
 const FacilityViews = lazy(() => import('./FacilityViews'))
+
+const LOADING = {
+  spikes: 'spikes.loading', timeline: 'rn.loading', brief: 'brief.loading', facility: 'fx.loadingOne', facilities: 'fx.loadingList',
+} as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, StringKey>
 
 export default function Site() {
   const t = useT()
@@ -48,34 +56,31 @@ export default function Site() {
     setPage('replay')
   }
 
-  if (page === 'spikes') return (
-    <Suspense fallback={<main className="state-msg"><p>{t('spikes.loading')}</p></main>}>
-      <SpikeLog />
-    </Suspense>
-  )
-
-  if (page === 'timeline') return (
-    <Suspense fallback={<main className="state-msg"><p>{t('rn.loading')}</p></main>}>
-      <SpikeRain />
-    </Suspense>
-  )
-
-  if (page === 'brief') return (
-    <Suspense fallback={<main className="state-msg"><p>{t('brief.loading')}</p></main>}>
-      <Brief />
-    </Suspense>
-  )
-
-  if (page === 'facility' || page === 'facilities') return (
-    <Suspense fallback={<main className="state-msg"><p>{t('common.loading')}</p></main>}>
-      <FacilityViews view={page} />
-    </Suspense>
-  )
+  if (page !== 'replay' && page !== 'landing') {
+    const loading = t(LOADING[page])
+    return (
+      <div className="site-shell">
+        <SiteHeader current={page} />
+        {page !== 'spikes' && page !== 'brief' && regionFrom(window.location.search).key !== 'houston' && (
+          <p className="site-region-note" role="note">{t('shell.houstonOnly')}</p>
+        )}
+        {/* The header and footer paint at once; only main waits for the page's code and data. */}
+        <Suspense fallback={<main className="state-msg" aria-busy="true"><p>{loading}</p></main>}>
+          {page === 'spikes' && <SpikeLog />}
+          {page === 'timeline' && <SpikeRain />}
+          {page === 'brief' && <Brief />}
+          {(page === 'facility' || page === 'facilities') && <FacilityViews view={page} />}
+        </Suspense>
+        <SiteFooter />
+      </div>
+    )
+  }
 
   return (
     <>
       {page === 'replay' && <div className="replay-entry" ref={replayEntry} tabIndex={-1} inert={leaving}><App /></div>}
       {(page === 'landing' || leaving) && <AtlasLanding leaving={leaving} onEnter={enter} onExit={() => setLeaving(false)} />}
+      {page === 'landing' && <SiteFooter />}
     </>
   )
 }

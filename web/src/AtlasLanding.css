@@ -16,17 +16,8 @@
   border-top: 5px solid var(--teal);
   background: radial-gradient(ellipse at 50% 48%, #b4d9cb 0%, #deede7 55%, var(--paper) 100%);
 }
-.atlas-masthead {
-  display: flex;
-  align-items: center;
-  min-height: 65px;
-  border-bottom: 1px solid var(--line);
-  font: 500 11px var(--mono);
-  letter-spacing: .09em;
-}
-.atlas-signature { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 650; text-transform: uppercase; }
-.atlas-signature svg { stroke: var(--teal); stroke-width: 1.2; }
-.atlas-signature .atlas-logo-dot { fill: var(--coral); stroke: var(--paper); stroke-width: 1; }
+/* The shared site header (SiteHeader.css), set on the landing's paper: no inset of its own, no fill over the gradient. */
+.site-head.atlas-masthead { min-height: 65px; padding-inline: 0; background: none; border-bottom-color: var(--line); font-family: var(--sans); }
 
 .atlas-hero {
   display: grid;
@@ -123,9 +114,7 @@
 
 @media (max-width: 640px) {
   .atlas-landing { padding-inline: 20px; overflow: hidden; }
-  .atlas-masthead { min-height: 55px; font-size: 10px; letter-spacing: .045em; }
-  .atlas-signature { gap: 7px; }
-  .atlas-signature svg { width: 26px; height: 26px; }
+  .site-head.atlas-masthead { min-height: 55px; }
   .atlas-hero { padding-block: 26px; }
   .atlas-hero h1 { font-size: clamp(36px, 9.2vw, 59px); }
   .atlas-plate { height: clamp(271px, 81vw, 390px); margin-top: 4px; }
