@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from datetime import date
 from pathlib import Path
 
+from pipeline import spikes
 from pipeline.contract import STATUSES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,6 +30,7 @@ ATOM = "http://www.w3.org/2005/Atom"
 # Plain-words status text. The no-report sentence is fixed wording; keep it exactly as is.
 STATUS_TEXT = {
     "reported": "A company report from the upwind area lists this compound and starts near the spike hour.",
+    "reported_late": "A company report from the upwind area is on the state record, dated after the reporting window.",
     "not_yet_reported": "The reporting deadline has not passed yet, so there is nothing to compare against.",
     "no_report_after_deadline": "No matching company report was found in a complete search. "
                                 "This is a question for the state, not a finding.",
@@ -77,7 +79,7 @@ def item_for(r: dict) -> dict:
                f"{ratio} at {r['site']} on {r['date']} in the hour starting {hour_text(r['hour_cst'])}.")
     lines = [reading, f"Record check: {STATUS_TEXT[status]}"]
     if r.get("reason") and status == "search_incomplete":
-        lines.append(f"Why: {r['reason']}")
+        lines.append(f"Why: {spikes.REASONS.get(r.get('reason_code'), r['reason'])}")
     replay = night_link(r["night_id"]) if r.get("night_id") else None
     lines += ([f"Replay this night: {replay}"] if replay else [])
     lines += [f"All spikes at this monitor: {monitor_link(r['site_id'])}", CAVEAT]

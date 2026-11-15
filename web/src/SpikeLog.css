@@ -125,6 +125,7 @@
 }
 .sl-status-reported { color: #14532d; background: #e7f6ec; }
 .sl-status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.sl-status-reported_late { color: #1f4f53; background: #e3f1f2; }
 .sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }

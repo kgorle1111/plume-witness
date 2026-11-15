@@ -85,6 +85,16 @@ def detect(monitors: list[dict]) -> dict | None:
     return None
 
 
+def site_names(rows: list[dict]) -> dict[str, list[str]]:
+    """Every distinct name of a major ECHO air source per RegistryID, sorted. One registry id can hold several permit
+    holders at one address (5 at 5900 Highway 225, Deer Park), so no single row's name speaks for the whole site."""
+    out: dict[str, set[str]] = {}
+    for r in rows:
+        if r.get("RegistryID") and r.get("AIRName") and r.get("AIRUniverse") == "Major Emissions" and r.get("FacLat"):
+            out.setdefault(r["RegistryID"], set()).add(" ".join(r["AIRName"].split()))
+    return {k: sorted(v) for k, v in out.items()}
+
+
 def corridor(echo: dict, origin: tuple[float, float], wind_from: list[float | None]) -> list[dict]:
     """Major sources inside the upwind corridor, nearest first. Geometry only: no facility is singled out."""
     winds = [w for w in wind_from if w is not None]
@@ -179,11 +189,14 @@ FINAL_DEADLINE_DAYS = 14  # 30 TAC 101.201(b): final record within two weeks aft
 
 
 def final_check(inc: dict) -> tuple[str, str]:
-    """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end."""
+    """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end.
+
+    A FINAL report dated later is 'reported_late', never 'not_yet_reported': the record exists, so "not yet" would
+    be false. 'not_yet_reported' is kept for a report whose cached page has no final date."""
     if inc.get("report_type") != "FINAL" or not inc.get("report_date"):
         return "not_yet_reported", f"report type {inc.get('report_type') or 'not stated'}; no final report date"
     days = (date.fromisoformat(inc["report_date"]) - datetime.fromisoformat(inc["end_local"]).date()).days
-    status = "reported" if days <= FINAL_DEADLINE_DAYS else "not_yet_reported"
+    status = "reported" if days <= FINAL_DEADLINE_DAYS else "reported_late"
     return status, f"final report dated {inc['report_date']}, {days} days after the event ended"
 
 
@@ -260,7 +273,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         start = datetime.fromisoformat(inc["start_local"])
         # 30 TAC 101.201(a)(1): the initial notice is due within 24 h of discovery, not of the monitor spike.
         notice_h = (datetime.fromisoformat(inc["notified_local"]) - start).total_seconds() / 3600
-        t24 = "reported" if notice_h <= 24 else "not_yet_reported"
+        t24 = "reported" if notice_h <= 24 else "reported_late"  # the notice is on file, dated after 24 h
         t14, t14_note = final_check(inc)
         status = "reported_mismatch" if mismatch else t14
         basis = ("started near the spike" if start.date() >= det_day
@@ -361,6 +374,10 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
+    if calm:  # no corridor is drawn on a calm night, so the question cannot point at "this corridor"
+        ask_en = " Requested follow-up: confirm whether any facility near the monitor reported a release that hour."
+        ask_es = (" Seguimiento solicitado: confirmar si alguna instalación cercana al monitor reportó una emisión "
+                  "a esa hora.")
     en = (f"On {det_day_str(day)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
           f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en}{wind_en}"
           f"{corr_en}{rec_en}{ask_en}")
@@ -437,6 +454,23 @@ def own_wind(site: str, year: str, day: str, raw: Path = RAW, table=None) -> dic
     return None
 
 
+def name_filer(facilities: list[dict], rc: dict, echo_rows: list[dict]) -> None:
+    """Name the matched site as the report names its filer.
+
+    The corridor names each ECHO site by one row's AIRName, but one registry id can carry several permit holders'
+    names (5 at 5900 Highway 225, Deer Park, Airgas first), and a report found by street address files under
+    another name. The Check step prints this name beside the report number, so it must be the company that filed;
+    every major-source name ECHO lists for the site is kept in echo_names."""
+    if not rc.get("matched_facility_id") or not rc.get("reported"):
+        return
+    f = next((x for x in facilities if x["id"] == rc["matched_facility_id"]), None)
+    filer = rc["reported"]["facility"]
+    if f is None or f["name"] == filer:
+        return
+    f["echo_names"] = [n.title() for n in site_names(echo_rows).get(f["id"], [])] or [f["name"]]
+    f["name"] = filer
+
+
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
           details: dict[str, dict], complete: bool, det_day: date, param: str,
           earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "",
@@ -477,6 +511,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     rc = record_check(placed, details | earlier, det_day, h, search_complete=complete, param=param, ongoing=ongoing,
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
                       speed_mph=speed, county=county)
+    name_filer(facilities, rc, echo["Results"]["Facilities"])
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
             "facilities": facilities, "record_check": rc, "winds": winds}
 

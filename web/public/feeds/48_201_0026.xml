@@ -25,7 +25,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Tue, 14 Oct 2025 01:00:00 -0600</pubDate>
       <description>Benzene read 14.95 ppb against a baseline of 0.38 ppb (39.3 times baseline) at Channelview on 2025-10-14 in the hour starting 1:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-14_45201_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -92,7 +92,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Fri, 28 Feb 2025 04:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.61 ppb against a baseline of 0.05 ppb (212.2 times baseline) at Channelview on 2025-02-28 in the hour starting 4:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-28_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -104,7 +104,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 27 Feb 2025 21:00:00 -0600</pubDate>
       <description>1,3-butadiene read 14.57 ppb against a baseline of 0.05 ppb (291.4 times baseline) at Channelview on 2025-02-27 in the hour starting 9:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-27_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -116,7 +116,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sun, 16 Feb 2025 21:00:00 -0600</pubDate>
       <description>1,3-butadiene read 16.9 ppb against a baseline of 0.05 ppb (338 times baseline) at Channelview on 2025-02-16 in the hour starting 9:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-16_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -128,7 +128,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Fri, 14 Feb 2025 01:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.46 ppb against a baseline of 0.04 ppb (261.5 times baseline) at Channelview on 2025-02-14 in the hour starting 1:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-14_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -140,7 +140,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 13 Feb 2025 18:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.14 ppb against a baseline of 0.04 ppb (253.5 times baseline) at Channelview on 2025-02-13 in the hour starting 6:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-13_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -152,7 +152,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 10 Feb 2025 05:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.89 ppb against a baseline of 0.05 ppb (217.8 times baseline) at Channelview on 2025-02-10 in the hour starting 5:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-10_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -164,7 +164,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 27 Jan 2025 07:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.62 ppb against a baseline of 0.175 ppb (60.7 times baseline) at Channelview on 2025-01-27 in the hour starting 7:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-01-27_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -176,7 +176,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Wed, 15 Jan 2025 19:00:00 -0600</pubDate>
       <description>1,3-butadiene read 23.53 ppb against a baseline of 0.08 ppb (294.1 times baseline) at Channelview on 2025-01-15 in the hour starting 7:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-01-15_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -188,7 +188,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 13 Jan 2025 19:00:00 -0600</pubDate>
       <description>1,3-butadiene read 15.53 ppb against a baseline of 0.02 ppb (776.5 times baseline) at Channelview on 2025-01-13 in the hour starting 7:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-01-13_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -200,7 +200,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Tue, 31 Dec 2024 07:00:00 -0600</pubDate>
       <description>1,3-butadiene read 15.26 ppb against a baseline of 0.09 ppb (169.6 times baseline) at Channelview on 2024-12-31 in the hour starting 7:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-31_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -212,7 +212,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sun, 29 Dec 2024 07:00:00 -0600</pubDate>
       <description>1,3-butadiene read 12.97 ppb against a baseline of 0.06 ppb (216.2 times baseline) at Channelview on 2024-12-29 in the hour starting 7:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-29_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -224,7 +224,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 28 Dec 2024 19:00:00 -0600</pubDate>
       <description>1,3-butadiene read 12.3 ppb against a baseline of 0.05 ppb (246 times baseline) at Channelview on 2024-12-28 in the hour starting 7:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-28_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -236,7 +236,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 21 Dec 2024 03:00:00 -0600</pubDate>
       <description>1,3-butadiene read 16.94 ppb against a baseline of 0.06 ppb (282.3 times baseline) at Channelview on 2024-12-21 in the hour starting 3:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-21_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -248,7 +248,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Fri, 20 Dec 2024 21:00:00 -0600</pubDate>
       <description>1,3-butadiene read 11.25 ppb against a baseline of 0.06 ppb (187.5 times baseline) at Channelview on 2024-12-20 in the hour starting 9:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-20_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -260,7 +260,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sun, 01 Dec 2024 20:00:00 -0600</pubDate>
       <description>Benzene read 11.36 ppb against a baseline of 0.2 ppb (56.8 times baseline) at Channelview on 2024-12-01 in the hour starting 8:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-12-01_45201_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -272,7 +272,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 30 Nov 2024 23:00:00 -0600</pubDate>
       <description>1,3-butadiene read 12.85 ppb against a baseline of 0.14 ppb (91.8 times baseline) at Channelview on 2024-11-30 in the hour starting 11:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-30_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -284,7 +284,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 28 Nov 2024 21:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.18 ppb against a baseline of 0.095 ppb (107.2 times baseline) at Channelview on 2024-11-28 in the hour starting 9:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-28_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -296,7 +296,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Tue, 26 Nov 2024 07:00:00 -0600</pubDate>
       <description>1,3-butadiene read 13.55 ppb against a baseline of 0.07 ppb (193.6 times baseline) at Channelview on 2024-11-26 in the hour starting 7:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-26_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -308,7 +308,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 14 Nov 2024 20:00:00 -0600</pubDate>
       <description>1,3-butadiene read 15.78 ppb against a baseline of 0.09 ppb (175.3 times baseline) at Channelview on 2024-11-14 in the hour starting 8:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-14_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -320,7 +320,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 11 Nov 2024 07:00:00 -0600</pubDate>
       <description>1,3-butadiene read 11.38 ppb against a baseline of 0.075 ppb (151.7 times baseline) at Channelview on 2024-11-11 in the hour starting 7:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-11_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -332,7 +332,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sun, 10 Nov 2024 03:00:00 -0600</pubDate>
       <description>1,3-butadiene read 16.74 ppb against a baseline of 0.06 ppb (279 times baseline) at Channelview on 2024-11-10 in the hour starting 3:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-10_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -344,7 +344,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 09 Nov 2024 18:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.03 ppb against a baseline of 0.06 ppb (167.2 times baseline) at Channelview on 2024-11-09 in the hour starting 6:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-09_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -356,7 +356,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Wed, 06 Nov 2024 06:00:00 -0600</pubDate>
       <description>1,3-butadiene read 18.28 ppb against a baseline of 0.05 ppb (365.6 times baseline) at Channelview on 2024-11-06 in the hour starting 6:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-06_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -368,7 +368,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Tue, 22 Oct 2024 06:00:00 -0600</pubDate>
       <description>1,3-butadiene read 13.72 ppb against a baseline of 0.04 ppb (343 times baseline) at Channelview on 2024-10-22 in the hour starting 6:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-10-22_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -380,7 +380,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Tue, 08 Oct 2024 00:00:00 -0600</pubDate>
       <description>1,3-butadiene read 15.44 ppb against a baseline of 0.06 ppb (257.3 times baseline) at Channelview on 2024-10-08 in the hour starting 12:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-10-08_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -392,7 +392,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 07 Oct 2024 04:00:00 -0600</pubDate>
       <description>1,3-butadiene read 25.66 ppb against a baseline of 0.05 ppb (513.2 times baseline) at Channelview on 2024-10-07 in the hour starting 4:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-10-07_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -404,7 +404,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sun, 06 Oct 2024 19:00:00 -0600</pubDate>
       <description>1,3-butadiene read 16.39 ppb against a baseline of 0.045 ppb (364.2 times baseline) at Channelview on 2024-10-06 in the hour starting 7:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-10-06_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -416,7 +416,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Wed, 02 Oct 2024 04:00:00 -0600</pubDate>
       <description>1,3-butadiene read 43.48 ppb against a baseline of 0.06 ppb (724.7 times baseline) at Channelview on 2024-10-02 in the hour starting 4:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-10-02_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -428,7 +428,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 26 Sep 2024 06:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.21 ppb against a baseline of 0.06 ppb (170.2 times baseline) at Channelview on 2024-09-26 in the hour starting 6:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-09-26_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -440,7 +440,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Fri, 23 Aug 2024 23:00:00 -0600</pubDate>
       <description>Benzene read 26.82 ppb against a baseline of 0.325 ppb (82.5 times baseline) at Channelview on 2024-08-23 in the hour starting 11:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-08-23_45201_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -474,7 +474,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Wed, 29 May 2024 00:00:00 -0600</pubDate>
       <description>1,3-butadiene read 24.82 ppb against a baseline of 0.04 ppb (620.5 times baseline) at Channelview on 2024-05-29 in the hour starting 12:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-05-29_43218_48_201_0026
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0026
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

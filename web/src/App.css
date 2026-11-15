@@ -356,6 +356,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 }
 .status-reported { color: #14532d; background: #e7f6ec; }
 .status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.status-reported_late { color: #1f4f53; background: #e3f1f2; }
 .status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }

@@ -221,6 +221,7 @@ def load_area() -> tuple[list[dict], dict]:
     _, rows = backtest.load_echo()
     rows += json.loads((ROOT / "data" / "raw" / "echo_milby_8mi.json").read_text())["Results"]["Facilities"]
     sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    names = build.site_names(rows)
     seen, area = set(), []
     for r in rows:
         rid = r.get("RegistryID")
@@ -231,7 +232,7 @@ def load_area() -> tuple[list[dict], dict]:
         near = min(sites, key=lambda s: build.haversine_km(p, sites[s]))
         d = build.haversine_km(p, sites[near])
         if d <= RADIUS_KM:
-            area.append(r | {"_dist_km": round(d, 1), "_near": backtest.SITE_NAMES[near]})
+            area.append(r | {"_dist_km": round(d, 1), "_near": backtest.SITE_NAMES[near], "_names": names[rid]})
     return sorted(area, key=lambda r: r["RegistryID"]), sites
 
 
@@ -289,7 +290,7 @@ def build_tri() -> dict:
     facilities, claimed = {}, set()
     for r in area:
         rid = r["RegistryID"]
-        e = {"name": clean(r["AIRName"]), "tri_name": None, "trifid": None, "tri_ids": [], "link_via": None,
+        e = {"name": " / ".join(clean(n) for n in r["_names"]), "tri_name": None, "trifid": None, "tri_ids": [], "link_via": None,
              "status": "no_tri_id", "reason": None, "distance_km": r["_dist_km"], "nearest_monitor": r["_near"],
              "lat": float(r["FacLat"]), "lon": float(r["FacLong"]), "link": ECHO_LINK + rid, "years": {}}
         lk = links.get(rid)

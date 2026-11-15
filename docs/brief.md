@@ -14,7 +14,7 @@ In Texas, a facility reports its own unplanned releases ("emissions events") to 
 
 ## Method, in plain words
 
-- **Releases.** We searched every STEERS emissions-event record in Harris County that started in 2024 or 2025 (335 rows) and kept the emissions events that reported benzene or 1,3-butadiene pounds, from facilities located in EPA ECHO within 15 km of one of 12 Ship Channel AutoGC monitors: 77 releases. Readings are TCEQ AutoGC hourly data and site wind, which TCEQ labels provisional. [[backtest.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/backtest.md)]
+- **Releases.** We searched every STEERS emissions-event record in Harris County that started in 2024 or 2025 (335 rows; 317 of them had a detail page we could cache) and kept the emissions events that reported benzene or 1,3-butadiene pounds, from facilities located in EPA ECHO within 15 km of one of 12 Ship Channel AutoGC monitors: 77 releases (18 more could not be placed on an EPA ECHO site). Readings are TCEQ AutoGC hourly data and site wind, which TCEQ labels provisional. [[backtest.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/backtest.md)]
 - **Spike.** An hour at or above 10 times the monitor's own 7-day median and at least 10 ppb (the current trigger).
 - **Downwind.** Geometry only: the facility lies within 22.5 degrees of the upwind direction and 15 km of the monitor, at some hour from 1 hour before to 6 hours after the reported start. This is not a plume model.
 - **Control.** The same window moved 7, 14 or 21 days either side, same weekday, on days with no reported release: 410 ordinary-day windows.
@@ -27,7 +27,7 @@ In Texas, a facility reports its own unplanned releases ("emissions events") to 
 - **Many releases are small.** 27 of 77 releases reported under 10 lb of the monitored compound; of the 22 of these with a downwind monitor that had data, none had a spike near the start.
 - **Calm wind blurs direction.** 149 / 465 (32%; 95% CI 28-36%) current-trigger alerts with a wind reading came under 3 mph, where the upwind direction is unreliable. [[detector.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/detector.md)]
 - **End to end, the automated check matched 1 of 77** reports (1%; 95% CI 0-7%). [[backtest.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/backtest.md)]
-- **The other direction.** Across 2024-2025 the trigger fired 468 times on 378 days. After a complete search, 168 of 468 spikes had no matching report in the upwind corridor; on 281 the pipeline abstained. No matching report is not a finding about any facility: reports are required only above a reportable quantity, and traffic, ships, tank farms and permitted emissions also raise readings. These spikes are counted, never named. [[backtest.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/backtest.md)]
+- **The other direction.** Across 2024-2025 the trigger fired 468 times on 378 days. After a complete search, 168 of 468 spikes had no matching report in the upwind corridor; on 283 the pipeline abstained ("search incomplete"; 2 of them had no wind data). No matching report is not a finding about any facility: reports are required only above a reportable quantity, and traffic, ships, tank farms and permitted emissions also raise readings. These spikes are counted, never named. [[backtest.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/backtest.md)]
 - **Hand audit of "no matching report".** Of 10 such spikes picked at random (drawn from the 172 of the earlier 8-monitor scan, before a facility-name fix) and checked by hand, the gap held in 8 and 2 could not be settled from public data; likely missed by us or spike doubtful: 0 of 10 (95% Wilson interval 0-28%), or 2 of 10 (6-51%) if both unsettled nights count as errors. An automated sweep of the 170 no-report spikes of that 8-monitor scan found a report listing the compound running just outside the corridor on 5 of 170 (2.9%, 95% CI 1.3-6.7%); the 12-monitor scan has not been audited. [[audit-no-report.md](https://github.com/kgorle1111/plume-witness/blob/main/docs/audit-no-report.md)]
 
 ## Who lives near these monitors
@@ -43,7 +43,7 @@ For these 12 Ship Channel AutoGC monitors, in 2024-2025, for benzene and 1,3-but
 - It does not show that any release was larger or smaller than reported, or that any facility caused any reading.
 - It does not show the monitors are faulty: a downwind monitor can miss a narrow or lofted plume.
 - It does not measure a false-alarm rate; nobody knows the true cause of each alert.
-- It does not cover releases that companies did not file, or the 18 facilities not located in EPA ECHO.
+- It does not cover releases that companies did not file, or the 18 releases whose facility could not be located in EPA ECHO.
 
 ## What would close the gap
 
@@ -51,11 +51,11 @@ Options the measurements point to, for TCEQ, EPA and advocates to weigh; not dem
 
 - **Monitoring closer to sources.** Most releases had a monitor downwind, yet small ones left no trace at hourly, 15 km scale. Fenceline or continuous monitoring near sources is the option this points to.
 - **Faster report publication.** A record check can call a report absent only after the deadline: 24 hours for an initial notice and two weeks for a final record. Until then the public record cannot answer a resident's question about a release that is happening now.
-- **Machine-readable STEERS.** We rebuilt the record from week-by-week web searches, and 18 facilities could not be located in EPA ECHO. A downloadable STEERS table with facility identifiers would remove both steps, including for TEJAS volunteers who verify and translate each report by hand.
+- **Machine-readable STEERS.** We rebuilt the record from week-by-week web searches, and 18 benzene or 1,3-butadiene releases could not be placed on an EPA ECHO site. A downloadable STEERS table with facility identifiers would remove both steps, including for TEJAS volunteers who verify and translate each report by hand.
 
 ## Limits
 
-- **Start day only.** Hours after midnight are not examined, so a release after about 18:00 CST loses part of its window.
+- **Start day only, in the backtest.** The detector backtest examines only the release's start day, so a release after about 18:00 CST loses part of its window. The record check on a replayed spike is wider: a report matches if it was running from 6 hours before to 2 hours after the spike hour, a window that can cross midnight, and reports that started in the 30 days before are searched too.
 - **Anchors.** The window starts at the company's reported start time, and EPA ECHO facility points may not sit at the emission point.
 - **Wind source.** Four monitors (Galena Park, HRM-16 Deer Park, Clinton, HRM-3 Haden Road) have no weather-station wind and use their own AutoGC analyzer's resultant wind, which agrees within 22.5 degrees with weather-station wind in 87-91% of hours where both exist and reads about 0.3-0.4 mph slower; a monitor with neither on a day uses the nearest site's (18 of 468 spikes).
 - **Small numbers.** Two rates count as different only when their 95% Wilson intervals do not overlap, a deliberately conservative test. The audit had one reviewer and no blind second reading.

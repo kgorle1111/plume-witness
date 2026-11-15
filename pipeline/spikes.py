@@ -30,14 +30,44 @@ MAX_BYTES = 200_000
 COMPOUNDS = {"45201": "benzene", "43218": "1,3-butadiene"}
 # Backtest-only outcomes where the record check never ran. Each maps to the contract status that says so, plus a
 # reason shown next to it. A new backtest status fails the export until it is mapped here.
-ABSTAIN = {"no_wind": ("search_incomplete", "No wind data for that day, so no upwind area could be drawn.")}
-# Why a record check stopped short, from what the backtest row says (build.record_check needs both to claim absence).
-INCOMPLETE_REASON = {False: "TCEQ's search for that week did not return every report, so absence cannot be claimed.",
-                     True: "A report filed that day could not be placed on the map, so absence cannot be claimed."}
+ABSTAIN = {"no_wind": ("search_incomplete", "no_wind")}
+# Why a record check stopped short, as a code the web maps to a translated label, plus the English sentence. Taken in
+# build.record_check's order: a day search that missed rows, wind too light for a corridor, the 30 earlier days not
+# all searched, else (all searched, wind fine) a report open at that hour that could not be placed on the map.
+REASONS = {
+    "no_wind": "No wind data for that day, so no upwind area could be drawn.",
+    "day_search_incomplete": "TCEQ's search for that week did not return every report, so absence cannot be claimed.",
+    "calm_wind": "The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was "
+                 "drawn and absence cannot be claimed.",
+    "earlier_search_incomplete": "Reports that started in the 30 days before could not all be searched, so absence "
+                                 "cannot be claimed.",
+    "report_not_placed": "A report open at that hour (started that day or earlier) could not be placed on the map, "
+                         "so absence cannot be claimed.",
+}
+
+
+# kn: `reason` keeps the three sentences web/src/spikes.ts maps to labels today (the "check" one sends the reader to
+# the night's Check step, which states the real cause). Drop this once the web maps reason_code; REASONS above is the
+# accurate text (feeds use it).
+WEB_REASON = {"no_wind": REASONS["no_wind"], "day_search_incomplete": REASONS["day_search_incomplete"]}
+WEB_REASON_CHECK = "A report filed that day could not be placed on the map, so absence cannot be claimed."
+
+
+def incomplete_reason(s: dict) -> str:
+    """The reason code for a search_incomplete backtest row (see REASONS)."""
+    if not s.get("search_complete"):
+        return "day_search_incomplete"
+    if s.get("calm_mph") is not None:
+        return "calm_wind"
+    if not s.get("earlier_search_complete"):
+        return "earlier_search_incomplete"
+    return "report_not_placed"
+
+
 ROW_KEYS = ("night_id", "date", "hour_cst", "site_id", "site", "lat", "lon", "param", "compound", "value_ppb",
             "baseline_ppb", "ratio", "status", "reports_that_day")
 # Present only when they have a value, to keep the file under budget.
-OPTIONAL_KEYS = ("reason", "matched_incident", "report_url")
+OPTIONAL_KEYS = ("reason", "reason_code", "matched_incident", "report_url")
 
 
 class SpikeExportError(ValueError):
@@ -74,11 +104,11 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
         raise SpikeExportError(f"{where}: unknown param {param!r}; expected one of {sorted(COMPOUNDS)}")
     if not isinstance(hour, int) or isinstance(hour, bool) or not 0 <= hour <= 23:
         raise SpikeExportError(f"{where}: hour_cst must be an int 0..23, got {hour!r}")
-    reason = None
+    code = None
     if status in ABSTAIN:
-        status, reason = ABSTAIN[status]
+        status, code = ABSTAIN[status]
     elif status == "search_incomplete":
-        reason = INCOMPLETE_REASON[bool(s.get("search_complete"))]
+        code = incomplete_reason(s)
     elif status not in STATUSES:
         raise SpikeExportError(f"{where}: status {status!r} is not in contract.STATUSES; map it in spikes.ABSTAIN "
                                "with a plain-language reason, or add it to the contract")
@@ -96,7 +126,7 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
         "site_id": site, "site": site_names[site],
         "lat": round(lat, 5), "lon": round(lon, 5), "param": param, "compound": COMPOUNDS[param], "value_ppb": value,
         "baseline_ppb": base, "ratio": round(value / base, 1) if base > 0 else None, "status": status,
-        "reason": reason, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
+        "reason": WEB_REASON.get(code, WEB_REASON_CHECK) if code else None, "reason_code": code, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
         "report_url": build.STEERS_URL.format(incident) if incident else None,
     }
     return {k: v for k, v in row.items() if k in ROW_KEYS or v is not None}
@@ -112,7 +142,7 @@ def export(bt: dict, coords: dict[str, tuple[float, float]], region: regions.Reg
     rows = [export_row(s, i, coords, region.sites, region.nights_out) for i, s in enumerate(spikes)]
     rows.sort(key=lambda r: (r["date"], r["hour_cst"], r["site_id"], r["param"]))
     # A missing night file is expected only for the no-wind abstentions; any other gap means nights were not regenerated.
-    stray = [spike_id(r) for r in rows if r["night_id"] is None and r.get("reason") != ABSTAIN["no_wind"][1]]
+    stray = [spike_id(r) for r in rows if r["night_id"] is None and r.get("reason_code") != "no_wind"]
     if stray:
         raise SpikeExportError(f"no night file for {stray[:3]}; run `uv run python -m pipeline.nights"
                                f"{'' if region is regions.HOUSTON else ' --region ' + region.key}` first")
