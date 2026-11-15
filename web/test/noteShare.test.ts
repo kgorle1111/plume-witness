@@ -35,5 +35,5 @@ test('the note text carries the preview link in both languages', () => {
   const href = `${ORIGIN}/plume-witness/?night=${GALENA}&intro=0#packet`
   const link = noteShareUrl('/plume-witness/', href) ?? noteUrl(href)
   assert.equal(incidentNote(ev, link, 'en').split('\n').at(-1), `Replay: ${ORIGIN}/plume-witness/s/${GALENA}.html#check`)
-  assert.equal(incidentNote(ev, link, 'es').split('\n').at(-1), `Repetición: ${ORIGIN}/plume-witness/s/${GALENA}.html#check`)
+  assert.equal(incidentNote(ev, link, 'es').split('\n').at(-1), `Recorrido: ${ORIGIN}/plume-witness/s/${GALENA}.html#check`)
 })
