@@ -20,5 +20,93 @@
   "backtested": true,
   "n_sites": 2,
   "county": "JEFFERSON"
+ },
+ {
+  "key": "baytown",
+  "label": "Baytown",
+  "label_es": "Baytown",
+  "place": "near Baytown",
+  "place_es": "cerca de Baytown",
+  "dir": "regions/baytown/",
+  "backtested": false,
+  "n_sites": 2,
+  "county": "HARRIS"
+ },
+ {
+  "key": "brazoria",
+  "label": "Brazoria County",
+  "label_es": "Condado de Brazoria",
+  "place": "in Brazoria County",
+  "place_es": "en el condado de Brazoria",
+  "dir": "regions/brazoria/",
+  "backtested": false,
+  "n_sites": 1,
+  "county": "BRAZORIA"
+ },
+ {
+  "key": "corpus_christi",
+  "label": "Corpus Christi",
+  "label_es": "Corpus Christi",
+  "place": "in Corpus Christi",
+  "place_es": "en Corpus Christi",
+  "dir": "regions/corpus_christi/",
+  "backtested": false,
+  "n_sites": 1,
+  "county": "NUECES"
+ },
+ {
+  "key": "karnes",
+  "label": "Karnes County",
+  "label_es": "Condado de Karnes",
+  "place": "in Karnes County",
+  "place_es": "en el condado de Karnes",
+  "dir": "regions/karnes/",
+  "backtested": false,
+  "n_sites": 1,
+  "county": "KARNES"
+ },
+ {
+  "key": "san_antonio",
+  "label": "San Antonio area",
+  "label_es": "Área de San Antonio",
+  "place": "in the San Antonio area",
+  "place_es": "en el área de San Antonio",
+  "dir": "regions/san_antonio/",
+  "backtested": false,
+  "n_sites": 3,
+  "county": "BEXAR, COMAL, WILSON"
+ },
+ {
+  "key": "dallas_fort_worth",
+  "label": "Dallas-Fort Worth",
+  "label_es": "Dallas-Fort Worth",
+  "place": "in Dallas-Fort Worth",
+  "place_es": "en Dallas-Fort Worth",
+  "dir": "regions/dallas_fort_worth/",
+  "backtested": false,
+  "n_sites": 15,
+  "county": "DALLAS, DENTON, JOHNSON, TARRANT, WISE"
+ },
+ {
+  "key": "midland_odessa",
+  "label": "Midland-Odessa",
+  "label_es": "Midland-Odessa",
+  "place": "in Midland-Odessa",
+  "place_es": "en Midland-Odessa",
+  "dir": "regions/midland_odessa/",
+  "backtested": false,
+  "n_sites": 3,
+  "county": "ECTOR, MIDLAND"
+ },
+ {
+  "key": "el_paso",
+  "label": "El Paso",
+  "label_es": "El Paso",
+  "place": "in El Paso",
+  "place_es": "en El Paso",
+  "dir": "regions/el_paso/",
+  "backtested": false,
+  "n_sites": 1,
+  "county": "EL PASO"
  }
 ]

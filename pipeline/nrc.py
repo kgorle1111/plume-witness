@@ -46,7 +46,8 @@ TIMEOUT_S, DELAY_S = 300, 3.0
 MAX_XLSX_BYTES = 60_000_000  # kn: CY24 is 15 MB, CY25 18 MB; refuse anything far larger rather than fill the disk
 # The counties of pipeline.regions (STEERS spelling). kn: a corridor can reach a neighbouring county (Chambers
 # from Baytown); the STEERS search is county-bound too, so both sources stop at the same line.
-COUNTIES = ("HARRIS", "JEFFERSON")
+COUNTIES = ("HARRIS", "JEFFERSON", "BRAZORIA", "NUECES", "KARNES", "BEXAR", "COMAL", "WILSON", "DALLAS", "DENTON",
+            "JOHNSON", "TARRANT", "WISE", "ECTOR", "MIDLAND", "EL PASO")
 STATE = "TX"
 
 CAS = {"45201": "71-43-2", "43218": "106-99-0"}
@@ -320,8 +321,9 @@ _CACHE: dict[Path, dict] = {}
 
 
 def load(county: str, path: Path = EXTRACT) -> list[dict]:
-    """The committed extract's reports for one county (STEERS spelling, any case). Missing file is an error: a
-    record check that silently skipped NRC would read as 'searched NRC, found nothing'."""
+    """The committed extract's reports for one county (STEERS spelling, any case), or for several joined by ", " (a
+    region searched by more than one county). Missing file is an error: a record check that silently skipped NRC
+    would read as 'searched NRC, found nothing'."""
     if path not in _CACHE:
         if not path.exists():
             raise NrcError(f"{path} is missing; run `uv run python -m pipeline.nrc` to fetch and extract NRC reports")
@@ -329,11 +331,11 @@ def load(county: str, path: Path = EXTRACT) -> list[dict]:
         if doc.get("schema") != EXTRACT_SCHEMA:
             raise NrcError(f"{path}: schema {doc.get('schema')!r}, expected {EXTRACT_SCHEMA}")
         _CACHE[path] = doc
-    want = county.upper()
-    if want not in _CACHE[path]["counties"]:
+    want = {c.strip().upper() for c in county.split(",")}
+    if not want <= set(_CACHE[path]["counties"]):
         raise NrcError(f"county {county!r} is not in the NRC extract ({_CACHE[path]['counties']}); add it to "
                        "nrc.COUNTIES and re-run `uv run python -m pipeline.nrc`")
-    return [r for r in _CACHE[path]["reports"] if r["county"] == want]
+    return [r for r in _CACHE[path]["reports"] if r["county"] in want]
 
 
 # ---- fetch --------------------------------------------------------------------------------------------------------

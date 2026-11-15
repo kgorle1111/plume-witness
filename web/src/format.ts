@@ -62,9 +62,6 @@ const CANNOT_SAY_ES: Record<string, string> = {
   // pipeline/build.py BORROWED_WIND_CAVEAT: only on nights whose wind was measured at another monitor.
   'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
     'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
-  // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
-  'Outside the backtest: statuses use the same rules, but how well they work in this region is not measured':
-    'Fuera de la prueba retrospectiva: los estados usan las mismas reglas, pero no se ha medido qué tan bien funcionan en esta región',
   // pipeline/regions.py BACKTESTED_NOTE; the "(n = 81, 2024-2025)" part is carried over as written.
   'Backtested against company-reported releases':
     'Probado retrospectivamente con liberaciones reportadas por las empresas',

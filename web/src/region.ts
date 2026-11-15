@@ -61,8 +61,9 @@ export function buildRegions(rows: readonly RegionRow[]): Regions {
 
 export const REGIONS: Regions = buildRegions(registry as RegionRow[])
 
-/** Shown wherever a not-backtested region's data appears; the pipeline writes the same sentence into its files. */
-export const NOT_BACKTESTED_NOTE = 'Outside the backtest: statuses use the same rules, but how well they work in this region is not measured.'
+// kn: App.tsx's region banner still imports this to swap a region note for its translation. No file carries a
+// note of that kind any more (pipeline/regions.py), so it matches nothing; delete it with that banner.
+export const NOT_BACKTESTED_NOTE = ''
 
 /** The region for a key, or Houston when the key is missing or unknown (own keys only: never "toString"). */
 export function regionByKey(key: string | null | undefined, regions: Regions = REGIONS): RegionInfo {

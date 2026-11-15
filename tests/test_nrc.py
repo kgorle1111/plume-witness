@@ -58,7 +58,7 @@ def test_extract_joins_the_three_sheets_and_keeps_only_the_counties(tmp_path):
         "INCIDENT_COMMONS": [IC_HEAD,
                              ["11", "6/21/2024 9:38", "OCCURRED", "FIXED", "1 MAIN ST", "TX", "Harris",
                               "29", "42", "0", "N", "95", "15", "0", None],
-                             ["12", "6/21/2024 9:00", "OCCURRED", "FIXED", "2 MAIN ST", "TX", "DALLAS"] + [None] * 8,
+                             ["12", "6/21/2024 9:00", "OCCURRED", "FIXED", "2 MAIN ST", "TX", "LUBBOCK"] + [None] * 8,
                              ["13", "6/21/2024 9:00", "OCCURRED", "FIXED", "3 MAIN ST", "LA", "HARRIS"] + [None] * 8],
         "MATERIAL_INVOLVED": [["SEQNOS", "CAS_NUMBER", "AMOUNT_OF_MATERIAL", "UNIT_OF_MEASURE", "NAME_OF_MATERIAL"],
                               ["11", "000071-43-2", "7581", "POUND(S)", "LIQUID BENZENE"],
@@ -66,7 +66,7 @@ def test_extract_joins_the_three_sheets_and_keeps_only_the_counties(tmp_path):
                               ["12", "000071-43-2", "5", "POUND(S)", "BENZENE"]],
     })
     rows = nrc.extract(p)
-    assert [r["report"] for r in rows] == ["11"]  # Dallas County and a Louisiana "Harris" are left out
+    assert [r["report"] for r in rows] == ["11"]  # Lubbock County (no AutoGC region) and a Louisiana "Harris" are left out
     r = rows[0]
     assert (r["incident_local"], r["company"], r["county"], r["received"]) == (
         "2024-06-21T09:38", "ACME CHEMICAL", "HARRIS", "2024-06-21T15:58")

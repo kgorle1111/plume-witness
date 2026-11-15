@@ -1,0 +1,1603 @@
+[
+ {
+  "file": "region_corpus_christi/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:29:16+00:00"
+ },
+ {
+  "file": "region_corpus_christi/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:29:19+00:00"
+ },
+ {
+  "file": "region_corpus_christi/tamis_48_355_0083.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=483550083",
+  "params": null,
+  "bytes": 90613,
+  "sha256": "db558549660358f810ce86127df4ff7e103d84eda60da22ad2f38a999387647e",
+  "fetched_at": "2026-11-15T10:29:22+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2024_48_355_0083_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0083",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88712,
+  "sha256": "32902faa0ad52746985a0cbc3fa7e7a1ba67c74fffb47c1ae3d2647256d2ca20",
+  "fetched_at": "2026-11-15T10:29:28+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2024_48_355_0083_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0083",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88722,
+  "sha256": "0cf68dffd93d82990ce6d8eb8d18a7c1c5399b6c1ba580da7704a0c6af14faf9",
+  "fetched_at": "2026-11-15T10:29:34+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2025_48_355_0083_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0083",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88404,
+  "sha256": "5ce5f80d43b29648f0620474eae545d34e21e4effb13841116f662ec141054de",
+  "fetched_at": "2026-11-15T10:29:40+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2025_48_355_0083_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0083",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88361,
+  "sha256": "b02eb69c20601f9e44cb7a0c0e6c60f20a4a2b1acb8c8f2c7ccb8fb5e779ca95",
+  "fetched_at": "2026-11-15T10:29:45+00:00"
+ },
+ {
+  "file": "region_corpus_christi/met_2024_48_355_0083_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Corpus Christi Palm C83 |48_355_0083|83",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68398,
+  "sha256": "a3429fcdaa7da369b33ef2593abb49df6b7bf0300ef9face16c1c949591fd09f",
+  "fetched_at": "2026-11-15T10:30:01+00:00"
+ },
+ {
+  "file": "region_corpus_christi/met_2024_48_355_0083_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Corpus Christi Palm C83 |48_355_0083|83",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 73697,
+  "sha256": "6c83e8bee89ad5023a769fcb200dcebc6a2a6a8aa7eac78487c1c4382c888899",
+  "fetched_at": "2026-11-15T10:30:01+00:00"
+ },
+ {
+  "file": "region_corpus_christi/met_2025_48_355_0083_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Corpus Christi Palm C83 |48_355_0083|83",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68701,
+  "sha256": "132f10f746137267c59cb16567633e092cc48c80bc337991c2d002d3c4397366",
+  "fetched_at": "2026-11-15T10:30:17+00:00"
+ },
+ {
+  "file": "region_corpus_christi/met_2025_48_355_0083_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Corpus Christi Palm C83 |48_355_0083|83",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 73786,
+  "sha256": "b73333de9f1b061ed485149e66622cee3834fd642b7337b0adce134097d21553",
+  "fetched_at": "2026-11-15T10:30:17+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2024_48_355_0083_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0083",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78252,
+  "sha256": "8fce26c04c398c7a43f93d9ba2208141d69db61143d48ab483b7ac8ffb579afa",
+  "fetched_at": "2026-11-15T10:30:22+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2024_48_355_0083_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0083",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83631,
+  "sha256": "7c5623141d013c1999590a41e1c7bbbd1d21218b51a32750e4e7f5a75a3d385f",
+  "fetched_at": "2026-11-15T10:30:27+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2025_48_355_0083_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0083",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78500,
+  "sha256": "f9ee3205a9a4d2dd9d89aa82ff49c09dfd4cbe988272c88f481f9b6b29772eb5",
+  "fetched_at": "2026-11-15T10:30:31+00:00"
+ },
+ {
+  "file": "region_corpus_christi/agc_2025_48_355_0083_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0083",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83668,
+  "sha256": "7bad52ccb02d2933982b2e74d44b2ddcca5b76b7477764ce9466364c420b25c8",
+  "fetched_at": "2026-11-15T10:30:36+00:00"
+ },
+ {
+  "file": "region_corpus_christi/echo_48_355_0083_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "27.8029",
+   "p_long": "-97.4199",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "60",
+   "pageno": "1"
+  },
+  "bytes": 114826,
+  "sha256": "a30c948112df4e054b793b8aa5b35b738479f93f53acdc452cf52ece8591ae82",
+  "fetched_at": "2026-11-15T10:30:42+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "f4294e89593ba4e007acbd845cf78ce67119cab427ea9831b380819052c619ad",
+  "fetched_at": "2026-11-15T11:04:47+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9590,
+  "sha256": "37d59efcbd85a54524534e97324925db9b43ee085eac68fd1ddd66dfaf8e089e",
+  "fetched_at": "2026-11-15T11:04:49+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 10166,
+  "sha256": "b13269276429146eec1fd88ecab72e5d9477cea60b272d59d27328f0a5d2e9b1",
+  "fetched_at": "2026-11-15T11:04:52+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "bbb87c0728fe519aed80808958b52cf4300c0b0139608a769a69f9b268e3e739",
+  "fetched_at": "2026-11-15T11:04:55+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8434,
+  "sha256": "d3226903f39fcdb0a70257a59b59ac03ef0df387fd0e1906119e5f3cf8409355",
+  "fetched_at": "2026-11-15T11:04:57+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8457,
+  "sha256": "903ab7837d9a2d450c02fd88a7b9e741c5a8d8101170a2d8873ef41c85562cbc",
+  "fetched_at": "2026-11-15T11:05:00+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9015,
+  "sha256": "d8dcfd1ac77fbe68887c20823f0dbdb32c99e63c665a2bf50ee833735c68445f",
+  "fetched_at": "2026-11-15T11:05:02+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8448,
+  "sha256": "53d83ce34975379e61286ad7c9988dcae3993e6bf88cea94ec4301017e8c9b5f",
+  "fetched_at": "2026-11-15T11:05:05+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8467,
+  "sha256": "fe07b80949b025b016991778c049a5b4864b010d9daebd1233cb97e49577dcb1",
+  "fetched_at": "2026-11-15T11:05:08+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9033,
+  "sha256": "4318717f5d5ae0d2e088ee26e024f183b67049eea404d422c70131c423591565",
+  "fetched_at": "2026-11-15T11:05:10+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9636,
+  "sha256": "cff055ad651e30301ef4f4d831fba4b8ca227bad0e68cc43c332fe3e49511afb",
+  "fetched_at": "2026-11-15T11:05:13+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8467,
+  "sha256": "86daf49cef0a5bd37b6000757945db44d2611ab32dd709dd54cfac39aaa90066",
+  "fetched_at": "2026-11-15T11:05:16+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9040,
+  "sha256": "f57360a84ef8f58195df44d431de85175495c75fabb751ef7362d65014ce5a5c",
+  "fetched_at": "2026-11-15T11:05:18+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9000,
+  "sha256": "1b930b3e9fdd96fc59ffbee5447de3f2d02b12728ca407795f5be90f6c287d99",
+  "fetched_at": "2026-11-15T11:05:21+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "8b86cc3ccf1995718d4e8d994288a84bcea098e7dbac5be64ce257af407f7442",
+  "fetched_at": "2026-11-15T11:05:24+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9015,
+  "sha256": "af30cdb61d1eed9666b93ef355f5bc791fd10643ad068713e9ea2327f3c265d1",
+  "fetched_at": "2026-11-15T11:05:26+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "ebe02b4a312224dbd912d70753706b4af258be8e9a0a729028cce0caa8e1ce86",
+  "fetched_at": "2026-11-15T11:05:29+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "56403d825669cec24802ae5a857dc66e15e9fcece9d77a6ee3b187025a77da26",
+  "fetched_at": "2026-11-15T11:05:31+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8444,
+  "sha256": "183eabb6ef6975a814c186f6526ba0ff0b6217c35f4f95ddd3d4b6320af35d85",
+  "fetched_at": "2026-11-15T11:05:34+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8971,
+  "sha256": "c9b48073577ca81ff461809dcb8a8dd2b09bbd5ee430a11bac0f372c8171144a",
+  "fetched_at": "2026-11-15T11:05:37+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "da33ec5bb4c53ccdb5876fa0f384e8532cad631b469bfa98ee4a8c1a7ac639c6",
+  "fetched_at": "2026-11-15T11:05:39+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "ed58d5c928af864443b9b70107d2cdd2f919f1b8666f9870ba12486a6c680fb0",
+  "fetched_at": "2026-11-15T11:05:42+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8449,
+  "sha256": "9adca7bc342c3ceae0d0eed35ce8d1bd2b7110d500c1ef0d9d8810c8ff38eed8",
+  "fetched_at": "2026-11-15T11:05:44+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "bdab91a3d80c70dcea1097a0ca77ef40944b798ac4becb5d97a499e09d751fe8",
+  "fetched_at": "2026-11-15T11:05:47+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 10204,
+  "sha256": "6366adc16d630dea9fb7aa6952899e1041bdf9a4589d7ba398343b8af0cce180",
+  "fetched_at": "2026-11-15T11:05:50+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "51c05d3d00765648a229d48b15e1218bd722baeb7f1f674873af58a4f99ef03c",
+  "fetched_at": "2026-11-15T11:05:52+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "b8c4e2e003aa08fb588bb520ae64a857d2f609d0df02d76ebf7f447c766f5b60",
+  "fetched_at": "2026-11-15T11:05:55+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8429,
+  "sha256": "5860a41b301c49e8805d80c1fb5e4508c9884daa136e36c886475b4f3a9a6bdc",
+  "fetched_at": "2026-11-15T11:05:58+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "b2410ef7d7179e3b5c9d80c549b959a071c5768057e379bc49e6c4105bee07c6",
+  "fetched_at": "2026-11-15T11:06:00+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9013,
+  "sha256": "362bbc3d6fd8a2020f226c8395942f382f470d2fd8c9956d48e75f799fea2577",
+  "fetched_at": "2026-11-15T11:06:03+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "158947385307d10fa07a4eca9a301402ff19e6847df72c8601471aae865c8f89",
+  "fetched_at": "2026-11-15T11:06:05+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "e8b087e0932ef20e14d5b39773da34071f17b7713f48378149b43e64523576da",
+  "fetched_at": "2026-11-15T11:06:08+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "6d086002c989a1059875a01f88695b752b3af2101b476373a3cd9e0dd6e1eb1e",
+  "fetched_at": "2026-11-15T11:06:11+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9564,
+  "sha256": "cb0de075aa22a74e95fba3af58c9b2845f2fa269cb14943b887719d38a5cd179",
+  "fetched_at": "2026-11-15T11:06:13+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9032,
+  "sha256": "430371a104e0c506dbf47ed448eb1f569656c45bc5fa7f151243dff8f19eb5a0",
+  "fetched_at": "2026-11-15T11:06:16+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "d7c6b6282aee408494a9020e33785a26ece7282bbb831e43407dc84eb173afaf",
+  "fetched_at": "2026-11-15T11:06:18+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9037,
+  "sha256": "70b5b87ad74adeb3248c956ecaad7cfe477f536e8b678a4047bd6047cec783c9",
+  "fetched_at": "2026-11-15T11:06:21+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "8cbfca1e61a8a613bb3ac792e2e80ee733bc8a1cb7692f033af0e418f9ec77d5",
+  "fetched_at": "2026-11-15T11:06:24+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "917e745e5c854c6b2f6aa8afc8c9fb330424e63809352deec066c5e120935d83",
+  "fetched_at": "2026-11-15T11:06:26+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "49b393530e279ed2cac3e5af3d08588b961e5c05fb75c4099c566af9e5c6a57e",
+  "fetched_at": "2026-11-15T11:06:29+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9004,
+  "sha256": "5cce7aa44b39be8d9061f0672ad1ae60ef2f2dd74c5ea701cf911b60b86831c6",
+  "fetched_at": "2026-11-15T11:06:32+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9037,
+  "sha256": "664a3321d1d009f7933911e3170bbb173c9ad3036da9cc5293d5f726802b3ec0",
+  "fetched_at": "2026-11-15T11:06:34+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "23ef69c4d6d2944ce3a028e5ed9705f03475eaaee942ffa63590a38bcd2e068d",
+  "fetched_at": "2026-11-15T11:06:37+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "592cc5bd9087774c35e5d93b80d9e5fbac953d61b6637422d3c2e0ec73e67dcb",
+  "fetched_at": "2026-11-15T11:06:39+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "493b74a739242aa67634b50453cdb286805d70fe6ab122a9353b23506320bb92",
+  "fetched_at": "2026-11-15T11:06:42+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "f91c8eb8be3fbc9b122df9dae7cb7d6d0c8a2e39f48cb1e88606309866692caa",
+  "fetched_at": "2026-11-15T11:06:45+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8472,
+  "sha256": "a45e1d666a4fe47e58c1e6895f9e712e594cbccc673c5539b293968df13b56bf",
+  "fetched_at": "2026-11-15T11:06:47+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "af8006febf116221d533c5f1719b9f62b812dffe61b51c3821b69dcd4616d12a",
+  "fetched_at": "2026-11-15T11:06:50+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "ecaafbc31727e8dfd831a0322d5f62f7c927c56d4233b3008955fc63b4c9571d",
+  "fetched_at": "2026-11-15T11:06:53+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8471,
+  "sha256": "706bcec4e0032730ff3b9f818630be334a381a06f6d6cdbc58ad8ed002ee0b76",
+  "fetched_at": "2026-11-15T11:06:55+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 10187,
+  "sha256": "7e12d00ea2f8d6c138791e7c2dcba90d1aa833e8026e4b21e60f772d3658410e",
+  "fetched_at": "2026-11-15T11:06:58+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8448,
+  "sha256": "10435bc00c888a9b683a2236954f0e6490eec24ef91d0c3ab96d9c09f6098156",
+  "fetched_at": "2026-11-15T11:07:00+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "cec886c9d8d27e6dbcb3599c5897358330c8a970fc7e8d4dccccb6266bd30b29",
+  "fetched_at": "2026-11-15T11:07:03+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "ff6015d37f6820f797465d323750010a52942f95e03aa681f830c6641f26fd6b",
+  "fetched_at": "2026-11-15T11:07:06+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 11244,
+  "sha256": "274e481620a949b464f12973f5a1166eb802b30c1ef71645160fa5ce640330f0",
+  "fetched_at": "2026-11-15T11:07:09+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 11254,
+  "sha256": "e34c345a54fcaf6ac3c75d17fafabe29767c070944c91ffcafc36cc25ee8e337",
+  "fetched_at": "2026-11-15T11:07:11+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8467,
+  "sha256": "e0ddffde572c2b8d33274740ca86d3867658fd9f2207e6ef75e5457ef1dc794a",
+  "fetched_at": "2026-11-15T11:07:14+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "f270540ec1fb01dc89cd9ef8a53304243493812e4d2b739b3ffb1a79e03bb0f8",
+  "fetched_at": "2026-11-15T11:07:16+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8430,
+  "sha256": "0da098f1f5dfafef53e3757bd8865b1c6dc5c84c5c5be220d04e6706f27c99b2",
+  "fetched_at": "2026-11-15T11:07:19+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9024,
+  "sha256": "9e31a6fcf526e9b4992ce1b46b4d47ce875c99f8a13d04a6c10f3ea3d36c516c",
+  "fetched_at": "2026-11-15T11:07:22+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8457,
+  "sha256": "f6bad2985989fd92ee7106e5edc79c7dc3ffad6447f082b4f330ad2a157c30e3",
+  "fetched_at": "2026-11-15T11:07:24+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "bc9e4077dde9f4d1683fff18ed7880d79917e910f2015b6d87ee904c9bfa0964",
+  "fetched_at": "2026-11-15T11:07:27+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9007,
+  "sha256": "13fd28055da1558c3246099a32ee8670411d31ccca16f9a6065a7138fa3a89af",
+  "fetched_at": "2026-11-15T11:07:29+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "b044d1595100890f41a649ed96390681cb75f79af5b308b2147ef817f9e42bd3",
+  "fetched_at": "2026-11-15T11:07:32+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "048ce4565bd1861f45ba813d216b2ed66762fb621f8c3cef38119c89aea46d6e",
+  "fetched_at": "2026-11-15T11:07:35+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "d7e053cc21c2614d862ecf81108255c5c4aa71abadc5ac4938339972e1c63708",
+  "fetched_at": "2026-11-15T11:07:37+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "09a2d075815bbc4b0d1fd84afadd49767edb6150faf9bc93baf85c1ca65087c7",
+  "fetched_at": "2026-11-15T11:07:40+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "dbf01a303630c28373c9f303827db3440566651a0a0ea80d4574ddc666048d73",
+  "fetched_at": "2026-11-15T11:07:42+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8431,
+  "sha256": "485726eff09fb771e1438b859de5e6572e46a8f88b568b99b55003d4d6e3a177",
+  "fetched_at": "2026-11-15T11:07:45+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "9506ca03906228dc6104162408a62c87505b52334bf2e3a15405a6930527f8b5",
+  "fetched_at": "2026-11-15T11:07:48+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "56b140691e44bd025f033210f89187e5bff4bf2967dd72e4d7bb55cda65b4eda",
+  "fetched_at": "2026-11-15T11:07:50+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9621,
+  "sha256": "63fbfc29a609d1bad60376c4109796252aa4d8830fa010b746b665ec33e95f94",
+  "fetched_at": "2026-11-15T11:07:53+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8457,
+  "sha256": "5678f858395ecd973a4bf9e671b71963bc7e435842d22cce14eca97bb33021aa",
+  "fetched_at": "2026-11-15T11:07:56+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9015,
+  "sha256": "cdf0e791c57268000aa54a153ec3356ab57dfd29878fe172084507da010e2cb1",
+  "fetched_at": "2026-11-15T11:07:58+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "559d4060c1469069de8501bd69ce02a7bd4adbae8fd743ba8495af462a8f71fc",
+  "fetched_at": "2026-11-15T11:08:01+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "30c54b80cd6bbb8c24662c6fb9527a8ce623aeabbc6f923f7e1fe9122025da4f",
+  "fetched_at": "2026-11-15T11:08:03+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "5df39776365bb2ae9a55bebd68e34fff7fdd2e4fc0eae3a9bbd10c735d4cccfd",
+  "fetched_at": "2026-11-15T11:08:06+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8969,
+  "sha256": "7eb1d7becbc2cb68bb363ee6bc6644311bcb750e328dcc862cf8d01e2806bfa2",
+  "fetched_at": "2026-11-15T11:08:09+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8448,
+  "sha256": "77b115f9e77bb4dd6491d6c7bc1d84bd038aa4e6abb729c6d5ab500b50db9ea1",
+  "fetched_at": "2026-11-15T11:08:11+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "b1e19c882b2f516abab6d0e60116b73b70d8616a15636c49a5e85870bee5c2cf",
+  "fetched_at": "2026-11-15T11:08:14+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "a53ddeed3ab843a5d82feb0d1854f36488827ccaefd0404cc4ad8bc5ba63a760",
+  "fetched_at": "2026-11-15T11:08:17+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "09c03f8599d25a5493f173779d81df74ddedc1f63700253b3551bb499689709a",
+  "fetched_at": "2026-11-15T11:08:19+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9023,
+  "sha256": "d2070a5990f1ef9b1c2a0b7d24ebed5e926d785acd8f11497516bb7d0a035123",
+  "fetched_at": "2026-11-15T11:08:22+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "90fa36212ae7ff81b655c81e2378e59ea0fd3984a06c6fc01a06a8f53500dcad",
+  "fetched_at": "2026-11-15T11:08:24+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "802f78853eaad777386e08cf7143eb15ba615aa554129ac98f97cfdb9828b383",
+  "fetched_at": "2026-11-15T11:08:27+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8434,
+  "sha256": "605954435754a9db92a3ccb65f8fcda67859fed275d35dda8f57010a6853dbf3",
+  "fetched_at": "2026-11-15T11:08:30+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8471,
+  "sha256": "6cef297b8cdafc9634db67daf2c2d5a153367d60969e3119ab56a74146643f0c",
+  "fetched_at": "2026-11-15T11:08:32+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "532d04be8e0fea815f229ce8d6855c11f9ccb141c89dca8fb143e93bc4b32c34",
+  "fetched_at": "2026-11-15T11:08:35+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8457,
+  "sha256": "4de953f8c7c7c51413405e25f81f455505b14b0635f5e0651c2a5d0b38985abd",
+  "fetched_at": "2026-11-15T11:08:38+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "1b56f4f2ba7bc40ba8d24717af772152684fdef451b459a05f6bc32423fd3d76",
+  "fetched_at": "2026-11-15T11:08:40+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "3b74252e6e55141b253cc8bbab84be1c807136e2338f8aacd0a073a126b7d8ea",
+  "fetched_at": "2026-11-15T11:08:43+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "921441a5fab8b6e3f46bb213f76fac8f08b2189bc2633bd3bf0cafee4fb26773",
+  "fetched_at": "2026-11-15T11:08:45+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "b93f540f878d6bfe1bb5e3c439e5084e48292cf45aa6ca8fbe6192e2ff15ec3e",
+  "fetched_at": "2026-11-15T11:08:48+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "0b587223e6ca848c7bb16647e6e6c6c3945cb15d3862a5b7d753d60b5813884f",
+  "fetched_at": "2026-11-15T11:08:51+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "4d1f6430515e435d80ef9c8ca37fd80a33bde9a5781eee8890aeeabfe3d4b30b",
+  "fetched_at": "2026-11-15T11:08:53+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8457,
+  "sha256": "40acbf0d95a53e32e3a21c6a3ac56b1d46b735346d609e3f7c9e9d705afcbc4c",
+  "fetched_at": "2026-11-15T11:08:56+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "dc137c6f12007bd543f4ef7f903bc920ad40e72b0ff05355c4547d7db4ca3557",
+  "fetched_at": "2026-11-15T11:08:59+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "bc9443260de7203f7ed68c221ff2761dfd400eeb874c969201f888180e667b91",
+  "fetched_at": "2026-11-15T11:09:01+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "de43c10ad06a0c14caf7ec3e3dbb2b534f362d84509f4f85c13fbd23a7d8dd23",
+  "fetched_at": "2026-11-15T11:09:04+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "fb8de8698f701e888ab4cb477d5953ed06f7f7325ae7d590870bc41d090f2c88",
+  "fetched_at": "2026-11-15T11:09:06+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 8464,
+  "sha256": "85d5777a6abe6a81185ae5e67fb8104991b2c4a64db120da436e0a475dd282c2",
+  "fetched_at": "2026-11-15T11:09:09+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "ecb2b118cfc27ae5548f8f00a181da56e3125fad2eb6ae3838b36b60d2795740",
+  "fetched_at": "2026-11-15T11:09:12+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 9017,
+  "sha256": "17a51c9b93655173050d8bf7a7643ead9228bfec72e94e2da0595cbd95c92efc",
+  "fetched_at": "2026-11-15T11:09:14+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "cffb7dacd7a30eaa61ade591e8944c5f0a9cfa6beb0ea190793cbaf1558676a1",
+  "fetched_at": "2026-11-15T11:09:17+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_search_nueces_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "NUECES"
+  },
+  "bytes": 5255,
+  "sha256": "d98cecc3a9cf7f5995fc6d347c562254aa8748f451988dcb40816f41444c7f00",
+  "fetched_at": "2026-11-15T11:09:20+00:00"
+ },
+ {
+  "file": "region_corpus_christi/steers_415297.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415297",
+  "params": null,
+  "bytes": 25379,
+  "sha256": "2375ac84a5ab3776fb7955095e000ca43e13521181c77a456bb6efb41cf28831",
+  "fetched_at": "2026-11-15T11:09:27+00:00"
+ }
+]
