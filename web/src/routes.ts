@@ -1,6 +1,6 @@
-export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities'
+export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline'
 
-const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities'])
+const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities', 'timeline'])
 
 /** Existing replay links keep their original query parameters and step hashes; only a bare URL opens the landing page. */
 export function pageFromLocation({ search, hash }: Pick<Location, 'search' | 'hash'>): Page {

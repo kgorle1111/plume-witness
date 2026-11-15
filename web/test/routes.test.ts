@@ -11,6 +11,8 @@ test('a bare URL opens the landing page', () => {
 test('every view keeps its own page', () => {
   assert.equal(page('?view=spikes'), 'spikes')
   assert.equal(page('?view=brief'), 'brief')
+  assert.equal(page('?view=timeline'), 'timeline')
+  assert.equal(page('?view=timeline&at=2024-06-15'), 'timeline')
   assert.equal(page('?view=facilities'), 'facilities')
   assert.equal(page('?view=facility&id=110000462623'), 'facility')
 })

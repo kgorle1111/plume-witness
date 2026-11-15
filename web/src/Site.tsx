@@ -5,6 +5,7 @@ import { pageFromLocation } from './routes'
 
 // ?view=spikes opens the past-spikes log; its code and spikes.json load only then.
 const SpikeLog = lazy(() => import('./SpikeLog'))
+const SpikeRain = lazy(() => import('./SpikeRain'))
 const Brief = lazy(() => import('./Brief'))
 const FacilityViews = lazy(() => import('./FacilityViews'))
 
@@ -48,6 +49,12 @@ export default function Site() {
   if (page === 'spikes') return (
     <Suspense fallback={<main className="state-msg"><p>Loading the spike log…</p></main>}>
       <SpikeLog />
+    </Suspense>
+  )
+
+  if (page === 'timeline') return (
+    <Suspense fallback={<main className="state-msg"><p>Loading two years of spikes…</p></main>}>
+      <SpikeRain />
     </Suspense>
   )
 

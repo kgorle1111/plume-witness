@@ -1,14 +1,6 @@
-import { statusInfo } from './format'
+import { STATUS_FILL as FILL, statusInfo } from './format'
 import { dateText, type SpikeRow } from './spikes'
 
-// Fill per record-check result, from the same hue families as the table's status tags.
-const FILL: Record<string, string> = {
-  no_report_after_deadline: '#b42318',
-  reported_mismatch: '#7a3fb0',
-  search_incomplete: '#8a8a94',
-  not_yet_reported: '#a36200',
-  reported: '#1f7a45',
-}
 // A cell with two spikes (one per compound) shows the result that leaves the most open: no report first.
 const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'search_incomplete', 'reported']
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
