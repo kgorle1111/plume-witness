@@ -127,6 +127,13 @@ Caveats specific to this file: pounds are the facility's own estimates from the 
 only for benzene and 1,3-butadiene (the TCEQ record lists every compound); an empty `reports` list means no report in the
 cached pages, not that none exists.
 
+## Embedding a night
+
+`?night=<id>&embed=1` renders a compact view for an `<iframe>`: the map, one step (Detect, Trace or Check, chosen by the
+URL hash such as `#trace`) in a sentence or two, and an "Open in Plume Witness" link to the full replay. The
+"Embed this night" button on any replay shows the iframe HTML to copy. The embed carries the same limits: it makes no
+finding about any facility.
+
 ## License and citation
 
 - Code: MIT ([`LICENSE`](../LICENSE)).

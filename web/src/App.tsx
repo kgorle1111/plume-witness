@@ -7,6 +7,8 @@ import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from '.
 import { cannotSayEs } from './format'
 import type { Place } from './PlaceSearch'
 import { SiteFooter } from './SiteFooter'
+import { EmbedButton, EmbedReplay } from './EmbedView'
+import { isEmbed } from './embed'
 import './App.css'
 
 const STEPS = [
@@ -188,6 +190,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
         </p>
         <h1 className="event-title">{ev.title}</h1>
         {picker}
+        <EmbedButton title={ev.title} />
       </header>
       {ev.label === 'fixture' && (
         <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
@@ -265,5 +268,6 @@ export default function App() {
   const shown = invalid ? `"${night}" is not a night id.` : error
   if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={import.meta.env.BASE_URL}>Back to the demo night</a></p></main>
   if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
+  if (isEmbed(window.location.search)) return <EmbedReplay ev={ev} />
   return <Replay ev={ev} picker={<NightPicker current={night} />} />
 }
