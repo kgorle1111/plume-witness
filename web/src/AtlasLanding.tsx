@@ -45,6 +45,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
             <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
+        <a className="atlas-also" href={`${import.meta.env.BASE_URL}?view=timeline`}>Or watch two years of spikes</a>
       </section>
     </main>
   )

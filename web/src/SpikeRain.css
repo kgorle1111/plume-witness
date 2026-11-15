@@ -1,0 +1,118 @@
+/* Spike rain: a map, a scrubber, and a running count. The page scrolls; nothing here traps touch. */
+.rn-page { display: grid; gap: 14px; max-width: 1280px; margin: 0 auto; padding: 12px 16px 32px; min-width: 0; }
+.rn-back { justify-self: start; font-size: 0.9rem; padding-block: 8px; }
+.rn-head { display: grid; gap: 4px; }
+.rn-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.rn-head h1 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.01em; }
+.rn-sub { color: var(--ink-2); max-width: 70ch; }
+
+.rn-stage { display: grid; gap: 16px; min-width: 0; }
+.rn-main, .rn-side { display: grid; gap: 12px; min-width: 0; align-content: start; }
+
+.rn-map {
+  position: relative;
+  height: 50vh; height: 50dvh;
+  min-height: 260px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #eef0ec;
+}
+/* Scoped so it outranks .maplibregl-map { position: relative }, whose CSS loads later. */
+.rn-map .rain-canvas { position: absolute; inset: 0; }
+.rain-canvas .maplibregl-ctrl-attrib { font-size: 10px; line-height: 1.3; }
+.rn-map-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; color: var(--ink-2); }
+
+/* HUD: sits above the map, never moves with it. */
+.rn-hud {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  display: grid; gap: 0;
+  padding: 8px 12px 8px;
+  background: rgb(255 255 255 / 0.92);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.rn-date { font-size: clamp(1.5rem, 5.5vw, 2.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.rn-total { font-size: 0.85rem; color: var(--ink-2); }
+
+.rain-canvas .rain-monitor { width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 2px solid #1f5ea0; }
+.rain-monitor span {
+  position: absolute; left: 12px; top: -4px; white-space: nowrap;
+  font-size: 11px; line-height: 1; color: #23415f; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+}
+@media (max-width: 599px) { .rain-monitor span { display: none; } }
+
+.rn-caption { font-size: 0.92rem; color: var(--ink); }
+
+.rn-controls { display: grid; gap: 10px; }
+.rn-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rn-play { min-width: 112px; display: inline-flex; gap: 8px; align-items: center; justify-content: center; }
+.rn-key { font-size: 0.65rem; font-weight: 600; border: 1px solid rgb(255 255 255 / 0.6); border-radius: 4px; padding: 0 4px; opacity: 0.85; }
+.rn-speed { display: flex; gap: 6px; }
+.rn-speed .btn[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.rn-rm { color: var(--ink-2); font-size: 0.9rem; }
+.rn-hint { font-size: 0.8rem; color: var(--ink-3); }
+
+.rn-scrub { display: grid; gap: 2px; }
+.rn-scrub input[type='range'] {
+  --p: 0%;
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 28px; margin: 0; background: transparent; cursor: pointer;
+}
+.rn-scrub input[type='range']::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--ink) var(--p), #d3d3da var(--p));
+}
+.rn-scrub input[type='range']::-moz-range-track { height: 6px; border-radius: 3px; background: #d3d3da; }
+.rn-scrub input[type='range']::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--ink); }
+.rn-scrub input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; margin-top: -6px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--ink);
+}
+.rn-scrub input[type='range']::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 3px solid var(--ink); }
+
+/* Ticks sit inside the thumb's travel (half a thumb on each side), so a month lines up under its date. */
+.rn-ticks { position: relative; margin: 0 9px; }
+.rn-bars { display: block; width: 100%; height: 28px; }
+.rn-bars rect { fill: #d3d3da; }
+.rn-bars rect.on { fill: #8d8d99; }
+.rn-months { position: relative; height: 20px; border-top: 1px solid var(--line); }
+.rn-tick { position: absolute; top: 0; height: 6px; border-left: 1px solid var(--ink-3); font-size: 0.7rem; color: var(--ink-3); }
+.rn-tick.year { height: 10px; border-left-color: var(--ink); }
+.rn-tick { padding-left: 3px; padding-top: 6px; white-space: nowrap; line-height: 1; }
+.rn-tick b { color: var(--ink); }
+.rn-tick:empty { padding: 0; }
+
+.rn-side h2 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.rn-side section { display: grid; gap: 6px; align-content: start; }
+.rn-counts { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; font-variant-numeric: tabular-nums; }
+.rn-counts li { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; }
+.rn-dot { width: 12px; height: 12px; border-radius: 50%; }
+.rn-count-n { font-weight: 700; font-size: 1.1rem; }
+.rn-key-note { font-size: 0.8rem; color: var(--ink-2); }
+
+.rn-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.rn-list a {
+  display: grid; gap: 2px; justify-items: start; padding: 8px 10px; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 8px; color: var(--ink); text-decoration: none;
+}
+.rn-list a:hover { background: var(--bg-2); }
+.rn-li-when { font-size: 0.8rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.rn-li-what { font-size: 0.9rem; }
+.rn-empty { font-size: 0.85rem; color: var(--ink-2); }
+.rn-foot { font-size: 0.8rem; color: var(--ink-2); }
+
+.rn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (min-width: 900px) {
+  .rn-page { padding-inline: 24px; }
+  .rn-head h1 { font-size: 1.9rem; }
+  .rn-stage { grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; }
+  /* Header, map, caption and the scrubber fit one 800px-tall laptop screen. */
+  .rn-map { height: clamp(380px, calc(100dvh - 400px), 620px); }
+}
+
+/* Touch devices have no space bar or arrow keys. */
+@media (hover: none) { .rn-key, .rn-hint { display: none; } }

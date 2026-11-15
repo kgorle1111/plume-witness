@@ -10,6 +10,15 @@ export const STATUS_TEXT: Record<Status, { en: string; es: string; icon: 'check'
   search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'question' },
 }
 
+// Fill per record-check result, from the same hue families as the table's status tags (used by the calendar and the rain view).
+export const STATUS_FILL: Record<string, string> = {
+  no_report_after_deadline: '#b42318',
+  reported_mismatch: '#7a3fb0',
+  search_incomplete: '#8a8a94',
+  not_yet_reported: '#a36200',
+  reported: '#1f7a45',
+}
+
 export function statusInfo(s: string) {
   return (STATUS_TEXT as Record<string, (typeof STATUS_TEXT)[Status]>)[s]
     ?? { en: `Unknown status (${s})`, es: `Estado desconocido (${s})`, icon: 'alert' as const }

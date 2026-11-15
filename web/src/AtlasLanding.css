@@ -121,3 +121,6 @@
 @media (prefers-reduced-motion: reduce) {
   .atlas-leaving, .atlas-leaving .atlas-planet { animation-duration: 1ms; }
 }
+
+.atlas-also { margin-top: 14px; font-size: 14px; color: #442e29; text-underline-offset: 3px; }
+.atlas-also:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }
