@@ -21,7 +21,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from pipeline import build
-from pipeline.parse import _text, steers_incident, steers_search
+from pipeline.parse import _text, lbs_by_param, steers_incident, steers_search
 
 ROOT = Path(__file__).resolve().parent.parent
 BT = ROOT / "data" / "raw" / "backtest"
@@ -39,10 +39,6 @@ SITE_NAMES = {
     "48_201_1614": "HRM-16 Deer Park", "48_201_1035": "Clinton", "48_201_1015": "Lynchburg Ferry",
     "48_201_0803": "HRM-3 Haden Road", "48_201_0026": "Channelview",
 }
-_COMPOUND_RE = {
-    "45201": re.compile(r"(?<![A-Za-z-])benzene (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
-    "43218": re.compile(r"(?<![A-Za-z-])(?:1,3-butadiene|butadiene, ?1-3) (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
-}
 
 
 def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
@@ -56,8 +52,7 @@ def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
 
 def compound_pounds(path: Path) -> dict[str, float]:
     """Total reported pounds per compound across every emission point on a STEERS detail page."""
-    t = re.sub(r"\s+", " ", _text(path))
-    return {p: round(sum(float(x.replace(",", "")) for x in rx.findall(t)), 3) for p, rx in _COMPOUND_RE.items()}
+    return lbs_by_param(re.sub(r"\s+", " ", _text(path)))
 
 
 def event_meta(path: Path) -> dict:
@@ -218,7 +213,7 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
         det_day = datetime.strptime(day, "%m/%d/%Y").date()
         details, complete, _ = day_reports(day, rows_by_day, incomplete_weeks, raw)
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                        details, complete, det_day)
+                        details, complete, det_day, param)
         row = {"day": day, "param": param, "site_id": det["site_id"], "hour_cst": det["hour_cst"],
                "value": det["value"], "baseline": det["baseline"], "search_complete": complete,
                "day_reports": len(rows_by_day.get(day, []))}
@@ -273,7 +268,7 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
             "search_complete": complete, "unreadable_day_reports": unreadable}
     # the corridor is drawn from ECHO around the triggering monitor (10 mi = 16 km > the 15 km corridor)
     t = build.trace(monitors, load_winds(year, day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                    details, complete, det_day)
+                    details, complete, det_day, param)
     if "record_check" not in t:
         return out | {"reason": "no wind for the detection hours"}
     rc = t["record_check"]
