@@ -38,7 +38,10 @@ async function glide(locator, page, ms = 1400) {
     let box = el.parentElement;
     while (box && !/(auto|scroll)/.test(getComputedStyle(box).overflowY)) box = box.parentElement;
     if (!box) return;
-    const top = el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 12;
+    // The step tabs stick to the top of the panel, so land below them or they hide the target.
+    const stuck = box.querySelector(':scope > .stepper');
+    const under = stuck && getComputedStyle(stuck).position === 'sticky' ? stuck.offsetHeight : 0;
+    const top = el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 12 - under;
     box.scrollTo({ top, behavior: 'smooth' });
   });
   await hold(page, ms);
@@ -54,4 +57,16 @@ async function zoomMap(page, x, y, ticks, dy = -120) {
   await hold(page, 900);
 }
 
-module.exports = { hold, ready, tab, glide, zoomMap, waitForFlat };
+// The step panel's own "Next: <step>" button, the tap the judge cut shows (the tabs above do the same thing).
+async function next(page, label) {
+  await page.getByRole('navigation', { name: 'Step navigation' }).getByRole('button', { name: `Next: ${label}` }).click();
+  await hold(page, 800);
+}
+
+// Pages without an inner scroll box (Past spikes) scroll the window; smooth, so the take shows the move.
+async function glideWindow(locator, page, ms = 1400) {
+  await locator.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  await hold(page, ms);
+}
+
+module.exports = { hold, ready, tab, glide, zoomMap, waitForFlat, next, glideWindow };
