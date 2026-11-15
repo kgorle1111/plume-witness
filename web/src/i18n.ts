@@ -48,6 +48,8 @@ const EN = {
   'app.loadingEvent': 'Loading event…',
   'app.notNight': '"{night}" is not a night id.',
   'app.backDemo': 'Back to the demo night',
+  'app.moreNights': 'More nights · Embed',
+  'app.mapKey': 'Key',
 
   // Night picker
   'night.label': 'Replay another night',
@@ -330,6 +332,8 @@ const ES: Record<StringKey, string> = {
   'app.loadingEvent': 'Cargando el evento…',
   'app.notNight': '"{night}" no es un id de noche.',
   'app.backDemo': 'Volver a la noche de demostración',
+  'app.moreNights': 'Más noches · Insertar',
+  'app.mapKey': 'Leyenda',
 
   'night.label': 'Ver otra noche',
   'night.open': 'Abrir',
