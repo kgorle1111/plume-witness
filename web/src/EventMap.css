@@ -1,0 +1,86 @@
+/* Replay map (EventMap) pieces that live inside the MapLibre box. Loaded with the lazy map chunk, after index.css and
+   App.css, so equal-specificity rules here win; selectors are scoped to .map-canvas so the timeline map is untouched. */
+
+/* .maplibregl-map clips to its box, so the global 2px-outside focus ring was cut off on the canvas and the credit
+   links: draw it inside instead. */
+.map-canvas .maplibregl-canvas:focus-visible { outline-offset: -3px; }
+.map-canvas .maplibregl-ctrl-attrib a:focus-visible { outline-offset: -2px; }
+
+/* The credit was see-through (white at 50%) and printed over basemap names ("La Porte"), and in dark mode its ink
+   was 3.2:1 on the blend. An opaque box keeps it legible over any tile in either theme. */
+.map-canvas.maplibregl-map .maplibregl-ctrl-attrib { background: #fff; }
+@media (min-width: 641px) {
+  .map-canvas.maplibregl-map .maplibregl-ctrl-attrib { font-size: 12px; }
+}
+/* Hidden until the tile source adds its credit line (EventMap removes the class on load), so it appears once instead
+   of growing from one line to two. */
+.map-canvas.attrib-pending .maplibregl-ctrl-attrib { visibility: hidden; }
+
+/* "The base map didn't load": bottom left, clear of the credit (bottom right) and "Show globe". */
+.map-note {
+  position: absolute;
+  left: 8px;
+  bottom: 32px;
+  z-index: 2;
+  max-width: min(360px, calc(100% - 72px));
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface, #fff);
+  color: var(--ink);
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-1);
+}
+
+/* Phone tap on a crowded cluster: the facilities under the finger, each a 44px row, in a panel that stays inside the
+   map's box (a 240px phone map shows three or four rows; the list scrolls). */
+.map-choose {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: min(320px, calc(100% - 16px));
+  max-height: calc(100% - 16px);
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface, #fff);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.map-choose-title { padding: 2px 6px 4px; font-size: 0.8rem; font-weight: 700; color: var(--ink-2); }
+.map-choose ul { flex: 1 1 auto; min-height: 0; list-style: none; margin: 0; padding: 0; overflow-y: auto; }
+.map-choose li button, .map-choose-close {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+.map-choose li button:hover, .map-choose-close:hover { background: var(--bg-2); }
+.map-choose-close { margin-top: 2px; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; font-weight: 600; color: var(--ink-2); }
+
+/* Phones: the open legend drops under the map instead of covering a third of a 240px map (and the flagged monitor
+   and filed-report labels with it). EventMap sets --pw-legend-h on the map's box, which keeps that room below. */
+@media (max-width: 640px) {
+  .map-wrap > .legend.is-open, .embed-map > .legend.is-open {
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .map-wrap:has(> .legend.is-open), .embed-map:has(> .legend.is-open) { margin-bottom: var(--pw-legend-h, 0px); }
+}

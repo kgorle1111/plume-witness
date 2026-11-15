@@ -10,7 +10,6 @@ import { fadeAlpha, hexToRgb, radiusPx, type Timed, type Visible } from './rain'
 setWorkerUrl(workerUrl)
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron'
-const ATTRIBUTION = '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'
 const NEUTRAL: [number, number, number] = [138, 138, 148]
 
 /** What the map shows: the rain (spikes fading in time), or a static month for reduced motion. */
@@ -21,6 +20,8 @@ export interface RainMapApi {
 }
 
 interface Dot {
+  /** Index into the sorted spikes, for the hover label. */
+  i: number
   night: string | null
   lon: number
   lat: number
@@ -44,18 +45,18 @@ function dotsFor(spikes: readonly Timed[], frame: Frame): Dot[] {
       const [r, g, b] = rgb(s.status)
       // The ring swells to 1.7x as the spike ages; the fill thins faster than the outline so the position stays readable.
       return {
-        night: s.night_id, lon: s.lon, lat: s.lat, r: radiusPx(s.ratio) * (1 + 0.7 * age),
+        i, night: s.night_id, lon: s.lon, lat: s.lat, r: radiusPx(s.ratio) * (1 + 0.7 * age),
         fill: [r, g, b, s.status === OPEN_QUESTION ? 0 : Math.round(150 * a)], line: [r, g, b, Math.round(255 * a)], live: age < 0.75, ring: s.status === OPEN_QUESTION,
       }
     })
   }
   // Static month: every spike is a dot; the chosen month in its status color, the rest quiet grey.
-  return spikes.map((sp) => {
+  return spikes.map((sp, i) => {
     const s = sp.row
     const on = sp.month === frame.month
     const [r, g, b] = on ? rgb(s.status) : NEUTRAL
     return {
-      night: s.night_id, lon: s.lon, lat: s.lat, r: on ? radiusPx(s.ratio) : 3,
+      i, night: s.night_id, lon: s.lon, lat: s.lat, r: on ? radiusPx(s.ratio) : 3,
       fill: [r, g, b, s.status === OPEN_QUESTION && on ? 0 : on ? 190 : 70], line: [r, g, b, on ? 255 : 0], live: on, ring: on && s.status === OPEN_QUESTION,
     }
   })
@@ -63,15 +64,30 @@ function dotsFor(spikes: readonly Timed[], frame: Frame): Dot[] {
 
 interface Props {
   spikes: readonly Timed[]
+  /** The canvas's accessible name, in the reader's language. */
+  label: string
+  /** Hover text for one spike's dot. */
+  tipFor: (row: Timed['row']) => string
   onApi: (api: RainMapApi | null) => void
   onPick: (nightId: string) => void
   onError: (e: unknown) => void
+  /** The basemap style failed before the first render: the dots still draw, on a blank background. */
+  onBasemapError: () => void
 }
 
-export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
+export default function RainMap({ spikes, label, tipFor, onApi, onPick, onError, onBasemapError }: Props) {
   const container = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<MlMap | null>(null)
   const pick = useRef(onPick)
   pick.current = onPick
+  const tip = useRef(tipFor)
+  tip.current = tipFor
+  const basemapError = useRef(onBasemapError)
+  basemapError.current = onBasemapError
+  const initialLabel = useRef(label)
+
+  // A language switch renames the canvas in place; the map itself is built once.
+  useEffect(() => { mapRef.current?.getCanvas().setAttribute('aria-label', label) }, [label])
 
   useEffect(() => {
     const el = container.current
@@ -85,12 +101,40 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
         style: STYLE_URL,
         center: [-95.2, 29.75],
         zoom: 9,
-        // Fixed camera: the page scrolls, and a 50dvh map would otherwise trap touch scrolling on a phone.
+        // Fixed camera: the page scrolls, and a 50svh map would otherwise trap touch scrolling on a phone.
         interactive: false,
-        attributionControl: { compact: false, customAttribution: ATTRIBUTION },
-        locale: { 'Map.Title': 'Map of the Houston Ship Channel state monitors' },
+        // The credit is a line of page text under the map (SpikeRain.tsx .rn-credit): readable in both themes, 44px
+        // targets, and no late expand when the source attribution arrives.
+        attributionControl: false,
+        locale: { 'Map.Title': initialLabel.current },
+        // The third-party Positron style logs two filter warnings (highway shields) on every load; they draw nothing here.
+        validateStyle: false,
       })
       const m = map
+      mapRef.current = m
+      let loaded = false
+      m.on('load', () => {
+        loaded = true
+        // A monitor's own label already names its place ("Galena Park", "HRM-16 Deer Park"): fade the basemap's
+        // matching place label instead of printing the name twice, one over the other.
+        const dupes = new Set<string>()
+        for (const row of sites.values()) {
+          const words = row.site.split(' ')
+          dupes.add(row.site)
+          for (let k = 1; k <= words.length - 2; k++) dupes.add(words.slice(k).join(' '))
+        }
+        for (const layer of m.getStyle().layers) {
+          if (layer.type !== 'symbol' || layer['source-layer'] !== 'place') continue
+          try {
+            m.setPaintProperty(layer.id, 'text-opacity', ['case', ['in', ['get', 'name'], ['literal', [...dupes]]], 0, 1])
+          } catch (e) { console.warn('Timeline base map: could not fade', layer.id, e) }
+        }
+      })
+      m.on('error', (e) => {
+        // Before the first render this is the style or its tiles: say so on the map. Later, a single tile: log only.
+        console.warn('Timeline base map:', e.error?.message ?? e)
+        if (!loaded) basemapError.current()
+      })
       const bounds = new LngLatBounds()
       const sites = new Map<string, Timed['row']>()
       for (const s of spikes) {
@@ -173,12 +217,21 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
         },
       })
       deck = d
+      // Mouse-only label for the dot under the pointer (touch and keyboard readers have the Latest list).
+      const tipEl = document.createElement('div')
+      tipEl.className = 'rn-tip'
+      tipEl.setAttribute('aria-hidden', 'true')
+      tipEl.hidden = true
+      el.append(tipEl)
+      const hideTip = () => { tipEl.hidden = true; el.style.cursor = '' }
       const sync = () => d.setProps({ viewState: camera() })
       m.on('move', sync)
       m.on('resize', () => { fit(); sync() })
 
       const api: RainMapApi = {
         draw(frame) {
+          // The dots move under a still pointer during playback; a stale label would name the wrong spike.
+          hideTip()
           d.setProps({
             layers: [new ScatterplotLayer<Dot>({
               id: 'rain',
@@ -206,15 +259,27 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
       }
       const onMove = (e: MouseEvent) => {
         const r = el.getBoundingClientRect()
-        const hit = d.pickObject({ x: e.clientX - r.left, y: e.clientY - r.top, radius: 8 })?.object as Dot | undefined
-        el.style.cursor = hit?.live ? 'pointer' : ''
+        const x = e.clientX - r.left, y = e.clientY - r.top
+        const hit = d.pickObject({ x, y, radius: 8 })?.object as Dot | undefined
+        if (!hit?.live) return hideTip()
+        el.style.cursor = hit.night ? 'pointer' : ''
+        tipEl.textContent = tip.current(spikes[hit.i].row)
+        tipEl.hidden = false
+        // Above and right of the pointer, flipped inward near the right and top edges.
+        const w = tipEl.offsetWidth, h = tipEl.offsetHeight
+        tipEl.style.left = `${Math.max(4, x + 14 + w > r.width ? x - 14 - w : x + 14)}px`
+        tipEl.style.top = `${Math.max(4, y - 14 - h < 0 ? y + 14 : y - 14 - h)}px`
       }
       el.addEventListener('click', onClick)
       el.addEventListener('mousemove', onMove)
+      el.addEventListener('mouseleave', hideTip)
       onApi(api)
       return () => {
         el.removeEventListener('click', onClick)
         el.removeEventListener('mousemove', onMove)
+        el.removeEventListener('mouseleave', hideTip)
+        tipEl.remove()
+        mapRef.current = null
         onApi(null)
         d.finalize()
         markers.forEach((mk) => mk.remove())

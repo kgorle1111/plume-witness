@@ -42,3 +42,35 @@ test('every cannot_say line in every published night has a Spanish entry, with n
     for (const re of BANNED_WORDS) assert.ok(!re.test(es), `banned word ${re} in: ${es}`)
   }
 })
+
+test('pounds read as whole pounds, and a small release never shows as 0', async () => {
+  const { poundsText } = await import('../src/format.ts')
+  assert.equal(poundsText(8469.743), '8,470 lb')
+  assert.equal(poundsText(7634), '7,634 lb')
+  assert.equal(poundsText(2.46), '2.5 lb')
+  assert.equal(poundsText(0.04), '0.04 lb')
+  assert.equal(poundsText(1234.5, 'es'), '1,235 lb')
+})
+
+test('STEERS spellings of the two tracked compounds map to one name; others stay as written', async () => {
+  const { normCompound } = await import('../src/format.ts')
+  for (const raw of ['Benzene', 'BENZENE', ' benzene ']) assert.equal(normCompound(raw), 'benzene')
+  for (const raw of ['1,3-BUTADIENE', '1,3 Butadiene', '1,3-butadiene', '1,3Butadiene']) assert.equal(normCompound(raw), '1,3-butadiene')
+  assert.equal(normCompound('Acrylic acid'), 'Acrylic acid')
+  assert.equal(normCompound('Butane, N-'), 'Butane, N-')
+})
+
+test('alignment reads as degrees off the wind', async () => {
+  const { offWindDeg } = await import('../src/format.ts')
+  assert.equal(offWindDeg(1), 0)
+  assert.equal(offWindDeg(0.905), 25)
+  assert.equal(offWindDeg(0.985), 10)
+  assert.equal(offWindDeg(0), 90)
+  assert.equal(offWindDeg(1.2), 0)
+})
+
+test('the hourly table cell drops the CST its header already gives', async () => {
+  const { hourShort } = await import('../src/format.ts')
+  assert.equal(hourShort(7), '07:00')
+  assert.equal(hourShort(23), '23:00')
+})

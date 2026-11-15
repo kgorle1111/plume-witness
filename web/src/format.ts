@@ -176,3 +176,30 @@ export function unitTitle(units: string, lang: Lang = 'en'): string | null {
   if (!m) return null
   return m[1] ? translate(lang, 'unit.ppbvTitle') : translate(lang, 'unit.ppbLong')
 }
+
+/** "HH:00" for the hourly table, whose column header already says CST. */
+export function hourShort(h: number): string {
+  return `${String(h).padStart(2, '0')}:00`
+}
+
+/** Pounds as published by STEERS can carry three decimals ("8469.743"); whole pounds read better, and a small
+ *  release keeps enough digits that it never shows as 0. */
+export function poundsText(lb: number, lang: Lang = 'en'): string {
+  const digits = lb >= 10 ? 0 : lb >= 1 ? 1 : 2
+  return `${lb.toLocaleString(lang === 'es' ? 'es-US' : 'en-US', { maximumFractionDigits: digits })} lb`
+}
+
+/** STEERS spells the two tracked compounds several ways ("Benzene", "1,3-BUTADIENE", "1,3 Butadiene"). Those map
+ *  to the monitor's own spelling; any other compound is returned as written. */
+export function normCompound(raw: string): string {
+  const s = raw.trim().toLowerCase()
+  if (s === 'benzene') return 'benzene'
+  if (/^1,3[- ]?butadiene$/.test(s)) return '1,3-butadiene'
+  return raw
+}
+
+/** The pipeline's alignment is a mean of cos(angle off the wind); as an angle it says how far off upwind a
+ *  facility sits, which a number between 0 and 1 does not. */
+export function offWindDeg(alignment: number): number {
+  return Math.round((Math.acos(Math.max(0, Math.min(1, alignment))) * 180) / Math.PI)
+}

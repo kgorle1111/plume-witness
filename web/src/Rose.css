@@ -15,7 +15,8 @@
 
 .rose-svg { width: 100%; max-width: 320px; height: auto; justify-self: center; overflow: visible; }
 .rose-ring { fill: none; stroke: var(--line); stroke-width: 1; }
-.rose-ring-label { font-size: 10px; fill: var(--ink-3, #5f5f69); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+/* SVG text scales with the viewBox: 13 units stays at 12 CSS px or more down to a 277 px wide rose (a 320 px phone). */
+.rose-ring-label { font-size: 13px; fill: var(--ink-3, #5f5f69); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
 .rose-axis { stroke: var(--line); stroke-width: 1; }
 .rose-wedge { fill: #c9d8ec; stroke: var(--monitor); stroke-width: 1.5; stroke-linejoin: round; }
 .rose-wedge.is-top { fill: var(--monitor); }
