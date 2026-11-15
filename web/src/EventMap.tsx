@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
-import { destination, mergeArcs, sectorRing } from './format'
+import { destination, mergeArcs, readingText, sectorRing } from './format'
 
 // MapLibre 6 ships its worker as a separate module; Vite needs its URL (per the OpenFreeMap quick start).
 setWorkerUrl(workerUrl)
@@ -29,6 +29,7 @@ const C = {
   labelBg: [255, 255, 255, 235] as RGBA,
   text: [20, 20, 24, 255] as RGBA,
   focus: [11, 87, 208, 255] as RGBA,
+  noData: [110, 110, 120, 255] as RGBA,
   corridorFill: [190, 30, 45, 22] as RGBA,
   corridorLine: [190, 30, 45, 140] as RGBA,
   corridorText: [140, 20, 30, 255] as RGBA,
@@ -46,13 +47,17 @@ interface Props {
   labelId: string
   /** Facility id highlighted from the Trace list (hover or keyboard focus). */
   highlightId: string | null
+  /** Replay hour (CST) whose readings and wind the map shows. */
+  hour: number
 }
 
-export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
+export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const legend = useRef<HTMLUListElement>(null)
   const highlight = useRef(highlightId)
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
+  const hourRef = useRef(hour)
+  const applyHour = useRef<(h: number) => void>(() => {})
 
   useEffect(() => {
     const el = container.current
@@ -71,7 +76,41 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
 
     // Line length: out to the farthest facility in the corridor, so the line spans what the list shows.
     const reachKm = corridor.length ? Math.max(...corridor.map((f) => f.distance_km)) : 0
+    // The view is fitted to the detection-hour line so the camera doesn't jump while the replay plays.
     const upwindEnd = wind && reachKm > 0 ? destination(trigger.lat, trigger.lon, wind.from_deg, reachKm) : null
+
+    // Replay: each monitor's circle grows and reddens with that hour's reading; a missing hour is a hollow ring.
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    const maxReading = Math.max(...ev.monitors.flatMap((m) => m.hourly.map((h) => h.value ?? 0)), 1e-9)
+    const readingAt = (m: Monitor) => m.hourly.find((h) => h.hour_cst === hourRef.current)
+    const share = (v: number) => Math.sqrt(Math.max(0, v) / maxReading)
+    const monitorRadius = (m: Monitor, narrow = false) => {
+      const v = readingAt(m)?.value
+      return v == null ? 7 : 5 + (narrow ? 10 : 17) * share(v)
+    }
+    const monitorFill = (m: Monitor): RGBA => {
+      const v = readingAt(m)?.value
+      if (v == null) return [255, 255, 255, 0]
+      const t = share(v)
+      return [Math.round(120 + (190 - 120) * t), Math.round(165 + (30 - 165) * t), Math.round(215 + (45 - 215) * t), 255]
+    }
+    const monitorText = (m: Monitor) => {
+      const h = readingAt(m)
+      return `${m.name}\n${h ? readingText(h.value, h.flag, ev.compound.units) : 'no data'}`
+    }
+    // Upwind line and arrow for the replay hour: the line points to where the air came from, the arrow
+    // points back toward the monitor (the direction the air moved).
+    const upwindFor = (h: number) => {
+      const w = ev.wind.hourly.find((x) => x.hour_cst === h)
+      if (!w || reachKm <= 0) return null
+      const end = destination(trigger.lat, trigger.lon, w.from_deg, reachKm)
+      const tipKm = reachKm * 0.3, len = Math.max(reachKm * 0.07, 0.3)
+      const tip = destination(trigger.lat, trigger.lon, w.from_deg, tipKm)
+      const base = destination(trigger.lat, trigger.lon, w.from_deg, tipKm + len)
+      const left = destination(base[1], base[0], w.from_deg - 90, len * 0.55)
+      const right = destination(base[1], base[0], w.from_deg + 90, len * 0.55)
+      return { path: [[trigger.lon, trigger.lat], end] as [number, number][], arrow: [tip, left, right, tip] as [number, number][] }
+    }
 
     // Corridor wedge straight from event.json: origin monitor, ±half_width_deg around each wind-from bearing.
     const cor = ev.corridor
@@ -110,6 +149,11 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     pulse.setAttribute('aria-hidden', 'true')
     pulse.appendChild(document.createElement('div')).className = 'pulse-ring'
     const pulseMarker = new Marker({ element: pulse }).setLngLat([trigger.lon, trigger.lat]).addTo(map)
+    // The ring hugs the trigger circle, whose size now follows the replay hour.
+    const sizePulse = () => {
+      const d = 2 * monitorRadius(trigger, isNarrow()) + 8
+      pulse.style.width = pulse.style.height = `${d}px`
+    }
 
     const facilityColor = (f: Facility) =>
       f.id === matchedId ? C.matched : corridorIds.has(f.id) ? C.facility : C.facilityOut
@@ -120,10 +164,31 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     }
 
     const isRevealed = (f: Facility) => f.id === hoverId || f.id === highlight.current
+    // Standing labels that would overlap an already placed label are dropped (the dot and the Trace list
+    // still carry them); a label the reader asked for (hover, tap, focus) always shows.
     const labeled = () => {
       const seen = new Set<string>()
       // Facility ids can repeat in the data; label each id once.
-      return ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
+      const wanted = ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
+      const rank = (f: Facility) => (isRevealed(f) ? 0 : f.id === matchedId ? 1 : 2 + (order.get(f.id) ?? 99))
+      wanted.sort((a, b) => rank(a) - rank(b))
+      const placed: number[][] = []
+      const tp = map.project([trigger.lon, trigger.lat])
+      const tw = trigger.name.length * 6.6, tr = monitorRadius(trigger, isNarrow())
+      placed.push([tp.x - tw / 2, tp.y + tr + 5, tp.x + tw / 2, tp.y + tr + 35])
+      const hits = (b: number[]) => placed.some((p) => b[0] < p[2] && b[2] > p[0] && b[1] < p[3] && b[3] > p[1])
+      return wanted.filter((f) => {
+        const lines = facilityLabel(f).split('\n')
+        const w = Math.max(...lines.map((l) => l.length)) * 6.6, h = lines.length * 15
+        const { x, y } = map.project([f.lon, f.lat])
+        const where = placement(f)
+        const box = where === 'right' ? [x + 13, y - h / 2, x + 13 + w, y + h / 2]
+          : where === 'left' ? [x - 13 - w, y - h / 2, x - 13, y + h / 2]
+          : [x - w / 2, y + 13, x + w / 2, y + 13 + h]
+        if (!isRevealed(f) && hits(box)) return false
+        placed.push(box)
+        return true
+      })
     }
 
     let labelEpoch = 0
@@ -153,38 +218,49 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
           getLineWidth: 1.5,
           lineWidthUnits: 'pixels',
         }),
-      upwindEnd &&
+      upwindFor(hourRef.current) &&
         new PathLayer({
           id: 'upwind',
-          data: [{ path: [[trigger.lon, trigger.lat], upwindEnd] }],
+          data: [upwindFor(hourRef.current)],
           getPath: (d: { path: [number, number][] }) => d.path,
           getColor: C.upwind,
           getWidth: 4,
           widthUnits: 'pixels',
           capRounded: true,
         }),
+      upwindFor(hourRef.current) &&
+        new PolygonLayer<{ arrow: [number, number][] }>({
+          id: 'upwind-arrow',
+          data: [upwindFor(hourRef.current) as { arrow: [number, number][] }],
+          getPolygon: (d) => d.arrow,
+          getFillColor: C.trigger,
+          stroked: false,
+        }),
       new ScatterplotLayer<Monitor>({
         id: 'monitors',
         data: ev.monitors,
         getPosition: (m) => [m.lon, m.lat],
-        getRadius: (m) => (m.site_id === trigger.site_id ? 9 : 6),
+        getRadius: (m) => monitorRadius(m, narrow),
         radiusUnits: 'pixels',
-        getFillColor: (m) => (m.site_id === trigger.site_id ? C.trigger : C.monitor),
+        getFillColor: monitorFill,
         stroked: true,
-        getLineColor: C.white,
-        getLineWidth: 2,
+        getLineColor: (m) => (readingAt(m)?.value == null ? C.noData : C.white),
+        getLineWidth: (m) => (readingAt(m)?.value == null ? 2.5 : 2),
         lineWidthUnits: 'pixels',
+        updateTriggers: { getRadius: hourRef.current, getFillColor: hourRef.current, getLineColor: hourRef.current, getLineWidth: hourRef.current },
+        transitions: reduceMotion ? undefined : { getRadius: 250, getFillColor: 250 },
       }),
       new TextLayer<Monitor>({
         id: 'monitor-labels',
         data: narrow ? [trigger] : ev.monitors,
         getPosition: (m) => [m.lon, m.lat],
-        getText: (m) => m.name,
+        getText: monitorText,
         getSize: 12,
         getColor: (m) => (m.site_id === trigger.site_id ? C.trigger : C.monitor),
         getTextAnchor: 'middle',
         getAlignmentBaseline: 'top',
-        getPixelOffset: [0, 13],
+        getPixelOffset: (m) => [0, monitorRadius(m, narrow) + 5],
+        updateTriggers: { getText: hourRef.current, getPixelOffset: hourRef.current },
         background: true,
         getBackgroundColor: C.labelBg,
         backgroundPadding: [4, 2],
@@ -272,6 +348,12 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     })
     let narrow = isNarrow()
     const redraw = () => deck.setProps({ layers: buildLayers(narrow) })
+    applyHour.current = (h) => {
+      hourRef.current = h
+      sizePulse()
+      redraw()
+    }
+    sizePulse()
     applyHighlight.current = (id) => {
       highlight.current = id
       redraw()
@@ -299,6 +381,7 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     const sync = () => {
       if (narrow !== isNarrow()) {
         narrow = isNarrow()
+        sizePulse()
         redraw()
       }
       deck.setProps({ viewState: camera() })
@@ -322,6 +405,7 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
       map.off('mouseout', onOut)
       map.off('moveend', onMoveEnd)
       applyHighlight.current = () => {}
+      applyHour.current = () => {}
       deck.finalize()
       map.remove()
     }
@@ -331,15 +415,20 @@ export function EventMap({ ev, corridor, labelId, highlightId }: Props) {
     applyHighlight.current(highlightId)
   }, [highlightId])
 
+  useEffect(() => {
+    applyHour.current(hour)
+  }, [hour])
+
   return (
     <>
       <div ref={container} className="map-canvas" aria-labelledby={labelId} />
       <ul ref={legend} className="legend" aria-hidden="true">
-        <li><span className="lg lg-trigger" /> Monitor that flagged</li>
-        <li><span className="lg lg-monitor" /> Other monitor</li>
-        <li><span className="lg lg-facility">1</span> Facility in corridor</li>
-        {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed a report</li>}
-        <li><span className="lg lg-line" /> Upwind direction</li>
+        <li><span className="lg lg-pulse" /> Flagged monitor</li>
+        <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
+        <li><span className="lg lg-nodata" /> No data</li>
+        <li><span className="lg lg-facility">1</span> Facility</li>
+        {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
+        <li><span className="lg lg-line" /> Wind this hour</li>
         {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
       </ul>
     </>

@@ -77,3 +77,9 @@ export function sectorRing(lat: number, lon: number, start: number, end: number,
   const arc = Array.from({ length: steps + 1 }, (_, i) => destination(lat, lon, start + ((end - start) * i) / steps, km))
   return end - start >= 360 ? arc : [[lon, lat], ...arc, [lon, lat]]
 }
+
+/** A reading as text. Missing hours say so with their flag; a value is never filled in. */
+export function readingText(value: number | null, flag: string | null, units: string): string {
+  if (value === null) return flag ? `no data (${flag})` : 'no data'
+  return `${value} ${units}`
+}

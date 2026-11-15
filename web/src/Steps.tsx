@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
-import { compass, hourLabel, safeHttpUrl, statusInfo } from './format'
+import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
   const common = { width: 18, height: 18, viewBox: '0 0 20 20', 'aria-hidden': true, focusable: false } as const
@@ -29,7 +29,7 @@ export function StatusBadge({ status }: { status: string }) {
   )
 }
 
-function Sparkline({ m, units, highlightHour }: { m: Monitor; units: string; highlightHour: number }) {
+function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; units: string; highlightHour: number; selectedHour: number }) {
   const W = 288, H = 96, pad = 14
   const values = m.hourly.map((h) => h.value ?? 0)
   const max = Math.max(...values, m.baseline) || 1
@@ -40,6 +40,10 @@ function Sparkline({ m, units, highlightHour }: { m: Monitor; units: string; hig
   return (
     <figure className="spark">
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
+        {/* Band behind the bars marks the replay's current hour. */}
+        {m.hourly.map((h, i) => h.hour_cst === selectedHour && (
+          <rect key="sel" x={2 + i * bw - 1} y={0} width={bw + 2} height={H - pad} className="spark-selected" />
+        ))}
         {m.hourly.map((h, i) => {
           const x = 2 + i * bw
           if (h.value === null) {
@@ -58,7 +62,8 @@ function Sparkline({ m, units, highlightHour }: { m: Monitor; units: string; hig
       </svg>
       <figcaption>
         <span className="key key-bar" aria-hidden="true" /> hourly {units}{' '}
-        <span className="key key-base" aria-hidden="true" /> baseline{missing ? ' · × no value' : ''}
+        <span className="key key-base" aria-hidden="true" /> baseline{' '}
+        <span className="key key-sel" aria-hidden="true" /> replay hour{missing ? ' · × no value' : ''}
       </figcaption>
       <details className="hourly-table">
         <summary>Show all 24 hourly values</summary>
@@ -79,11 +84,12 @@ function Sparkline({ m, units, highlightHour }: { m: Monitor; units: string; hig
   )
 }
 
-export function Detect({ ev }: { ev: PlumeEvent }) {
+export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const d = ev.detection
   const m = ev.monitors.find((x) => x.site_id === d.site_id) as Monitor
   const u = ev.compound.units
   const others = ev.monitors.filter((x) => x.triggered && x.site_id !== d.site_id)
+  const atHour = m.hourly.find((x) => x.hour_cst === hour)
   return (
     <>
       <p className="lead">A state monitor recorded a {ev.compound.name} reading far above its usual level.</p>
@@ -93,7 +99,10 @@ export function Detect({ ev }: { ev: PlumeEvent }) {
         <div><dt>Usual level (baseline)</dt><dd>{d.baseline} {u}</dd></div>
         <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
       </dl>
-      <Sparkline m={m} units={u} highlightHour={d.hour_cst} />
+      <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} />
+      <p className="small">
+        Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, u) : 'no data'}</strong>
+      </p>
       {others.length > 0 && (
         <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${u} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
       )}
