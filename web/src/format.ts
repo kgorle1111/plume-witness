@@ -4,10 +4,11 @@ import { translate, type Lang } from './i18n.ts'
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
 // kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
 // `full` is the label where space allows ("a question" is the product's rule: a missing match is not a finding).
-export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial'
+export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late'
 type StatusLabel = { en: string; es: string; icon: StatusIconKind; full?: { en: string; es: string } }
 export const STATUS_TEXT: Record<Status, StatusLabel> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
+  reported_late: { en: 'Filed after the window', es: 'Presentado después del plazo', icon: 'late' },
   not_yet_reported: { en: 'Not yet reported', es: 'Todavía sin reporte', icon: 'clock' },
   no_report_after_deadline: {
     en: 'No matching report', es: 'Sin reporte que coincida', icon: 'question',
@@ -25,7 +26,8 @@ export const STATUS_FILL: Record<string, string> = {
   reported_mismatch: '#7a3fb0',
   search_incomplete: '#8a8a94',
   not_yet_reported: '#3d5a80',
-  reported: '#2f6b57',
+  reported_late: '#2f6f73',
+  reported: '#1f7a45',
 }
 
 /** The label to show where there is room for it (falls back to the short chip text). */

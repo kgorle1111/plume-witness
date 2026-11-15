@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { NAV_ITEMS, navHref, pageFromLocation, regionStartNight, replayHref } from '../src/routes.ts'
+import { NAV_ITEMS, navHref, pageFromLocation, regionStartNight, replayHref, strayViewSearch } from '../src/routes.ts'
 import { regionFrom, regionUnknown } from '../src/region.ts'
 
 const page = (search: string, hash = '') => pageFromLocation({ search, hash })
@@ -66,4 +66,12 @@ test('?region=bogus shows Houston and says so; known regions and no region do no
   for (const q of ['?region=bogus', '?region=', '?region=toString', '?region=Beaumont&night=x']) assert.equal(regionUnknown(q), true, q)
   for (const q of ['', '?night=x', '?region=beaumont', '?region=houston', '?view=spikes&region=beaumont']) assert.equal(regionUnknown(q), false, q)
   assert.equal(regionFrom('?region=beaumont').key, 'beaumont')
+})
+
+test('an unknown ?view= that shows the landing page is dropped from the address; real pages keep their URL', () => {
+  const stray = (search: string, hash = '') => strayViewSearch({ search, hash })
+  assert.equal(stray('?view=nope'), '')
+  assert.equal(stray('?view=nope&utm=x'), '?utm=x')
+  for (const q of ['', '?view=spikes', '?view=facility&id=1', '?view=replay', '?view=nope&night=x', '?utm=x']) assert.equal(stray(q), null, q)
+  assert.equal(stray('?view=nope', '#check'), null, 'a hash opens the replay, which owns its URL')
 })

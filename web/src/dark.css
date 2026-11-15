@@ -66,7 +66,8 @@
 [data-theme='dark'] .lg-corridor { border-color: rgb(236 139 120 / 0.8); background: rgb(236 139 120 / 0.16); }
 
 /* Status pills */
-[data-theme='dark'] .status-reported, [data-theme='dark'] .sl-status-reported { color: #a6dcc6; background: #12271f; }
+[data-theme='dark'] .status-reported, [data-theme='dark'] .sl-status-reported { color: #8ee6b0; background: #12281c; }
+[data-theme='dark'] .status-reported_late, [data-theme='dark'] .sl-status-reported_late { color: #9ad8dc; background: #13292b; }
 [data-theme='dark'] .status-reported_mismatch, [data-theme='dark'] .sl-status-reported_mismatch { color: #d9bdfb; background: #2a1c3d; }
 [data-theme='dark'] .status-search_incomplete, [data-theme='dark'] .sl-status-search_incomplete { color: #cfd1da; background: #2a2c35; }
 [data-theme='dark'] .approved-tag { color: var(--matched); }

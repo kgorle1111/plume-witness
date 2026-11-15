@@ -13,6 +13,18 @@ export function pageFromLocation({ search, hash }: Pick<Location, 'search' | 'ha
   return 'landing'
 }
 
+/**
+ * ?view=<unknown> (a stale or mistyped link) shows the landing page; this is the query the address bar should then
+ * say, so a link copied from it is not the stray one. Null when the URL already matches what is shown.
+ */
+export function strayViewSearch({ search, hash }: Pick<Location, 'search' | 'hash'>): string | null {
+  const params = new URLSearchParams(search)
+  if (!params.has('view') || pageFromLocation({ search, hash }) !== 'landing') return null
+  params.delete('view')
+  const s = params.toString()
+  return s ? `?${s}` : ''
+}
+
 /** The site header's pages, in order (SiteHeader.tsx). */
 export const NAV_ITEMS = ['spikes', 'timeline', 'facilities', 'brief'] as const
 export type NavView = (typeof NAV_ITEMS)[number]

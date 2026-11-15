@@ -51,6 +51,8 @@
   /* Self-hosted variable fonts (main.tsx imports them): no third-party font request, and they work offline. */
   --sans: 'Plus Jakarta Sans Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Page side gutter shared by the site header, region notes and footer (24px from 1024px up). */
+  --gutter: 16px;
   font: 16px/1.45 var(--sans);
   color: var(--ink);
   background: var(--bg);
@@ -67,12 +69,16 @@
 @media (min-width: 1600px) {
   :root { font-size: 112.5%; }
 }
+@media (min-width: 1024px) {
+  :root { --gutter: 24px; }
+}
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #root { margin: 0; height: 100%; }
 body { background: var(--bg); overflow-x: hidden; }
 h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
 button, input, textarea { font: inherit; color: inherit; }
+input[type='range'] { cursor: pointer; }
 a { color: var(--accent); text-underline-offset: 2px; }
 /* The landing's serif, for page titles only; everything else stays in the system sans. */
 h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
@@ -81,6 +87,17 @@ h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
   outline: 3px solid var(--focus);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* MapLibre's canvas exactly fills a map box with overflow: hidden, so an outset ring was clipped away (no visible
+   focus); its controls sit on the same edge. Draw those rings inside. */
+.maplibregl-canvas:focus-visible, .maplibregl-ctrl a:focus-visible { outline-offset: -3px; }
+
+/* Windows High Contrast drops fills, so a pressed toggle (language, draft source, speed, theme) looked like the
+   others except for weight. System colours mark it in every forced palette. */
+@media (forced-colors: active) {
+  [aria-pressed='true'] { forced-color-adjust: none; background: Highlight !important; border-color: Highlight !important; }
+  [aria-pressed='true'], [aria-pressed='true'] * { color: HighlightText !important; }
 }
 
 .sr-only {
@@ -97,28 +114,63 @@ h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
 }
 
 /* One-line footer on every page (SiteFooter.tsx). */
-.site-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 16px; border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.8rem; color: var(--ink-2); }
+.site-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px var(--gutter); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.8rem; color: var(--ink-2); }
 .site-foot a { padding-block: 6px; }
+.site-foot .site-about summary:hover { text-decoration: underline; }
+.site-foot .theme-toggle:hover:not([aria-pressed='true']) { background: var(--bg); }
+/* Timeline and Brief, for the phone replay only: its header drops them (App.css). */
+.site-foot .foot-phone-replay { display: none; }
 /* Touch: a 44px-tall hit area; the negative margin keeps the footer as short as before in the replay shell,
-   and position: relative paints the padding above its neighbours so the whole area takes the tap. */
+   and position: relative paints the padding above its neighbours so the whole area takes the tap. The row gap
+   keeps the hit areas of wrapped rows from overlapping. */
 @media (pointer: coarse) {
+  .site-foot { row-gap: 14px; }
   .site-foot a { position: relative; padding-block: 13px; margin-block: -7px; }
 }
-/* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links.
-   It still wraps: in Spanish one nowrap row was 518px wide at 375 and scrolled the whole page sideways. */
+/* Replay below 1024px: the header already has Past spikes. It still wraps: in Spanish one nowrap row was 518px wide
+   at 375 and scrolled the whole page sideways. */
 @media (max-width: 1023px) {
-  .app .site-foot { padding: 0 16px; column-gap: 12px; }
-  .app .site-foot span, .app .site-foot a:nth-of-type(3) { display: none; }
+  .app .site-foot { column-gap: 12px; }
+  .app .site-foot .foot-spikes { display: none; }
 }
-/* Desktop replay: one short line whatever the language, so the map keeps its height and nothing jumps when Español
-   is chosen (it wrapped to 83px at 1280). The licence line gives way first and keeps its full text in title. */
+@media (max-width: 640px) {
+  .app .site-foot .foot-phone-replay { display: inline; }
+}
+/* Tablet-tall fixed replay shell (App.css): the footer would take the step panel's room, so it keeps to links.
+   Phones scroll the document there, so they keep the licence line. */
+@media (max-width: 1023px) and (min-height: 1001px) {
+  .app .site-foot { padding-block: 0; }
+  .app .site-foot > span { display: none; }
+}
+/* Desktop replay: one short row, so the map keeps its height. The licence line wraps inside its own column rather
+   than clipping (WCAG 1.4.12 text spacing hid 61px of it; the Spanish line was cut at 1280). */
 @media (min-width: 1024px) {
-  .app .site-foot { flex-wrap: nowrap; align-items: center; padding: 0 24px; white-space: nowrap; }
-  .app .site-foot > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .app .site-foot { flex-wrap: nowrap; align-items: center; padding: 0 var(--gutter); white-space: nowrap; }
+  .app .site-foot > span { min-width: 0; white-space: normal; }
   .app .site-foot > a, .app .site-foot .site-about { flex: none; }
 }
 /* Mouse only: touch keeps the 44px targets above. */
 @media (min-width: 1024px) and (pointer: fine) {
   .app .site-foot a, .app .site-foot .site-about summary { padding-block: 4px; }
-  .app .site-foot .theme-toggle { min-height: 26px; padding-block: 0; }
 }
+
+/* "A new version is ready" (UpdateNotice.tsx): bottom corner, out of the way, until the reader acts. */
+.update-note {
+  position: fixed;
+  z-index: 20;
+  left: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  max-width: min(440px, calc(100vw - 32px));
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.update-note p { flex-basis: 100%; }
+@media print { .update-note, .skip-link { display: none !important; } }

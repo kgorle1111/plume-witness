@@ -34,6 +34,9 @@ export default defineConfig({
   // The brief view imports ../docs/brief.md; let the dev server read that one folder outside web/.
   server: { fs: { allow: ['.', '../docs'] } },
   build: {
+    // Maps next to the chunks (never precached: precacheList skips .map), so a stack trace from the live demo can be
+    // read. The code is MIT and public, so the maps expose nothing new.
+    sourcemap: true,
     rolldownOptions: {
       output: {
         // (PR #90) The lazy map was one large chunk. MapLibre gets its own chunk so it downloads in parallel with

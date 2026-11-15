@@ -69,7 +69,7 @@ def test_incident_only_on_reported_rows(out):
 
 def test_no_wind_spike_abstains_with_a_reason(bt, out):
     n = sum(1 for s in bt["spikes"] if s["status"] == "no_wind")
-    assert sum(1 for r in out["rows"] if r.get("reason") == spikes.ABSTAIN["no_wind"][1]) == n
+    assert sum(1 for r in out["rows"] if r.get("reason_code") == "no_wind") == n
 
 
 def test_unknown_status_fails_loud(bt):
@@ -111,7 +111,7 @@ def test_no_wind_spike_has_no_replay_link(out):
     """Galena Park 2025-07-26 has its own AutoGC wind for the day but none for the detection hours, so no night file:
     a Replay link there would 404. (2025-10-28, the earlier example, now replays on that AutoGC wind.)"""
     row = next(r for r in out["rows"] if spikes.spike_id(r) == "2025-07-26_45201_48_201_0057")
-    assert row["night_id"] is None and row["reason"] == spikes.ABSTAIN["no_wind"][1]
+    assert row["night_id"] is None and row["reason_code"] == "no_wind"
     assert sum(1 for r in out["rows"] if r["night_id"] is None) == 2
 
 
@@ -125,3 +125,21 @@ def test_a_missing_night_file_that_is_not_no_wind_fails_loud(bt, tmp_path):
 def test_every_incomplete_check_says_why(out):
     assert all(r.get("reason") for r in out["rows"] if r["status"] == "search_incomplete")
     assert not any(r.get("reason") for r in out["rows"] if r["status"] != "search_incomplete")
+
+
+def test_incomplete_reason_matches_the_night_it_links_to(out):
+    """UI audit 3, S18: every search_incomplete row said "A report filed that day could not be placed" although most
+    had wind too light to trace and many had no report that day. Each code must agree with the night's own record."""
+    nights = ROOT / "web" / "public" / "nights"
+    seen = set()
+    for r in out["rows"]:
+        if r["status"] != "search_incomplete" or not r["night_id"]:
+            continue
+        code, seen = r["reason_code"], seen | {r["reason_code"]}
+        rc = json.loads((nights / f"{r['night_id']}.json").read_text())["record_check"]
+        calm = rc["checks"][0]["note"].startswith("wind too light")
+        assert (code == "calm_wind") == (calm and "found; search incomplete)" not in rc["search_scope"]), r["night_id"]
+        if code == "report_not_placed":
+            assert "could not be located" in rc["search_scope"], r["night_id"]
+        assert r["reason"] == spikes.WEB_REASON.get(code, spikes.WEB_REASON_CHECK)
+    assert {"calm_wind", "report_not_placed"} <= seen
