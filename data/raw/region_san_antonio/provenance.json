@@ -1,0 +1,518 @@
+[
+ {
+  "file": "region_san_antonio/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:32:10+00:00"
+ },
+ {
+  "file": "region_san_antonio/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:32:13+00:00"
+ },
+ {
+  "file": "region_san_antonio/tamis_48_029_0052.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=480290052",
+  "params": null,
+  "bytes": 90649,
+  "sha256": "803ec6c80fd2817907fc21aa6a209616d4c19377028341a98c41bbb490162eb0",
+  "fetched_at": "2026-11-15T10:32:16+00:00"
+ },
+ {
+  "file": "region_san_antonio/tamis_48_091_0505.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=480910505",
+  "params": null,
+  "bytes": 90638,
+  "sha256": "7f8861b1e04ebd54157a885cc2dee85944177192337b6a65fa952983c7ebf9e6",
+  "fetched_at": "2026-11-15T10:32:19+00:00"
+ },
+ {
+  "file": "region_san_antonio/tamis_48_493_1038.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484931038",
+  "params": null,
+  "bytes": 90625,
+  "sha256": "ead2dc72344af5bdd0c0b1f91f5b98e4def2034c04709b35527e2458d1aa5e9d",
+  "fetched_at": "2026-11-15T10:32:21+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_029_0052_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_029_0052",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88732,
+  "sha256": "4745c4b8e3c68e06e5b8effbd7c8ada173c1d6dc7956aaa5e3d88d99e4bf19a3",
+  "fetched_at": "2026-11-15T10:32:27+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_029_0052_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_029_0052",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88732,
+  "sha256": "41a14db5c62ba154a4d07c8eb52292febfc37e490361c906ae9d0c6d6629c526",
+  "fetched_at": "2026-11-15T10:32:33+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_029_0052_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_029_0052",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88132,
+  "sha256": "13801428f04a2131625e44fe42053556843e38d17fd70bdbb6a08421a36b2f65",
+  "fetched_at": "2026-11-15T10:32:40+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_029_0052_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_029_0052",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88143,
+  "sha256": "7bac5db06eb084609f57760d487a30729e441409470556ac1b116c2358416696",
+  "fetched_at": "2026-11-15T10:32:46+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_091_0505_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_091_0505",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 85707,
+  "sha256": "79a853c88d8de88d50178abd41615130fe739ce9ebb9fc2160a1b10b9be46e0e",
+  "fetched_at": "2026-11-15T10:32:50+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_091_0505_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_091_0505",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 85718,
+  "sha256": "444dfc775b875111c24f22d0261d796a43f124a6b15dbe3a1238123b022e2161",
+  "fetched_at": "2026-11-15T10:32:54+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_091_0505_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_091_0505",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 86101,
+  "sha256": "2f9e0ca6f32226407a8a67a7998ba60fa3e13796619eb0a295933838167cd2f0",
+  "fetched_at": "2026-11-15T10:32:59+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_091_0505_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_091_0505",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 85950,
+  "sha256": "a5d09c48d530be494a04aaf21961b56b7b9cc4fa53e173f98b4e2cc66e9d4f78",
+  "fetched_at": "2026-11-15T10:33:04+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_493_1038_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_493_1038",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88809,
+  "sha256": "435b73fcaa59eadb77b62ef016b9b9a7c3ed64c522dbc6b128c167a1862eb424",
+  "fetched_at": "2026-11-15T10:33:10+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_493_1038_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_493_1038",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88820,
+  "sha256": "176bd60ffa2363755ec2afc4e269bc975f47ea59a82ffd2a79e37f84f8492a62",
+  "fetched_at": "2026-11-15T10:33:16+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_493_1038_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_493_1038",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88091,
+  "sha256": "06abe45dde56e5b9c11beaa508eafbb0f0ca3f1828d7a448fd44b4d439afa6df",
+  "fetched_at": "2026-11-15T10:33:23+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_493_1038_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_493_1038",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88101,
+  "sha256": "7abc134d21e3efd1a3c62510fdf061f8222575eb92dd1993b36b8f73b3007324",
+  "fetched_at": "2026-11-15T10:33:28+00:00"
+ },
+ {
+  "file": "region_san_antonio/met_2024_48_029_0052_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Camp Bullis C58 |48_029_0052|58",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69532,
+  "sha256": "fde7dbf5ddbab883448bca7c9ad5abfb5d12852227843646afb957e808025140",
+  "fetched_at": "2026-11-15T10:33:47+00:00"
+ },
+ {
+  "file": "region_san_antonio/met_2024_48_029_0052_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Camp Bullis C58 |48_029_0052|58",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71543,
+  "sha256": "f461b4d1abc88cb3a3615b6ccaa8735cee4b3ab7adf60c8daed06ec93d0429d8",
+  "fetched_at": "2026-11-15T10:33:47+00:00"
+ },
+ {
+  "file": "region_san_antonio/met_2025_48_029_0052_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Camp Bullis C58 |48_029_0052|58",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69607,
+  "sha256": "3fccab0cf08b53a81fb0894480940a4deda0461c386aefd84310cb274a2272d6",
+  "fetched_at": "2026-11-15T10:34:06+00:00"
+ },
+ {
+  "file": "region_san_antonio/met_2025_48_029_0052_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Camp Bullis C58 |48_029_0052|58",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71433,
+  "sha256": "4116f5b5d1851777d63620f45a662b66a3dabb58825c13d56492ea8a4eb584ae",
+  "fetched_at": "2026-11-15T10:34:06+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_029_0052_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_029_0052",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79301,
+  "sha256": "d1adae1e37ceb75f51cf3af04ef2462141ebf0607dbc0bc179dee955dee452c0",
+  "fetched_at": "2026-11-15T10:35:05+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_029_0052_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_029_0052",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81716,
+  "sha256": "4a8167e1eea1c93cd0b29826b50044a69ebd4ae5da8d04ef298bb96c19d024cd",
+  "fetched_at": "2026-11-15T10:35:11+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_029_0052_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_029_0052",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79432,
+  "sha256": "f17e70d3a48603ed1ebddce509648e188f81845615d0c45cd6d198580d68dfe6",
+  "fetched_at": "2026-11-15T10:35:14+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_029_0052_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_029_0052",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81628,
+  "sha256": "d69be9d32ccc46fa3062a6e96f6d9e8f2bc650fae4d7d9ab4801e4282a0c57df",
+  "fetched_at": "2026-11-15T10:35:20+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_091_0505_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_091_0505",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78284,
+  "sha256": "a6bf000d62b924053152885d333b7bb4804472d5c800b665fa2ce3d329eb3fcd",
+  "fetched_at": "2026-11-15T10:35:23+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_091_0505_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_091_0505",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81602,
+  "sha256": "fc1320b0cc2c77e01be5b11a09032ccef57aff9ad1c8e91458171817343d91b5",
+  "fetched_at": "2026-11-15T10:35:29+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_091_0505_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_091_0505",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78502,
+  "sha256": "3f700712cc8d45429e32f01c30d580daf5072675e87a4871849d3cdd45a9ab66",
+  "fetched_at": "2026-11-15T10:35:32+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_091_0505_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_091_0505",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81537,
+  "sha256": "5d07e7c8506a08c86af07d0b2597496318ab26d1c5c5b507fb22c29faaee18d0",
+  "fetched_at": "2026-11-15T10:35:38+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_493_1038_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_493_1038",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 77572,
+  "sha256": "3f736c9d415fb00978d6e0e1eab8d0c26dbec95c2c4a7457e20697af2834a0dc",
+  "fetched_at": "2026-11-15T10:35:41+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2024_48_493_1038_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_493_1038",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81461,
+  "sha256": "70e9550e423250949e375a0e70d6279358bdf6a98c3316bfbbb0fd1c59140306",
+  "fetched_at": "2026-11-15T10:35:47+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_493_1038_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_493_1038",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78435,
+  "sha256": "fb13e266060659097da2f11346954bb16a41fb968ddfe056a14b7c6eb3a957cb",
+  "fetched_at": "2026-11-15T10:35:50+00:00"
+ },
+ {
+  "file": "region_san_antonio/agc_2025_48_493_1038_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_493_1038",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81349,
+  "sha256": "be5f7723f3bb635e6b4956934c8de827216442b199fd513dd9d7ec3e9f4647e8",
+  "fetched_at": "2026-11-15T10:35:55+00:00"
+ },
+ {
+  "file": "region_san_antonio/echo_48_029_0052_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.6321",
+   "p_long": "-98.5649",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "867",
+   "pageno": "1"
+  },
+  "bytes": 102090,
+  "sha256": "36359622e2944d00d3a274b72def065001b1b337a0f6f2e7357d8067bb635537",
+  "fetched_at": "2026-11-15T10:36:01+00:00"
+ },
+ {
+  "file": "region_san_antonio/echo_48_091_0505_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.6392",
+   "p_long": "-98.2986",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "881",
+   "pageno": "1"
+  },
+  "bytes": 38024,
+  "sha256": "1e9de49f4ef228cc1a6ad8cb80f578b06aa086a41ec8ed9bba3cbd65c532359b",
+  "fetched_at": "2026-11-15T10:36:06+00:00"
+ },
+ {
+  "file": "region_san_antonio/echo_48_493_1038_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.1307",
+   "p_long": "-98.1481",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "895",
+   "pageno": "1"
+  },
+  "bytes": 7919,
+  "sha256": "7daf745e0e0c8d87a3f5ef0d602e4569db03565387299c67f24c6c60c3e8840f",
+  "fetched_at": "2026-11-15T10:36:11+00:00"
+ }
+]

@@ -1,0 +1,3611 @@
+[
+ {
+  "file": "region_dallas_fort_worth/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:36:14+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:36:17+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_113_0069.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481130069",
+  "params": null,
+  "bytes": 90287,
+  "sha256": "cb0a4113d1859de412af67f54817699e6a90d265c45ca0b573c47d00b73915c1",
+  "fetched_at": "2026-11-15T10:36:20+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_113_1505.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481131505",
+  "params": null,
+  "bytes": 90628,
+  "sha256": "f7709c54019bbc6a49e787a07fc96de9884eaa1c60732ccbaca5a0132f9a7cb3",
+  "fetched_at": "2026-11-15T10:36:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_121_1007.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481211007",
+  "params": null,
+  "bytes": 90634,
+  "sha256": "6e5fdbf9ab5bee72580ebdf635f9a98c582f321657837425cad1db85659ef83e",
+  "fetched_at": "2026-11-15T10:36:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_121_1013.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481211013",
+  "params": null,
+  "bytes": 90626,
+  "sha256": "a0bad1e934d33eb7cc52e94967de487efed7a3d5ead5bd1929cd460ee86aef51",
+  "fetched_at": "2026-11-15T10:36:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_251_1063.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482511063",
+  "params": null,
+  "bytes": 90638,
+  "sha256": "d68240a30771a717ae3151fd2e3c97447ac43d8dd195948313c14217fb0e4e4f",
+  "fetched_at": "2026-11-15T10:36:30+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_251_1501.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482511501",
+  "params": null,
+  "bytes": 90618,
+  "sha256": "4ff202ce3d67819ac4031ca4701c602c76b0291b0ca56a41009fcd0ca0c81111",
+  "fetched_at": "2026-11-15T10:36:33+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_0075.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484390075",
+  "params": null,
+  "bytes": 90616,
+  "sha256": "2b8e405cfb3269f2146986e6ec59bf978f2740179a96c49bd553c808513e4cb6",
+  "fetched_at": "2026-11-15T10:36:36+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1002.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391002",
+  "params": null,
+  "bytes": 90608,
+  "sha256": "47b7a8c7215a71cfd61991337497c98c3074b258e3d45bea18518728f1d221de",
+  "fetched_at": "2026-11-15T10:36:38+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1009.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391009",
+  "params": null,
+  "bytes": 90633,
+  "sha256": "d618819e1fc54ed0b116fad8249ad06d3bfe745ed9ed90c4af7d97825f393955",
+  "fetched_at": "2026-11-15T10:36:41+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1018.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391018",
+  "params": null,
+  "bytes": 90636,
+  "sha256": "33eb872b3606f11b16ad70a4423a988ff53427c3ee01f5c3da18b484c9205203",
+  "fetched_at": "2026-11-15T10:36:44+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1062.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391062",
+  "params": null,
+  "bytes": 90640,
+  "sha256": "e7dbb6b7908cc4c66b0dd9ed7d681fec4e3c754e4e8291905458345bf16b0115",
+  "fetched_at": "2026-11-15T10:36:47+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1065.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391065",
+  "params": null,
+  "bytes": 90656,
+  "sha256": "e7860200b8f08f6ebf10ea6d235b9a9540bd71699f3f46755ce96729eabea42b",
+  "fetched_at": "2026-11-15T10:36:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_439_1503.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484391503",
+  "params": null,
+  "bytes": 90643,
+  "sha256": "bc43e41b01e2c18cc0cba24936ca0d67e986e60f7e326d74a7a44f4ce9c1e30f",
+  "fetched_at": "2026-11-15T10:36:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_497_0088.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484970088",
+  "params": null,
+  "bytes": 90635,
+  "sha256": "3d049b3add03feb55a8db8017f29ee5ede4f7f8da5b2dfa2262bfbded0e35250",
+  "fetched_at": "2026-11-15T10:36:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/tamis_48_497_1064.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=484971064",
+  "params": null,
+  "bytes": 90625,
+  "sha256": "a1ba1070b1120c8f89fa4487f8377b569b11ef2ccb10b51a3f7161e7d9716678",
+  "fetched_at": "2026-11-15T10:36:57+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_0069_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_0069",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88804,
+  "sha256": "d74b173d71e5f3872d3f491740707f9c0fdcf7ea3ae8c5b14d01695ba17e895f",
+  "fetched_at": "2026-11-15T10:37:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_0069_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_0069",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88738,
+  "sha256": "23f3984999215d3ff362f4c07b69d70c1568646caec3d77f610d2690ae5917ba",
+  "fetched_at": "2026-11-15T10:37:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_0069_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_0069",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83239,
+  "sha256": "5b0c35b6da2b3d233b1ff3e0705d16f07557f491acd94cf742e80548471a402b",
+  "fetched_at": "2026-11-15T10:37:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_0069_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_0069",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83250,
+  "sha256": "9f5695fa32c2e73c4cf6504fb8a1d8c7d4c85f61ae5bc3d0300065f1c2580206",
+  "fetched_at": "2026-11-15T10:37:16+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_1505_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_1505",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88615,
+  "sha256": "12b256047e5908db98358e87cd19d147081d3e032cababfa15c260289eeaaf7b",
+  "fetched_at": "2026-11-15T10:37:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_1505_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_1505",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88632,
+  "sha256": "b797b859213dbfa2c1654a056b22a762ed7a69ff1e54a3b62d655223589447eb",
+  "fetched_at": "2026-11-15T10:37:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_1505_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_1505",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88678,
+  "sha256": "9484c947418974d1244fd8bfdaf642350b94e12f347b8a0bbc6f76a8ee30607e",
+  "fetched_at": "2026-11-15T10:37:34+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_1505_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_1505",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88688,
+  "sha256": "62697e817b1121a77ddcd25a71f9389e90fbfa4e0681194b6bf7726114cb050a",
+  "fetched_at": "2026-11-15T10:37:40+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1007_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1007",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88832,
+  "sha256": "f83c67a4232232b27ce270c7536337020b3213cf9e9a0c059f2f464c7058e21e",
+  "fetched_at": "2026-11-15T10:37:47+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1007_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1007",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88844,
+  "sha256": "07a6fb8e9789745b64973976e40c90dd4f5a45a41f8c721da0b9a36f8ba0eb85",
+  "fetched_at": "2026-11-15T10:37:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1007_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1007",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88619,
+  "sha256": "001911c61f53f494b58f640aee54da43b43d26c55f4239b442259c6d3e24b028",
+  "fetched_at": "2026-11-15T10:37:59+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1007_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1007",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88652,
+  "sha256": "6628d0a821aa36a0ea35c5939ddeb03cfd50c917e5c52836fa2644c564257301",
+  "fetched_at": "2026-11-15T10:38:05+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1013_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1013",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88534,
+  "sha256": "82eb7a77d78e0d4fc15861255071aff52e9bb4d735ce1137ed2e6fb0e19ee095",
+  "fetched_at": "2026-11-15T10:38:11+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1013_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1013",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88667,
+  "sha256": "2e8a105320f72efeec6bc8dc62a0a93b38ca5f8449f2641e8f2fd2017711083e",
+  "fetched_at": "2026-11-15T10:38:17+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1013_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1013",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88752,
+  "sha256": "c728734e3e89cb462de55f1cc3f1f646b169198497efae4030ac44750de7fba3",
+  "fetched_at": "2026-11-15T10:38:23+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1013_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1013",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88762,
+  "sha256": "6ab4ae0317051fc9fdb563f803bf47208a4bf090e927830dc789db1c8c5176c5",
+  "fetched_at": "2026-11-15T10:38:29+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1063_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1063",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88610,
+  "sha256": "dc9bef24609cc3556ae200b680875e9270f957bb888cfc429e82fdb8d2eec456",
+  "fetched_at": "2026-11-15T10:38:36+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1063_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1063",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88947,
+  "sha256": "9a1945bd2df77e604529c86f4f905893bc866def8149c6646c251e0cbd9bf607",
+  "fetched_at": "2026-11-15T10:38:42+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1063_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1063",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88581,
+  "sha256": "e6a1dc120a3113a62a287f03872abc9504c96a08c5f6ed33ecb536588369f93c",
+  "fetched_at": "2026-11-15T10:38:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1063_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1063",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88592,
+  "sha256": "e40470ed2d0662146e897fa71c4cbc32a3ac5edec437587a614d66f92ee795f3",
+  "fetched_at": "2026-11-15T10:38:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1501_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1501",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88462,
+  "sha256": "2293a408ff996df66d03748ef5857acf1ac5bef300ade04f91cf7488edb7dfb6",
+  "fetched_at": "2026-11-15T10:39:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1501_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1501",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88472,
+  "sha256": "70f53a2da519654b4eab9d1e29b006e8684524b82924ff0217c526b6d78fb2fd",
+  "fetched_at": "2026-11-15T10:39:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1501_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1501",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88547,
+  "sha256": "ba592ff0416021f57d48ca18499419b587f30435e3f6babd4c43e3a68c4e8be5",
+  "fetched_at": "2026-11-15T10:39:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1501_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1501",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88573,
+  "sha256": "f6252af1b0041d22a5d3246e238ab5ba692324061889f1c76a0a094607c9ad67",
+  "fetched_at": "2026-11-15T10:39:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_0075_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_0075",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88821,
+  "sha256": "b252c214ce5266351df3ae9eb2272b06f5eb0094e5aa295d490421f2a139b2fd",
+  "fetched_at": "2026-11-15T10:39:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_0075_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_0075",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88833,
+  "sha256": "852fa4ec17c6958e070f39e7980eae5281ebb7fb2e663758cdcdd9385bc1fb74",
+  "fetched_at": "2026-11-15T10:39:30+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_0075_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_0075",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88265,
+  "sha256": "de4dbba99818730224299066658120d8499968562a4da08b981cee83fdd2c97c",
+  "fetched_at": "2026-11-15T10:39:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_0075_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_0075",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88305,
+  "sha256": "25648618a37ccedcabd5b136980b194aa3c99928bee71369290ad0c731c08d4a",
+  "fetched_at": "2026-11-15T10:39:43+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1002_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1002",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88913,
+  "sha256": "f4d66e0913645ed14a9680debdc4370bd3ab9dfc9a1a41c8ef525c72a19585b1",
+  "fetched_at": "2026-11-15T10:39:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1002_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1002",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88922,
+  "sha256": "5f24d5190901dd8f12a54c29db8c7f851aca2c1a113e577bf29999c3f4136904",
+  "fetched_at": "2026-11-15T10:39:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1002_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1002",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88074,
+  "sha256": "793ac670cc812ec69addf28d43150e074413cb357e123dd371412b0ac9c3909c",
+  "fetched_at": "2026-11-15T10:40:01+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1002_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1002",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88053,
+  "sha256": "1fa2ab1bb9db5237f809704781570a56fad2d8420b7946e77d8a416eb7813cdc",
+  "fetched_at": "2026-11-15T10:40:07+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1009_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1009",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88807,
+  "sha256": "0a7f8f476458e5e5a7f18bf966421aa28527a7fd0d4ad1f35ba1a222555a00b8",
+  "fetched_at": "2026-11-15T10:40:14+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1009_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1009",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88815,
+  "sha256": "55abe4b5372c155f140d45c0ac00120fed6f8040e0cb446784fabf215aa72e66",
+  "fetched_at": "2026-11-15T10:40:21+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1009_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1009",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88613,
+  "sha256": "414d7495a196d79384490faf8df0efbc81d171534c95b5b2df31536fb7c46bcf",
+  "fetched_at": "2026-11-15T10:40:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1009_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1009",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88624,
+  "sha256": "813768ab0c414a76e1f3e468f993cd2d6e5107f67c5962862ef7854a57832cb7",
+  "fetched_at": "2026-11-15T10:40:34+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1018_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1018",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88988,
+  "sha256": "3a7ea4f29888be2295ed057c66a5873ac2fd9b7c11d817e003478cb2c06d91df",
+  "fetched_at": "2026-11-15T10:40:41+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1018_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1018",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88955,
+  "sha256": "7c87ae49c4e0e7a5bb46b756f6011f33a6728936627896f41420f4ec90b69d80",
+  "fetched_at": "2026-11-15T10:40:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1018_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1018",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88608,
+  "sha256": "e11be4889d1c963d5588fa33bc1f71a737019a20e583daf8f2ad9b4630ea55f5",
+  "fetched_at": "2026-11-15T10:40:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1018_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1018",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88665,
+  "sha256": "96b302116b83066c6788bfa6e27393b7272ce10d4145c778204b13c8f2a49edc",
+  "fetched_at": "2026-11-15T10:41:01+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1062_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1062",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88507,
+  "sha256": "19c74bbef0d32ce76d6bafc55fca49355e48b6410f4989efd0826cbbf0505006",
+  "fetched_at": "2026-11-15T10:41:07+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1062_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1062",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88538,
+  "sha256": "82697c8549c9b1aa3e875ee6a92e41a5383765209b0c98c004a96feccf4e3e13",
+  "fetched_at": "2026-11-15T10:41:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1062_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1062",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88423,
+  "sha256": "c61acc1c74d871bfacbaac87992a58f20519a23e50cca67d3db45305c65b1c10",
+  "fetched_at": "2026-11-15T10:41:19+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1062_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1062",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88531,
+  "sha256": "9cc1dedad73ee2b888db82ebc3fb12e2bf981bc29f5553a3492a4aebf9f4db6a",
+  "fetched_at": "2026-11-15T10:41:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1065_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1065",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88772,
+  "sha256": "6b547fcd9a83cdd902c268435003b6cce3c0ca5367c7697d24eff7bfdc3fd189",
+  "fetched_at": "2026-11-15T10:41:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1065_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1065",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88782,
+  "sha256": "9c63f655d10623e84174f3df7c6a4e233b272e7566af532f8d3883a070ad0b23",
+  "fetched_at": "2026-11-15T10:41:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1065_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1065",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88378,
+  "sha256": "415d68e46eb9d0358556365dff159a3860474cb5b7df5b8199a2de574ddc48a0",
+  "fetched_at": "2026-11-15T10:41:43+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1065_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1065",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88255,
+  "sha256": "8222cb07cf6d0b264321e383c179e86a205aba63309507519695dbc6f6bb4537",
+  "fetched_at": "2026-11-15T10:41:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1503_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1503",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88559,
+  "sha256": "ae07e24498b3417938e0916e173c75e2d7f2a56d31ecadd7885da522425ad8a6",
+  "fetched_at": "2026-11-15T10:42:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1503_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1503",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88780,
+  "sha256": "856cff5e42cafee75d6040601b135fbca0006f937a038c025ba5a1e23a155217",
+  "fetched_at": "2026-11-15T10:42:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1503_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1503",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88512,
+  "sha256": "bb169d8e8c93dc3f504cd1ebd0183bf705b7c3f20b986965f941c6c5b5177fb1",
+  "fetched_at": "2026-11-15T10:42:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1503_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1503",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88519,
+  "sha256": "f2cb4e55dee517580052f4ec9c724c928f5ca000c03ecfb83f2b9f95a38ac5ef",
+  "fetched_at": "2026-11-15T10:42:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_0088_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_0088",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88854,
+  "sha256": "3db08f72b508299a5a2e7d2e40ffa725f2f709b735ddcba6bf396281449f4fe8",
+  "fetched_at": "2026-11-15T10:42:24+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_0088_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_0088",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88865,
+  "sha256": "10808a54ac081c0cc89a83349783dc208bd14752fdb55f90e49939e07dece965",
+  "fetched_at": "2026-11-15T10:42:30+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_0088_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_0088",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88457,
+  "sha256": "334612f2b4c38cf1f2626d596a2888c209e07afaabde15c206d063313ce2e021",
+  "fetched_at": "2026-11-15T10:42:36+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_0088_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_0088",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88467,
+  "sha256": "86af1d7cdc7ec8d7fb185f2675e5e3de0ef9637254e399f2b45972f83498ef2a",
+  "fetched_at": "2026-11-15T10:42:42+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_1064_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_1064",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88789,
+  "sha256": "a0d92477347f83110487873c8b11e45a642f6e059ea3f9bad43d59729c2ce95d",
+  "fetched_at": "2026-11-15T10:42:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_1064_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_1064",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88801,
+  "sha256": "8d7707eec030668e1d300ded78f711698b4648addfc15a30ee0ec78fccdf1008",
+  "fetched_at": "2026-11-15T10:42:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_1064_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_1064",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88582,
+  "sha256": "043fa2924217d706920102cdd954c650b7568c67253d21199f75573fbb795908",
+  "fetched_at": "2026-11-15T10:43:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_1064_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_1064",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88667,
+  "sha256": "591a1f8608f10fdb5862669dc525d82c23f7b17ce30cb038848f34ceceb9667d",
+  "fetched_at": "2026-11-15T10:43:07+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/met_2024_48_439_1002_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Ft. Worth Northwest C13/AH302 |48_439_1002|13",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69499,
+  "sha256": "7f660b21a6ea6b9ee7a2a0cc3abf38b5fea5153f74f49d604d7f80c4273a187c",
+  "fetched_at": "2026-11-15T10:49:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/met_2024_48_439_1002_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Ft. Worth Northwest C13/AH302 |48_439_1002|13",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 73323,
+  "sha256": "8eb6c09d148ae07cc0c43cd79165e30a6cc212579aae4a9b9a9b4f813fd0bc70",
+  "fetched_at": "2026-11-15T10:49:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/met_2025_48_439_1002_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Ft. Worth Northwest C13/AH302 |48_439_1002|13",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69410,
+  "sha256": "4d4332f41a1ba5d9aa9788ebe7a8120b8668914a63ae369541da3c544058161a",
+  "fetched_at": "2026-11-15T10:49:29+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/met_2025_48_439_1002_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Ft. Worth Northwest C13/AH302 |48_439_1002|13",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 73366,
+  "sha256": "b794bc034844cc299f7a4ecf78bc3177a6f283f1306940a55636c780dfa9b3de",
+  "fetched_at": "2026-11-15T10:49:29+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_0069_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_0069",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79169,
+  "sha256": "3115d84b01196df1979691dd47c81d3d7eb7cb0c0e2fc58e40097eefd4b0cee6",
+  "fetched_at": "2026-11-15T10:52:39+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_0069_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_0069",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81686,
+  "sha256": "668a39ff683c37d5e896b1fedb79542d47c0dbec65c08df98962724257fcb013",
+  "fetched_at": "2026-11-15T10:52:45+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_0069_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_0069",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 80786,
+  "sha256": "210003512c3aff323693e80c0a2eb9ad337b3796b37dc3d68b0e93cb1ef2f7e1",
+  "fetched_at": "2026-11-15T10:52:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_0069_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_0069",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81287,
+  "sha256": "6c91b2ae8febd88eefdb53cd8c71d069f1b2a4f949ed1a7b57441849b5a090e9",
+  "fetched_at": "2026-11-15T10:52:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_1505_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_1505",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79093,
+  "sha256": "814192ed36c573c01340a806e0be58eb3a334c5188bdecafd7b6a4ef2db25769",
+  "fetched_at": "2026-11-15T10:52:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_113_1505_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_113_1505",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81964,
+  "sha256": "9064f05080361eccd7541b9b422104161e2ac198769aa388c5ad410db0ef326d",
+  "fetched_at": "2026-11-15T10:53:01+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_1505_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_1505",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79087,
+  "sha256": "bab158d0538deb004e8157969c4f46805b0c6dcd72ef405accd77ba0795013b2",
+  "fetched_at": "2026-11-15T10:53:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_113_1505_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_113_1505",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81733,
+  "sha256": "616413b9133a60fea9f19b7c438b8f7d972b88ae344a46700fa2e271e32f3fa1",
+  "fetched_at": "2026-11-15T10:53:10+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1007_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1007",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79037,
+  "sha256": "46deba1e3893611ad15d9ca52cec8b95f72161e6cfa3f01c58826fe94b4ca9f8",
+  "fetched_at": "2026-11-15T10:53:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1007_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1007",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81763,
+  "sha256": "6ea3092b93e068beeccaaa2079bd4a58a2eed8a6777dbe84adfc5aacc9ca6f52",
+  "fetched_at": "2026-11-15T10:53:19+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1007_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1007",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79000,
+  "sha256": "56a86e7c13d580195f2c40dbd484296bf5860383186197385668cd7264343937",
+  "fetched_at": "2026-11-15T10:53:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1007_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1007",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81636,
+  "sha256": "421e14de4946ffffc6a0f95a281fef2bc0b7d0e1e2c51104896f2fba1e4c2243",
+  "fetched_at": "2026-11-15T10:53:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1013_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1013",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78806,
+  "sha256": "02b69dc1e0d7001414f933b7c7bc12b0bccdca7b78574a311b428f64fc23a639",
+  "fetched_at": "2026-11-15T10:53:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_121_1013_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_121_1013",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82694,
+  "sha256": "d8c0ba522b8e594423f27b104eb08ac7f283d8a1c59890a6015e93a9069ccacf",
+  "fetched_at": "2026-11-15T10:53:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1013_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1013",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78707,
+  "sha256": "41ebebf8153d1408ea9e6011724117d20e19a864fee13b997797be98c8a498cc",
+  "fetched_at": "2026-11-15T10:53:40+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_121_1013_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_121_1013",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82477,
+  "sha256": "dfb51074284fa9b03fea7e8fa32ec44a2ed7160a700c813a268042de915305f3",
+  "fetched_at": "2026-11-15T10:53:46+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1063_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1063",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79173,
+  "sha256": "e31457b57955182fbf052c5fa40765069d225e80a31566434878ee6c11133a44",
+  "fetched_at": "2026-11-15T10:53:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1063_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1063",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83320,
+  "sha256": "939e6a6e573065df663745b2cc7cdd01bc499d0d97f60860d5df2c6a1f95b63c",
+  "fetched_at": "2026-11-15T10:53:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1063_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1063",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79221,
+  "sha256": "3ea231c37aa55470257d41e6d89a49ac217b52fce4af243f2e320baf4c623e6b",
+  "fetched_at": "2026-11-15T10:53:59+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1063_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1063",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83245,
+  "sha256": "48ca77ac9fbc027be43108111b4b7d0058261b8aff539573efac898a52c095ca",
+  "fetched_at": "2026-11-15T10:54:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1501_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1501",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79141,
+  "sha256": "77ee064a3c41a315d6ed5e402c47567f52293e03c66b5cfc7a94c93ab86bccee",
+  "fetched_at": "2026-11-15T10:54:08+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_251_1501_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_251_1501",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 84372,
+  "sha256": "4b4af08ab66159e403a5fcba220afd5d904815c032811c132e4752b4c92bb7f8",
+  "fetched_at": "2026-11-15T10:54:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1501_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1501",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79145,
+  "sha256": "86bbf7691fa6d333b39b427aeb5151a7665b9443a5fbb2b74e7b7eb6da6cbac9",
+  "fetched_at": "2026-11-15T10:54:17+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_251_1501_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_251_1501",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 84276,
+  "sha256": "08886c2d496ddf79bd2cbe9a0242f202ae3f81b2c2faf836be6d02979ad17c8e",
+  "fetched_at": "2026-11-15T10:54:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_0075_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_0075",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79253,
+  "sha256": "6cedc67ae842365ea203a2aa8d2c2335c4a6683346c02bea8dbb34f02c1b0b05",
+  "fetched_at": "2026-11-15T10:54:26+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_0075_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_0075",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83785,
+  "sha256": "549c706cc36caeaa20b2e37242d021c1391add8baa669c6583c4e6da79b791c0",
+  "fetched_at": "2026-11-15T10:54:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_0075_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_0075",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79081,
+  "sha256": "52b92936362cb0b62b45af6c4bdf5312bf7cbfea434d325de0e8f08dba9363c3",
+  "fetched_at": "2026-11-15T10:54:35+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_0075_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_0075",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83568,
+  "sha256": "0affd79a6707464194e052d100a3f992cbc73535326915414c248f0d3cc57aaa",
+  "fetched_at": "2026-11-15T10:54:41+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1002_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1002",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79309,
+  "sha256": "6e959361c8f95bef37723935c3c13552475ba53ea857653d0d2299f946520b68",
+  "fetched_at": "2026-11-15T10:54:44+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1002_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1002",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83280,
+  "sha256": "502327a2de12b512af18ee166344a08a02610c14b8f2bdb3c04274817d8b1687",
+  "fetched_at": "2026-11-15T10:54:50+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1002_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1002",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79195,
+  "sha256": "42edeefea60a01711931537490d035e84e1c678a7469ebe041aaeff0123614ad",
+  "fetched_at": "2026-11-15T10:54:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1002_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1002",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83307,
+  "sha256": "c3870cd45bc19ff2ff45520f6c83990cc0fc8ad74ce93209d2cdb6023e60e411",
+  "fetched_at": "2026-11-15T10:54:59+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1009_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1009",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79030,
+  "sha256": "f4e204017b7d5e00daf0203096d7cda50366e0023191c4203dcf75a06634bdc1",
+  "fetched_at": "2026-11-15T10:55:03+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1009_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1009",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82958,
+  "sha256": "1b683394afd8878684d98227fb21aea91bae9ba41cb0462fd2186bf5124ae693",
+  "fetched_at": "2026-11-15T10:55:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1009_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1009",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78974,
+  "sha256": "6d691ac3e92fd92054a5a4f45fc6cdf75c0505000a6238378d95ad0b1f797ba8",
+  "fetched_at": "2026-11-15T10:55:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1009_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1009",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82799,
+  "sha256": "730e24e09546763a7d21fd1dc267cb2d10379e3f9c15d0d7e948d2fbbd1a67b6",
+  "fetched_at": "2026-11-15T10:55:19+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1018_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1018",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79103,
+  "sha256": "a8527b88fd3bb58dacf7ea222c6d44bf8d755433366a5ebdd835c789552c6564",
+  "fetched_at": "2026-11-15T10:55:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1018_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1018",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81143,
+  "sha256": "10f90263ed577de21993e392def8cf7b1116f9e0865f2798f0461ea7021b7d50",
+  "fetched_at": "2026-11-15T10:55:29+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1018_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1018",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79143,
+  "sha256": "dab9c27c8664f70b605afd28672e4275864a316482740e599ca867cac71a4ce5",
+  "fetched_at": "2026-11-15T10:55:32+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1018_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1018",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81083,
+  "sha256": "181b9122089b97f3e0654aa39df0f3d5f78d0028b9fd04fe42c7b598e46b9ebc",
+  "fetched_at": "2026-11-15T10:55:39+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1062_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1062",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79310,
+  "sha256": "cca1f843439eaae09d104a83387ac44138795d4217389d295610b85c301ca857",
+  "fetched_at": "2026-11-15T10:55:42+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1062_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1062",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81954,
+  "sha256": "c6ed257b99efa9f5d97eda2f471e5c0c8be769077de40e189d4a807ac5b6713d",
+  "fetched_at": "2026-11-15T10:55:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1062_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1062",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79231,
+  "sha256": "f598a9244a067f21d84ca57892c80c1651e727746d365911f09b137067756556",
+  "fetched_at": "2026-11-15T10:55:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1062_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1062",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81815,
+  "sha256": "89929811f1f031520d3b8ab3c7a4bd1a68bce420ed777743eacab489365c6b93",
+  "fetched_at": "2026-11-15T10:55:58+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1065_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1065",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79222,
+  "sha256": "6fe2930b9ac0865f04c577c24d832874e2d410969dd29210867e4f6f9560da2f",
+  "fetched_at": "2026-11-15T10:56:02+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1065_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1065",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83049,
+  "sha256": "2b99577ab8b6afcb7f4a53612464c41990c69e7d9f56bdaeabaf37c0313775bd",
+  "fetched_at": "2026-11-15T10:56:08+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1065_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1065",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79046,
+  "sha256": "d0add3759c6bb126dec2e14991d9276886c15ca0d69afcd99059b87433640001",
+  "fetched_at": "2026-11-15T10:56:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1065_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1065",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82918,
+  "sha256": "27341c78b280379c9091f9bcc7fce291e431cb81ed2c7e534cad4c76bdfa57b3",
+  "fetched_at": "2026-11-15T10:56:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1503_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1503",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79116,
+  "sha256": "24402ddbd4ad504c4dce22a2f7485987e74ee6918a44d1dda9786a73103e6f86",
+  "fetched_at": "2026-11-15T10:56:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_439_1503_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_439_1503",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83118,
+  "sha256": "0010d9133c8fb024a38ae8e74059243dee66a49ffa3dbbc7b6fec5887593d651",
+  "fetched_at": "2026-11-15T10:56:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1503_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1503",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79087,
+  "sha256": "9901ae39012438c2a272b6fd9c797968f7f692da3d91701e133c4b9dbdd36114",
+  "fetched_at": "2026-11-15T10:56:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_439_1503_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_439_1503",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83055,
+  "sha256": "c08bb80051ebcb769b0955e5e4e9a04bec77f6bca47670e1afca4afe7a810e15",
+  "fetched_at": "2026-11-15T10:56:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_0088_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_0088",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78735,
+  "sha256": "fd0580e068c562ab53ccc583be0f3c4927806301a137a87fb7836c52a2bd9ab1",
+  "fetched_at": "2026-11-15T10:56:40+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_0088_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_0088",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81928,
+  "sha256": "06f876862d812940df6ae6ca344b79c66bdc430a1784478fd9805b6f5e24e978",
+  "fetched_at": "2026-11-15T10:56:46+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_0088_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_0088",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78554,
+  "sha256": "f5ca87a68f90b4fd844741c656d77fa84552913f7384c461fbb2b4624a7fa6b9",
+  "fetched_at": "2026-11-15T10:56:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_0088_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_0088",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82014,
+  "sha256": "c9952974c1d2f314a23c4c3472c8cc0f079a36a7d7005fca6bb57d6ed29e1b5f",
+  "fetched_at": "2026-11-15T10:56:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_1064_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_1064",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78773,
+  "sha256": "855699b355f45fdda5a5287fc38d849ca3c62843e4204ac7d4c05e7926184e4f",
+  "fetched_at": "2026-11-15T10:56:58+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2024_48_497_1064_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_497_1064",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82195,
+  "sha256": "4ee0ab35659a5542fe54c17262e8f69bbc54709859363c175e302ca0485e6b6b",
+  "fetched_at": "2026-11-15T10:57:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_1064_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_1064",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78637,
+  "sha256": "c0c726428454f05060b5b794e62c9eef337c7890eee77cb285402b3170c7fa40",
+  "fetched_at": "2026-11-15T10:57:07+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/agc_2025_48_497_1064_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_497_1064",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 81966,
+  "sha256": "adacc75a8791db6cf50db18b131364d8786165b8e8c6069f25fbc004b3312a24",
+  "fetched_at": "2026-11-15T10:57:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_113_0069_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.8201",
+   "p_long": "-96.8601",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "189",
+   "pageno": "1"
+  },
+  "bytes": 483646,
+  "sha256": "3e96a0c95e2aee04f2fe76bade84d0e76226c96a9fea7fd381897e61f327c116",
+  "fetched_at": "2026-11-15T10:57:20+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_113_1505_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.8791",
+   "p_long": "-96.9136",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "202",
+   "pageno": "1"
+  },
+  "bytes": 425419,
+  "sha256": "8a2dcfdd25930185e1cf6e8754835812d28a4727eb5132aee2d7db2bef51e957",
+  "fetched_at": "2026-11-15T10:57:27+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_121_1007_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.0459",
+   "p_long": "-97.1300",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "218",
+   "pageno": "1"
+  },
+  "bytes": 50182,
+  "sha256": "5e0815de4589e4089e46b5b8171ec6c83039e6514142d76ee1845e52d3061fe9",
+  "fetched_at": "2026-11-15T10:57:32+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_121_1013_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.1309",
+   "p_long": "-97.2977",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "231",
+   "pageno": "1"
+  },
+  "bytes": 38827,
+  "sha256": "63f364431078cb0df5b7e940f6fe9f7e68dc5cd21bfbc38b6225d4da62bd46d2",
+  "fetched_at": "2026-11-15T10:57:38+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_251_1063_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.5418",
+   "p_long": "-97.1175",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "240",
+   "pageno": "1"
+  },
+  "bytes": 68401,
+  "sha256": "bd85d69e93a95a277ad555ad16f2ac1928bd070cc533e398301abf82bd5e630a",
+  "fetched_at": "2026-11-15T10:57:43+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_251_1501_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.4818",
+   "p_long": "-97.5268",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "250",
+   "pageno": "1"
+  },
+  "bytes": 27684,
+  "sha256": "422731c8d6961992a8a4c2906846613d12cae6df6396f24a59c092d8a8ae4b2a",
+  "fetched_at": "2026-11-15T10:57:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_0075_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.9879",
+   "p_long": "-97.4772",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "260",
+   "pageno": "1"
+  },
+  "bytes": 46525,
+  "sha256": "efac92244701e7afdfd315f495ce8504f550e4e16655a898de026e72313dfa54",
+  "fetched_at": "2026-11-15T10:57:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1002_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.8058",
+   "p_long": "-97.3565",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "274",
+   "pageno": "1"
+  },
+  "bytes": 230744,
+  "sha256": "da47f5be883102359efa0d9b9b31cb2f5dd618855634e152c0feff01c8517f06",
+  "fetched_at": "2026-11-15T10:58:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1009_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.6211",
+   "p_long": "-97.2904",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "286",
+   "pageno": "1"
+  },
+  "bytes": 153356,
+  "sha256": "4a76a7bdb1b65d2fec091267612bde4ef777ff297866e9031a2b153462f0d3dd",
+  "fetched_at": "2026-11-15T10:58:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1018_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.7261",
+   "p_long": "-97.1083",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "300",
+   "pageno": "1"
+  },
+  "bytes": 235825,
+  "sha256": "3d602cae5a616506c8ee01ba7b272ffcdc1b28fb549705568b89706d440ef812",
+  "fetched_at": "2026-11-15T10:58:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1062_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.6589",
+   "p_long": "-97.2003",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "317",
+   "pageno": "1"
+  },
+  "bytes": 207886,
+  "sha256": "7b0c01cab1bf20c9cee5cd36dc1a18a40c07e216a87e866600f6b3e75f83385a",
+  "fetched_at": "2026-11-15T10:58:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1065_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.6724",
+   "p_long": "-97.2912",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "329",
+   "pageno": "1"
+  },
+  "bytes": 222064,
+  "sha256": "a4d747512421749fb6fffc8dbdb0c8858b02737047e8376523626cb814505bf9",
+  "fetched_at": "2026-11-15T10:58:24+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_439_1503_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.6467",
+   "p_long": "-97.4427",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "338",
+   "pageno": "1"
+  },
+  "bytes": 112089,
+  "sha256": "e65a0481d7afd0c0c8c10c107aeffa38ba217b6718dc2742b50374c0b10af2a0",
+  "fetched_at": "2026-11-15T10:58:30+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_497_0088_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.2201",
+   "p_long": "-97.5850",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "348",
+   "pageno": "1"
+  },
+  "bytes": 33292,
+  "sha256": "508763b05d987a03d2602ebe874f69cd559bc87eca9ac9eaeab0dc4560e22fe9",
+  "fetched_at": "2026-11-15T10:58:35+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/echo_48_497_1064_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "33.0440",
+   "p_long": "-97.4866",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "362",
+   "pageno": "1"
+  },
+  "bytes": 35759,
+  "sha256": "e945824c6cd572a305ea7c387dca5e1e2f0bc410c501686daae979d8e196dd84",
+  "fetched_at": "2026-11-15T10:58:40+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "eee84402d5f29b473349e93178412340ad6b3f8a21caf2b82286788455b4df57",
+  "fetched_at": "2026-11-15T11:27:05+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8459,
+  "sha256": "6386b12ba8ebd1e4fbec39a5a2b0afc9753a22b9caaa98209c4e5c205fd781fd",
+  "fetched_at": "2026-11-15T11:27:07+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 10183,
+  "sha256": "29a55adb3c1d53ff9391446c55d33fc88fc5bf0cb15359aaca0f0b18b2226a63",
+  "fetched_at": "2026-11-15T11:27:10+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "4f8132f31581e882f5169309eaf1544715e8fe52a4de24170378586a37f44938",
+  "fetched_at": "2026-11-15T11:27:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "b04c8916b6fc0772c2e2518034ad2ea8fd9660956f200b3bc0f020d49d68924a",
+  "fetched_at": "2026-11-15T11:27:16+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "b0f0c1fe760b24cb8ad18ff874b4e14c54aefa4006121d7f0a8de9c0fe5e069d",
+  "fetched_at": "2026-11-15T11:27:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a83b81ad78d790662ea900eab594968f9d3fc687c90fd04e47db384001add512",
+  "fetched_at": "2026-11-15T11:27:21+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "b84bdd655b9d64b24f6a08a82b54b55bb391e366b22cea210376d28f5d0b83ce",
+  "fetched_at": "2026-11-15T11:27:24+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c71eb1e55ccb85905e753b52079570dc0cc6c452c3efaec58bfb2607d1019c8a",
+  "fetched_at": "2026-11-15T11:27:27+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "b3626980dca34e2d4f67934d62c67c563bc74e152ab78a120beea5748664db47",
+  "fetched_at": "2026-11-15T11:27:30+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "0855ec1eb32ac826520a04246439f9ff182cb952061215b34aae2c7b1d8153f1",
+  "fetched_at": "2026-11-15T11:27:33+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "87ce6f0500d9f0b0970ddb46aca8b4348797578a643d84d6cbcab8a48c8ca93f",
+  "fetched_at": "2026-11-15T11:27:35+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8440,
+  "sha256": "7a8564fc1751394bc92f953f9a02a8744344344b2bdc8c89f0ac3de6eecb52a1",
+  "fetched_at": "2026-11-15T11:27:38+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "53ff24ae52416226d0a59f14928e722f88b864b785e12f5b564d8a5308cd5876",
+  "fetched_at": "2026-11-15T11:27:41+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8459,
+  "sha256": "d52e86f6beaeb37a8d10d4d0c5c533fc9de67fb199787c958f74cccc1582097b",
+  "fetched_at": "2026-11-15T11:27:44+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "23ef13f44d9dc9b747e3dcafdbb7d61f0195839c107317bdc1ff4f1a675f4269",
+  "fetched_at": "2026-11-15T11:27:46+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "d204417c9d13e86161fe6fd61e7d2dd075ad319208903efa0f2d7a4b011310ff",
+  "fetched_at": "2026-11-15T11:27:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "83477c9e82b80f7281194512edc7c31b078ac61f047db228055dd01f5fd729c7",
+  "fetched_at": "2026-11-15T11:27:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "144f268f3ebd89a17f9c6273154b7cc5846cc07be6841b62201541a2d7bb65ce",
+  "fetched_at": "2026-11-15T11:27:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "51e5788723c4c567eb68b97c9a0808b5780c0b90f944e16743c73a04d797fb72",
+  "fetched_at": "2026-11-15T11:27:57+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "dc92a1e53f8066436a2c1dc9ea33d20c100c63176913fad62cfc995618fb5de7",
+  "fetched_at": "2026-11-15T11:28:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "75fa77c3c4004ad469fb881ead53828965e58409d71cefa74d53b180635d3831",
+  "fetched_at": "2026-11-15T11:28:03+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "4ae8345d855bf3a263c5fe3a4caf166523a61adacd7152bf2a2054bcb1bc4c18",
+  "fetched_at": "2026-11-15T11:28:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c9fbaef08a88418fd1d03620bce3ef1ee33518630a4ee95c2315b5b8932d52a0",
+  "fetched_at": "2026-11-15T11:28:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "f5a2b175e2885708bb97e09569f49944530f5dcb5366a4702a76749ea0e9e3dd",
+  "fetched_at": "2026-11-15T11:28:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c8a7837838fce7f04f467487cfb8c71403eb0fe3f55461ce04acd45d35a21d10",
+  "fetched_at": "2026-11-15T11:28:14+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ae96f52a0d66081ddc62090c6b70a3350b16c760bd02236c9db8a368a2aa6bbc",
+  "fetched_at": "2026-11-15T11:28:17+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "9d56684f2b376150cc8f628f2f10c9be5ca45b81d035c27bd4691a05c14532c1",
+  "fetched_at": "2026-11-15T11:28:20+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c24ed230a7f1f206cf3a5a50aaf2e5e019b0087c8cca4eda3365aac677e54f10",
+  "fetched_at": "2026-11-15T11:28:22+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "1db46fedee69283e18898fbdefeed6da096f239362db0bb4a5839703fcf5d544",
+  "fetched_at": "2026-11-15T11:28:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "07ab4845374fd6dd9afac194b2177b2b4378e7da9e2f8ff79521005ae1c3fac5",
+  "fetched_at": "2026-11-15T11:28:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "1f6915e1b05847f00e5fa8973e66100138d0f760f075207bfd76d36a3135d67c",
+  "fetched_at": "2026-11-15T11:28:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ba0f4028baccc9fb7bc5fa078123a52e725e20d679986c015b53ff7312167d9b",
+  "fetched_at": "2026-11-15T11:28:34+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "96d3483db193cf282a8818769f90caa0d8d812746ebc8b2186ed6d6262fa5ad0",
+  "fetched_at": "2026-11-15T11:28:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "73035733e310428b5e0e47b71e6e0b8732c6765858a94624480a5e292f17ce88",
+  "fetched_at": "2026-11-15T11:28:40+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "8a051f80cbe5e1b17ad728a07fbb5a39fdad1a19c5f9961b877fa1165bbebbb4",
+  "fetched_at": "2026-11-15T11:28:43+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "8ffb73eba25798922367a78b1b3537f50bf1c3c3d6373d077220ff3cde23bbea",
+  "fetched_at": "2026-11-15T11:28:46+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a1ae52880586e3efdd1d89dba256a1189583dd5f447ae4000c82d151e46c241e",
+  "fetched_at": "2026-11-15T11:28:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "1ccf66304d4ae3d2269f02b9c94a48d886c92d46dc1aafe7f8f05309f7f96447",
+  "fetched_at": "2026-11-15T11:28:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "26f1674f31cfd784c464a13dea17a2f6246fb0552c7e42d82cc8b4e6671b5065",
+  "fetched_at": "2026-11-15T11:28:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a8c2ba4f13f6026d6f2fb22cb4b1c7ab376e7d39b23df6569a2690a38e992463",
+  "fetched_at": "2026-11-15T11:28:57+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "0a661c7c0049d965d3a3fac6266bfd43b95002dab675f7cbce70e2e6b4902e9c",
+  "fetched_at": "2026-11-15T11:29:01+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "25b3e15742fdb5d69bc1352adafaa234f5f6126682345328869c188a4721e2d4",
+  "fetched_at": "2026-11-15T11:29:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "5e45147eea1aa15886d8502a8f51afcab45baf77733d31ca0bf498ac4ca332ef",
+  "fetched_at": "2026-11-15T11:29:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "230f177909cb37841e0fdd103dbdd16a50950b84b67a560926123b9183d664cf",
+  "fetched_at": "2026-11-15T11:29:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "296dc0fd1e95f8b460998f7bbe4aeee595ad5f8938149b44050021886979303f",
+  "fetched_at": "2026-11-15T11:29:13+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c5c20b074b0d635975e222d85f0cc9295df879324676d204595ad7920fcfeeec",
+  "fetched_at": "2026-11-15T11:29:15+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a335b4178d160f1f500fab5c6b443dd09465123aa9cbf3271a55569fac82127f",
+  "fetched_at": "2026-11-15T11:29:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "1c2730ad79ece49701436454d0dad56a4cc6de2c4b307262fdc2494a491bb5fe",
+  "fetched_at": "2026-11-15T11:29:21+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "da143758cd1a019611d8bd8f75c08370fc7b387df1e7875a2a4816909ce984f2",
+  "fetched_at": "2026-11-15T11:29:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "2c8a6795d1fae1c62ccb971baeeea28c3b351d5ce3cb2e6ee8ea3fb7b47855ec",
+  "fetched_at": "2026-11-15T11:29:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "9258d35b1ac64d986d7830b8db0f180593626805b99d699dffec0d2357bd5163",
+  "fetched_at": "2026-11-15T11:29:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "f11cfc58dd921019e2ae109cc4eba9870556ba0b7812be09a721f18b2bd69fe7",
+  "fetched_at": "2026-11-15T11:29:34+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8459,
+  "sha256": "20734ed852b5b7ac813b6aa2c6cfd61b00498a80c0e78c0c7bfcef20c53fc062",
+  "fetched_at": "2026-11-15T11:29:36+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8459,
+  "sha256": "24c7b17280e8e5611c2cc47dc39a2373afa0e7d3f3e4ac730d975a425584b30f",
+  "fetched_at": "2026-11-15T11:29:39+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "5d045618c5de492131d422498324b996cff9e2d061eb2cdc1987857b756ee848",
+  "fetched_at": "2026-11-15T11:29:42+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "00976799a3c41b6cef15b6f4fb09a2872d7a45eded58f3e5011122eb462cc817",
+  "fetched_at": "2026-11-15T11:29:45+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "29ec84b57ff04b84513a6679746bf93e24a222c45d8dcd352c4f5accebb6540c",
+  "fetched_at": "2026-11-15T11:29:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 9027,
+  "sha256": "7edc9d98c66ab7dfb534dc3ef1a80702f200774b734c60e81b136310227bc436",
+  "fetched_at": "2026-11-15T11:29:51+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "df9594af58dcd9c54875f37b6595af98b364bfd49ac6c5775fc0cde54aaa77b9",
+  "fetched_at": "2026-11-15T11:29:54+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "01229cb57c9a477a8b9d454aa3af23e36b56c045e999650bc96a3b297696cfb2",
+  "fetched_at": "2026-11-15T11:29:57+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "1ed36305371eb362eea6ee46c2ca459d447625cd6e6ec6c2d60e82d8597db3ed",
+  "fetched_at": "2026-11-15T11:30:00+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "7f979ce154975fd1dca3e94d4fc755fe403ffb8acabc735a9c7d64346655af10",
+  "fetched_at": "2026-11-15T11:30:03+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "f725b70b1c945e29979720e686cd3d0a5be8506f36c47fc4237dc00a56742437",
+  "fetched_at": "2026-11-15T11:30:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "f5b10d4049e398993bcb46cdb55d54409b1f6572d1cefa272400a68481bb6aff",
+  "fetched_at": "2026-11-15T11:30:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "fd2a8a66dc933ea3c1d12d0bc3ececce748888c6fd169a6f91b2631fa1a96b6c",
+  "fetched_at": "2026-11-15T11:30:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a818bf4159dda5fc3caebaf2bbeee76f09c24da6ec469eefab1c0cf001265272",
+  "fetched_at": "2026-11-15T11:30:14+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "7c8ef1d23ed9fbbd650d195f457a0a939382293633e424e71347e6ba1408d58f",
+  "fetched_at": "2026-11-15T11:30:18+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8449,
+  "sha256": "01e19112d3d98d79eef78e09d440c8a0e234de841757ac246948a31cdaf7e04b",
+  "fetched_at": "2026-11-15T11:30:20+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "6b60f91ecf31b088b6e0eac57be2470d7b182dc6fc53ced03b041cc34e100f8d",
+  "fetched_at": "2026-11-15T11:30:23+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ba8c04ae3d139ee28fb7e43a4713563fc01beac8525aeb4b8d52c746ebf81434",
+  "fetched_at": "2026-11-15T11:30:26+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "773137ea8aa4fdb7b8d8e12327a14d79952db551767c1f7bfb21a659e09ed4ce",
+  "fetched_at": "2026-11-15T11:30:29+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "949c648eb5051fa37416b7cc02a2714bc64bbb2a24d54fa08e7833ee7847f9bc",
+  "fetched_at": "2026-11-15T11:30:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "9689e0be24b752027a9f7f813c2353b8b83d9429715cffdd0e23141e9c4920a0",
+  "fetched_at": "2026-11-15T11:30:34+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ace38fe0f1258501a0b7d48c5ddaa1f6dcae4a78091f72ca47c2eae7b0f481da",
+  "fetched_at": "2026-11-15T11:30:37+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "6c83c72e54d606bb0534d2c6a4b4d5e13ef3e38aa223da98129b3d4ac2dfc143",
+  "fetched_at": "2026-11-15T11:30:39+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "127f14bd60f1d3093c016869f2b60c2d6cfe2f290c23cf3c20bac13cb6d3e14c",
+  "fetched_at": "2026-11-15T11:30:42+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "e34dd81bfb66f2debaea54251d4667686bea93b09b62f33c749612680ebecf30",
+  "fetched_at": "2026-11-15T11:30:45+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "485c1cb4967b4f06dc34db520ea675aac8f34b4520d971c0d2bc463e4b0e4157",
+  "fetched_at": "2026-11-15T11:30:48+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "6dac9ad7b646e078767bf8ab500937d8061432087e7cd5651109023bfd246d25",
+  "fetched_at": "2026-11-15T11:30:50+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "e1cdd7081b56bb43028aa7c80812e95f3f4e868c2348db88dee0a17623d19fcc",
+  "fetched_at": "2026-11-15T11:30:53+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "883b094098b0371b245afe247f43f25692b6487beacccedd50a292492d8fa2ab",
+  "fetched_at": "2026-11-15T11:30:56+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "0dcef1729ea773e30c7f0ffcb65dded0cad0f3544140df38dd4e73e5a29dbb24",
+  "fetched_at": "2026-11-15T11:30:58+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "615271537f8c357e6bc0ccc0c8a69f6318674f99c52d9a208a798efd70a6d85b",
+  "fetched_at": "2026-11-15T11:31:01+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "741525927974c78690c380fd96a77790e593f82d61d4374270e6f9a98c6e2ffc",
+  "fetched_at": "2026-11-15T11:31:04+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ddfc63d4b55422d9dffe25201cad16bc8614d3cc25654fd2b05caefbf86c9727",
+  "fetched_at": "2026-11-15T11:31:06+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "d48e2b32f16a9e184a304b5dc5aa0995974adb69e5fc145aad7c06a8e21ac128",
+  "fetched_at": "2026-11-15T11:31:09+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "546622b1a252565392498f0a64e790c54266e179c8506be67057e0207a0410e3",
+  "fetched_at": "2026-11-15T11:31:12+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "cebb07338c36b0520e494f52ba06cbcced08cd82d94a5d38b284031ccbc7c77b",
+  "fetched_at": "2026-11-15T11:31:15+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "2c13fe8a2713b24974cad8ab9bb86a364e8941e934d0f25f5e917d21058870ab",
+  "fetched_at": "2026-11-15T11:31:17+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "a05117ade6ae146937ee9368f85fd5167d8b0a44d0a99220fb8f54e648784063",
+  "fetched_at": "2026-11-15T11:31:20+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "9856e68c3963eb897fc2606dd1d440dc890809137aecb9ec291523005539a2a2",
+  "fetched_at": "2026-11-15T11:31:23+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "d6457fff4198a64396f45e6a8493ef8aa508adf0aeda85f583764a1b70ab033f",
+  "fetched_at": "2026-11-15T11:31:25+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "c429a51b998a724dc92093c444b09163520e403a4b586f3b0e735fdb048fd311",
+  "fetched_at": "2026-11-15T11:31:28+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "4f41dd8f3e99c12bbfd89a5c6c13c5154e6c051cd537278e45921e6ff958b1dc",
+  "fetched_at": "2026-11-15T11:31:31+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "aed54d49725d5e3f813761c7bcc43153acdba45639308e7e7b084373284f0442",
+  "fetched_at": "2026-11-15T11:31:33+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "ab5735f96ee4abf60e834e81cd406e6a5d306c2bacb78e235ffd48d666031570",
+  "fetched_at": "2026-11-15T11:31:36+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 8459,
+  "sha256": "e3569ec5375d60ce11e90a369efda19620d8e8542fe7686437ce4f0942d35815",
+  "fetched_at": "2026-11-15T11:31:38+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "74ce8036a80cbb8051bb906d11d3a29061f9dfd5ab2a464afa693990cf76d4d8",
+  "fetched_at": "2026-11-15T11:31:41+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "fcf7fdf591deadef916447781115e3d19f1146f41b83e894165c1d55e9a62864",
+  "fetched_at": "2026-11-15T11:31:44+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "cd31f2736db019e0f77cac82a84f73a0a8826729fcbf275fec4ebbfb9b6aecbc",
+  "fetched_at": "2026-11-15T11:31:46+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "d2bb0aef8c0ed4fc2d0749fa010e8cd5e3336ed4b700aa344f5480ec78f41dd7",
+  "fetched_at": "2026-11-15T11:31:49+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "b170d16a56b17a5b8297ae50d662eb1a529145f2091ffe7df4e9ec948543ff71",
+  "fetched_at": "2026-11-15T11:31:52+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "23a1c9b7443c68cef9cadf714914cf6201d90025de6776cf774109c2c24e6bed",
+  "fetched_at": "2026-11-15T11:31:55+00:00"
+ },
+ {
+  "file": "region_dallas_fort_worth/steers_search_dallas_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "DALLAS"
+  },
+  "bytes": 5255,
+  "sha256": "692fe1897999a174bf76fcd8c528df46001a845766380a1d22cef72e2eafdf8c",
+  "fetched_at": "2026-11-15T11:31:57+00:00"
+ }
+]

@@ -62,9 +62,6 @@ const CANNOT_SAY_ES: Record<string, string> = {
   // pipeline/build.py BORROWED_WIND_CAVEAT: only on nights whose wind was measured at another monitor.
   'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
     'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
-  // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
-  'Outside the backtest: statuses use the same rules, but how well they work in this region is not measured':
-    'Fuera de la prueba retrospectiva: los estados usan las mismas reglas, pero no se ha medido qué tan bien funcionan en esta región',
   // pipeline/regions.py BACKTESTED_NOTE; the "(n = 81, 2024-2025)" part is carried over as written.
   'Backtested against company-reported releases':
     'Probado retrospectivamente con liberaciones reportadas por las empresas',
@@ -218,4 +215,13 @@ export function normCompound(raw: string): string {
  *  facility sits, which a number between 0 and 1 does not. */
 export function offWindDeg(alignment: number): number {
   return Math.round((Math.acos(Math.max(0, Math.min(1, alignment))) * 180) / Math.PI)
+}
+
+/** A region's county list ("ECTOR, MIDLAND", from regions.generated.json) as running text: "Ector and Midland" /
+ *  "Ector y Midland", "Dallas, Denton and Wise". `many` picks the plural sentence ("counties", "los condados de"). */
+export function countyList(raw: string, lang: Lang): { counties: string; many: boolean } {
+  const names = raw.split(',').map((c) => c.trim().toLowerCase().replace(/\b\p{L}/gu, (ch) => ch.toUpperCase())).filter(Boolean)
+  const and = lang === 'es' ? ' y ' : ' and '
+  const counties = names.length < 2 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')}${and}${names[names.length - 1]}`
+  return { counties, many: names.length > 1 }
 }
