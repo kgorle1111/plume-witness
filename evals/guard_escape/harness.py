@@ -31,9 +31,17 @@ HERE = Path(__file__).resolve().parent
 LANGS = ("en", "es")
 FIELD = {"en": "draft_en", "es": "draft_es"}
 
-# Night bases: the first passing nights per record-check status, in file-name order.
-NIGHTS_PER_STATUS = {"reported": 4, "reported_mismatch": 2, "no_report_after_deadline": 2,
-                     "search_incomplete": 2}
+# Night bases, fixed so every guard version is scored on the same mutants: early nights per
+# record-check status (in file-name order) whose template passes the guard before and after the fix.
+NIGHT_BASES = (
+    "2024-01-04_43218_48_201_0069", "2024-01-06_45201_48_201_1015",  # search_incomplete
+    "2024-01-09_45201_48_201_1015", "2024-03-12_45201_48_201_0803",  # reported_mismatch
+    "2024-01-31_45201_48_201_1015", "2024-02-02_43218_48_201_0069",  # no_report_after_deadline
+    "2024-06-21_45201_48_201_0069", "2025-03-06_45201_48_201_0307",  # reported
+    "2024-02-02_45201_48_201_1035",  # no_report_after_deadline
+)
+# Left out although it passed the baseline guard: 2025-01-23_45201_48_201_1614, whose template says
+# "0 pounds" for a 0.07 lb report. The fixed guard rejects that (correctly), and a base must pass both.
 
 CLASSES = {
     "a": "invented number (digits)",
@@ -88,18 +96,7 @@ def _event_base(bid: str, event: dict[str, Any]) -> Base:
 
 def load_bases() -> list[Base]:
     bases = [claude_base(), _event_base("template-demo", _load(PUBLIC / "event.json"))]
-    left = dict(NIGHTS_PER_STATUS)
-    for path in night_paths():
-        ev = _load(path)
-        status = ev.get("record_check", {}).get("status")
-        if "packet" not in ev or left.get(status, 0) == 0:
-            continue
-        b = _event_base(f"night-{path.stem}", ev)
-        if guard(b.drafts, b.facts):
-            continue  # a base must pass, so a rejection of its mutant is caused by the mutation
-        bases.append(b)
-        left[status] -= 1
-    return bases
+    return bases + [_event_base(f"night-{stem}", _load(PUBLIC / "nights" / f"{stem}.json")) for stem in NIGHT_BASES]
 
 
 def real_corpus() -> list[tuple[str, dict[str, str], dict[str, Any]]]:

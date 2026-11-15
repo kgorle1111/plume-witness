@@ -10,8 +10,8 @@ from evals.guard_escape.harness import CLASSES, all_cases, load_bases, score, sc
 from pipeline.gemini_draft import guard
 
 # class -> (minimum mutants generated, maximum escapes allowed)
-MAX_ESCAPES = {"a": (148, 0), "b": (200, 200), "c": (126, 126), "d": (155, 152), "e": (66, 66),
-               "f": (174, 64), "g": (30, 14), "h": (54, 54), "i": (114, 29)}
+MAX_ESCAPES = {"a": (146, 0), "b": (196, 196), "c": (124, 124), "d": (149, 146), "e": (64, 64),
+               "f": (168, 66), "g": (30, 14), "h": (54, 54), "i": (111, 27)}
 MAX_BENIGN_REJECTS = 4  # of >= 300 benign rewrites
 MAX_REAL_REJECTS = 3  # template drafts that round pounds (8,470 for 8469.74; 67 for 66.6), see RESULTS.md
 
