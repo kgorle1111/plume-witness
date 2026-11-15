@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { PlumeEvent } from './types'
-import { kmText, placeReadout, type LatLon } from './geo'
+import { placeReadout, type LatLon } from './geo'
+import { distanceText } from './format'
 import { Follow } from './Follow'
 import { useT } from './useT'
 import type { StringKey, Vars } from './i18n'
@@ -155,9 +156,9 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
               {/* The spike's own monitor nearby comes first: "outside the corridor" alone read as "not affected". */}
-              {r.monitor.site_id === ev.detection.site_id && <p>{t('ps.spikeHere', { site: r.monitor.name, km: kmText(r.monitor.km) })}</p>}
+              {r.monitor.site_id === ev.detection.site_id && <p>{t('ps.spikeHere', { site: r.monitor.name, km: distanceText(r.monitor.km) })}</p>}
               <dl className="facts">
-                <div><dt>{t('ps.nearest')}</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
+                <div><dt>{t('ps.nearest')}</dt><dd>{r.monitor.name}, {distanceText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
                 <div>
                   <dt>{t('ps.corridor')}</dt>
                   <dd>
@@ -166,7 +167,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
                     {r.corridor === 'none' && t('ps.none')}
                   </dd>
                 </div>
-                {r.facility && <div><dt>{t('ps.facility')}</dt><dd>{r.facility.name}, {kmText(r.facility.km)}</dd></div>}
+                {r.facility && <div><dt>{t('ps.facility')}</dt><dd>{r.facility.name}, {distanceText(r.facility.km)}</dd></div>}
               </dl>
               <p className="muted small">{t('ps.caveat')}</p>
             </div>

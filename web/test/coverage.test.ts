@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import {
-  coverageSummary, firstDir, markerKind, parseCoverage, ppbText, regionSpikesHref, replayable, sortSites, type Coverage,
+  coverageSummary, firstDir, markerKind, parseCoverage, regionSpikesHref, replayable, sortSites, type Coverage,
 } from '../src/coverage.ts'
 import { REGIONS } from '../src/region.ts'
 
@@ -107,14 +107,6 @@ test('markers: shape for crossed or not, hollow for no data, size by count', () 
   assert.deepEqual(markerKind(site(9)), { shape: 'crossed', size: 1 })
   assert.deepEqual(markerKind(site(10)), { shape: 'crossed', size: 2 })
   assert.deepEqual(markerKind(site(50)), { shape: 'crossed', size: 3 })
-})
-
-test('highest readings print short and never as an exponent', () => {
-  assert.equal(ppbText(400.01), '400')
-  assert.equal(ppbText(51.75), '51.8')
-  assert.equal(ppbText(10), '10')
-  assert.equal(ppbText(0.31), '0.31')
-  assert.equal(ppbText(0.0000001), '0')
 })
 
 test('the map frames Texas, or one region\'s monitors', async () => {

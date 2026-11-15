@@ -1,0 +1,8 @@
+/* Num (Unit.tsx): decimal-point alignment without changing a digit. The cell stays right-aligned; after each number an
+   invisible pad holds the decimals it lacks next to the column's longest ("0", or ".00" after a whole number), so
+   every number's point lands in the same place. The pad is CSS generated content: not selectable, not copied, not
+   in innerText or the accessibility tree. Tabular figures make every digit, pad zeros included, the same width. */
+.dnum { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dnum-pad::after { content: attr(data-pad); visibility: hidden; }
+/* The replay's hourly table sets every cell to left alignment; its value column is numeric. */
+.hourly-table .num { text-align: right; }

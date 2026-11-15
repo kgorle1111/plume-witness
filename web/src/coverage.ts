@@ -214,11 +214,6 @@ export function regionSpikesHref(base: string, key: string | null, regions: Regi
   return replayable(key, regions) ? `${base}${regionQuery(regions[key], { view: 'spikes' })}` : null
 }
 
-/** A highest reading as text: two decimals under 1 ppb, one under 100, whole above; no trailing zeros or exponent. */
-export function ppbText(v: number): string {
-  return String(Number(v.toFixed(v < 1 ? 2 : v < 100 ? 1 : 0)))
-}
-
 /**
  * One marker drawn as SVG, shared by the map and its key so the two cannot disagree. Fixed light-map colours (the
  * Positron tiles stay light in the dark theme), each with a white edge so it reads over roads and water.
