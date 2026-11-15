@@ -149,6 +149,8 @@ const EN = {
   'spikes.srcScan': 'spike scan (this region has no backtest)',
   'spikes.source': 'Source: TCEQ AutoGC hourly data and STEERS emissions-event reports, via the Plume Witness {via} ({code}). Rows list monitors, never facilities.',
   'cal.caption': '**Calendar.** Each mark is a day with a spike at that monitor, coloured by the record check. It follows the filters above; the table below lists every row.',
+  'cal.group': 'Spike calendar. Arrow keys move between marks; Enter opens that night. The table below has the same rows.',
+  'cal.hint': 'Click, or tap again, to open the replay.',
 
   // Timeline view (?view=timeline)
   'rn.loading': 'Loading two years of spikes…',
@@ -428,6 +430,8 @@ const ES: Record<StringKey, string> = {
   'spikes.srcScan': 'escaneo de picos (esta región no tiene prueba retrospectiva)',
   'spikes.source': 'Fuente: datos horarios AutoGC de TCEQ y reportes de eventos de emisiones STEERS, mediante la {via} de Plume Witness ({code}). Las filas listan monitores, nunca instalaciones.',
   'cal.caption': '**Calendario.** Cada marca es un día con un pico en ese monitor, coloreada según la verificación del registro. Sigue los filtros de arriba; la tabla de abajo lista todas las filas.',
+  'cal.group': 'Calendario de picos. Las flechas mueven entre marcas; Intro abre esa noche. La tabla de abajo tiene las mismas filas.',
+  'cal.hint': 'Haz clic, o toca otra vez, para abrir la repetición.',
 
   'rn.loading': 'Cargando dos años de picos…',
   'rn.back': '← Volver al registro de picos',
