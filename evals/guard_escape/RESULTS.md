@@ -347,3 +347,46 @@ Real drafts: 0 of 468 rejected (main before this change: 3). The template now pr
 gives them ("8,469.74326", "66.6") instead of rounding to "8,470" and "67", which the guard rightly rejected.
 MAX_REAL_REJECTS goes from 4 to 0. packet.ai.json still passes against the new event.json (its "Ineos" differs from
 "INEOS" only in case); it is to be regenerated separately.
+
+## 2026-11-15 template clock times + display facts; a.m./p.m. guard fix: 2026-11-15, guard at e143569 + uncommitted changes
+
+| class | what is injected | cases | rejected | rate |
+|---|---|---:|---:|---:|
+| a | invented number (digits) | 146 | 146 | 100% |
+| b | real number, wrong field/claim | 196 | 120 | 61% |
+| c | spelled-out number EN/ES | 124 | 124 | 100% |
+| d | altered unit or scale | 149 | 149 | 100% |
+| e | invented facility/company name | 64 | 57 | 89% |
+| f | invented id, date or time | 170 | 168 | 99% |
+| g | verdict word EN/ES (inflections) | 30 | 30 | 100% |
+| h | negation flip | 53 | 1 | 2% |
+| i | real fact from a different night | 112 | 111 | 99% |
+| benign | benign rewrites (false rejects) | 306 | 0 | 0% |
+| benign_negated_verdict | benign: negated verdict word (by-design reject) | 22 | 22 | 100% |
+| real | real drafts, unmodified (false rejects) | 468 | 0 | 0.0% |
+
+Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the catch rate (higher is better); for the benign and real rows it is the false-reject rate (lower is better).
+
+- escapes in (b) real number, wrong field/claim (76):
+  - claude-demo/en: same-unit: 51.75 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 0.21 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 21.4 ppb-v -> 51.75
+- escapes in (e) invented facility/company name (7):
+  - template-demo/en: inserted: Acme Chemical also operates in the upwind corridor.
+  - claude-demo/en: single-word name: Acme also operates nearby.
+  - claude-demo/es: single-word name: Acme también opera cerca.
+- escapes in (f) invented id, date or time (2):
+  - night-2025-03-06_45201_48_201_0307/en: date March 6, 2025 -> March 7, 2025
+  - night-2025-03-06_45201_48_201_0307/es: date 6 de marzo de 2025 -> 7 de marzo de 2025
+- escapes in (h) negation flip (52):
+  - claude-demo/en: \bfiled (emissions-event )?report\b -> did not file \1report
+  - claude-demo/en: \bline up with\b -> do not line up with
+  - claude-demo/en: \bIt reported\b -> It did not report
+- escapes in (i) real fact from a different night (1):
+  - claude-demo/es: facility -> Shell Chemical
+- false rejects in benign_negated_verdict (22):
+  - claude-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+  - claude-demo/es: negated verdict hedge -> draft_es: banned word 'demuestra'
+  - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+
+packet.ai.json vs the current event.json: passes

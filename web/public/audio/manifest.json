@@ -16,15 +16,15 @@
   "ai_en": {
     "file": "ai_en.mp3",
     "voice": "af_heart",
-    "sha256": "0d5496b0aaea80210ef8edeb5c808b85af6b2dd1b63b6686c03694561b00ac29",
-    "spoken_sha256": "e172ee1f7ebb7fa7399d321bd67a992f896074bb9808db8bb41b1b68f080abd7",
-    "seconds": 92.1
+    "sha256": "18fd67b8a905f839db17149675ca4072e1c3d41d4b666e5274059018bfdf4a4a",
+    "spoken_sha256": "530e79200f58e24475ba324bb4d89f1fd01d10d03e2b335d6da221d8fdb18e98",
+    "seconds": 79.5
   },
   "ai_es": {
     "file": "ai_es.mp3",
     "voice": "ef_dora",
-    "sha256": "0601ebd395f693316383376c3eb29aeea51ba896e4360112b37b1b1b06d57c17",
-    "spoken_sha256": "6b86c86d5cfb183f6add77e2944bd80b2f97b21c95bdadb35bc5c8882a09ebc2",
-    "seconds": 81.6
+    "sha256": "9b2425156b6edb96fdbaccd33eb00f01ba5e9ab55370d6583f0f64dfa62f2c9f",
+    "spoken_sha256": "eff45c7f0cb43bd0cfe8fffa106e31781072ab32e19882b193b2141bc0bfc92d",
+    "seconds": 76.7
   }
 }
