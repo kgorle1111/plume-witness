@@ -145,3 +145,96 @@ Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the cat
   - night-2024-06-13_45201_48_201_1614: draft_en: number '67' is not in the event facts
 
 packet.ai.json vs the current event.json: REJECTED (draft_en: number '40' is not in the event facts; draft_es: number '40' is not in the event facts)
+
+## AFTER (guard fixes): 2026-11-15, guard at 689e160
+
+| class | what is injected | cases | rejected | rate |
+|---|---|---:|---:|---:|
+| a | invented number (digits) | 146 | 146 | 100% |
+| b | real number, wrong field/claim | 196 | 120 | 61% |
+| c | spelled-out number EN/ES | 124 | 124 | 100% |
+| d | altered unit or scale | 149 | 149 | 100% |
+| e | invented facility/company name | 64 | 57 | 89% |
+| f | invented id, date or time | 168 | 166 | 99% |
+| g | verdict word EN/ES (inflections) | 30 | 30 | 100% |
+| h | negation flip | 54 | 1 | 2% |
+| i | real fact from a different night | 111 | 109 | 98% |
+| benign | benign rewrites (false rejects) | 304 | 0 | 0% |
+| benign_negated_verdict | benign: negated verdict word (by-design reject) | 22 | 22 | 100% |
+| real | real drafts, unmodified (false rejects) | 416 | 4 | 1.0% |
+
+Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the catch rate (higher is better); for the benign and real rows it is the false-reject rate (lower is better).
+
+- escapes in (b) real number, wrong field/claim (76):
+  - claude-demo/en: same-unit: 51.75 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 0.21 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 21.4 ppb-v -> 51.75
+- escapes in (e) invented facility/company name (7):
+  - template-demo/en: inserted: Acme Chemical also operates in the upwind corridor.
+  - claude-demo/en: single-word name: Acme also operates nearby.
+  - claude-demo/es: single-word name: Acme también opera cerca.
+- escapes in (f) invented id, date or time (2):
+  - night-2025-03-06_45201_48_201_0307/en: date March 6, 2025 -> March 7, 2025
+  - night-2025-03-06_45201_48_201_0307/es: date 6 de marzo de 2025 -> 7 de marzo de 2025
+- escapes in (h) negation flip (53):
+  - claude-demo/en: \bare consistent with\b -> are not consistent with
+  - claude-demo/en: \bfound a report\b -> did not find a report
+  - claude-demo/en: \bIt reported\b -> It did not report
+- escapes in (i) real fact from a different night (2):
+  - claude-demo/es: facility -> Shell Chemical
+  - template-demo/es: count 47 -> 5 from 2024-01-26_45201_48_201_1015
+- false rejects in benign_negated_verdict (22):
+  - claude-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+  - claude-demo/es: negated verdict hedge -> draft_es: banned word 'demuestra'
+  - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+- real drafts rejected (4):
+  - night-2024-04-21_43218_48_201_0069: draft_en: number '8,470' is not in the event facts
+  - night-2024-04-22_43218_48_201_0069: draft_en: number '8,470' is not in the event facts
+  - night-2024-06-13_45201_48_201_1614: draft_en: number '67' is not in the event facts
+
+packet.ai.json vs the current event.json: REJECTED (draft_en: number '40' is not in the event facts; draft_en: '40' is not a facility count in the event facts; draft_es: number '40' is not in the event facts; draft_es: '40' is not a facility count in the event facts)
+
+## Summary: before -> after (pinned bases, same 1,163 mutants)
+
+| class | what is injected | before | after |
+|---|---|---:|---:|
+| a | invented number (digits) | 146/146 (100%) | 146/146 (100%) |
+| b | real number, wrong field/claim | 0/196 (0%) | 120/196 (61%) |
+| c | spelled-out number EN/ES | 0/124 (0%) | 124/124 (100%) |
+| d | altered unit or scale | 3/149 (2%) | 149/149 (100%) |
+| e | invented facility/company name | 0/64 (0%) | 57/64 (89%) |
+| f | invented id, date or time | 102/168 (61%) | 166/168 (99%) |
+| g | verdict word EN/ES (inflections) | 16/30 (53%) | 30/30 (100%) |
+| h | negation flip | 0/54 (0%) | 1/54 (2%) |
+| i | real fact from a different night | 84/111 (76%) | 109/111 (98%) |
+| benign | false rejects on 304 benign rewrites | 4 (1.3%) | 0 (0%) |
+| real | false rejects on 416 real drafts | 3 (0.7%) | 4 (1.0%) |
+
+Read the after column as an upper bound: the fixes were written against these mutants, so it is an
+in-sample score. The out-of-sample test is model-written attacks, which this eval does not run.
+
+Known leaks (left open on purpose; the floors in `test_guard_escape.py` allow exactly these):
+- (b) 76: a real number moved within one unit (the baseline stated as the peak, one monitor's
+  reading given to another, the 5 nearest facilities called the corridor), and a real number with no
+  unit next to it ("filed 47 reports"). Closing it needs claim-level slots (which sentence states the
+  peak, the baseline, the pounds), not more regex.
+- (h) 53: negation flips ("did not file", "not consistent with", "the search is complete"). The guard
+  has no notion of polarity; the 1 catch is "No reportó", which now hits the verdict list.
+- (e) 7: a one-word invented name at the start of a sentence ("Acme also operates nearby"), any
+  one-word invented name in Spanish (single capitalized words are skipped there because translated place
+  names are capitalized: "el Canal de Navegación"), and names built only from words of one real name
+  ("Acme Chemical" passes because "Chemical" is in "Flint Hills Resources Houston Chemical").
+- (f) 2 and (i) 2: a date or name that is real but belongs to another part of the facts (an end date
+  stated as the event date) passes, for the same reason as (b).
+- By design: a negated verdict ("This is not proof that...", "Esto no demuestra que...") is rejected
+  22/22. The ban list cannot see negation, and loosening it would let the positive form through.
+
+Findings outside the guard (not fixed here):
+- `web/public/packet.ai.json` is stale. It was generated against the event that had 40 corridor
+  facilities; the event was regenerated with 47 in 18f8abd, and the published draft still says 40. Both
+  the old and the fixed guard reject it against the current `event.json` (number 40), yet the web app
+  shows it with `guard.passed: true`. The eval scores it against `claude_demo_facts.json`, the facts it
+  was made from, where it passes.
+- The deterministic template rounds reported pounds: "8,470" for 8469.74 (2 nights), "67" for 66.6,
+  and "0 pounds" for a 0.07 lb report. The guard demands the exact figure, so these 4 of 416 real drafts
+  are rejected. The old guard let "0 pounds" through only because a 0 appeared elsewhere in the facts.
