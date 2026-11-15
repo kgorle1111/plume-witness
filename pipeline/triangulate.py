@@ -143,10 +143,12 @@ def triangulate(t: dict, monitors: list[dict]) -> dict:
             "verdict": verdict, "verdict_text": VERDICTS[verdict], "caveat": caveat}
 
 
-def wind_files(block: dict, year: str, trace_wind_site: str | None) -> list[str]:
-    """Cached met files behind the extra wedges (the flagged monitor's wind is already in the provenance)."""
-    return [f"met_{year}_{u['site_id']}_{p}.html" for u in block["monitors"][1:] if u["site_id"] != trace_wind_site
-            for p in ("61101", "61102")]
+def wind_files(block: dict, year: str, trace_wind_site: str | None, winds: dict[str, dict] | None = None) -> list[str]:
+    """Cached wind files behind the extra wedges (the flagged monitor's wind is already in the provenance); each
+    monitor's own source (met form, or AutoGC form) as `winds` loaded it."""
+    winds = winds or {}
+    return [f for u in block["monitors"][1:] if u["site_id"] != trace_wind_site
+            for f in build.wind_files(u["site_id"], year, (winds.get(u["site_id"]) or {}).get("source", "met"))]
 
 
 def stats(evs: list[dict], skipped: int) -> dict:

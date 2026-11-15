@@ -24,7 +24,7 @@ SAMPLE_IDS = [
 
 @pytest.fixture(scope="module")
 def spikes() -> list[dict]:
-    return json.loads(audit.SRC.read_text())["spikes"]
+    return audit.load_population()
 
 
 @pytest.fixture(scope="module")

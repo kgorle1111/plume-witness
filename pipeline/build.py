@@ -300,6 +300,13 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
     trig = next(m for m in monitors if m["site_id"] == det["site_id"])
     others = [m for m in monitors if m["triggered"] and m["site_id"] != det["site_id"]]
     w = wind["hourly"][det["hour_cst"]]
+    # An AutoGC-form wind can miss the detection hour while the hour before (still in the corridor window) has it.
+    if w["from_deg"] is None:
+        wind_en, wind_es = " Wind there had no direction reading for that hour.", (
+            " No hubo lectura de la dirección del viento en esa hora.")
+    else:
+        wind_en = f" Wind there came from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph."
+        wind_es = f" El viento venía de {w['from_deg']:.0f} grados a {w['speed_mph']} mph."
     h12 = f"{(det['hour_cst'] % 12) or 12}:00 {'a.m.' if det['hour_cst'] < 12 else 'p.m.'}"
     also_en = "".join(f" {m['name']} recorded {m['hourly'][det['hour_cst']]['value']} ppb in the same hour." for m in others)
     also_es = "".join(f" {m['name']} registró {m['hourly'][det['hour_cst']]['value']} ppb en la misma hora." for m in others)
@@ -355,12 +362,11 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
     en = (f"On {det_day_str(day)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
-          f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en} Wind there came "
-          f"from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph.{corr_en}{rec_en}{ask_en}")
+          f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en}{wind_en}"
+          f"{corr_en}{rec_en}{ask_en}")
     es = (f"El {det_day_str(day, es=True)}, el monitor estatal de Texas en {trig['name']} registró "
           f"{det['value']} ppb de {name_es} en la hora de las {h12.replace('a.m.', 'a. m.').replace('p.m.', 'p. m.')} "
-          f"CST, frente a una mediana de 7 días de {det['baseline']} ppb.{also_es} El viento venía de "
-          f"{w['from_deg']:.0f} grados a {w['speed_mph']} mph.{corr_es}{rec_es}{ask_es}")
+          f"CST, frente a una mediana de 7 días de {det['baseline']} ppb.{also_es}{wind_es}{corr_es}{rec_es}{ask_es}")
     return {"draft_en": en, "draft_es": es, "drafted_by": "template (deterministic, no AI)",
             "guard": {"passed": True, "rejected": []}}
 
@@ -395,6 +401,40 @@ def load_wind(site: str, year: str, day: str, raw: Path = RAW) -> dict:
     wdir = hourly_table(raw / f"met_{year}_{site}_61102.html")[day]
     wspd = hourly_table(raw / f"met_{year}_{site}_61101.html")[day]
     return {"site_id": site, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]} for h in range(24)]}
+
+
+# A site's own wind, in the order it is tried: the met form (61102 direction, 61101 speed), then the AutoGC form's
+# resultant wind (61104 direction, 61103 speed; 2025 check at two sites: 88-90% of hours within 22.5 deg of the met
+# form, speed 0.3-0.4 mph lower). Only when both are missing for the day does a site borrow its nearest neighbour's.
+WIND_SOURCES = ("met", "autogc")
+_WIND_FILES = {"met": ("met", "61101", "61102"), "autogc": ("agc", "61103", "61104")}  # (prefix, speed, direction)
+WIND_FORM = {"met": "met form", "autogc": "AutoGC form, resultant wind"}
+
+
+def wind_files(site: str, year: str, source: str = "met") -> list[str]:
+    """Raw file names behind one site's wind: [speed, direction] (the order provenance has always listed them)."""
+    prefix, s, d = _WIND_FILES[source]
+    return [f"{prefix}_{year}_{site}_{s}.html", f"{prefix}_{year}_{site}_{d}.html"]
+
+
+def own_wind(site: str, year: str, day: str, raw: Path = RAW, table=None) -> dict | None:
+    """The site's own wind for the day from the first source in WIND_SOURCES that has a direction that day, else None.
+
+    A met-form wind keeps the original shape {site_id, hourly}; an AutoGC one adds source "autogc". `table` is a
+    path -> hourly table function (a cache); a missing file or a page with no hourly rows counts as no wind."""
+    for source in WIND_SOURCES:
+        paths = [raw / f for f in wind_files(site, year, source)]
+        if not all(p.exists() for p in paths):
+            continue
+        try:
+            wspd, wdir = ((table or hourly_table)(p).get(day) for p in paths)
+        except ValueError:
+            continue
+        if not (wdir and wspd) or all(v is None for v in wdir):
+            continue
+        w = {"site_id": site, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]} for h in range(24)]}
+        return w if source == "met" else w | {"source": source}
+    return None
 
 
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
@@ -451,6 +491,26 @@ CANNOT_SAY = [
     ("Only regulator-grade monitors whose data the state publishes are used (including two industry-funded "
      "Houston Regional Monitoring sites), never low-cost sensors."),
 ]
+# Added to cannot_say only when the corridor's wind was measured at another monitor.
+BORROWED_WIND_CAVEAT = ("The wind used here was measured at a nearby monitor, not at the monitor that flagged the "
+                        "spike, so the upwind direction there may differ.")
+
+
+def wind_block(wind: dict | None, trig: dict, monitors: list[dict]) -> dict | None:
+    """event.json's wind: as loaded when it is the flagged monitor's own met-form wind (the original shape, so those
+    files do not change); otherwise it also says where it came from (source, source_note)."""
+    if not wind or (wind["site_id"] == trig["site_id"] and "source" not in wind):
+        return wind
+    own = wind["site_id"] == trig["site_id"]
+    form = wind.get("source", "met")
+    if own:
+        note = f"Wind: own monitor ({WIND_FORM[form]})."
+    else:
+        src = next((m for m in monitors if m["site_id"] == wind["site_id"]), None)
+        name = src["name"] if src else wind["site_id"]
+        km = f", {haversine_km((trig['lat'], trig['lon']), (src['lat'], src['lon'])):.1f} km away" if src else ""
+        note = f"Wind: borrowed from {name} ({WIND_FORM[form]}){km}; {trig['name']} has no wind reading that day."
+    return wind | {"source": f"{'own' if own else 'borrowed'}_{form}", "source_note": note}
 
 
 def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, event_id: str,
@@ -469,12 +529,13 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
         "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
                      "TCEQ labels AutoGC data provisional and subject to change.",
         "compound": {"name": name_en, "aqs_param": param, "units": "ppb-v"},
-        "monitors": monitors, "wind": wind, "detection": det, "facilities": facilities, "record_check": rc,
+        "monitors": monitors, "wind": wind_block(wind, trig, monitors), "detection": det, "facilities": facilities, "record_check": rc,
         "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
                      "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
         "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param,
                                   region.county_title if region else "Harris"),
-        "cannot_say": list(CANNOT_SAY) if region is None else _region_cannot_say(region),
+        "cannot_say": (list(CANNOT_SAY) if region is None else _region_cannot_say(region))
+        + ([BORROWED_WIND_CAVEAT] if wind and wind["site_id"] != trig["site_id"] else []),
         "provenance": provenance,
     } | ({} if region is None else {"region": {"key": region.key, "label": region.label, "backtested": region.backtested,
                                                "note": region.note}})

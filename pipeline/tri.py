@@ -1,7 +1,7 @@
 """EPA Toxics Release Inventory (TRI) context: what the major facilities near the Ship Channel monitors report to EPA
 each year for benzene and 1,3-butadiene air releases. Context only; it explains nothing about any single event.
 
-Universe: ECHO "Major Emissions" air facilities within 15 km of any of the 8 AutoGC monitors (the ECHO lists already
+Universe: ECHO "Major Emissions" air facilities within 15 km of any of the Ship Channel AutoGC monitors (the ECHO lists already
 cached for the pipeline and backtest). Linkage ECHO -> TRI: ECHO's own TRIIDs field; fallback TRI's epa_registry_id
 (the FRS id) equal to the ECHO RegistryID. Data: EPA Envirofacts REST (no key), air stack + fugitive pounds per
 facility per year, for the counties the area facilities sit in.
@@ -409,7 +409,7 @@ def render_doc(t: dict, event: dict | None) -> str:
 ## Method
 
 1. **Universe.** EPA ECHO air facilities classed "Major Emissions" in the lists already cached for the pipeline and
-   backtest, kept if within {t['radius_km']:.0f} km of any of the 8 AutoGC monitors (TAMIS coordinates, haversine).
+   backtest, kept if within {t['radius_km']:.0f} km of any of the {len(backtest.SITE_NAMES)} AutoGC monitors (TAMIS coordinates, haversine).
    That is {m['echo_majors_in_area']} facilities.
 2. **Linkage to TRI.** First, the TRI facility ids (TRIFIDs) ECHO itself lists for the facility. Where ECHO lists
    none, a TRI facility whose `epa_registry_id` equals the ECHO RegistryID. Nothing is matched by name.

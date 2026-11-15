@@ -55,6 +55,9 @@ const CANNOT_SAY_ES: Record<string, string> = {
     'Solo se usan monitores de grado regulatorio cuyos datos publica el estado, nunca sensores de bajo costo',
   "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released":
     '«Todavía sin reporte» no es una conclusión sobre ninguna instalación: Texas exige un reporte solo cuando se alcanza o se supera una cantidad reportable, y las lecturas del aire no pueden medir cuánto se liberó',
+  // pipeline/build.py BORROWED_WIND_CAVEAT: only on nights whose wind was measured at another monitor.
+  'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
+    'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
   // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
   'New region: no backtest yet; statuses use the same rules; no claims are made from it':
     'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella',
