@@ -83,6 +83,18 @@
 @media (min-width: 1600px) {
   :root { font-size: 112.5%; }
 }
+/* Projector floor for the page views (1600px+): the 112.5% root still left kickers, table heads, captions, filters and
+   footnotes at 13.5-15.8px on a projected 1920x1080. Here only, so 1280 keeps its layout. .site-main and .app outrank
+   each page's own stylesheet, which loads after this one. The replay's map key keeps 0.8rem: at 16px it wraps to two
+   rows over the map (English at 1600, Spanish at 1920). */
+@media (min-width: 1600px) {
+  .app :is(.rose-table table, .rose-caveat),
+  .site-main :is(.sl-kicker, .sl-region a, .sl-field label, .sl-table, .sl-table caption, .sl-table thead th, .sl-reason,
+    .sl-report, .sl-foot, .sl-foot code, .sl-nb-label, .chip, .sl-cal figcaption, .sl-cal-legend, .sl-cal-name,
+    .sl-cal-axis .sl-cal-name, .follow .small),
+  .site-main :is(.cv-kicker, .cv-small, .cv-credit, .cv-legend ul, .cv-table, .cv-id, .cv-caveats ul, .cv-caveats code),
+  .site-main :is(.br-kicker, .br-print small, .br-doc code) { font-size: 16px; }
+}
 @media (min-width: 1024px) {
   :root { --gutter: 24px; }
 }
@@ -297,6 +309,12 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
    no longer paints in view and then jumps below the fold (layout shift 0.146 on phones). */
 .state-msg { padding: 24px var(--gutter); display: grid; align-content: start; gap: 12px; min-height: 100vh; min-height: 100svh; }
 .state-msg > * { max-width: 70ch; }
+/* A page's code still loading (Site.tsx): the wait sits in that page's column, at its top padding, so the page draws
+   where the text already was. */
+.state-msg:is(.state-col-wide, .state-col-read, .state-col-full) { width: 100%; margin-inline: auto; padding-top: 12px; }
+.state-msg.state-col-wide { max-width: var(--page-wide); }
+.state-msg.state-col-read { max-width: var(--page-read); }
+.state-msg.state-col-full { max-width: var(--page-full); }
 .state-body { display: grid; gap: 8px; }
 .state-detail summary { cursor: pointer; color: var(--ink-2); font-size: 0.85rem; padding-block: 12px; }
 .state-detail summary:hover { text-decoration: underline; text-underline-offset: 3px; }

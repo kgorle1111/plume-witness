@@ -26,6 +26,11 @@ const Coverage = lazy(() => import('./Coverage.tsx'))
 const LOADING = {
   spikes: 'spikes.loading', timeline: 'rn.loading', brief: 'brief.loading', facility: 'fx.loadingOne', facilities: 'fx.loadingList', coverage: 'cv.loading',
 } as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, StringKey>
+// The wait is drawn in the page's own column (index.css): a full-width box put the text 24px from the edge, then the
+// page drew 320-530px further in at 1920 (Coverage's own data wait does the same, #120).
+const COLUMN = {
+  spikes: 'wide', coverage: 'wide', timeline: 'full', brief: 'read', facility: 'read', facilities: 'read',
+} as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, 'wide' | 'read' | 'full'>
 
 export default function Site() {
   const t = useT()
@@ -114,7 +119,7 @@ export default function Site() {
             link's target, since each page draws its own <main>. */}
         <div className="site-main" id="main">
           <LoadBoundary key={page}>
-            <Suspense fallback={<main className="state-msg" aria-busy="true"><p>{loading}</p></main>}>
+            <Suspense fallback={<main className={`state-msg state-col-${COLUMN[page]}`} aria-busy="true"><p>{loading}</p></main>}>
               {page === 'spikes' && <SpikeLog />}
               {page === 'timeline' && <SpikeRain />}
               {page === 'brief' && <Brief />}
