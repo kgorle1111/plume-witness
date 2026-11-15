@@ -2,7 +2,7 @@ import { memo, startTransition, useCallback, useEffect, useMemo, useRef, useStat
 import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
 import {
-  NO_FILTER, PAGE_SIZE, cleanFilters, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv,
+  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv,
   type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow,
 } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
@@ -108,18 +108,18 @@ function downloadCsv(rows: SpikeRow[], f: Filters) {
 }
 
 /** The row's reason in the reader's language; one the string table does not know stays as written, marked English. */
-function Reason({ reason }: { reason?: string }) {
+function Reason({ row }: { row: Pick<SpikeRow, 'reason' | 'reason_code'> }) {
   const t = useT()
-  if (!reason) return null
-  const k = reasonKey(reason)
-  return k ? <span className="sl-reason">{t(k)}</span> : <span className="sl-reason" lang="en">{reason}</span>
+  const k = reasonKey(row)
+  if (k) return <span className="sl-reason">{t(k)}</span>
+  return row.reason ? <span className="sl-reason" lang="en">{row.reason}</span> : null
 }
 
 function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   return (
     <span className="sl-status-cell">
       <span className={`sl-status sl-status-${row.status}`} lang={lang}><StatusIcon kind={statusInfo(row.status).icon} size={14} />{statusLabel(row.status, lang)}</span>
-      <Reason reason={row.reason} />
+      <Reason row={row} />
     </span>
   )
 }
@@ -207,8 +207,6 @@ function Select({ id, label, value, onChange, options }: {
 }
 
 const FIELD_LABEL: Record<keyof Filters, StringKey> = { site: 'spikes.fMonitor', compound: 'spikes.fCompound', status: 'spikes.fCheck', year: 'spikes.fYear' }
-// The three reasons a check stops short, in the legend under "Search incomplete".
-const REASON_HELP = ['spikes.reason.check', 'spikes.reason.week', 'spikes.reason.noWind'] as const
 
 export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const t = useT()
@@ -444,7 +442,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                 <dd>
                   {t(`status.note.${k}`)}
                   {k === 'search_incomplete' && (
-                    <ul>{REASON_HELP.map((r) => <li key={r}><strong>{t(r)}</strong>: {t(`${r}Long`)}</li>)}</ul>
+                    <ul>{REASON_CODE_KEYS.map((r) => <li key={r}><strong>{t(r)}</strong>: {t(`${r}Long`)}</li>)}</ul>
                   )}
                 </dd>
               </div>
