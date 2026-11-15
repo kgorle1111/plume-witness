@@ -98,7 +98,11 @@ const TIME_NOTE = /^Monitor hours are CST as TCEQ publishes them; the company re
 
 /** The event's time note in the reader's language, or null when only the published English text is available.
  *  With no company report on the night (`hasReport` false), the clause about the report's clock is left out. */
+const TIME_NOTE_LA = /^Monitor hours are PST as South Coast AQMD publishes them; the reports use local time \(([^)]+)\)\. South Coast AQMD's public hourly history for these stations ends in December 2022\.$/
+
 export function timeNote(note: string, lang: Lang, hasReport = true): string | null {
+  const la = TIME_NOTE_LA.exec(note.trim())
+  if (la) return translate(lang, 'det.timeNoteLa', { tz: la[1] })
   const m = TIME_NOTE.exec(note.trim())
   if (!m) return lang === 'en' ? note : null
   return hasReport ? translate(lang, 'det.timeNote', { tz: m[1] }) : translate(lang, 'det.timeNoteNoReport')
@@ -168,6 +172,8 @@ const SCOPE_FIXED = {
   'A report open at that time could not be located, so the search is incomplete.': 'scope.unlocated',
   // kn: quotes pipeline/nrc.py SCOPE_SENTENCE; change both together.
   'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.': 'scope.nrc',
+  'Searched Cal OES spill reports and National Response Center (NRC) reports for Los Angeles County that started in the match window.': 'scope.laSearched',
+  'Neither source lists every emissions event or gives an end time, so the search is incomplete.': 'scope.laIncomplete',
 } as const
 
 function scopeSentence(s: string, lang: Lang): string | null {

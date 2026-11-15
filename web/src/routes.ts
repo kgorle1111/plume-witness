@@ -39,7 +39,7 @@ export function replayHref(base: string, search: string, regions: Regions = REGI
   return `${base}${regionQuery(regionFrom(search, regions), { intro: '0' })}#detect`
 }
 
-export const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
+export const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_(?:[\d_]+|[A-Z]{4})$/ // a TCEQ site id, or a Rule 1180 station code (LA)
 
 /**
  * A region replay without ?night= has no demo night of its own (event.json is Houston's): open the region's first
