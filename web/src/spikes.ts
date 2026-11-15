@@ -1,6 +1,7 @@
 // Pure helpers for the past-spikes log (SpikeLog.tsx). Self-contained, with a .ts import, so
 // `node --test test/spikes.test.ts` can load it without a bundler.
 import { statusInfo } from './format.ts'
+import { distanceKm, type LatLon } from './geo.ts'
 
 // Mirrors pipeline/spikes.py (schema plume-witness.spikes/v1). Rows never carry a facility name.
 export const SCHEMA = 'plume-witness.spikes/v1'
@@ -93,10 +94,20 @@ export type Dir = 'asc' | 'desc'
 export interface Filters { site: string; compound: string; status: string; year: string }
 export const NO_FILTER: Filters = { site: '', compound: '', status: '', year: '' }
 
+export const FILTER_KEYS = ['site', 'compound', 'status', 'year'] as const satisfies readonly (keyof Filters)[]
+
+/** The value a row has for one filter (the year filter matches the date's first four digits). */
+export const filterValue = (r: SpikeRow, k: keyof Filters): string =>
+  k === 'site' ? r.site_id : k === 'compound' ? r.compound : k === 'status' ? r.status : r.date.slice(0, 4)
+
+/** True when the row passes every set filter, skipping `except` (used to count one select's options). */
+export function passes(r: SpikeRow, f: Filters, except?: keyof Filters): boolean {
+  return FILTER_KEYS.every((k) => k === except || !f[k] || filterValue(r, k) === f[k])
+}
+
 /** The rows the table shows and the CSV exports: one function, so the two can never disagree. */
 export function selectRows(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir): SpikeRow[] {
-  const rows = all.filter((r) => (!f.site || r.site_id === f.site) && (!f.compound || r.compound === f.compound)
-    && (!f.status || r.status === f.status) && (!f.year || r.date.startsWith(f.year)))
+  const rows = all.filter((r) => passes(r, f))
   const key = (r: SpikeRow): number | string =>
     sort === 'value' ? r.value_ppb : sort === 'ratio' ? (r.ratio ?? -1) : `${r.date} ${String(r.hour_cst).padStart(2, '0')}`
   const sign = dir === 'asc' ? 1 : -1
@@ -128,4 +139,65 @@ export function logView(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir, li
   const shown = rows.slice(0, n)
   const remaining = rows.length - shown.length
   return { rows, shown, remaining, next: Math.min(PAGE_SIZE, remaining) }
+}
+
+/** A shared link can carry a filter value this file does not have (a renamed site id, a year with no data). Such a
+ *  value would silently show 0 rows behind selects that read "All", so it is dropped and named instead. */
+export function cleanFilters(all: SpikeRow[], f: Filters): { filters: Filters; dropped: (keyof Filters)[] } {
+  const filters = { ...f }
+  const dropped: (keyof Filters)[] = []
+  for (const k of FILTER_KEYS) {
+    if (f[k] && !all.some((r) => filterValue(r, k) === f[k])) {
+      filters[k] = ''
+      dropped.push(k)
+    }
+  }
+  return { filters, dropped }
+}
+
+/** Option counts for one select, against the other active filters, so an option that would give 0 rows says 0. */
+export function optionCounts(all: SpikeRow[], f: Filters, k: keyof Filters): Map<string, number> {
+  const m = new Map<string, number>()
+  for (const r of all) m.set(filterValue(r, k), (m.get(filterValue(r, k)) ?? 0) + (passes(r, f, k) ? 1 : 0))
+  return m
+}
+
+/** Why a "search incomplete" row stopped short, as a string-table key; null for a reason this table does not know
+ *  (shown as the pipeline wrote it, marked English). Matches pipeline/spikes.py ABSTAIN and INCOMPLETE_REASON.
+ *  kn: the "could not be placed" text is the pipeline's default whenever TCEQ's day search returned in full, so it
+ *  also covers calm-wind nights and unplaced earlier reports; the UI says only "see the night's Check step" for it
+ *  until pipeline/spikes.py exports the real cause. */
+export type ReasonKey = 'spikes.reason.check' | 'spikes.reason.week' | 'spikes.reason.noWind'
+const REASONS: Record<string, ReasonKey> = {
+  'A report filed that day could not be placed on the map, so absence cannot be claimed.': 'spikes.reason.check',
+  "TCEQ's search for that week did not return every report, so absence cannot be claimed.": 'spikes.reason.week',
+  'No wind data for that day, so no upwind area could be drawn.': 'spikes.reason.noWind',
+}
+export const reasonKey = (reason: string | undefined): ReasonKey | null =>
+  (reason !== undefined && Object.hasOwn(REASONS, reason) ? REASONS[reason] : null)
+
+/** The monitor in the file closest to a point, with its distance; null for an empty file. */
+export function nearestSite(all: SpikeRow[], p: LatLon): { site_id: string; site: string; km: number } | null {
+  let best: { site_id: string; site: string; km: number } | null = null
+  const seen = new Set<string>()
+  for (const r of all) {
+    if (seen.has(r.site_id)) continue
+    seen.add(r.site_id)
+    const km = distanceKm(p, r)
+    if (!best || km < best.km) best = { site_id: r.site_id, site: r.site, km }
+  }
+  return best
+}
+
+/** Where the reader was in the list before opening a night, so Back lands on the same row (sessionStorage). */
+export interface ListSpot { search: string; limit: number; y: number }
+export function parseSpot(raw: string | null, search: string): ListSpot | null {
+  if (!raw) return null
+  try {
+    const v = JSON.parse(raw) as Partial<ListSpot>
+    if (v.search !== search || !Number.isInteger(v.limit) || !Number.isFinite(v.y)) return null
+    return { search, limit: Math.min(Math.max(v.limit!, 1), 10_000), y: Math.max(0, v.y!) }
+  } catch {
+    return null
+  }
 }
