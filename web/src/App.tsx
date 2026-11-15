@@ -45,6 +45,9 @@ const writeStored = (key: string, value: string) => {
 }
 
 /** Corridor facilities nearest first (geometry only; the pipeline's `rank` is not shown as a ranking). */
+/** The question each step answers, on the button that opens it. */
+const NEXT_QUESTION = { detect: 'nav.q.detect', trace: 'nav.q.trace', check: 'nav.q.check', packet: 'nav.q.packet' } as const
+
 function useCorridor(ev: PlumeEvent) {
   return useMemo(() => {
     const byDistance = [...ev.facilities].sort((a, b) => a.distance_km - b.distance_km)
@@ -160,6 +163,8 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       <div className="stepper" role="tablist" aria-label={t('nav.steps')} onKeyDown={onKey}>
         {/* Pill nav (PR #90): one pill slides behind the selected step; the tabs carry the state. */}
         <span className="step-pill" aria-hidden="true" style={{ transform: `translateX(${active * 100}%)` }} />
+        {/* Progress along the bottom edge: how far through the four steps the reader is (the tabs say which). */}
+        <span className="step-progress" aria-hidden="true" style={{ width: `${((active + 1) / STEPS.length) * 100}%` }} />
         {STEPS.map((s, i) => (
           <button
             key={s.id}
@@ -195,7 +200,13 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
         {step === 'packet' && langNotice && <p className="lang-notice" aria-hidden="true">{langNotice}</p>}
         <nav className="step-nav" aria-label={t('nav.stepNav')}>
           {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>{t('nav.back', { step: t(STEPS[active - 1].label) })}</button>}
-          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>{t('nav.next', { step: t(STEPS[active + 1].label) })}</button>}
+          {/* The question the next step answers leads; "Next: <step>" stays in the name (demo flows click it by that). */}
+          {active < STEPS.length - 1 && (
+            <button type="button" className="btn btn-primary btn-next" onClick={() => go(active + 1, true)}>
+              <span className="next-q">{t(NEXT_QUESTION[STEPS[active + 1].id])}</span>
+              <span className="next-step">{t('nav.next', { step: t(STEPS[active + 1].label) })}</span>
+            </button>
+          )}
         </nav>
       </section>
     </>

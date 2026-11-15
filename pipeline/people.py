@@ -32,6 +32,9 @@ RAW = ROOT / "data" / "raw" / "census"
 LEDGER = RAW / "provenance.json"
 OUT = ROOT / "web" / "public" / "people.json"
 DOCS = ROOT / "docs" / "people.md"
+# Spikes with no matching report come from the spike log, so run pipeline.spikes before this.
+SPIKES = ROOT / "web" / "public" / "spikes.json"
+OPEN_RADIUS_KM = 3
 
 ACS_VINTAGE = "2024"
 ACS_LABEL = "ACS 2024 5-year (2020-2024)"
@@ -285,8 +288,18 @@ def build() -> dict:
     return {
         "acs_vintage": ACS_LABEL, "geography": "census tract, Harris County TX (48201)", "method": METHOD,
         "radii_km": list(RADII_KM), "monitors": monitors,
+        "near_open_questions": near_open_questions(tracts),
         "sources": [{k: e[k] for k in ("file", "url", "sha256", "fetched_at")} for e in ledger],
     }
+
+
+def near_open_questions(tracts: list[dict]) -> dict:
+    """Residents within OPEN_RADIUS_KM of any monitor with at least one "no matching report" spike. Tracts near two
+    such monitors are counted once (a union by GEOID), unlike the per-monitor rows, which overlap."""
+    rows = json.loads(SPIKES.read_text(encoding="utf-8"))["rows"]
+    sites = sorted({r["site_id"] for r in rows if r["status"] == "no_report_after_deadline"} & set(SITE_NAMES))
+    union = {t["geoid"]: t for s in sites for t in tracts_within(tracts, site_coords(s), OPEN_RADIUS_KM)}
+    return {"radius_km": OPEN_RADIUS_KM, "site_ids": sites, **summarize([union[g] for g in sorted(union)])}
 
 
 # ---------------------------------------------------------------- docs
@@ -313,6 +326,13 @@ def render_docs(result: dict) -> str:
         "`web/public/people.json`.\n"),
         "**Method limit.** " + result["method"] + "\n",
     ]
+    q = result["near_open_questions"]
+    out += ["## Near a spike with no matching report\n",
+            (f"{_n(q['population'])} residents live in the {q['tracts']} tracts within {q['radius_km']} km of the "
+             f"{len(q['site_ids'])} monitors that have at least one spike with no matching report "
+             f"({q['pct_spanish_at_home']}% speak Spanish at home; {q['pct_under_18']}% are under 18). A tract near two "
+             "such monitors is counted once. These are residents, not people exposed: a spike at a monitor does not "
+             "say who breathed it.\n")]
     for r in RADII_KM:
         out += [f"## Within {r} km\n",
                 ("| Monitor | Tracts | Residents | Hispanic | Spanish at home | Limited-English households | Under 18 | 65+ "

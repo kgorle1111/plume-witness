@@ -486,6 +486,21 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
   .panel:has(.file-steps), html:has(.file-steps) { scroll-padding-bottom: 170px; }
 }
 .step-nav .btn-primary { margin-left: auto; }
+/* Next leads with the question the next step answers; the step name is the small second line. */
+.btn-next { flex-direction: column; align-items: flex-start; gap: 0; padding-block: 6px; line-height: 1.25; text-align: left; }
+.btn-next .next-q { font-weight: 700; }
+.btn-next .next-step { font-size: 0.75rem; font-weight: 500; opacity: 0.85; }
+.step-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 3px;
+  background: var(--trigger);
+  border-radius: 0 2px 2px 0;
+  transition: width 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) { .step-progress { transition: none; } }
+@media (forced-colors: active) { .step-progress { forced-color-adjust: none; background: Highlight; } }
 
 .dialog {
   max-width: min(420px, calc(100vw - 32px));
