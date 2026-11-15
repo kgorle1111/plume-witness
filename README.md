@@ -24,7 +24,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 ## Measured so far
 
 - **One real night, replayed.** 2024-06-21, Milby Park: the check finds the company's own report (INEOS, 7,634 lb of benzene) inside the upwind corridor, filed on time. It shows the check passing; the "no report after the deadline" path has only run in unit tests.
-- **Backtest on 66 releases companies reported in 2024 and 2025** ([docs/backtest.md](docs/backtest.md)): only 2 of 66 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 66 end to end. Most releases never reach a state monitor. How often a "no report" result is wrong is not measured.
+- **Backtest on 66 releases companies reported to the state** ([docs/backtest.md](docs/backtest.md)): only 2 of 66 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 66 end to end. Most releases never reach a state monitor. How often a "no report" result is wrong is not measured.
 - Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
 
 ## Data (all public)
