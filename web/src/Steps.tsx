@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
-import { parseAiDraft, type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
+import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
+import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
+import type { Lang, PacketReview, Source } from './packet'
+import { PlaceSearch, type Place } from './PlaceSearch'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
   const common = { width: 18, height: 18, viewBox: '0 0 20 20', 'aria-hidden': true, focusable: false } as const
@@ -17,6 +19,15 @@ function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
     default:
       return <svg {...common}><path d="M10 2.5l8 14.5H2z" {...stroke} /><path d="M10 8v4" {...stroke} /><circle cx="10" cy="14.4" r=".6" fill="currentColor" /></svg>
   }
+}
+
+function InfoIcon() {
+  return (
+    <svg className="inline-icon" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" focusable="false"
+      fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <circle cx="10" cy="10" r="8.5" /><path d="M10 9v5" /><circle cx="10" cy="6.2" r=".6" fill="currentColor" />
+    </svg>
+  )
 }
 
 export function StatusBadge({ status }: { status: string }) {
@@ -95,7 +106,10 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
       <p className="lead">A state monitor recorded a {ev.compound.name} reading far above its usual level.</p>
       <dl className="facts">
         <div><dt>Monitor</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
-        <div><dt>Reading</dt><dd><strong>{d.value} {u}</strong> at {hourLabel(d.hour_cst)}, {ev.date_local}</dd></div>
+        <div className="fact-key">
+          <dt>Reading</dt>
+          <dd><strong className="reading-value">{d.value} {u}</strong> <span className="reading-when">at {hourLabel(d.hour_cst)}, <span className="nowrap">{ev.date_local}</span></span></dd>
+        </div>
         <div><dt>Usual level (baseline)</dt><dd>{d.baseline} {u}</dd></div>
         <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
       </dl>
@@ -116,9 +130,11 @@ interface TraceProps {
   corridor: Facility[]
   outside: Facility[]
   onHighlight: (id: string | null) => void
+  place: Place | null
+  onPlace: (p: Place | null) => void
 }
 
-export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
+export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
@@ -140,7 +156,8 @@ export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
           ? <>At {hourLabel(wind.hour_cst)} the wind at {windSite} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
           : <>No wind reading for {hourLabel(ev.detection.hour_cst)}. Facilities are listed nearest first.</>}
       </p>
-      <p className="caveat">Wind direction alone can't tell these apart.</p>
+      <p className="caveat"><InfoIcon />Wind direction alone can't tell these apart.</p>
+      <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
       <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
       <p className="muted small">Hover or focus a facility to show its name on the map; with a keyboard, Tab into the list and use the arrow keys. On the map, tap or point at a dot.</p>
       {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
@@ -250,18 +267,18 @@ function DayIncidents({ items }: { items: DayIncident[] }) {
 
 const localTime = (t?: string) => (t ? t.replace('T', ' ') : 'not given')
 
-type Lang = 'en' | 'es'
 const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
-type Source = 'template' | 'ai'
+interface PacketProps {
+  ev: PlumeEvent
+  ai: AiDraft | null
+  review: PacketReview
+  setReview: Dispatch<SetStateAction<PacketReview>>
+}
 
-export function Packet({ ev }: { ev: PlumeEvent }) {
-  const [lang, setLang] = useState<Lang>('en')
-  const [source, setSource] = useState<Source>('template')
-  const [ai, setAi] = useState<AiDraft | null>(null)
-  const [drafts, setDrafts] = useState({ en: ev.packet.draft_en, es: ev.packet.draft_es })
-  const [approved, setApproved] = useState(false)
+export function Packet({ ev, ai, review, setReview }: PacketProps) {
+  const { lang, source, drafts, approved } = review
   const [speaking, setSpeaking] = useState(false)
   const [notice, setNotice] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
@@ -269,16 +286,6 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
   const guard = ev.packet.guard
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
-
-  // The AI draft is optional: a missing or malformed file leaves the template-only packet, as before.
-  useEffect(() => {
-    const ctrl = new AbortController()
-    fetch(`${import.meta.env.BASE_URL}packet.ai.json`, { signal: ctrl.signal, cache: 'no-cache' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((raw) => setAi(parseAiDraft(raw)))
-      .catch(() => setAi(null))
-    return () => ctrl.abort()
-  }, [])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
@@ -290,19 +297,17 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
     if (l === lang) return
     stopSpeech()
     if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
-    setApproved(false)
-    setLang(l)
+    setReview((r) => ({ ...r, lang: l, approved: false }))
   }
 
   // Same rule as switching language: approval covers the exact text read, so a new source needs a new approval.
   const switchSource = (s: Source) => {
     if (s === source || (s === 'ai' && !ai)) return
     stopSpeech()
-    setDrafts(s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es })
+    const next = s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
     setNotice(s === 'ai' ? 'Showing the AI draft. Every number in it was checked against the data. Review it before approving.'
       : 'Showing the template draft.')
-    setApproved(false)
-    setSource(s)
+    setReview((r) => ({ ...r, source: s, drafts: next, approved: false }))
   }
 
   const readAloud = () => {
@@ -331,32 +336,46 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
   return (
     <>
       <p className="lead">A draft for a person to read, edit and file. Nothing is sent from this app.</p>
-      {ai && (
-        <div className="lang-toggle" role="group" aria-label="Who wrote the draft">
-          <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>Template (no AI)</button>
-          <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>AI draft ({ai.provider}, number-checked)</button>
+      <div className="controls">
+        {ai && (
+          <div className="control">
+            <span className="control-label" id="src-label">Who wrote the draft</span>
+            <div className="seg" role="group" aria-labelledby="src-label">
+              <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>
+                Template <span className="seg-sub">(no AI)</span>
+              </button>
+              <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>
+                AI draft <span className="seg-sub">({ai.provider}, number-checked)</span>
+              </button>
+            </div>
+          </div>
+        )}
+        <div className="control">
+          <span className="control-label" id="lang-label">Draft language</span>
+          <div className="seg" role="group" aria-labelledby="lang-label">
+            <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
+            <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
+          </div>
         </div>
-      )}
-      <div className="lang-toggle" role="group" aria-label="Draft language">
-        <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
-        <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
       </div>
-      <label className="draft-label" htmlFor="draft">Draft ({LANG_NAME[lang]}){approved ? ' · approved' : ''}</label>
+      <label className="draft-label" htmlFor="draft">
+        Draft ({LANG_NAME[lang]}){approved ? <span className="approved-tag"> · approved</span> : ''}
+      </label>
       <textarea
         id="draft"
         className="draft"
         lang={lang}
-        rows={6}
+        rows={9}
         value={drafts[lang]}
         onChange={(e) => {
-          setDrafts((d) => ({ ...d, [lang]: e.target.value }))
+          const value = e.target.value
           // Approval covers the exact text a person read; any edit needs a fresh approval.
           // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
           if (approved) setNotice('Draft edited. Approve it again before filing.')
-          setApproved(false)
+          setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
         }}
       />
-      <p className="muted small">
+      <p className="muted small provenance">
         {source === 'ai' && ai ? (
           <>Drafted by {ai.provider} ({ai.model}), generated once on {ai.generated_local} from this event's facts; it has
             drafted {ai.runs_on_this_event} real event so far. Number check: passed (every number, id and time matches the data).</>
@@ -379,11 +398,13 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
       <h3 className="list-heading">Review and file</h3>
       <ol className="file-steps">
         <li>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setApproved((a) => !a)}>
+          <span className="file-step-num" aria-hidden="true">1</span>
+          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
             {approved ? 'Approved (press to undo)' : 'Approve this draft'}
           </button>
         </li>
         <li>
+          <span className="file-step-num" aria-hidden="true">2</span>
           <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => dialog.current?.showModal()}>
             File with regulator (you submit)
           </button>
