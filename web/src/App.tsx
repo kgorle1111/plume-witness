@@ -226,6 +226,7 @@ interface NightRow { id: string; date: string; site_name: string; compound: stri
 
 function NightPicker({ current }: { current: string | null }) {
   const [rows, setRows] = useState<NightRow[]>([])
+  const [choice, setChoice] = useState(current ?? '')
   const region = regionFrom(window.location.search)
   useEffect(() => {
     const ctrl = new AbortController()
@@ -241,14 +242,19 @@ function NightPicker({ current }: { current: string | null }) {
     if (id) window.location.search = regionQuery(region, { night: id })
     else window.location.assign(DEMO_REPLAY_HREF)
   }
+  // Choosing does not navigate; the button does. Arrow keys on a closed select fire change on Windows, which
+  // used to load a new night on the first key press (WCAG 3.2.2 On Input).
   return (
-    <label className="night-picker">
-      Replay another night
-      <select value={current ?? ''} onChange={(e) => go(e.target.value)}>
-        <option value="">{region.backtested ? 'Demo night' : 'Demo night (Houston)'}</option>
-        {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
-      </select>
-    </label>
+    <form className="night-picker" onSubmit={(e) => { e.preventDefault(); if (choice !== (current ?? '')) go(choice) }}>
+      <label htmlFor="night-select">Replay another night</label>
+      <div className="night-picker-row">
+        <select id="night-select" value={choice} onChange={(e) => setChoice(e.target.value)}>
+          <option value="">{region.backtested ? 'Demo night' : 'Demo night (Houston)'}</option>
+          {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
+        </select>
+        <button type="submit" className="btn">Open</button>
+      </div>
+    </form>
   )
 }
 
