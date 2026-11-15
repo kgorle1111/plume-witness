@@ -6,6 +6,12 @@ spikes in 2024-2025 when sampled, 170 now: see the update below; `data/build/bac
 `uv run python -m pipeline.audit_no_report --write` (writes `docs/audit-no-report.json`). No network: everything
 comes from the cached pages in `data/raw/backtest/`.
 
+**Population is frozen (2026-11-15).** The sample was drawn from the 8-monitor scan, saved as
+`docs/audit-no-report-population.json`. With the 4 added Harris County monitors (12 in all) the live scan has 171
+no-report spikes; 8 of the 10 audited nights keep their id and status, 2025-06-12 (1,3-butadiene) now triggers first at
+Channelview Drive Water Tower (still no matching report), and 2025-10-31 (benzene) now triggers first at Pasadena
+Richey Elementary School and abstains (search incomplete). The audit says nothing about the new monitors' spikes.
+
 ## Result
 
 | Verdict | Spikes (of 10) |
