@@ -27,6 +27,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 - **Backtest on 72 releases companies reported to the state** ([docs/backtest.md](docs/backtest.md)): only 3 of 72 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 72 end to end.
 - **What the monitors can see** ([docs/detector.md](docs/detector.md)): in 52 of 72 a monitor within 15 km was downwind near the reported start, yet ordinary days at the same monitors and hours spiked just as often (19 of 386 windows) at every trigger setting tested. For these releases, hourly state monitors cannot confirm or contradict a company's report. How often a "no report" result is wrong is not measured.
 - **Also in the data:** a past-spikes log of all 415 spikes in 2024-2025 with a replay of each night, a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), and facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)).
+- **Method brief** for advocates and public comment: [docs/brief.md](docs/brief.md), also on the site as a printable page at `?view=brief`.
 - Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
 
 ## Data (all public)
