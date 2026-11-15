@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef, useState, type MouseEvent } from 're
 import App from './App'
 import { AtlasLanding } from './AtlasLanding'
 import { pageFromLocation } from './routes'
+import { useT } from './useT'
 
 // ?view=spikes opens the past-spikes log; its code and spikes.json load only then.
 const SpikeLog = lazy(() => import('./SpikeLog'))
@@ -10,6 +11,7 @@ const Brief = lazy(() => import('./Brief'))
 const FacilityViews = lazy(() => import('./FacilityViews'))
 
 export default function Site() {
+  const t = useT()
   const [page, setPage] = useState(() => pageFromLocation(window.location))
   const [leaving, setLeaving] = useState(false)
   const replayEntry = useRef<HTMLDivElement>(null)
@@ -47,25 +49,25 @@ export default function Site() {
   }
 
   if (page === 'spikes') return (
-    <Suspense fallback={<main className="state-msg"><p>Loading the spike log…</p></main>}>
+    <Suspense fallback={<main className="state-msg"><p>{t('spikes.loading')}</p></main>}>
       <SpikeLog />
     </Suspense>
   )
 
   if (page === 'timeline') return (
-    <Suspense fallback={<main className="state-msg"><p>Loading two years of spikes…</p></main>}>
+    <Suspense fallback={<main className="state-msg"><p>{t('rn.loading')}</p></main>}>
       <SpikeRain />
     </Suspense>
   )
 
   if (page === 'brief') return (
-    <Suspense fallback={<main className="state-msg"><p>Loading the brief…</p></main>}>
+    <Suspense fallback={<main className="state-msg"><p>{t('brief.loading')}</p></main>}>
       <Brief />
     </Suspense>
   )
 
   if (page === 'facility' || page === 'facilities') return (
-    <Suspense fallback={<main className="state-msg"><p>Loading…</p></main>}>
+    <Suspense fallback={<main className="state-msg"><p>{t('common.loading')}</p></main>}>
       <FacilityViews view={page} />
     </Suspense>
   )

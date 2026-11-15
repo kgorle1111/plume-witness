@@ -61,8 +61,10 @@ export function hourLabel(h: number): string {
 }
 
 const COMPASS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
-export function compass(deg: number): string {
-  return COMPASS[Math.round((((deg % 360) + 360) % 360) / 22.5) % 16]
+export function compass(deg: number, lang: 'en' | 'es' = 'en'): string {
+  const c = COMPASS[Math.round((((deg % 360) + 360) % 360) / 22.5) % 16]
+  // West is Oeste in Spanish; the other letters are the same.
+  return lang === 'es' ? c.replaceAll('W', 'O') : c
 }
 
 /** Great-circle destination from (lat, lon) along `bearingDeg` for `km`. Returns [lon, lat]. */

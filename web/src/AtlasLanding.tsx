@@ -1,5 +1,7 @@
 import { lazy, Suspense, type MouseEventHandler } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
+import { LangSwitch } from './LangSwitch'
+import { useT } from './useT'
 import './AtlasLanding.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
@@ -9,6 +11,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
   onEnter: MouseEventHandler<HTMLAnchorElement>
   onExit: () => void
 }) {
+  const t = useT()
   return (
     <main
       className={`atlas-landing${leaving ? ' atlas-leaving' : ''}`}
@@ -23,10 +26,11 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </svg>
           <span>Plume Witness</span>
         </div>
+        <LangSwitch />
       </header>
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
-        <h1 id="atlas-title">Trace air pollution</h1>
+        <h1 id="atlas-title">{t('landing.title')}</h1>
         <div className="atlas-plate" aria-hidden="true">
           <div className="atlas-grid" />
           <svg className="atlas-survey" viewBox="0 0 650 462" fill="none">
@@ -38,14 +42,14 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </svg>
           <div className="atlas-planet"><Suspense><AtlasGlobe /></Suspense></div>
         </div>
-        <p className="atlas-purpose">Follow pollution spikes upwind and check them against public emissions reports to see what matches.</p>
+        <p className="atlas-purpose">{t('landing.purpose')}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
-          Enter the replay
+          {t('landing.enter')}
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
-        <a className="atlas-also" href={`${import.meta.env.BASE_URL}?view=timeline`}>Or watch two years of spikes</a>
+        <a className="atlas-also" href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('landing.also')}</a>
       </section>
     </main>
   )
