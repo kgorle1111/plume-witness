@@ -129,6 +129,8 @@
 /* Forced colors repaint the CSS legend but not the map canvas; keep the swatches matching the canvas. */
 @media (forced-colors: active) {
   .lg { forced-color-adjust: none; }
+  /* Same for the hourly chart key: the SVG keeps its fills, so the key swatches must too (the ▲ glyph stays system text). */
+  .spark .key { forced-color-adjust: none; }
   .step-tab[aria-selected='true'] .step-num { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
 }
 
