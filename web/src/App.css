@@ -87,8 +87,8 @@
   border: 3px solid var(--trigger);
   pointer-events: none;
   /* Two cycles (3.6s), then the same static ring reduced motion shows: WCAG 2.2.2 needs a way to stop
-     motion that runs past 5s. At scale(1) the ring hides behind the 22px trigger dot. */
-  transform: scale(1.6);
+     motion that runs past 5s. The ring is sized to the trigger circle (+8px), so a small scale clears it. */
+  transform: scale(1.15);
   opacity: 0.9;
   animation: pulse 1.8s ease-out 2;
 }
@@ -122,7 +122,7 @@
   .app { height: auto; min-height: 100dvh; }
   .layout { flex: none; }
   /* Keep the 240px floor: EventMap's fitBounds padding (legend + 76px) throws on a shorter map. */
-  .map-wrap { height: 60vh; height: 60dvh; }
+  .map-wrap, .stage .map-wrap { height: 60vh; height: 60dvh; }
   .panel { flex: none; overflow: visible; }
 }
 
