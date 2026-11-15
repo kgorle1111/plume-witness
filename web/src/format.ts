@@ -65,6 +65,9 @@ const CANNOT_SAY_ES: Record<string, string> = {
   // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
   'New region: no backtest yet; statuses use the same rules; no claims are made from it':
     'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella',
+  // pipeline/regions.py BACKTESTED_NOTE; the "(n = 81, 2024-2025)" part is carried over as written.
+  'Backtested against company-reported releases':
+    'Probado retrospectivamente con liberaciones reportadas por las empresas',
   // Earlier pipeline wordings, kept so a cached older event.json still reads in Spanish.
   'Only regulator-grade state monitors are used; many neighborhoods have none':
     'Solo se usan monitores estatales de grado regulatorio; muchos vecindarios no tienen ninguno',

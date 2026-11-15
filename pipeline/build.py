@@ -628,7 +628,7 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
                    provenance: list[dict], region=None) -> dict:
     """One event.json from a finished trace(). build() and pipeline.nights both call this, so a replayed night
     is the same document the demo night is. region None is Houston, the backtested region, unchanged; any other
-    pipeline.regions.Region renames the place and county and labels the event as not backtested."""
+    pipeline.regions.Region renames the place and county and labels the event with its backtest line."""
     det, wind, trig, window, facilities, rc = (t[k] for k in ("detection", "wind", "trig", "window", "facilities",
                                                                "record_check"))
     name_en = COMPOUNDS[param][0]
@@ -653,7 +653,8 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
 
 
 def _region_cannot_say(region) -> list[str]:
-    """Houston's list minus its Houston-only monitor-network line, with the not-backtested label first."""
+    """Houston's list minus its Houston-only monitor-network line, with the region's backtest line (or the
+    not-backtested label) first."""
     return [region.note, *(c for c in CANNOT_SAY if "Houston" not in c),
             "Only regulator-grade monitors whose data the state publishes are used, never low-cost sensors."]
 

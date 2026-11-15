@@ -14,15 +14,23 @@ Per candidate, the unchanged pipeline (build.trace) runs on the event's start da
 Outcomes: detected, reporting facility in the corridor (as the pipeline places it), matched (record_check picked
 this very incident).
 
-Usage: uv run python -m pipeline.backtest   (reads data/raw/backtest, writes data/build/backtest.json)
+Every other region runs the same code on its own raw folder (pipeline.regions), and the same command also runs
+pipeline.detector_eval (downwind, near-start and control rates) for it:
+
+Usage: uv run python -m pipeline.backtest   (Houston: reads data/raw/backtest, writes data/build/backtest.json and
+       docs/backtest.md)
+       uv run python -m pipeline.backtest --region <key>   (reads the region's raw folder; writes
+       data/build/backtest-<key>.json, docs/backtest-<key>.md, data/build/detector_eval-<key>.json and
+       docs/detector-<key>.md; for houston, the four Houston files above and in detector_eval)
 """
 
 import json
 import re
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from pipeline import build, nrc
+from pipeline import build, nrc, regions
 from pipeline.parse import _text, lbs_by_param, steers_incident, steers_search
 from pipeline.regions import ALL_SITE_NAMES, HOUSTON_SITES
 
@@ -36,8 +44,27 @@ CANDIDATE_RADIUS_KM = 15.0
 NEAR_START_H = (-1, 6)
 YEARS = ("2024", "2025")
 
-# Ship Channel AutoGC sites (the backtested region); other regions' sites live in pipeline.regions.
+# Ship Channel AutoGC sites (the default region); other regions' sites live in pipeline.regions.
 SITE_NAMES = HOUSTON_SITES
+# kn: below this many candidates every region doc says plainly that its intervals are wide. Houston (77) is above it,
+# so its doc is unchanged; 30 is a rule of thumb, not a statistical test.
+SMALL_N = 30
+
+
+def out_paths(region: regions.Region = regions.HOUSTON) -> tuple[Path, Path]:
+    """(backtest json, backtest doc) for a region; Houston keeps its original file names."""
+    if region is regions.HOUSTON:
+        return OUT, DOCS
+    return ROOT / "data" / "build" / f"backtest-{region.key}.json", ROOT / "docs" / f"backtest-{region.key}.md"
+
+
+def rel(p: Path) -> str:
+    """A repo-relative path for the docs (absolute when outside the repo, e.g. a test's tmp folder)."""
+    return p.relative_to(ROOT).as_posix() if p.is_relative_to(ROOT) else p.as_posix()
+
+
+def command(region: regions.Region = regions.HOUSTON) -> str:
+    return "uv run python -m pipeline.backtest" + ("" if region is regions.HOUSTON else f" --region {region.key}")
 
 
 def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
@@ -312,14 +339,14 @@ def start_hour_cst(began_local: str) -> int:
 
 
 def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict],
-                  incomplete_weeks: list[str], raw: Path = BT) -> dict:
+                  incomplete_weeks: list[str], raw: Path = BT, county: str = "Harris") -> dict:
     day, year, param = c["day"], c["day"][-4:], c["param"]
     det_day = datetime.strptime(day, "%m/%d/%Y").date()
     near = sorted((s for s in sites if build.haversine_km(c["fac_latlon"], sites[s]) <= CANDIDATE_RADIUS_KM),
                   key=lambda s: build.haversine_km(c["fac_latlon"], sites[s]))
     monitors, dropped = [], []
     for s in near:
-        cfg = {"day": day, "year": year, "param": param, "monitors": [(s, SITE_NAMES[s], *sites[s])]}
+        cfg = {"day": day, "year": year, "param": param, "monitors": [(s, ALL_SITE_NAMES[s], *sites[s])]}
         try:
             monitors += build.load_monitors(cfg, raw)
         except (FileNotFoundError, KeyError, ValueError) as e:
@@ -342,7 +369,8 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
             "search_complete": complete, "earlier_search_complete": earlier_ok, "unreadable_day_reports": unreadable}
     # the corridor is drawn from ECHO around the triggering monitor (10 mi = 16 km > the 15 km corridor)
     t = build.trace(monitors, load_winds(year, day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                    details, complete, det_day, param, earlier, earlier_ok, note, nrc_reports=nrc.load("Harris"))
+                    details, complete, det_day, param, earlier, earlier_ok, note, county=county,
+                    nrc_reports=nrc.load(county))
     if "record_check" not in t:
         return out | {"reason": "no wind for the detection hours"}
     if t["calm_mph"] is not None:
@@ -409,8 +437,11 @@ def select_candidates(universe: list[dict], echo_rows: list[dict], sites: dict, 
     return candidates, funnel, unlocated
 
 
-def run(raw: Path = BT) -> dict:
-    sites = {s: site_coords(s, raw) for s in SITE_NAMES}
+def run(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> dict:
+    """The backtest for one region (Houston by default): same candidates rule, trigger, corridor and match."""
+    raw = raw or region.raw
+    county = region.county_title
+    sites = {s: site_coords(s, raw) for s in region.sites}
     universe, incomplete_weeks = load_universe(raw)
     echo_site, echo_rows = load_echo(raw)
     rows_by_day: dict[str, list[dict]] = {}
@@ -419,9 +450,9 @@ def run(raw: Path = BT) -> dict:
     candidates, funnel, unlocated = select_candidates(universe, echo_rows, sites, raw)
     results = []
     for c in candidates:
-        res = run_candidate(c, sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw)
+        res = run_candidate(c, sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw, county)
         results.append({k: v for k, v in c.items() if k != "fac_latlon"} | res)
-    spikes = spike_scan(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, candidates, raw)
+    spikes = spike_scan(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, candidates, raw, county)
     det = [r for r in results if r["detected"]]
     said_none = [r for r in spikes if r["status"] == "no_report_after_deadline"]
     spike_summary = {
@@ -451,7 +482,9 @@ def run(raw: Path = BT) -> dict:
         "spike_near_start": sum(1 for r in results if r["spike_near_start"]),
         "spike_near_start_and_matched": sum(1 for r in results if r["spike_near_start"] and r["matched"]),
     }
-    return {"schema": "plume-witness.backtest/v1", "generated_by": "uv run python -m pipeline.backtest",
+    # Houston's file keeps its exact shape; another region's says which region it is.
+    head = {} if region is regions.HOUSTON else {"region": region.key}
+    return {"schema": "plume-witness.backtest/v1", **head, "generated_by": command(region),
             "rules": {"candidate_radius_km": CANDIDATE_RADIUS_KM, "years": list(YEARS),
                       "trigger": f"value >= max({build.TRIGGER_RATIO:g} x {build.BASELINE_DAYS}-day median, "
                                  f"{build.TRIGGER_FLOOR_PPB:g} ppb), earliest hour of the event's start day",
@@ -472,8 +505,11 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     return (round(max(0.0, c - h), 3), round(min(1.0, c + h), 3))
 
 
-def render_md(res: dict) -> str:
+def render_md(res: dict, region: regions.Region = regions.HOUSTON) -> str:
     s, f, sp = res["summary"], res["funnel"], res["spike_summary"]
+    raw, site_names, county = region.raw, region.sites, region.county_title
+    raw_rel, json_rel = rel(raw), rel(out_paths(region)[0])
+    net = "Ship Channel" if region is regions.HOUSTON else region.label
     n, d, c, m = s["candidates"], s["detected"], s["detected_and_in_corridor"], s["detected_and_matched"]
 
     def pct(k: int, base: int) -> str:
@@ -481,18 +517,18 @@ def render_md(res: dict) -> str:
         return f"{k} / {base}" + (f" ({100 * k / base:.0f}%; 95% CI {100 * lo:.0f}-{100 * hi:.0f}%)" if base else "")
 
     reasons = "\n".join(f"| {r} | {k} |" for r, k in s["not_matched_reasons"].items())
-    no_wind = [x for x in SITE_NAMES if not any(BT.glob(f"met_*_{x}_61102.html"))]
+    no_wind = [x for x in site_names if not any(raw.glob(f"met_*_{x}_61102.html"))]
     by_param = {p: sum(1 for e in res["events"] if e["param"] == p) for p in ("45201", "43218")}
     return f"""# Backtest: does the pipeline find the company's own report?
 
-Generated by `uv run python -m pipeline.backtest` from public data in `data/raw/backtest/` (every file has a URL,
-SHA-256 and fetch time in `data/raw/backtest/provenance.json`). Full per-event results: `data/build/backtest.json`.
+Generated by `{command(region)}` from public data in `{raw_rel}/` (every file has a URL,
+SHA-256 and fetch time in `{raw_rel}/provenance.json`). Full per-event results: `{json_rel}`.
 Do not edit the numbers by hand; rerun the command.
 
 ## Headline
 
-Of **{n}** real 2024-2025 emissions events that a company reported to TCEQ (benzene or 1,3-butadiene, Harris
-County, facility within {CANDIDATE_RADIUS_KM:g} km of a Ship Channel AutoGC monitor):
+Of **{n}** real 2024-2025 emissions events that a company reported to TCEQ (benzene or 1,3-butadiene, {county}
+County, facility within {CANDIDATE_RADIUS_KM:g} km of a {net} AutoGC monitor):
 
 | Step | Count | Denominator |
 |---|---|---|
@@ -501,12 +537,11 @@ County, facility within {CANDIDATE_RADIUS_KM:g} km of a Ship Channel AutoGC moni
 | ...and the pipeline matched that exact report | {pct(m, d)} | detected |
 | End to end: detected and matched | {pct(m, n)} | all candidates |
 | Monitor spike within {NEAR_START_H[0]:+d} h to +{NEAR_START_H[1]} h of the company's reported start | {pct(s["spike_near_start"], n)} | all candidates |
-
+{small_n_note(n)}
 "Detected" above means a trigger hit at any hour of the start day, and the pipeline takes the earliest one, which
 is often hours from the release. Requiring the hit near the reported start (CST, daylight saving removed) leaves
 {s["spike_near_start"]} of {n}; {s["spike_near_start_and_matched"]} of those {s["spike_near_start"]} matched.
-So the day-level count overstates how often a release reached a monitor, and the (b) cross-check below compares
-day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
+{day_level_note(d, s["spike_near_start"])}
 
 Of the {m} matches, {s["matched_on_complete_search"]} came from a day search the pipeline could call complete.
 On {s["detected_but_other_incident_matched"]} detected events the pipeline matched a different report filed that
@@ -527,7 +562,7 @@ had the reporting facility geometrically inside the corridor; it abstained (*sea
 {s["detected_abstained_search_incomplete"]}.
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
-{len(SITE_NAMES)} sites: {sp["spikes"]} (day, compound) spikes on {sp["spike_days"]} distinct days. Status of each
+{len(site_names)} sites: {sp["spikes"]} (day, compound) spikes on {sp["spike_days"]} distinct days. Status of each
 spike's record check: {", ".join(f"{k} {v}" for k, v in sp["by_status"].items())}. The pipeline abstains rather than
 claim absence when the day's search or the {build.LOOKBACK_DAYS} days before it are not completely searched, or
 the wind is too light to trace ({sp["abstained_search_incomplete"]} spikes; {sp["abstained_calm_wind"]} of them
@@ -550,7 +585,7 @@ this pipeline, not a finding about the facility.
 
 | Step | Rows |
 |---|---|
-| STEERS rows, Harris County, any type, started 2024-01-01..2025-12-31 (week-by-week searches) | {f["steers_rows"]} |
+| STEERS rows, {county} County, any type, started 2024-01-01..2025-12-31 (week-by-week searches) | {f["steers_rows"]} |
 | listed as a non-emissions event type in the search results (detail page not fetched) | {f["detail_missing"]} |
 | not an EMISSIONS EVENT (maintenance, startup, shutdown, opacity) | {f["not_emissions_event"]} |
 | no benzene or 1,3-butadiene pounds reported | {f["no_benzene_or_butadiene"]} |
@@ -562,13 +597,13 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
 
 ## Exact rules
 
-- **Sites:** {", ".join(f"{v} ({k})" for k, v in SITE_NAMES.items())}. Coordinates from TCEQ TAMIS.
+- **Sites:** {", ".join(f"{v} ({k})" for k, v in site_names.items())}. Coordinates from TCEQ TAMIS.
 - **Monitors per event:** the AutoGC sites within {CANDIDATE_RADIUS_KM:g} km of the facility (a farther site's
   corridor can never reach it). A monitor without data or baseline for the day is dropped and recorded.
 - **Detection (unchanged pipeline):** {res["rules"]["trigger"]}.
 - **Corridor (unchanged pipeline):** {res["rules"]["corridor"]}, from the wind at the triggering monitor in the
   detection hour and the hour before; a monitor with no wind uses the nearest site that has it (recorded per event).
-  The TCEQ met form returned no hourly wind for {", ".join(SITE_NAMES[x] for x in no_wind) or "none"}; each uses its
+  The TCEQ met form returned no hourly wind for {", ".join(site_names[x] for x in no_wind) or "none"}; each uses its
   own AutoGC-form resultant wind (61104/61103) instead, and borrows only on a day that has neither. Wind source of
   the {sp["spikes"]} spikes: {", ".join(f"{k} {v}" for k, v in sp["wind_source"].items())}.
   Facilities come from EPA ECHO major sources within 10 mi of the triggering monitor.
@@ -596,6 +631,44 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
 - **Facilities outside the candidate set** ({f["facility_not_located"]} unlocated, {f["beyond_15km"]} beyond
   {CANDIDATE_RADIUS_KM:g} km) are not in any denominator.
 - AutoGC data are labeled provisional by TCEQ and may change; a rerun on refetched data can differ.
+""" + (REGIONS_SECTION if region is regions.HOUSTON else "")
+
+
+def day_level_note(detected: int, near_start: int) -> str:
+    """What the start-day count means; each sentence is said only when the counts make it true (Houston: 18 > 5)."""
+    if detected > near_start:
+        return ("So the day-level count overstates how often a release reached a monitor, and the (b) cross-check "
+                "below compares\nday-level spikes that are mostly not the release itself, so it does not measure a "
+                'false "no report" rate.')
+    if detected == 0:
+        return ("No candidate had a spike on its start day, so the corridor and match steps never ran on one: here "
+                "the backtest\nmeasures only whether the trigger fired, and the (b) cross-check below has no "
+                "candidate side.")
+    return "Every start-day spike was also near the reported start."
+
+
+def small_n_note(n: int) -> str:
+    """A plain sentence under the headline when there are few candidates ('' otherwise, as for Houston)."""
+    if n >= SMALL_N:
+        return ""
+    return (f"\n**Only {n} releases.** With this few, every rate above is rough: read the 95% intervals, not the "
+            f"percentages.\nOne release more or less moves a rate by about {100 / max(n, 1):.0f} points.\n")
+
+
+# Appended to Houston's doc only: how to run the same backtest for any other region.
+REGIONS_SECTION = """
+## Other regions
+
+Every region in `pipeline/regions.py` runs the same method (candidate rule, trigger, corridor, match, control
+days), on its own county's STEERS reports and its own AutoGC monitors:
+
+    uv run python -m pipeline.fetch_backtest --region <key>   # cache what is missing, one request at a time
+    uv run python -m pipeline.backtest --region <key>
+
+The second command writes `docs/backtest-<key>.md` and `docs/detector-<key>.md` (and their JSON under
+`data/build/`) and prints the line to set in `pipeline/regions.py` (`backtested=True, n_backtest=<n>`). Then
+regenerate what the site reads: `uv run python -m pipeline.regions --write-web`, `uv run python -m pipeline.nights
+--region <key>`, `uv run python -m pipeline.spikes --region <key>`. Each region doc states its own n.
 """
 
 
@@ -606,12 +679,38 @@ def _count(xs) -> dict[str, int]:
     return dict(sorted(out.items(), key=lambda kv: -kv[1]))
 
 
-if __name__ == "__main__":
-    res = run()
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(res, indent=1))
-    DOCS.parent.mkdir(parents=True, exist_ok=True)
-    DOCS.write_text(render_md(res))
+def write(res: dict, region: regions.Region = regions.HOUSTON) -> None:
+    out, docs = out_paths(region)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(res, indent=1))
+    docs.parent.mkdir(parents=True, exist_ok=True)
+    docs.write_text(render_md(res, region))
+
+
+def main(args: list[str]) -> None:
+    if args and (args[0] != "--region" or len(args) != 2):
+        raise SystemExit("usage: uv run python -m pipeline.backtest [--region <key>]")
+    region = regions.get(args[1]) if args else regions.HOUSTON
+    res = run(region=region)
+    write(res, region)
     print(json.dumps(res["funnel"], indent=1))
     print(json.dumps(res["summary"], indent=1))
     print(json.dumps(res["spike_summary"], indent=1))
+    if not args:  # the original Houston command: the backtest only
+        return
+    from pipeline import detector_eval  # imports this module; loaded here to keep the import one-way
+
+    de = detector_eval.run(region=region)
+    detector_eval.write(de, region)
+    n, row = de["candidates"], next(s for s in de["sweep"] if s["current"])
+    print(f"{region.key}: n={n} near_start={row['release_hits']}/{n} matched={res['summary']['detected_and_matched']}/{n} "
+          f"downwind={de['downwind']['with_data']}/{n} control={row['control_hits']}/{row['control_n']}")
+    if not n:
+        print(f"{region.key}: no candidate releases, so it cannot be backtested; leave backtested=False")
+    elif not region.backtested or region.n_backtest != n:
+        print(f"next: set backtested=True, n_backtest={n} for {region.key} in pipeline/regions.py, then regenerate the "
+              "site files (docs/backtest.md, 'Other regions')")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

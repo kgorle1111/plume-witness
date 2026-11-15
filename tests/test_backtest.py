@@ -301,3 +301,75 @@ def test_event_says_where_a_borrowed_or_autogc_wind_came_from():
     assert agc["source"] == "own_autogc" and "own monitor" in agc["source_note"]
     lent = build.wind_block({"site_id": "B", "hourly": []}, trig, mons)
     assert lent["source"] == "borrowed_met" and "Bravo" in lent["source_note"] and "1.1 km" in lent["source_note"]
+
+
+# --- Per-region backtest (pipeline.backtest --region) ---
+
+SMOKE_WEEK = "steers_search_jefferson_20240115_20240121.html"
+
+
+@pytest.fixture(scope="module")
+def smoke(tmp_path_factory) -> tuple:
+    """A small region raw dir: Beaumont's two monitors (2024 files only) and one STEERS week with its detail pages."""
+    import shutil
+    from dataclasses import replace
+
+    from pipeline import parse, regions
+
+    src, raw = regions.BEAUMONT.raw, tmp_path_factory.mktemp("region_smoke")
+    for pat in ("tamis_*.html", "echo_*_10mi.json", "agc_2024_*.html", "met_2024_*.html", SMOKE_WEEK):
+        for p in src.glob(pat):
+            shutil.copy(p, raw / p.name)
+    for r in parse.steers_search(src / SMOKE_WEEK)["rows"]:
+        if (src / f"steers_{r['incident']}.html").exists():
+            shutil.copy(src / f"steers_{r['incident']}.html", raw)
+    region = replace(regions.BEAUMONT, key="smoke", raw=raw, backtested=False, n_backtest=None)
+    return region, backtest.run(region=region)
+
+
+def test_region_smoke_runs_the_same_method_on_its_own_files(smoke):
+    region, res = smoke
+    s, f = res["summary"], res["funnel"]
+    assert res["region"] == "smoke" and res["generated_by"] == "uv run python -m pipeline.backtest --region smoke"
+    assert res["rules"]["candidate_radius_km"] == backtest.CANDIDATE_RADIUS_KM == 15.0
+    assert res["rules"]["trigger"].startswith(f"value >= max({build.TRIGGER_RATIO:g} x ")
+    assert f["steers_rows"] == 9 and s["candidates"] == f["candidates"] == len(res["events"]) == 5
+    for e in res["events"]:
+        assert e["day"].endswith("2024") and set(e["monitors"]) <= set(region.sites)
+    assert s["spike_near_start"] <= s["candidates"] and s["detected_and_matched"] <= s["detected"]
+    assert {r["site_id"] for r in res["spikes"]} <= set(region.sites)
+
+
+def test_region_smoke_doc_states_n_its_county_and_the_small_n_caveat(smoke):
+    region, res = smoke
+    md = backtest.render_md(res, region)
+    assert "Of **5** real 2024-2025" in md and "Jefferson\nCounty" in md and "Harris" not in md
+    assert f"`{region.raw.as_posix()}/`" in md
+    assert "**Only 5 releases.**" in md and "95% intervals" in md  # n < SMALL_N says so plainly
+    assert "## Other regions" not in md
+    for e in res["events"]:
+        if not e["matched"]:
+            assert e["entity"] not in md
+
+
+def test_small_n_note_only_below_the_threshold():
+    assert backtest.small_n_note(backtest.SMALL_N) == ""
+    assert "Only 3 releases" in backtest.small_n_note(3)
+
+
+# --- Houston is unchanged by the per-region generalization ---
+
+def test_houston_headline_numbers_are_unchanged(result):
+    """Fails if the method (candidates, trigger, corridor, match, near-start window) changes Houston's results."""
+    s = result["summary"]
+    assert (s["candidates"], s["detected"], s["detected_and_in_corridor"], s["detected_and_matched"],
+            s["spike_near_start"], s["spike_near_start_and_matched"]) == (77, 18, 3, 1, 5, 1)
+    assert result["spike_summary"]["spikes"] == 468 and "region" not in result
+    assert result["generated_by"] == "uv run python -m pipeline.backtest"
+
+
+def test_houston_doc_is_the_committed_doc(result):
+    md = backtest.render_md(result)
+    assert md == (ROOT / "docs" / "backtest.md").read_text()
+    assert md.endswith(backtest.REGIONS_SECTION)
+    assert backtest.render_md(result, backtest.regions.HOUSTON) == md
