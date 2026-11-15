@@ -48,7 +48,8 @@ def hourly_flags(path: Path, day: str) -> list[str | None]:
 # from counting as the monitored compound.
 COMPOUND_RE = {
     "45201": re.compile(r"(?<![A-Za-z-])benzene (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
-    "43218": re.compile(r"(?<![A-Za-z-])(?:1,3-butadiene|butadiene, ?1-3) (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
+    "43218": re.compile(r"(?<![A-Za-z-])(?:1,3[- ]?butadiene|butadiene, ?1-3) (\d[\d,]*\.?\d*) POUNDS",
+                        re.IGNORECASE),
 }
 
 
@@ -67,16 +68,20 @@ def _after(label: str, text: str, until: str) -> str:
 
 
 def steers_search(path: Path) -> dict:
-    """Rows of a STEERS search results page plus the 'a-b of N Records' count (results cap at 50 per page)."""
+    """Rows of a STEERS search results page plus the 'a-b of N Records' count (results cap at 50 per page).
+
+    `ended` is the page's own Ended column (local time), or None when the row has none.
+    """
     t = re.sub(r"\s+", " ", _text(path))
     m = re.search(r"(\d+)-(\d+) of (\d+) Records", t)
     if not m:
         if "No records" in t or "0 Records" in t or "No results were found" in t:
             return {"rows": [], "shown": 0, "total": 0}
         raise ValueError(f"{path.name}: no record count found; the STEERS results format may have changed")
-    rows = [{"incident": inc, "rn": rn, "entity": name.strip(), "began": began}
-            for inc, rn, name, began in re.findall(
-                r"(\d{6}) (RN\d{9}) (.+?) (\d{2}/\d{2}/\d{4} \d{2}:\d{2} [AP]M)", t)]
+    stamp = r"\d{2}/\d{2}/\d{4} \d{2}:\d{2} [AP]M"
+    rows = [{"incident": inc, "rn": rn, "entity": name.strip(), "began": began, "ended": ended or None}
+            for inc, rn, name, began, ended in re.findall(
+                rf"(\d{{6}}) (RN\d{{9}}) (.+?) ({stamp})(?: ({stamp}))?", t)]
     return {"rows": rows, "shown": int(m.group(2)) - int(m.group(1)) + 1, "total": int(m.group(3))}
 
 

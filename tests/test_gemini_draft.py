@@ -52,13 +52,13 @@ def faithful(event: dict) -> dict:
     """A reworded draft that uses only event facts, including a 12-hour local time and a CST hour."""
     en = ("On June 21, 2024, the state air monitor at Houston Milby Park measured 51.75 ppb of benzene "
           "in the 9:00 a.m. CST hour. Its usual level that week was 0.21 ppb. Manchester East Ave N measured "
-          "21.4 ppb in the same hour. The wind came from 77 degrees at 6.8 mph. There are 40 large permitted "
+          "21.4 ppb in the same hour. The wind came from 77 degrees at 6.8 mph. There are 47 large permitted "
           "facilities in the upwind corridor. Ineos Americas Pasadena Site filed report 425347 for 7,634 "
           "pounds of benzene from 9:38 to 10:42 a.m. local time. These readings are consistent with that "
           "release reaching the monitors. Were nearby residents told?")
     es = ("El 21 de junio de 2024, el monitor estatal de Houston Milby Park midió 51.75 ppb de benceno en la "
           "hora de las 9:00 a. m. CST. Su nivel normal esa semana fue 0.21 ppb. Manchester East Ave N midió "
-          "21.4 ppb en la misma hora. El viento venía de 77 grados a 6.8 mph. Hay 40 instalaciones grandes "
+          "21.4 ppb en la misma hora. El viento venía de 77 grados a 6.8 mph. Hay 47 instalaciones grandes "
           "en el corredor. Ineos Americas Pasadena Site presentó el informe 425347 por 7,634 libras de "
           "benceno de 09:38 a 10:42, hora local. Estas lecturas son consistentes con esa emisión. ¿Se avisó "
           "a los residentes?")

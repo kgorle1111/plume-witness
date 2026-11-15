@@ -50,8 +50,10 @@ def validate(ev: dict[str, Any]) -> list[str]:
     for c in rc.get("checks", []):
         if c.get("status") not in STATUSES:
             errors.append(f"record_check.checks status '{c.get('status')}' not allowed")
-    banned = ("illegal", "violation", "unreported", "polluter", "caught")
-    text = " ".join(str(v) for v in (ev["packet"].get("draft_en", ""), ev["packet"].get("draft_es", ""), ev["title"]))
+    banned = ("illegal", "violation", "unreported", "polluter", "caught", "proves")
+    shown = [ev["packet"].get("draft_en", ""), ev["packet"].get("draft_es", ""), ev["title"], *ev["cannot_say"],
+             rc.get("search_scope", ""), *(c.get("note", "") for c in rc.get("checks", []))]
+    text = " ".join(str(v) for v in shown)
     for word in banned:
         if word in text.lower():
             errors.append(f"banned word in user-facing text: '{word}'")

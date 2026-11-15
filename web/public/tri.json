@@ -1,0 +1,5330 @@
+{
+ "schema": "plume-witness/tri/1",
+ "source": "EPA Toxics Release Inventory via Envirofacts (data.epa.gov/efservice); facility universe EPA ECHO",
+ "years": [
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ],
+ "radius_km": 15.0,
+ "units": "pounds",
+ "compounds": {
+  "benzene": {
+   "cas": "71-43-2",
+   "unit_in_tri": "Pounds"
+  },
+  "butadiene": {
+   "cas": "106-99-0",
+   "unit_in_tri": "Pounds"
+  }
+ },
+ "match": {
+  "echo_majors_in_area": 191,
+  "matched_to_tri_id": 119,
+  "match_rate": 0.623,
+  "with_benzene_or_butadiene_data": 35,
+  "via_echo_triids": 119,
+  "via_frs_registry_id": 0,
+  "no_tri_id": 72
+ },
+ "totals_by_year": {
+  "2020": {
+   "benzene": {
+    "total_lbs": 228170.84,
+    "stack_lbs": 131584.17,
+    "fugitive_lbs": 96586.67,
+    "facilities": 24
+   },
+   "butadiene": {
+    "total_lbs": 340687.95,
+    "stack_lbs": 262721.09,
+    "fugitive_lbs": 77966.86,
+    "facilities": 20
+   }
+  },
+  "2021": {
+   "benzene": {
+    "total_lbs": 258371.88,
+    "stack_lbs": 140704.3,
+    "fugitive_lbs": 117667.58,
+    "facilities": 23
+   },
+   "butadiene": {
+    "total_lbs": 361060.34,
+    "stack_lbs": 252613.47,
+    "fugitive_lbs": 108446.87,
+    "facilities": 19
+   }
+  },
+  "2022": {
+   "benzene": {
+    "total_lbs": 236576.75,
+    "stack_lbs": 127712.06,
+    "fugitive_lbs": 108864.69,
+    "facilities": 25
+   },
+   "butadiene": {
+    "total_lbs": 434910.84,
+    "stack_lbs": 340986.41,
+    "fugitive_lbs": 93924.43,
+    "facilities": 20
+   }
+  },
+  "2023": {
+   "benzene": {
+    "total_lbs": 227853.25,
+    "stack_lbs": 124956.19,
+    "fugitive_lbs": 102897.06,
+    "facilities": 22
+   },
+   "butadiene": {
+    "total_lbs": 418841.2,
+    "stack_lbs": 322757.9,
+    "fugitive_lbs": 96083.3,
+    "facilities": 21
+   }
+  },
+  "2024": {
+   "benzene": {
+    "total_lbs": 259166.24,
+    "stack_lbs": 128418.72,
+    "fugitive_lbs": 130747.52,
+    "facilities": 22
+   },
+   "butadiene": {
+    "total_lbs": 457200.14,
+    "stack_lbs": 373318.86,
+    "fugitive_lbs": 83881.28,
+    "facilities": 20
+   }
+  }
+ },
+ "unlinked_tri_reporters": [
+  {
+   "trifid": "7701WPTRMX1519S",
+   "name": "PETROMAX REFINING CO LLC",
+   "city": "HOUSTON",
+   "epa_registry_id": "110064465289",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 466.57,
+      "fugitive_lbs": 24.27,
+      "total_lbs": 490.84
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 479.76,
+      "fugitive_lbs": 30.36,
+      "total_lbs": 510.12
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 472.46,
+      "fugitive_lbs": 34.76,
+      "total_lbs": 507.22
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 109.24,
+      "fugitive_lbs": 51.2,
+      "total_lbs": 160.44
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 51.69,
+      "fugitive_lbs": 30.11,
+      "total_lbs": 81.8
+     }
+    }
+   }
+  },
+  {
+   "trifid": "7702WJHRTJ331AL",
+   "name": "AJ HURT JR INC DBA THE HURT CO",
+   "city": "HOUSTON",
+   "epa_registry_id": "110060261041",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  {
+   "trifid": "7702WSNCST6922C",
+   "name": "SUN COAST RESOURCES LLC",
+   "city": "HOUSTON",
+   "epa_registry_id": "110005012869",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 36.58,
+      "total_lbs": 36.58
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 49.77,
+      "total_lbs": 49.77
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 49.77,
+      "total_lbs": 49.77
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77037XXNCS8700N",
+   "name": "EXXON MOBIL CORP NORTH HOUSTON TERMINAL",
+   "city": "HOUSTON",
+   "epa_registry_id": "110064203115",
+   "distance_km": 22.4,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 69.0,
+      "fugitive_lbs": 53.0,
+      "total_lbs": 122.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 62.0,
+      "fugitive_lbs": 101.0,
+      "total_lbs": 163.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 64.0,
+      "fugitive_lbs": 60.0,
+      "total_lbs": 124.0
+     }
+    }
+   }
+  },
+  {
+   "trifid": "7703WSCTRHHILLI",
+   "name": "SECTOR HOUSTON",
+   "city": "HOUSTON",
+   "epa_registry_id": "110071724764",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77086PLTND11623",
+   "name": "PILOT INDUSTRIES OF TEXAS INC",
+   "city": "HOUSTON",
+   "epa_registry_id": "110000462053",
+   "distance_km": 30.1,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 146.0,
+      "fugitive_lbs": 35.0,
+      "total_lbs": 181.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 137.0,
+      "fugitive_lbs": 37.0,
+      "total_lbs": 174.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 136.0,
+      "fugitive_lbs": 53.0,
+      "total_lbs": 189.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 288.0,
+      "fugitive_lbs": 46.0,
+      "total_lbs": 334.0
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77205GDNVT2050F",
+   "name": "ALLIED AVIATION FUELING CO OF HOUSTON INC.",
+   "city": "HOUSTON",
+   "epa_registry_id": "110008148646",
+   "distance_km": 29.8,
+   "within_radius": false,
+   "years": {
+    "2021": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 0.88,
+      "fugitive_lbs": 0.29,
+      "total_lbs": 1.17
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77507DXCHM10701",
+   "name": "DIXIE CHEMICAL CO INC",
+   "city": "PASADENA",
+   "epa_registry_id": "110031409973",
+   "distance_km": 12.4,
+   "within_radius": true,
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 5194.33,
+      "fugitive_lbs": 11016.18,
+      "total_lbs": 16210.51
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 5200.0,
+      "fugitive_lbs": 11050.0,
+      "total_lbs": 16250.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 4468.0,
+      "fugitive_lbs": 815.0,
+      "total_lbs": 5283.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 2763.2,
+      "fugitive_lbs": 7334.8,
+      "total_lbs": 10098.0
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 2314.0,
+      "fugitive_lbs": 141.0,
+      "total_lbs": 2455.0
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77507HNTSM12222",
+   "name": "INEOS STYROLUTION AMERICA LLC",
+   "city": "PASADENA",
+   "epa_registry_id": "110000462909",
+   "distance_km": 15.0,
+   "within_radius": true,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 1066.0,
+      "fugitive_lbs": 4783.0,
+      "total_lbs": 5849.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 962.35,
+      "fugitive_lbs": 5983.71,
+      "total_lbs": 6946.06
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 3273.83,
+      "fugitive_lbs": 7742.07,
+      "total_lbs": 11015.9
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 2225.53,
+      "fugitive_lbs": 3932.92,
+      "total_lbs": 6158.45
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 4131.49,
+      "fugitive_lbs": 4261.04,
+      "total_lbs": 8392.53
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77507QSTSP12500",
+   "name": "TRECORA WAX LLC",
+   "city": "PASADENA",
+   "epa_registry_id": "110000462990",
+   "distance_km": 10.7,
+   "within_radius": true,
+   "years": {
+    "2023": {
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  {
+   "trifid": "7750WNTRGL1291B",
+   "name": "LONESTAR ECOLOGY LLC",
+   "city": "PASADENA",
+   "epa_registry_id": "110071892713",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2022": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77520DVNCD5501B",
+   "name": "MONUMENT CHEMICAL BAYTOWN LLC",
+   "city": "BAYTOWN",
+   "epa_registry_id": "110000463070",
+   "distance_km": 6.1,
+   "within_radius": true,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 136.0,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 136.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 77.0,
+      "fugitive_lbs": 1.0,
+      "total_lbs": 78.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 43.75,
+      "fugitive_lbs": 0.24,
+      "total_lbs": 43.99
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77522CHVRN9500I",
+   "name": "CHEVRON PHILLIPS CHEMICAL CO LP",
+   "city": "BAYTOWN",
+   "epa_registry_id": "110007177768",
+   "distance_km": 16.9,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 8348.0,
+      "fugitive_lbs": 784.0,
+      "total_lbs": 9132.0
+     },
+     "butadiene": {
+      "stack_lbs": 12688.0,
+      "fugitive_lbs": 1061.0,
+      "total_lbs": 13749.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 10952.0,
+      "fugitive_lbs": 2312.0,
+      "total_lbs": 13264.0
+     },
+     "butadiene": {
+      "stack_lbs": 13577.0,
+      "fugitive_lbs": 1240.0,
+      "total_lbs": 14817.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 24735.0,
+      "fugitive_lbs": 876.0,
+      "total_lbs": 25611.0
+     },
+     "butadiene": {
+      "stack_lbs": 34743.0,
+      "fugitive_lbs": 863.0,
+      "total_lbs": 35606.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 29556.0,
+      "fugitive_lbs": 957.0,
+      "total_lbs": 30513.0
+     },
+     "butadiene": {
+      "stack_lbs": 63543.0,
+      "fugitive_lbs": 1195.0,
+      "total_lbs": 64738.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 41002.0,
+      "fugitive_lbs": 1132.0,
+      "total_lbs": 42134.0
+     },
+     "butadiene": {
+      "stack_lbs": 79916.0,
+      "fugitive_lbs": 1095.0,
+      "total_lbs": 81011.0
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77530KSLVL17LAK",
+   "name": "K-SOLV CHEMICALS LLC",
+   "city": "CHANNELVIEW",
+   "epa_registry_id": "110031302365",
+   "distance_km": null,
+   "within_radius": false,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 643.0,
+      "fugitive_lbs": 35.0,
+      "total_lbs": 678.0
+     },
+     "butadiene": {
+      "stack_lbs": 3880.0,
+      "fugitive_lbs": 26.0,
+      "total_lbs": 3906.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 711.0,
+      "fugitive_lbs": 39.0,
+      "total_lbs": 750.0
+     },
+     "butadiene": {
+      "stack_lbs": 8388.0,
+      "fugitive_lbs": 69.0,
+      "total_lbs": 8457.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 8.25,
+      "fugitive_lbs": 5.21,
+      "total_lbs": 13.46
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 12.85,
+      "fugitive_lbs": 11.62,
+      "total_lbs": 24.47
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 10.61,
+      "fugitive_lbs": 298.82,
+      "total_lbs": 309.43
+     },
+     "butadiene": {
+      "stack_lbs": 428.45,
+      "fugitive_lbs": 4.4,
+      "total_lbs": 432.85
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77536CCDNTTIDAL",
+   "name": "OXY VINYLS LP DEER PARK-VCM PLANT",
+   "city": "DEER PARK",
+   "epa_registry_id": "110070827819",
+   "distance_km": 1.3,
+   "within_radius": true,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": 2.17,
+      "total_lbs": 2.18
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": 1.51,
+      "total_lbs": 1.52
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 0.0,
+      "fugitive_lbs": 2.05,
+      "total_lbs": 2.05
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 0.0,
+      "fugitive_lbs": 1.86,
+      "total_lbs": 1.86
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": 1.3,
+      "total_lbs": 1.31
+     }
+    }
+   }
+  },
+  {
+   "trifid": "77547CHVRN12523",
+   "name": "GALENA PARK TERMINAL CHEVRON USA INC",
+   "city": "GALENA PARK",
+   "epa_registry_id": "110000913343",
+   "distance_km": 3.4,
+   "within_radius": true,
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 74.0,
+      "fugitive_lbs": 140.0,
+      "total_lbs": 214.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 63.0,
+      "fugitive_lbs": 160.0,
+      "total_lbs": 223.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 120.0,
+      "fugitive_lbs": 150.0,
+      "total_lbs": 270.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 437.0,
+      "fugitive_lbs": 121.0,
+      "total_lbs": 558.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 300.0,
+      "fugitive_lbs": 140.0,
+      "total_lbs": 440.0
+     }
+    }
+   }
+  }
+ ],
+ "caveat": "Self-reported annual estimates of routine releases, not measurements and not events. Context only.",
+ "facilities": {
+  "110000460670": {
+   "name": "ATLANTIC COFFEE INDUSTRIAL SOLUTIONS",
+   "tri_name": null,
+   "trifid": "77001GNRLF3900H",
+   "tri_ids": [
+    "77001GNRLF3900H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.8,
+   "nearest_monitor": "Clinton",
+   "lat": 29.7458,
+   "lon": -95.3375,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460670",
+   "years": {}
+  },
+  "110000460858": {
+   "name": "BLUESCOPE COATED PRODUCTS",
+   "tri_name": null,
+   "trifid": "77011MTLPR501NG",
+   "tri_ids": [
+    "77011MTLPR501NG"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 5.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.75237,
+   "lon": -95.31216,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460858",
+   "years": {}
+  },
+  "110000460867": {
+   "name": "FORMER REED TOOL",
+   "tri_name": null,
+   "trifid": "77011RDTLC6501N",
+   "tri_ids": [
+    "77011RDTLC6501N"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 5.1,
+   "nearest_monitor": "Clinton",
+   "lat": 29.74684,
+   "lon": -95.30776,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460867",
+   "years": {}
+  },
+  "110000460885": {
+   "name": "VALERO HOUSTON REFINERY",
+   "tri_name": "VALERO REFINING - TEXAS L.P. HOUSTON REFINERY",
+   "trifid": "77012HLLPT9701M",
+   "tri_ids": [
+    "77012HLLPT9701M",
+    "7701WVLRNR971MA"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 0.6,
+   "nearest_monitor": "Manchester East Ave N",
+   "lat": 29.722274,
+   "lon": -95.254401,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460885",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 3759.0,
+      "fugitive_lbs": 1053.0,
+      "total_lbs": 4812.0
+     },
+     "butadiene": {
+      "stack_lbs": 707.0,
+      "fugitive_lbs": 186.0,
+      "total_lbs": 893.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 3829.0,
+      "fugitive_lbs": 745.0,
+      "total_lbs": 4574.0
+     },
+     "butadiene": {
+      "stack_lbs": 703.0,
+      "fugitive_lbs": 203.0,
+      "total_lbs": 906.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 3422.0,
+      "fugitive_lbs": 411.0,
+      "total_lbs": 3833.0
+     },
+     "butadiene": {
+      "stack_lbs": 891.0,
+      "fugitive_lbs": 10.0,
+      "total_lbs": 901.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 4153.0,
+      "fugitive_lbs": 431.0,
+      "total_lbs": 4584.0
+     },
+     "butadiene": {
+      "stack_lbs": 818.0,
+      "fugitive_lbs": 5.0,
+      "total_lbs": 823.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 4557.0,
+      "fugitive_lbs": 378.0,
+      "total_lbs": 4935.0
+     },
+     "butadiene": {
+      "stack_lbs": 730.0,
+      "fugitive_lbs": 4.0,
+      "total_lbs": 734.0
+     }
+    }
+   }
+  },
+  "110000460901": {
+   "name": "ECO SERVICES OPERATIONS",
+   "tri_name": "ECO SERVICES OPERATIONS CORP.",
+   "trifid": "77012STFFR8615M",
+   "tri_ids": [
+    "77012STFFR8615M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 0.9,
+   "nearest_monitor": "Manchester East Ave N",
+   "lat": 29.718139,
+   "lon": -95.26875,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460901",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": 0.1,
+      "total_lbs": 0.11
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": null,
+      "total_lbs": 0.01
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 0.02,
+      "fugitive_lbs": 0.6,
+      "total_lbs": 0.62
+     }
+    }
+   }
+  },
+  "110000460965": {
+   "name": "GREEN BAYOU PLANT",
+   "tri_name": null,
+   "trifid": "77015FRMNT2239H",
+   "tri_ids": [
+    "77015FRMNT2239H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 0.7,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.7625,
+   "lon": -95.171389,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460965",
+   "years": {}
+  },
+  "110000460974": {
+   "name": "GE PACKAGED POWER JPORT",
+   "tri_name": null,
+   "trifid": "77015GSSNR16415",
+   "tri_ids": [
+    "77015GSSNR16415"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.1,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.75583,
+   "lon": -95.11082,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460974",
+   "years": {}
+  },
+  "110000460983": {
+   "name": "MONUMENT CHEMICAL HOUSTON",
+   "tri_name": null,
+   "trifid": "77015JHNNH16717",
+   "tri_ids": [
+    "77015JHNNH16717"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.4,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.75487,
+   "lon": -95.10327,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000460983",
+   "years": {}
+  },
+  "110000461009": {
+   "name": "SASOL CHEMICALS USA GREENS BAYOU PLANT",
+   "tri_name": null,
+   "trifid": "77015MRCHM1914H",
+   "tri_ids": [
+    "77015MRCHM1914H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 0.5,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.760745,
+   "lon": -95.176749,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461009",
+   "years": {}
+  },
+  "110000461107": {
+   "name": "FLINT HILLS RESOURCES HOUSTON CHEMICAL",
+   "tri_name": "INVISTA HOUSTON",
+   "trifid": "77017MBLCH9822L",
+   "tri_ids": [
+    "77017MBLCH9822L"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.0,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.706248,
+   "lon": -95.251079,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461107",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 2200.0,
+      "fugitive_lbs": 200.0,
+      "total_lbs": 2400.0
+     },
+     "butadiene": {
+      "stack_lbs": 1100.0,
+      "fugitive_lbs": 21.0,
+      "total_lbs": 1121.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 2400.0,
+      "fugitive_lbs": 160.0,
+      "total_lbs": 2560.0
+     },
+     "butadiene": {
+      "stack_lbs": 1200.0,
+      "fugitive_lbs": 26.0,
+      "total_lbs": 1226.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 910.0,
+      "fugitive_lbs": 66.0,
+      "total_lbs": 976.0
+     },
+     "butadiene": {
+      "stack_lbs": 14.0,
+      "fugitive_lbs": 11.0,
+      "total_lbs": 25.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 720.0,
+      "fugitive_lbs": 240.0,
+      "total_lbs": 960.0
+     },
+     "butadiene": {
+      "stack_lbs": 9.0,
+      "fugitive_lbs": 26.0,
+      "total_lbs": 35.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 910.0,
+      "fugitive_lbs": 190.0,
+      "total_lbs": 1100.0
+     },
+     "butadiene": {
+      "stack_lbs": 8.0,
+      "fugitive_lbs": 20.0,
+      "total_lbs": 28.0
+     }
+    }
+   }
+  },
+  "110000461116": {
+   "name": "BAYER HOUSTON PLANT",
+   "tri_name": null,
+   "trifid": "77017MBYSY8701P",
+   "tri_ids": [
+    "77017MBYSY8701P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 1.1,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.69628,
+   "lon": -95.26291,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461116",
+   "years": {}
+  },
+  "110000461134": {
+   "name": "HOUSTON PLANT",
+   "tri_name": "TPC GROUP LLC",
+   "trifid": "77017TXSPT8600P",
+   "tri_ids": [
+    "77017TXSPT8600P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.1,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.696111,
+   "lon": -95.262778,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461134",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 14726.0,
+      "fugitive_lbs": 9083.0,
+      "total_lbs": 23809.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 17562.0,
+      "fugitive_lbs": 16918.0,
+      "total_lbs": 34480.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 16018.0,
+      "fugitive_lbs": 11100.0,
+      "total_lbs": 27118.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 6758.5,
+      "fugitive_lbs": 18368.2,
+      "total_lbs": 25126.7
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 4774.3,
+      "fugitive_lbs": 13462.0,
+      "total_lbs": 18236.3
+     }
+    }
+   }
+  },
+  "110000461278": {
+   "name": "SCRAP TRADING INTERNATIONAL",
+   "tri_name": null,
+   "trifid": "77028CSTMP7177C",
+   "tri_ids": [
+    "77028CSTMP7177C"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 8.2,
+   "nearest_monitor": "Clinton",
+   "lat": 29.7991,
+   "lon": -95.2972,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461278",
+   "years": {}
+  },
+  "110000461401": {
+   "name": "ANHEUSER-BUSCH HOUSTON BREWERY",
+   "tri_name": null,
+   "trifid": "77029NHSRB775GE",
+   "tri_ids": [
+    "77029NHSRB775GE"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.774444,
+   "lon": -95.270833,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461401",
+   "years": {}
+  },
+  "110000461410": {
+   "name": "OWENS CORNING HOUSTON ROOFING AND MANUFACTURING FACILITY",
+   "tri_name": null,
+   "trifid": "77029WNSCR8360M",
+   "tri_ids": [
+    "77029WNSCR8360M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.77162,
+   "lon": -95.27934,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461410",
+   "years": {}
+  },
+  "110000461722": {
+   "name": "TUBOSCOPE HIGHWAY 90 COATING FACILITY",
+   "tri_name": null,
+   "trifid": "77044HSTNH8600P",
+   "tri_ids": [
+    "77044HSTNH8600P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.0,
+   "nearest_monitor": "Channelview",
+   "lat": 29.84959,
+   "lon": -95.17447,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461722",
+   "years": {}
+  },
+  "110000461811": {
+   "name": "TRANSCO RAILWAY PRODUCTS",
+   "tri_name": null,
+   "trifid": "77049GLFRL17011",
+   "tri_ids": [
+    "77049GLFRL17011"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.0,
+   "nearest_monitor": "Channelview",
+   "lat": 29.864906,
+   "lon": -95.135192,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461811",
+   "years": {}
+  },
+  "110000461857": {
+   "name": "POLYNT COMPOSITES USA",
+   "tri_name": null,
+   "trifid": "77051FRMNC2434H",
+   "tri_ids": [
+    "77051FRMNC2434H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 13.2,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.67204,
+   "lon": -95.39162,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461857",
+   "years": {}
+  },
+  "110000461875": {
+   "name": "EXXONMOBIL SOUTH HOUSTON TERMINAL",
+   "tri_name": "EXXON MOBIL CORP SOUTH HOUSTON TERMINAL",
+   "trifid": "77051XXNCS10617",
+   "tri_ids": [
+    "77051XXNCS10617"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 14.0,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.666409,
+   "lon": -95.398065,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000461875",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 71.0,
+      "fugitive_lbs": 5.0,
+      "total_lbs": 76.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 87.0,
+      "fugitive_lbs": 5.0,
+      "total_lbs": 92.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 70.0,
+      "fugitive_lbs": 5.0,
+      "total_lbs": 75.0
+     }
+    }
+   }
+  },
+  "110000462179": {
+   "name": "VALLOUREC STAR",
+   "tri_name": null,
+   "trifid": "77229NRTHS8603S",
+   "tri_ids": [
+    "77229NRTHS8603S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.1,
+   "nearest_monitor": "Channelview",
+   "lat": 29.83911,
+   "lon": -95.12761,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462179",
+   "years": {}
+  },
+  "110000462231": {
+   "name": "GOODYEAR HOUSTON CHEMICAL PLANT",
+   "tri_name": "THE GOODYEAR TIRE & RUBBER CO",
+   "trifid": "77262GDYRT2000G",
+   "tri_ids": [
+    "77262GDYRT2000G"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 0.6,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.704391,
+   "lon": -95.255214,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462231",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 3654.0,
+      "fugitive_lbs": 13984.0,
+      "total_lbs": 17638.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 6395.0,
+      "fugitive_lbs": 16997.0,
+      "total_lbs": 23392.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 7016.0,
+      "fugitive_lbs": 14342.0,
+      "total_lbs": 21358.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 5448.16,
+      "fugitive_lbs": 9356.3,
+      "total_lbs": 14804.46
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 3709.11,
+      "fugitive_lbs": 8997.48,
+      "total_lbs": 12706.59
+     }
+    }
+   }
+  },
+  "110000462605": {
+   "name": "PASADENA PVC",
+   "tri_name": null,
+   "trifid": "77501CCDNT4403L",
+   "tri_ids": [
+    "77501CCDNT4403L"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.2,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.712018,
+   "lon": -95.14674,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462605",
+   "years": {}
+  },
+  "110000462623": {
+   "name": "INEOS AMERICAS PASADENA SITE",
+   "tri_name": "INEOS PHENOL",
+   "trifid": "77501GRGGL3503P",
+   "tri_ids": [
+    "77501GRGGL3503P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 4.5,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.73,
+   "lon": -95.154722,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462623",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 5455.0,
+      "fugitive_lbs": 4389.0,
+      "total_lbs": 9844.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 6161.0,
+      "fugitive_lbs": 4631.0,
+      "total_lbs": 10792.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 6273.0,
+      "fugitive_lbs": 6728.0,
+      "total_lbs": 13001.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 6899.0,
+      "fugitive_lbs": 4945.0,
+      "total_lbs": 11844.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 6300.0,
+      "fugitive_lbs": 12100.0,
+      "total_lbs": 18400.0
+     }
+    }
+   }
+  },
+  "110000462687": {
+   "name": "GCL SOLAR MATERIALS US IV",
+   "tri_name": null,
+   "trifid": "77503MMCPS3000N",
+   "tri_ids": [
+    "77503MMCPS3000N"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.5,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.74258,
+   "lon": -95.17203,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462687",
+   "years": {}
+  },
+  "110000462703": {
+   "name": "PASADENA REFINERY",
+   "tri_name": "PASADENA REFINING SYSTEM INC",
+   "trifid": "77506CRWNC111RE",
+   "tri_ids": [
+    "77506CRWNC111RE"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 3.1,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.723889,
+   "lon": -95.208888,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462703",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 2390.57,
+      "fugitive_lbs": 1181.9,
+      "total_lbs": 3572.47
+     },
+     "butadiene": {
+      "stack_lbs": 1674.4,
+      "fugitive_lbs": 3.4,
+      "total_lbs": 1677.8
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 3132.66,
+      "fugitive_lbs": 5582.31,
+      "total_lbs": 8714.97
+     },
+     "butadiene": {
+      "stack_lbs": 1211.6,
+      "fugitive_lbs": 231.0,
+      "total_lbs": 1442.6
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 2496.26,
+      "fugitive_lbs": 8740.29,
+      "total_lbs": 11236.55
+     },
+     "butadiene": {
+      "stack_lbs": 1049.0,
+      "fugitive_lbs": 49.0,
+      "total_lbs": 1098.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 2144.41,
+      "fugitive_lbs": 2298.93,
+      "total_lbs": 4443.34
+     },
+     "butadiene": {
+      "stack_lbs": 1154.8,
+      "fugitive_lbs": 2.8,
+      "total_lbs": 1157.6
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 2095.0,
+      "fugitive_lbs": 1077.0,
+      "total_lbs": 3172.0
+     },
+     "butadiene": {
+      "stack_lbs": 861.0,
+      "fugitive_lbs": 95.0,
+      "total_lbs": 956.0
+     }
+    }
+   }
+  },
+  "110000462730": {
+   "name": "PASADENA PLASTICS COMPLEX",
+   "tri_name": null,
+   "trifid": "77506PHLLP1400J",
+   "tri_ids": [
+    "77506PHLLP1400J"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.6,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.732354,
+   "lon": -95.178908,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462730",
+   "years": {}
+  },
+  "110000462758": {
+   "name": "AIR LIQUIDE LARGE INDUSTRIES US",
+   "tri_name": null,
+   "trifid": "77507BGTHR11400",
+   "tri_ids": [
+    "77507BGTHR11400"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 12.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.614518,
+   "lon": -95.043205,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462758",
+   "years": {}
+  },
+  "110000462785": {
+   "name": "AES DEEPWATER COGENERATION PLANT",
+   "tri_name": null,
+   "trifid": "77506SDPWT701LI",
+   "tri_ids": [
+    "77506SDPWT701LI"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.2,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.716944,
+   "lon": -95.227778,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462785",
+   "years": {}
+  },
+  "110000462794": {
+   "name": "ROGER W POWELL PLANT",
+   "tri_name": null,
+   "trifid": "77507CRPNT11002",
+   "tri_ids": [
+    "77507CRPNT11002"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 11.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62001,
+   "lon": -95.0455,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462794",
+   "years": {}
+  },
+  "110000462801": {
+   "name": "GRACE PASADENA CATALYST SITE",
+   "tri_name": null,
+   "trifid": "77507CTLYS10001",
+   "tri_ids": [
+    "77507CTLYS10001"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 11.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.616458,
+   "lon": -95.052192,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462801",
+   "years": {}
+  },
+  "110000462829": {
+   "name": "DIXIE CHEMICAL BAYPORT FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.61051,
+   "lon": -95.05005,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462829",
+   "years": {}
+  },
+  "110000462847": {
+   "name": "BAYPORT POLYMERS",
+   "tri_name": null,
+   "trifid": "77507FNLCH12212",
+   "tri_ids": [
+    "77507FNLCH12212"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 8.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.64517,
+   "lon": -95.057023,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462847",
+   "years": {}
+  },
+  "110000462856": {
+   "name": "BAYPORT CHEMICAL PLANT",
+   "tri_name": "THE GOODYEAR TIRE & RUBBER CO BAYPORT CHEMICAL PLANT",
+   "trifid": "77507GDYRB13441",
+   "tri_ids": [
+    "77507GDYRB13441"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 9.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.6469,
+   "lon": -95.0479,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462856",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 265.9,
+      "fugitive_lbs": 317.5,
+      "total_lbs": 583.4
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 345.5,
+      "fugitive_lbs": 351.7,
+      "total_lbs": 697.2
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 317.3,
+      "fugitive_lbs": 1468.6,
+      "total_lbs": 1785.9
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 1414.6,
+      "fugitive_lbs": 237.4,
+      "total_lbs": 1652.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 901.5,
+      "fugitive_lbs": 188.1,
+      "total_lbs": 1089.6
+     }
+    }
+   }
+  },
+  "110000462883": {
+   "name": "HALDOR TOPSOE",
+   "tri_name": null,
+   "trifid": "77507HLDRT10010",
+   "tri_ids": [
+    "77507HLDRT10010"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 12.0,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.61225,
+   "lon": -95.05782,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462883",
+   "years": {}
+  },
+  "110000462892": {
+   "name": "LYONDELLBASELL BAYPORT POLYMERS",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 10.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.63163,
+   "lon": -95.05161,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462892",
+   "years": {}
+  },
+  "110000462918": {
+   "name": "KANEKA PASADENA SITE",
+   "tri_name": "KANEKA NORTH AMERICA LLC",
+   "trifid": "77507KNKTX6161U",
+   "tri_ids": [
+    "77507KNKTX6161U"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 10.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.6209,
+   "lon": -95.086874,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462918",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 2381.0,
+      "fugitive_lbs": 2607.0,
+      "total_lbs": 4988.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 2186.0,
+      "fugitive_lbs": 2760.0,
+      "total_lbs": 4946.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 1102.0,
+      "fugitive_lbs": 2868.0,
+      "total_lbs": 3970.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 1211.0,
+      "fugitive_lbs": 3685.0,
+      "total_lbs": 4896.0
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 25.2,
+      "fugitive_lbs": 1146.8,
+      "total_lbs": 1172.0
+     }
+    }
+   }
+  },
+  "110000462936": {
+   "name": "LUBRIZOL BAYPORT PLANT",
+   "tri_name": null,
+   "trifid": "77507LBRZL12801",
+   "tri_ids": [
+    "77507LBRZL12801"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 10.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.63914,
+   "lon": -95.04694,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462936",
+   "years": {}
+  },
+  "110000462945": {
+   "name": "SOLENIS",
+   "tri_name": null,
+   "trifid": "77507LNZBY9700B",
+   "tri_ids": [
+    "77507LNZBY9700B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 11.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.615556,
+   "lon": -95.061389,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462945",
+   "years": {}
+  },
+  "110000462954": {
+   "name": "BAYPORT POLYETHYLENE PLANT",
+   "tri_name": null,
+   "trifid": "77507LPSPR9802F",
+   "tri_ids": [
+    "77507LPSPR9802F"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 6.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.65101,
+   "lon": -95.08707,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462954",
+   "years": {}
+  },
+  "110000462963": {
+   "name": "NISSEKI CHEMICAL TEXAS",
+   "tri_name": "NIPPON CHEMICAL TEXAS INC",
+   "trifid": "77507NSSKC10500",
+   "tri_ids": [
+    "77507NSSKC10500"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 12.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.608611,
+   "lon": -95.051944,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000462963",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 379.06,
+      "fugitive_lbs": 294.5,
+      "total_lbs": 673.56
+     },
+     "butadiene": {
+      "stack_lbs": 372.75,
+      "fugitive_lbs": 136.14,
+      "total_lbs": 508.89
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 610.23,
+      "fugitive_lbs": 199.47,
+      "total_lbs": 809.7
+     },
+     "butadiene": {
+      "stack_lbs": 311.21,
+      "fugitive_lbs": 539.9,
+      "total_lbs": 851.11
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 950.79,
+      "fugitive_lbs": 212.19,
+      "total_lbs": 1162.98
+     },
+     "butadiene": {
+      "stack_lbs": 470.49,
+      "fugitive_lbs": 591.93,
+      "total_lbs": 1062.42
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 875.56,
+      "fugitive_lbs": 141.25,
+      "total_lbs": 1016.81
+     },
+     "butadiene": {
+      "stack_lbs": 230.79,
+      "fugitive_lbs": 465.9,
+      "total_lbs": 696.69
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 589.97,
+      "fugitive_lbs": 459.03,
+      "total_lbs": 1049.0
+     },
+     "butadiene": {
+      "stack_lbs": 215.1,
+      "fugitive_lbs": 592.95,
+      "total_lbs": 808.05
+     }
+    }
+   }
+  },
+  "110000463007": {
+   "name": "LYONDELL CHEMICAL BAYPORT CHOATE PLANT",
+   "tri_name": null,
+   "trifid": "77507RCCHM10801",
+   "tri_ids": [
+    "77507RCCHM10801"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 12.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.61,
+   "lon": -95.05,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463007",
+   "years": {}
+  },
+  "110000463105": {
+   "name": "NATURAL GAS ODORIZING",
+   "tri_name": null,
+   "trifid": "77520NTRLG3601D",
+   "tri_ids": [
+    "77520NTRLG3601D"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.1,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.76245,
+   "lon": -95.00577,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463105",
+   "years": {}
+  },
+  "110000463123": {
+   "name": "ECO SERVICES OPERATIONS",
+   "tri_name": null,
+   "trifid": "77520STFFR3439P",
+   "tri_ids": [
+    "77520STFFR3439P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.4,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.748056,
+   "lon": -95.003556,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463123",
+   "years": {}
+  },
+  "110000463178": {
+   "name": "EXXON MOBIL CHEMICAL BAYTOWN OLEFINS PLANT",
+   "tri_name": "EXXONMOBIL CHEMICAL CO BAYTOWN OLEFINS PLANT (PART)",
+   "trifid": "77522XXNCH3525D",
+   "tri_ids": [
+    "77522XXNCH3525D",
+    "77522XXNCH5000B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 5.9,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.73934,
+   "lon": -95.022404,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463178",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 12200.0,
+      "fugitive_lbs": 25000.0,
+      "total_lbs": 37200.0
+     },
+     "butadiene": {
+      "stack_lbs": 34000.0,
+      "fugitive_lbs": 13710.0,
+      "total_lbs": 47710.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 21800.0,
+      "fugitive_lbs": 16900.0,
+      "total_lbs": 38700.0
+     },
+     "butadiene": {
+      "stack_lbs": 26990.0,
+      "fugitive_lbs": 17710.0,
+      "total_lbs": 44700.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 10900.0,
+      "fugitive_lbs": 11400.0,
+      "total_lbs": 22300.0
+     },
+     "butadiene": {
+      "stack_lbs": 47950.0,
+      "fugitive_lbs": 10500.0,
+      "total_lbs": 58450.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 11600.0,
+      "fugitive_lbs": 10500.0,
+      "total_lbs": 22100.0
+     },
+     "butadiene": {
+      "stack_lbs": 25960.0,
+      "fugitive_lbs": 11500.0,
+      "total_lbs": 37460.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 9600.0,
+      "fugitive_lbs": 16200.0,
+      "total_lbs": 25800.0
+     },
+     "butadiene": {
+      "stack_lbs": 22300.0,
+      "fugitive_lbs": 10790.0,
+      "total_lbs": 33090.0
+     }
+    }
+   }
+  },
+  "110000463212": {
+   "name": "CHANNELVIEW COGENERATION FACILITY",
+   "tri_name": null,
+   "trifid": "77530LYNDL8280S",
+   "tri_ids": [
+    "77530LYNDL8280S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.2,
+   "nearest_monitor": "Channelview",
+   "lat": 29.8308,
+   "lon": -95.1164,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463212",
+   "years": {}
+  },
+  "110000463221": {
+   "name": "LYONDELL CHEMICAL CHANNELVIEW",
+   "tri_name": "LYONDELL CHEMICAL CO",
+   "trifid": "77530RCCHM2502S",
+   "tri_ids": [
+    "77530RCCHM2502S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.3,
+   "nearest_monitor": "Channelview",
+   "lat": 29.816654,
+   "lon": -95.107603,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463221",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 47273.0,
+      "fugitive_lbs": 20562.0,
+      "total_lbs": 67835.0
+     },
+     "butadiene": {
+      "stack_lbs": 153979.0,
+      "fugitive_lbs": 19180.0,
+      "total_lbs": 173159.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 44366.0,
+      "fugitive_lbs": 27091.0,
+      "total_lbs": 71457.0
+     },
+     "butadiene": {
+      "stack_lbs": 132584.0,
+      "fugitive_lbs": 33855.0,
+      "total_lbs": 166439.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 47020.0,
+      "fugitive_lbs": 31624.0,
+      "total_lbs": 78644.0
+     },
+     "butadiene": {
+      "stack_lbs": 194152.0,
+      "fugitive_lbs": 33234.0,
+      "total_lbs": 227386.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 49857.0,
+      "fugitive_lbs": 31760.0,
+      "total_lbs": 81617.0
+     },
+     "butadiene": {
+      "stack_lbs": 160652.0,
+      "fugitive_lbs": 35253.0,
+      "total_lbs": 195905.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 62747.0,
+      "fugitive_lbs": 42903.0,
+      "total_lbs": 105650.0
+     },
+     "butadiene": {
+      "stack_lbs": 190543.0,
+      "fugitive_lbs": 36224.0,
+      "total_lbs": 226767.0
+     }
+    }
+   }
+  },
+  "110000463374": {
+   "name": "NOURYON FUNCTIONAL CHEMICALS BATTLEGROUND",
+   "tri_name": null,
+   "trifid": "77536TXSLK730BA",
+   "tri_ids": [
+    "77536TXSLK730BA"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.711567,
+   "lon": -95.087916,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463374",
+   "years": {}
+  },
+  "110000463490": {
+   "name": "TEXMARK CHEMICALS",
+   "tri_name": "TEXMARK CHEMICALS INC",
+   "trifid": "77547MRCNT900CL",
+   "tri_ids": [
+    "77547MRCNT900CL"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.1,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.730423,
+   "lon": -95.22849,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463490",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 78.72,
+      "fugitive_lbs": 647.46,
+      "total_lbs": 726.18
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 80.0,
+      "fugitive_lbs": 520.0,
+      "total_lbs": 600.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 46.0,
+      "fugitive_lbs": 87.0,
+      "total_lbs": 133.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 19.2,
+      "fugitive_lbs": 36.4,
+      "total_lbs": 55.6
+     }
+    }
+   }
+  },
+  "110000463533": {
+   "name": "SOUTHWEST SHIPYARD",
+   "tri_name": "SOUTHWEST SHIPYARD L.P.",
+   "trifid": "77562STHWS18310",
+   "tri_ids": [
+    "77562STHWS18310"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 4.1,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.7933,
+   "lon": -95.06496,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463533",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 39.0,
+      "fugitive_lbs": 3.0,
+      "total_lbs": 42.0
+     },
+     "butadiene": {
+      "stack_lbs": 241.0,
+      "fugitive_lbs": 1.2,
+      "total_lbs": 242.2
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": 1200.0,
+      "fugitive_lbs": null,
+      "total_lbs": 1200.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": 1840.0,
+      "fugitive_lbs": null,
+      "total_lbs": 1840.0
+     }
+    }
+   }
+  },
+  "110000463542": {
+   "name": "LAPORTE RAIL AND TERMINAL",
+   "tri_name": null,
+   "trifid": "77571DPNTL12501",
+   "tri_ids": [
+    "77571DPNTL12501"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.700264,
+   "lon": -95.036967,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463542",
+   "years": {}
+  },
+  "110000463597": {
+   "name": "LYONDELLBASELL ACETYLS",
+   "tri_name": "LYONDELLBASELL ACETYLS LLC",
+   "trifid": "77571QNTMC11603",
+   "tri_ids": [
+    "77571QNTMC11603"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 4.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.712222,
+   "lon": -95.066667,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463597",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 1.8,
+      "total_lbs": 1.8
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 2.7,
+      "total_lbs": 2.7
+     },
+     "butadiene": {
+      "stack_lbs": 0.8,
+      "fugitive_lbs": null,
+      "total_lbs": 0.8
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 2.4,
+      "total_lbs": 2.4
+     },
+     "butadiene": {
+      "stack_lbs": 4.4,
+      "fugitive_lbs": null,
+      "total_lbs": 4.4
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 3.9,
+      "total_lbs": 3.9
+     },
+     "butadiene": {
+      "stack_lbs": 11.0,
+      "fugitive_lbs": null,
+      "total_lbs": 11.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": 4.6,
+      "total_lbs": 4.6
+     },
+     "butadiene": {
+      "stack_lbs": 8.4,
+      "fugitive_lbs": null,
+      "total_lbs": 8.4
+     }
+    }
+   }
+  },
+  "110000463631": {
+   "name": "BRASKEM AMERICA",
+   "tri_name": null,
+   "trifid": "77571RSTCH8811S",
+   "tri_ids": [
+    "77571RSTCH8811S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.704027,
+   "lon": -95.079932,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463631",
+   "years": {}
+  },
+  "110000463659": {
+   "name": "GREIF INDUSTRIAL HOUSTON SPECIALTY FACILITY",
+   "tri_name": null,
+   "trifid": "77572GRFBRPOBOX",
+   "tri_ids": [
+    "77572GRFBRPOBOX"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.70216,
+   "lon": -95.06427,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463659",
+   "years": {}
+  },
+  "110000463686": {
+   "name": "DOW CHEMICAL LA PORTE SITE",
+   "tri_name": null,
+   "trifid": "77572THDWCBATTL",
+   "tri_ids": [
+    "77572THDWCBATTL",
+    "77572TWLPR55IND"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.2,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.70988,
+   "lon": -95.09091,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000463686",
+   "years": {}
+  },
+  "110000495152": {
+   "name": "HOUSTON HOUSTON TERMINAL",
+   "tri_name": null,
+   "trifid": "77026MTVNT2661S",
+   "tri_ids": [
+    "77026MTVNT2661S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 10.3,
+   "nearest_monitor": "Clinton",
+   "lat": 29.78794,
+   "lon": -95.34403,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000495152",
+   "years": {}
+  },
+  "110000495241": {
+   "name": "MCA LA PORTE SITE",
+   "tri_name": null,
+   "trifid": "77571NLTXL12220",
+   "tri_ids": [
+    "77571NLTXL12220"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.0,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.701111,
+   "lon": -95.042222,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000495241",
+   "years": {}
+  },
+  "110000497800": {
+   "name": "PASADENA PRODUCT TERMINAL",
+   "tri_name": "PHILLIPS 66 PASADENA TERMINAL",
+   "trifid": "77501PHLLP100JE",
+   "tri_ids": [
+    "77501PHLLP100JE"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 5.7,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.713653,
+   "lon": -95.182567,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000497800",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 760.0,
+      "fugitive_lbs": 210.0,
+      "total_lbs": 970.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 760.0,
+      "fugitive_lbs": 210.0,
+      "total_lbs": 970.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 810.0,
+      "fugitive_lbs": 210.0,
+      "total_lbs": 1020.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 830.0,
+      "fugitive_lbs": 220.0,
+      "total_lbs": 1050.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 850.0,
+      "fugitive_lbs": 280.0,
+      "total_lbs": 1130.0
+     }
+    }
+   }
+  },
+  "110000499050": {
+   "name": "GEO SPECIALTY CHEMICALS",
+   "tri_name": null,
+   "trifid": "77536WRGRC739BA",
+   "tri_ids": [
+    "77536WRGRC739BA"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.711111,
+   "lon": -95.089167,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000499050",
+   "years": {}
+  },
+  "110000500583": {
+   "name": "PRECOAT METALS DIVISION SEQUA",
+   "tri_name": null,
+   "trifid": "77015PRCTM16402",
+   "tri_ids": [
+    "77015PRCTM16402"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.0,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.75593,
+   "lon": -95.11066,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000500583",
+   "years": {}
+  },
+  "110000500592": {
+   "name": "W & P DEVELOPMENT",
+   "tri_name": null,
+   "trifid": "77044CHMPN11611",
+   "tri_ids": [
+    "77044CHMPN11611"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 8.2,
+   "nearest_monitor": "Channelview",
+   "lat": 29.87449,
+   "lon": -95.106947,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000500592",
+   "years": {}
+  },
+  "110000501519": {
+   "name": "SI GROUP BAYTOWN OPERATIONS",
+   "tri_name": "SI GROUP BAYTOWN",
+   "trifid": "77520TXSPT464WB",
+   "tri_ids": [
+    "77520TXSPT464WB"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 6.0,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.771018,
+   "lon": -95.018456,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000501519",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 0.84,
+      "fugitive_lbs": 925.22,
+      "total_lbs": 926.06
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 0.84,
+      "fugitive_lbs": 674.87,
+      "total_lbs": 675.71
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 18.03,
+      "fugitive_lbs": 735.2,
+      "total_lbs": 753.23
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 898.0,
+      "fugitive_lbs": 95.0,
+      "total_lbs": 993.0
+     }
+    }
+   }
+  },
+  "110000502901": {
+   "name": "EXXONMOBIL BAYTOWN REFINERY",
+   "tri_name": "EXXONMOBIL REFINING & SUPPLY BAYTOWN REFINERY (PART)",
+   "trifid": "77522XXNBY2800D",
+   "tri_ids": [
+    "77522XXNBY2800D"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 7.3,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.739444,
+   "lon": -95.006944,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000502901",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 17000.0,
+      "fugitive_lbs": 17000.0,
+      "total_lbs": 34000.0
+     },
+     "butadiene": {
+      "stack_lbs": 10000.0,
+      "fugitive_lbs": 820.0,
+      "total_lbs": 10820.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 19000.0,
+      "fugitive_lbs": 19000.0,
+      "total_lbs": 38000.0
+     },
+     "butadiene": {
+      "stack_lbs": 11000.0,
+      "fugitive_lbs": 820.0,
+      "total_lbs": 11820.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 19000.0,
+      "fugitive_lbs": 14000.0,
+      "total_lbs": 33000.0
+     },
+     "butadiene": {
+      "stack_lbs": 11000.0,
+      "fugitive_lbs": 2100.0,
+      "total_lbs": 13100.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 16000.0,
+      "fugitive_lbs": 17000.0,
+      "total_lbs": 33000.0
+     },
+     "butadiene": {
+      "stack_lbs": 11000.0,
+      "fugitive_lbs": 1400.0,
+      "total_lbs": 12400.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 16000.0,
+      "fugitive_lbs": 22000.0,
+      "total_lbs": 38000.0
+     },
+     "butadiene": {
+      "stack_lbs": 10000.0,
+      "fugitive_lbs": 750.0,
+      "total_lbs": 10750.0
+     }
+    }
+   }
+  },
+  "110000504240": {
+   "name": "LBC HOUSTON BAYPORT TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.607773,
+   "lon": -95.028534,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000504240",
+   "years": {}
+  },
+  "110000504268": {
+   "name": "INTERCONTINENTAL TERMINALS DEER PARK TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 3.1,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.735078,
+   "lon": -95.096375,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000504268",
+   "years": {}
+  },
+  "110000504419": {
+   "name": "ODFJELL TERMINALS",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 14.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.605833,
+   "lon": -95.021389,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000504419",
+   "years": {}
+  },
+  "110000504892": {
+   "name": "PASADENA TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 3.6,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.722826,
+   "lon": -95.203424,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000504892",
+   "years": {}
+  },
+  "110000505481": {
+   "name": "PASADENA COGENERATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.3,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.726111,
+   "lon": -95.176389,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000505481",
+   "years": {}
+  },
+  "110000505588": {
+   "name": "LCY ELASTOMERS",
+   "tri_name": "LCY ELASTOMERS LP",
+   "trifid": "77521NCHML4803D",
+   "tri_ids": [
+    "77521NCHML4803D"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 6.0,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.772089,
+   "lon": -95.019464,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000505588",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 2251.0,
+      "fugitive_lbs": 1415.0,
+      "total_lbs": 3666.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 1437.82,
+      "fugitive_lbs": 653.0,
+      "total_lbs": 2090.82
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 1105.39,
+      "fugitive_lbs": 629.0,
+      "total_lbs": 1734.39
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 1052.95,
+      "fugitive_lbs": 299.0,
+      "total_lbs": 1351.95
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 1765.5,
+      "fugitive_lbs": 2888.0,
+      "total_lbs": 4653.5
+     }
+    }
+   }
+  },
+  "110000506079": {
+   "name": "BAYPORT EO PLANT",
+   "tri_name": null,
+   "trifid": "77507QSTRC5761U",
+   "tri_ids": [
+    "77507QSTRC5761U"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 9.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.627167,
+   "lon": -95.080194,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000506079",
+   "years": {}
+  },
+  "110000619652": {
+   "name": "TOTALENERGIES PETROCHEMICALS & REFINING USA LA PORTE PLANT",
+   "tri_name": null,
+   "trifid": "77536FNLND1818B",
+   "tri_ids": [
+    "77536FNLND1818B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.726111,
+   "lon": -95.08945,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000619652",
+   "years": {}
+  },
+  "110000757752": {
+   "name": "VOPAK TERMINAL DEER PARK",
+   "tri_name": "VOPAK LOGISTICS SERVICES USA INC DEER PARK",
+   "trifid": "77536MPKNC2759B",
+   "tri_ids": [
+    "77536MPKNC2759B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.4,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.741093,
+   "lon": -95.094145,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000757752",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 10372.2,
+      "fugitive_lbs": 88.9,
+      "total_lbs": 10461.1
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 14976.0,
+      "fugitive_lbs": null,
+      "total_lbs": 14976.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 14976.0,
+      "fugitive_lbs": null,
+      "total_lbs": 14976.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 14270.0,
+      "fugitive_lbs": null,
+      "total_lbs": 14270.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 581.9,
+      "fugitive_lbs": null,
+      "total_lbs": 581.9
+     }
+    }
+   }
+  },
+  "110000769721": {
+   "name": "LONGHORN GLASS PLANT",
+   "tri_name": null,
+   "trifid": "77029NCHRG4202F",
+   "tri_ids": [
+    "77029NCHRG4202F"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.1,
+   "nearest_monitor": "Clinton",
+   "lat": 29.76151,
+   "lon": -95.25591,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000769721",
+   "years": {}
+  },
+  "110000821530": {
+   "name": "CLEAN HARBORS DEER PARK",
+   "tri_name": "CLEAN HARBORS DEER PARK LLC",
+   "trifid": "77536SFTYK2027B",
+   "tri_ids": [
+    "77536SFTYK2027B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 3.3,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.73028,
+   "lon": -95.08981,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000821530",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 1.6,
+      "fugitive_lbs": 104.6,
+      "total_lbs": 106.2
+     },
+     "butadiene": {
+      "stack_lbs": 0.2,
+      "fugitive_lbs": 0.1,
+      "total_lbs": 0.3
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 1.8,
+      "fugitive_lbs": 42.9,
+      "total_lbs": 44.7
+     },
+     "butadiene": {
+      "stack_lbs": 0.2,
+      "fugitive_lbs": 0.1,
+      "total_lbs": 0.3
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 1.9,
+      "fugitive_lbs": 22.1,
+      "total_lbs": 24.0
+     },
+     "butadiene": {
+      "stack_lbs": 0.1,
+      "fugitive_lbs": 0.1,
+      "total_lbs": 0.2
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 1.7,
+      "fugitive_lbs": 27.5,
+      "total_lbs": 29.2
+     },
+     "butadiene": {
+      "stack_lbs": 0.1,
+      "fugitive_lbs": 0.1,
+      "total_lbs": 0.2
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 1.44,
+      "fugitive_lbs": 40.78,
+      "total_lbs": 42.22
+     },
+     "butadiene": {
+      "stack_lbs": 0.05,
+      "fugitive_lbs": 0.05,
+      "total_lbs": 0.1
+     }
+    }
+   }
+  },
+  "110000821558": {
+   "name": "THE METHODIST HOSPITAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.4,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.710367,
+   "lon": -95.400273,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000821558",
+   "years": {}
+  },
+  "110000822566": {
+   "name": "EAGLE RAILCAR SERVICES CHANNELVIEW TX",
+   "tri_name": null,
+   "trifid": "77530PLLMN407WB",
+   "tri_ids": [
+    "77530PLLMN407WB"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.2,
+   "nearest_monitor": "Channelview",
+   "lat": 29.7788,
+   "lon": -95.14436,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000822566",
+   "years": {}
+  },
+  "110000874117": {
+   "name": "MAUSER",
+   "tri_name": null,
+   "trifid": "77028RSSLL4004H",
+   "tri_ids": [
+    "77028RSSLL4004H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 8.2,
+   "nearest_monitor": "Clinton",
+   "lat": 29.79642,
+   "lon": -95.30175,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000874117",
+   "years": {}
+  },
+  "110000895568": {
+   "name": "GALENA PARK WEST CHEMICAL PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 0.3,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.73245,
+   "lon": -95.23563,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000895568",
+   "years": {}
+  },
+  "110000895782": {
+   "name": "BAYTOWN TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 6.7,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.76701,
+   "lon": -95.01022,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000895782",
+   "years": {}
+  },
+  "110000896237": {
+   "name": "MCCARTY ROAD LANDFILL GAS RECOVERY FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 10.1,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.83167,
+   "lon": -95.2496,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000896237",
+   "years": {}
+  },
+  "110000896488": {
+   "name": "STOLT TANK CLEANING FACILITY AND DEPOT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 3.2,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.76887,
+   "lon": -95.11072,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000896488",
+   "years": {}
+  },
+  "110000901757": {
+   "name": "WILLIAM MARSH RICE UNIVERSITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.9,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.72063,
+   "lon": -95.39372,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110000901757",
+   "years": {}
+  },
+  "110001867560": {
+   "name": "GREENS BAYOU ELECTRIC GENERATING STATION",
+   "tri_name": null,
+   "trifid": "77049GRNSB12070",
+   "tri_ids": [
+    "77049GRNSB12070"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.4,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.821313,
+   "lon": -95.219257,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001867560",
+   "years": {}
+  },
+  "110001867588": {
+   "name": "UNITED STATES GYPSUM",
+   "tri_name": null,
+   "trifid": "77547NTDST1201M",
+   "tri_ids": [
+    "77547NTDST1201M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 1.4,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.72261,
+   "lon": -95.24271,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001867588",
+   "years": {}
+  },
+  "110001867668": {
+   "name": "EAST HOUSTON TANK FARM",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 6.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.78885,
+   "lon": -95.28468,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001867668",
+   "years": {}
+  },
+  "110001869559": {
+   "name": "BAYPORT FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.61094,
+   "lon": -95.04855,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001869559",
+   "years": {}
+  },
+  "110001869620": {
+   "name": "CHANNELVIEW ASPHALT PLANT",
+   "tri_name": null,
+   "trifid": "77530WNSCR17310",
+   "tri_ids": [
+    "77530WNSCR17310"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.5,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.790086,
+   "lon": -95.084875,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001869620",
+   "years": {}
+  },
+  "110001869648": {
+   "name": "GALENA PARK TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 0.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.74024,
+   "lon": -95.25745,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001869648",
+   "years": {}
+  },
+  "110001869899": {
+   "name": "WASHBURN TUNNEL FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.3,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.72131,
+   "lon": -95.22008,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001869899",
+   "years": {}
+  },
+  "110001870119": {
+   "name": "THE UNIVERSITY OF TEXAS M D ANDERSON CANCER CENTER HOUSTON",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.1,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.706325,
+   "lon": -95.396993,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001870119",
+   "years": {}
+  },
+  "110001870271": {
+   "name": "LEELAND BAKING",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 7.9,
+   "nearest_monitor": "Clinton",
+   "lat": 29.73726,
+   "lon": -95.33931,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001870271",
+   "years": {}
+  },
+  "110001879147": {
+   "name": "BAYLOR COLLEGE OF MEDICINE",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.0,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.710261,
+   "lon": -95.395414,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001879147",
+   "years": {}
+  },
+  "110001880448": {
+   "name": "SOUTH MAIN PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.9,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.705917,
+   "lon": -95.405118,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110001880448",
+   "years": {}
+  },
+  "110002081942": {
+   "name": "BASF PASADENA",
+   "tri_name": null,
+   "trifid": "77501RSTCH4403L",
+   "tri_ids": [
+    "77501RSTCH4403L"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.5,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.731639,
+   "lon": -95.152083,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002081942",
+   "years": {}
+  },
+  "110002134002": {
+   "name": "CUSTOM BLAST SERVICES",
+   "tri_name": null,
+   "trifid": "77289CSTMB2550G",
+   "tri_ids": [
+    "77289CSTMB2550G"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 9.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.63078,
+   "lon": -95.15738,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002134002",
+   "years": {}
+  },
+  "110002344222": {
+   "name": "JEFFERSON STREET TRUCK RACK",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.7,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.71408,
+   "lon": -95.18261,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002344222",
+   "years": {}
+  },
+  "110002344393": {
+   "name": "TRAK COMMERCIAL",
+   "tri_name": null,
+   "trifid": "77536SRBRT2018M",
+   "tri_ids": [
+    "77536SRBRT2018M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.679015,
+   "lon": -95.111941,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002344393",
+   "years": {}
+  },
+  "110002371996": {
+   "name": "WHISPERING PINES LANDFILL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 14.9,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.87197,
+   "lon": -95.27117,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002371996",
+   "years": {}
+  },
+  "110002400731": {
+   "name": "ODYSSEY ENERGY ALTURA COGEN",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 1.5,
+   "nearest_monitor": "Channelview",
+   "lat": 29.816121,
+   "lon": -95.126395,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110002400731",
+   "years": {}
+  },
+  "110005028120": {
+   "name": "PASADENA PERFORMANCE PRODUCTS",
+   "tri_name": "PASADENA PERFORMANCE PRODUCTS LLC",
+   "trifid": "7750WPSDNP61NSU",
+   "tri_ids": [
+    "7750WPSDNP61NSU"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 4.9,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.721174,
+   "lon": -95.171678,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005028120",
+   "years": {
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 16.6,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 16.6
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 295.2,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 295.2
+     }
+    }
+   }
+  },
+  "110005030046": {
+   "name": "DUCO PIPE MANUFACTURING FACILITY",
+   "tri_name": null,
+   "trifid": "77015DCNCX16661",
+   "tri_ids": [
+    "77015DCNCX16661"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.4,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.75508,
+   "lon": -95.10363,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005030046",
+   "years": {}
+  },
+  "110005110209": {
+   "name": "SOLAR TURBINES",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.7,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.76767,
+   "lon": -95.1053,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005110209",
+   "years": {}
+  },
+  "110005123268": {
+   "name": "GAINSBOROUGH WASTE",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.8,
+   "nearest_monitor": "Clinton",
+   "lat": 29.77071,
+   "lon": -95.28388,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005123268",
+   "years": {}
+  },
+  "110005125587": {
+   "name": "MONUMENT CHEMICAL-NOVA MOLECULAR TECHNOLOGIES",
+   "tri_name": null,
+   "trifid": "77507NVMLC10200",
+   "tri_ids": [
+    "77507NVMLC10200"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 12.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.60723,
+   "lon": -95.05519,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005125587",
+   "years": {}
+  },
+  "110005145182": {
+   "name": "HYDRIL PREMIUM CONNECTIONS",
+   "tri_name": null,
+   "trifid": "77029MVRCK32NMC",
+   "tri_ids": [
+    "77029MVRCK32NMC"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 6.0,
+   "nearest_monitor": "Clinton",
+   "lat": 29.78258,
+   "lon": -95.28386,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005145182",
+   "years": {}
+  },
+  "110005174337": {
+   "name": "OXITENO PASADENA PLANT",
+   "tri_name": null,
+   "trifid": "77507XTNSL981BA",
+   "tri_ids": [
+    "77507XTNSL981BA"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 12.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.60602,
+   "lon": -95.06074,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110005174337",
+   "years": {}
+  },
+  "110007184242": {
+   "name": "PASADENA PAPER",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.7,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.71888,
+   "lon": -95.21694,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110007184242",
+   "years": {}
+  },
+  "110008143963": {
+   "name": "MORGANS POINT COMPLEX",
+   "tri_name": null,
+   "trifid": "77572GPFLS1200N",
+   "tri_ids": [
+    "77572GPFLS1200N"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 10.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.681301,
+   "lon": -95.011255,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110008143963",
+   "years": {}
+  },
+  "110009494993": {
+   "name": "MARATHON PIPE LINE PASADENA STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.704369,
+   "lon": -95.171263,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009494993",
+   "years": {}
+  },
+  "110009504526": {
+   "name": "COLEX TERMINAL PASADENA",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.7,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.71408,
+   "lon": -95.182582,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009504526",
+   "years": {}
+  },
+  "110009505883": {
+   "name": "GLOBAL PASADENA TERMINAL",
+   "tri_name": "GLOBAL PASADENA TERMINAL",
+   "trifid": "77506PSDNT1320W",
+   "tri_ids": [
+    "77506PSDNT1320W"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.8,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.71247,
+   "lon": -95.22496,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009505883",
+   "years": {
+    "2022": {
+     "benzene": {
+      "stack_lbs": 135.0,
+      "fugitive_lbs": 142.0,
+      "total_lbs": 277.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 140.0,
+      "fugitive_lbs": 157.0,
+      "total_lbs": 297.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 135.0,
+      "fugitive_lbs": 150.0,
+      "total_lbs": 285.0
+     }
+    }
+   }
+  },
+  "110009771880": {
+   "name": "EXXON PIPELINE PASADENA STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.8,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.712622,
+   "lon": -95.1635,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009771880",
+   "years": {}
+  },
+  "110009780371": {
+   "name": "HOUSTON TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.5,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.756684,
+   "lon": -95.104736,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009780371",
+   "years": {}
+  },
+  "110009781995": {
+   "name": "THERMAL ENERGY TECO",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 13.0,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.703682,
+   "lon": -95.396186,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110009781995",
+   "years": {}
+  },
+  "110012141529": {
+   "name": "SEPTON BUSINESS UNIT",
+   "tri_name": "KURARAY AMERICA INC SEPTON BU",
+   "trifid": "77507SPTNC11414",
+   "tri_ids": [
+    "77507SPTNC11414"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 12.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.61946,
+   "lon": -95.03844,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110012141529",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 752.0,
+      "fugitive_lbs": 428.0,
+      "total_lbs": 1180.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 743.0,
+      "fugitive_lbs": 330.0,
+      "total_lbs": 1073.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 674.0,
+      "fugitive_lbs": 367.0,
+      "total_lbs": 1041.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 849.0,
+      "fugitive_lbs": 300.0,
+      "total_lbs": 1149.0
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 755.0,
+      "fugitive_lbs": 432.0,
+      "total_lbs": 1187.0
+     }
+    }
+   }
+  },
+  "110012511120": {
+   "name": "SAN JACINTO ELECTRIC GENERATING STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 6.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.69917,
+   "lon": -95.04719,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110012511120",
+   "years": {}
+  },
+  "110012565214": {
+   "name": "QUALITY ELECTRIC STEEL CASTINGS",
+   "tri_name": null,
+   "trifid": "77029QLTYL252MC",
+   "tri_ids": [
+    "77029QLTYL252MC"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 6.1,
+   "nearest_monitor": "Clinton",
+   "lat": 29.78397,
+   "lon": -95.28294,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110012565214",
+   "years": {}
+  },
+  "110012703271": {
+   "name": "AMERICAN ACRYL PASADENA",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.608982,
+   "lon": -95.054226,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110012703271",
+   "years": {}
+  },
+  "110012710423": {
+   "name": "AIR PRODUCTS BAYTOWN PLANT",
+   "tri_name": null,
+   "trifid": "77520RPRDSOFFCA",
+   "tri_ids": [
+    "77520RPRDSOFFCA"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 5.3,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.769488,
+   "lon": -95.025308,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110012710423",
+   "years": {}
+  },
+  "110013314412": {
+   "name": "T H WHARTON ELECTRIC GENERATING STATION",
+   "tri_name": null,
+   "trifid": "77064RLNTN16301",
+   "tri_ids": [
+    "77064RLNTN16301"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 10.3,
+   "nearest_monitor": "Clinton",
+   "lat": 29.75512,
+   "lon": -95.36188,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110013314412",
+   "years": {}
+  },
+  "110016711343": {
+   "name": "TECHEMET GENOA RED BLUFF ROAD FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 7.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.6423,
+   "lon": -95.10419,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110016711343",
+   "years": {}
+  },
+  "110017356234": {
+   "name": "RIVIANA FOODS",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.77325,
+   "lon": -95.38145,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110017356234",
+   "years": {}
+  },
+  "110017693646": {
+   "name": "FULTON PLANT",
+   "tri_name": null,
+   "trifid": "7702WFLTNP32BEN",
+   "tri_ids": [
+    "7702WFLTNP32BEN"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 14.7,
+   "nearest_monitor": "Clinton",
+   "lat": 29.82151,
+   "lon": -95.37159,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110017693646",
+   "years": {}
+  },
+  "110017743254": {
+   "name": "DEER PARK ENERGY CENTER",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 1.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.711828,
+   "lon": -95.127334,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110017743254",
+   "years": {}
+  },
+  "110017769734": {
+   "name": "LA PORTE VCM PLANT",
+   "tri_name": "OXY VINYLS LP LA PORTE VCM PLANT",
+   "trifid": "77571LPRTC2400M",
+   "tri_ids": [
+    "77571LPRTC2400M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 3.9,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.72376,
+   "lon": -95.07422,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110017769734",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 0.36,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.36
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 0.34,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.34
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 0.38,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.38
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 0.44,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.44
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 0.4,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.4
+     }
+    }
+   }
+  },
+  "110017874736": {
+   "name": "LYCRA LA PORTE PLANT",
+   "tri_name": null,
+   "trifid": "77571NVSTS12455",
+   "tri_ids": [
+    "77571NVSTS12455"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.69797,
+   "lon": -95.03339,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110017874736",
+   "years": {}
+  },
+  "110021138268": {
+   "name": "BARGE CLEANING FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.1,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.762501,
+   "lon": -95.101112,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110021138268",
+   "years": {}
+  },
+  "110022810573": {
+   "name": "KETJEN",
+   "tri_name": null,
+   "trifid": "77507LBMRL13BAY",
+   "tri_ids": [
+    "77507LBMRL13BAY"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 8.8,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.64174,
+   "lon": -95.0654,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110022810573",
+   "years": {}
+  },
+  "110024271786": {
+   "name": "EPOLP HOUSTON SHIP CHANNEL MARINE LOADING FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.4,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.74939,
+   "lon": -95.12361,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110024271786",
+   "years": {}
+  },
+  "110024422427": {
+   "name": "LA PORTE FACILITY",
+   "tri_name": null,
+   "trifid": "77571VNLRC10850",
+   "tri_ids": [
+    "77571VNLRC10850"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.703278,
+   "lon": -95.0695,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110024422427",
+   "years": {}
+  },
+  "110025333930": {
+   "name": "HOUSTON YARD",
+   "tri_name": null,
+   "trifid": "77012SWSHL8114H",
+   "tri_ids": [
+    "77012SWSHL8114H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.0,
+   "nearest_monitor": "Manchester East Ave N",
+   "lat": 29.72616,
+   "lon": -95.278339,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110025333930",
+   "years": {}
+  },
+  "110031267064": {
+   "name": "AIRGAS CARBONIC DEER PARK PLANT",
+   "tri_name": "DEER PARK REFINING LP",
+   "trifid": "77536DRPRK5900H",
+   "tri_ids": [
+    "77536DRPRK5900H",
+    "77536RSLTN5900H",
+    "77536SHLLLHIGHW"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.7138,
+   "lon": -95.124036,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110031267064",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 21000.0,
+      "fugitive_lbs": 13000.0,
+      "total_lbs": 34000.0
+     },
+     "butadiene": {
+      "stack_lbs": 29000.0,
+      "fugitive_lbs": 4540.0,
+      "total_lbs": 33540.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 16200.0,
+      "fugitive_lbs": 27300.0,
+      "total_lbs": 43500.0
+     },
+     "butadiene": {
+      "stack_lbs": 42000.0,
+      "fugitive_lbs": 5330.0,
+      "total_lbs": 47330.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 13300.0,
+      "fugitive_lbs": 20600.0,
+      "total_lbs": 33900.0
+     },
+     "butadiene": {
+      "stack_lbs": 48000.0,
+      "fugitive_lbs": 6180.0,
+      "total_lbs": 54180.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 10600.0,
+      "fugitive_lbs": 22200.0,
+      "total_lbs": 32800.0
+     },
+     "butadiene": {
+      "stack_lbs": 83000.0,
+      "fugitive_lbs": 10190.0,
+      "total_lbs": 93190.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 17900.0,
+      "fugitive_lbs": 21700.0,
+      "total_lbs": 39600.0
+     },
+     "butadiene": {
+      "stack_lbs": 103000.0,
+      "fugitive_lbs": 4650.0,
+      "total_lbs": 107650.0
+     }
+    }
+   }
+  },
+  "110031505823": {
+   "name": "MCCARTY ROAD LANDFILL TX",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.7,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.821468,
+   "lon": -95.240701,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110031505823",
+   "years": {}
+  },
+  "110032992215": {
+   "name": "GALENA PARK TERMINAL",
+   "tri_name": "TARGA DOWNSTREAM LLC - GALENA PARK MARINE TERMINAL",
+   "trifid": "77547DYNGY12801",
+   "tri_ids": [
+    "77547DYNGY12801"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.9,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.742222,
+   "lon": -95.209722,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110032992215",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 3.78,
+      "fugitive_lbs": 12.81,
+      "total_lbs": 16.59
+     },
+     "butadiene": {
+      "stack_lbs": 4342.9,
+      "fugitive_lbs": 8769.0,
+      "total_lbs": 13111.9
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 10.76,
+      "fugitive_lbs": 12.5,
+      "total_lbs": 23.26
+     },
+     "butadiene": {
+      "stack_lbs": 4343.0,
+      "fugitive_lbs": 8769.0,
+      "total_lbs": 13112.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 5.03,
+      "fugitive_lbs": 9.24,
+      "total_lbs": 14.27
+     },
+     "butadiene": {
+      "stack_lbs": 4343.0,
+      "fugitive_lbs": 9037.0,
+      "total_lbs": 13380.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 16.0,
+      "fugitive_lbs": 214.0,
+      "total_lbs": 230.0
+     },
+     "butadiene": {
+      "stack_lbs": 19527.0,
+      "fugitive_lbs": 3480.0,
+      "total_lbs": 23007.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 2.37,
+      "fugitive_lbs": 103.0,
+      "total_lbs": 105.37
+     },
+     "butadiene": {
+      "stack_lbs": 29299.0,
+      "fugitive_lbs": 3076.0,
+      "total_lbs": 32375.0
+     }
+    }
+   }
+  },
+  "110033536573": {
+   "name": "AIR LIQUIDE LA PORTE ASU AND SMR",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.651494,
+   "lon": -95.053576,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110033536573",
+   "years": {}
+  },
+  "110033623461": {
+   "name": "TEXAS PORT RECYCLING METAL RECYCLING FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 0.8,
+   "nearest_monitor": "Manchester East Ave N",
+   "lat": 29.71836,
+   "lon": -95.26725,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110033623461",
+   "years": {}
+  },
+  "110034641635": {
+   "name": "EQUISTAR CHEMICALS LA PORTE COMPLEX",
+   "tri_name": "EQUISTAR CHEMICALS LP",
+   "trifid": "77571QNTMC1515M",
+   "tri_ids": [
+    "77571QNTMC1515M"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 4.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.717471,
+   "lon": -95.068008,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110034641635",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 1400.0,
+      "fugitive_lbs": 500.0,
+      "total_lbs": 1900.0
+     },
+     "butadiene": {
+      "stack_lbs": 2900.0,
+      "fugitive_lbs": 910.0,
+      "total_lbs": 3810.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 1500.0,
+      "fugitive_lbs": 520.0,
+      "total_lbs": 2020.0
+     },
+     "butadiene": {
+      "stack_lbs": 3600.0,
+      "fugitive_lbs": 1400.0,
+      "total_lbs": 5000.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 1800.0,
+      "fugitive_lbs": 420.0,
+      "total_lbs": 2220.0
+     },
+     "butadiene": {
+      "stack_lbs": 6600.0,
+      "fugitive_lbs": 940.0,
+      "total_lbs": 7540.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 1600.0,
+      "fugitive_lbs": 340.0,
+      "total_lbs": 1940.0
+     },
+     "butadiene": {
+      "stack_lbs": 2500.0,
+      "fugitive_lbs": 400.0,
+      "total_lbs": 2900.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 1400.0,
+      "fugitive_lbs": 320.0,
+      "total_lbs": 1720.0
+     },
+     "butadiene": {
+      "stack_lbs": 2300.0,
+      "fugitive_lbs": 650.0,
+      "total_lbs": 2950.0
+     }
+    }
+   }
+  },
+  "110034690564": {
+   "name": "CHANNEL ENERGY CENTER",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.3,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.716348,
+   "lon": -95.225693,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110034690564",
+   "years": {}
+  },
+  "110034770031": {
+   "name": "WEST CLEAR LAKE STORAGE FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 11.2,
+   "nearest_monitor": "Clinton",
+   "lat": 29.75788,
+   "lon": -95.37013,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110034770031",
+   "years": {}
+  },
+  "110034816126": {
+   "name": "MULCH MATTERS",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 10.5,
+   "nearest_monitor": "Channelview",
+   "lat": 29.861974,
+   "lon": -95.210317,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110034816126",
+   "years": {}
+  },
+  "110035420746": {
+   "name": "PRAXAIR CLEAR LAKE PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 9.3,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.634556,
+   "lon": -95.06875,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110035420746",
+   "years": {}
+  },
+  "110037445468": {
+   "name": "HARTREE REFINERY",
+   "tri_name": "HARTREE REFINERY",
+   "trifid": "7753WCHNNL16514",
+   "tri_ids": [
+    "7753WCHNNL16514"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.7,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.767656,
+   "lon": -95.105212,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110037445468",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 836.97,
+      "fugitive_lbs": 91.1,
+      "total_lbs": 928.07
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 451.37,
+      "fugitive_lbs": 11.27,
+      "total_lbs": 462.64
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 842.28,
+      "fugitive_lbs": 15.68,
+      "total_lbs": 857.96
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 1158.14,
+      "fugitive_lbs": 14.01,
+      "total_lbs": 1172.15
+     }
+    }
+   }
+  },
+  "110037567781": {
+   "name": "ACCP HOUSTON FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 3.1,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.767034,
+   "lon": -95.145994,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110037567781",
+   "years": {}
+  },
+  "110037844376": {
+   "name": "GALENA PARK TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 1.2,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.729,
+   "lon": -95.227817,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110037844376",
+   "years": {}
+  },
+  "110038705817": {
+   "name": "INEOS POLYETHYLENE NORTH AMERICA LA PORTE PLANT",
+   "tri_name": null,
+   "trifid": "77536SLTXP1230B",
+   "tri_ids": [
+    "77536SLTXP1230B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.7,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.719167,
+   "lon": -95.088889,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110038705817",
+   "years": {}
+  },
+  "110041047505": {
+   "name": "PWE WWTP 69TH STREET",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.6,
+   "nearest_monitor": "Clinton",
+   "lat": 29.75579,
+   "lon": -95.29791,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110041047505",
+   "years": {}
+  },
+  "110042062683": {
+   "name": "FAUNA TANK FARM",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.7,
+   "nearest_monitor": "Channelview",
+   "lat": 29.81767,
+   "lon": -95.1825,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110042062683",
+   "years": {}
+  },
+  "110043678892": {
+   "name": "MB CEDAR BAYOU TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 14.8,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.859529,
+   "lon": -94.978292,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110043678892",
+   "years": {}
+  },
+  "110043782788": {
+   "name": "DEER PARK PVC",
+   "tri_name": null,
+   "trifid": "77536CCDNT1000T",
+   "tri_ids": [
+    "77536CCDNT1000T"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.0,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.72613,
+   "lon": -95.10802,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110043782788",
+   "years": {}
+  },
+  "110044232773": {
+   "name": "NOURYON FUNCTIONAL CHEMICALS BAY PARK",
+   "tri_name": null,
+   "trifid": "77507KZCHM13000",
+   "tri_ids": [
+    "77507KZCHM13000"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 9.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.639444,
+   "lon": -95.062778,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110044232773",
+   "years": {}
+  },
+  "110044957543": {
+   "name": "LA PORTE PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.70649,
+   "lon": -95.066932,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110044957543",
+   "years": {}
+  },
+  "110045433090": {
+   "name": "SUNOCO BAYPORT BPT1",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 9.2,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62901,
+   "lon": -95.08694,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110045433090",
+   "years": {}
+  },
+  "110056537804": {
+   "name": "LUBRIZOL DEER PARK",
+   "tri_name": "LUBRIZOL CORP DEER PARK FACILITY",
+   "trifid": "77536LBRZL41TID",
+   "tri_ids": [
+    "77536LBRZL41TID"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.0,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.71727,
+   "lon": -95.11327,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110056537804",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 730.0,
+      "fugitive_lbs": 1249.0,
+      "total_lbs": 1979.0
+     }
+    },
+    "2021": {
+     "butadiene": {
+      "stack_lbs": 345.0,
+      "fugitive_lbs": 1230.0,
+      "total_lbs": 1575.0
+     }
+    },
+    "2022": {
+     "butadiene": {
+      "stack_lbs": 338.0,
+      "fugitive_lbs": 1229.0,
+      "total_lbs": 1567.0
+     }
+    },
+    "2023": {
+     "butadiene": {
+      "stack_lbs": 461.0,
+      "fugitive_lbs": 1257.0,
+      "total_lbs": 1718.0
+     }
+    },
+    "2024": {
+     "butadiene": {
+      "stack_lbs": 890.0,
+      "fugitive_lbs": 103.0,
+      "total_lbs": 993.0
+     }
+    }
+   }
+  },
+  "110056638526": {
+   "name": "ARKEMA HOUSTON PLANT",
+   "tri_name": null,
+   "trifid": "77015PNNWL2231H",
+   "tri_ids": [
+    "77015PNNWL2231H"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 0.8,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.760597,
+   "lon": -95.171863,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110056638526",
+   "years": {}
+  },
+  "110056955521": {
+   "name": "PCI NITROGEN PASADENA",
+   "tri_name": null,
+   "trifid": "77501MBLMN2001J",
+   "tri_ids": [
+    "77501MBLMN2001J"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.8,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.742333,
+   "lon": -95.192611,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110056955521",
+   "years": {}
+  },
+  "110056955987": {
+   "name": "KETJEN PASADENA PLANT",
+   "tri_name": null,
+   "trifid": "77503LBMRL2500N",
+   "tri_ids": [
+    "77503LBMRL2500N"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.8,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.742498,
+   "lon": -95.165513,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110056955987",
+   "years": {}
+  },
+  "110058113704": {
+   "name": "HOUSTON REFINING",
+   "tri_name": "HOUSTON REFINING LP",
+   "trifid": "77017LYNDL12000",
+   "tri_ids": [
+    "77017LYNDL12000"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.4,
+   "nearest_monitor": "Manchester East Ave N",
+   "lat": 29.7125,
+   "lon": -95.235833,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110058113704",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 5688.0,
+      "fugitive_lbs": 11767.0,
+      "total_lbs": 17455.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 5271.0,
+      "fugitive_lbs": 13931.0,
+      "total_lbs": 19202.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 4788.0,
+      "fugitive_lbs": 12702.0,
+      "total_lbs": 17490.0
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 2973.0,
+      "fugitive_lbs": 12129.0,
+      "total_lbs": 15102.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 2501.0,
+      "fugitive_lbs": 11835.0,
+      "total_lbs": 14336.0
+     }
+    }
+   }
+  },
+  "110059809989": {
+   "name": "KURARAY LA PORTE",
+   "tri_name": null,
+   "trifid": "7757WKRRYM12342",
+   "tri_ids": [
+    "7757WKRRYM12342"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.5,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.702719,
+   "lon": -95.03659,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110059809989",
+   "years": {}
+  },
+  "110060340162": {
+   "name": "ENTERPRISE PASADENA PLANT",
+   "tri_name": null,
+   "trifid": "77503MCCHM1500N",
+   "tri_ids": [
+    "77503MCCHM1500N"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 3.1,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.738611,
+   "lon": -95.166944,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110060340162",
+   "years": {}
+  },
+  "110063890847": {
+   "name": "INTERCONTINENTAL TERMINALS PASADENA TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 2.6,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.743403,
+   "lon": -95.168422,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110063890847",
+   "years": {}
+  },
+  "110064349762": {
+   "name": "BROOKS COUNTY COMPRESSOR STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 10.1,
+   "nearest_monitor": "Clinton",
+   "lat": 29.76489,
+   "lon": -95.35619,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064349762",
+   "years": {}
+  },
+  "110064375260": {
+   "name": "CHEMOURS FC",
+   "tri_name": null,
+   "trifid": "7757WCHMRS1235S",
+   "tri_ids": [
+    "7757WCHMRS1235S"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 7.5,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.702727,
+   "lon": -95.036211,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064375260",
+   "years": {}
+  },
+  "110064386944": {
+   "name": "DIAMOND FIBERGLASS HOUSTON PLANT",
+   "tri_name": null,
+   "trifid": "7701WDMNDF1385I",
+   "tri_ids": [
+    "7701WDMNDF1385I"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 1.5,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.752418,
+   "lon": -95.184873,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064386944",
+   "years": {}
+  },
+  "110064631910": {
+   "name": "LA PORTE VCM PLANT",
+   "tri_name": null,
+   "trifid": "77571CCDNT1800V",
+   "tri_ids": [
+    "77571CCDNT1800V"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.8,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.734444,
+   "lon": -95.087222,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064631910",
+   "years": {}
+  },
+  "110064847073": {
+   "name": "MONT BELVIEU NGL FRACTIONATION AND STORAGE COMPLEX",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 11.3,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.74509,
+   "lon": -94.9637,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064847073",
+   "years": {}
+  },
+  "110064847108": {
+   "name": "ENTERPRISE CRUDE HOUSTON STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 12.5,
+   "nearest_monitor": "Houston Milby Park",
+   "lat": 29.6151,
+   "lon": -95.1862,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064847108",
+   "years": {}
+  },
+  "110064847652": {
+   "name": "PVA PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 9.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.646324,
+   "lon": -95.04681,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110064847652",
+   "years": {}
+  },
+  "110067040703": {
+   "name": "ARKEMA CLEAR LAKE",
+   "tri_name": null,
+   "trifid": "77507DWCHM952BB",
+   "tri_ids": [
+    "77507DWCHM952BB"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 10.8,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62139,
+   "lon": -95.06389,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110067040703",
+   "years": {}
+  },
+  "110067263071": {
+   "name": "AFTON LUBE AND FUEL ADDITIVES PLANT",
+   "tri_name": null,
+   "trifid": "7750WFTNCH1NSUT",
+   "tri_ids": [
+    "7750WFTNCH1NSUT"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 4.8,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.72225,
+   "lon": -95.1717,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110067263071",
+   "years": {}
+  },
+  "110069234661": {
+   "name": "KINDER MORGAN CRUDE & CONDENSATE KMCC SPLITTER FACILITY",
+   "tri_name": "KINDER MORGAN CRUDE & CONDENSATE LLC",
+   "trifid": "7754WKNDRM47CLI",
+   "tri_ids": [
+    "7754WKNDRM47CLI"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 1.7,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.732598,
+   "lon": -95.220457,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110069234661",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 170.0,
+      "fugitive_lbs": 160.0,
+      "total_lbs": 330.0
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 170.0,
+      "fugitive_lbs": 463.0,
+      "total_lbs": 633.0
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 188.0,
+      "fugitive_lbs": 805.0,
+      "total_lbs": 993.0
+     },
+     "butadiene": {
+      "stack_lbs": null,
+      "fugitive_lbs": null,
+      "total_lbs": null
+     }
+    }
+   }
+  },
+  "110069500864": {
+   "name": "ROHM AND HAAS TEXAS DEER PARK PLANT",
+   "tri_name": null,
+   "trifid": "77536RHMND6600L",
+   "tri_ids": [
+    "77536RHMND6600L"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 2.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.73,
+   "lon": -95.102778,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110069500864",
+   "years": {}
+  },
+  "110069719665": {
+   "name": "GALENA PARK TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 0.9,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.73245,
+   "lon": -95.22894,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110069719665",
+   "years": {}
+  },
+  "110070188388": {
+   "name": "LA PORTE SMALL SCALE DEMONSTRATION EGU",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.651487,
+   "lon": -95.053947,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070188388",
+   "years": {}
+  },
+  "110070190741": {
+   "name": "PASADENA TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.7,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.712601,
+   "lon": -95.162765,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070190741",
+   "years": {}
+  },
+  "110070226460": {
+   "name": "CHANNELVIEW PEAKING FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.2,
+   "nearest_monitor": "Channelview",
+   "lat": 29.87449,
+   "lon": -95.106947,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070226460",
+   "years": {}
+  },
+  "110070306595": {
+   "name": "EVAL BUSINESS UNIT",
+   "tri_name": null,
+   "trifid": "77507VLCMP11500",
+   "tri_ids": [
+    "77507VLCMP11500"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 11.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62523,
+   "lon": -95.04498,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070306595",
+   "years": {}
+  },
+  "110070365318": {
+   "name": "PRAXAIR",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.1,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.68913,
+   "lon": -95.03341,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070365318",
+   "years": {}
+  },
+  "110070365413": {
+   "name": "ROHM AND HAAS CHEMICALS BAYPORT PLANT",
+   "tri_name": null,
+   "trifid": "77571RHMND13300",
+   "tri_ids": [
+    "77571RHMND13300"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 9.6,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.6467,
+   "lon": -95.0454,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070365413",
+   "years": {}
+  },
+  "110070519769": {
+   "name": "LYONDELLBASELL SYNGAS",
+   "tri_name": "LA PORTE SYNGAS PLANT",
+   "trifid": "77571LNDGS11603",
+   "tri_ids": [
+    "77571LNDGS11603",
+    "77571LPRTM11603"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 5.5,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.706291,
+   "lon": -95.057016,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070519769",
+   "years": {
+    "2020": {
+     "butadiene": {
+      "stack_lbs": 150.0,
+      "fugitive_lbs": null,
+      "total_lbs": 150.0
+     }
+    }
+   }
+  },
+  "110070562542": {
+   "name": "HOUSTON TANK TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 3.1,
+   "nearest_monitor": "Channelview",
+   "lat": 29.826042,
+   "lon": -95.143026,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070562542",
+   "years": {}
+  },
+  "110070736926": {
+   "name": "SEKISUI SPECIALTY CHEMICALS AMERICA PASADENA PLANT",
+   "tri_name": null,
+   "trifid": "77506CLNSC1423H",
+   "tri_ids": [
+    "77506CLNSC1423H",
+    "7750WVNKCR1431P"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 5.2,
+   "nearest_monitor": "Galena Park",
+   "lat": 29.716944,
+   "lon": -95.188889,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070736926",
+   "years": {}
+  },
+  "110070754719": {
+   "name": "TM DEER PARK SERVICES",
+   "tri_name": "TM DEER PARK SERVICES LP",
+   "trifid": "77536DSPSL2525B",
+   "tri_ids": [
+    "77536DSPSL2525B"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_data",
+   "reason": null,
+   "distance_km": 2.8,
+   "nearest_monitor": "Lynchburg Ferry",
+   "lat": 29.736111,
+   "lon": -95.09167,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070754719",
+   "years": {
+    "2020": {
+     "benzene": {
+      "stack_lbs": 279.0,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 279.0
+     }
+    },
+    "2021": {
+     "benzene": {
+      "stack_lbs": 3.0,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 3.0
+     }
+    },
+    "2022": {
+     "benzene": {
+      "stack_lbs": 0.01,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.01
+     }
+    },
+    "2023": {
+     "benzene": {
+      "stack_lbs": 0.0,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.0
+     }
+    },
+    "2024": {
+     "benzene": {
+      "stack_lbs": 0.0,
+      "fugitive_lbs": 0.0,
+      "total_lbs": 0.0
+     }
+    }
+   }
+  },
+  "110070882039": {
+   "name": "BATTLEGROUND OIL SPECIALTY TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.9,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.6884555,
+   "lon": -95.0573799,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070882039",
+   "years": {}
+  },
+  "110070889524": {
+   "name": "ALTIVIA OXIDE CHEMICALS",
+   "tri_name": null,
+   "trifid": "77532KMCNC16503",
+   "tri_ids": [
+    "77532KMCNC16503"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 15.0,
+   "nearest_monitor": "Channelview",
+   "lat": 29.9222,
+   "lon": -95.0544,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070889524",
+   "years": {}
+  },
+  "110070934284": {
+   "name": "BAYPORT FACILITY",
+   "tri_name": null,
+   "trifid": "77507FMCCR12000",
+   "tri_ids": [
+    "77507FMCCR12000"
+   ],
+   "link_via": "echo_triids",
+   "status": "tri_id_no_reports",
+   "reason": "linked to TRI, but no benzene or 1,3-butadiene form for 2020-2024 (the facility may report other chemicals, or none of these)",
+   "distance_km": 11.4,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62524,
+   "lon": -95.04498,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110070934284",
+   "years": {}
+  },
+  "110071162173": {
+   "name": "TOTAL SPECIALTIES USA BAYPORT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 9.8,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.63515,
+   "lon": -95.0576,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071162173",
+   "years": {}
+  },
+  "110071232226": {
+   "name": "LAPORTE GENERATING STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.2,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.702041,
+   "lon": -95.071033,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071232226",
+   "years": {}
+  },
+  "110071241256": {
+   "name": "SJRR POWER PEAKING FACILITY",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 8.2,
+   "nearest_monitor": "Channelview",
+   "lat": 29.87449,
+   "lon": -95.106947,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071241256",
+   "years": {}
+  },
+  "110071241272": {
+   "name": "RST RELOAD CENTER",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 0.8,
+   "nearest_monitor": "Clinton",
+   "lat": 29.73236,
+   "lon": -95.24971,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071241272",
+   "years": {}
+  },
+  "110071722777": {
+   "name": "MOORE STATIONWALLISVILLE STATION",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 4.1,
+   "nearest_monitor": "Channelview",
+   "lat": 29.8329294,
+   "lon": -95.1490393,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071722777",
+   "years": {}
+  },
+  "110071821344": {
+   "name": "DEER PARK RAIL TERMINAL",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 5.4,
+   "nearest_monitor": "HRM-3 Haden Road",
+   "lat": 29.716111,
+   "lon": -95.181111,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071821344",
+   "years": {}
+  },
+  "110071883566": {
+   "name": "CLEAR LAKE PLANT",
+   "tri_name": null,
+   "trifid": null,
+   "tri_ids": [],
+   "link_via": null,
+   "status": "no_tri_id",
+   "reason": "ECHO lists no TRI id for this facility and no TRI facility carries its registry id",
+   "distance_km": 10.7,
+   "nearest_monitor": "HRM-16 Deer Park",
+   "lat": 29.62119,
+   "lon": -95.06673,
+   "link": "https://echo.epa.gov/detailed-facility-report?fid=110071883566",
+   "years": {}
+  }
+ }
+}
