@@ -1,10 +1,8 @@
 import { Suspense, lazy, useEffect, useRef, useState, type MouseEvent } from 'react'
-// Import order is stylesheet order. App.css holds rules the other pages share (.btn, .seg, .state-msg, .skip-link), so
-// it stays in the entry stylesheet now that the replay's code is lazy, in the place it had before: after the footer,
-// header and language-switch styles, before the landing's.
+// No App.css here: the controls every page shares (.btn, .seg, .state-msg, .skip-link) live in index.css, so the
+// replay's stylesheet loads with the replay's code (App.tsx) and leaves the entry bundle (S76, PERF-21).
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
-import './App.css'
 import { AtlasLanding } from './AtlasLanding'
 import { focusMainHeading } from './focusMain'
 import { LoadBoundary } from './LoadBoundary'
