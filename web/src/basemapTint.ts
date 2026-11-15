@@ -2,7 +2,8 @@
 // parks and woods, peach industrial and port land (the Ship Channel's refineries read at a glance). Land stays near
 // Positron's own luminance (#f2f3f0 -> #eef4f2), so the marker contrast measured against it holds: coral trigger
 // 3.45:1, facility 11.3:1, out-of-corridor facility 4.0:1, filed facility 5.6:1.
-// Pure (no MapLibre import), so EventMap's transformStyle applies it before the first paint and the node tests run it.
+// Pure (no MapLibre import), so EventMap's and RainMap's transformStyle apply it before the first paint and the node
+// tests run it.
 import type { StyleSpecification } from 'maplibre-gl'
 
 // Layer ids checked 2026-11-15 against tiles.openfreemap.org/styles/positron; an id the style lacks is skipped.
