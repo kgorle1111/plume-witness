@@ -1,5 +1,5 @@
 import './LangSwitch.css'
-import { Fragment, type ReactNode } from 'react'
+import { Fragment, useId, useState, type ReactNode } from 'react'
 import { STRINGS, fmt, setLang, type StringKey, type Vars } from './i18n'
 import { useLang, useT } from './useT'
 
@@ -30,20 +30,36 @@ function fmtNodes(p: string, v?: Record<string, ReactNode>): ReactNode {
 export function LangSwitch({ note = true, compact = true }: { note?: boolean; compact?: boolean }) {
   const lang = useLang()
   const t = useT()
+  const [noteOpen, setNoteOpen] = useState(false)
+  const noteId = useId()
+  const showNote = note && lang === 'es'
   return (
     <div className="lang-switch">
+      {/* Phones only (LangSwitch.css): the three-line note made the Spanish header 193px of 812, so it folds behind
+          this button, which sits left of the switch on the switch's own row. Before the switch, so Tab follows what
+          the eye sees. Wider screens hide the button and always show the note. */}
+      {showNote && (
+        <button type="button" className="es-note-toggle" aria-expanded={noteOpen} aria-controls={noteId}
+          onClick={() => setNoteOpen((o) => !o)}>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="6.75" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M8 7v4.5M8 4.5v.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+          {t('common.reviewToggle')}
+        </button>
+      )}
       <div className={compact ? 'seg seg-compact' : 'seg'} role="group" aria-label={t('common.langGroup')}>
         <button type="button" aria-pressed={lang === 'en'} onClick={() => setLang('en')} lang="en">English</button>
         <button type="button" aria-pressed={lang === 'es'} onClick={() => setLang('es')} lang="es">Español</button>
       </div>
-      {note && lang === 'es' && <ReviewNote />}
+      {showNote && <ReviewNote id={noteId} className={`muted small es-note${noteOpen ? '' : ' es-note-folded'}`} />}
     </div>
   )
 }
 
-export function ReviewNote({ className = 'muted small es-note' }: { className?: string }) {
+export function ReviewNote({ className = 'muted small es-note', id }: { className?: string; id?: string }) {
   return (
-    <p className={className}>
+    <p className={className} id={id}>
       <span lang="es">{STRINGS.es['common.reviewNote']}</span> <span lang="en">({STRINGS.en['common.reviewNote']})</span>
     </p>
   )
