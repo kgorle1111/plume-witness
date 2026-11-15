@@ -116,7 +116,7 @@ Exact versions are pinned in [pyproject.toml](pyproject.toml), [uv.lock](uv.lock
 - A labeled eval for the report-revision ("walk-back") reader, then ship it.
 - One statewide list of open questions across all 10 regions.
 - AI drafts for every replayable spike, behind the same guard.
-- Beyond Texas, Los Angeles first: join the South Coast AQMD's Rule 1180 refinery-fenceline monitors (hourly benzene) to California's Cal OES spill reports. Their public monitor files end in 2022, so it starts as a 2020-2022 backtest. <!-- CL-038 -->
+- Los Angeles: the South Coast AQMD's Rule 1180 refinery-fenceline community stations are on the site now, with 6 spikes from March 2020 to December 2022 that replay on airport wind and are checked against the NRC's and Cal OES's reports, which name neither compound then, so each reads Can't say. Next: a complete report list for Los Angeles. <!-- CL-040 -->
 - The National Response Center's reports cover every state, so the spike-plus-federal-report check can run wherever hourly benzene monitors exist. <!-- CL-039 -->
 
 ## Method and limits
