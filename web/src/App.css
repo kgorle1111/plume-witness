@@ -572,7 +572,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 }
 .chip:hover { background: var(--bg-2); border-color: var(--ink-2); }
 .chip[aria-pressed='true'] { background: var(--place); border-color: var(--place); color: #fff; }
-.ps-result:empty { display: none; }
+.ps-result { display: grid; gap: 10px; }
 .ps-readout { display: grid; gap: 8px; }
 .ps-place { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
 .ps-pin-icon { flex: none; }
@@ -594,6 +594,9 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
+  max-width: min(200px, 45vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
   box-shadow: var(--shadow-1);
 }
 .place-pin.label-left .place-label { left: auto; right: 30px; }

@@ -68,6 +68,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
   const [pending, setPending] = useState(false)
   const [error, setError] = useState('')
   const ctrl = useRef<AbortController | null>(null)
+  const input = useRef<HTMLInputElement>(null)
   useEffect(() => () => ctrl.current?.abort(), [])
 
   const submit = async (e: FormEvent) => {
@@ -105,6 +106,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
         <div className="ps-row">
           <input
             id="ps-q"
+            ref={input}
             type="search"
             className="ps-input"
             value={query}
@@ -131,17 +133,19 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
           ))}
         </div>
       </div>
-      {/* One polite region for results and errors, so each outcome is announced once. */}
-      <div className="ps-result" role="status">
+      {/* One polite region for results and errors, so each outcome is announced once. It is always rendered
+          (an empty region that appears with its first message is often skipped by screen readers), and atomic
+          so switching places reads the whole readout, not just the numbers that changed. */}
+      <div className="ps-result" role="status" aria-atomic="true">
         {error && <p className="ps-error">{error}</p>}
-        {!error && place && r && (
+        {place && r && (
           r.kind === 'far' ? (
             <p className="ps-far"><strong>{place.label}</strong>: Plume Witness only has Houston Ship Channel data so far (one night, {ev.date_local}).</p>
           ) : (
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
               <dl className="facts">
-                <div><dt>Nearest state monitor</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}</dd></div>
+                <div><dt>Nearest monitor in this replay</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}</dd></div>
                 <div>
                   <dt>Upwind corridor</dt>
                   <dd>
@@ -152,13 +156,18 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
                 </div>
                 {r.facility && <div><dt>Nearest listed facility</dt><dd>{r.facility.name}, {kmText(r.facility.km)}</dd></div>}
               </dl>
-              <p className="muted small">Straight-line distances to points in this replay's data. The corridor is drawn from the wind around the detection hour.</p>
+              <p className="muted small">Straight-line distances to points in this replay's data. The corridor is the direction the monitor's air came from around the detection hour; it doesn't say what the air at this place contained.</p>
             </div>
           )
         )}
       </div>
       {place && (
-        <button type="button" className="btn ps-clear" onClick={() => { setError(''); onPlace(null) }}>Clear place</button>
+        <button type="button" className="btn ps-clear" onClick={() => {
+          setError('')
+          onPlace(null)
+          // The button removes itself; without this, focus would drop to <body>.
+          input.current?.focus()
+        }}>Clear place</button>
       )}
     </section>
   )

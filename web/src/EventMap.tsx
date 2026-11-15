@@ -524,12 +524,13 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       // The flagged monitor stays in frame so the place is always seen against the spike.
       frame.extend([trigger.lon, trigger.lat])
       const padding = fitPadding()
+      const flipLabel = () => placeEl.classList.toggle('label-left', map.project([p.lon, p.lat]).x > el.clientWidth - 220)
+      if (!padding) return flipLabel()
       // Near the right edge the label goes on the pin's left so it isn't clipped (checked once the camera lands).
-      map.once('moveend', () => {
-        placeEl.classList.toggle('label-left', map.project([p.lon, p.lat]).x > el.clientWidth - 150)
-      })
-      // Extra top room for the pin itself, which stands above its point.
-      if (padding) map.fitBounds(frame, { padding: { ...padding, top: padding.top + 36 }, maxZoom: 12, duration: reduceMotion ? 0 : 1200 })
+      map.once('moveend', flipLabel)
+      // Extra top room for the pin, which stands above its point, kept inside the same clamp fitPadding() applies.
+      const top = Math.min(padding.top + 36, Math.max(0, el.clientHeight - 32 - padding.bottom))
+      map.fitBounds(frame, { padding: { ...padding, top }, maxZoom: 12, duration: reduceMotion ? 0 : 1200 })
     }
     if (placeRef.current) applyPlace.current(placeRef.current)
     replayIntro.current = () => {
