@@ -140,6 +140,9 @@ test('check notes: a filing date marks the record as filed; calm wind and unknow
   assert.ok(fin.filed && fin.lang === 'es' && fin.text.startsWith('Reporte final con fecha') && fin.text.includes('133 días'), fin.text)
   assert.equal(checkNoteText('final report dated 2024-05-21, 1 day after the event ended', 'en')!.text, 'Final report dated May 21, 2024, 1 day after the event ended.')
   assert.deepEqual(checkNoteText('wind too light to trace (0.7 mph)', 'es'), { text: 'Viento demasiado débil para rastrear (0.7 mph).', lang: 'es', filed: false })
+  // A matched report with only its initial notice on file (pipeline/build.py final_check): no filing date, so not "late".
+  assert.deepEqual(checkNoteText('final report pending: the cached report is type INITIAL, with no final report date', 'es'),
+    { text: 'Reporte final pendiente: el reporte en el registro es de tipo INITIAL, sin fecha de reporte final.', lang: 'es', filed: false })
   assert.deepEqual(checkNoteText('something new', 'es'), { text: 'something new', lang: 'en', filed: false })
   assert.equal(checkNoteText('', 'en'), null)
   assert.equal(calmMph(base({ checks: [{ at: 'T+24h', status: 'search_incomplete', note: 'wind too light to trace (0.7 mph)' } as never] })), 0.7)

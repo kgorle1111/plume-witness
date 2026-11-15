@@ -125,6 +125,7 @@ export function resolutionText(res: string, lang: Lang): { text: string; lang: L
 const NOTE_NOTICE = /^initial notice filed (\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}) local, (-?[\d.]+) h after the reported discovery \S+$/
 const NOTE_FINAL = /^final report dated (\d{4}-\d{2}-\d{2}), (\d+) days? after the event ended$/
 const NOTE_CALM = /^wind too light to trace \(([\d.]+) mph\)$/
+const NOTE_PENDING = /^final report pending: the cached report is type (.+), with no final report date$/
 
 export interface CheckNote { text: string; lang: Lang; filed: boolean }
 
@@ -138,6 +139,8 @@ export function checkNoteText(note: string | undefined, lang: Lang): CheckNote |
   if (m) return { text: translate(lang, m[2] === '1' ? 'chk.noteFinalOne' : 'chk.noteFinal', { date: dateLabel(m[1], lang), n: m[2] }), lang, filed: true }
   m = NOTE_CALM.exec(s)
   if (m) return { text: translate(lang, 'chk.noteCalm', { mph: m[1] }), lang, filed: false }
+  m = NOTE_PENDING.exec(s)
+  if (m) return { text: translate(lang, 'chk.noteFinalPending', { type: m[1] }), lang, filed: false }
   return { text: s, lang: 'en', filed: false }
 }
 
