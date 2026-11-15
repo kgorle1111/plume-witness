@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
-import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
+import { compass, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
-import { incidentNote } from './note'
+import { incidentNote, noteUrl } from './note'
 import { facilityHref } from './facilities'
-import { arrivalTick, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
-import type { Lang, PacketReview, Source } from './packet'
+import { arrivalTick, calmMph, checkNoteText, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
+import { savePacketReview, useAiDraftFailed, type Lang, type PacketReview, type Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
 import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
 import { useLang, useT, type Translate } from './useT'
 import { checkAt, ruleParts } from './plainWords'
-import { compoundLabel } from './region'
+import { compoundLabel, regionByKey } from './region'
 import { shortlist } from './traceList'
 import { useRecordedClip } from './recorded'
+import './Steps.css'
 
 function InfoIcon() {
   return (
@@ -111,7 +112,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
           <tbody>
             {m.hourly.map((h) => (
               <tr key={h.hour_cst}>
-                <td>{hourLabel(h.hour_cst)}</td>
+                <td>{hourShort(h.hour_cst)}</td>
                 <td>{h.value ?? t('spark.noValue')}</td>
                 <td>{h.flag ?? ''}</td>
               </tr>
@@ -132,22 +133,29 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const t = useT()
   const lang = useLang()
   const rule = ruleParts(d.rule)
+  // Ten times a zero baseline is still zero: on those nights only the floor flagged the reading.
+  const ruleKey = d.baseline === 0 ? 'det.ruleZero' : 'det.ruleText'
+  const county = titleCase(regionByKey(ev.region?.key).county)
+  const rc = ev.record_check
+  const hasReport = Boolean(rc.reported) || (rc.day_incidents?.length ?? 0) > 0
+  const note = timeNote(ev.time_note, lang, hasReport)
   return (
     <>
       <p className="lead">{t('det.lead', { compound: compoundLabel(lang, ev.compound.name) })}</p>
       <dl className="facts">
-        <div><dt>{t('det.monitor')}</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
+        <div><dt>{t('det.monitor')}</dt><dd>{m.name} <span className="muted small">({t('det.siteId', { id: m.site_id })})</span></dd></div>
         <div className="fact-key">
           <dt>{t('det.reading')}</dt>
-          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first /> <span className="reading-when">{t('det.atHour', { hour: hourLabel(d.hour_cst) })} <span className="nowrap">{ev.date_local}</span></span> <span className="prov-badge" title={t('prov.tip')}>{t('prov.badge')}</span></dd>
+          {/* The tip is also in the text: a title alone never reaches keyboard, touch or most screen-reader users. */}
+          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first /> <span className="reading-when">{t('det.atHour', { hour: hourLabel(d.hour_cst) })} <span className="nowrap">{ev.date_local}</span></span> <span className="prov-badge" title={t('prov.tip')}>{t('prov.badge')}<span className="sr-only">: {t('prov.tip')}</span></span></dd>
         </div>
         <div><dt>{t('det.baseline')}</dt><dd>{d.baseline} <Unit units={u} /></dd></div>
         <div>
           <dt>{t('det.rule')}</dt>
-          <dd>{rule ? t('det.ruleText', { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
+          <dd>{rule ? t(ruleKey, { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
         </div>
       </dl>
-      <p className="small">{t('det.notAlert')}</p>
+      <p className="small">{t('det.notAlert', { county })}</p>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
         {t('det.replayHour', { hour: hourLabel(hour) })} <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : t('tl.noData')}</strong>
@@ -155,11 +163,14 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
       {others.length > 0 && (
         <p className="muted small">{t('det.alsoFlagged', { list: others.map((o) => t('det.alsoItem', { name: o.name, value: o.peak.value, unit: unitShort(u), hour: hourLabel(o.peak.hour_cst) })).join('; ') })}</p>
       )}
-      <p className="muted small" lang={timeNote(ev.time_note, lang) ? lang : 'en'}>{timeNote(ev.time_note, lang) ?? ev.time_note}</p>
-      <Rose siteId={m.site_id} param={ev.compound.aqs_param} />
+      <p className="muted small" lang={note ? lang : 'en'}>{note ?? ev.time_note}</p>
+      <Rose siteId={m.site_id} param={ev.compound.aqs_param} name={m.name} />
     </>
   )
 }
+
+/** regions.generated.json writes counties in capitals ("JEFFERSON"). */
+const titleCase = (s: string) => s.toLowerCase().replace(/\b\p{L}/gu, (c) => c.toUpperCase())
 
 // Phones and tablets have no hover, so the Trace hint talks about taps there and about hover and Tab elsewhere.
 const NO_HOVER = '(hover: none)'
@@ -175,6 +186,15 @@ const useNoHover = () => useSyncExternalStore(subscribeHover, () => hasMatchMedi
 /** Facilities shown before "Show all": the nearest few keep "Next" within reach on a phone. */
 const NEAREST = 5
 
+// The pipeline's location-source label (build.py); another label is shown as written and marked English.
+const SOURCE_KEY: Record<string, StringKey> = { 'EPA ECHO (major emissions source)': 'trc.sourceEcho' }
+function sourceText(source: string, t: Translate): ReactNode {
+  const k = SOURCE_KEY[source]
+  return k ? t(k) : <span lang="en">{source}</span>
+}
+
+const reducedMotion = () => hasMatchMedia() && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 interface TraceProps {
   ev: PlumeEvent
   corridor: Facility[]
@@ -188,6 +208,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
+  const calm = calmMph(ev.record_check)
   const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
   const t = useT()
   const lang = useLang()
@@ -215,6 +236,11 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
     afterToggle.current = expanded ? 'keep-button' : 'focus-new'
     setExpanded(!expanded)
   }
+  // kn: reaches the map through App's .map-wrap class; an onShowMap prop from App would be cleaner.
+  const showOnMap = (id: string) => {
+    onHighlight(id)
+    document.querySelector('.map-wrap')?.scrollIntoView({ block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth' })
+  }
   // Facility history pages exist for the Houston list only; a link from another region's night would 404.
   const linked = !ev.region
   const stop = shown.includes(current) ? current : shown[0]
@@ -234,8 +260,9 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   return (
     <>
       <p className="lead">
+        {/* A calm night names the light wind the Check step quotes, not a corridor it never drew. */}
         {wind
-          ? t('trc.leadWind', { hour: hourLabel(wind.hour_cst), site: windSite, dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph })
+          ? t(calm !== null ? 'trc.leadCalm' : 'trc.leadWind', { hour: hourLabel(wind.hour_cst), site: windSite, dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph, calm: calm ?? '' })
           : t('trc.leadNoWind', { hour: hourLabel(ev.detection.hour_cst) })}
       </p>
       {ev.wind.source && (
@@ -274,10 +301,16 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
               {narrowed.has(f.id) && <span className="tri-tag">{t('trc.everyWedge')}</span>}
               <span className="fl-geo">{t('trc.geo', { km: f.distance_km, deg: f.bearing_deg, dir: compass(f.bearing_deg, lang) })}</span>
               <span className="fl-align">
-                <span className="align-label">{t('trc.align', { a: f.alignment })}</span>
+                <span className="align-label">{t('trc.align', { deg: offWindDeg(f.alignment) })}</span>
                 <span className="align-track" aria-hidden="true"><span className="align-fill" style={{ width: `${Math.max(0, Math.min(1, f.alignment)) * 100}%` }} /></span>
               </span>
-              <span className="muted small">{t('trc.source', { source: f.source })}</span>
+              <span className="muted small">{withSlot(t('trc.source'), 'source', sourceText(f.source, t))}</span>
+              {/* Phones: the map is a screen above the list, and a tap on the name leaves the replay. */}
+              {noHover && (
+                <button type="button" className="btn fl-show" onClick={() => showOnMap(f.id)}>
+                  {t('trc.showOnMap')}<span className="sr-only">: {f.name}</span>
+                </button>
+              )}
             </li>
             )
           })}
@@ -308,16 +341,21 @@ function TriangulationNote({ ev }: { ev: PlumeEvent }) {
   if (!tri || tri.verdict === 'not_traced') return null
   const names = tri.monitors.map((m) => m.name).join(t('tri.and'))
   const all = tri.monitors.length === 2 ? t('tri.both') : t('tri.all', { n: tri.monitors.length })
+  // The reason follows the verdict code; a verdict this table doesn't know keeps the pipeline's English text.
+  const whyKey = TRI_WHY[tri.verdict]
+  const why = whyKey ? t(whyKey) : <span lang="en">{tri.verdict_text}</span>
   if (tri.verdict === 'single') return <p className="muted small">{t('tri.single')}</p>
   if (tri.verdict === 'single_wind') {
-    return <p className="muted small">{t('tri.singleWind', { n: tri.monitors_triggered, why: tri.verdict_text })}</p>
+    return <p className="muted small">{withSlot(t('tri.singleWind', { n: tri.monitors_triggered }), 'why', why)}</p>
   }
   const counts = t('tri.counts', { k: String(tri.intersection_count), n: tri.single_wedge_count })
   if (tri.verdict === 'narrows') {
     return <p className="tri-note">{t('tri.narrows', { names, all, counts, caveat: tri.caveat ?? '' })}</p>
   }
-  return <p className="muted small">{t('tri.other', { names, counts, why: tri.verdict_text })}</p>
+  return <p className="muted small">{withSlot(t('tri.other', { names, counts }), 'why', why)}</p>
 }
+
+const TRI_WHY: Record<string, StringKey> = { aligned: 'tri.why.aligned', no_overlap: 'tri.why.no_overlap', single_wind: 'tri.why.single_wind' }
 
 export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const rc = ev.record_check
@@ -325,13 +363,26 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const matched = ev.facilities.find((f) => f.id === rc.matched_facility_id)
   const r = rc.reported
   const t = useT()
+  // The report shown above is not one of the "other" reports, though the pipeline lists it with the day's reports.
+  const others = (rc.day_incidents ?? []).filter((d) => d.incident !== rc.incident)
   const scope = searchScopeText(rc.search_scope, lang)
+  const meaning = MEANING[rc.status]
+  // With no matched report the pipeline links the generic STEERS search, not a record.
+  const recordLabel = rc.incident ? 'chk.openRecord' : 'chk.searchRecord'
   return (
     <>
       <h3 className="question">{t('chk.question')}</h3>
       <div className="status-block">
         <StatusBadge status={rc.status} lang={lang} />
-        <p className="muted small" lang={scope.lang}>{scope.text}</p>
+        {/* The answer first, in plain words; the search scope (a long run of counts) is one tap away. */}
+        {meaning && <p>{t(meaning)}</p>}
+        {rc.status === 'no_report_after_deadline' && (
+          <p><a className="record-link" href="#packet" onClick={toPacketTab}>{t('chk.askState')}</a></p>
+        )}
+        <details className="scope-details">
+          <summary>{t('chk.scopeSummary')}</summary>
+          <p className="muted small" lang={scope.lang}>{scope.text}</p>
+        </details>
       </div>
       {matched && (
         <p className="is-matched-note">
@@ -340,16 +391,28 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
       )}
       <h3 className="list-heading">{t('chk.checks')}</h3>
       <ul className="checks">
-        {rc.checks.map((c) => (
-          <li key={c.at}><span className="check-at">{checkLabel(c.at, t)}</span> <StatusBadge status={c.status} lang={lang} /></li>
-        ))}
+        {rc.checks.map((c) => {
+          // kn: types.ts does not declare checks[].note yet; read it as optional until it does.
+          const note = checkNoteText((c as { note?: string }).note, lang)
+          // A filing date in the note means the record exists: "not yet reported" would be false today.
+          const late = c.status === 'not_yet_reported' && note?.filed
+          return (
+            <li key={c.at}>
+              <span className="check-at">{checkLabel(c.at, t)}</span>{' '}
+              {late
+                ? <span className="status status-not_yet_reported" lang={lang}><StatusIcon kind="clock" /><span>{t('chk.filedAfter')}</span></span>
+                : <StatusBadge status={c.status} lang={lang} />}
+              {note && <span className="check-note muted small" lang={note.lang}>{note.text}</span>}
+            </li>
+          )
+        })}
       </ul>
       {r && (
         <>
           <h3 className="list-heading">{t('chk.says')}</h3>
           <dl className="facts">
-            {r.compound && <div><dt>{t('chk.compound')}</dt><dd>{r.compound}</dd></div>}
-            {r.pounds != null && <div><dt>{t('chk.pounds')}</dt><dd>{r.pounds.toLocaleString('en-US')} lb</dd></div>}
+            {r.compound && <div><dt>{t('chk.compound')}</dt><dd><CompoundName raw={r.compound} lang={lang} /></dd></div>}
+            {r.pounds != null && <div><dt>{t('chk.pounds')}</dt><dd>{poundsText(r.pounds, lang)}</dd></div>}
             {(r.start_local || r.end_local) && (
               <div><dt>{t('chk.time')}</dt><dd>{t('chk.timeRange', { start: localTime(r.start_local, t), end: localTime(r.end_local, t) })}{r.tz ? ` ${r.tz}` : ''}</dd></div>
             )}
@@ -366,12 +429,37 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
           </dl>
         </>
       )}
-      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} lang={lang} />}
+      {others.length > 0 && <DayIncidents items={others} lang={lang} />}
       {url
-        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">{t('chk.openRecord')}<span className="sr-only">{t('chk.newTab')}</span></a></p>
+        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">{t(recordLabel)}<span className="sr-only">{t('chk.newTab')}</span></a></p>
         : <p className="muted">{t('chk.noLink')}</p>}
     </>
   )
+}
+
+// kn: chk.meaning.reported_mismatch quotes pipeline/build.py MATCH_WINDOW_H (6 h before to 2 h after); change both together.
+const MEANING: Record<string, StringKey> = {
+  reported: 'chk.meaning.reported',
+  reported_mismatch: 'chk.meaning.reported_mismatch',
+  no_report_after_deadline: 'chk.meaning.no_report_after_deadline',
+  search_incomplete: 'chk.meaning.search_incomplete',
+}
+
+/** The hashchange listener (App) switches the step; focusing the new tab brings the stepper into view on a phone.
+ *  kn: reaches App's tab by its id (tab-packet); an onStep prop from App would be cleaner. */
+function toPacketTab() {
+  requestAnimationFrame(() => document.getElementById('tab-packet')?.focus())
+}
+
+/** A STEERS compound name in the reader's language when it is one this tool tracks; any other stays as written (English). */
+function compoundText(raw: string, lang: Lang): { text: string; lang: Lang } {
+  const n = normCompound(raw)
+  return n === raw ? { text: raw, lang: 'en' } : { text: compoundLabel(lang, n), lang }
+}
+
+function CompoundName({ raw, lang }: { raw: string; lang: Lang }) {
+  const c = compoundText(raw, lang)
+  return <span lang={c.lang}>{c.text}</span>
 }
 
 /** "T+24h" reads as "Notice within 24 hours"; a label of another shape is shown as the pipeline wrote it. */
@@ -388,6 +476,7 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
   return (
     <>
       <h3 className="list-heading">{t('chk.dayHeading', { n: items.length })}</h3>
+      <p className="muted small">{t('chk.dayNote')}</p>
       <ul className="day-incidents">
         {items.map((d) => (
           <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
@@ -397,9 +486,13 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
               {t(CORRIDOR_TAG[d.in_corridor === true ? 'in' : d.in_corridor === false ? 'out' : 'unknown'])}
             </span>
             <span className="di-facts">
-              {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? t('chk.started', { time: localTime(d.start_local, t) }) : null]
+              {[
+                d.compound ? <CompoundName key="c" raw={d.compound} lang={lang} /> : null,
+                d.pounds != null ? poundsText(d.pounds, lang) : null,
+                d.start_local ? t('chk.started', { time: localTime(d.start_local, t) }) : null,
+              ]
                 .filter(Boolean)
-                .join(' · ')}
+                .map((x, i) => <span key={i}>{i > 0 ? ' · ' : ''}{x}</span>)}
             </span>
             <span className="muted small">{t('chk.reportLine', { id: d.incident, resolution: '' }).replace(/:\s*$/, ':')} <span lang={resolutionText(d.resolution, lang).lang}>{resolutionText(d.resolution, lang).text}</span></span>
           </li>
@@ -442,9 +535,24 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const t = useT()
   const langName = (l: Lang) => t(LANG_NAME[l])
   const noticeText = notice ? t(notice.key, { ...notice.vars, ...(notice.langName ? { lang: langName(notice.langName) } : {}) }) : ''
+  // A live region only speaks when its text changes, so the same notice twice ("Draft copied." after a second copy)
+  // is cleared first and set again a moment later.
+  const sayTimer = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(sayTimer.current), [])
+  const say = (n: Notice | null) => {
+    window.clearTimeout(sayTimer.current)
+    setNotice(null)
+    if (n) sayTimer.current = window.setTimeout(() => setNotice(n), 60)
+  }
   const dialog = useRef<HTMLDialogElement>(null)
+  const dlgTitle = useRef<HTMLHeadingElement>(null)
   const [dlgCopy, setDlgCopy] = useState<'idle' | 'copied' | 'failed'>('idle')
   const dlgDraft = useRef<HTMLTextAreaElement>(null)
+  const draftBox = useRef<HTMLTextAreaElement>(null)
+  // The incident note exists only on the clipboard; when copying fails it is shown here to copy by hand.
+  const [noteFallback, setNoteFallback] = useState<string | null>(null)
+  const noteBox = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => { if (noteFallback !== null) noteBox.current?.select() }, [noteFallback])
   // No clipboard (insecure page, denied permission): the approved text is shown selected so it can be copied by hand.
   useEffect(() => { if (dlgCopy === 'failed') dlgDraft.current?.select() }, [dlgCopy])
   const copyApproved = async () => {
@@ -459,10 +567,27 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const clip = useRecordedClip(source, lang, drafts[lang])
   const audio = useRef<HTMLAudioElement>(null)
   const guard = ev.packet.guard
+  const aiFailed = useAiDraftFailed()
+  const replayUrl = noteUrl(location.href)
+  const recordUrl = safeHttpUrl(ev.record_check.source_url)
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
   // The text, language or source changed under a playing recording: it no longer matches what is on screen.
   useEffect(() => () => { audio.current?.pause(); setSpeaking(false) }, [clip.url])
+  // Edits survive a reload or Back in this tab; edits happen only here, so saving here covers them all.
+  useEffect(() => { savePacketReview(ev, review) }, [ev, review])
+
+  // The header switch (App) also changes the language and clears approval; say so here, where it is seen.
+  // Any older notice ("Draft copied.") was about the other language's draft.
+  const prev = useRef(review)
+  useEffect(() => {
+    const was = prev.current
+    prev.current = review
+    if (was.lang === review.lang) return
+    say(was.approved ? { key: 'pkt.switched', langName: review.lang } : null)
+    // say is recreated each render; only a language change should run this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [review])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
@@ -471,10 +596,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   // Product rule: a person approves the exact text they file, so approval belongs to one language's draft.
+  // The notice comes from the language effect above, for this switch and the header's alike.
   const switchLang = (l: Lang) => {
     if (l === lang) return
     stopSpeech()
-    if (approved) setNotice({ key: 'pkt.switched', langName: l })
     setReview((r) => ({ ...r, lang: l, approved: false }))
     setSiteLang(l)
   }
@@ -484,14 +609,14 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     if (s === source || (s === 'ai' && !ai)) return
     stopSpeech()
     const next = s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
-    setNotice({ key: s === 'ai' ? 'pkt.showingAi' : 'pkt.showingTemplate' })
+    say({ key: s === 'ai' ? 'pkt.showingAi' : 'pkt.showingTemplate' })
     setReview((r) => ({ ...r, source: s, drafts: next, approved: false }))
   }
 
   const readAloud = () => {
     if (speaking) return stopSpeech()
     if (clip.url && audio.current) {
-      audio.current.play().then(() => setSpeaking(true), () => setNotice({ key: 'pkt.noPlay' }))
+      audio.current.play().then(() => setSpeaking(true), () => say({ key: 'pkt.noPlay' }))
       return
     }
     if (!canSpeak) return
@@ -506,30 +631,51 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     setSpeaking(true)
   }
 
-  const copy = async (text: string, done: StringKey) => {
+  const copyDraft = async () => {
+    try {
+      await navigator.clipboard.writeText(drafts[lang])
+      say({ key: 'pkt.copiedDraft' })
+    } catch {
+      draftBox.current?.select()
+      say({ key: 'pkt.copyFailed' })
+    }
+  }
+
+  const copyNote = async () => {
+    const text = incidentNote(ev, replayUrl, lang)
     try {
       await navigator.clipboard.writeText(text)
-      setNotice({ key: done })
+      setNoteFallback(null)
+      say({ key: 'pkt.copiedNote' })
     } catch {
-      setNotice({ key: 'pkt.copyFailed' })
+      setNoteFallback(text)
+      say({ key: 'pkt.copyFailedNote' })
     }
+  }
+
+  const openDialog = () => {
+    setDlgCopy('idle')
+    dialog.current?.showModal()
+    // autoFocus does nothing on a dialog that mounts closed; without this, focus landed on the phone link.
+    dlgTitle.current?.focus()
   }
 
   return (
     <>
       <p className="lead">{t('pkt.lead')}</p>
       <div className="controls">
-        {ai && (
+        {(ai || aiFailed) && (
           <div className="control">
             <span className="control-label" id="src-label">{t('pkt.source')}</span>
             <div className="seg" role="group" aria-labelledby="src-label">
               <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>
                 {t('pkt.template')} <span className="seg-sub">{t('pkt.templateSub')}</span>
               </button>
-              <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>
-                {t('pkt.ai')} <span className="seg-sub">{t('pkt.aiSub', { provider: ai.provider })}</span>
+              <button type="button" aria-pressed={source === 'ai'} disabled={!ai} aria-describedby={ai ? undefined : 'ai-missing'} onClick={() => switchSource('ai')}>
+                {t('pkt.ai')} {ai && <span className="seg-sub">{t('pkt.aiSub', { provider: ai.provider })}</span>}
               </button>
             </div>
+            {!ai && <p id="ai-missing" className="muted small">{t('pkt.aiUnavailable')}</p>}
           </div>
         )}
         <div className="control">
@@ -545,6 +691,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
       </label>
       <textarea
         id="draft"
+        ref={draftBox}
         className="draft"
         lang={lang}
         rows={9}
@@ -553,18 +700,20 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
           const value = e.target.value
           // Approval covers the exact text a person read; any edit needs a fresh approval.
           // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
-          if (approved) setNotice({ key: 'pkt.edited' })
+          // Any other notice ("Draft copied.") is about the text before this edit.
+          if (approved) say({ key: 'pkt.edited' })
+          else if (notice) say(null)
           setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
         }}
       />
       <p className="muted small provenance">
-        {source === 'ai' && ai ? (
-          t('pkt.byAi', { provider: ai.provider, model: ai.model, date: ai.generated_local, n: ai.runs_on_this_event })
+        {/* An AI draft restored after a reload names its model once packet.ai.json is back; it is never called the template. */}
+        {source === 'ai' ? (
+          ai && t('pkt.byAi', { provider: ai.provider, model: ai.model, date: ai.generated_local, runs: t(ai.runs_on_this_event === 1 ? 'pkt.runsOne' : 'pkt.runsMany', { n: ai.runs_on_this_event }) })
         ) : (
-          t('pkt.byTemplate', {
-            who: ev.packet.drafted_by ?? t('pkt.whoUnknown'),
+          withSlot(t('pkt.byTemplate', {
             result: guard.passed ? t('pkt.checkPassed') : t('pkt.checkFailed', { why: guard.rejected.join(', ') || t('pkt.noDetails') }),
-          })
+          }), 'who', draftedBy(ev.packet.drafted_by, t))
         )}
       </p>
       <div className="row">
@@ -572,8 +721,8 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak && !clip.url}>
           {t(speaking ? 'pkt.stopReading' : 'pkt.readAloud')}
         </button>
-        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'pkt.copiedDraft')}>{t('pkt.copyDraft')}</button>
-        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'pkt.copiedNote')}>
+        <button type="button" className="btn" onClick={copyDraft}>{t('pkt.copyDraft')}</button>
+        <button type="button" className="btn" onClick={copyNote}>
           {t('pkt.copyNote')}
         </button>
       </div>
@@ -582,30 +731,60 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
       {!canSpeak && !clip.url && <p className="muted small">{t('pkt.noSpeech')}</p>}
       <p className="sr-only" aria-live="polite">{noticeText}</p>
       {noticeText && <p className="muted small" aria-hidden="true">{noticeText}</p>}
+      {noteFallback !== null && (
+        <>
+          <label className="draft-label" htmlFor="note-copy">{t('pkt.noteLabel')}</label>
+          <textarea id="note-copy" ref={noteBox} className="draft" lang={lang} rows={8} readOnly value={noteFallback} />
+        </>
+      )}
 
       <h3 className="list-heading">{t('pkt.reviewFile')}</h3>
       <ol className="file-steps">
         <li>
           <span className="file-step-num" aria-hidden="true">1</span>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
+          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => { say(null); setReview((r) => ({ ...r, approved: !r.approved })) }}>
             {t(approved ? 'pkt.approved' : 'pkt.approve')}
           </button>
         </li>
         <li>
           <span className="file-step-num" aria-hidden="true">2</span>
-          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => { setDlgCopy('idle'); dialog.current?.showModal() }}>
+          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={openDialog}>
             {t('pkt.file')}
           </button>
           <p id="file-hint" className="muted small">{t(approved ? 'pkt.fileHint' : 'pkt.approveFirst')}</p>
         </li>
       </ol>
 
-      <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title">
-        <h2 id="dlg-title">{t('pkt.dlgTitle')}</h2>
+      {/* A tap on the backdrop closes it too: on a short phone the only other way out was below the fold. */}
+      <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title" onClick={(e) => {
+        // The dialog box itself is also the click target on its own padding, so only a click outside its box closes it.
+        if (e.target !== e.currentTarget) return
+        const r = e.currentTarget.getBoundingClientRect()
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.current?.close()
+      }}>
+        <div className="dlg-head">
+          <h2 id="dlg-title" ref={dlgTitle} tabIndex={-1}>{t('pkt.dlgTitle')}</h2>
+          <form method="dialog"><button className="btn dlg-close" aria-label={t('pkt.dlgClose')}><span aria-hidden="true">×</span></button></form>
+        </div>
         <p>{withSlot(t('pkt.dlgApproved'), 'lang', <strong>{langName(lang)}</strong>)}</p>
         <p>{t('pkt.dlgNothingSent')}</p>
         <p>{t('pkt.dlgHow')}</p>
-        <p>{withSlot(t('pkt.dlgCall'), 'phone', <a href={PCS_TEL}>{PCS_PHONE}</a>)}</p>
+        <dl className="dlg-links">
+          <div><dt>{t('pkt.dlgReplayLink')}</dt><dd><a href={replayUrl}>{replayUrl}</a></dd></div>
+          {recordUrl && (
+            <div>
+              <dt>{t(ev.record_check.incident ? 'pkt.dlgRecordLink' : 'pkt.dlgSearchLink')}</dt>
+              <dd><a href={recordUrl} target="_blank" rel="noopener noreferrer">{recordUrl}<span className="sr-only">{t('chk.newTab')}</span></a></dd>
+            </div>
+          )}
+        </dl>
+        {/* Houston and Harris County contacts: a night from another region (Jefferson County) does not get them. */}
+        {!ev.region && (
+          <>
+            <p>{t('pkt.dlgCall')}</p>
+            <p><a className="btn" href={PCS_TEL}>{t('pkt.dlgCallBtn', { phone: PCS_PHONE })}</a></p>
+          </>
+        )}
         <div className="row">
           <button type="button" className="btn" onClick={copyApproved}>{t('pkt.dlgCopy')}</button>
           <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
@@ -620,8 +799,16 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
             <textarea id="dlg-draft" ref={dlgDraft} className="draft" lang={lang} rows={6} readOnly value={drafts[lang]} />
           </>
         )}
-        <form method="dialog"><button className="btn btn-primary" autoFocus>{t('pkt.dlgOk')}</button></form>
+        <form method="dialog"><button className="btn btn-primary">{t('pkt.dlgOk')}</button></form>
       </dialog>
     </>
   )
+}
+
+// The pipeline's drafted_by for the template (build.py); another value is shown as written and marked English.
+const DRAFTED_BY: Record<string, StringKey> = { 'template (deterministic, no AI)': 'pkt.whoTemplate' }
+function draftedBy(who: string | null, t: Translate): ReactNode {
+  if (!who) return t('pkt.whoUnknown')
+  const k = DRAFTED_BY[who]
+  return k ? t(k) : <span lang="en">{who}</span>
 }
