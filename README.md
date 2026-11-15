@@ -32,7 +32,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 - `pipeline/`: Python 3.12, uv, pytest. Pulls public data, detects, lists the upwind corridor, checks the record, writes `web/public/event.json`.
 - `web/`: Vite + React + MapLibre GL + deck.gl. A replay of one real night, mobile-first.
-- One Gemini call at build time drafts the packet narrative; a deterministic guard rejects any number or ID not present in the input. No API key ships in the web app.
+- The packet draft comes from a deterministic EN/ES template built only from event fields. An optional Gemini drafter (`pipeline/gemini_draft.py`, see `docs/gemini.md`) sits behind a guard that rejects any number or ID not present in the input; it has not been run against the live API. No API key ships in the web app.
 
 ## Run
 
