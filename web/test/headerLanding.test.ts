@@ -12,6 +12,10 @@ after(() => server.close())
 Object.assign(globalThis, { window: { location: { hash: '', search: '', origin: 'https://x.org', pathname: '/' }, addEventListener() {}, removeEventListener() {} } })
 
 const setLang = async (l: 'en' | 'es') => (await server.ssrLoadModule('/src/i18n.ts')).setLang(l)
+const landing = async () => {
+  const mod = await server.ssrLoadModule('/src/AtlasLanding.tsx')
+  return renderToStaticMarkup(createElement(mod.AtlasLanding, { leaving: false, onEnter() {}, onExit() {} }))
+}
 const langSwitch = async (props: Record<string, unknown> = {}) => {
   const mod = await server.ssrLoadModule('/src/LangSwitch.tsx')
   return renderToStaticMarkup(createElement(mod.LangSwitch, props))
@@ -30,4 +34,14 @@ test('the Spanish review note folds behind a button that controls it; English ha
   assert.ok(!(await langSwitch({ note: false })).includes('es-note'))
   await setLang('en')
   assert.ok(!(await langSwitch()).includes('es-note'))
+})
+
+test('the landing has a skip link to its title, ahead of the brand link (A11Y-20)', async () => {
+  await setLang('en')
+  const html = await landing()
+  const skip = html.indexOf('class="skip-link"')
+  assert.ok(skip >= 0, 'no skip link on the landing')
+  assert.ok(skip < html.indexOf('class="brand"'), 'the skip link must be the first stop, before the brand')
+  assert.match(html, /class="skip-link" href="#atlas-title"/)
+  assert.match(html, /<h1 id="atlas-title"/)
 })

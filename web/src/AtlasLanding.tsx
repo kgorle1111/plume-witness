@@ -39,7 +39,8 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       inert={leaving}
       onAnimationEnd={(event) => { if (leaving && event.target === event.currentTarget) onExit() }}
     >
-      <SiteHeader className="atlas-masthead" />
+      {/* The skip link goes to the title, as on every other page (the first Tab used to land on the brand). */}
+      <SiteHeader className="atlas-masthead" skipTo="atlas-title" />
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
