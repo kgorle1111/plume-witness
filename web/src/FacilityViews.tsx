@@ -5,6 +5,7 @@ import {
   type FacilityFile, type FacilityIndex,
 } from './facilities'
 import { hourLabel, safeHttpUrl } from './format'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import './Facilities.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -34,7 +35,7 @@ function Shell({ kicker, title, children }: { kicker: string; title: string; chi
   return (
     <div className="fx-shell">
       <main className="fx-page">
-        <a className="fx-back" href={BASE}>Back to the replay</a>
+        <a className="fx-back" href={DEMO_REPLAY_HREF}>Back to the replay</a>
         <header className="fx-head">
           <p className="fx-kicker">{kicker}</p>
           <h1>{title}</h1>
@@ -92,6 +93,12 @@ function TriTable({ f }: { f: FacilityFile }) {
   )
 }
 
+/** The matched report's state record, or plain text when the file has no usable URL (a "#" link went nowhere). */
+function IncidentLink({ f, incident }: { f: FacilityFile; incident: string }) {
+  const url = safeHttpUrl(f.reports_to_state.reports.find((r) => r.incident === incident)?.url)
+  return url ? <a href={url} rel="noopener" target="_blank">{incident}</a> : <>{incident}</>
+}
+
 function FacilityPage({ id }: { id: string }) {
   const { data: f, error } = useJson(`facilities/${id}.json`, (raw) => parseFacility(raw, id))
   useEffect(() => { if (f) document.title = `${f.name}: facility history | Plume Witness` }, [f])
@@ -128,7 +135,7 @@ function FacilityPage({ id }: { id: string }) {
               {f.matched_nights.map((m) => (
                 <li key={m.night_id} className="fx-card">
                   <p><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{m.date}: replay this night</a></p>
-                  <p className="small">{m.compound} at {m.monitor}, {hourLabel(m.hour_cst)}, {m.value_ppb} ppb. The facility was {m.distance_km} km away in the upwind corridor, and its report <a href={safeHttpUrl(f.reports_to_state.reports.find((r) => r.incident === m.incident)?.url) ?? '#'} rel="noopener" target="_blank">{m.incident}</a> matched.</p>
+                  <p className="small">{m.compound} at {m.monitor}, {hourLabel(m.hour_cst)}, {m.value_ppb} ppb. The facility was {m.distance_km} km away in the upwind corridor, and its report <IncidentLink f={f} incident={m.incident} /> matched.</p>
                 </li>
               ))}
             </ul>

@@ -2,6 +2,7 @@
 import { Fragment, type ReactNode } from 'react'
 import src from '../../docs/brief.md?raw'
 import { parseMarkdown, type Inline } from './md.ts'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import './Brief.css'
 
 function inline(v: Inline[]): ReactNode {
@@ -22,7 +23,7 @@ export default function Brief() {
   return (
     <main className="br-page">
       <nav className="br-bar" aria-label="Brief actions">
-        <a href={import.meta.env.BASE_URL}>← Back to the event replay</a>
+        <a href={DEMO_REPLAY_HREF}>← Back to the event replay</a>
         <a href={`${import.meta.env.BASE_URL}?view=spikes`}>Past spikes log</a>
         <span className="br-print">
           <button type="button" onClick={() => window.print()}>Print or save as PDF</button>
