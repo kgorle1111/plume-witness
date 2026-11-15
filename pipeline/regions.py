@@ -1,7 +1,9 @@
 """Regions the pipeline can run on. Houston is the default everywhere; every other region is opt-in by key.
 
 A region is data only (sites, county, where its raw files and outputs live). Detection, corridor and the record check
-are the same code for every region. Only Houston has a backtest against company self-reports.
+are the same code for every region. A region is backtested against its own county's company self-reports by
+`uv run python -m pipeline.backtest --region <key>` (docs/backtest.md, "Other regions"); only then does it get
+backtested=True and n_backtest (tests/test_regions.py checks both against that run's output).
 
 The web app reads the region list from web/src/regions.generated.json, written from REGIONS below:
     uv run python -m pipeline.regions --write-web
@@ -60,6 +62,9 @@ HOUSTON_MET_SELECTS = {
 BEAUMONT_SITES = {"48_245_0009": "Beaumont-Downtown", "48_245_1035": "Nederland 17th Street"}
 
 NOT_BACKTESTED_NOTE = "New region: no backtest yet; statuses use the same rules; no claims are made from it."
+# One line in a backtested region's limits list (and its files' region block); the doc carries the numbers.
+# The number sits in the parentheses so the web's Spanish table (format.ts cannotSayEs) matches the sentence itself.
+BACKTESTED_NOTE = "Backtested against company-reported releases (n = {n}, 2024-2025)"
 
 
 @dataclass(frozen=True)
@@ -76,6 +81,12 @@ class Region:
     label_es: str  # Spanish label on the web region switch
     place_es: str  # Spanish of `place`: the web rebuilds the title as "Pico de <compuesto> <place_es>"
     met_selects: dict[str, list[str]] = field(default_factory=dict)
+    # Candidate releases in the region's backtest (summary.candidates); None until it is backtested.
+    n_backtest: int | None = None
+
+    def __post_init__(self) -> None:
+        if self.backtested != (self.n_backtest is not None):
+            raise ValueError(f"region {self.key}: backtested and n_backtest must be set together")
 
     @property
     def county_title(self) -> str:
@@ -83,7 +94,10 @@ class Region:
 
     @property
     def note(self) -> str | None:
-        return None if self.backtested else NOT_BACKTESTED_NOTE
+        """Houston: None (its files never carried one). Another region: its backtest line, or the not-backtested one."""
+        if self.key == "houston":
+            return None
+        return BACKTESTED_NOTE.format(n=self.n_backtest) if self.backtested else NOT_BACKTESTED_NOTE
 
 
 HOUSTON = Region(
@@ -92,14 +106,14 @@ HOUSTON = Region(
     nights_out=ROOT / "web" / "public" / "nights", backtested=True, place="on the Houston Ship Channel",
     # The web switch has always shown the English name here; the Spanish title phrase is translated.
     label_es="Houston Ship Channel", place_es="en el Canal de Navegación de Houston",
-    met_selects=HOUSTON_MET_SELECTS,
+    met_selects=HOUSTON_MET_SELECTS, n_backtest=77,
 )
 
 BEAUMONT = Region(
     key="beaumont", label="Beaumont-Port Arthur", county="JEFFERSON", sites=BEAUMONT_SITES,
     raw=ROOT / "data" / "raw" / "region_beaumont",
     spikes_out=ROOT / "web" / "public" / "regions" / "beaumont" / "spikes.json",
-    nights_out=ROOT / "web" / "public" / "regions" / "beaumont" / "nights", backtested=False,
+    nights_out=ROOT / "web" / "public" / "regions" / "beaumont" / "nights", backtested=True, n_backtest=81,
     place="in Beaumont-Port Arthur", label_es="Beaumont-Port Arthur", place_es="en Beaumont-Port Arthur",
     # CAMS ids the TCEQ met form lists for each site; wind is on one of them (tried in order).
     met_selects={

@@ -1,8 +1,8 @@
 import { REGIONS, regionFrom, regionQuery, type Regions } from './region.ts'
 
-export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline'
+export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline' | 'coverage'
 
-const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities', 'timeline'])
+const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities', 'timeline', 'coverage'])
 
 /** Existing replay links keep their original query parameters and step hashes; only a bare URL opens the landing page. */
 export function pageFromLocation({ search, hash }: Pick<Location, 'search' | 'hash'>): Page {
@@ -26,7 +26,7 @@ export function strayViewSearch({ search, hash }: Pick<Location, 'search' | 'has
 }
 
 /** The site header's pages, in order (SiteHeader.tsx). */
-export const NAV_ITEMS = ['spikes', 'timeline', 'facilities', 'brief'] as const
+export const NAV_ITEMS = ['spikes', 'timeline', 'coverage', 'facilities', 'brief'] as const
 export type NavView = (typeof NAV_ITEMS)[number]
 
 /** Region-carrying page link: a Beaumont reader who opens Timeline and comes back to Past spikes is still in Beaumont. */

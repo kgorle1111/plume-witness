@@ -42,8 +42,6 @@ export type Regions = Readonly<Record<RegionKey, RegionInfo>>
 export const DEFAULT_REGION = 'houston'
 const KEY = /^[a-z][a-z0-9_]*$/
 
-const switchLabel = (lang: Lang, backtested: boolean, name: string) =>
-  backtested ? name : translate(lang, 'region.newLabel', { label: name })
 
 /** Builds the region table from registry rows; throws on a row the app could not load, so a bad file fails the tests. */
 export function buildRegions(rows: readonly RegionRow[]): Regions {
@@ -53,7 +51,7 @@ export function buildRegions(rows: readonly RegionRow[]): Regions {
     if (r.dir !== (r.key === DEFAULT_REGION ? '' : `regions/${r.key}/`)) throw new Error(`regions.generated.json: bad dir for ${r.key}`)
     const name = { en: r.label, es: r.label_es }
     out[r.key] = {
-      key: r.key, label: switchLabel('en', r.backtested, name.en), place: r.label, dir: r.dir, backtested: r.backtested,
+      key: r.key, label: name.en, place: r.label, dir: r.dir, backtested: r.backtested,
       county: r.county, nSites: r.n_sites, name, where: { en: r.place, es: r.place_es },
     }
   }
@@ -89,9 +87,9 @@ export function regionQuery(r: RegionInfo, params: Record<string, string>): stri
   return s ? `?${s}` : ''
 }
 
-/** The region switch label in the reader's language; a region with no backtest says so. */
+/** The region switch label in the reader's language: the place name only (backtest results live in the docs). */
 export function regionLabel(lang: Lang, r: RegionInfo): string {
-  return switchLabel(lang, r.backtested, r.name[lang])
+  return r.name[lang]
 }
 
 const COMPOUND_KEY: Record<string, 'benzene' | 'butadiene'> = { benzene: 'benzene', '1,3-butadiene': 'butadiene' }

@@ -17,10 +17,12 @@ export function BrandMark() {
   )
 }
 
-const LABEL = { spikes: 'common.pastSpikes', timeline: 'app.linkTimeline', facilities: 'common.facilities', brief: 'app.linkBrief' } as const
+const LABEL = {
+  spikes: 'common.pastSpikes', timeline: 'app.linkTimeline', coverage: 'nav.coverage', facilities: 'common.facilities', brief: 'app.linkBrief',
+} as const
 
 /**
- * The one site header: brand (home), then Past spikes · Timeline · Facilities · Brief with the current page marked,
+ * The one site header: brand (home), then Past spikes · Timeline · Coverage · Facilities · Brief with the current page marked,
  * then the language switch. The replay passes its eyebrow and title as children, laid out by App.css's .top grid.
  * `skipTo` adds a skip link to the element with that id (the replay has its own, to the steps).
  * Links keep ?region= so a reader in any region stays in it.

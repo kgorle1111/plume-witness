@@ -114,3 +114,16 @@ Week searches whose page did not list every record: 0.
 - **Facilities outside the candidate set** (18 unlocated, 0 beyond
   15 km) are not in any denominator.
 - AutoGC data are labeled provisional by TCEQ and may change; a rerun on refetched data can differ.
+
+## Other regions
+
+Every region in `pipeline/regions.py` runs the same method (candidate rule, trigger, corridor, match, control
+days), on its own county's STEERS reports and its own AutoGC monitors:
+
+    uv run python -m pipeline.fetch_backtest --region <key>   # cache what is missing, one request at a time
+    uv run python -m pipeline.backtest --region <key>
+
+The second command writes `docs/backtest-<key>.md` and `docs/detector-<key>.md` (and their JSON under
+`data/build/`) and prints the line to set in `pipeline/regions.py` (`backtested=True, n_backtest=<n>`). Then
+regenerate what the site reads: `uv run python -m pipeline.regions --write-web`, `uv run python -m pipeline.nights
+--region <key>`, `uv run python -m pipeline.spikes --region <key>`. Each region doc states its own n.

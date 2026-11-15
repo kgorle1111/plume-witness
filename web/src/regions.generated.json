@@ -17,7 +17,7 @@
   "place": "in Beaumont-Port Arthur",
   "place_es": "en Beaumont-Port Arthur",
   "dir": "regions/beaumont/",
-  "backtested": false,
+  "backtested": true,
   "n_sites": 2,
   "county": "JEFFERSON"
  }

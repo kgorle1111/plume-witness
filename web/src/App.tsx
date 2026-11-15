@@ -14,7 +14,7 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
-import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionByKey, regionFrom, regionQuery, regionUnknown } from './region'
+import { DEFAULT_REGION, NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionByKey, regionFrom, regionQuery, regionUnknown } from './region'
 import { NIGHT_ID, navHref, regionStartNight } from './routes'
 import { SiteHeader } from './SiteHeader'
 import { LoadError, classifyLoadError, responseError, type LoadErrorKind } from './loadError'
@@ -335,7 +335,7 @@ function NightPicker({ current }: { current: string | null }) {
       <label htmlFor="night-select">{t('night.label')}</label>
       <div className="night-picker-row">
         <select id="night-select" value={choice} disabled={!rows} onChange={(e) => setChoice(e.target.value)}>
-          <option value="">{region.backtested ? t('night.demo') : t('night.demoHouston')}</option>
+          <option value="">{region.key === DEFAULT_REGION ? t('night.demo') : t('night.demoHouston')}</option>
           {rows?.map((r) => <option key={r.id} value={r.id}>{r.date} · {compoundLabel(lang, r.compound)} · {r.site_name} · {r.value} ppb</option>)}
         </select>
         {/* Disabled until the choice differs: "Open" on the night already shown did nothing and said nothing. */}
@@ -373,7 +373,7 @@ function LoadProblem({ problem, night, onRetry }: { problem: Problem; night: str
   // Retrying helps only when the next attempt can differ: a connection or a half-written file, not a missing night.
   const canRetry = problem.kind === 'offline' || problem.kind === 'network' || problem.kind === 'damaged'
   // On the demo night itself, "back to the demo night" pointed at the URL that just failed.
-  const onDemo = night === null && region.backtested
+  const onDemo = night === null && region.key === DEFAULT_REGION
   const full = new URL(window.location.href)
   full.searchParams.delete('embed')
   return (
@@ -410,7 +410,8 @@ export default function App() {
   const region = regionFrom(window.location.search)
   // event.json is Houston's demo night, so a region with no ?night= first looks up its own first night.
   const [night, setNight] = useState(nightParam)
-  const needsStart = night === null && !region.backtested
+  // Keyed on Houston, not on `backtested`: a backtested region still has no event.json of its own.
+  const needsStart = night === null && region.key !== DEFAULT_REGION
   const invalid = night !== null && !NIGHT_ID.test(night)
   const fail = (e: unknown) => setProblem(classifyLoadError(e, navigator.onLine))
 
