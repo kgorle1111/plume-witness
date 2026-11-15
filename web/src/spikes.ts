@@ -23,7 +23,7 @@ export interface SpikeRow {
   ratio: number | null
   status: string
   reports_that_day: number
-  /** The pipeline's English sentence. For three of the five codes it is a stand-in, so the UI reads reason_code. */
+  /** The pipeline's English sentence for reason_code (pipeline/spikes.py REASONS); the UI shows the code's label. */
   reason?: string
   /** Why a search_incomplete row stopped short (pipeline/spikes.py REASONS); absent on other rows and older files. */
   reason_code?: string
@@ -176,9 +176,9 @@ export function optionCounts(all: SpikeRow[], f: Filters, k: keyof Filters): Map
 
 /** Why a "search incomplete" row stopped short, as a string-table key; null for a reason this table does not know
  *  (shown as the pipeline wrote it, marked English). reason_code is the real cause (pipeline/spikes.py REASONS). The
- *  `reason` sentence is only a fallback for a file without codes (an older cached spikes.json): the pipeline writes
- *  "could not be placed on the map" there for calm-wind and earlier-search rows too, so that sentence maps to
- *  "see the replay's Check step", never to a cause it may not be. */
+ *  `reason` sentence is only a fallback for a file without codes (an older cached spikes.json, which wrote "could not
+ *  be placed on the map" for calm-wind and earlier-search rows too), so that sentence maps to "see the replay's Check
+ *  step", never to a cause it may not be. */
 export type ReasonKey =
   | 'spikes.reason.calm' | 'spikes.reason.placed' | 'spikes.reason.earlier' | 'spikes.reason.week' | 'spikes.reason.noWind'
   | 'spikes.reason.check'
