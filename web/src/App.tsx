@@ -6,6 +6,7 @@ import { Check, Detect, Packet, Trace } from './Steps'
 import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from './packet'
 import { cannotSayEs } from './format'
 import type { Place } from './PlaceSearch'
+import { SiteFooter } from './SiteFooter'
 import './App.css'
 
 const STEPS = [
@@ -203,6 +204,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
           <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} place={place} onPlace={setPlace} />
         </aside>
       </main>
+      <SiteFooter />
     </div>
   )
 }

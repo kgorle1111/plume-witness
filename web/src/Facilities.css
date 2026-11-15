@@ -1,0 +1,27 @@
+/* Facility history pages and the searchable list. Pages scroll as documents. */
+.fx-shell { min-height: 100dvh; display: flex; flex-direction: column; }
+.fx-page { flex: 1; display: grid; gap: 16px; align-content: start; width: 100%; max-width: 860px; margin: 0 auto; padding: 12px 16px 32px; min-width: 0; }
+.fx-back { justify-self: start; font-size: 0.9rem; padding-block: 8px; }
+.fx-head { display: grid; gap: 4px; }
+.fx-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.fx-head h1 { font-size: 1.5rem; line-height: 1.2; overflow-wrap: anywhere; }
+.fx-sub { color: var(--ink-2); font-size: 0.92rem; }
+.fx-note { padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--amber-line); border-radius: var(--radius); background: var(--bg-2); font-size: 0.92rem; max-width: 72ch; }
+.fx-page section { display: grid; gap: 8px; }
+.fx-page h2 { font-size: 1.1rem; }
+.fx-list { list-style: none; padding: 0; display: grid; gap: 8px; }
+.fx-card { display: grid; gap: 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; overflow-wrap: anywhere; }
+.fx-card-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-weight: 600; }
+.fx-facts { display: flex; gap: 6px 24px; flex-wrap: wrap; font-size: 0.92rem; }
+.fx-facts dt { font-size: 0.75rem; font-weight: 700; color: var(--ink-2); }
+.fx-facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.fx-scroll { overflow-x: auto; max-width: 100%; }
+.fx-table { border-collapse: collapse; width: 100%; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+.fx-table th, .fx-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.fx-table .num { text-align: right; }
+.fx-cite { padding: 8px 10px; background: var(--bg-2); border-radius: 6px; overflow-wrap: anywhere; user-select: all; }
+.fx-search { display: grid; gap: 4px; max-width: 520px; }
+.fx-search label { font-size: 0.8rem; font-weight: 700; color: var(--ink-2); }
+.fx-search input { min-height: 44px; padding: 0 12px; border: 1px solid var(--ink-3); border-radius: 8px; width: 100%; }
+.fx-page .small { font-size: 0.88rem; }
+
