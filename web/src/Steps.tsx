@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
-import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
+import { parseAiDraft, type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
@@ -254,8 +254,12 @@ type Lang = 'en' | 'es'
 const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
+type Source = 'template' | 'ai'
+
 export function Packet({ ev }: { ev: PlumeEvent }) {
   const [lang, setLang] = useState<Lang>('en')
+  const [source, setSource] = useState<Source>('template')
+  const [ai, setAi] = useState<AiDraft | null>(null)
   const [drafts, setDrafts] = useState({ en: ev.packet.draft_en, es: ev.packet.draft_es })
   const [approved, setApproved] = useState(false)
   const [speaking, setSpeaking] = useState(false)
@@ -265,6 +269,16 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
   const guard = ev.packet.guard
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
+
+  // The AI draft is optional: a missing or malformed file leaves the template-only packet, as before.
+  useEffect(() => {
+    const ctrl = new AbortController()
+    fetch(`${import.meta.env.BASE_URL}packet.ai.json`, { signal: ctrl.signal, cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => setAi(parseAiDraft(raw)))
+      .catch(() => setAi(null))
+    return () => ctrl.abort()
+  }, [])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
@@ -278,6 +292,17 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
     if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
     setApproved(false)
     setLang(l)
+  }
+
+  // Same rule as switching language: approval covers the exact text read, so a new source needs a new approval.
+  const switchSource = (s: Source) => {
+    if (s === source || (s === 'ai' && !ai)) return
+    stopSpeech()
+    setDrafts(s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es })
+    setNotice(s === 'ai' ? 'Showing the AI draft. Every number in it was checked against the data. Review it before approving.'
+      : 'Showing the template draft.')
+    setApproved(false)
+    setSource(s)
   }
 
   const readAloud = () => {
@@ -306,6 +331,12 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
   return (
     <>
       <p className="lead">A draft for a person to read, edit and file. Nothing is sent from this app.</p>
+      {ai && (
+        <div className="lang-toggle" role="group" aria-label="Who wrote the draft">
+          <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>Template (no AI)</button>
+          <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>AI draft ({ai.provider}, number-checked)</button>
+        </div>
+      )}
       <div className="lang-toggle" role="group" aria-label="Draft language">
         <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
         <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
@@ -326,8 +357,13 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
         }}
       />
       <p className="muted small">
-        Drafted by: {ev.packet.drafted_by ?? 'not stated in this file'}. Number check:{' '}
-        {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.
+        {source === 'ai' && ai ? (
+          <>Drafted by {ai.provider} ({ai.model}), generated once on {ai.generated_local} from this event's facts; it has
+            drafted {ai.runs_on_this_event} real event so far. Number check: passed (every number, id and time matches the data).</>
+        ) : (
+          <>Drafted by: {ev.packet.drafted_by ?? 'not stated in this file'}. Number check:{' '}
+            {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.</>
+        )}
       </p>
       <div className="row">
         {/* The label states the action, so no aria-pressed: a toggle whose label also flips reads backwards. */}

@@ -1,0 +1,13 @@
+{
+ "provider": "Claude",
+ "model": "claude-opus-5-5",
+ "generated_local": "2026-11-14",
+ "runs_on_this_event": 1,
+ "draft_en": "Benzene spike on the Houston Ship Channel, 2024-06-21. The Houston Milby Park monitor (48_201_0069) read 51.75 ppb-v of benzene at hour 9 CST. Its usual baseline is 0.21 ppb-v. The Manchester East Ave N monitor also read 21.4 ppb-v that hour, with a baseline of 0.22. TCEQ says this data is provisional and may change. The wind came from 77.0 degrees at 6.8 mph. There are 40 facilities in the upwind corridor. This corridor is based only on wind direction at one monitor. It cannot tell apart facilities along the same line. A record check found a report. Ineos Americas Pasadena Site filed incident 425347. It reported 7,634 pounds of benzene from 09:38 to 10:42 local time (CDT). These readings are consistent with that release. Other sources could also add to a spike. Follow-up question: Can Ineos Americas Pasadena Site explain what happened during incident 425347 and what steps it took?",
+ "draft_es": "Pico de benceno en el Canal de Navegación de Houston, 2024-06-21. El monitor Houston Milby Park (48_201_0069) midió 51.75 ppb-v de benceno a la hora 9 CST. Su nivel normal es 0.21 ppb-v. El monitor Manchester East Ave N también midió 21.4 ppb-v esa hora, con un nivel normal de 0.22. La TCEQ dice que estos datos son provisionales y pueden cambiar. El viento venía de 77.0 grados a 6.8 mph. Hay 40 instalaciones en el corredor de donde venía el viento. Este corredor se basa solo en la dirección del viento en un monitor. No puede distinguir instalaciones en la misma línea. Una revisión de registros encontró un reporte. Ineos Americas Pasadena Site presentó el incidente 425347. Reportó 7,634 libras de benceno de 09:38 a 10:42 hora local (CDT). Estas lecturas son consistentes con esa emisión. Otras fuentes también podrían sumar al pico. Pregunta de seguimiento: ¿Puede Ineos Americas Pasadena Site explicar qué pasó en el incidente 425347 y qué medidas tomó?",
+ "drafted_by": "Claude (claude-opus-5-5), checked by the deterministic guard; a person must review",
+ "guard": {
+  "passed": true,
+  "rejected": []
+ }
+}
