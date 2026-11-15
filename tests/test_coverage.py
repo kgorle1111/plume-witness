@@ -1,34 +1,57 @@
-"""web/public/coverage.json: every Texas AutoGC monitor, checked against the regions and their published spike logs."""
+"""web/public/coverage.json: every Texas AutoGC monitor, checked against the regions and their published spike logs,
+then the Los Angeles Rule 1180 stations, checked against pipeline.la1180."""
 
 import json
 
 import pytest
 
-from pipeline import coverage, regions
+from pipeline import coverage, la1180, regions
 
 KEYS = ["site_id", "name", "county", "region_key", "lat", "lon", "has_data", "wind_source", "years",
-        "max_benzene_ppb", "max_butadiene_ppb", "spikes", "by_status"]
+        "max_benzene_ppb", "max_butadiene_ppb", "spikes", "by_status", "area"]
 
 
 @pytest.fixture(scope="module")
-def cov() -> dict:
+def full() -> dict:
     return json.loads(coverage.OUT.read_text(encoding="utf-8"))
 
 
-def test_committed_file_is_current(cov):
-    fresh = coverage.build_coverage(today=cov["generated"])
+@pytest.fixture(scope="module")
+def cov(full) -> dict:
+    """The Texas rows: the checks below are about the TCEQ form and the Texas regions."""
+    return full | {"sites": [s for s in full["sites"] if s["area"] == "texas"]}
+
+
+def test_committed_file_is_current(full):
+    fresh = coverage.build_coverage(today=full["generated"])
     assert coverage.dumps(fresh) == coverage.OUT.read_text(encoding="utf-8"), (
         "web/public/coverage.json is stale: run `uv run python -m pipeline.coverage`")
 
 
-def test_schema(cov):
-    assert list(cov) == ["generated", "trigger", "sites"]
-    assert cov["trigger"] == "value >= max(10 x 7-day median, 10 ppb)"
-    for s in cov["sites"]:
+def test_schema(full):
+    assert list(full) == ["generated", "trigger", "sites"]
+    assert full["trigger"] == "value >= max(10 x 7-day median, 10 ppb)"
+    assert {s["area"] for s in full["sites"]} == {"texas", "los_angeles"}
+    for s in full["sites"]:
         assert list(s) == KEYS, s["site_id"]
         assert s["wind_source"] in ("met", "autogc", "borrowed", None)
-        assert set(s["years"]) <= {2024, 2025}
-        assert sum(s["by_status"].values()) == s["spikes"]
+        if s["area"] == "texas":
+            assert set(s["years"]) <= {2024, 2025}
+            assert sum(s["by_status"].values()) == s["spikes"]
+
+
+def test_los_angeles_rows_are_the_rule_1180_stations_counted_not_checked(full):
+    la = [s for s in full["sites"] if s["area"] == "los_angeles"]
+    assert [s["site_id"] for s in la] == [f"r1180_{c}" for c in la1180.STATIONS]
+    summary = la1180.summary()
+    for s in la:
+        code = s["site_id"].removeprefix("r1180_")
+        assert s["county"] == "Los Angeles" and s["region_key"] is None and s["wind_source"] is None
+        assert s["by_status"] == {}, "Los Angeles spikes are not checked against reports"
+        assert set(s["years"]) <= set(la1180.YEARS) and s["has_data"]
+        assert s["spikes"] == len(summary[code]["spikes"])
+        assert 33.7 < s["lat"] < 34.0 and -118.45 < s["lon"] < -118.2
+    assert sum(s["spikes"] for s in la) == 6
 
 
 def test_lists_all_45_texas_autogc_sites_once(cov):

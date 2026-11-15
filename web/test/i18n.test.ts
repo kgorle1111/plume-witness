@@ -82,8 +82,8 @@ test('one state record, one label, on the replay, the map and the facility page'
   }
 })
 
-test('the brief has one name in English: the nav says what the page kicker says', () => {
-  assert.equal(STRINGS.en['app.linkBrief'], STRINGS.en['brief.kicker'])
+test('the brief has one name in each language: the nav says what the page kicker says (S174)', () => {
+  for (const l of ['en', 'es'] as const) assert.equal(STRINGS[l]['app.linkBrief'], STRINGS[l]['brief.kicker'], l)
 })
 
 test('agency and system acronyms are spelled out where the spike log and the landing first show them', () => {

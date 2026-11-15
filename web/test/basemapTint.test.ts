@@ -1,6 +1,7 @@
 // Run: npm test. The replay map's Positron retint (basemapTint.ts), applied in EventMap's transformStyle.
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import { readFileSync } from 'node:fs'
 import type { StyleSpecification } from 'maplibre-gl'
 import { BASEMAP_TINT, INDUSTRIAL_LAYER, tintBasemap } from '../src/basemapTint.ts'
 
@@ -42,4 +43,12 @@ test('a style without the landuse source or the listed layers still loads as pub
 test('the palette is unique per layer and every colour is a hex', () => {
   assert.equal(new Set(BASEMAP_TINT.map(([id]) => id)).size, BASEMAP_TINT.length)
   for (const [, , c] of BASEMAP_TINT) assert.match(c, /^#[0-9a-f]{6}$/)
+})
+
+test('the Timeline map wears the same tint as the replay map', () => {
+  // kn: a source check (the maps need WebGL); CoverageMap joins this list when it is tinted.
+  for (const f of ['EventMap.tsx', 'RainMap.tsx']) {
+    const src = readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8')
+    assert.match(src, /transformStyle:\s*\(_prev, next\) => tintBasemap\(/, `${f} does not tint its basemap`)
+  }
 })
