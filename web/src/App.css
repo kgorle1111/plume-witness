@@ -405,3 +405,29 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .skip-link:focus { top: 8px; }
 .panel:focus { outline: none; }
 .panel:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+
+/* Globe intro (EventMap). */
+.legend.is-hidden { visibility: hidden; }
+.intro-pin { display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; }
+.intro-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--trigger); border: 2px solid #fff; box-shadow: 0 0 0 2px rgb(190 30 45 / 0.35); order: 2; }
+.intro-label { order: 1; padding: 3px 8px; border-radius: 6px; background: rgb(255 255 255 / 0.94); color: var(--ink); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+.intro-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgb(22 22 26 / 0.86);
+  color: #fff;
+  font-size: 0.85rem;
+  text-align: center;
+  pointer-events: none;
+}
+.intro-ctl { position: absolute; top: 8px; right: 8px; z-index: 2; }
+/* After the intro the legend owns the top edge, so "Show globe" sits above the attribution instead. */
+.intro-ctl.is-flat { top: auto; bottom: 44px; }
+.intro-ctl .btn { min-height: 44px; min-width: 44px; padding: 0 12px; background: rgb(255 255 255 / 0.95); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.intro-ctl.is-flat .btn { padding: 0 10px; }
