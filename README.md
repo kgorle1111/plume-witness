@@ -16,7 +16,7 @@ Built at GDG on Campus UCSC DevFest for the Best Social Impact track.
 | Narrated demo | Short launch cut |
 |---|---|
 | [![The narrated Plume Witness demo: one real benzene spike traced upwind and checked against the state record](docs/media/demo-2min.jpg)](docs/media/demo-2min.mp4) | [![The short Plume Witness launch video](docs/media/launch-20s.jpg)](docs/media/launch-20s.mp4) |
-| [Play the demo (MP4, 1:59)](docs/media/demo-2min.mp4) | [Play the launch cut (MP4, 0:24, no sound)](docs/media/launch-20s.mp4) |
+| [Play the demo (MP4, 1:59)](docs/media/demo-2min.mp4) | [Play the launch cut (MP4, 0:24)](docs/media/launch-20s.mp4) |
 
 ## What it does
 
