@@ -13,7 +13,8 @@ Phases (all public, no login):
 6. EPA ECHO air facilities within 10 mi of each site
 
 Usage: uv run python -m pipeline.fetch_backtest [phase ...]
-       uv run python -m pipeline.fetch_backtest --region beaumont [phase ...]   (data/raw/region_beaumont/, no backtest)
+       uv run python -m pipeline.fetch_backtest --region <key> [phase ...]   (that region's raw folder; the default
+       phases fetch everything `pipeline.backtest --region <key>` reads)
 """
 
 import hashlib
@@ -280,9 +281,9 @@ def site_coords(site: str) -> tuple[float, float]:
 def fetch_candidate_day_details() -> None:
     """Every report (any event type) that started on a candidate day: the record check reads them all."""
     from pipeline import backtest
-    sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
-    universe, _ = backtest.load_universe()
-    cands, _, _ = backtest.select_candidates(universe, backtest.load_echo()[1], sites)
+    sites = {s: backtest.site_coords(s, BT) for s in SITES}
+    universe, _ = backtest.load_universe(BT)
+    cands, _, _ = backtest.select_candidates(universe, backtest.load_echo(BT)[1], sites, BT)
     fetch_steers_details(days={c["day"] for c in cands})
 
 
@@ -307,9 +308,9 @@ if __name__ == "__main__":
     if args[:1] == ["--region"]:
         region, args = regions.get(args[1]), args[2:]
         use_region(region)
-    # daydetails reads the backtest's candidate set, which only a backtested region has
-    default = ["sites", "echo", "agc", "met", "agcwind", "weeks", "details"] + (["daydetails"] if region.backtested else
-                                                                      ["forms"]) + ["spikedetails"]
+    # daydetails: every report on a candidate day, so any region can be backtested (Houston's order is unchanged)
+    default = (["sites", "echo", "agc", "met", "agcwind", "weeks", "details", "daydetails"]
+               + ([] if region is regions.HOUSTON else ["forms"]) + ["spikedetails"])
     for ph in args or default:
         {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
          "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,

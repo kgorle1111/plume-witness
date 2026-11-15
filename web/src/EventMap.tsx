@@ -54,9 +54,9 @@ const INTRO_HOLD_MS = 900
 const INTRO_FLY_MS = 2500
 // The pin names the place; the caption says what the replay is one of. Houston's numbers are the landing page's own
 // (landingMetrics.ts, tested against spikes.json), so the two pages can't disagree.
-const introPinLabel = (ev: PlumeEvent, t: Translate) => (ev.region ? t('map.introPinNew', { region: ev.region.label }) : REGIONS.houston.place)
+const introPinLabel = (ev: PlumeEvent) => (ev.region ? ev.region.label : REGIONS.houston.place)
 const introCaption = (ev: PlumeEvent, t: Translate) =>
-  ev.region ? t('map.introCaptionNew') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
+  ev.region ? t(ev.region.backtested ? 'map.introCaptionRegion' : 'map.introCaptionNew') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
 // 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
@@ -729,7 +729,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     pin.className = 'intro-pin'
     pin.setAttribute('aria-hidden', 'true')
     pin.innerHTML = '<span class="intro-dot"></span><span class="intro-label"></span>'
-    ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev, tRef.current)
+    ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev)
     // Language switch: canvas name, pin and every label redrawn in place (the map itself is not rebuilt).
     applyLang.current = () => {
       map.getCanvas().setAttribute('aria-label', tRef.current('map.title'))
@@ -738,7 +738,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const zoomMsg = el.querySelector('.maplibregl-desktop-message')
       if (zoomMsg) zoomMsg.textContent = tRef.current('map.zoomKey', { key: navigator.userAgent.includes('Mac') ? '⌘' : 'Ctrl' })
       setChoices(null)
-      ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev, tRef.current)
+      ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev)
       redraw()
     }
     const pinMarker = new Marker({ element: pin, anchor: 'bottom' }).setLngLat([trigger.lon, trigger.lat])
@@ -906,7 +906,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       {phase !== 'flat' && (
         <p className="intro-caption" role="status">
           {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
-          <span className="sr-only">{introPinLabel(ev, t)}. </span>{introCaption(ev, t)}
+          <span className="sr-only">{introPinLabel(ev)}. </span>{introCaption(ev, t)}
         </p>
       )}
       <div ref={ctl} className={phase === 'flat' ? 'intro-ctl is-flat' : 'intro-ctl'}>
