@@ -1,0 +1,3204 @@
+[
+ {
+  "file": "region_midland_odessa/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:58:43+00:00"
+ },
+ {
+  "file": "region_midland_odessa/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:58:46+00:00"
+ },
+ {
+  "file": "region_midland_odessa/tamis_48_135_1092.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481351092",
+  "params": null,
+  "bytes": 90622,
+  "sha256": "98c95b72661e8d26849760a101553e483f0c203cc482a21fed216009c598bd1c",
+  "fetched_at": "2026-11-15T10:58:48+00:00"
+ },
+ {
+  "file": "region_midland_odessa/tamis_48_135_1093.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481351093",
+  "params": null,
+  "bytes": 90618,
+  "sha256": "a163af1264039f836e7fbdc7437a4cc17a121554347d6ebcdecfe527feadfe33",
+  "fetched_at": "2026-11-15T10:58:51+00:00"
+ },
+ {
+  "file": "region_midland_odessa/tamis_48_329_1095.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=483291095",
+  "params": null,
+  "bytes": 90615,
+  "sha256": "adb91323089fbb5e67b61da1d93ca157cc56cc5cf4e751dc935dda66caf60fbb",
+  "fetched_at": "2026-11-15T10:58:54+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1092_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1092",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88009,
+  "sha256": "3e3d09ceca5e57f1f1017da6133e484fc090f7a97c19a2fd146aebd698301d54",
+  "fetched_at": "2026-11-15T10:59:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1092_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1092",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88122,
+  "sha256": "c114590b0a0ce28dea5de1ededeb405b1fc4b84c2bd99dae85ea39abc5ec4c52",
+  "fetched_at": "2026-11-15T10:59:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1092_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1092",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88594,
+  "sha256": "34bc5f08d6b9e3ebb1c660dcc37cbf5f6dea31ed6276e5f54560fe920da98b1e",
+  "fetched_at": "2026-11-15T10:59:12+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1092_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1092",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88605,
+  "sha256": "36e7b7c1fbad239e2f6b24548f0e0d4ce3a632a88514c6cace74cc0691a81c95",
+  "fetched_at": "2026-11-15T10:59:17+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1093_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1093",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88276,
+  "sha256": "2652d36c1eb50ec4a6d32fc9d4e97a7b6116718db7c1aedc5cfb13aca429957f",
+  "fetched_at": "2026-11-15T10:59:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1093_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1093",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88727,
+  "sha256": "ed4016409384959927d96fd921b0e8c540b96757143f397114c9e0c84b7818bd",
+  "fetched_at": "2026-11-15T10:59:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1093_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1093",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88475,
+  "sha256": "63257ca429cfe48c00d5ce2627f9933cef2f723498e9866691b43df78a332260",
+  "fetched_at": "2026-11-15T10:59:35+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1093_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1093",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88484,
+  "sha256": "10b0c61bc471794e57560e0cfa6f62b5e8a38c194d86b924b3c88e9f9c7f499b",
+  "fetched_at": "2026-11-15T10:59:41+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_329_1095_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_329_1095",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88614,
+  "sha256": "e7748b26c69ce40c59d860e7fbb484b9ec9805cfed417c57d6a3d0c3fb00786e",
+  "fetched_at": "2026-11-15T10:59:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_329_1095_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_329_1095",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88624,
+  "sha256": "74af39a9e5c76988f8ee762c68bf24630df7e166b37c629e2455ef412b0d97cf",
+  "fetched_at": "2026-11-15T10:59:53+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_329_1095_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_329_1095",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88277,
+  "sha256": "44d5bec8089db31d5634254e77fccc5c44069442435a8788c72eabb55ef63b4b",
+  "fetched_at": "2026-11-15T10:59:59+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_329_1095_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_329_1095",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88288,
+  "sha256": "70abc1f803902076e82005bbe078b9412febce9e86ec0f891c90fa17d973dafc",
+  "fetched_at": "2026-11-15T11:00:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1092_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1092",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79241,
+  "sha256": "2bc06c03158f2454d7cabca3af43fac7c9d098e7e27918889537ea220adf1750",
+  "fetched_at": "2026-11-15T11:01:33+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1092_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1092",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83693,
+  "sha256": "53265f589dd2ea7901f3af0466a0f4d47d54223065512c444f6542e11b1cfee8",
+  "fetched_at": "2026-11-15T11:01:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1092_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1092",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79091,
+  "sha256": "5157e00b98be3389ae76cdf22a8830e165282b9d38f1e87f950b223272bcc311",
+  "fetched_at": "2026-11-15T11:01:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1092_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1092",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83306,
+  "sha256": "e3c9d99d56e9b7484ee9f186598276910cad15e1989553c15ecd611e203c79bf",
+  "fetched_at": "2026-11-15T11:01:48+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1093_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1093",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79139,
+  "sha256": "9cfd151eb6697ec83db5addf7b33bd701f02f83f6405db2a3c982e9fc8bd5782",
+  "fetched_at": "2026-11-15T11:01:51+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_135_1093_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_1093",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 84179,
+  "sha256": "37903c0ec62768ac48ffc3beb07b283470d1c713961a40bc757ca890f603f2cb",
+  "fetched_at": "2026-11-15T11:01:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1093_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1093",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78882,
+  "sha256": "de78a8c7836cd7398a26bafccc7fc09630bf65f36e29f0f6056d53debe1bfc57",
+  "fetched_at": "2026-11-15T11:02:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_135_1093_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_1093",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83823,
+  "sha256": "21e2d5b084da73762c9b2a13240cbd6ebdff88de630bb014772e5749c64d6936",
+  "fetched_at": "2026-11-15T11:02:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_329_1095_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_329_1095",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 79129,
+  "sha256": "836984af43bb30bd7cf055e181b6bdbab92fd85183327632c9590c9adb8ebccb",
+  "fetched_at": "2026-11-15T11:02:09+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2024_48_329_1095_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_329_1095",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 84808,
+  "sha256": "9608f895ef94ff16ea867110b0ead316c5cf72ee2722923ba4dde6375d4f795c",
+  "fetched_at": "2026-11-15T11:02:14+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_329_1095_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_329_1095",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78939,
+  "sha256": "dd2bd09554c9d3f1a8d186c00ab94b82b53d676f5c998a3d3a07c5aff837a100",
+  "fetched_at": "2026-11-15T11:02:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/agc_2025_48_329_1095_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_329_1095",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 84776,
+  "sha256": "115164eaa65f9ccc75273b3492d4d3f152e522138616035f709376a2a8c5ccd0",
+  "fetched_at": "2026-11-15T11:02:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/echo_48_135_1092_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "31.8577",
+   "p_long": "-102.5190",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "968",
+   "pageno": "1"
+  },
+  "bytes": 26085,
+  "sha256": "05007090ddfd590c41ec6eb791cf2a1bad0323e03f9f2c38f480243d9aff50e3",
+  "fetched_at": "2026-11-15T11:02:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/echo_48_135_1093_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "31.9857",
+   "p_long": "-102.6158",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "974",
+   "pageno": "1"
+  },
+  "bytes": 11465,
+  "sha256": "23b85d7c87fcf58fbce572f99b5e6cb6508d393d6bc3ebf237fb2a1ea20a5d54",
+  "fetched_at": "2026-11-15T11:02:35+00:00"
+ },
+ {
+  "file": "region_midland_odessa/echo_48_329_1095_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "32.0343",
+   "p_long": "-102.1830",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "985",
+   "pageno": "1"
+  },
+  "bytes": 53011,
+  "sha256": "d654b8f5e12676b1fc8c1835b2d3e7a0515fcce26d8f67140e26a3c1210fcc8d",
+  "fetched_at": "2026-11-15T11:02:40+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "830126098b858ed3abd2515a4fe27751624868d90b287246b0447cfb77b41a4b",
+  "fetched_at": "2026-11-15T11:15:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8988,
+  "sha256": "0f986b36a0eeb78b1a7767ec590e4896f5dc2a963678f41728e1dea3925a041f",
+  "fetched_at": "2026-11-15T11:15:36+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9542,
+  "sha256": "5d078dd58e334e97f92e3f5d662cfd200a032b1aa0ecd74bb0c46a7f45b93088",
+  "fetched_at": "2026-11-15T11:15:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11200,
+  "sha256": "21a600d9bf66fc9a5f4ebb6f38c1d6233bd410123932eff7b821fe82b7345d61",
+  "fetched_at": "2026-11-15T11:15:41+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "b71cb59732d114804c962577a0dc4215d5274173ddb4793c0c2443a4a5f84e9b",
+  "fetched_at": "2026-11-15T11:15:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "c855aa3e1bb138a92c5d0c8dd38989547069cfe0eacd2ec78e20a191ece35a9b",
+  "fetched_at": "2026-11-15T11:15:46+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "0b2f8b0992092f1af697e99a89afc71b2df6c0338b44de0173b558297168a1a7",
+  "fetched_at": "2026-11-15T11:15:49+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "a89c8c4f1ad25e56410e428e2bc0b547caba3bd74e87f7085268de2b008fe0af",
+  "fetched_at": "2026-11-15T11:15:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10151,
+  "sha256": "76783e1b8c44ab4242e8cb8adee2bcc61ee9b4cbd2897e279134da685b908272",
+  "fetched_at": "2026-11-15T11:15:54+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8463,
+  "sha256": "367fa6ad39fdfe83756739b4310493d45f8b0390458ac51790691f2608c1f78d",
+  "fetched_at": "2026-11-15T11:15:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "36f27f047efb3427c9e56e71c6582820bc6e92d49dc425aefc20dc1ed13047ba",
+  "fetched_at": "2026-11-15T11:15:59+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10658,
+  "sha256": "0585ef03fbe6fd834b3b02970d8966e2555763a80ae9d5dafb125c4713bfd0a0",
+  "fetched_at": "2026-11-15T11:16:02+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "859d5623e74b72cbafdd3757bea9cbaceeae0391cfb309612dbfa342a1794dd2",
+  "fetched_at": "2026-11-15T11:16:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "efc22436ad17b328793fc4806fe58b5ab028468f2c7b7cdbf160bbe14a0adf8c",
+  "fetched_at": "2026-11-15T11:16:07+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8978,
+  "sha256": "4f1cbf205f9803636421626da09323399cdab154437ef986c660d806768d59e5",
+  "fetched_at": "2026-11-15T11:16:10+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8980,
+  "sha256": "b69b191de2680bd385ede9cd3c4a94c5ecea076bf57c87f2b39986caa13c317b",
+  "fetched_at": "2026-11-15T11:16:12+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 13429,
+  "sha256": "65cb7eb55d88ff2843c05731eabef02e5d79ac7debac275ea9c6d060c8e7de6d",
+  "fetched_at": "2026-11-15T11:16:15+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9007,
+  "sha256": "e82530f44512dbee6a55498497c91b87d5fde950f176d2f7e32f96484b53fd71",
+  "fetched_at": "2026-11-15T11:16:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "3c9e442c83fad2987f8478465251b4c4aba586569cdbe3cc7e34361f63928d81",
+  "fetched_at": "2026-11-15T11:16:20+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8978,
+  "sha256": "f11a8821d66508893b90b848c0e6f305cc8125b466ff8a457a7bc32047bf01f4",
+  "fetched_at": "2026-11-15T11:16:23+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9008,
+  "sha256": "9ac2f054a35e59755184135b8a27a61dc97509c59f4ca942d8e2f467c205d390",
+  "fetched_at": "2026-11-15T11:16:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "879a163ff1b2254bbe4f66168bef570965c3bfd0c8f1f8ee359219c8ea76169b",
+  "fetched_at": "2026-11-15T11:16:28+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "f332cb3df6bb8f4bf67b7d1a7b3e8d382a59f049eff5c5f502ecce4c113c2436",
+  "fetched_at": "2026-11-15T11:16:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "5aece076fcd83ed18f024bb1781f0e76fcebe699bf35ee46fd7b77c28246fa4e",
+  "fetched_at": "2026-11-15T11:16:33+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "0daec07ac379be09ab4854a15f619fcabf665fbdb9ee61c77dea5e7fa01211f2",
+  "fetched_at": "2026-11-15T11:16:36+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8437,
+  "sha256": "d9adb3bb46bf519c5324e92dc31525a60208d39d895fb7a57ff89f9939e211b7",
+  "fetched_at": "2026-11-15T11:16:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10652,
+  "sha256": "81dc7ab7b80770f246049cb2f1bda798becaff0002db387d552b8aba106c24e1",
+  "fetched_at": "2026-11-15T11:16:41+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8978,
+  "sha256": "bc3fee59ec2e4099e40f18547368750cdfe07820b7c28431c05a18e72971d80d",
+  "fetched_at": "2026-11-15T11:16:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "d75cdc05a0555a182a058d38c3c4cdec961dd8ec576286dc094e1eef4ee7bd7e",
+  "fetched_at": "2026-11-15T11:16:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "52f2b30167f39b750ce150ffadad6619089c75fcf81b9d48c2b4a6226e1d938e",
+  "fetched_at": "2026-11-15T11:16:49+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9544,
+  "sha256": "9b0f10e9bf489ebd117d916ab46e504cb5025e395c15622be362ac1104e87245",
+  "fetched_at": "2026-11-15T11:16:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "51d140f0a6914f7ddd5d3f84ba82d464b3af22a4455585b318383f6043b33909",
+  "fetched_at": "2026-11-15T11:16:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "4779b985648dbcb999f07f3c9637bf5f2a29f5bb79b20fe42c13c7086a29ac1a",
+  "fetched_at": "2026-11-15T11:16:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9544,
+  "sha256": "68543c478307a62bd44bfda462cf4da04a4b7ca1cf5a9851219fb003856cc909",
+  "fetched_at": "2026-11-15T11:17:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10088,
+  "sha256": "f473a48147286a76ee3b6eefa8580ab373addbb7ebf8e669d63d100e15ad45ec",
+  "fetched_at": "2026-11-15T11:17:02+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9544,
+  "sha256": "ad12a8ccf3f5c07a01afc913f18b02eeb07dd5a591571b113913597c251b9edf",
+  "fetched_at": "2026-11-15T11:17:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10087,
+  "sha256": "4737c9dfe8f8295b8a9e0eeb674a5db901dd4a1f52918559b5fbbd21b5bacb86",
+  "fetched_at": "2026-11-15T11:17:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10082,
+  "sha256": "53db32ac7c1d9d484c53252d2ea571421b7bca84273737d0c2de7622a2b653eb",
+  "fetched_at": "2026-11-15T11:17:10+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "a80010d812eb4685afa57f66d180234a6ac84e995cb194eb3d64cbc25a1dafc2",
+  "fetched_at": "2026-11-15T11:17:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "83418764916619589337a576832befb872a1ac2f740b8b017358e474fdc732c4",
+  "fetched_at": "2026-11-15T11:17:15+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "c40680c211d21d846f96e47c16f995a14806f37c058fc6770c3291c7f437a33d",
+  "fetched_at": "2026-11-15T11:17:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "6954b506b11914ac3cc86431e760ced3f440e1e84a4e6c48b50c5773b735bacf",
+  "fetched_at": "2026-11-15T11:17:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8450,
+  "sha256": "26bab48a2827ba60607d6a4de9f0d41fa250d9e1bca0ad04a5e733ce02c3e7bd",
+  "fetched_at": "2026-11-15T11:17:23+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "eb9188e8c85a23ed3b148cc39cfe2b047b44a242dc0c2f6d4da4821653f86862",
+  "fetched_at": "2026-11-15T11:17:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9580,
+  "sha256": "96b9756ee7c5d867c3441373bcda449ff6af682be84a410f8815bfc1551e4771",
+  "fetched_at": "2026-11-15T11:17:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "e372c5c3798cfd555324cd55e1c68c5edfaef604b439b5f95bf99d70841b6bab",
+  "fetched_at": "2026-11-15T11:17:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11202,
+  "sha256": "1c9f804c7840546e4f83dc6bb823763b650195a2e1096dab2fca2bec99c61000",
+  "fetched_at": "2026-11-15T11:17:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9533,
+  "sha256": "a7162a6315a845a0386b6ce3bb4f5e4edf6c39ae9632b030b812096fe764b5ee",
+  "fetched_at": "2026-11-15T11:17:36+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "58aaf1c13ba7b0b610592d7033cad336214ae5d242f371c9d96084a3bb31c926",
+  "fetched_at": "2026-11-15T11:17:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "b4dbb344fb49ac9205f1bee2103f3decbd8cc28380d16d39654f95c591e9979a",
+  "fetched_at": "2026-11-15T11:17:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10647,
+  "sha256": "9fc3795225e0701d61d72a372520aadaadf9e260b985f6fc0be11ad49f3470ac",
+  "fetched_at": "2026-11-15T11:17:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9542,
+  "sha256": "e809f32b034506cdc55a69eb29873df8e4633db5d692d42319a3472073dd1ef8",
+  "fetched_at": "2026-11-15T11:17:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10086,
+  "sha256": "5e8e015540f4aba0b1da43b673ce870c9bc209c359441aec9735ff45e7115de1",
+  "fetched_at": "2026-11-15T11:17:49+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11195,
+  "sha256": "980ce951263823694de216bb22de440d2c069195b3f62bba462f67cc2c07a891",
+  "fetched_at": "2026-11-15T11:17:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10650,
+  "sha256": "568ca99c190ae7c7211e1dc7a118f4aab2cc50627eb37a64390f538f0f226cad",
+  "fetched_at": "2026-11-15T11:17:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 12881,
+  "sha256": "67fad889b1d5868ae6f8158e4837ba1ab1cbef71047d58edbfe7784692f0fceb",
+  "fetched_at": "2026-11-15T11:17:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9542,
+  "sha256": "b2ec518c57ca29367e4e57823bffcba032916627d0f8e5f97627b0a30f4700d3",
+  "fetched_at": "2026-11-15T11:18:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9542,
+  "sha256": "289380d350ca7b8d9e65b3c7c7bb73921d1f02e70854b847b472e5b49ffe555d",
+  "fetched_at": "2026-11-15T11:18:03+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "cc6c1f3b728a15dd06640800f20f9504082629be0ec8143a1c17148fe5a3aaa0",
+  "fetched_at": "2026-11-15T11:18:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "e94553ab6b65ce36f41c2dff9e166eff32d84ce673e1d878b1e7840f55bee91d",
+  "fetched_at": "2026-11-15T11:18:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9543,
+  "sha256": "302565392ff8020c4e0bf0414a0c89f8e336514b2a7b2279987d84a5a90ab7c3",
+  "fetched_at": "2026-11-15T11:18:10+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "ceccc5b4a2ee54c6536c89fe2e27a4f58f875254d7eb87af430b63edff6f15ea",
+  "fetched_at": "2026-11-15T11:18:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8978,
+  "sha256": "da4d1f584b4b0328c4ddc522a68bf06045347a1abe668423016dc95dca0fb861",
+  "fetched_at": "2026-11-15T11:18:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10087,
+  "sha256": "bd4f9f28894ca7d7300a6556b555326541585b867735547107899f26034317c0",
+  "fetched_at": "2026-11-15T11:18:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8978,
+  "sha256": "b5a90e3f3601718bf1cd9d4847dc684fc410b3f102a20ea6908fcf70d8fdd4a4",
+  "fetched_at": "2026-11-15T11:18:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "05e79445043d54aed1512bbec36b41bbf37362acbe30c6a2835bdefd48d38df4",
+  "fetched_at": "2026-11-15T11:18:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10651,
+  "sha256": "97d24ec97df2f64f070dab2b1b3a252fb7b24b0b0aafb1694bcb99004fa22fc5",
+  "fetched_at": "2026-11-15T11:18:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "4ae4e3a3bc65da26dfcd926a260d07689d1c063c9a89a92cd095e13414cb2f9a",
+  "fetched_at": "2026-11-15T11:18:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 15097,
+  "sha256": "490195baf6189e9bbababc329834604e177a88be232c3af2a9f87ca2c954e9d7",
+  "fetched_at": "2026-11-15T11:18:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "ded6fe0bbce3a5f2ffe596874bad5df4824e8b6b3c62a82b3b06516513a7719e",
+  "fetched_at": "2026-11-15T11:18:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8430,
+  "sha256": "ce7f46709b8aeaf953e44661a12bd67e225d26a294d09dfb78b8f35815ffaab7",
+  "fetched_at": "2026-11-15T11:18:37+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9539,
+  "sha256": "ff4f0d71d78ddaf1b76a0a11dfafbb8715feef660670202bb36d9a98b07f8899",
+  "fetched_at": "2026-11-15T11:18:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11194,
+  "sha256": "6cd67ea6bfeeaa3b879e931c86e956cd4671a32057a4c0e722b019a6d9b2e471",
+  "fetched_at": "2026-11-15T11:18:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10651,
+  "sha256": "83854753075ec1dee18eb9046a66bada72d615deb824564debeca68d8a1b90f6",
+  "fetched_at": "2026-11-15T11:18:45+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 13448,
+  "sha256": "ebd3f8859e5fdc512f8b6cb3bbe0d4cd8e7147580dd3c616b0775bf584f1a482",
+  "fetched_at": "2026-11-15T11:18:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 13420,
+  "sha256": "3b69c9656fee1b45d187f02ca10b05724e0d391b70deffaa8927273605ea51e5",
+  "fetched_at": "2026-11-15T11:18:50+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "d5c22a4b8ef2b6f85abf09c18872c7aed662c21c3cb718d716e784612ea5040d",
+  "fetched_at": "2026-11-15T11:18:53+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11195,
+  "sha256": "88684618e98ec6e97e9dd9d426c8a6c96b973a81c844694a5300aff944267777",
+  "fetched_at": "2026-11-15T11:18:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8979,
+  "sha256": "8e409bf73dbab6b46554bad5755ca2195a4538dc2e45b8acfca1314fe3e78022",
+  "fetched_at": "2026-11-15T11:18:58+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 11189,
+  "sha256": "012eaba79b333ce93fffa8102a49d7470274cc81b2e5a0bb87b226f98dacbbbd",
+  "fetched_at": "2026-11-15T11:19:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "f16010fcb1f338561c83b4848a940426cee30b6ff539eb18a169e20471cba97a",
+  "fetched_at": "2026-11-15T11:21:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9543,
+  "sha256": "1cf59e7caca823d91e5a58fe374dc03c53ff3327ee1e5049d8ff299c63e93e8f",
+  "fetched_at": "2026-11-15T11:21:11+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "99446ce9a79d9811bc5212bc1dc7658b7c291452ea3f51af7a6316e0f930d0ce",
+  "fetched_at": "2026-11-15T11:21:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9571,
+  "sha256": "a74df1f8cbe811fd28f62904799c643086bd5fef19af859379231655494e7a10",
+  "fetched_at": "2026-11-15T11:21:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9543,
+  "sha256": "06ecb124a02b5efc8d94f0bb53fb3d30cd0ed90ae13b828e2d526b3c332f35cf",
+  "fetched_at": "2026-11-15T11:21:19+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8435,
+  "sha256": "8b00ef25bd1aa3c7a55b6d3e047858a8fd7faff4f86e5d8515de67d7a42140c3",
+  "fetched_at": "2026-11-15T11:21:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8436,
+  "sha256": "5fa67314f42005d4faf98c97842e4aacb5307f6b346a27472926d4e3d4ed9f63",
+  "fetched_at": "2026-11-15T11:21:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "027a91ff2d8a52d1a401b3ba58df3c67a59e5544cf97abedd80a0c3d0220c73a",
+  "fetched_at": "2026-11-15T11:21:27+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "d97aaa27ee40687915746bc6a8adaa93f1ecc819d818ab37132145fe38b34fdc",
+  "fetched_at": "2026-11-15T11:21:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10089,
+  "sha256": "29ee014fe427ad1cc78baf47c4d00ce4d21e7d9ad8edcff88cda39990dc5475c",
+  "fetched_at": "2026-11-15T11:21:32+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8431,
+  "sha256": "633599e38f21c37041d636fee6b58d8096c49f6e8ba0ee6b7b71ea3dfc8959a9",
+  "fetched_at": "2026-11-15T11:21:35+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8431,
+  "sha256": "9c29562470ad861f2a8aaae4c9a5bd0d02b95545e0dee7093d18b535d847e6f0",
+  "fetched_at": "2026-11-15T11:21:37+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10653,
+  "sha256": "76dc8fbef75798f5ce48fe9c048503678753c2b0e466226706a991e41967e312",
+  "fetched_at": "2026-11-15T11:21:40+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9542,
+  "sha256": "0ce4475970cd58fc01442ad177732fae1e0f2386beb88919a5b825f4f459fda9",
+  "fetched_at": "2026-11-15T11:21:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9045,
+  "sha256": "a232984c62b4f585a3bcfd500bf3722c1a65274405e0f44061cf9e22b694afa6",
+  "fetched_at": "2026-11-15T11:21:45+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "ccfd45b3b8032f2b88f6806cb4032ced4078f49cbd2592c433bcaf0a84e0277f",
+  "fetched_at": "2026-11-15T11:21:48+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "47718be4b730db7763d9c9ed5e2b7e42ff88505bf6a0161249cdfa4a59dc2dee",
+  "fetched_at": "2026-11-15T11:21:50+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9547,
+  "sha256": "7efd56ccfc0f9959d8b3d8c7bc44ac3baa4e608c9861151a3f2cc49cfd4c2ca4",
+  "fetched_at": "2026-11-15T11:21:53+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 9529,
+  "sha256": "8df82a3baaacf636cf3fdd9038bf9edd987e06461a46c6b0f0b9091d9d26b77f",
+  "fetched_at": "2026-11-15T11:21:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "e028757cc34aa82f49378f25ca82d9dbecd80d1327c884ab6e3c6f15502b8678",
+  "fetched_at": "2026-11-15T11:21:58+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "1ff52a24b6139000fd61465bf9ef4a612130a1d6ab101e9710b159228803012f",
+  "fetched_at": "2026-11-15T11:22:01+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "34e7a941900a466a13adb301adec40023059559dbe7c8dea255f6fac051d649a",
+  "fetched_at": "2026-11-15T11:22:03+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 10087,
+  "sha256": "56af6e655cb7df80dfaa80115af9dcd29d1bd528c573ad8fd7b1f2d518e70256",
+  "fetched_at": "2026-11-15T11:22:06+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 5254,
+  "sha256": "1e566d25aa9aaaca5f5b6ec2294887f260c1311a13cf741dc3befef4f44ba16d",
+  "fetched_at": "2026-11-15T11:22:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_ector_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "ECTOR"
+  },
+  "bytes": 8434,
+  "sha256": "2eda0f5eaf83552acb2c3c4702a6c6f32743c2d3084faad6cdaf1f0948da0613",
+  "fetched_at": "2026-11-15T11:22:11+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8995,
+  "sha256": "823596a524fe338e9c8fa6e0b07075e4c55903d1fe71b3c4b3505f4f1ed3c1fe",
+  "fetched_at": "2026-11-15T11:22:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9009,
+  "sha256": "a1541b8e420c0da75a241f1b183092d3333fc4a26f4b0789d546718a8a29d1cb",
+  "fetched_at": "2026-11-15T11:22:19+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9617,
+  "sha256": "67f33e456b99624e250d762ac7c54de69201f42e60797fad7e8e340199126b73",
+  "fetched_at": "2026-11-15T11:22:22+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "b0a4a4ca30d65387d0f1440b6bc18da1d5e019788e48e9addeb3779f18f8cc6e",
+  "fetched_at": "2026-11-15T11:22:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "4ae495bd29bcd5edbbeca1a616e3d1dc20e6907117719fab0592033b711ed409",
+  "fetched_at": "2026-11-15T11:22:27+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "e72311d928e8b5129bab4ba0585cde247a18643defea9abce6e55b174a25583a",
+  "fetched_at": "2026-11-15T11:22:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8467,
+  "sha256": "10fb8c3c68d54165e6a1e52f81d0bfee68ff23a0311cc2688b6d3398ec543a12",
+  "fetched_at": "2026-11-15T11:22:32+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9030,
+  "sha256": "38217c5b5a2350615aab9c64d779fb8766fb054c3f07eb0c817a31d0105ece51",
+  "fetched_at": "2026-11-15T11:22:35+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8441,
+  "sha256": "6cd45848ecf6074b5eddd96dd4b65e94d25b7a4cba7e16a1382568ce7cee9b91",
+  "fetched_at": "2026-11-15T11:22:37+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "a7d6f07f80b2f810818130cc2fbaef22d6f5cb5d9bd30eb06e5d3dafbb2bda56",
+  "fetched_at": "2026-11-15T11:22:40+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8972,
+  "sha256": "bf2f25bf37ef261f45ae3d7ae2de37b020046860094576bdd2ce2777adaa17f7",
+  "fetched_at": "2026-11-15T11:22:43+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "5a80dd6a6a8b509e0d6beea3e4d337dca23c9e30069cb365692e5ff28ef05cc9",
+  "fetched_at": "2026-11-15T11:22:45+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8459,
+  "sha256": "d6b15d17bc4a83a57eb17856d3778fcf00a84d0b47eef2038f85c6812ea93154",
+  "fetched_at": "2026-11-15T11:22:48+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "f8045b14edf03756c866a7dcaa876a250121eac379143548617170264e47596e",
+  "fetched_at": "2026-11-15T11:22:50+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "5b1d24aa5fe39422683d064600e95b4063bc2dd73196f4336e616b7623c4193b",
+  "fetched_at": "2026-11-15T11:22:53+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9008,
+  "sha256": "3eb7f459cff3ba13ff098538aef8d3dad704356d4390989e29bc3d19b49ce34e",
+  "fetched_at": "2026-11-15T11:22:56+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9005,
+  "sha256": "9522c6a0d64114a87f609107ff3a2c1ca6352e74261109dde8fc8cff34c1b58b",
+  "fetched_at": "2026-11-15T11:22:59+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "dc33375a996a1a82d904c7622ec59579f4374f311253611dc7ca63b8f059dfb2",
+  "fetched_at": "2026-11-15T11:23:01+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "22d22313a83fafe28154a81a20806f65acd7e6d362cc559f5186b61b1d74ec51",
+  "fetched_at": "2026-11-15T11:23:04+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8459,
+  "sha256": "15cacc4b897773cd8d1f394954cc0e618cd4ea7b516c1b2cc49faba2f3832f4f",
+  "fetched_at": "2026-11-15T11:23:07+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "4f40ea3fab54ac16bc433113dcc9a9dfb849079655e19ea3fa43778ae7ca4055",
+  "fetched_at": "2026-11-15T11:23:09+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "3211660a5cf11b0cf639c882209795b67a38be796cefff51700bcd13f8f0d14a",
+  "fetched_at": "2026-11-15T11:23:12+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8427,
+  "sha256": "e2181ca8413c6d5f72471c3dc0cf35523ffb36836504454161d551bb34b71986",
+  "fetched_at": "2026-11-15T11:23:14+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "391abad5f750edcd89262003ce94787954cdcd6c8bd225e9c699f6b24f73ce77",
+  "fetched_at": "2026-11-15T11:23:17+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "df75e8595bcef8e7796f08a67797ed5b2203671db4a42636bbfec3ab0b91290d",
+  "fetched_at": "2026-11-15T11:23:19+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 10724,
+  "sha256": "54b763cb0e485cd30379480d9c0df6935e3bf384d60b45b70d794c76652fa316",
+  "fetched_at": "2026-11-15T11:23:23+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8980,
+  "sha256": "18a7edbb46e5b684acc68feaba784160f55208389c43d9d27b90d2cf5eb8c8f8",
+  "fetched_at": "2026-11-15T11:23:25+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "a876eba28b31f07b19d074020577cdc75f8f511fcb513dfc7a10558d9acd1e7d",
+  "fetched_at": "2026-11-15T11:23:28+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8452,
+  "sha256": "8bbc7aa7781807dbd09e48db9c8b10ff55868c1ff1201cf266a24202eb4e018d",
+  "fetched_at": "2026-11-15T11:23:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "9296785cb34c5eb75cec73931bad396d737900fd84e3684b88914967fca37712",
+  "fetched_at": "2026-11-15T11:23:33+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8483,
+  "sha256": "32a1eb8c3a95a4a2c5cbbaf9a48f5d170fc82824a9d1db510fa4a05477270e60",
+  "fetched_at": "2026-11-15T11:23:36+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9003,
+  "sha256": "432cf18de7cdf251d74acaabb92c7dab719594b1264b6ea269e9e87e1a2c7d6f",
+  "fetched_at": "2026-11-15T11:23:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8459,
+  "sha256": "9e7fa27f75142b9f8e91a99d4b126cd8a663af12847e8e9be6f7f75acbe31e9e",
+  "fetched_at": "2026-11-15T11:23:41+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9016,
+  "sha256": "38d4c3c5b895b5b2c713011f83d9110764573a4b0f1bfc44355f7e766a95b75e",
+  "fetched_at": "2026-11-15T11:23:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8459,
+  "sha256": "b2fa56aeb4a378c285b527c15cb19c966eae78cffa67157a43cf8fc6cdc339d3",
+  "fetched_at": "2026-11-15T11:23:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8994,
+  "sha256": "709e1227eb414e01355fe8b013cd0c0ebddb6e49052e9f5852da9681636f3966",
+  "fetched_at": "2026-11-15T11:23:49+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "48c1b2737b63347dcb463e1dbadceb22ea6322258b009c8c5cc7e3c9477105ee",
+  "fetched_at": "2026-11-15T11:23:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "93a9fc7758e736330c8bb193244545b4d5c6549e90d9e3d72c71e0980684d83a",
+  "fetched_at": "2026-11-15T11:23:54+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "1630ca7414228146b37e24c60b81fed4d090126c826a8b9973a133b4cef380f3",
+  "fetched_at": "2026-11-15T11:23:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "9c9f4df8019f3cab5c5531a40c8e5063da32a1a7dff63bf050f07667360bc3d2",
+  "fetched_at": "2026-11-15T11:24:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9009,
+  "sha256": "22a3ed545672bc291d2f6c37b96a4591f21d3561cac2fe4c42af08df1d20677b",
+  "fetched_at": "2026-11-15T11:24:02+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "fe36ec22de8eba0acf23db0937e1c639339b1ef78f1a9c5335a552a9652e37f3",
+  "fetched_at": "2026-11-15T11:24:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "db2ef839878b64fbd0532a893f1333e55ce00cfb1d5ef83d790e8153505df190",
+  "fetched_at": "2026-11-15T11:24:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8446,
+  "sha256": "d092dbda70a917eb4985457a075978cb856e599ce4a65a23a5dab7a34a3590d5",
+  "fetched_at": "2026-11-15T11:24:10+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "52d268c47ad801b6cd8643bb404ce3aaf066224ed6539d04580c2f4174ae2833",
+  "fetched_at": "2026-11-15T11:24:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "2fd6661cbc3cc379c29720ea31f99ad078053dbcc380f0a576a8e626e9267563",
+  "fetched_at": "2026-11-15T11:24:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "812042faea22e3198ae9a33933b2e0dfd25ec077e03f7bd55c43689a204e8f76",
+  "fetched_at": "2026-11-15T11:24:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8483,
+  "sha256": "1303d9f962922291ad910a591b0fc2bf304f76a43397bc71b7bb666448909144",
+  "fetched_at": "2026-11-15T11:24:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "9ef1d39b6f886d83bf25d245266b23d0e2349023e281139451e554363346b75e",
+  "fetched_at": "2026-11-15T11:24:23+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8439,
+  "sha256": "08fa64df8fe97e6ba66578e11ab42d4f02f6e6503038711b613a23040468c39f",
+  "fetched_at": "2026-11-15T11:24:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9037,
+  "sha256": "b45babd53784db24b371f11cc93e6ef44de10aa6bcd90787d9865c7718002cae",
+  "fetched_at": "2026-11-15T11:24:28+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "3a50cb4d9f71922cbbc2e1a739cfb32dc3fe7ef69f7270d17ac5116321de622a",
+  "fetched_at": "2026-11-15T11:24:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "4f49b7a078a9b706915ec0a79b943183fff44beadb146b72a1f54d7d524b501a",
+  "fetched_at": "2026-11-15T11:24:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "0df988c5fa60dcedd9cc8569c9282a5800380ea4dcafede8c56720f97e2af689",
+  "fetched_at": "2026-11-15T11:24:36+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9588,
+  "sha256": "569fd389138b9ba7a96e2f97bfa4cb2b732e30646a9a948adc97154fa769a32c",
+  "fetched_at": "2026-11-15T11:24:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8973,
+  "sha256": "4ecf73f7b98394decd8240ee4b14bf94f0dd88063683da77530e37902482a66e",
+  "fetched_at": "2026-11-15T11:24:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8435,
+  "sha256": "14a1d8c6f67a10d043e237db903f0c54ad38f94303f233fae3b5720de724b24c",
+  "fetched_at": "2026-11-15T11:24:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9000,
+  "sha256": "a08797c3802d9c407a231571dc506bcb75319ec1b1359b6223664b22d150caa7",
+  "fetched_at": "2026-11-15T11:24:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "65a6dcf2a0e61d08f8d72d0f5fb87d889d85615bab4c92d081d733ddf6cba429",
+  "fetched_at": "2026-11-15T11:24:50+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "574a4cb8cda5c433930b33e6dad815fbb227ad51092d1bbc63d9a6914b2cf75d",
+  "fetched_at": "2026-11-15T11:24:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "3fa406431e96f3f160870115be4900272737feb77373f9caab80213f3ef54cf5",
+  "fetched_at": "2026-11-15T11:24:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9563,
+  "sha256": "7e404961721364f0055effac3199882787992e06098bd7fac410fa570aa0669d",
+  "fetched_at": "2026-11-15T11:24:58+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8446,
+  "sha256": "0c875d3838d43749e9403572b2993cf481df5110b54edf9f17d42372ecb14c4a",
+  "fetched_at": "2026-11-15T11:25:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "93ec4ae2f0845ce6b6301ece768fe72c4f9b241067ffacd820ce7b6223f17f6a",
+  "fetched_at": "2026-11-15T11:25:03+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8436,
+  "sha256": "418dca61e0e75c51a3b58d14964ebf42074e771f6c32adcae30ff966f859447b",
+  "fetched_at": "2026-11-15T11:25:06+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8438,
+  "sha256": "64abca3ed5a88389cd5b37ca0088dba531be1c40ab32bb4b500eed893da71bb1",
+  "fetched_at": "2026-11-15T11:25:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "f2be72b5e225daa609aea04dac9a4787761d95820cdf6d4953429e70f79ff8f9",
+  "fetched_at": "2026-11-15T11:25:11+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8453,
+  "sha256": "61ea7e5b29e28c103236b4842a21a9ba3d384812405958175fe0e40237d0f023",
+  "fetched_at": "2026-11-15T11:25:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8978,
+  "sha256": "9e4e4ea4d5dabb884086fd0131fe7eb4829c12d0b78251371832b0624e39e7ed",
+  "fetched_at": "2026-11-15T11:25:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "b4c2914a3abc1c9e68ba54967bcbfd20fb4ab724b3b2ca91915d83688843d2a5",
+  "fetched_at": "2026-11-15T11:25:18+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8432,
+  "sha256": "be61c473d6fc3caeb5b28d0ee33c98851e1e09cbf973e372431b7e10b2b4374c",
+  "fetched_at": "2026-11-15T11:25:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "8711aaded8c354f4d17a33ccc55c30dc7c7a3e83722af6c92b83a9a7bb06af66",
+  "fetched_at": "2026-11-15T11:25:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "cfbe972541b665126d86b2d7de3dec3f748b546c8907790d9b69a54f0105a943",
+  "fetched_at": "2026-11-15T11:25:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9006,
+  "sha256": "5550c05097af176cf1db9b2e2106df71d2cfce2f1971c0d03eabf639b23a8b42",
+  "fetched_at": "2026-11-15T11:25:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8446,
+  "sha256": "880be569a32afb4ccb58294a69484f168597108881ce5d5320f7ace296ce4fc3",
+  "fetched_at": "2026-11-15T11:25:31+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "fa7ba29a5ed6127df809843f0cc19a6ddf08409685743cd5601970a6a6a7b629",
+  "fetched_at": "2026-11-15T11:25:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "ddf0bf5de01e58df39efee20973ce8b216f03f496babc3643e97caada5865cbe",
+  "fetched_at": "2026-11-15T11:25:37+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "392e183e123154aaf000a2d0a61e59b2295e0e76f0f26d64a0ebc1c999c0f29a",
+  "fetched_at": "2026-11-15T11:25:39+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8992,
+  "sha256": "46f3ea1e6a1c294850ff06d83d577242986953cf45db6bbe02dc2b441c170711",
+  "fetched_at": "2026-11-15T11:25:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8446,
+  "sha256": "a4d78064cf450b4705e00ca496f9bec886bda713cd16bd20b577dfadcf1646ef",
+  "fetched_at": "2026-11-15T11:25:44+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "c98eb237a2e4e4b6dd5b913c7f493fd5e3ad04bccca084a18d2b90f6c0a165b5",
+  "fetched_at": "2026-11-15T11:25:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9009,
+  "sha256": "691c26e73b318b4445e35ca7276fd10680a5e74bb737de44b6b6bd262ff8be88",
+  "fetched_at": "2026-11-15T11:25:50+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9006,
+  "sha256": "697f239de85215d91c0871f50c3e6a93ad7d65aac865fdeb1a9de1e67a1eeb94",
+  "fetched_at": "2026-11-15T11:25:52+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8448,
+  "sha256": "34cd30da81e976ea94079c1c9c887e362ffcd5ce4a4df5e01a69674ffd6dbf6d",
+  "fetched_at": "2026-11-15T11:25:55+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9550,
+  "sha256": "6fb0c729b17e930aeb6337886e36570f5c11693c9aab1afa103aedc94e77c3ae",
+  "fetched_at": "2026-11-15T11:25:58+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "50bae156c5d0a8272fdd9bd87439dec557bc592cbbfd8f3a69f26afd30503432",
+  "fetched_at": "2026-11-15T11:26:00+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8446,
+  "sha256": "91411b01d6d5ea99ffe8e0fe5af27bf4c6951b8f7b82057f35bfd6d5cdb1f1bd",
+  "fetched_at": "2026-11-15T11:26:03+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 10101,
+  "sha256": "c92328c557a321ea2a05d1ec81460ad9ed4923f87fa022e5b78859ec6b7fbd54",
+  "fetched_at": "2026-11-15T11:26:05+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8992,
+  "sha256": "856d7fa156a9a86d6aa897152de7b98d977642ad356cb0a5dd833b00609f4f78",
+  "fetched_at": "2026-11-15T11:26:08+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9546,
+  "sha256": "e9ee8dc3bc46440f39a048c9762b432c00d11d1fd2146c3951c00550c9683315",
+  "fetched_at": "2026-11-15T11:26:11+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9549,
+  "sha256": "c171ee9e18075b76ebc334ea34abfdca9ccb5ec7577cd940cac1a5799bf944af",
+  "fetched_at": "2026-11-15T11:26:13+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "bcb74cc207d4d982a5cd3abfe415feecfbb43a276e1f0ec85ecf378a44d4a219",
+  "fetched_at": "2026-11-15T11:26:16+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "191705837f5e066f76e76faaea465e0dbf67d4ea5a52f463f48c31be8a6d68e5",
+  "fetched_at": "2026-11-15T11:26:19+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "caf8b7742bd96aeae390e5c3586293f8755e5d3d96b8695220fdd16bafa14c6d",
+  "fetched_at": "2026-11-15T11:26:21+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8469,
+  "sha256": "3256a9caad13b86c7ed65531fd1dcffc72d4d248ea3635b4586efedab6fb99db",
+  "fetched_at": "2026-11-15T11:26:24+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "972b2a99fd6eaef90b082ebb9f138d565a60cdc1ba29745021b952e98002edf8",
+  "fetched_at": "2026-11-15T11:26:26+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8439,
+  "sha256": "7bf047b7489757407089fc207297c2e54ad1fe01ea5549927078171c2658227e",
+  "fetched_at": "2026-11-15T11:26:29+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "70694480daed6032dc7713d38947e11d55f43153d3900f0f6bb4b110db1c6666",
+  "fetched_at": "2026-11-15T11:26:32+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "aa638406746f5b7607d5d016097ca3c93811a99764c0e46730b20354ed4a079b",
+  "fetched_at": "2026-11-15T11:26:34+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "c77742a2b24db12080c71dd959c85e52842ba3818d8f81c747678d97d3be642b",
+  "fetched_at": "2026-11-15T11:26:37+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 5256,
+  "sha256": "ea690ebc8d2217a49b37f391277080763e81417df388b57f3f8cbf66e7fce687",
+  "fetched_at": "2026-11-15T11:26:40+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 9005,
+  "sha256": "d8791f412f2268ca9a2117a9185ba9cd36b34ad12cf72589c8bbca16cf19ad2d",
+  "fetched_at": "2026-11-15T11:26:42+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8995,
+  "sha256": "da28d3cd562d80db42139955c2da9eaeb8c0333daec2de90a0f0be2c86764814",
+  "fetched_at": "2026-11-15T11:26:45+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8449,
+  "sha256": "36c3c26da5360b8a4a7b0eaddd942c5c2ab130b51d629c4bae94dacfed88cabe",
+  "fetched_at": "2026-11-15T11:26:47+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_search_midland_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "MIDLAND"
+  },
+  "bytes": 8425,
+  "sha256": "828b496cba9dc315ba6ca3c3dd307e1af604d0d17317d4e29f228162b3fb024d",
+  "fetched_at": "2026-11-15T11:26:51+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_439829.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439829",
+  "params": null,
+  "bytes": 12076,
+  "sha256": "14b1289f2f341d7ddfbace0098911f597945bb346a234729ba61f0c9c9aafb4b",
+  "fetched_at": "2026-11-15T11:26:54+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_443240.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443240",
+  "params": null,
+  "bytes": 22520,
+  "sha256": "fca0424c1a0c81b4c32bfc4be0fda2526ee82bf19e0bd9eb6b121f48c95e06bd",
+  "fetched_at": "2026-11-15T11:26:57+00:00"
+ },
+ {
+  "file": "region_midland_odessa/steers_443210.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443210",
+  "params": null,
+  "bytes": 15316,
+  "sha256": "20af4e958a03f274deb89108abaf1e3f9550e6fa28a4b041a932a78bfd1585ce",
+  "fetched_at": "2026-11-15T11:26:59+00:00"
+ }
+]

@@ -1,0 +1,290 @@
+[
+ {
+  "file": "texas_coverage/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:23:53+00:00"
+ },
+ {
+  "file": "texas_coverage/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:23:56+00:00"
+ },
+ {
+  "file": "texas_coverage/tamis_48_355_0035.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=483550035",
+  "params": null,
+  "bytes": 90266,
+  "sha256": "6d478e6ff60ec90723139b1a0c55e01010c0a1e71c9a10e2be64822b4aa4292f",
+  "fetched_at": "2026-11-15T10:23:59+00:00"
+ },
+ {
+  "file": "texas_coverage/tamis_48_355_0041.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=483550041",
+  "params": null,
+  "bytes": 90271,
+  "sha256": "083040f33c621d4f544a6a0e88dcdcd90a7bd7c9a35ffb413d0c45f1efaff15e",
+  "fetched_at": "2026-11-15T10:24:02+00:00"
+ },
+ {
+  "file": "texas_coverage/tamis_48_135_0003.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481350003",
+  "params": null,
+  "bytes": 90631,
+  "sha256": "83eb92e1d0db8357aad4e4bb332b9403b76e472e56117eebcbb67f713a86cac1",
+  "fetched_at": "2026-11-15T10:24:04+00:00"
+ },
+ {
+  "file": "texas_coverage/tamis_48_141_1011.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481411011",
+  "params": null,
+  "bytes": 90273,
+  "sha256": "9b2d1376284b83e5caaedcbb3209cdcbc911c0abe3e4754155ff408364c8dc13",
+  "fetched_at": "2026-11-15T10:24:07+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_355_0035_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0035",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41394,
+  "sha256": "2ef353703f72d2d1d2470e67379de6dd115fbf05791b2183e8462ac1d8f9fc47",
+  "fetched_at": "2026-11-15T10:24:10+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_355_0035_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0035",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41394,
+  "sha256": "707eea952f34870aae56ad1140f4937c671f42091dd569bfa7cedd989b6f3542",
+  "fetched_at": "2026-11-15T10:24:13+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_355_0035_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0035",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41394,
+  "sha256": "664cb94eaa47cd89d4818aceeb419d4382a3254d25d89cb68dc4d4006c0cf81f",
+  "fetched_at": "2026-11-15T10:24:16+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_355_0035_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0035",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41394,
+  "sha256": "c3893b529525443e39558a14478c1c7ea9d17b6f06a845d081f74fc27b8cfcc5",
+  "fetched_at": "2026-11-15T10:24:19+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_355_0041_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0041",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41404,
+  "sha256": "43dcb5290e13fb99fdc076c45f415cb405158e26fa146624b5c10688ae2bf7c9",
+  "fetched_at": "2026-11-15T10:24:22+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_355_0041_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_355_0041",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41404,
+  "sha256": "504f0b89186cfffee2cb310b8481914b5b6511725f84798ca6d82045e6322b8f",
+  "fetched_at": "2026-11-15T10:24:25+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_355_0041_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0041",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41404,
+  "sha256": "9ff9478250c8a54097b0250575b15b65b82de92fce714ebfc4ee8ee5c451de4e",
+  "fetched_at": "2026-11-15T10:24:28+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_355_0041_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_355_0041",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41404,
+  "sha256": "b666a5bea4af7b4ceb3ff4e36ffbf9c551cb75d6d2980d165b7b97bc9622b717",
+  "fetched_at": "2026-11-15T10:24:31+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_135_0003_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_0003",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41398,
+  "sha256": "236896f02ce24ee279c5587a400ff3aa7325a50475ede979b6f8a33b9e698c30",
+  "fetched_at": "2026-11-15T10:24:35+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_135_0003_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_135_0003",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41398,
+  "sha256": "f81ba49e74a25c59f9efea29b05737731f3b9606cf560fea536b766678343baa",
+  "fetched_at": "2026-11-15T10:24:38+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_135_0003_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_0003",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41398,
+  "sha256": "d87b4166e5c99dcc850de2390b5e27401257751aef2777003ded1028a4ec72be",
+  "fetched_at": "2026-11-15T10:24:41+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_135_0003_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_135_0003",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41398,
+  "sha256": "1dce092baef749f6f02ae36bb7f44fc79b4f1477bfdc6b91830fb538570735ee",
+  "fetched_at": "2026-11-15T10:24:44+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_141_1011_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_1011",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41529,
+  "sha256": "cff57f490979ad23a284ffeac42d1d7c2a79d604d4a89de69e6f2e2ab0f1c959",
+  "fetched_at": "2026-11-15T10:24:47+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2024_48_141_1011_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_1011",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41529,
+  "sha256": "725dfb52a7e4c54b18ea7545721c051540fcd7beb060cc2c86a532789a52b404",
+  "fetched_at": "2026-11-15T10:24:50+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_141_1011_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_1011",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41529,
+  "sha256": "7dca4c7171aa276359416eabfa324e50c3804054ef1136238331b33fdffcd7bd",
+  "fetched_at": "2026-11-15T10:24:53+00:00"
+ },
+ {
+  "file": "texas_coverage/agc_2025_48_141_1011_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_1011",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 41529,
+  "sha256": "52ddc74cbcdc8be68fe49735de3daf0007a302af0ca345d7434f66ad35a96f6c",
+  "fetched_at": "2026-11-15T10:24:56+00:00"
+ }
+]

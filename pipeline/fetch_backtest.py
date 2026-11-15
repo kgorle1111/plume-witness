@@ -8,13 +8,17 @@ Phases (all public, no login):
 2. AutoGC hourly benzene and 1,3-butadiene, 2024-2025, every site
 3. Site wind direction and speed, 2024-2025 (the CAMS id that carries wind is found by trying each listed one),
    plus the AutoGC form's resultant wind (61104/61103), the fallback for sites or days without met-form wind
-4. STEERS searches, Harris County, all event types, week by week 2024-2025 (split when a page hits the 50 cap)
-5. STEERS detail page for every emissions event found, plus every other row on a candidate day
+4. STEERS searches, Harris County (a region: each of its counties), all event types, week by week 2024-2025
+   (split when a page hits the 50 cap)
+5. STEERS detail page for every emissions event found, plus every other row on a candidate day; `spikedetails` alone
+   is what the record check reads on spike days (a region with no backtest fetches only `weeks spikedetails`, and only
+   for its `search_counties`; Baytown reuses Houston's Harris searches with `reuse`)
 6. EPA ECHO air facilities within 10 mi of each site
 
 Usage: uv run python -m pipeline.fetch_backtest [phase ...]
        uv run python -m pipeline.fetch_backtest --region <key> [phase ...]   (that region's raw folder; the default
        phases fetch everything `pipeline.backtest --region <key>` reads)
+       uv run python -m pipeline.fetch_backtest --coverage   (the AutoGC form and the sites with no 2024-2025 data)
 """
 
 import hashlib
@@ -57,16 +61,26 @@ TAMIS_SITE = "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.vie
 # Ship Channel AutoGC sites and, per site, the CAMS ids the met form lists for it (kept in pipeline.regions).
 SITES = regions.HOUSTON_MET_SELECTS
 
-COUNTY = "HARRIS"
+COUNTIES: tuple[str, ...] = ("HARRIS",)
 _ledger: list[dict] = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
 _skipped: list[str] = []
+_requests = 0  # every HTTP request this run made, saved or not (the budget counts them all)
 
 
 def use_region(r: regions.Region) -> None:
     """Point every phase at another region's sites, county and raw dir (with its own ledger)."""
-    global BT, LEDGER, SITES, COUNTY, _ledger
-    BT, LEDGER, SITES, COUNTY = r.raw, r.raw / "provenance.json", r.met_selects, r.county
+    use_dir(r.raw, r.met_selects, r.search_counties)
+
+
+def use_dir(raw: Path, sites: dict[str, list[str]], counties: tuple[str, ...] = ()) -> None:
+    global BT, LEDGER, SITES, COUNTIES, _ledger
+    BT, LEDGER, SITES, COUNTIES = raw, raw / "provenance.json", sites, counties
     _ledger = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
+
+
+def county_slug(county: str) -> str:
+    """The county as it appears in a saved search's file name ("EL PASO" -> "el_paso")."""
+    return county.lower().replace(" ", "_")
 
 
 def log(msg: str) -> None:
@@ -90,12 +104,15 @@ def _save(name: str, url: str, params: dict | None, content: bytes) -> Path | No
 
 def _polite_get(url: str, data: dict | None = None) -> bytes:
     """One retry after a long pause: a 429 means we went too fast, and a second 429 should stop the run."""
+    global _requests
     time.sleep(DELAY_S)
+    _requests += 1
     try:
         return _get(url, data)
     except Exception as e:  # noqa: BLE001 - logged and retried once, then re-raised
         log(f"retry after error on {url}: {e}")
         time.sleep(30)
+        _requests += 1
         return _get(url, data)
 
 
@@ -171,15 +188,19 @@ def fetch_agc_wind() -> None:
 def _steers_opener() -> urllib.request.OpenerDirector:
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
     opener.addheaders = [("User-Agent", UA)]
+    global _requests
     time.sleep(DELAY_S)
+    _requests += 1
     opener.open(STEERS_HOME, timeout=TIMEOUT_S).read()
     return opener
 
 
-def _search(opener, beg: date, end: date) -> bytes:
+def _search(opener, beg: date, end: date, county: str) -> bytes:
     params = {"newsearch": "yes", "event_start_beg_dt": beg.strftime("%m/%d/%Y"),
-              "event_start_end_dt": end.strftime("%m/%d/%Y"), "ls_cnty_name": COUNTY}
+              "event_start_end_dt": end.strftime("%m/%d/%Y"), "ls_cnty_name": county}
+    global _requests
     time.sleep(DELAY_S)
+    _requests += 1
     with opener.open(STEERS_SEARCH, data=urllib.parse.urlencode(params).encode(), timeout=TIMEOUT_S) as r:
         page = r.read()
     return params, page
@@ -196,22 +217,28 @@ def _count(page: bytes) -> tuple[int, int] | None:
 
 
 def fetch_steers_weeks() -> None:
-    opener = _steers_opener()
+    for county in COUNTIES:
+        _fetch_county_weeks(county)
+
+
+def _fetch_county_weeks(county: str) -> None:
     todo = []
     d = date(2024, 1, 1)
     while d <= date(2025, 12, 31):
         todo.append((d, min(d + timedelta(days=6), date(2025, 12, 31))))
         d += timedelta(days=7)
+    opener = None
     while todo:
         beg, end = todo.pop(0)
-        name = f"steers_search_{COUNTY.lower()}_{beg:%Y%m%d}_{end:%Y%m%d}.html"
+        name = f"steers_search_{county_slug(county)}_{beg:%Y%m%d}_{end:%Y%m%d}.html"
         if (BT / name).exists():
             continue
-        params, page = _search(opener, beg, end)
+        opener = opener or _steers_opener()
+        params, page = _search(opener, beg, end, county)
         c = _count(page)
         if c is None:  # session likely expired: one fresh session, then give up on this window loudly
             opener = _steers_opener()
-            params, page = _search(opener, beg, end)
+            params, page = _search(opener, beg, end, county)
             c = _count(page)
             if c is None:
                 _skipped.append(f"STEERS search {beg}..{end}: no record count on the page")
@@ -227,21 +254,28 @@ def fetch_steers_weeks() -> None:
         log(f"search {beg}..{end}: {total}")
 
 
+def _search_files() -> list[Path]:
+    return sorted(p for c in COUNTIES for p in BT.glob(f"steers_search_{county_slug(c)}_*.html"))
+
+
 def _search_rows() -> list[dict]:
     from pipeline.parse import steers_search
     rows = []
-    for p in sorted(BT.glob(f"steers_search_{COUNTY.lower()}_*.html")):
+    for p in _search_files():
         rows += steers_search(p)["rows"]
     return rows
 
 
-def fetch_steers_details(only_emissions: bool = True, days: set[str] | None = None) -> None:
-    t_all = b" ".join(re.sub(rb"\s+", b" ", p.read_bytes()) for p in BT.glob(f"steers_search_{COUNTY.lower()}_*.html"))
+def fetch_steers_details(only_emissions: bool = True, days: set[str] | None = None,
+                         incidents: set[str] = frozenset()) -> None:
+    """Detail pages for the saved searches' rows: emissions events only, or (`days`) every row that started on one of
+    those days plus the listed `incidents`."""
+    t_all = b" ".join(re.sub(rb"\s+", b" ", p.read_bytes()) for p in _search_files())
     for r in _search_rows():
         inc = r["incident"]
         if (BT / f"steers_{inc}.html").exists():
             continue
-        if days is not None and r["began"][:10] not in days:
+        if days is not None and r["began"][:10] not in days and inc not in incidents:
             continue
         if only_emissions and days is None:
             # the row's event type follows its end time on the results page
@@ -249,6 +283,9 @@ def fetch_steers_details(only_emissions: bool = True, days: set[str] | None = No
                           rb"AIR SHUTDOWN|EXCESS OPACITY)", t_all, re.DOTALL)
             if m and m.group(1) != b"EMISSIONS EVENT":
                 continue
+        if _copy_from_houston(f"steers_{inc}.html"):
+            log(f"detail {inc} (reused)")
+            continue
         url = STEERS_DETAIL.format(incident=inc)
         _save(f"steers_{inc}.html", url, None, _polite_get(url))
         log(f"detail {inc}")
@@ -287,11 +324,57 @@ def fetch_candidate_day_details() -> None:
     fetch_steers_details(days={c["day"] for c in cands})
 
 
-def fetch_spike_day_details() -> None:
-    """Every report that started on a day the trigger fires: needed before the check may call a search complete."""
-    from pipeline import backtest
+def record_check_incidents() -> set[str]:
+    """Every report the record check reads on a day the trigger fires: reports that started that day or the next (a
+    match window past midnight), and reports that started earlier and were still open 6 h before the day
+    (backtest.earlier_reports)."""
+    from pipeline import backtest, build
     sites = {s: backtest.site_coords(s, BT) for s in SITES}
-    fetch_steers_details(days={d for d, _, _, _ in backtest.spike_days(sites, BT)})
+    days = sorted({datetime.strptime(d, "%m/%d/%Y") for d, _, _, _ in backtest.spike_days(sites, BT)})
+    want = {(d + timedelta(days=k)).strftime("%m/%d/%Y") for d in days for k in (0, 1)}
+    out = set()
+    for r in _search_rows():
+        began, ended = backtest._stamp(r["began"]), r.get("ended") and backtest._stamp(r["ended"])
+        if r["began"][:10] in want or any(
+                began < d and (not ended or ended >= d + timedelta(hours=build.MATCH_WINDOW_H[0])) for d in days):
+            out.add(r["incident"])
+    log(f"spike days {len(days)}: {len(out)} reports the record check reads")
+    return out
+
+
+def fetch_spike_day_details() -> None:
+    """Detail pages the record check needs before it may call a search complete (record_check_incidents)."""
+    fetch_steers_details(days=set(), incidents=record_check_incidents())
+
+
+def _copy_from_houston(name: str) -> bool:
+    """A region searched by Harris County reuses a file Houston already saved (same request, same bytes): the ledger
+    entry keeps the original url, sha256 and fetch time (the sha256 is checked first). False if Houston has none."""
+    src = regions.HOUSTON.raw
+    if "HARRIS" not in COUNTIES or BT == src or not (src / name).exists():
+        return False
+    global _houston_prov
+    _houston_prov = _houston_prov or {e["file"]: e for e in json.loads((src / "provenance.json").read_text())}
+    content, e = (src / name).read_bytes(), _houston_prov.get(f"{src.name}/{name}")
+    if not e or hashlib.sha256(content).hexdigest() != e["sha256"]:
+        return False  # no or stale ledger entry: fetch it fresh instead
+    BT.mkdir(parents=True, exist_ok=True)
+    (BT / name).write_bytes(content)
+    _ledger.append(e | {"file": f"{BT.name}/{name}"})
+    LEDGER.write_text(json.dumps(_ledger, indent=1))
+    return True
+
+
+_houston_prov: dict[str, dict] = {}
+
+
+def reuse_houston_weeks() -> None:
+    """Houston's saved Harris week searches, for a region searched by Harris County (no STEERS requests)."""
+    if "HARRIS" not in COUNTIES or BT == regions.HOUSTON.raw:
+        raise SystemExit("reuse: only for a non-Houston region whose STEERS county is HARRIS")
+    n = sum(_copy_from_houston(p.name) for p in sorted(regions.HOUSTON.raw.glob("steers_search_harris_*.html"))
+            if not (BT / p.name).exists())
+    log(f"reused {n} Harris week searches from {regions.HOUSTON.raw.name}/")
 
 
 def fetch_forms() -> None:
@@ -311,11 +394,18 @@ if __name__ == "__main__":
     # daydetails: every report on a candidate day, so any region can be backtested (Houston's order is unchanged)
     default = (["sites", "echo", "agc", "met", "agcwind", "weeks", "details", "daydetails"]
                + ([] if region is regions.HOUSTON else ["forms"]) + ["spikedetails"])
-    for ph in args or default:
-        {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
-         "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,
-         "spikedetails": fetch_spike_day_details, "forms": fetch_forms, "agcwind": fetch_agc_wind}[ph]()
+    if args[:1] == ["--coverage"]:
+        use_dir(regions.COVERAGE_RAW, {s: [] for s in regions.NO_DATA_SITES})
+        args = default = ["forms", "sites", "agc"]
+    try:
+        for ph in args or default:
+            {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
+             "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,
+             "spikedetails": fetch_spike_day_details, "forms": fetch_forms, "agcwind": fetch_agc_wind,
+             "reuse": reuse_houston_weeks}[ph]()
+    finally:  # a run stopped by an error still reports what it spent
+        log(f"requests: {_requests} this run")
     total = sum(p.stat().st_size for p in BT.iterdir())
-    log(f"done: {len(_ledger)} files in ledger, {total / 1e6:.1f} MB on disk")
+    log(f"done: {_requests} requests this run; {len(_ledger)} files in ledger, {total / 1e6:.1f} MB on disk")
     for s in _skipped:
         log(f"SKIPPED {s}")

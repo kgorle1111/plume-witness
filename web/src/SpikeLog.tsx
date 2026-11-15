@@ -409,9 +409,6 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         <RegionSwitch current={region} />
         <p className="sl-kicker">{t('spikes.kicker', { where: region.where[lang] })}</p>
         <h1>{t('spikes.title')}</h1>
-        {!region.backtested && (
-          <p className="sl-region-note" role="note"><strong>{data.region?.note ?? t('region.notBacktested')}</strong></p>
-        )}
         <p className="sl-summary">
           <T k="spikes.summary" v={{ spikes: s.spikes, days: s.spike_days, reported }} />
         </p>

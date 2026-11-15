@@ -1,0 +1,870 @@
+{
+ "generated": "2026-11-15",
+ "trigger": "value >= max(10 x 7-day median, 10 ppb)",
+ "sites": [
+  {
+   "site_id": "48_029_0052",
+   "name": "Camp Bullis",
+   "county": "Bexar",
+   "region_key": "san_antonio",
+   "lat": 29.632077,
+   "lon": -98.564918,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 5.22,
+   "max_butadiene_ppb": 5.05,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_039_1607",
+   "name": "Oyster Creek",
+   "county": "Brazoria",
+   "region_key": "brazoria",
+   "lat": 29.010556,
+   "lon": -95.313333,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 2.48,
+   "max_butadiene_ppb": 2.96,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_091_0505",
+   "name": "AACOG City of Garden Ridge",
+   "county": "Comal",
+   "region_key": "san_antonio",
+   "lat": 29.639167,
+   "lon": -98.298611,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 0.89,
+   "max_butadiene_ppb": 0.61,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_113_0069",
+   "name": "Dallas Hinton St.",
+   "county": "Dallas",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.820064,
+   "lon": -96.860131,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.71,
+   "max_butadiene_ppb": 44.03,
+   "spikes": 1,
+   "by_status": {
+    "no_report_after_deadline": 1
+   }
+  },
+  {
+   "site_id": "48_113_1505",
+   "name": "Dallas Elm Fork",
+   "county": "Dallas",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.879107,
+   "lon": -96.913552,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 4.39,
+   "max_butadiene_ppb": 30.67,
+   "spikes": 2,
+   "by_status": {
+    "search_incomplete": 2
+   }
+  },
+  {
+   "site_id": "48_121_1007",
+   "name": "Flower Mound Shiloh",
+   "county": "Denton",
+   "region_key": "dallas_fort_worth",
+   "lat": 33.045862,
+   "lon": -97.130002,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 0.95,
+   "max_butadiene_ppb": 0.23,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_121_1013",
+   "name": "Dish Airfield",
+   "county": "Denton",
+   "region_key": "dallas_fort_worth",
+   "lat": 33.13093,
+   "lon": -97.29765,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.27,
+   "max_butadiene_ppb": 0.53,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_135_0003",
+   "name": "Odessa Hays",
+   "county": "Ector",
+   "region_key": null,
+   "lat": 31.8366,
+   "lon": -102.342037,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_135_1092",
+   "name": "Odessa Westmark Street",
+   "county": "Ector",
+   "region_key": "midland_odessa",
+   "lat": 31.857709,
+   "lon": -102.519038,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 7.02,
+   "max_butadiene_ppb": 4.01,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_135_1093",
+   "name": "Goldsmith Street",
+   "county": "Ector",
+   "region_key": "midland_odessa",
+   "lat": 31.985673,
+   "lon": -102.615779,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 21.31,
+   "max_butadiene_ppb": 9.27,
+   "spikes": 2,
+   "by_status": {
+    "no_report_after_deadline": 1,
+    "reported_mismatch": 1
+   }
+  },
+  {
+   "site_id": "48_141_0044",
+   "name": "Chamizal",
+   "county": "El Paso",
+   "region_key": "el_paso",
+   "lat": 31.765688,
+   "lon": -106.455227,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 6.43,
+   "max_butadiene_ppb": 30.46,
+   "spikes": 1,
+   "by_status": {
+    "no_report_after_deadline": 1
+   }
+  },
+  {
+   "site_id": "48_141_1011",
+   "name": "El Paso Delta",
+   "county": "El Paso",
+   "region_key": null,
+   "lat": 31.758476,
+   "lon": -106.407346,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_201_0026",
+   "name": "Channelview",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.80271,
+   "lon": -95.125509,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 36.61,
+   "max_butadiene_ppb": 43.48,
+   "spikes": 43,
+   "by_status": {
+    "no_report_after_deadline": 10,
+    "reported_mismatch": 1,
+    "search_incomplete": 32
+   }
+  },
+  {
+   "site_id": "48_201_0036",
+   "name": "Channelview Drive Water Tower",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.771718,
+   "lon": -95.1208,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 296.34,
+   "max_butadiene_ppb": 79.26,
+   "spikes": 54,
+   "by_status": {
+    "no_report_after_deadline": 19,
+    "reported_mismatch": 2,
+    "search_incomplete": 33
+   }
+  },
+  {
+   "site_id": "48_201_0057",
+   "name": "Galena Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.734264,
+   "lon": -95.238475,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 97.16,
+   "max_butadiene_ppb": 22.03,
+   "spikes": 99,
+   "by_status": {
+    "no_report_after_deadline": 31,
+    "search_incomplete": 68
+   }
+  },
+  {
+   "site_id": "48_201_0069",
+   "name": "Houston Milby Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.706273,
+   "lon": -95.261133,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 51.75,
+   "max_butadiene_ppb": 400.01,
+   "spikes": 106,
+   "by_status": {
+    "no_report_after_deadline": 63,
+    "reported": 3,
+    "reported_mismatch": 4,
+    "search_incomplete": 36
+   }
+  },
+  {
+   "site_id": "48_201_0307",
+   "name": "Manchester East Ave N",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.719394,
+   "lon": -95.259466,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 21.4,
+   "max_butadiene_ppb": 103.01,
+   "spikes": 12,
+   "by_status": {
+    "no_report_after_deadline": 8,
+    "reported_mismatch": 1,
+    "search_incomplete": 3
+   }
+  },
+  {
+   "site_id": "48_201_0617",
+   "name": "Wallisville Road",
+   "county": "Harris",
+   "region_key": "baytown",
+   "lat": 29.821389,
+   "lon": -94.99,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 16.91,
+   "max_butadiene_ppb": 5.77,
+   "spikes": 3,
+   "by_status": {
+    "search_incomplete": 3
+   }
+  },
+  {
+   "site_id": "48_201_0803",
+   "name": "HRM-3 Haden Road",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.764778,
+   "lon": -95.178367,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 37.28,
+   "max_butadiene_ppb": 30.16,
+   "spikes": 9,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 8
+   }
+  },
+  {
+   "site_id": "48_201_0807",
+   "name": "HRM-7 W Baytown",
+   "county": "Harris",
+   "region_key": "baytown",
+   "lat": 29.769264,
+   "lon": -95.017509,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 121.92,
+   "max_butadiene_ppb": 273.08,
+   "spikes": 53,
+   "by_status": {
+    "no_report_after_deadline": 16,
+    "reported": 2,
+    "reported_mismatch": 3,
+    "search_incomplete": 32
+   }
+  },
+  {
+   "site_id": "48_201_1015",
+   "name": "Lynchburg Ferry",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.758937,
+   "lon": -95.079351,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 191.5,
+   "max_butadiene_ppb": 130.62,
+   "spikes": 52,
+   "by_status": {
+    "no_report_after_deadline": 17,
+    "reported_mismatch": 2,
+    "search_incomplete": 33
+   }
+  },
+  {
+   "site_id": "48_201_1035",
+   "name": "Clinton",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.733742,
+   "lon": -95.257606,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 12.47,
+   "max_butadiene_ppb": 40.4,
+   "spikes": 5,
+   "by_status": {
+    "no_report_after_deadline": 3,
+    "search_incomplete": 2
+   }
+  },
+  {
+   "site_id": "48_201_1039",
+   "name": "Houston Deer Park #2",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.670545,
+   "lon": -95.129936,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 52.76,
+   "max_butadiene_ppb": 52.91,
+   "spikes": 3,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 2
+   }
+  },
+  {
+   "site_id": "48_201_1049",
+   "name": "Pasadena Richey Elementary School",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.703122,
+   "lon": -95.221973,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 62.12,
+   "max_butadiene_ppb": 16.49,
+   "spikes": 11,
+   "by_status": {
+    "search_incomplete": 11
+   }
+  },
+  {
+   "site_id": "48_201_1614",
+   "name": "HRM-16 Deer Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.708487,
+   "lon": -95.114118,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 30.15,
+   "max_butadiene_ppb": 166.56,
+   "spikes": 63,
+   "by_status": {
+    "no_report_after_deadline": 17,
+    "reported": 1,
+    "search_incomplete": 45
+   }
+  },
+  {
+   "site_id": "48_201_6000",
+   "name": "Cesar Chavez",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.684376,
+   "lon": -95.253595,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 26.73,
+   "max_butadiene_ppb": 50.62,
+   "spikes": 11,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 10
+   }
+  },
+  {
+   "site_id": "48_245_0009",
+   "name": "Beaumont-Downtown",
+   "county": "Jefferson",
+   "region_key": "beaumont",
+   "lat": 30.036431,
+   "lon": -94.071069,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 10.41,
+   "max_butadiene_ppb": 9.11,
+   "spikes": 1,
+   "by_status": {
+    "no_report_after_deadline": 1
+   }
+  },
+  {
+   "site_id": "48_245_1035",
+   "name": "Nederland 17th Street",
+   "county": "Jefferson",
+   "region_key": "beaumont",
+   "lat": 29.979949,
+   "lon": -94.004768,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 6.67,
+   "max_butadiene_ppb": 60.49,
+   "spikes": 1,
+   "by_status": {
+    "search_incomplete": 1
+   }
+  },
+  {
+   "site_id": "48_251_1063",
+   "name": "Mansfield Flying L Lane",
+   "county": "Johnson",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.5418,
+   "lon": -97.1175,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.05,
+   "max_butadiene_ppb": 0.33,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_251_1501",
+   "name": "Godley FM2331",
+   "county": "Johnson",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.481821,
+   "lon": -97.526759,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.38,
+   "max_butadiene_ppb": 0.4,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_255_1070",
+   "name": "Karnes County Courthouse",
+   "county": "Karnes",
+   "region_key": "karnes",
+   "lat": 28.88045,
+   "lon": -97.888037,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 6.58,
+   "max_butadiene_ppb": 6.79,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_329_1095",
+   "name": "Midland Avalon Drive",
+   "county": "Midland",
+   "region_key": "midland_odessa",
+   "lat": 32.034339,
+   "lon": -102.182966,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 10.09,
+   "max_butadiene_ppb": 1.31,
+   "spikes": 1,
+   "by_status": {
+    "no_report_after_deadline": 1
+   }
+  },
+  {
+   "site_id": "48_355_0035",
+   "name": "Oak Park",
+   "county": "Nueces",
+   "region_key": null,
+   "lat": 27.798889,
+   "lon": -97.433889,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_355_0041",
+   "name": "Solar Estates",
+   "county": "Nueces",
+   "region_key": null,
+   "lat": 27.829167,
+   "lon": -97.543611,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_355_0083",
+   "name": "Corpus Christi Palm",
+   "county": "Nueces",
+   "region_key": "corpus_christi",
+   "lat": 27.802892,
+   "lon": -97.419891,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 11.05,
+   "max_butadiene_ppb": 7.89,
+   "spikes": 1,
+   "by_status": {
+    "search_incomplete": 1
+   }
+  },
+  {
+   "site_id": "48_439_0075",
+   "name": "Eagle Mountain Lake",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.987891,
+   "lon": -97.477193,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 2.45,
+   "max_butadiene_ppb": 0.24,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1002",
+   "name": "Fort Worth Northwest (Meacham)",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.80582,
+   "lon": -97.356539,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 5.0,
+   "max_butadiene_ppb": 5.02,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1009",
+   "name": "Everman Johnson Park",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.621136,
+   "lon": -97.290353,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.77,
+   "max_butadiene_ppb": 0.96,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1018",
+   "name": "Arlington UT Campus",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.726111,
+   "lon": -97.108333,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 2.09,
+   "max_butadiene_ppb": 0.79,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1062",
+   "name": "Kennedale Treepoint Dr",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.658889,
+   "lon": -97.200278,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 3.51,
+   "max_butadiene_ppb": 0.41,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1065",
+   "name": "Fort Worth Joe B Rushing Road",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.672406,
+   "lon": -97.291178,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 6.65,
+   "max_butadiene_ppb": 7.76,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_439_1503",
+   "name": "Fort Worth Benbrook Lake",
+   "county": "Tarrant",
+   "region_key": "dallas_fort_worth",
+   "lat": 32.646711,
+   "lon": -97.442658,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 5.61,
+   "max_butadiene_ppb": 0.26,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_493_1038",
+   "name": "Floresville Hospital Blvd",
+   "county": "Wilson",
+   "region_key": "san_antonio",
+   "lat": 29.130698,
+   "lon": -98.148083,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 5.37,
+   "max_butadiene_ppb": 4.98,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_497_0088",
+   "name": "Decatur Thompson",
+   "county": "Wise",
+   "region_key": "dallas_fort_worth",
+   "lat": 33.220085,
+   "lon": -97.584992,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 1.29,
+   "max_butadiene_ppb": 0.21,
+   "spikes": 0,
+   "by_status": {}
+  },
+  {
+   "site_id": "48_497_1064",
+   "name": "Rhome Seven Hills Road",
+   "county": "Wise",
+   "region_key": "dallas_fort_worth",
+   "lat": 33.044028,
+   "lon": -97.486618,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 2.1,
+   "max_butadiene_ppb": 0.35,
+   "spikes": 0,
+   "by_status": {}
+  }
+ ]
+}

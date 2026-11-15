@@ -1,0 +1,1595 @@
+[
+ {
+  "file": "region_el_paso/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T11:02:43+00:00"
+ },
+ {
+  "file": "region_el_paso/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T11:02:46+00:00"
+ },
+ {
+  "file": "region_el_paso/tamis_48_141_0044.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=481410044",
+  "params": null,
+  "bytes": 90628,
+  "sha256": "00fb353e087e540a33baf236d42c61532fbaf9a440a96469568b4c893a8ba6a2",
+  "fetched_at": "2026-11-15T11:02:48+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2024_48_141_0044_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_0044",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88410,
+  "sha256": "a25afde5ad52a2521bae27766c062a0e8920e28eedb55cdd87c5f69277033bfe",
+  "fetched_at": "2026-11-15T11:02:55+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2024_48_141_0044_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_0044",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88302,
+  "sha256": "09fd779eacbfff53f5e83ec79a08b2e3192707be3540abdbe955e538ad0e37c1",
+  "fetched_at": "2026-11-15T11:03:00+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2025_48_141_0044_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_0044",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88538,
+  "sha256": "4d5d9169b25e3ca954d0fc8d969e1eb188cfff1166061899c39692d0885099b4",
+  "fetched_at": "2026-11-15T11:03:07+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2025_48_141_0044_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_0044",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88542,
+  "sha256": "0d41372df358efcf34fbbfe9131af9fa1079b2ca36a92b6da43deb8960d3dbfc",
+  "fetched_at": "2026-11-15T11:03:13+00:00"
+ },
+ {
+  "file": "region_el_paso/met_2024_48_141_0044_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Chamizal C41/AH126 |48_141_0044|41",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68412,
+  "sha256": "fa2558f806fec72174e1de2d260b5e5ad53f0b863a0034c9d714396dc1b23cbe",
+  "fetched_at": "2026-11-15T11:03:40+00:00"
+ },
+ {
+  "file": "region_el_paso/met_2024_48_141_0044_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Chamizal C41/AH126 |48_141_0044|41",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72866,
+  "sha256": "05777c41eb2f773e85cedb800d72f28735c8101dfb746cce1581f9dfdad66f5c",
+  "fetched_at": "2026-11-15T11:03:40+00:00"
+ },
+ {
+  "file": "region_el_paso/met_2025_48_141_0044_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Chamizal C41/AH126 |48_141_0044|41",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68336,
+  "sha256": "9f844601fd9ffd25b10a4c52c553b7851361c27b2873a778bd45e5ccb4d36fdc",
+  "fetched_at": "2026-11-15T11:04:06+00:00"
+ },
+ {
+  "file": "region_el_paso/met_2025_48_141_0044_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Chamizal C41/AH126 |48_141_0044|41",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72416,
+  "sha256": "5a4617ab122bfa5f9c366b861019578aef20681f1003e62578da432ae9b68705",
+  "fetched_at": "2026-11-15T11:04:06+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2024_48_141_0044_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_0044",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78101,
+  "sha256": "fa388e6fe52f023e587360230eff73709240514d932b8db01c70ed21ce50a20e",
+  "fetched_at": "2026-11-15T11:04:09+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2024_48_141_0044_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_141_0044",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82789,
+  "sha256": "4f2a6f3ce96f3c91adc8bdf12399e4565c5fce1a3e2947eebcea618bd6eba026",
+  "fetched_at": "2026-11-15T11:04:15+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2025_48_141_0044_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_0044",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 77996,
+  "sha256": "cb13e9cdd7c086e45f498848ebbde4ffb09eb9ca5a62f25b38c3bcb1fb1453df",
+  "fetched_at": "2026-11-15T11:04:18+00:00"
+ },
+ {
+  "file": "region_el_paso/agc_2025_48_141_0044_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_141_0044",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82368,
+  "sha256": "20959fecce9819b13cef333d356dc84d067526e018ea53e3c493cac0771c0cac",
+  "fetched_at": "2026-11-15T11:04:24+00:00"
+ },
+ {
+  "file": "region_el_paso/echo_48_141_0044_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "31.7657",
+   "p_long": "-106.4552",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "211",
+   "pageno": "1"
+  },
+  "bytes": 119415,
+  "sha256": "70cbd5e18842f3bc39c4262e5ee1e8e0a08ac0e8639e0d846e84cce9dc95043e",
+  "fetched_at": "2026-11-15T11:04:30+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "7ac11ce4a344caa7f4bfdba477911e551e0badf6b07ed2ec23c09fd3ae5e0a00",
+  "fetched_at": "2026-11-15T11:32:04+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "9c2c9198a9a92c2337baa7e8ead1aaab19922e2ab877f6e317fa0031b90ec977",
+  "fetched_at": "2026-11-15T11:32:06+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "7839a0476bbf84bc60347ca176fbfec1bf4c1870f591310dea9e3017ad6fef22",
+  "fetched_at": "2026-11-15T11:32:09+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "1c6199b977408539b61a4cec7e4cfb42c6c62527d019590fa48b2caabb5e56f2",
+  "fetched_at": "2026-11-15T11:32:12+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "149777c024949da83c2c97f761afd559b195ac0f7aac94e561015c3eb520ebaf",
+  "fetched_at": "2026-11-15T11:32:14+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "428911581d1534d726602ddccd46c5eca32dfe92561c2df95e4dafeddbb9f842",
+  "fetched_at": "2026-11-15T11:32:17+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "f3e4b64bf2c5cd2352519733f1f7732ed7471a99e2c374cbc9a9bea1b016a007",
+  "fetched_at": "2026-11-15T11:32:19+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "9d59dc7fe4228d7d22fd52917b4e8170d1714252b7f33659ba55988412435485",
+  "fetched_at": "2026-11-15T11:32:22+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "57a9b8575bea58027c671650f91b1b621e28a4382ffc2f34f7c305cf7f8f2696",
+  "fetched_at": "2026-11-15T11:32:25+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "2f47ba1cdd7882d08f28fb5934bc3edecd291ea1ef57949503ef91c702a5ac02",
+  "fetched_at": "2026-11-15T11:32:27+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "042d35b2c4a061b8509f05c1318311af505ad81ed791c209ec661862148a29ee",
+  "fetched_at": "2026-11-15T11:32:30+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "dea4d7e77e94fc42adbeb85c3615efa33db75c9e07822731e2b2350a7bbf140e",
+  "fetched_at": "2026-11-15T11:32:33+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "7789d4af064aee262df52991a8728d43c44919ba0d25473db8974d73b92e81a9",
+  "fetched_at": "2026-11-15T11:32:35+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "0c739e08bdd5dffda00d6f820bc5fc321d6b834280689675740a8e110c15d798",
+  "fetched_at": "2026-11-15T11:32:37+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "4e4864f979c6bb30bfc58ae016123d3d1dfd141a0183b3f89af0365c0fe6258e",
+  "fetched_at": "2026-11-15T11:32:40+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "eb4dd3334bb0ec0d19ae753f3cfcca8e2db578fd8783ec1f5dba3c355ea939a4",
+  "fetched_at": "2026-11-15T11:32:43+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "6ac3250684bcdf452a08540b4d64dabca83907fee8c8300152f4f6c955827b93",
+  "fetched_at": "2026-11-15T11:32:45+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "65b964bf1508db573f0352c1b11b83161fa27bf13ebc15f5eae3612336d80fee",
+  "fetched_at": "2026-11-15T11:32:48+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "39a258d273cc0977bc683836b585a28e51059cf181abd46fc8cc720229e130b2",
+  "fetched_at": "2026-11-15T11:32:51+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8422,
+  "sha256": "52255938c4483896b126bab75754e7c1303e1895c64475ded983c3465d7c2564",
+  "fetched_at": "2026-11-15T11:32:53+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "1fb7761661d4d6d6a5368e779ad855b1f30cc9999e4363d63d535e84687cf6f3",
+  "fetched_at": "2026-11-15T11:32:56+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "6af09abcd74a727b564f6c6557e78e1007269771d4a270dd3fb34488f3fff265",
+  "fetched_at": "2026-11-15T11:32:59+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8446,
+  "sha256": "be4d71c19ad3e8efc5232af0cdb26e7e4b4aa5448a90b999851c4c783e240311",
+  "fetched_at": "2026-11-15T11:33:01+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "ab37eccf50a23b266e8448a3ab10ffec71915ccc0c65aaf41bdd8b773f6bd772",
+  "fetched_at": "2026-11-15T11:33:04+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "8424d230d9a1476442f984acff988a6d15c3746f6c82349ff552b6e13f860964",
+  "fetched_at": "2026-11-15T11:33:07+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "1340946c010d315cbcb0a6e08114a6d1d5d067487b1bf1ebac3bad02741e30b9",
+  "fetched_at": "2026-11-15T11:33:09+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "ac44604d92141a98dacae7fd5467646057e79c90f0b9a471536443bbba1436f8",
+  "fetched_at": "2026-11-15T11:33:12+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "3a58a454850fb6c0894936e3b95288a62244c73c7303f0c18ac82eb802bc059f",
+  "fetched_at": "2026-11-15T11:33:14+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "7a40768d070083fa4d360954de876149d6eed2aea9e52697ab6327ff7488f6eb",
+  "fetched_at": "2026-11-15T11:33:17+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "5936221db126d44822b794079a6fe5513d5538e70d7c47d58e4c9ff37d21c978",
+  "fetched_at": "2026-11-15T11:33:20+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "483d50c6524dd61854653e149b414b71b485613c9b02646b3b8d19ef6aa8f675",
+  "fetched_at": "2026-11-15T11:33:22+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "699f5bb93a86f2bc408931b8488c2a01ccb826a197de400e3414fbe131680e8b",
+  "fetched_at": "2026-11-15T11:33:25+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "2d9adc06a972781f667a1955dfc72e7f7c598d236dc228c4b35b8d687069e395",
+  "fetched_at": "2026-11-15T11:33:27+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "3df838965707b3747f9c04430307687a13f20f2484c9af53ee9bc858c545d3f6",
+  "fetched_at": "2026-11-15T11:33:30+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "d114688413a81c97091236f074b5ee771bd6976a0a11b9f0f41764f3ee40d1a1",
+  "fetched_at": "2026-11-15T11:33:33+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "9c97c28850accfc87bf791b3097c4fe11272ede900933d706818bdb5ad7c0d57",
+  "fetched_at": "2026-11-15T11:33:35+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "c65b1b60544e3633e381cc65e1cbbdf6754707f8b90881df8e27c9001c3d7324",
+  "fetched_at": "2026-11-15T11:33:38+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "acbf6e1091d727784808a52eb00dc5e03147a512515685d7df5cf830b226d092",
+  "fetched_at": "2026-11-15T11:33:41+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8446,
+  "sha256": "5175dc20a1b7444557b7ddb403c8421da68288b74b69680e29d426e2d0973c34",
+  "fetched_at": "2026-11-15T11:33:43+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "00224f3813a250bbf6687e09b1142a7f32905a8e849d28011cc4e1432f8daf55",
+  "fetched_at": "2026-11-15T11:33:46+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "8709dc8222709d4e96d0ce425a6af8caac75305aed689828bee70c46f417e519",
+  "fetched_at": "2026-11-15T11:33:48+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a029bca2ef59dc4e2ddb5d85d570ac1b5aef07be41cfc6da9c4f02ea48cd5a4a",
+  "fetched_at": "2026-11-15T11:33:51+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "eb7e249afe2175690527bf2b1d58a29314ee1b50ded6f3a5b38dd2a60873b85f",
+  "fetched_at": "2026-11-15T11:33:54+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "cbabe6b3fd4ae768d8e4892a82032eb4ea0521f92baccf6bf52092d465a5fe47",
+  "fetched_at": "2026-11-15T11:33:56+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "8dc48d7f293b7954344bd7d9e8d80bc43aa2d3f7ee3deb134d5b7970e69e8692",
+  "fetched_at": "2026-11-15T11:33:59+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "ee88814f193d474a5e4c86b8e8d67b18168ee2edcef6532eed258ab706bc29f8",
+  "fetched_at": "2026-11-15T11:34:02+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a90400cf786dadc3ed9b4a8b94c4962857935e21a778411c483f4af561522e88",
+  "fetched_at": "2026-11-15T11:34:04+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "adf4db3429c4da733ddbd66573af0f84aef20eba094e9502154fe4dd082a8f9e",
+  "fetched_at": "2026-11-15T11:34:07+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "adb9fc57c42af9d9bc0eecc4cb2254ff511bc47c2c272001df197e85d87026a6",
+  "fetched_at": "2026-11-15T11:34:09+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "bbeaad827de55cee8061d579d4fc4d293fbeab6098e6eeac01f411ec9ff153d6",
+  "fetched_at": "2026-11-15T11:34:12+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "f325ce24816fefb54d9922e02f9fabfcea8da58e972a082a40b0967ddf65dc6d",
+  "fetched_at": "2026-11-15T11:34:15+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "6716288c69ebce9c672e260b56f65225902f93333415df044076add59dcb432f",
+  "fetched_at": "2026-11-15T11:34:17+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "4450bbbcdb2fcd481dd076d09fc9a853a7fda412ad9940c098bf5f7c5b150de2",
+  "fetched_at": "2026-11-15T11:34:20+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "b3567e328a6697e5efc4712bf6c23e971dc07972303b79c162da1df0ece5a42f",
+  "fetched_at": "2026-11-15T11:34:22+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "959e9e12fe674ad0244eb8e3cde4dbf66f2102f7fff29291eefc3c35546ee982",
+  "fetched_at": "2026-11-15T11:34:25+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "ec402b2cc823dc36b89fdc04464522459103485f84f32c0d24a6e42dd4d5f023",
+  "fetched_at": "2026-11-15T11:34:28+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "e49d070b888361ec22c178e1485f12c29738113676254367bcd41b1b3a795b1c",
+  "fetched_at": "2026-11-15T11:34:30+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "6dfc29986ee5ef47f0a502022168cf45acccf5ee82c7eabda2e395b936bf8949",
+  "fetched_at": "2026-11-15T11:34:33+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a6a202367c01424105d95da25e9c7f57abcb4ecce4d5d6221a888266089055d8",
+  "fetched_at": "2026-11-15T11:34:36+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "077652b2ef3a756619ff3ed8cda0fe9a2e3643f4e856cf846559d81de83da6e2",
+  "fetched_at": "2026-11-15T11:34:38+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "2ddc717c42402adbb8d5b6386878d1c527f71cf795fb1a18caa5bdbfbe64649c",
+  "fetched_at": "2026-11-15T11:34:41+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "561453cac522b970f2ad575d17f84022e111929a644499b990bfeb0eada06d45",
+  "fetched_at": "2026-11-15T11:34:43+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "b7afa995c157777c01cb1d58f0f1c17450fb22004e6ec29aece98d1c786fd757",
+  "fetched_at": "2026-11-15T11:34:46+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "9fb91f24f278fa7c89386aeed784fd6e19a3a2c9c099dc6a2c40b2b2e6eacee8",
+  "fetched_at": "2026-11-15T11:34:49+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "5c398702d2951d5092df6e377ef2615a99dda045f1a40bc52fd8d5347dc7dfc7",
+  "fetched_at": "2026-11-15T11:34:51+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "bed919e9570829f1e3e5c4197ce5d96fc5c1bd503fa5e499ca4d2ea069aa8c13",
+  "fetched_at": "2026-11-15T11:34:54+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "109e0c1cc6d25868785cb3c8ba198bb3e6a90c5e4448053ca9c654eb1a84b7e7",
+  "fetched_at": "2026-11-15T11:34:57+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "d5cb04976b56cd4a4b4a822c290821906757e4aab6196b0daca1a43f23949607",
+  "fetched_at": "2026-11-15T11:34:59+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "8ad94ccf46b27a21577ae4d337325f306f6a2b0941ce3afefeb47de53d588f6f",
+  "fetched_at": "2026-11-15T11:35:02+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a8819414eab63c0148660f059125b5bf938a25a3891b5404b24c5892f8ce0572",
+  "fetched_at": "2026-11-15T11:35:05+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "317c7f983d136fd3a5f540ef80bf991fa823a78fdd00dc20a4f36f67291c3254",
+  "fetched_at": "2026-11-15T11:35:07+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "279f2a4233cdeee8ebd91e06c7e4071ec45d74ee49accec101b65a5c19da0668",
+  "fetched_at": "2026-11-15T11:35:10+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "f3e314fba285180517a0c3e0e83dbeb01ae1857bca32aa8776bf4ccd1a50cca9",
+  "fetched_at": "2026-11-15T11:35:12+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "c9c1d081c3d274b5cbf181eb4cd0cc985955719d4064eb0f41422468f8eb0060",
+  "fetched_at": "2026-11-15T11:35:15+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "b1fb005d53eb68de65910fdd13a79cfe50eff98fd1a58768125b49c67ba4118b",
+  "fetched_at": "2026-11-15T11:35:18+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "d047efafcf84fb815f2577b587d727187c2c85c6d4644d4985a495054c5ec185",
+  "fetched_at": "2026-11-15T11:35:20+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "b34558b2c0e590e7d1a3524fef4de5a4774b06e5a059814c1c3a41ec49abb167",
+  "fetched_at": "2026-11-15T11:35:23+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "11ae5f0c701814ebd4932283bd6fa8569e2185334f74918f52753a51e66a1131",
+  "fetched_at": "2026-11-15T11:35:25+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "799427d0f01e09af3cbbd0d7b58c327993bf66d66b418aff480cb73b1c585d2c",
+  "fetched_at": "2026-11-15T11:35:28+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8981,
+  "sha256": "d4ff3bcb9b2811b1312f8acf4b09b791ef7867be4c6fc565ce364dfe4365317e",
+  "fetched_at": "2026-11-15T11:35:31+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "0ffa25808a0b8ce53b10d2428964cb4f45969c509cf1379479774d9097ed106c",
+  "fetched_at": "2026-11-15T11:35:33+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8429,
+  "sha256": "fe07e58022ff8d69138b4ec8e37e33bf5da07e1f1b79d9625fb92b97e105ac07",
+  "fetched_at": "2026-11-15T11:35:36+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "d8aab02344639a9b78563034e85d3962920661381f8f7ecc936683eccd5d4a2f",
+  "fetched_at": "2026-11-15T11:35:39+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a8923d683c03cdb414214dce5602daf8fbac479e9ca2ca4e68f8cc7730769763",
+  "fetched_at": "2026-11-15T11:35:41+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "0e2e2fcb874bffc938e781739f150b751cd593b78971da96d00733ee1b815a1b",
+  "fetched_at": "2026-11-15T11:35:44+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "83ead656b6b227363a0b88abb7beebea6a3e609641722b57e0c2a12c3f7d6ece",
+  "fetched_at": "2026-11-15T11:35:47+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "bc1d33143d12f261262ae33de0e29f85419dbad599a170d35f287778194943d1",
+  "fetched_at": "2026-11-15T11:35:49+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "3ddc9f71bc44f9d151569347a09014dbd0602404c1d2f65a3f2e2fd618a40195",
+  "fetched_at": "2026-11-15T11:35:52+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8437,
+  "sha256": "8b611b5e9b434a4853e4ada9c58a922490d69ceb7a381bd9816c08a7a15e8c60",
+  "fetched_at": "2026-11-15T11:35:54+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "0281db528fbbdb4b62d5402e250849f3250ceb83bd2f4ccf08418de7eafc940d",
+  "fetched_at": "2026-11-15T11:35:57+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "39aecb819a4e64e5db6c30df06356bc92b9c99387684ca86bc608781709e92a8",
+  "fetched_at": "2026-11-15T11:35:59+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "28f954f2262084f0309638e1f1e4ba25db2512e25b2a0ff4b918df85568bb0a1",
+  "fetched_at": "2026-11-15T11:36:02+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "eb3690e3c59de14cce2f53b34146a2e9e0a8f39847af3c17967086a8057cf23e",
+  "fetched_at": "2026-11-15T11:36:05+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8446,
+  "sha256": "f9da82f5ba6e2c0831a9ffe165319776db94598b1ab562441027b0eba78c0675",
+  "fetched_at": "2026-11-15T11:36:07+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "689900a32368e0bf0bd77a8dfe6843585e5a5415f3701c509d8fb2c766f7adb1",
+  "fetched_at": "2026-11-15T11:36:10+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "6175dc47dd3df4356c3b9e84f695f6aee3a97ca8442787320dde5a2db289fb2b",
+  "fetched_at": "2026-11-15T11:36:13+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "c0e7be8c9c0f83b1a5d9a91861a889ace8056f67d7a027c025a81562b69f6148",
+  "fetched_at": "2026-11-15T11:36:15+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8446,
+  "sha256": "ffdaa8cea4e992cb3f86b2dc8b356a71fa352f6e7fb9e8da9c1e6c1b8c2d6201",
+  "fetched_at": "2026-11-15T11:36:18+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "25957253340790de6393276d46a9acefbb770ff5718f7f7003cb33e45c5e108e",
+  "fetched_at": "2026-11-15T11:36:21+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "b1fb72f063076134cd964190bb062ba192ff84a01b9dac34bc19154442c445a4",
+  "fetched_at": "2026-11-15T11:36:23+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a9a47803d476126d188b066a4d05a6f31077da3b24a9403f95df03dcfe1f3bff",
+  "fetched_at": "2026-11-15T11:36:26+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "49007f03c081c944bdc4e1baa37ec1217d7d33d906a7d2adee83bbeddae9561d",
+  "fetched_at": "2026-11-15T11:36:29+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "a1d035c1e4d1417dd4e92eed2cc50908f14ca49eeeea547adc325a9d78321c8f",
+  "fetched_at": "2026-11-15T11:36:31+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 5256,
+  "sha256": "de5a471f59b2b66472f6eb8a5e9ae2da35ecc0bed16a6549c63238067da0014e",
+  "fetched_at": "2026-11-15T11:36:34+00:00"
+ },
+ {
+  "file": "region_el_paso/steers_search_el_paso_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "EL PASO"
+  },
+  "bytes": 8446,
+  "sha256": "85c1a687127eeec6a778c25d59099adc52d8e0a74908c983d2f7d110f7a07347",
+  "fetched_at": "2026-11-15T11:36:36+00:00"
+ }
+]

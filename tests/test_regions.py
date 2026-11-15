@@ -63,7 +63,7 @@ def test_every_backtested_region_has_its_committed_backtest_with_that_n():
     for r in regions.REGIONS.values():
         out, doc = backtest.out_paths(r)
         if not r.backtested:
-            assert r.n_backtest is None and r.note == regions.NOT_BACKTESTED_NOTE, r.key
+            assert r.n_backtest is None and r.note is None, r.key
             continue
         res = json.loads(out.read_text())
         assert res["summary"]["candidates"] == r.n_backtest > 0, (
@@ -78,7 +78,7 @@ def test_backtested_and_n_backtest_are_set_together():
         replace(BMT, backtested=False)
     with pytest.raises(ValueError, match="set together"):
         replace(BMT, n_backtest=None)
-    assert replace(BMT, backtested=False, n_backtest=None).note == regions.NOT_BACKTESTED_NOTE
+    assert replace(BMT, backtested=False, n_backtest=None).note is None  # no public file says "not backtested"
     assert BMT.note == f"Backtested against company-reported releases (n = {BMT.n_backtest}, 2024-2025)"
     assert regions.HOUSTON.note is None  # Houston's files never carried a region note
 
