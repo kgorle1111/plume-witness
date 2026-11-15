@@ -25,7 +25,8 @@ SRC = ROOT / "data" / "build" / "backtest.json"
 OUT = ROOT / "web" / "public" / "spikes.json"
 SCHEMA = "plume-witness.spikes/v1"
 SOURCE_SCHEMA = "plume-witness.backtest/v1"
-MAX_BYTES = 150_000
+# kn: ~363 B a row; 200 KB holds ~550 rows (12 Houston monitors give 468). Split by year past that.
+MAX_BYTES = 200_000
 COMPOUNDS = {"45201": "benzene", "43218": "1,3-butadiene"}
 # Backtest-only outcomes where the record check never ran. Each maps to the contract status that says so, plus a
 # reason shown next to it. A new backtest status fails the export until it is mapped here.

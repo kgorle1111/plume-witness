@@ -1,7 +1,7 @@
 """Hand audit of a random sample of 'no_report_after_deadline' spikes (see docs/audit-no-report.md).
 
-Draws a seeded, monitor-stratified sample from data/build/backtest.json, rebuilds each night with the unchanged
-pipeline code, and gathers the evidence for four checks the pipeline does not make:
+Draws a seeded, monitor-stratified sample from the frozen 8-monitor scan (docs/audit-no-report-population.json),
+rebuilds each night with the current pipeline code, and gathers the evidence for four checks the pipeline does not make:
   1. every saved STEERS report running within +/-12 h of the spike hour, placed against the corridor at
      +/-22.5 deg and a wider +/-45 deg wedge (15 km);
   2. lumped compound lines (VOC, hydrocarbons, BTEX ...) on those reports;
@@ -27,8 +27,10 @@ from pipeline import backtest, build, nights
 from pipeline.parse import _text
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "data" / "build" / "backtest.json"
 OUT = ROOT / "docs" / "audit-no-report.json"
+# The scan the hand audit was drawn from (8 monitors, before the 2026-11-15 Harris expansion), frozen so that a
+# changed live scan (more monitors, another borrowed wind) cannot redraw the 10 hand-read nights.
+POPULATION = ROOT / "docs" / "audit-no-report-population.json"
 SEED = 20261114
 N = 10
 MAX_PER_MONITOR = 3
@@ -63,6 +65,11 @@ def sample(spikes: list[dict], seed: int = SEED, n: int = N, cap: int = MAX_PER_
         if len(out) == n:
             break
     return out
+
+
+def load_population() -> list[dict]:
+    """The frozen spike rows (day, param, site_id, status) the sample and the population sweep are drawn from."""
+    return json.loads(POPULATION.read_text())["spikes"]
 
 
 def spike_id(s: dict) -> str:
@@ -314,7 +321,9 @@ def main() -> None:
     if sys.argv[1:2] == ["--region"]:
         print(json.dumps(region_evidence(sys.argv[2]), indent=1, default=str))
         return
-    bt = json.loads(SRC.read_text())
+    # kn: evidence is rebuilt by today's pipeline (12 monitors) for nights drawn from the frozen 8-monitor scan, so
+    # --write would publish evidence the hand verdicts were not written against; redo the hand audit before rerunning.
+    bt = {"spikes": load_population()}
     ctx = nights.load_context()
     picked = sample(bt["spikes"])
     evs = [evidence(s, ctx) for s in picked]

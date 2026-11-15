@@ -32,13 +32,13 @@ def _prov_index(raw: Path = BT) -> dict[str, dict]:
     return {e["file"]: e for e in json.loads((raw / "provenance.json").read_text())}
 
 
-def provenance_for(sp: dict, wind_site: str, rows_by_day: dict, prov: dict[str, dict],
+def provenance_for(sp: dict, wind: dict, rows_by_day: dict, prov: dict[str, dict],
                    ledger_dir: str = "backtest") -> list[dict]:
     """Provenance entries (url, sha256, fetch time) for the cached files this night was built from."""
     day, param, year = sp["day"], sp["param"], sp["day"][-4:]
     files = [f"agc_{year}_{m['site_id']}_{param}.html" for m in sp["monitors"]]
     files += [f"tamis_{m['site_id']}.html" for m in sp["monitors"]]
-    files += [f"met_{year}_{wind_site}_{p}.html" for p in ("61101", "61102")]
+    files += build.wind_files(wind["site_id"], year, wind.get("source", "met"))
     files.append(f"echo_{sp['det']['site_id']}_10mi.json")
     files += sorted({r["search_file"] for r in rows_by_day.get(day, [])} | {
         r["search_file"] for rs in rows_by_day.values() for r in rs if r["incident"] in sp["details"]})
@@ -79,10 +79,10 @@ def generate(raw: Path | None = None, region: regions.Region = regions.HOUSTON) 
         if "record_check" not in t:
             skipped.append({"id": nid, "reason": "no wind for the detection hours; cannot draw a corridor"})
             continue
-        prov = provenance_for(sp, t["wind"]["site_id"], ctx["rows_by_day"], ctx["prov"], raw.name)
+        prov = provenance_for(sp, t["wind"], ctx["rows_by_day"], ctx["prov"], raw.name)
         ev = build.assemble_event(t, sp["monitors"], sp["det_day"], sp["param"], nid, prov, labeled)
         ev["triangulation"] = triangulate.triangulate(t, sp["monitors"])
-        extra = triangulate.wind_files(ev["triangulation"], sp["day"][-4:], t["wind"]["site_id"])
+        extra = triangulate.wind_files(ev["triangulation"], sp["day"][-4:], t["wind"]["site_id"], t["winds"])
         missing = [f for f in extra if f"{raw.name}/{f}" not in ctx["prov"]]
         if missing:
             raise ValueError(f"{nid}: no provenance entry for triangulation wind {missing}")

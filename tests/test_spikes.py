@@ -108,10 +108,11 @@ def test_replay_link_exists_exactly_when_the_night_file_does(out):
 
 
 def test_no_wind_spike_has_no_replay_link(out):
-    """Galena Park 2025-10-28 has no wind, so no night file: a Replay link there would 404."""
-    row = next(r for r in out["rows"] if spikes.spike_id(r) == "2025-10-28_45201_48_201_0057")
+    """Galena Park 2025-07-26 has its own AutoGC wind for the day but none for the detection hours, so no night file:
+    a Replay link there would 404. (2025-10-28, the earlier example, now replays on that AutoGC wind.)"""
+    row = next(r for r in out["rows"] if spikes.spike_id(r) == "2025-07-26_45201_48_201_0057")
     assert row["night_id"] is None and row["reason"] == spikes.ABSTAIN["no_wind"][1]
-    assert sum(1 for r in out["rows"] if r["night_id"] is None) == 1
+    assert sum(1 for r in out["rows"] if r["night_id"] is None) == 2
 
 
 def test_a_missing_night_file_that_is_not_no_wind_fails_loud(bt, tmp_path):
