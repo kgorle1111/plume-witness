@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Replay an industrial pollution event from public data and check it against the company's own emissions-event report."
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "anthropic==2.8.0",
     "google-genai==3.3.0",
 ]
 
