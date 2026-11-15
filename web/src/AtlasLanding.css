@@ -21,35 +21,43 @@
   --teal: #4d787f;
   --line: #a9c6bd;
   --coral: #de7f6b;
-  --mono: 'Cascadia Mono', Consolas, monospace;
   color: var(--ink);
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   display: grid;
   grid-template-rows: auto 1fr;
-  padding-inline: clamp(24px, 5.6vw, 100px);
   padding-bottom: 26px;
-  border-top: 5px solid var(--teal);
+  /* The survey grid runs past the plate's sides; clip it here so no width ever pans sideways. */
+  overflow-x: clip;
+  /* The teal top rule is painted, not a border, so the header sits exactly where it does on every other page. */
+  box-shadow: inset 0 5px 0 var(--teal);
   background: radial-gradient(ellipse at 50% 48%, #b4d9cb 0%, #deede7 55%, var(--paper) 100%);
 }
-/* The shared site header (SiteHeader.css), set on the landing's paper: no inset of its own, no fill over the gradient. */
-.site-head.atlas-masthead { min-height: 65px; padding-inline: 0; background: none; border-bottom-color: var(--line); font-family: var(--sans); }
+/* The shared site header (SiteHeader.css) with its own padding, as on every page; only the fill gives way to the gradient. */
+.site-head.atlas-masthead { background: none; border-bottom-color: var(--line); }
+.site-head.atlas-masthead .es-note { font-size: 0.75rem; }
 
+/* A column that fills the screen under the header. The globe plate takes whatever height is left (down to a floor),
+   so the button, the key numbers and the links fit the first screen from 320x568 phones to 2560x1440 projectors. */
 .atlas-hero {
-  display: grid;
-  align-content: center;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  padding: 29px 0 35px;
+  padding: 29px clamp(24px, 5.6vw, 100px) 35px;
   text-align: center;
 }
 .atlas-hero h1 { margin: 0; color: var(--ink); font: 400 clamp(40px, 5.6vw, 78px)/1.04 Georgia, 'Times New Roman', serif; letter-spacing: -.055em; text-wrap: balance; }
 /* Where and what, in the masthead's mono voice: the title alone never said Houston or which compounds. */
-.atlas-sub { margin: 10px 0 0; font: 500 13px/1.45 var(--mono); letter-spacing: .04em; color: #395960; text-wrap: balance; }
+.atlas-sub { margin: 10px 0 0; font: 500 0.875rem/1.45 var(--mono); letter-spacing: .04em; color: #395960; text-wrap: balance; }
 .atlas-plate {
-  width: min(690px, 100%);
-  height: clamp(280px, 49svh, 446px);
+  flex: 1 1 0;
+  width: min(43rem, 100%);
+  min-height: 120px;
+  max-height: 28rem;
+  container-type: size;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -70,7 +78,7 @@
 .atlas-survey-accent { stroke: #b16050; stroke-width: 1.7; }
 .atlas-planet {
   position: relative;
-  width: min(388px, 43svh, 68vw);
+  width: min(24.25rem, calc(100cqh - 24px), 68vw);
   aspect-ratio: 1;
   border: 1px solid #4d787fc0;
   border-radius: 50%;
@@ -79,24 +87,31 @@
 }
 .atlas-planet canvas { display: block; width: 100%; height: 100%; border-radius: inherit; }
 
-/* Pause control for the spinning globe (WCAG 2.2.2). Ink on the darkest gradient stop is 6.99:1. */
+/* Pause control for the moving globe (WCAG 2.2.2): a 44px icon toggle on the globe's lower right edge, so it never
+   reads as the page's main action. Ink on paper is 10.1:1; the teal ring on the gradient and the globe is 3.2-3.4:1. */
 .atlas-pause {
-  min-height: 44px;
-  margin: 4px 0 6px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
+  position: absolute;
+  right: -18px;
+  bottom: -8px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--teal);
+  border-radius: 50%;
+  background: var(--paper);
   color: var(--ink);
-  font: 500 12px var(--mono);
-  letter-spacing: .09em;
-  text-transform: uppercase;
   cursor: pointer;
 }
-.atlas-pause:hover { border-color: var(--teal); }
+.atlas-pause:hover { background: #fff; }
+/* A small globe (short screens) would sit under the button: put it beside the globe instead. */
+@container (max-height: 220px) {
+  .atlas-pause { right: auto; bottom: calc(50% - 22px); left: calc(100% + 12px); }
+}
 .atlas-pause:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
-.atlas-purpose { width: min(100%, 525px); margin: 5px 0 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.5; color: #395960; text-wrap: pretty; }
+.atlas-purpose { width: min(100%, 33rem); margin: 10px 0 0; font-size: clamp(1rem, 1.4vw, 1.1875rem); line-height: 1.5; color: #395960; text-wrap: pretty; }
 .atlas-enter {
   display: inline-flex;
   align-items: center;
@@ -108,7 +123,7 @@
   background: var(--btn-primary-bg);
   color: var(--btn-primary-ink);
   border: 1px solid var(--btn-primary-line);
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 3px;
@@ -132,33 +147,35 @@
 .replay-entry:focus { outline: none; }
 
 @media (max-width: 640px) {
-  .atlas-landing { padding-inline: 20px; overflow: hidden; }
-  .site-head.atlas-masthead { min-height: 55px; }
-  .atlas-hero { padding-block: 18px; }
+  .atlas-landing { padding-bottom: 12px; }
+  .atlas-hero { padding: 14px 20px 8px; }
   .atlas-hero h1 { font-size: clamp(36px, 9.2vw, 59px); }
-  /* Shorter than the globe's square box so the subhead costs the fold nothing at 375x812. */
-  .atlas-plate { height: clamp(240px, 70vw, 390px); margin-top: 4px; }
+  .atlas-plate { min-height: 104px; margin-top: 4px; }
   .atlas-survey { width: 134%; }
-  .atlas-planet { width: min(66vw, 327px); }
-  .atlas-purpose { max-width: 350px; margin-top: 2px; }
-  /* The open-questions line costs two lines here; this keeps the audit line above the fold at 375x812 (English). */
-  .atlas-hero .atlas-metrics { margin-top: 10px; }
+  .atlas-planet { width: min(66vw, 20.5rem, calc(100cqh - 16px)); }
+  .atlas-purpose { max-width: 350px; margin-top: 6px; }
+  .atlas-enter { margin-top: 14px; }
+  .atlas-hero .atlas-metrics { margin-top: 12px; font-size: 0.875rem; }
+  .atlas-hero .atlas-metrics b { font-size: 1.25rem; }
+  .atlas-hero .atlas-metrics .atlas-audit b { font-size: 1.125rem; }
 }
-/* Short laptop and projector screens (1280x720, 1366x768): a smaller globe and tighter spacing keep the button, the key
-   numbers and the links above the fold. Phones keep their own layout above. */
+/* Short screens (1280x720 laptops, landscape phones): tighter spacing, so the globe keeps more of the height. */
 @media (min-width: 641px) and (max-height: 800px) {
   .atlas-landing { padding-bottom: 12px; }
-  .atlas-masthead { min-height: 52px; }
-  .atlas-hero { padding: 14px 0 12px; }
+  .atlas-hero { padding-block: 14px 12px; }
   .atlas-hero h1 { font-size: clamp(40px, 4.4vw, 56px); }
   .atlas-sub { margin-top: 6px; }
-  .atlas-plate { height: clamp(170px, calc(100svh - 497px), 446px); margin-top: 2px; }
-  .atlas-planet { width: min(388px, calc(100svh - 522px), 68vw); }
-  .atlas-pause { margin: 0 0 2px; }
-  .atlas-purpose { margin-top: 2px; }
+  .atlas-plate { margin-top: 2px; }
+  .atlas-purpose { margin-top: 6px; }
   .atlas-enter { margin-top: 12px; }
   .atlas-metrics { margin-top: 12px; }
   .atlas-links { margin-top: 2px; }
+}
+/* Landscape phones (812x375): the title on one short line and a smaller floor for the globe keep the button on screen. */
+@media (min-width: 641px) and (max-height: 500px) {
+  .atlas-hero { padding-block: 8px 8px; }
+  .atlas-hero h1 { font-size: 34px; }
+  .atlas-plate { min-height: 96px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .atlas-leaving, .atlas-leaving .atlas-planet { animation-duration: 1ms; }
@@ -166,30 +183,32 @@
   .atlas-pause { display: none; }
 }
 
-/* Key numbers: quiet lines in the masthead's mono voice, not a stat-card row. The three counts share a line;
-   the audit result, a different kind of claim, gets its own line so no separator ever starts a wrapped line. */
+/* Key numbers: lines in the masthead's mono voice, not a stat-card row, with the numbers in the title's serif as the
+   second-largest text on the page. The three counts share a line; the open-questions count and the audit result,
+   different kinds of claim, get a line each; the separator trails its item, so a wrap never starts a line with it. */
 .atlas-metrics {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: baseline;
   gap: 4px 0;
-  max-width: 560px;
+  max-width: 40rem;
   margin: 22px 0 0;
   padding: 0;
   list-style: none;
-  font: 500 12px/1.5 var(--mono);
+  font: 500 1rem/1.4 var(--mono);
   letter-spacing: .04em;
   color: #395960;
   font-variant-numeric: tabular-nums;
 }
 .atlas-metrics li { white-space: nowrap; }
-.atlas-metrics li + li::before { content: '·'; padding-inline: 10px; color: var(--teal); }
-.atlas-metrics b { font-weight: 700; color: var(--ink); }
+.atlas-metrics li:has(+ li:not(.atlas-own-line, .atlas-audit))::after { content: '·'; padding-inline: 10px; color: var(--teal); }
+.atlas-metrics b { font: 400 1.5rem/1.1 var(--serif); letter-spacing: -0.01em; color: var(--ink); }
+.atlas-metrics .atlas-audit b { font-size: 1.25rem; }
 .atlas-metrics .atlas-audit, .atlas-metrics .atlas-own-line { flex-basis: 100%; white-space: normal; text-wrap: balance; }
-.atlas-metrics .atlas-audit::before, .atlas-metrics .atlas-own-line::before { content: none; }
 .atlas-metrics .atlas-m-sub { white-space: nowrap; }
 
 .atlas-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; margin-top: 8px; }
-.atlas-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: #442e29; text-underline-offset: 3px; }
+.atlas-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.9375rem; color: #442e29; text-underline-offset: 3px; }
 .atlas-links a:hover { text-decoration-thickness: 2px; }
 .atlas-links a:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }

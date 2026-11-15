@@ -44,9 +44,9 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
         <p className="atlas-sub">{t('landing.sub')}</p>
-        <div className="atlas-plate" aria-hidden="true">
-          <div className="atlas-grid" />
-          <svg className="atlas-survey" viewBox="0 0 650 462" fill="none">
+        <div className="atlas-plate">
+          <div className="atlas-grid" aria-hidden="true" />
+          <svg className="atlas-survey" viewBox="0 0 650 462" fill="none" aria-hidden="true">
             <circle cx="325" cy="231" r="218" strokeDasharray="1 5" />
             <circle cx="325" cy="231" r="208" />
             <path className="atlas-survey-accent" d="M142 131a208 208 0 0 1 72-76M508 331a208 208 0 0 1-72 76" />
@@ -55,15 +55,23 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </svg>
           <div className="atlas-planet">
             <GlobeBoundary onFail={() => setGlobeFailed(true)}><Suspense><AtlasGlobe paused={paused} /></Suspense></GlobeBoundary>
+            {/* A small toggle on the globe, so it never looks like the page's main action; hidden by CSS when reduced motion
+                already holds the globe still, and gone when the globe could not load. */}
+            {!globeFailed && (
+              <button
+                type="button"
+                className="atlas-pause"
+                aria-label={paused ? t('landing.spin') : t('landing.pause')}
+                title={paused ? t('landing.spin') : t('landing.pause')}
+                onClick={() => setPaused((p) => !p)}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  {paused ? <path d="M4.5 2.5v11l9-5.5z" fill="currentColor" /> : <path d="M4 2.5h2.6v11H4zm5.4 0H12v11H9.4z" fill="currentColor" />}
+                </svg>
+              </button>
+            )}
           </div>
         </div>
-        {/* Outside the aria-hidden plate so it stays reachable; hidden by CSS when reduced motion already stops the spin,
-            and gone when the globe could not load. */}
-        {!globeFailed && (
-          <button type="button" className="atlas-pause" onClick={() => setPaused((p) => !p)}>
-            {paused ? t('landing.spin') : t('landing.pause')}
-          </button>
-        )}
         <p className="atlas-purpose">{t('landing.purpose')}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
           {t('landing.enter')}
