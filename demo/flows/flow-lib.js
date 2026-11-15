@@ -3,7 +3,7 @@
 // Only clicks, hovers and scrolls: nothing here rewrites the page, so the take shows the app as built.
 const hold = (page, ms) => page.waitForTimeout(ms);
 
-// Wide screens (capture.sh records at 1280x720) open with a globe intro. The b1-b4 takes start on the flat
+// Wide screens (capture.sh records at 1280x720 unless HOS_WEB_SIZE says otherwise) open with a globe intro. The b1-b4 takes start on the flat
 // replay, so they need `?intro=0`; pass it in capture.sh --url to avoid the reload below showing in the take.
 async function openFlat(page) {
   const url = new URL(page.url());
@@ -47,8 +47,27 @@ async function glide(locator, page, ms = 1400) {
   await hold(page, ms);
 }
 
+// The flows were timed at capture.sh's 1280x720, where the map box was this; map points are given in that frame and
+// moved into today's map box, so a larger capture (HOS_WEB_SIZE=1920x930) zooms on about the same place.
+const MAP_AT_720P = { x: 0, y: 125.7, width: 839, height: 397.2 };
+async function mapPoint(page, x, y) {
+  const box = await page.locator('.map-wrap').boundingBox();
+  if (!box) throw new Error('no .map-wrap on the page, so a map point has nowhere to land');
+  const m = MAP_AT_720P;
+  return [box.x + ((x - m.x) / m.width) * box.width, box.y + ((y - m.y) / m.height) * box.height];
+}
+
+// The flagged monitor's pulse marker, the exact point the "close in on the monitor" zooms aim at at any size.
+async function flaggedPoint(page) {
+  const box = await page.locator('.pulse-anchor').first().boundingBox();
+  if (!box) throw new Error('no .pulse-anchor marker, so the zoom has no monitor to close in on');
+  return [box.x + box.width / 2, box.y + box.height / 2];
+}
+
 // A real wheel zoom on the map, so a shot opens on motion (craftlint OPENING-STATIC) instead of a still page.
-async function zoomMap(page, x, y, ticks, dy = -120) {
+// x, y are 1280x720-frame map points (see mapPoint); pass `exact: true` for a point already in page pixels.
+async function zoomMap(page, x, y, ticks, dy = -120, { exact = false } = {}) {
+  if (!exact) [x, y] = await mapPoint(page, x, y);
   await page.mouse.move(x, y);
   for (let i = 0; i < ticks; i++) {
     await page.mouse.wheel(0, dy);
@@ -69,4 +88,4 @@ async function glideWindow(locator, page, ms = 1400) {
   await hold(page, ms);
 }
 
-module.exports = { hold, ready, tab, glide, zoomMap, waitForFlat, next, glideWindow };
+module.exports = { hold, ready, tab, glide, zoomMap, flaggedPoint, waitForFlat, next, glideWindow };

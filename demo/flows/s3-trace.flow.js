@@ -13,6 +13,7 @@ module.exports = async (page) => {
     await rows.nth(i).hover(); // names the facility on the map, nearest first
     await hold(page, 1500);
   }
-  await page.mouse.move(640, 700);
+  const vp = page.viewportSize(); // off the rows and off the map, at any capture size
+  await page.mouse.move(vp.width / 2, vp.height - 20);
   await hold(page, 2400);
 };
