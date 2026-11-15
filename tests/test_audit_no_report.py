@@ -95,3 +95,17 @@ def test_banned_words_absent():
     banned = re.compile(r"\b(illegal|violations?|unreported|caught|polluters?|proves?)\b", re.IGNORECASE)
     for p in (PUBLISHED, DOC, Path(audit.__file__)):
         assert not banned.search(p.read_text()), p.name
+
+
+def test_beaumont_audit_names_no_facility_and_gives_no_incident_number():
+    from pipeline import regions
+    raw = regions.BEAUMONT.raw
+    doc = (ROOT / "docs" / "audit-beaumont.md").read_text()
+    text = doc.lower()
+    assert "gap stands" in text
+    names = {r["entity"].lower() for r in backtest.load_universe(raw)[0]}
+    names |= {r["AIRName"].lower() for p in raw.glob("echo_*.json")
+              for r in json.loads(p.read_text())["Results"]["Facilities"] if r.get("AIRName")}
+    assert not [n for n in names if len(n) >= 6 and n in text]
+    assert not [p.stem.split("_")[-1] for p in raw.glob("steers_[0-9]*.html") if p.stem.split("_")[-1] in text]
+    assert not re.search(r"\b(illegal|violations?|unreported|caught|polluters?|proves?)\b", doc, re.IGNORECASE)
