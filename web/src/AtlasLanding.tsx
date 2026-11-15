@@ -74,6 +74,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </div>
         </div>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
+        <p className="atlas-reframe">{t('landing.reframe', { spikes: M.spikes, noReport: M.noReport })}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
           {t('landing.enter')}
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -344,6 +344,7 @@ const EN = {
   'landing.pause': 'Pause the globe',
   'landing.spin': 'Spin the globe',
   'landing.purpose': 'Follow pollution spikes upwind and check them against public emissions reports to see what matches.',
+  'landing.reframe': 'Hourly state monitors are a coarse instrument, so we don’t claim to detect releases. We turn {spikes} spikes into {noReport} specific questions for the state that no public report answers.',
   'landing.enter': 'See one real spike, step by step',
   'landing.metrics': 'Key numbers',
   'landing.m.spikes': 'spikes',
@@ -373,8 +374,8 @@ const EN = {
   'brief.impact.answers': 'How many of those got a reply from TCEQ or Harris County Pollution Control, and what the reply said.',
   'brief.impact.wrong.h': 'How often “no matching report” is wrong.',
   'brief.impact.wrong': 'In the hand audit, {k} of {n} such spikes turned out to have a missed report. With {n} spikes, the true rate could still be as high as 28% (95% confidence interval).',
-  'brief.impact.time.h': 'Time saved.',
-  'brief.impact.time': 'Minutes for one person to check one spike by hand in the state’s report database, versus with this tool.',
+  'brief.impact.time.h': 'Work saved.',
+  'brief.impact.time': 'Checking one spike by hand means searching the state’s reports from the spike day and the {priorDays} days before, reading a median of {reportsMedian} report (up to {reportsMax}), placing a median of {facilitiesMedian} facilities (up to {facilitiesMax}) against the wind, and repeating the check at 14 days. For the {noReport} spikes with no matching report that adds up to {facilitiesTotal} facility checks and {reportsTotal} report reads. The app has done this for all {spikes} spikes; each answer is one click away in the Past spikes log.',
 
   // Follow / RSS
   'follow.monitor': 'Follow this monitor (RSS)',
@@ -1117,6 +1118,7 @@ const ES: Record<StringKey, string> = {
   'landing.pause': 'Pausar el globo',
   'landing.spin': 'Girar el globo',
   'landing.purpose': 'Siga los picos de contaminación viento arriba y compárelos con los reportes públicos de emisiones para ver qué coincide.',
+  'landing.reframe': 'Los monitores estatales por hora son un instrumento poco preciso, así que no afirmamos detectar emisiones. Convertimos {spikes} picos en {noReport} preguntas concretas para el estado que ningún reporte público responde.',
   'landing.enter': 'Vea un pico real, paso a paso',
   'landing.metrics': 'Cifras clave',
   'landing.m.spikes': 'picos',
@@ -1145,8 +1147,8 @@ const ES: Record<StringKey, string> = {
   'brief.impact.answers': 'Cuántos de ellos recibieron respuesta de la TCEQ o de Harris County Pollution Control, y qué decía la respuesta.',
   'brief.impact.wrong.h': 'Con qué frecuencia se equivoca «sin reporte que coincida».',
   'brief.impact.wrong': 'En la revisión a mano, {k} de {n} de esos picos resultaron tener un reporte que se nos pasó. Con {n} picos, la tasa real todavía podría llegar al 28% (intervalo de confianza del 95%).',
-  'brief.impact.time.h': 'Tiempo ahorrado.',
-  'brief.impact.time': 'Minutos que tarda una persona en revisar un pico a mano en la base de datos de reportes del estado, frente a hacerlo con esta herramienta.',
+  'brief.impact.time.h': 'Trabajo ahorrado.',
+  'brief.impact.time': 'Revisar un pico a mano implica buscar los reportes del estado del día del pico y de los {priorDays} días anteriores, leer una mediana de {reportsMedian} reporte (hasta {reportsMax}), ubicar una mediana de {facilitiesMedian} instalaciones (hasta {facilitiesMax}) respecto al viento y repetir la revisión a los 14 días. En los {noReport} picos sin reporte coincidente eso suma {facilitiesTotal} ubicaciones de instalaciones y {reportsTotal} lecturas de reportes. La app ya lo hizo para los {spikes} picos; cada respuesta está a un clic en el registro de picos pasados.',
 
   'follow.monitor': 'Seguir este monitor (RSS)',
   'follow.all': 'Todos los picos (RSS)',
