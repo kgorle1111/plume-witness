@@ -24,7 +24,9 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 ## Measured so far
 
 - **One real night, replayed.** 2024-06-21, Milby Park: the check finds the company's own report (INEOS, 7,634 lb of benzene) inside the upwind corridor, filed on time. It shows the check passing. The "no report after the deadline" status has run on real spikes in the backtest, but nobody has checked those results by hand, so the site shows none of them as a finding.
-- **Backtest on 66 releases companies reported to the state** ([docs/backtest.md](docs/backtest.md)): only 2 of 66 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 66 end to end. The other releases left no clear spike at the 10 ppb trigger near the reported start. How often a "no report" result is wrong is not measured.
+- **Backtest on 72 releases companies reported to the state** ([docs/backtest.md](docs/backtest.md)): only 3 of 72 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 72 end to end.
+- **What the monitors can see** ([docs/detector.md](docs/detector.md)): in 52 of 72 a monitor within 15 km was downwind near the reported start, yet ordinary days at the same monitors and hours spiked just as often (19 of 386 windows) at every trigger setting tested. For these releases, hourly state monitors cannot confirm or contradict a company's report. How often a "no report" result is wrong is not measured.
+- **Also in the data:** a past-spikes log of all 415 spikes in 2024-2025 with a replay of each night, a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), and facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)).
 - Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
 
 ## Data (all public)

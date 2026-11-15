@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo } from './format'
 import { DEMO_REPLAY_HREF } from './routes'
 import { NO_FILTER, dateText, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
+import { SpikeCalendar } from './SpikeCalendar'
 import './SpikeLog.css'
 
 // One line per status, written for this log (every spike here is past its reporting deadline).
@@ -118,6 +119,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
     const statuses = [...count((r) => r.status)].sort((a, b) => b[1] - a[1])
     const years = [...count((r) => r.date.slice(0, 4))].sort()
     return {
+      monitors: sites.map(([v]) => [v, names.get(v)!]) as [string, string][],
+      years: years.map(([v]) => v),
       site: [['', 'All monitors'], ...sites.map(([v, n]) => [v, `${names.get(v)} (${n})`])] as [string, string][],
       compound: [['', 'Both compounds'], ...compounds.map(([v, n]) => [v, `${v} (${n})`])] as [string, string][],
       status: [['', 'Any record check'], ...statuses.map(([v, n]) => [v, `${statusInfo(v).en} (${n})`])] as [string, string][],
@@ -197,6 +200,12 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           </button>
         </div>
       </section>
+
+      <SpikeCalendar
+        rows={rows}
+        monitors={filters.site ? options.monitors.filter(([v]) => v === filters.site) : options.monitors}
+        years={filters.year ? [filters.year] : options.years}
+      />
 
       <div className="sl-table-wrap" tabIndex={0} role="region" aria-labelledby="sl-caption">
         <table className="sl-table">

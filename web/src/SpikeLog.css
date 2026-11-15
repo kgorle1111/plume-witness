@@ -100,3 +100,18 @@
   .sl-page { padding-top: 20px; }
   .sl-head h1 { font-size: 1.9rem; }
 }
+
+/* Calendar heatmap: one strip per monitor per year, one column per day. Scrolls sideways on phones. */
+.sl-cal { display: grid; gap: 8px; margin: 0; }
+.sl-cal figcaption { font-size: 0.85rem; color: var(--ink-2); max-width: 72ch; }
+.sl-cal-scroll { overflow-x: auto; max-width: 100%; }
+.sl-cal-year { display: grid; gap: 2px; min-width: 720px; padding-bottom: 10px; }
+.sl-cal-row { display: grid; grid-template-columns: 10.5rem 1fr; align-items: center; gap: 8px; }
+.sl-cal-name { font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sl-cal-axis .sl-cal-name { font-weight: 700; color: var(--ink); font-size: 0.8rem; }
+.sl-cal-months { position: relative; height: 1rem; font-size: 0.7rem; color: var(--ink-2); }
+.sl-cal-months span { position: absolute; top: 0; }
+.sl-cal-strip { display: block; width: 100%; height: 14px; background: var(--bg-2); border-radius: 2px; }
+.sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
+.sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
+.sl-cal-swatch { width: 12px; height: 12px; border-radius: 2px; }
