@@ -44,17 +44,20 @@ def hourly_flags(path: Path, day: str) -> list[str | None]:
     raise ValueError(f"{path.name}: day {day} not found")
 
 
-# Reported pounds per AQS parameter code. The lookbehind stops "methylbenzene" or "1,2-butadiene"-style names
-# from counting as the monitored compound.
+# Reported pounds per AQS parameter code. Each STEERS contaminant name is its own table cell, and `_text` turns
+# every tag into a line break, so the name must start its line: "Tetramethyl benzene", "Ethyl Benzene" or
+# "2-Methyl-1,3 butadiene" are other compounds and never count as the monitored one.
 COMPOUND_RE = {
-    "45201": re.compile(r"(?<![A-Za-z-])benzene (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
-    "43218": re.compile(r"(?<![A-Za-z-])(?:1,3[- ]?butadiene|butadiene, ?1-3) (\d[\d,]*\.?\d*) POUNDS",
-                        re.IGNORECASE),
+    "45201": re.compile(r"^[ \t]*benzene\s+(\d[\d,]*\.?\d*)\s+POUNDS", re.IGNORECASE | re.MULTILINE),
+    "43218": re.compile(r"^[ \t]*(?:1,3[- ]?butadiene|butadiene, ?1-3)\s+(\d[\d,]*\.?\d*)\s+POUNDS",
+                        re.IGNORECASE | re.MULTILINE),
 }
 
 
 def lbs_by_param(text: str) -> dict[str, float]:
-    """Total reported pounds per monitored compound across every emission point on a STEERS detail page."""
+    """Total reported pounds per monitored compound across every emission point on a STEERS detail page.
+
+    `text` is `_text(path)` before whitespace is collapsed: the line breaks are the cell boundaries."""
     return {p: round(sum(float(x.replace(",", "")) for x in rx.findall(text)), 3) for p, rx in COMPOUND_RE.items()}
 
 
@@ -130,7 +133,7 @@ def steers_incident(path: Path) -> dict:
         "compound": m.group(1).strip() if m else None,
         "pounds": float(m.group(2).replace(",", "")) if m else None,
         "cause": _after("Reason for Scheduled Activity", t, ".") if "Reason for Scheduled Activity" in t else None,
-        "lbs_by_param": lbs_by_param(t),
+        "lbs_by_param": lbs_by_param(_text(path)),
         # The page's own report fields. "FINAL" appears in the text of every page, so it is never searched for.
         "report_type": _after("Report Type:", t, "Report Date") if "Report Type:" in t else None,
         "report_date": _report_date(t),

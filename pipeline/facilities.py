@@ -86,7 +86,7 @@ def report_summary(path: Path) -> dict:
         return m.group(1).strip()
 
     stamp = r"(\d{2}/\d{2}/\d{4} \d{2}:\d{2} [AP]M)"
-    lbs = lbs_by_param(t)
+    lbs = lbs_by_param(_text(path))
     cause = re.search(r"Reason for Scheduled Activity: (.*?) Actions Taken", t)
     text, withheld = cause_excerpt(cause.group(1) if cause else None)
     out = {

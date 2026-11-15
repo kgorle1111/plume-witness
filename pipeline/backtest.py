@@ -51,7 +51,7 @@ def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
 
 def compound_pounds(path: Path) -> dict[str, float]:
     """Total reported pounds per compound across every emission point on a STEERS detail page."""
-    return lbs_by_param(re.sub(r"\s+", " ", _text(path)))
+    return lbs_by_param(_text(path))
 
 
 def event_meta(path: Path) -> dict:

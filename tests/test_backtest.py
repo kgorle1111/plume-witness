@@ -168,6 +168,26 @@ def test_butadiene_spelled_with_a_space_counts_but_lookalikes_do_not(tmp_path):
     assert backtest.compound_pounds(p) == {"45201": 0.0, "43218": 5.0}
 
 
+def _table_row(name: str, qty: str) -> str:
+    return f"<tr>\n  <td>\n    {name}\n  </td>\n  <td class='alignrt'>\n    {qty}\n  </td>\n  <td>\n    POUNDS\n  </td>\n</tr>\n"
+
+
+def test_prefixed_compound_names_in_the_steers_table_do_not_count(tmp_path):
+    # The real STEERS layout: one table cell per field, so a word before the name inside the cell is another compound.
+    p = tmp_path / "steers_3.html"
+    p.write_text("<table>" + "".join(_table_row(n, q) for n, q in (
+        ("Tetramethyl benzene", "572.81"), ("Ethyl Benzene", "0.41"), ("Ethylbenzene", "3"), ("Benzene", "10"),
+        ("2-Methyl-1,3 butadiene", "4"), ("Isoprene 1,3-butadiene", "6"), ("1,3-Butadiene", "2"))) + "</table>")
+    assert backtest.compound_pounds(p) == {"45201": 10.0, "43218": 2.0}
+
+
+def test_real_steers_pages_count_only_the_benzene_row():
+    from pipeline.parse import steers_incident
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw" / "backtest"
+    assert steers_incident(raw / "steers_418948.html")["lbs_by_param"]["45201"] == 1473.91
+    assert steers_incident(raw / "steers_442288.html")["lbs_by_param"]["45201"] == 41.0
+
+
 def _week(raw: Path, beg: str, end: str) -> None:
     (raw / f"steers_search_harris_{beg}_{end}.html").write_text("<p>No records</p>")
 
