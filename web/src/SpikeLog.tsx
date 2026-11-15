@@ -3,7 +3,7 @@ import { hourLabel, maxFracDigits, safeHttpUrl, statusInfo, statusLabel } from '
 import { Num } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import {
-  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonInLabel, reasonKey, rowStatusLabel, spikeKey, toCsv, yearSpan,
+  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, sortFromParam, sortParam, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonInLabel, reasonKey, rowStatusLabel, spikeKey, toCsv, yearSpan,
   type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow,
 } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
@@ -21,7 +21,7 @@ const STATUS_NOTES = ['reported', 'reported_mismatch', 'no_report_after_deadline
 
 function readUrl(initialSite?: string): { filters: Filters; sort: SortKey; dir: Dir } {
   const q = new URLSearchParams(window.location.search)
-  const sort = (['date', 'value', 'ratio'] as const).find((k) => k === q.get('sort')) ?? 'date'
+  const sort = sortFromParam(q.get('sort'))
   return {
     filters: { site: initialSite ?? q.get('site') ?? '', compound: q.get('compound') ?? '', status: q.get('status') ?? '', year: q.get('year') ?? '' },
     sort,
@@ -32,7 +32,7 @@ function readUrl(initialSite?: string): { filters: Filters; sort: SortKey; dir: 
 /** Keeps the filtered view shareable: a reporter can paste the URL and get the same rows. */
 function writeUrl(f: Filters, sort: SortKey, dir: Dir) {
   const q = new URLSearchParams(window.location.search)
-  for (const [k, v] of Object.entries({ ...f, sort: sort === 'date' ? '' : sort, dir: dir === 'desc' ? '' : dir })) {
+  for (const [k, v] of Object.entries({ ...f, sort: sortParam(sort), dir: dir === 'desc' ? '' : dir })) {
     if (v) q.set(k, v)
     else q.delete(k)
   }
@@ -125,13 +125,14 @@ function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   )
 }
 
-/** A night with no file (no wind data) gets plain text: a link there would 404. */
-function ReplayLink({ row, region, lang, onOpen }: { row: SpikeRow; region: RegionInfo; lang: Lang; onOpen: () => void }) {
+/** A night with no file (no wind data) gets plain text: a link there would 404. `short`: the table's "Replay →" (the
+ *  full words widened the table past its box at 1920); the accessible name is the full one either way. */
+function ReplayLink({ row, region, lang, onOpen, short = false }: { row: SpikeRow; region: RegionInfo; lang: Lang; onOpen: () => void; short?: boolean }) {
   const t = useT()
   if (!row.night_id) return <span className="sl-noreplay">{t('spikes.noReplay')}</span>
   return (
     <a className="nowrap sl-replay" href={nightHref(region, row.night_id)} onClick={onOpen}
-      aria-label={t('spikes.replayAria', { date: dateLabel(row.date, lang), compound: compoundLabel(lang, row.compound), site: row.site })}>{t('spikes.replayLink')}</a>
+      aria-label={t('spikes.replayAria', { date: dateLabel(row.date, lang), compound: compoundLabel(lang, row.compound), site: row.site })}>{t(short ? 'spikes.replayShort' : 'spikes.replayLink')}</a>
   )
 }
 
@@ -179,7 +180,7 @@ const Row = memo(function Row({ r, i, region, lang, onOpen, fValue, fBase, fRati
         {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
       </td>
       <td>
-        <ReplayLink row={r} region={region} lang={lang} onOpen={onOpen} />
+        <ReplayLink row={r} region={region} lang={lang} onOpen={onOpen} short />
       </td>
     </tr>
   )

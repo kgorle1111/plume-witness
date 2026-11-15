@@ -2,7 +2,7 @@
 
 The Beaumont-Port Arthur region (two AutoGC sites; backtest in `docs/backtest-beaumont.md`) has two detected spikes in 2024-2025. One is
 labelled `no_report_after_deadline`: **2025-08-25, benzene, Beaumont-Downtown (48_245_0009)**. This is a hand check
-of that one night with the same four checks as the Houston audit (`docs/audit-no-report.md`), run on the cached
+of that one spike with the same four checks as the Houston audit (`docs/audit-no-report.md`), run on the cached
 pages in `data/raw/region_beaumont/`. Evidence: `uv run python -m pipeline.audit_no_report --region beaumont`
 (prints it, no network; may show names, so it is local review only).
 
@@ -10,7 +10,7 @@ pages in `data/raw/region_beaumont/`. Evidence: `uv run python -m pipeline.audit
 
 No report in the saved Jefferson County STEERS searches was running within 12 hours of the spike, so there is no
 report, in or out of the wedge, that the matching step missed. The reading itself looks like a plume passing, not an
-artifact. One night does not say anything about how often the label is right in this region.
+artifact. One spike does not say anything about how often the label is right in this region.
 
 ## Evidence
 
@@ -26,7 +26,7 @@ artifact. One night does not say anything about how often the label is right in 
 ## What keeps this from being stronger
 
 - **One hour over the trigger, and only by 0.41 ppb** (10.41 against the 10 ppb floor). A slightly different
-  threshold would not have flagged the night.
+  threshold would not have flagged the spike.
 - **The only other monitor, 9.0 km away, did not rise** (0.14 ppb at the hour; its largest value from the hour
   before to two hours after was 0.45). Two sites 9 km apart cannot tell a local plume from an instrument problem.
 - **Wind is from the monitor itself, near the lower limit** of what the corridor can use; the wind turned to 125 deg

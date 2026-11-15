@@ -594,7 +594,9 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const audio = useRef<HTMLAudioElement>(null)
   const guard = ev.packet.guard
   const aiFailed = useAiDraftFailed()
-  const replayUrl = noteUrl(location.href)
+  // The note and the filing dialog share one link: the night's preview page (it unfurls with the night's own title and
+  // opens the replay on Check); the demo night has none and keeps the replay URL.
+  const replayUrl = noteShareUrl(import.meta.env.BASE_URL, location.href) ?? noteUrl(location.href)
   const recordUrl = safeHttpUrl(ev.record_check.source_url)
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
@@ -668,8 +670,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   const copyNote = async () => {
-    // A forwarded note unfurls as this night's preview page (title, reading, status), which opens the replay on Check.
-    const text = incidentNote(ev, noteShareUrl(import.meta.env.BASE_URL, location.href) ?? replayUrl, lang)
+    const text = incidentNote(ev, replayUrl, lang)
     try {
       await navigator.clipboard.writeText(text)
       setNoteFallback(null)
