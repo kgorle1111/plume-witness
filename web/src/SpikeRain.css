@@ -9,9 +9,10 @@
 .rn-stage { display: grid; gap: 16px; min-width: 0; }
 .rn-main, .rn-side { display: grid; gap: 12px; min-width: 0; align-content: start; }
 
+/* svh, not dvh: inside a scrolling page a dvh map resizes (and shifts everything under it) as the URL bar hides. */
 .rn-map {
   position: relative;
-  height: 50vh; height: 50dvh;
+  height: 50vh; height: 50svh;
   min-height: 260px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -20,7 +21,22 @@
 }
 /* Scoped so it outranks .maplibregl-map { position: relative }, whose CSS loads later. */
 .rn-map .rain-canvas { position: absolute; inset: 0; }
-.rain-canvas .maplibregl-ctrl-attrib { font-size: 12px; line-height: 1.3; }
+/* The base-map credit, as page text under the map (RainMap.tsx turns MapLibre's in-map control off). */
+.rn-credit { font-size: 0.8rem; color: var(--ink-2); margin-top: -6px; }
+.rn-credit a { display: inline-block; padding-block: 4px; color: inherit; }
+@media (pointer: coarse) { .rn-credit a { padding-block: 12px; } }
+/* Shown when the base map style fails: the dots still draw, on a blank background. */
+.rn-map-note {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 2; margin: 0;
+  padding: 6px 10px; font-size: 0.85rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+}
+/* Mouse-only hover label for one dot (RainMap.tsx positions it). */
+.rn-tip {
+  position: absolute; z-index: 3; max-width: 300px; padding: 4px 8px; pointer-events: none;
+  font-size: 0.8rem; line-height: 1.35; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: var(--shadow-1);
+}
+.rn-tip[hidden] { display: none; }
 .rn-map-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; color: var(--ink-2); }
 
 /* HUD: sits above the map, never moves with it. */
@@ -54,11 +70,18 @@
 .rn-controls { display: grid; gap: 10px; }
 .rn-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .rn-play { min-width: 112px; display: inline-flex; gap: 8px; align-items: center; justify-content: center; }
+.rn-play-label { display: inline-grid; }
+.rn-play-label > span { grid-area: 1 / 1; }
+.rn-ghost { visibility: hidden; }
 /* Disabled while the map loads: the default disabled border is 1.3:1 on the page; ink-3 is 6.3:1 (dark 8.0:1). */
 .rn-play:disabled { border-color: var(--ink-3); }
 .rn-key { font-size: 0.75rem; font-weight: 600; border: 1px solid rgb(255 255 255 / 0.6); border-radius: 4px; padding: 0 4px; opacity: 0.85; }
 .rn-speed { display: flex; gap: 6px; }
 .rn-speed .btn[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+/* Windows High Contrast drops the fill above, which left pressed and unpressed identical. */
+@media (forced-colors: active) {
+  .rn-speed .btn[aria-pressed='true'] { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
+}
 .rn-rm { color: var(--ink-2); font-size: 0.9rem; }
 .rn-hint { font-size: 0.8rem; color: var(--ink-3); }
 
@@ -99,7 +122,7 @@
 .rn-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--dot); }
 /* A ring, not a disc: no matching report is drawn hollow on the map too. */
 .rn-dot-ring { background: transparent; box-shadow: inset 0 0 0 3px var(--dot); }
-.rn-count-n { font-weight: 700; font-size: 1.1rem; }
+.rn-count-n { font-weight: 700; font-size: 1.1rem; min-width: 3ch; text-align: right; }
 .rn-key-note { font-size: 0.8rem; color: var(--ink-2); }
 
 .rn-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
@@ -110,10 +133,31 @@
 .rn-list a:hover { background: var(--bg-2); }
 .rn-li-when { font-size: 0.8rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .rn-li-what { font-size: 0.9rem; }
+/* Rain mode: six fixed slots of one fixed card height (padding + border + when + two "what" lines + the pill), so a
+   new spike swaps text in place and nothing below the list moves. 1.45 is the body line-height (index.css). */
+.rn-latest { --rn-card: calc(28px + 4.93rem); min-height: calc(6 * var(--rn-card) + 30px); }
+.rn-latest .rn-list a, .rn-latest .rn-nolink { height: var(--rn-card); overflow: hidden; align-content: start; }
+.rn-latest .rn-li-what {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+  overflow: hidden; min-height: calc(2 * 1.45em);
+}
+.rn-latest .sl-status { white-space: normal; }
+/* Below ~380px the longest pill ("Sin reporte que coincida (una pregunta)") takes two lines: reserve them. */
+@media (max-width: 379px) { .rn-latest { --rn-card: calc(28px + 6.09rem); } }
 .rn-empty { font-size: 0.85rem; color: var(--ink-2); }
 .rn-foot { font-size: 0.8rem; color: var(--ink-2); }
 
+/* Loading and error states hold a screen of height, so the footer doesn't paint mid-screen and then jump. */
+.rn-state { min-height: 100vh; min-height: 100svh; align-content: start; }
+.rn-state-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
 .rn-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Phones and tablets: Play/Pause and the scrubber come before the map, so the control for a page that autoplays is
+   on the first screen. The map holds no focusable control, so visual and Tab order still agree. */
+@media (max-width: 899px) {
+  .rn-controls { order: -1; }
+}
 
 @media (min-width: 900px) {
   .rn-page { padding-inline: 24px; }
@@ -121,12 +165,20 @@
   .rn-stage { grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; }
   /* Header, map, caption and the scrubber fit one 720px-tall laptop or projector screen: a shorter map floor, and the
      play buttons share the scrubber's row. */
-  .rn-map { height: clamp(300px, calc(100dvh - 400px), 620px); }
+  .rn-map { height: clamp(300px, calc(100vh - 400px), 620px); height: clamp(300px, calc(100svh - 400px), 620px); }
   .rn-controls { grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; align-items: start; }
   .rn-buttons { flex-wrap: nowrap; }
   .rn-hint { grid-column: 1 / -1; }
   /* Reduced motion has no buttons, only a sentence: keep it above a full-width scrubber. */
   .rn-controls:has(.rn-rm) { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 1920 and 2560 screens and projectors: the map was capped at 866x618 (15% of a 2560x1440 screen). */
+@media (min-width: 1600px) {
+  .rn-page { max-width: 1760px; }
+  .rn-stage { grid-template-columns: minmax(0, 1fr) 380px; }
+  .rn-map { height: clamp(300px, calc(100svh - 440px), 1100px); }
+  .rain-canvas .rain-monitor span { font-size: 14px; }
 }
 
 /* Touch devices have no space bar or arrow keys. */
