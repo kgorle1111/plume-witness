@@ -48,9 +48,12 @@ const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion:
 // `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
 const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
-// 1440px, against 0.17 / 0.26 MB for the flat view alone. Browsers in Data Saver mode don't get it on load.
+// 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
+// screens (the same 1024px breakpoint as the side-by-side layout); phones open flat and keep "Show globe".
+// Browsers in Data Saver mode don't get it on load either.
 const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
-const introOnLoad = () => !prefersReducedMotion() && !introOptedOut() && !saveData()
+const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
+const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOptedOut() && !saveData()
 
 // With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
 // focus in the Trace list (which stays the full text equivalent).
