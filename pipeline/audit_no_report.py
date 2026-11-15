@@ -13,6 +13,7 @@ the evidence. Published rows carry incident ids, never facility or company names
 Usage:
   uv run python -m pipeline.audit_no_report            # print the evidence (local review; may show names)
   uv run python -m pipeline.audit_no_report --write    # write docs/audit-no-report.json (no names)
+  uv run python -m pipeline.audit_no_report --region beaumont   # evidence for that region's no-report spikes
 """
 
 import json
@@ -41,10 +42,17 @@ LUMPED_RE = re.compile(r"(?:\bunspeciated |\btotal |\bother )?(?:\bVOCs?|volatil
 CONTAMINANT_RE = re.compile(r"([A-Za-z0-9][^<>]{1,80}?) (\d[\d,]*\.?\d*) POUNDS")
 
 
+# Spikes that were `no_report_after_deadline` when the sample was drawn and now abstain: their report's name is
+# shared by several ECHO sites and the street address does not settle it (finding B, fixed in `build.place_incidents`).
+# They stay in the population the seeded shuffle draws from, so the 10 hand-read nights do not change.
+DRAWN_BEFORE_NAME_FIX = {"2025-09-22_45201_48_201_0057", "2025-09-22_43218_48_201_0057"}
+
+
 def sample(spikes: list[dict], seed: int = SEED, n: int = N, cap: int = MAX_PER_MONITOR) -> list[dict]:
     """Seeded shuffle of the no-report spikes (sorted first, so file order cannot change it), then take spikes in
     shuffled order, skipping any whose monitor already has `cap`."""
-    pool = sorted((s for s in spikes if s["status"] == "no_report_after_deadline"),
+    pool = sorted((s for s in spikes
+                   if s["status"] == "no_report_after_deadline" or spike_id(s) in DRAWN_BEFORE_NAME_FIX),
                   key=lambda s: (datetime.strptime(s["day"], "%m/%d/%Y"), s["param"], s["site_id"]))
     random.Random(seed).shuffle(pool)
     out, per = [], {}
@@ -289,7 +297,21 @@ def sweep(evs: list[dict]) -> dict:
     }
 
 
+def region_evidence(key: str) -> list[dict]:
+    """The same four checks for every no-report spike of another region (evidence only: verdicts are written by hand)."""
+    from pipeline import regions
+    reg = regions.get(key)
+    ctx = nights.load_context(reg.raw, reg.sites)
+    rows = json.loads(reg.spikes_out.read_text())["rows"]
+    return [evidence({"day": datetime.fromisoformat(r["date"]).strftime("%m/%d/%Y"), "param": r["param"],
+                      "site_id": r["site_id"]}, ctx, reg.raw)
+            for r in rows if r["status"] == "no_report_after_deadline"]
+
+
 def main() -> None:
+    if sys.argv[1:2] == ["--region"]:
+        print(json.dumps(region_evidence(sys.argv[2]), indent=1, default=str))
+        return
     bt = json.loads(SRC.read_text())
     ctx = nights.load_context()
     picked = sample(bt["spikes"])

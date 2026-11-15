@@ -21,10 +21,9 @@
   "matched_on_complete_search": 1,
   "not_matched_reasons": {
    "no monitor crossed the trigger rule": 56,
+   "reporting facility outside the corridor": 7,
    "wind too light to trace": 6,
-   "reporting facility outside the corridor": 6,
-   "in corridor, but report time does not overlap the detection-time window": 2,
-   "pipeline could not locate the reporting facility": 1
+   "in corridor, but report time does not overlap the detection-time window": 2
   },
   "detected_but_other_incident_matched": 2,
   "detected_said_no_report_after_deadline": 4,
@@ -37,15 +36,15 @@
   "spikes": 415,
   "spike_days": 345,
   "by_status": {
-   "search_incomplete": 225,
-   "no_report_after_deadline": 172,
-   "reported_mismatch": 13,
-   "reported": 4,
+   "search_incomplete": 227,
+   "no_report_after_deadline": 170,
+   "reported_mismatch": 11,
+   "reported": 6,
    "no_wind": 1
   },
   "false_no_report": 0,
-  "no_report_found_after_complete_search": 172,
-  "abstained_search_incomplete": 225,
+  "no_report_found_after_complete_search": 170,
+  "abstained_search_incomplete": 227,
   "abstained_calm_wind": 98,
   "abstained_earlier_days_unsearched": 55,
   "matched_an_ongoing_report": 14
@@ -1409,12 +1408,12 @@
     "baseline": 0.755
    },
    "wind_site": "48_201_0307",
-   "facility_in_corridor": null,
+   "facility_in_corridor": false,
    "matched": false,
    "matched_other_incident": null,
    "record_status": "search_incomplete",
    "search_complete": true,
-   "reason": "pipeline could not locate the reporting facility",
+   "reason": "reporting facility outside the corridor",
    "earlier_search_complete": true,
    "unreadable_day_reports": [],
    "wind_from_deg": [
@@ -1422,7 +1421,7 @@
     144.0
    ],
    "corridor_size": 11,
-   "pipeline_resolution": "unresolved: facility not located",
+   "pipeline_resolution": "outside the corridor (3.3 km, 57\u00b0 off the wind)",
    "geo_in_corridor": false
   },
   {
@@ -4111,8 +4110,8 @@
    "search_complete": true,
    "earlier_search_complete": true,
    "day_reports": 0,
-   "status": "reported_mismatch",
-   "matched_incident": "420878",
+   "status": "reported",
+   "matched_incident": "421635",
    "corridor_size": 28,
    "calm_mph": null,
    "ongoing_reports": 2,
@@ -4129,8 +4128,8 @@
    "search_complete": true,
    "earlier_search_complete": true,
    "day_reports": 0,
-   "status": "reported_mismatch",
-   "matched_incident": "420878",
+   "status": "reported",
+   "matched_incident": "421635",
    "corridor_size": 31,
    "calm_mph": null,
    "ongoing_reports": 2,
@@ -9475,7 +9474,7 @@
    "search_complete": true,
    "earlier_search_complete": true,
    "day_reports": 1,
-   "status": "no_report_after_deadline",
+   "status": "search_incomplete",
    "matched_incident": null,
    "corridor_size": 5,
    "calm_mph": null,
@@ -9493,7 +9492,7 @@
    "search_complete": true,
    "earlier_search_complete": true,
    "day_reports": 1,
-   "status": "no_report_after_deadline",
+   "status": "search_incomplete",
    "matched_incident": null,
    "corridor_size": 6,
    "calm_mph": null,

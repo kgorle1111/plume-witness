@@ -1,7 +1,7 @@
 # Audit: are the "no matching report" nights right?
 
-Hand audit of a random sample of the spikes that the backtest labels `no_report_after_deadline` (172 of the 415
-detected spikes in 2024-2025, `data/build/backtest.json`). Reproduce the sample and its evidence with
+Hand audit of a random sample of the spikes that the backtest labels `no_report_after_deadline` (172 of the 415 detected
+spikes in 2024-2025 when sampled, 170 now: see the update below; `data/build/backtest.json`). Reproduce the sample and its evidence with
 `uv run python -m pipeline.audit_no_report` (prints the evidence for local review) and
 `uv run python -m pipeline.audit_no_report --write` (writes `docs/audit-no-report.json`). No network: everything
 comes from the cached pages in `data/raw/backtest/`.
@@ -20,7 +20,7 @@ counted as errors, it would be 2 of 10 (6-51%). Ten nights cannot rule out an er
 rule out a tool that is wrong most of the time.
 
 An automated sweep of all 172 nights (checks 1 and 3 below, no hand reading) adds one number the sample is too
-small to see: on **5 of 172 (2.9%, 95% CI 1.2-6.6%)** a report that lists the spiking compound was running at the
+small to see: on **5 of 170 (2.9%, 95% CI 1.3-6.7%)** a report that lists the spiking compound was running at the
 spike, inside a wider 45 deg wedge but outside the pipeline's 22.5 deg corridor. None of those 5 is in the sample.
 That is the size of the main systematic weakness found (proposal A).
 
@@ -29,10 +29,23 @@ That is the size of the main systematic weakness found (proposal A).
 - "We picked 10 'no matching report' nights at random and checked each one by hand against every report filed
   within 12 hours. In 8 the gap held up, 2 could not be settled from public data, and in none did we find a
   report we had missed (0 of 10; with 10 nights the true miss rate could still be as high as 28%)."
-- "Across all 172 such nights, widening the upwind wedge from 22.5 to 45 degrees would have found a report
+- "Across all 170 such nights, widening the upwind wedge from 22.5 to 45 degrees would have found a report
   listing the same chemical on 5 of them, about 1 in 35."
 - "'No matching report' is never a finding about a facility: Texas requires a report only above a reportable
   quantity, and traffic, ships, tanks and permitted emissions also raise readings."
+
+## Update: duplicate names fixed (finding B)
+
+The sample below was drawn from 172 spikes when the pipeline placed a report at the last ECHO site that shared its
+name. `build.place_incidents` now uses `build.locate` (name, then the report's own street number, then street
+address); a name that stays ambiguous is marked unresolved and the check abstains. Re-running the backtest moved
+four spikes (all at two monitors, none in the 10-night sample): two nights at one monitor went from
+`no_report_after_deadline` to `search_incomplete` because the name is shared and the address does not settle it, and two
+went from `reported_mismatch` to `reported` (the report was placed outside the corridor because the corridor
+list holds one name per site, while ECHO lists that site under five names). The population is now 170. The 10 hand
+verdicts are unchanged: the shuffle still draws from the 172 that existed when the sample was taken
+(`DRAWN_BEFORE_NAME_FIX`), and the sweep below counts the 170 that remain. The two sweep rows about name lookups
+(9 and 8) measure the old last-row lookup and are kept as the record of what was fixed.
 
 ## Method
 
@@ -89,12 +102,12 @@ Times are CST hour of the hourly reading; values in ppb (7-day median baseline i
 | 2025-09-19 | Galena Park | benzene | 20 | 13.21 (0.64) | can't tell | 1 | A flaring report was running at the spike hour, 11.3 km away and 38 deg off the wind: inside the 45 deg wedge, outside the 22.5 deg corridor. It lists SO2, CO, H2S and light hydrocarbons, no benzene and no lumped VOC line. Wind borrowed from Milby Park 3.8 km away, and it turned from 142 to 181 deg in the next hour. Would decide it: wind measured at Galena Park, or a speciated analysis of that flaring. |
 | 2025-10-31 | HRM-16 Deer Park | benzene | 7 | 10.65 (0.19) | gap stands | 1 | Two reports within +/-12 h: a maintenance activity 18.5 km away, neither compound; one 9.3 km away, 119 deg off the wind (2.5 lb benzene). Neither inside the 45 deg wedge. Wind borrowed from Lynchburg Ferry. |
 
-## Sweep of all 172 nights (automated, not hand-read)
+## Sweep of all 170 nights (automated, not hand-read)
 
 | Check | Nights |
 |---|---|
-| reproduce `no_report_after_deadline` with the unchanged code | 172 |
-| any STEERS report running within +/-12 h | 103 |
+| reproduce `no_report_after_deadline` | 170 |
+| any STEERS report running within +/-12 h | 101 |
 | a report within +/-12 h inside the 22.5 deg corridor (all start 6.4-11.1 h after the spike hour) | 3 |
 | a report within +/-12 h inside the 45 deg wedge | 14 |
 | ...running in the pipeline's -6 h/+2 h window | 9 |
@@ -103,8 +116,8 @@ Times are CST hour of the hourly reading; values in ppb (7-day median baseline i
 | a report in the match window whose name is shared by several ECHO sites | 9 |
 | ...placed by the name lookup at a different site than its street address | 8 (none changes the corridor outcome) |
 | trigger hour comes right after a QA/calibration-flagged hour | 30 |
-| only one hour over the trigger | 99 |
-| wind borrowed from another site | 74 |
+| only one hour over the trigger | 98 |
+| wind borrowed from another site | 72 |
 
 ## Systematic findings, as proposals (no matching logic changed in this PR)
 
@@ -114,15 +127,14 @@ was running at the spike, outside the corridor but inside 45 deg. 43% of these n
 site, which makes a 22.5 deg half-angle tighter than the wind data support. Proposal: keep 22.5 deg for "in the
 corridor", but when a report that lists the compound is running inside 45 deg, return `search_incomplete` with
 the reason "a report just outside the corridor was running" instead of `no_report_after_deadline`, and show it
-on the night page as nearby, not matched. Cost: on this data it moves about 5 of 172 nights out of the count.
+on the night page as nearby, not matched. Cost: on this data it moves about 5 of 170 nights out of the count.
 Measure before adopting: rerun the backtest and check that the 72-candidate match numbers do not change.
 
-**B. Duplicate names are placed at an arbitrary site.** `build.place_incidents` maps a report to ECHO by exact
+**B. Duplicate names are placed at an arbitrary site (fixed; see the update above).** `build.place_incidents` maps a report to ECHO by exact
 name and keeps the last row when several sites share the name. 8 of 172 nights had a running report placed at a
-different site than its own street address. None changed the outcome here, but the same bug
-could put a report inside or outside the corridor wrongly. Proposal: place reports with `backtest.locate`
-(name plus street number, then street address) and treat an ambiguous name as unresolved, which already blocks
-an absence claim.
+different site than its own street address. None of the 8 changed a night's status in the audit sample, but the
+fix did move four spikes elsewhere in the 415 (see the update above). Done: reports are placed with `build.locate`
+(name plus street number, then street address) and an ambiguous name is unresolved, which blocks an absence claim.
 
 **C. Lumped VOC lines do not cause false "no report" labels.** By construction, any report that is in the
 corridor and running in the window already turns the night into `reported` or `reported_mismatch`, whatever

@@ -6,6 +6,7 @@ Usage: uv run python -m pipeline.build            (writes data/build/event.real.
 
 import json
 import math
+import re
 import shutil
 import statistics
 import sys
@@ -112,34 +113,64 @@ def _norm(name: str) -> str:
     return " ".join(name.lower().replace(",", " ").split())
 
 
+def _street_no(addr: str | None) -> str | None:
+    m = re.match(r"\s*(\d+)", addr or "")
+    return m.group(1) if m else None
+
+
+def locate(entity: str, address: str, echo_rows: list[dict]) -> tuple[dict | None, str]:
+    """Ground-truth location for a reporting facility: exact ECHO name, disambiguated by street number.
+
+    Falls back to street number + street name when the names differ. Ambiguity is never resolved by guessing.
+    """
+    norm = _norm
+    rows = [r for r in echo_rows if r.get("FacLat")]
+    by_name = {r["RegistryID"]: r for r in rows if norm(r["AIRName"]) == norm(entity)}
+    no = _street_no(address)
+    if len(by_name) == 1:
+        return next(iter(by_name.values())), "ECHO exact name"
+    if len(by_name) > 1:
+        same = {k: r for k, r in by_name.items() if no and _street_no(r.get("AIRStreet")) == no}
+        if len(same) == 1:
+            return next(iter(same.values())), "ECHO exact name + street number"
+        return None, f"ambiguous: {len(by_name)} ECHO sites share the name"
+    street = norm(address.split(";")[0])
+    by_addr = {r["RegistryID"]: r for r in rows if no and street and norm(r.get("AIRStreet") or "") == street}
+    if len(by_addr) == 1:
+        return next(iter(by_addr.values())), "ECHO street address"
+    return None, "not located in ECHO" if not by_addr else f"ambiguous: {len(by_addr)} ECHO sites at the address"
+
+
 def place_incidents(incidents: list[dict], facilities: list[dict], echo_rows: list[dict],
                     origin: tuple[float, float], winds: list[float]) -> list[dict]:
     """Put every self-report of the day on the map and say whether it falls in the upwind corridor.
 
-    Facilities are matched by exact normalized name; an incident that can't be located stays 'unresolved',
-    and an unresolved incident blocks any absence claim.
+    Each report is located with `locate` (exact ECHO name, disambiguated by the report's own street number, else
+    street address). A name shared by several ECHO sites that the address cannot settle stays 'unresolved', never
+    a guess, and an unresolved incident blocks any absence claim.
     """
-    in_corr = {_norm(f["name"]): f for f in facilities}
-    located = {_norm(r["AIRName"]): r for r in echo_rows if r.get("FacLat")}
+    in_corr = {f["id"]: f for f in facilities}
     out = []
     for inc in incidents:
-        key = _norm(inc["entity"])
         row = {"incident": inc["incident"], "entity": inc["entity"].title(), "rn": inc["rn"],
                "start_local": inc["start_local"], "compound": inc["compound"], "pounds": inc["pounds"]}
-        if key in in_corr:
-            f = in_corr[key]
+        fac, how = locate(inc["entity"], inc.get("address", ""), echo_rows)
+        rid = fac.get("RegistryID") if fac else None
+        if fac is not None and rid in in_corr:
+            f = in_corr[rid]
             row |= {"facility_id": f["id"], "distance_km": f["distance_km"], "bearing_deg": f["bearing_deg"],
                     "in_corridor": True, "resolution": "in the upwind corridor"}
-        elif key in located:
-            p = (float(located[key]["FacLat"]), float(located[key]["FacLong"]))
+        elif fac is not None:
+            p = (float(fac["FacLat"]), float(fac["FacLong"]))
             d, b = haversine_km(origin, p), bearing_deg(origin, p)
             off = min(abs((w - b + 180) % 360 - 180) for w in winds)
-            row |= {"facility_id": located[key].get("RegistryID"), "distance_km": round(d, 1),
+            row |= {"facility_id": rid, "distance_km": round(d, 1),
                     "bearing_deg": round(b, 1), "in_corridor": False,
                     "resolution": f"outside the corridor ({d:.1f} km, {off:.0f}° off the wind)"}
         else:
+            why = "facility not located" if how.startswith("not located") else how.replace("ambiguous: ", "ambiguous, ")
             row |= {"facility_id": None, "distance_km": None, "bearing_deg": None, "in_corridor": None,
-                    "resolution": "unresolved: facility not located"}
+                    "resolution": f"unresolved: {why}"}
         out.append(row)
     return out
 
