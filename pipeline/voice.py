@@ -85,6 +85,8 @@ def speech_text(text: str, lang: str) -> str:
         t = re.sub(rf"(?<![\w-]){re.escape(abbr)}(?![\w-])", spoken, t)
     t = re.sub(r"\b\d{6,}\b", lambda m: _digits(m.group(0)), t)  # report/incident numbers
     t = re.sub(r"\bTCEQ\b", "T C E Q", t)  # an initialism, not a word
+    if lang == "en":  # a brand said as a word; the EN G2P spells capitals out ("I N E O S"), the ES one does not
+        t = re.sub(r"\bINEOS\b", "Ineos", t)
     return re.sub(r"\s+", " ", t).strip()
 
 

@@ -1,10 +1,10 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { STATUS_FILL as FILL, hourLabel, statusLabel } from './format'
 import { compoundLabel } from './region'
-import { spikeKey, type SpikeRow } from './spikes'
+import { reasonKey, spikeKey, type SpikeRow } from './spikes'
 import { T } from './LangSwitch'
 import { useLang, useT } from './useT'
-import { dateLabel, monthShort, type Lang } from './i18n'
+import { dateLabel, monthShort, translate, type Lang } from './i18n'
 
 // A cell with two spikes (one per compound) shows the result that leaves the most open: no report first.
 const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'reported_late', 'search_incomplete', 'reported']
@@ -43,8 +43,16 @@ interface Props {
 }
 interface Tip { cell: Cell; x: number; y: number }
 
+/** Why a row's check stopped short, in the reader's language; an uncoded pipeline sentence stays English. */
+const reasonText = (r: SpikeRow, lang: Lang): string => {
+  const k = reasonKey(r)
+  return k ? translate(lang, k) : r.reason ?? ''
+}
 const cellText = (c: Cell, lang: Lang) =>
-  c.rows.map((r) => `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}`).join('; ')
+  c.rows.map((r) => {
+    const why = reasonText(r, lang)
+    return `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}${why ? ` – ${why}` : ''}`
+  }).join('; ')
 
 /** Centre of a day as a percentage of its year strip. */
 const centre = (c: Cell, n: number) => ((dayOfYear(c.top.date) + 0.5) / n) * 100
@@ -190,6 +198,7 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
             <span className="sl-cal-tip-row" key={r.param}>
               {compoundLabel(lang, r.compound)}: {r.value_ppb} ppb ({r.ratio === null ? '—' : `${r.ratio}×`}) · {hourLabel(r.hour_cst)}
               <span className={`sl-status sl-status-${r.status}`} lang={lang}>{statusLabel(r.status, lang)}</span>
+              {reasonText(r, lang) && <span className="sl-reason" lang={reasonKey(r) ? undefined : 'en'}>{reasonText(r, lang)}</span>}
             </span>
           ))}
           <span className="sl-cal-tip-hint">{tip.cell.rows.some((r) => r.night_id) ? t('cal.hint') : t('spikes.noReplay')}</span>

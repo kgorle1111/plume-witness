@@ -27,7 +27,7 @@ curl -s https://kgorle1111.github.io/plume-witness/spikes.json \
 
 | File | What it is | Size |
 |---|---|---|
-| `event.json` | The demo night (2024-06-21, Milby Park) | 38 KB |
+| `event.json` | The demo night (2024-06-21, Milby Park): `nights/2024-06-21_45201_48_201_0069.json` from the same run, indented | 61 KB |
 | `nights/index.json` | One row per replayable spike night (466: the 468 spikes minus the 2 with no wind data, which have no replay) | 99 KB |
 | `nights/<id>.json` | One full replay per spike night; same schema as `event.json` | about 30 KB each |
 | `spikes.json` | The past-spikes log | 185 KB |

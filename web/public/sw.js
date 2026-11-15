@@ -69,7 +69,7 @@ self.addEventListener('fetch', (event) => {
   if (url.hostname === TILE_HOST) return void event.respondWith(tile(req))
   if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return
   const rel = url.pathname.slice(scope.pathname.length)
-  if (req.mode === 'navigate') return void event.respondWith(navigation(req))
+  if (req.mode === 'navigate') return void event.respondWith(navigation(req, rel))
   if (req.headers.has('range')) return void event.respondWith(ranged(req, event))
   if (rel.endsWith('.json')) return void event.respondWith(networkFirst(req, event))
   event.respondWith(cacheFirst(req)) // hashed /assets/*, audio, icons, manifest
@@ -111,14 +111,16 @@ async function cacheFirst(req) {
   return put(req, await fetch(req))
 }
 
-// App links carry ?night=, ?view=, #hash; they are all the one SPA shell.
-async function navigation(req) {
+// App links carry ?night=, ?view=, #hash; they are all the one SPA shell. Only a navigation to the shell itself
+// refreshes the cached shell: a night's link-preview page (s/<id>.html) or a feed opened in a tab is another document,
+// and storing it as the shell would break the app offline.
+async function navigation(req, rel) {
   try {
     const res = await Promise.race([
       fetch(req),
       new Promise((_, rej) => setTimeout(() => rej(new Error('nav timeout')), NAV_TIMEOUT_MS)),
     ])
-    if (res.ok) await (await caches.open(SHELL)).put(INDEX, res.clone())
+    if (res.ok && (rel === '' || rel === 'index.html')) await (await caches.open(SHELL)).put(INDEX, res.clone())
     return res
   } catch {
     return (await caches.match(INDEX)) ?? Response.error()

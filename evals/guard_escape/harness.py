@@ -239,6 +239,7 @@ VERDICTS = {
 NEGATIONS = {
     "en": [(r"\bfiled (emissions-event )?report\b", r"did not file \1report"),
            (r"\bare consistent with\b", "are not consistent with"),
+           (r"\bline up with\b", "do not line up with"),  # the demo template's wording since S60
            (r"\bfound a report\b", "did not find a report"),
            (r"\bNo matching report (was )?found\b", "A matching report was found"),
            (r"\bIt reported\b", "It did not report"),
@@ -250,6 +251,8 @@ NEGATIONS = {
            (r"\bThat does not show who or what caused\b", "That shows what caused")],
     "es": [(r"\bpresentó el informe\b", "no presentó el informe"),
            (r"\bson consistentes con\b", "no son consistentes con"),
+           (r"\bcoinciden con estas\b", "no coinciden con estas"),  # the demo template's wording since S60
+           (r"\bpresentó el reporte\b", "no presentó el reporte"),  # S62: the template says "reporte" like the UI
            (r"\bencontró un reporte\b", "no encontró un reporte"),
            (r"\bNo se encontró un informe\b", "Se encontró un informe"),
            (r"\bReportó\b", "No reportó"),

@@ -1,6 +1,7 @@
 // Pure helpers for the past-spikes log (SpikeLog.tsx). Self-contained, with a .ts import, so
 // `node --test test/spikes.test.ts` can load it without a bundler.
 import { statusInfo } from './format.ts'
+import { translate } from './i18n.ts'
 import { distanceKm, type LatLon } from './geo.ts'
 
 // Mirrors pipeline/spikes.py (schema plume-witness.spikes/v1). Rows never carry a facility name.
@@ -22,7 +23,10 @@ export interface SpikeRow {
   ratio: number | null
   status: string
   reports_that_day: number
+  /** The pipeline's English sentence. For three of the five codes it is a stand-in, so the UI reads reason_code. */
   reason?: string
+  /** Why a search_incomplete row stopped short (pipeline/spikes.py REASONS); absent on other rows and older files. */
+  reason_code?: string
   matched_incident?: string
   report_url?: string
 }
@@ -50,6 +54,7 @@ export function parseSpikes(raw: unknown): SpikeFile {
     const ok = r && (r.night_id === null || isStr(r.night_id)) && /^\d{4}-\d{2}-\d{2}$/.test(r.date) && isNum(r.hour_cst) && isStr(r.site_id)
       && isStr(r.site) && isNum(r.lat) && isNum(r.lon) && isStr(r.param) && isStr(r.compound) && isNum(r.value_ppb)
       && isNum(r.baseline_ppb) && (r.ratio === null || isNum(r.ratio)) && isStr(r.status)
+      && (r.reason_code === undefined || isStr(r.reason_code))
     if (!ok) throw new Error(`spikes.json row ${i} is malformed. Re-run \`uv run python -m pipeline.spikes\`.`)
   })
   return f as SpikeFile
@@ -65,11 +70,18 @@ export function dateText(iso: string): string {
   return `${MONTHS[m - 1]} ${d}, ${y}`
 }
 
+/** The CSV's note: the English long form of the row's reason, so a coded row never exports the stand-in sentence. */
+function noteText(r: SpikeRow): string | undefined {
+  const k = reasonKey(r)
+  return k ? translate('en', `${k}Long`) : r.reason
+}
+
 const CSV_COLUMNS: [string, (r: SpikeRow) => string | number | boolean | null | undefined][] = [
   ['date', (r) => r.date], ['hour_cst', (r) => r.hour_cst], ['monitor', (r) => r.site], ['site_id', (r) => r.site_id],
   ['lat', (r) => r.lat], ['lon', (r) => r.lon], ['compound', (r) => r.compound], ['param', (r) => r.param],
   ['value_ppb', (r) => r.value_ppb], ['baseline_ppb', (r) => r.baseline_ppb], ['times_baseline', (r) => r.ratio],
-  ['record_check', (r) => statusInfo(r.status).en], ['status', (r) => r.status], ['note', (r) => r.reason],
+  ['record_check', (r) => statusInfo(r.status).en], ['status', (r) => r.status], ['note', noteText],
+  ['reason_code', (r) => r.reason_code],
   ['reports_filed_that_day', (r) => r.reports_that_day],
   ['matched_incident', (r) => r.matched_incident], ['report_url', (r) => r.report_url], ['night_id', (r) => r.night_id],
 ]
@@ -163,18 +175,31 @@ export function optionCounts(all: SpikeRow[], f: Filters, k: keyof Filters): Map
 }
 
 /** Why a "search incomplete" row stopped short, as a string-table key; null for a reason this table does not know
- *  (shown as the pipeline wrote it, marked English). Matches pipeline/spikes.py ABSTAIN and INCOMPLETE_REASON.
- *  kn: the "could not be placed" text is the pipeline's default whenever TCEQ's day search returned in full, so it
- *  also covers calm-wind nights and unplaced earlier reports; the UI says only "see the night's Check step" for it
- *  until pipeline/spikes.py exports the real cause. */
-export type ReasonKey = 'spikes.reason.check' | 'spikes.reason.week' | 'spikes.reason.noWind'
+ *  (shown as the pipeline wrote it, marked English). reason_code is the real cause (pipeline/spikes.py REASONS). The
+ *  `reason` sentence is only a fallback for a file without codes (an older cached spikes.json): the pipeline writes
+ *  "could not be placed on the map" there for calm-wind and earlier-search rows too, so that sentence maps to
+ *  "see the replay's Check step", never to a cause it may not be. */
+export type ReasonKey =
+  | 'spikes.reason.calm' | 'spikes.reason.placed' | 'spikes.reason.earlier' | 'spikes.reason.week' | 'spikes.reason.noWind'
+  | 'spikes.reason.check'
+const REASON_CODES: Record<string, ReasonKey> = {
+  calm_wind: 'spikes.reason.calm',
+  report_not_placed: 'spikes.reason.placed',
+  earlier_search_incomplete: 'spikes.reason.earlier',
+  day_search_incomplete: 'spikes.reason.week',
+  no_wind: 'spikes.reason.noWind',
+}
 const REASONS: Record<string, ReasonKey> = {
   'A report filed that day could not be placed on the map, so absence cannot be claimed.': 'spikes.reason.check',
   "TCEQ's search for that week did not return every report, so absence cannot be claimed.": 'spikes.reason.week',
   'No wind data for that day, so no upwind area could be drawn.': 'spikes.reason.noWind',
 }
-export const reasonKey = (reason: string | undefined): ReasonKey | null =>
-  (reason !== undefined && Object.hasOwn(REASONS, reason) ? REASONS[reason] : null)
+/** The codes the legend explains, in the pipeline's order of checks. */
+export const REASON_CODE_KEYS: readonly ReasonKey[] = Object.values(REASON_CODES)
+const own = (m: Record<string, ReasonKey>, k: string | undefined): ReasonKey | null =>
+  (k !== undefined && Object.hasOwn(m, k) ? m[k] : null)
+export const reasonKey = (row: Pick<SpikeRow, 'reason' | 'reason_code'>): ReasonKey | null =>
+  own(REASON_CODES, row.reason_code) ?? own(REASONS, row.reason)
 
 /** The monitor in the file closest to a point, with its distance; null for an empty file. */
 export function nearestSite(all: SpikeRow[], p: LatLon): { site_id: string; site: string; km: number } | null {

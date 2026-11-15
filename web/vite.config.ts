@@ -3,6 +3,8 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import { buildId, precacheList } from './pwa/precache.ts'
+import { collectNights } from './share/collect.ts'
+import { stubHtml, stubPath } from './share/stubs.ts'
 
 const walk = (dir: string, rel = ''): string[] =>
   readdirSync(join(dir, rel), { withFileTypes: true }).flatMap((e) =>
@@ -28,9 +30,23 @@ function precachePlugin(): Plugin {
   }
 }
 
+// One link-preview page per listed night (share/stubs.ts), written into the build only: dev and public/ stay clean.
+// precacheList leaves s/ out, so the stubs never weigh on the offline cache.
+function linkPreviewPlugin(): Plugin {
+  let publicDir = 'public'
+  return {
+    name: 'pw-link-previews',
+    apply: 'build',
+    configResolved: (c) => { publicDir = c.publicDir },
+    generateBundle() {
+      for (const n of collectNights(publicDir)) this.emitFile({ type: 'asset', fileName: stubPath(n.id), source: stubHtml(n) })
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), precachePlugin()],
+  plugins: [react(), linkPreviewPlugin(), precachePlugin()],
   // The brief view imports ../docs/brief.md; let the dev server read that one folder outside web/.
   server: { fs: { allow: ['.', '../docs'] } },
   build: {

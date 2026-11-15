@@ -3,7 +3,8 @@
 Same code path as the demo night: backtest.traced_spikes runs build.trace, build.assemble_event writes the
 document, contract.validate gates it. Nothing here re-implements detection, corridor or the record check.
 
-Usage: uv run python -m pipeline.nights   (reads data/raw/backtest; writes web/public/nights/*.json + index.json)
+Usage: uv run python -m pipeline.nights   (reads data/raw/backtest; writes web/public/nights/*.json + index.json,
+                                           and the demo night again as web/public/event.json)
        uv run python -m pipeline.nights --region beaumont   (data/raw/region_beaumont -> web/public/regions/beaumont/nights)
 Re-run it whenever detection, the record check or the status rules change: the files are derived data.
 """
@@ -20,6 +21,10 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "web" / "public" / "nights"
 BT = backtest.BT
 MAX_TOTAL_BYTES = 25_000_000
+# The demo night. web/public/event.json is this night from the same run, so the demo shows the same monitors, search
+# and names as its replay; build.build() (4 monitors, hand-picked files) differed from it (UI audit 3, S51).
+DEMO_ID = "2024-06-21_45201_48_201_0069"
+DEMO_OUT = ROOT / "web" / "public" / "event.json"
 
 
 def night_id(day: str, param: str, site: str) -> str:
@@ -132,6 +137,11 @@ if __name__ == "__main__":
     region = regions.get(sys.argv[2]) if sys.argv[1:2] == ["--region"] else regions.HOUSTON
     nights, skipped = generate(region=region)
     stats = write(nights, region.nights_out)
+    if region is regions.HOUSTON:
+        demo = next((ev for ev, row in nights if row["id"] == DEMO_ID), None)
+        if demo is None:
+            raise SystemExit(f"demo night {DEMO_ID} was not generated; web/public/event.json left unchanged")
+        DEMO_OUT.write_text(json.dumps(demo, indent=1))
     by_status: dict[str, int] = {}
     for _, row in nights:
         by_status[row["status"]] = by_status.get(row["status"], 0) + 1
