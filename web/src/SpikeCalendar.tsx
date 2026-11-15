@@ -7,7 +7,7 @@ import { useLang, useT } from './useT'
 import { dateLabel, monthShort, translate, type Lang } from './i18n'
 
 // A cell with two spikes (one per compound) shows the result that leaves the most open: no report first.
-const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'reported_late', 'search_incomplete', 'reported']
+const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'reported_late', 'search_incomplete', 'reported_nrc', 'reported']
 // Each status is a different mark shape inside its day cell (y0..y1 of the cell height, so the strip can stay
 // preserveAspectRatio=none), so the calendar reads without colour: no matching report is a broken mark, an open question.
 const SHAPE: Record<string, [number, number][]> = {
@@ -17,6 +17,7 @@ const SHAPE: Record<string, [number, number][]> = {
   not_yet_reported: [[0, 0.6]],
   reported_late: [[0.2, 1]],
   search_incomplete: [[0.35, 0.65]],
+  reported_nrc: [[0.1, 0.9]],
 }
 const shapeOf = (s: string) => SHAPE[s] ?? SHAPE.reported
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
