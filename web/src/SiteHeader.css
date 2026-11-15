@@ -1,8 +1,5 @@
 /* The one site header (SiteHeader.tsx). On the replay it is App.css's .top grid; on every other page it is one bar. */
-/* Brand and nav grow from 12px and 12.8px at 1024px to 14px and 16px at 1280px, and with the 112.5% root at 1600px
-   (D02: they were 12/12.8px everywhere). Below 1024px they stay as they were: the Spanish links fit one row at 375px
-   only at 12.8px, and at 1024px the replay's nav shares a column with the night picker (at 14px it wrapped, ES). */
-.brand-row { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 16px; font-size: clamp(0.75rem, 0.25rem + 0.78125vw, 0.875rem); }
+.brand-row { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 16px; font-size: 0.75rem; }
 .brand-mark { flex: none; }
 .brand-name { font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); }
 /* 44px-tall hit areas (WCAG 2.5.5) without a taller header: the padding is the target, the negative margin keeps the
@@ -10,7 +7,7 @@
 .brand, .site-nav a { position: relative; padding-block: 11px; margin-block: -11px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; }
 .brand:hover .brand-name { text-decoration: underline; }
-.site-nav { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-left: auto; font-size: clamp(0.8rem, 1.25vw, 1rem); }
+.site-nav { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-left: auto; font-size: 0.8rem; }
 /* Weight 400 for every link (SpikeLog.css's .spikes-link is 600, which read as "current" on every other page). */
 .site-nav a { display: inline-block; line-height: 22px; white-space: nowrap; text-decoration: none; font-weight: 400; }
 /* Touch: 44px wide too ("Brief" was 28px); the negative margin keeps the visible spacing. */
@@ -39,6 +36,11 @@
   background: var(--bg);
 }
 .site-head:not(.top) .brand-row { flex: 1 1 auto; row-gap: 12px; }
+/* Brand and nav grow from 12px and 12.8px at 1024px to 14px and 16px at 1280px, and with the 112.5% root at 1600px
+   (D02: they were 12/12.8px everywhere). Below 1024px they stay as they were, so the phone rows do not wrap more. The
+   replay (.top) keeps 12/12.8px: its nav shares a column with the night picker and already wraps at 1024-1100px. */
+.site-head:not(.top) .brand-row { font-size: clamp(0.75rem, 0.25rem + 0.78125vw, 0.875rem); }
+.site-head:not(.top) .site-nav { font-size: clamp(0.8rem, 1.25vw, 1rem); }
 /* The switch stays right-aligned on the first row; the Spanish review note takes a row of its own under the header
    instead of pushing the switch onto a second row, aligned to nothing. */
 .site-head:not(.top) > .lang-switch { display: contents; }
