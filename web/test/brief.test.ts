@@ -44,3 +44,16 @@ test('every link in the brief survives as an https citation (none silently dropp
   assert.ok(targets.length > 0)
   for (const t of targets) assert.match(t, /^https:\/\//, t)
 })
+
+test('a bracketed citation link keeps its brackets outside the link text', () => {
+  const href = 'https://github.com/kgorle1111/plume-witness/blob/main/docs/detector.md'
+  assert.deepEqual(parseInline(`overlap. [[detector.md](${href})]`), [
+    { t: 'text', v: 'overlap. [' }, { t: 'link', href, v: [{ t: 'text', v: 'detector.md' }] }, { t: 'text', v: ']' },
+  ])
+  // No link in the brief swallows a neighbouring bracket.
+  const links: string[] = []
+  const walk = (v: ReturnType<typeof parseInline>) => v.forEach((i) => { if (i.t === 'link') links.push(inlineText(i.v)); else if (i.t === 'strong' || i.t === 'em') walk(i.v) })
+  blocks.forEach((b) => ('items' in b ? b.items.forEach(walk) : walk(b.v)))
+  assert.ok(links.length > 5)
+  for (const l of links) assert.ok(!/^\[|\]$/.test(l), `link text carries a bracket: ${l}`)
+})

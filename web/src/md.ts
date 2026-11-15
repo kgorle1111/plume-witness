@@ -14,7 +14,8 @@ export type Block =
   | { t: 'p'; v: Inline[] }
   | { t: 'ul' | 'ol'; items: Inline[][] }
 
-const TOKEN = /\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`|\[([^\]]+)\]\(([^)\s]+)\)/
+// Link text excludes '[' as well as ']': the brief cites as [[file.md](url)], and the outer bracket is punctuation.
+const TOKEN = /\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`|\[([^[\]]+)\]\(([^)\s]+)\)/
 
 export function parseInline(s: string): Inline[] {
   const out: Inline[] = []
