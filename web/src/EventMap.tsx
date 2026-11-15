@@ -45,6 +45,9 @@ const INTRO_HOLD_MS = 900
 const INTRO_FLY_MS = 2500
 const INTRO_PIN_LABEL = 'Houston Ship Channel: 1 real night replayed'
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+// `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
+const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
+const introOnLoad = () => !prefersReducedMotion() && !introOptedOut()
 
 // With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
 // focus in the Trace list (which stays the full text equivalent).
@@ -66,7 +69,7 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
   const hourRef = useRef(hour)
   const [failure, setFailure] = useState<unknown>(null)
-  const [phase, setPhase] = useState<Phase>(() => (prefersReducedMotion() ? 'flat' : 'globe'))
+  const [phase, setPhase] = useState<Phase>(() => (introOnLoad() ? 'globe' : 'flat'))
   const skipIntro = useRef<() => void>(() => {})
   const replayIntro = useRef<() => void>(() => {})
   const applyHour = useRef<(h: number) => void>(() => {})
@@ -94,7 +97,7 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     // Replay: each monitor's circle grows and reddens with that hour's reading; a missing hour is a hollow ring.
     const reduceMotion = prefersReducedMotion()
     // Mirrors the React `phase` state for code running inside MapLibre/deck callbacks.
-    let phaseNow: Phase = reduceMotion ? 'flat' : 'globe'
+    let phaseNow: Phase = introOnLoad() ? 'globe' : 'flat'
     const maxReading = Math.max(...ev.monitors.flatMap((m) => m.hourly.map((h) => h.value ?? 0)), 1e-9)
     const readingAt = (m: Monitor) => m.hourly.find((h) => h.hour_cst === hourRef.current)
     const share = (v: number) => Math.sqrt(Math.max(0, v) / maxReading)
