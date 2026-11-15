@@ -43,7 +43,7 @@ had the reporting facility geometrically inside the corridor; it abstained (*sea
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
 8 sites: 415 (day, compound) spikes on 345 distinct days. Status of each
-spike's record check: no_report_after_deadline 376, search_incomplete 34, reported 4, no_wind 1. The pipeline abstains rather than
+spike's record check: no_report_after_deadline 376, search_incomplete 34, reported_mismatch 3, reported 1, no_wind 1. The pipeline abstains rather than
 claim absence when the day's search is not complete (34 spikes).
 "No matching report found" is not "unreported" and not "illegal": Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
