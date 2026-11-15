@@ -4,7 +4,7 @@ import { StatusIcon } from './StatusIcon'
 import { NO_FILTER, PAGE_SIZE, logView, parseSpikes, spikeKey, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
-import { REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
+import { REGIONS, regionFrom, regionLabel, regionQuery, type RegionInfo } from './region'
 import { T } from './LangSwitch'
 import { navHref, replayHref } from './routes'
 import { useLang, useT } from './useT'
@@ -50,14 +50,15 @@ function usePhone(): boolean {
 
 const nightHref = (region: RegionInfo, id: string) => `${import.meta.env.BASE_URL}${regionQuery(region, { night: id })}`
 
-/** Two links, not tabs: each region is its own URL, so a filtered view of either can be shared. */
+/** Links, not tabs: each region is its own URL, so a filtered view of any of them can be shared. */
 function RegionSwitch({ current }: { current: RegionInfo }) {
   const t = useT()
+  const lang = useLang()
   return (
     <nav className="sl-region" aria-label={t('region.nav')}>
       {Object.values(REGIONS).map((r) => (
         <a key={r.key} href={`${import.meta.env.BASE_URL}${regionQuery(r, { view: 'spikes' })}`}
-          aria-current={r.key === current.key ? 'page' : undefined}>{r.key === 'beaumont' ? t('region.beaumont') : r.label}</a>
+          aria-current={r.key === current.key ? 'page' : undefined}>{regionLabel(lang, r)}</a>
       ))}
     </nav>
   )

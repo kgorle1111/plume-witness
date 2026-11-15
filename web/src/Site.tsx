@@ -2,10 +2,10 @@ import { Suspense, lazy, useEffect, useRef, useState, type MouseEvent } from 're
 import App from './App'
 import { AtlasLanding } from './AtlasLanding'
 import { pageFromLocation, type Page } from './routes'
-import { regionFrom, regionUnknown } from './region'
+import { DEFAULT_REGION, regionFrom, regionUnknown } from './region'
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
-import { useT } from './useT'
+import { useLang, useT } from './useT'
 import type { StringKey } from './i18n'
 
 // ?view=spikes opens the past-spikes log; its code and spikes.json load only then.
@@ -20,6 +20,7 @@ const LOADING = {
 
 export default function Site() {
   const t = useT()
+  const lang = useLang()
   const [page, setPage] = useState(() => pageFromLocation(window.location))
   const [leaving, setLeaving] = useState(false)
   const replayEntry = useRef<HTMLDivElement>(null)
@@ -58,12 +59,13 @@ export default function Site() {
 
   if (page !== 'replay' && page !== 'landing') {
     const loading = t(LOADING[page])
+    const region = regionFrom(window.location.search)
     return (
       <div className="site-shell">
         <SiteHeader current={page} />
         {regionUnknown(window.location.search) && <p className="site-region-note" role="note">{t('region.unknown')}</p>}
-        {page !== 'spikes' && page !== 'brief' && regionFrom(window.location.search).key !== 'houston' && (
-          <p className="site-region-note" role="note">{t('shell.houstonOnly')}</p>
+        {page !== 'spikes' && page !== 'brief' && region.key !== DEFAULT_REGION && (
+          <p className="site-region-note" role="note">{t('shell.houstonOnly', { region: region.name[lang] })}</p>
         )}
         {/* The header and footer paint at once; only main waits for the page's code and data. */}
         <Suspense fallback={<main className="state-msg" aria-busy="true"><p>{loading}</p></main>}>

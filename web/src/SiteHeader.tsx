@@ -21,7 +21,7 @@ const LABEL = { spikes: 'common.pastSpikes', timeline: 'app.linkTimeline', facil
 /**
  * The one site header: brand (home), then Past spikes · Timeline · Facilities · Brief with the current page marked,
  * then the language switch. The replay passes its eyebrow and title as children, laid out by App.css's .top grid.
- * Links keep ?region= so a Beaumont reader stays in Beaumont.
+ * Links keep ?region= so a reader in any region stays in it.
  */
 export function SiteHeader({ current, className = '', lang, children }: {
   /** The page in the nav this view is, or belongs to (one facility's page belongs to Facilities). */

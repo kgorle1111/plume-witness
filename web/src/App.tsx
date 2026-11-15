@@ -13,7 +13,7 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
-import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionFrom, regionQuery, regionUnknown } from './region'
+import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionByKey, regionFrom, regionQuery, regionUnknown } from './region'
 import { NIGHT_ID, regionStartNight } from './routes'
 import { SiteHeader } from './SiteHeader'
 import './App.css'
@@ -166,8 +166,7 @@ const usePhone = () => useSyncExternalStore(subscribePhone, isPhone, isPhone)
 function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   const t = useT()
   const lang = useLang()
-  const regionKey = ev.region?.key === 'beaumont' ? 'beaumont' : 'houston'
-  const title = eventTitle(lang, ev.title, ev.compound.name, regionKey)
+  const title = eventTitle(lang, ev.title, ev.compound.name, regionByKey(ev.region?.key).key)
   const phone = usePhone()
   // The phone map hides its legend behind a "Key" toggle; the legend is visual only (aria-hidden in EventMap).
   // Rendered in one place at a time: the picker and the Embed box carry element ids.
@@ -234,7 +233,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
 }
 
 // ?night=<id> replays one of the generated spike nights (web/public/nights/<id>.json); no param is the demo night.
-// ?region=beaumont&night=<id> reads web/public/regions/beaumont/nights/<id>.json instead.
+// ?region=<key>&night=<id> reads web/public/regions/<key>/nights/<id>.json instead (keys: regions.generated.json).
 const nightParam = (): string | null => new URLSearchParams(window.location.search).get('night')
 
 interface NightRow { id: string; date: string; site_name: string; compound: string; value: number; status: string }
@@ -325,7 +324,7 @@ export default function App() {
   // Every view shared "Plume Witness" as its title (WCAG 2.4.2); name the night being replayed.
   const lang = useLang()
   useEffect(() => {
-    if (ev) document.title = `${eventTitle(lang, ev.title, ev.compound.name, ev.region?.key === 'beaumont' ? 'beaumont' : 'houston').text} · Plume Witness`
+    if (ev) document.title = `${eventTitle(lang, ev.title, ev.compound.name, regionByKey(ev.region?.key).key).text} · Plume Witness`
   }, [ev, lang])
 
   const shown = invalid ? t('app.notNight', { night: night ?? '' }) : error
