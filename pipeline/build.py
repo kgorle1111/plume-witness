@@ -425,7 +425,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
                       speed_mph=speed, county=county)
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
-            "facilities": facilities, "record_check": rc}
+            "facilities": facilities, "record_check": rc, "winds": winds}
 
 
 CANNOT_SAY = [
@@ -479,6 +479,13 @@ def build(cfg: dict = EVENT) -> dict:
     monitors = load_monitors(cfg)
     ws = cfg["wind_site"]
     winds = {ws: load_wind(ws, cfg["year"], day)}
+    # Triangulation only: other monitors' own wind, from the demo folder or else the backtest cache (same TCEQ form).
+    wind_dirs = {}
+    for site, *_ in cfg["monitors"]:
+        for d in (RAW, RAW / "backtest"):
+            if site != ws and (d / f"met_{cfg['year']}_{site}_61102.html").exists():
+                winds[site], wind_dirs[site] = load_wind(site, cfg["year"], day, d), d
+                break
     echo = json.loads((RAW / cfg["echo"]).read_text())
     search = steers_search(RAW / f"steers_search_harris_{day.replace('/', '')}.html")
     details = {r["incident"]: steers_incident(RAW / f"steers_{r['incident']}.html") for r in search["rows"]}
@@ -492,6 +499,19 @@ def build(cfg: dict = EVENT) -> dict:
         raise SystemExit(f"no wind at {ws} for the detection hours; cannot draw a corridor")
     ev = assemble_event(t, monitors, det_day, cfg["param"], f"steers-{cfg['incident']}",
                         json.loads((RAW / "provenance.json").read_text()))
+    from pipeline import triangulate  # imported here: triangulate builds on this module's geometry
+
+    ev["triangulation"] = triangulate.triangulate(t, monitors)
+    extra = triangulate.wind_files(ev["triangulation"], cfg["year"], ws)
+    have = {p["file"] for p in ev["provenance"]}
+    bt_prov = {p["file"]: p for p in json.loads((RAW / "backtest" / "provenance.json").read_text())}
+    for f in extra:
+        site = f.split("_", 2)[2].rsplit("_", 1)[0]
+        key = f if wind_dirs.get(site) == RAW else f"backtest/{f}"
+        if key not in have:
+            if key not in bt_prov:
+                raise SystemExit(f"triangulation wind file {key} has no provenance entry")
+            ev["provenance"].append(bt_prov[key])
     errs = validate(ev)
     if errs:
         raise SystemExit("event.json failed the contract:\n- " + "\n- ".join(errs))

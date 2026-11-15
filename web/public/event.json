@@ -1570,6 +1570,120 @@
    "bytes": 2015,
    "sha256": "fa33714234e3e9c7405abae81d625e0455d5dc561bdb7dfdbcabd612730e1603",
    "fetched_at": "2026-11-14T23:36:57+00:00"
+  },
+  {
+   "file": "backtest/met_2024_48_201_0307_61101.html",
+   "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+   "params": {
+    "submitted": "1",
+    "first_look": "no",
+    "select_site": "site|Manchester East Avenue N C1029 |48_201_0307|1029",
+    "user_year": "2024",
+    "user_param": "61101",
+    "time_format": "24hr",
+    "report_format": "comma",
+    "print_daily_avg": "1"
+   },
+   "bytes": 71730,
+   "sha256": "1695ec704655e38498ff35ec59bb30e044c9726df0ee64ac424607d801d011ee",
+   "fetched_at": "2026-11-15T00:02:12+00:00"
+  },
+  {
+   "file": "backtest/met_2024_48_201_0307_61102.html",
+   "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+   "params": {
+    "submitted": "1",
+    "first_look": "no",
+    "select_site": "site|Manchester East Avenue N C1029 |48_201_0307|1029",
+    "user_year": "2024",
+    "user_param": "61102",
+    "time_format": "24hr",
+    "report_format": "comma",
+    "print_daily_avg": "1"
+   },
+   "bytes": 69370,
+   "sha256": "889d85db2f0138f1fc625c6fbabd03208993b1d170f2742dc5421ada2c9ebd93",
+   "fetched_at": "2026-11-15T00:02:12+00:00"
   }
- ]
+ ],
+ "triangulation": {
+  "rule": "monitors meeting the trigger rule within 1 h of the detection hour; each wedge +/-22.5 deg of its own upwind bearing, <= 15 km; narrows when the intersection keeps <= 75% of the corridor; aligned below 22.5 deg separation",
+  "half_width_deg": 22.5,
+  "max_km": 15.0,
+  "monitors_triggered": 2,
+  "monitors": [
+   {
+    "site_id": "48_201_0069",
+    "name": "Houston Milby Park",
+    "lat": 29.7062725,
+    "lon": -95.2611331,
+    "role": "flagged",
+    "trigger_hour_cst": 9,
+    "wind_site_id": "48_201_0069",
+    "wind_from_deg": [
+     57.0,
+     77.0
+    ]
+   },
+   {
+    "site_id": "48_201_0307",
+    "name": "Manchester East Ave N",
+    "lat": 29.7193939,
+    "lon": -95.2594661,
+    "role": "also triggered",
+    "trigger_hour_cst": 9,
+    "wind_site_id": "48_201_0307",
+    "wind_from_deg": [
+     89.0,
+     88.0
+    ]
+   }
+  ],
+  "excluded": [],
+  "single_wedge_count": 47,
+  "intersection_count": 37,
+  "intersection_ids": [
+   "110058113704",
+   "110001867588",
+   "110000462785",
+   "110034690564",
+   "110009505883",
+   "110037844376",
+   "110000463490",
+   "110001869899",
+   "110007184242",
+   "110069234661",
+   "110000462703",
+   "110000504892",
+   "110070736926",
+   "110009504526",
+   "110002344222",
+   "110000497800",
+   "110056955521",
+   "110071821344",
+   "110000505481",
+   "110000462730",
+   "110009494993",
+   "110067263071",
+   "110005028120",
+   "110009771880",
+   "110000462687",
+   "110070190741",
+   "110060340162",
+   "110063890847",
+   "110056955987",
+   "110000462623",
+   "110002081942",
+   "110000462605",
+   "110017743254",
+   "110031267064",
+   "110024271786",
+   "110056537804",
+   "110043782788"
+  ],
+  "separation_deg": 10.5,
+  "verdict": "aligned",
+  "verdict_text": "the monitors line up as seen from upwind, so it barely narrows",
+  "caveat": null
+ }
 }
