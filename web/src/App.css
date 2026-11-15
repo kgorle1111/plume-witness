@@ -1,5 +1,7 @@
 /* Mobile first: header, banner, map (~55% of the viewport), then the step panel scrolls on its own. */
 .app {
+  /* The step panel's width from 1024px; the open embed box keeps clear of it. */
+  --panel-w: 440px;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -255,7 +257,6 @@
 
 /* The limits panel has the row to itself: the page language switch lives in the header (one switch per site). */
 .limits-bar { margin: 12px 16px 0; }
-.seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
 .cannot-say {
   border: 1px solid var(--peach-line);
   border-radius: var(--radius);
@@ -275,7 +276,7 @@
 .cannot-say ul { display: grid; gap: 6px; padding: 0 16px 12px 34px; font-size: 0.9rem; }
 /* Disclosures had no hover feedback; the underline matches the links beside them. */
 .cannot-say summary:hover, .hourly-table summary:hover, .more-nights summary:hover, .tl-all summary:hover,
-.outside summary:hover, .site-about summary:hover, .state-detail summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.outside summary:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* A flex summary loses the browser's disclosure marker, so draw one: without it these read as plain labels. */
 .cannot-say summary, .hourly-table summary, .more-nights summary { list-style: none; }
 .cannot-say summary::-webkit-details-marker, .hourly-table summary::-webkit-details-marker, .more-nights summary::-webkit-details-marker { display: none; }
@@ -294,10 +295,8 @@
 .cannot-say[open] summary::after, .hourly-table[open] summary::after, .more-nights[open] summary::after { transform: translateY(2px) rotate(-135deg); }
 
 .step-panel { padding: 14px 16px 24px; display: grid; gap: 12px; }
-.step-panel h2 { font-size: 1.2rem; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance; }
+.step-panel h2 { font-size: 1.2rem; line-height: 1.25; text-wrap: balance; }
 .lead { font-size: 0.95rem; }
-.muted { color: var(--ink-2); }
-.small { font-size: 0.8rem; }
 .caveat {
   display: flex;
   align-items: flex-start;
@@ -328,8 +327,6 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
 /* Empty until opened: an empty block has no height, and the status region stays in the tree so opening it is read. */
 .prov-tip { display: block; font-size: 0.8rem; color: var(--ink-2); }
 .prov-tip:not(:empty) { margin-top: 4px; }
-.site-corrections { margin: 0; flex-basis: 100%; white-space: normal; }
-code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); border: 1px solid var(--line); padding: 0 4px; border-radius: 4px; }
 
 .spark svg { display: block; width: 100%; max-width: 420px; height: auto; }
 .spark-bar { fill: var(--monitor); opacity: 0.6; }
@@ -407,24 +404,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .outside summary { cursor: pointer; font-size: 0.9rem; padding-block: 12px; }
 
 .status-block { display: grid; gap: 4px; }
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  justify-self: start;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1.5px solid currentColor;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-.status-reported { color: #14532d; background: #e7f6ec; }
-.status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
-.status-reported_late { color: #1f4f53; background: #e3f1f2; }
-.status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
-.status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
-.status-search_incomplete { color: #3a3a44; background: #eeeef2; }
-.status-reported_nrc { color: #164a83; background: #e6f0fa; }
 .is-matched-note { padding: 8px 12px; border: 1px solid var(--sage); border-left: 3px solid var(--matched); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
 .checks { list-style: none; padding: 0; display: grid; border: 1px solid var(--line); border-radius: var(--radius); }
 /* Label above its pill: side by side, both wrapped ("Notice within 24 / hours" beside a 3-line pill at 320px) and the
@@ -436,34 +415,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .controls { display: grid; gap: 12px; }
 .control { display: grid; gap: 6px; }
 .control-label { font-size: 0.8rem; font-weight: 700; color: var(--ink-2); }
-.seg {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  border: 1.5px solid var(--ink-2);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.seg button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 6px 12px;
-  border: 0;
-  background: var(--bg);
-  line-height: 1.2;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
-}
-.seg button + button { border-left: 1px solid var(--line); }
-.seg button:hover { background: var(--bg-2); }
-.seg button[aria-pressed='true'] { background: var(--ink); color: #fff; font-weight: 700; }
-.seg button:focus-visible { outline-offset: -4px; }
-.seg-sub { font-size: 0.75rem; font-weight: 500; color: var(--ink-2); }
-.seg button[aria-pressed='true'] .seg-sub { color: rgb(255 255 255 / 0.82); }
 .draft-label { font-weight: 700; font-size: 0.9rem; }
 .approved-tag { color: var(--matched); }
 .draft {
@@ -480,27 +431,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .draft:focus-visible { outline-offset: 1px; }
 .provenance { margin-top: -4px; }
 .row { display: flex; flex-wrap: wrap; gap: 8px; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1.5px solid var(--ink-2);
-  border-radius: var(--radius);
-  background: var(--bg);
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.1s ease-out;
-}
-.btn:hover:not(:disabled) { background: var(--bg-2); }
-.btn:active:not(:disabled) { transform: translateY(1px); }
-.btn-primary { background: var(--btn-primary-bg); border-color: var(--btn-primary-line); color: var(--btn-primary-ink); }
-.btn-primary:hover:not(:disabled) { background: var(--btn-primary-bg-hover); }
-.btn-done { background: var(--matched-soft); border-color: var(--matched); color: var(--matched); }
-.btn-done::before { content: '✓ '; }
-.btn:disabled { background: var(--bg-2); border-color: var(--line); color: #6b6b74; cursor: not-allowed; }
 /* list-style none drops the marker (a grid li had already lost it); the drawn numbers are aria-hidden and
    the <ol> still gives "1 of 2" to screen readers. */
 .file-steps { list-style: none; padding: 0; display: grid; gap: 12px; }
@@ -534,14 +464,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .dialog::backdrop { background: rgb(0 0 0 / 0.45); }
 .dialog h2 { font-size: 1.1rem; }
 
-/* Loading and error states. min-height reserves the screen while a lazy view or its data loads, so the footer
-   no longer paints in view and then jumps below the fold (layout shift 0.146 on phones). */
-.state-msg { padding: 24px 16px; display: grid; align-content: start; gap: 12px; min-height: 100vh; min-height: 100svh; }
-.state-msg > * { max-width: 70ch; }
-.state-body { display: grid; gap: 8px; }
-.state-detail summary { cursor: pointer; color: var(--ink-2); font-size: 0.85rem; padding-block: 12px; }
-.state-msg a.btn { color: var(--ink); text-decoration: none; }
-.state-detail code { display: block; overflow-wrap: anywhere; white-space: pre-wrap; }
 /* The header language switch cleared an approval; this says so where the approval was (Packet). */
 .lang-notice { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--bg-2); font-size: 0.9rem; }
 
@@ -552,12 +474,15 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 }
 
 @media (min-width: 1024px) {
-  /* Left column: brand row, eyebrow, title. Right column: language switch, then the night picker and Embed. */
+  /* Row 1: brand row, then the language switch. Row 2: eyebrow, then the night picker and Embed. Row 3: the title.
+     Three columns, so the brand row spans the middle one and only the switch's width is taken from it: with two,
+     the wide tools column also narrowed row 1, and the Spanish brand row wrapped onto two lines at 1280. */
   .top {
+    position: relative;
     padding: 10px 24px;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     /* The title has its own full-width row: at 1.6rem beside the 24rem night picker it wrapped to two lines. */
-    grid-template-areas: 'brand lang' 'eyebrow tools' 'title title';
+    grid-template-areas: 'brand brand lang' 'eyebrow tools tools' 'title title title';
     align-items: center;
     column-gap: 24px;
   }
@@ -570,12 +495,13 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
   .top-tools { grid-area: tools; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
   .top-tools .night-picker { flex-direction: row; align-items: center; gap: 8px; margin-top: 0; font-size: 0.8rem; }
   .top-tools .night-picker label { white-space: nowrap; color: var(--ink-2); }
-  /* 16px text (was 12.8px); wider than that and the brand row beside it wrapped in Spanish at 1280. */
-  .top-tools .night-picker select { width: 20rem; max-width: 24vw; }
+  /* 16px text, about 26rem wide (decision 12): the chosen spike's date, compound, monitor and value fit in both
+     languages at 1280 (at 20rem "Galena Park · 15.84 ppb" was cut). 32vw keeps the eyebrow room at 1024. */
+  .top-tools .night-picker select { width: 26rem; max-width: 32vw; }
   .fixture-banner { padding: 6px 24px; }
   .layout { flex-direction: row; }
   .map-wrap { flex: 1; height: auto; border-bottom: 0; border-right: 1px solid var(--line); }
-  .panel { flex: 0 0 440px; }
+  .panel { flex: 0 0 var(--panel-w); }
   .legend { font-size: 0.8rem; }
 }
 
@@ -637,19 +563,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .lg-scale { width: 14px; height: 14px; background: linear-gradient(135deg, rgb(157 191 195), rgb(208 96 77)); }
 .lg-nodata { background: transparent; border: 2px solid rgb(98 111 114); box-shadow: none; }
 
-.skip-link {
-  position: absolute;
-  left: 8px;
-  top: -100px;
-  z-index: 10;
-  padding: 10px 14px;
-  min-height: 44px;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 8px;
-  font-weight: 700;
-}
-.skip-link:focus { top: 8px; }
 .panel:focus { outline: none; }
 .panel:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
 
@@ -697,20 +610,6 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 }
 .ps-input:focus-visible { outline-offset: 1px; }
 .ps-picks { display: grid; gap: 6px; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip {
-  min-height: 44px;
-  padding: 0 14px;
-  border: 1px solid #80808a;
-  border-radius: 999px;
-  background: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
-}
-.chip:hover { background: var(--bg-2); border-color: var(--ink-2); }
-.chip[aria-pressed='true'] { background: var(--place); border-color: var(--place); color: #fff; }
 .ps-result { display: grid; gap: 10px; }
 .ps-readout { display: grid; gap: 8px; }
 .ps-place { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
@@ -821,31 +720,49 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .top .embed-code .btn-primary, .more-nights .embed-code .btn-primary { background: var(--bg); border-color: var(--ink-2); color: var(--ink); }
 .top .embed-code .btn-primary:hover:not(:disabled), .more-nights .embed-code .btn-primary:hover:not(:disabled) { background: var(--bg-2); }
 @media (min-width: 1024px) {
-  /* Opened in the header, the embed code drops over the map instead of pushing the whole header down. */
-  .top-tools .embed-share { position: relative; }
-  .top-tools .embed-code { position: absolute; top: calc(100% + 6px); right: 0; z-index: 5; width: min(480px, 60vw); box-shadow: var(--shadow-1); }
+  /* Opened in the header, the embed code drops over the map's top right corner instead of pushing the whole header
+     down. It hangs from the header (.top is positioned), not from its button: under the button it covered the title
+     and the step tabs, and a click on a tab hit the textarea (S71, ST-15). The map is the one region that can be
+     covered for a moment; Esc and an outside click close the box. */
+  .top-tools .embed-share { position: static; }
+  .top-tools .embed-code {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: calc(var(--panel-w) + 12px);
+    z-index: 5;
+    width: min(480px, calc(100vw - var(--panel-w) - 24px));
+    box-shadow: var(--shadow-1);
+  }
 }
 
-/* Footer: the offline note and the install button sit in "About this site"; the row itself is links. */
-.site-about summary { cursor: pointer; padding-block: 6px; }
-.site-about[open] { flex-basis: 100%; }
-.site-about-body { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding-bottom: 4px; }
-.site-about .pwa-note { white-space: normal; }
-@media (pointer: coarse) {
-  .site-about summary { padding-block: 13px; margin-block: -7px; }
-}
 /* index.css keeps the phone replay footer on one line; an open disclosure needs a line of its own. */
 .app .site-foot:has(.site-about[open]) { flex-wrap: wrap; }
 
 /* Projector and laptop: 16px for the step panel's reading text (68 of 77 replay text elements were 10-15px at 1280);
-   captions and tags 14px. */
+   captions and tags 14px (.small is index.css's, shared with every page). */
 @media (min-width: 1024px) {
   .lead, .facts > div, .caveat, .tri-note, .is-matched-note, .di-facts, .fl-geo, .question, .list-heading,
   .cannot-say summary, .cannot-say ul, .ps-label, .ps-far, .ps-error, .lang-notice, .tl-status { font-size: 1rem; }
-  .small, .tl-note, .eyebrow, .fl-align, .spark figcaption, .reading-when, .hourly-table, .check-at, .filed-tag, .di-tag,
+  .tl-note, .eyebrow, .fl-align, .spark figcaption, .reading-when, .hourly-table, .check-at, .filed-tag, .di-tag,
   .tl-all { font-size: 0.875rem; }
   .step-tab { font-size: 0.95rem; }
 }
+/* Projector floor (R4f): from 1280px no caption, tag, label or control text in the replay is under 16px. A projected
+   1280x720 desktop is the demo's worst case. The status pill follows in index.css. The map key too while "Key" opens
+   it (1280-1439px); from 1440px it is always on and keeps 0.8rem, the size that fits it on one row over the map (at
+   16px it took two rows, 58px, at 1440). */
+@media (min-width: 1280px) {
+  .app :is(.small, .tl-note, .eyebrow, .fl-align, .spark figcaption, .reading-when, .hourly-table, .check-at, .filed-tag,
+    .di-tag, .tl-all, .tri-tag, .prov-badge, .prov-tip, .key-arrival, .control-label, .seg-sub, .draft-label, .step-tab,
+    .night-picker, .embed-open, .more-nights summary, .file-step-num, .chip) { font-size: 1rem; }
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .app .legend { font-size: 1rem; }
+}
+
+/* #90's mono for figures and times (index.css says which): the spike's date in the header, and the hour and reading
+   in the replay's status line. */
+.eyebrow > span:first-child, .tl-status strong { font-family: var(--mono); letter-spacing: -0.01em; }
 
 /* Printing the replay gave the controls, a blank basemap and a panel cut off at the screen's height. Print the night:
    title, the current step in full, and its limits open. */
