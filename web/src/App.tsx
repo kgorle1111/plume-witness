@@ -13,7 +13,7 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
-import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionFrom, regionQuery } from './region'
+import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionFrom, regionQuery, regionUnknown } from './region'
 import { NIGHT_ID, regionStartNight } from './routes'
 import { SiteHeader } from './SiteHeader'
 import './App.css'
@@ -206,6 +206,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       {ev.label === 'fixture' && (
         <p className="fixture-banner" role="note"><strong>{t('app.fixtureLead')}</strong> {t('app.fixtureBody')}</p>
       )}
+      {regionUnknown(window.location.search) && <p className="site-region-note" role="note">{t('region.unknown')}</p>}
       {ev.region && !ev.region.backtested && (
         <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note === NOT_BACKTESTED_NOTE ? t('region.notBacktested') : ev.region.note}</strong></p>
       )}

@@ -1,5 +1,5 @@
 import type { RecordCheck } from './types.ts'
-import { monthShort, translate, type Lang } from './i18n.ts'
+import { dateLabel, monthShort, translate, type Lang } from './i18n.ts'
 
 /** Offset of the company's local clock from the monitors' CST, read from the pipeline's own tz note. */
 export function localOffsetH(tz?: string): number | null {
@@ -109,4 +109,42 @@ export function resolutionText(res: string, lang: Lang): { text: string; lang: L
   if (res === 'in the upwind corridor') return { text: translate(lang, 'chk.resIn'), lang }
   const m = RES_OUT.exec(res)
   return m ? { text: translate(lang, 'chk.resOut', { km: m[1], deg: m[2] }), lang } : { text: res, lang: 'en' }
+}
+
+// record_check.search_scope is a run of fixed sentences (pipeline/build.py, backtest.py). Each must match one known form
+// exactly (anchored patterns); if any sentence is unknown the whole paragraph stays as published (marked English)
+// rather than half-translated.
+const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (.+) County \((\d+) found; search (complete|incomplete)\)\.$/
+const SCOPE_EARLIER = /^Also searched reports that started in the (\d+) days before and were still running \((\d+) open that day; earlier search (complete|incomplete)\)\.$/
+const SCOPE_CALM = /^Wind too light to trace \(([\d.]+) mph\): no corridor drawn, so the search is incomplete\.$/
+const SCOPE_FIXED = {
+  'Events that started on earlier days were not searched.': 'scope.notEarlier',
+  'No matching report found in a complete search.': 'scope.none',
+  'A report open at that time could not be located, so the search is incomplete.': 'scope.unlocated',
+} as const
+
+function scopeSentence(s: string, lang: Lang): string | null {
+  const state = (x: string) => translate(lang, x === 'complete' ? 'scope.complete' : 'scope.incomplete')
+  const fixed = SCOPE_FIXED[s as keyof typeof SCOPE_FIXED]
+  if (fixed) return translate(lang, fixed)
+  let m = SCOPE_DAY.exec(s)
+  if (m) {
+    const key = m[5] === '1' ? 'scope.dayOne' : 'scope.day'
+    return translate(lang, key, { date: lang === 'en' ? `${m[1]}/${m[2]}/${m[3]}` : dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), county: m[4], n: m[5], state: state(m[6]) })
+  }
+  m = SCOPE_EARLIER.exec(s)
+  if (m) {
+    const key = m[2] === '1' ? 'scope.earlierOne' : 'scope.earlier'
+    return translate(lang, key, { days: m[1], n: m[2], state: state(m[3]) })
+  }
+  m = SCOPE_CALM.exec(s)
+  return m ? translate(lang, 'scope.calm', { mph: m[1] }) : null
+}
+
+/** The Check step's search-scope paragraph in the reader's language; `lang` is the language the text is actually in. */
+export function searchScopeText(scope: string, lang: Lang): { text: string; lang: Lang } {
+  if (lang === 'en') return { text: scope, lang }
+  const parts = scope.trim().split(/(?<=\.) +(?=[A-Z])/)
+  const out = parts.map((p) => scopeSentence(p, lang))
+  return out.every((p): p is string => p !== null) ? { text: out.join(' '), lang } : { text: scope, lang: 'en' }
 }
