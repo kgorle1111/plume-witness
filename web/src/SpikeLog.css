@@ -97,7 +97,9 @@
 
 .sl-status-cell { display: grid; gap: 2px; justify-items: start; }
 .sl-status {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 1px 8px;
   border-radius: 999px;
   border: 1px solid currentColor;
@@ -106,8 +108,8 @@
   white-space: nowrap;
 }
 .sl-status-reported { color: #14532d; background: #e7f6ec; }
-.sl-status-not_yet_reported { color: #6b4500; background: #fff4dc; }
-.sl-status-no_report_after_deadline { color: #8b1a1a; background: #fdecea; }
+.sl-status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 28ch; }
@@ -163,7 +165,7 @@
 .sl-cal-strip { display: block; width: 100%; height: 14px; background: var(--bg-2); border-radius: 2px; }
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
-.sl-cal-swatch { width: 12px; height: 12px; border-radius: 2px; }
+.sl-cal-swatch { width: 12px; height: 14px; flex: none; background: var(--bg-2); border-radius: 2px; }
 /* Forced colors drop the swatch backgrounds but keep the SVG fills, so the legend no longer matched the strips. */
 @media (forced-colors: active) { .sl-cal-swatch { forced-color-adjust: none; } }
 

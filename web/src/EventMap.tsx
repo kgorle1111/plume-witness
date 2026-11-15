@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
-import { destination, mergeArcs, readingText, sectorRing } from './format'
+import { destination, mergeArcs, readingText, sectorRing, unitShort } from './format'
 import { placeReadout } from './geo'
 import type { Place } from './PlaceSearch'
 
@@ -61,8 +61,9 @@ const saveData = () => (navigator as Navigator & { connection?: { saveData?: boo
 const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
 const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOptedOut() && !saveData()
 
-// With dozens of facilities, only these get a standing label; the rest show their name on hover, tap, or
-// focus in the Trace list (which stays the full text equivalent).
+// With dozens of facilities, only these get a standing label on wide maps; the rest show their name on hover,
+// tap, or focus in the Trace list (which stays the full text equivalent). Narrow maps label only the filed-report
+// facility (see numbered() below).
 const NEAREST_LABELED = 3
 
 interface Props {
@@ -95,7 +96,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   useEffect(() => {
     const el = container.current
     if (!el) return
-    // Narrow maps (phones) drop the labels that collide; the Trace step's list carries every name.
+    // Narrow maps (phones) drop the labels that collide; the Trace step's list carries every name. One breakpoint
+    // for all narrow-map rules: at 500-600px the facility cluster is as crowded as at 375px.
     const isNarrow = () => el.clientWidth < 600
     const trigger = ev.monitors.find((m) => m.site_id === ev.detection.site_id) as Monitor
     const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
@@ -131,7 +133,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     const monitorText = (m: Monitor) => {
       const h = readingAt(m)
-      return `${m.name}\n${h ? readingText(h.value, h.flag, ev.compound.units) : 'no data'}`
+      return `${m.name}\n${h ? readingText(h.value, h.flag, unitShort(ev.compound.units)) : 'no data'}`
     }
     // Upwind line and arrow for the replay hour: the line points to where the air came from, the arrow
     // points back toward the monitor (the direction the air moved).
@@ -153,7 +155,6 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const arcs = cor && origin ? mergeArcs(cor.wind_from_deg, cor.half_width_deg) : []
     const wedges = cor && origin ? arcs.map(([a, b]) => ({ ring: sectorRing(origin.lat, origin.lon, a, b, cor.max_km) })) : []
     const widest = arcs.reduce<[number, number] | null>((w, a) => (!w || a[1] - a[0] > w[1] - w[0] ? a : w), null)
-    const corridorLabelAt = cor && origin && widest ? destination(origin.lat, origin.lon, (widest[0] + widest[1]) / 2, cor.max_km * 0.85) : null
     // Triangulation (informational): drawn only when the pipeline says intersecting the wedges narrows the list.
     const tri = ev.triangulation?.verdict === 'narrows' ? ev.triangulation : null
     const triWedges = tri
@@ -219,48 +220,102 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
 
     const isRevealed = (f: Facility) => f.id === hoverId || f.id === highlight.current
-    // Standing labels that would overlap an already placed label are dropped (the dot and the Trace list
-    // still carry them); a label the reader asked for (hover, tap, focus) always shows.
-    const labeled = () => {
+    // Phones keep one standing facility mark, the filed-report facility's number and name; every other facility
+    // is a plain dot whose number and name show on tap (or from the Trace list, which carries them all).
+    const numbered = (f: Facility, narrow: boolean) => order.has(f.id) && (!narrow || f.id === matchedId || isRevealed(f))
+    const facilityRadius = (f: Facility, narrow: boolean) => (isRevealed(f) ? 11 : f.id === matchedId ? 10 : narrow ? 6 : 8)
+
+    type Box = [number, number, number, number]
+    type Where = 'right' | 'left' | 'below' | 'above'
+    const hit = (a: Box, b: Box) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1]
+    // Screen boxes of every dot on the map, so standing labels can be kept off them.
+    const dotBoxes = (narrow: boolean) => [
+      ...ev.monitors.map((m) => ({ id: m.site_id, r: monitorRadius(m, narrow), p: map.project([m.lon, m.lat]) })),
+      ...ev.facilities.map((f) => ({ id: f.id, r: facilityRadius(f, narrow), p: map.project([f.lon, f.lat]) })),
+    ].map(({ id, r, p }) => ({ id, box: [p.x - r, p.y - r, p.x + r, p.y + r] as Box }))
+    // kn: width estimated at ~0.55em per character of the longest line; measure text if labels get styled.
+    const textBox = (text: string, size: number): [number, number] => {
+      const lines = text.split('\n')
+      return [Math.max(...lines.map((l) => l.length)) * size * 0.55 + 8, lines.length * size * 1.25 + 4]
+    }
+    const labelSize = (narrow: boolean) => (narrow ? 11 : 12)
+    const boxAt = (x: number, y: number, [w, h]: [number, number], where: Where): Box =>
+      where === 'right' ? [x + 13, y - h / 2, x + 13 + w, y + h / 2]
+        : where === 'left' ? [x - 13 - w, y - h / 2, x - 13, y + h / 2]
+          : where === 'below' ? [x - w / 2, y + 13, x + w / 2, y + 13 + h]
+            : [x - w / 2, y - 13 - h, x + w / 2, y - 13]
+    // The legend sits over the top of the map; a label under it is hidden, so that strip counts as off the map.
+    const visibleTop = () => (legend.current ? legend.current.offsetTop + legend.current.offsetHeight : 0)
+    const inside = (b: Box) => b[0] >= 4 && b[2] <= el.clientWidth - 4 && b[1] >= visibleTop() && b[3] <= el.clientHeight - 4
+
+    // One layout pass per redraw: the flagged monitor's label first (fixed under its circle), then facility labels, each on
+    // the side of its dot that covers the fewest other dots, then the corridor label in a clear spot or not at all.
+    // Standing labels that would overlap an already placed label are dropped (the dot and the Trace list still
+    // carry them); a label the reader asked for (hover, tap, focus) always shows.
+    const layout = (narrow: boolean) => {
+      const dots = dotBoxes(narrow)
+      const placed: Box[] = []
+      // Only the flagged monitor's reading is an obstacle, as before; the other monitors' labels may be covered.
+      {
+        const p = map.project([trigger.lon, trigger.lat])
+        const [w, h] = textBox(monitorText(trigger), 12)
+        const top = p.y + monitorRadius(trigger, narrow) + 5
+        placed.push([p.x - w / 2, top, p.x + w / 2, top + h])
+      }
+      const standingNow = narrow ? new Set(matchedId ? [matchedId] : []) : standing
       const seen = new Set<string>()
       // Facility ids can repeat in the data; label each id once.
-      const wanted = ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
+      const wanted = ev.facilities.filter((f) => (standingNow.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
       const rank = (f: Facility) => (isRevealed(f) ? 0 : f.id === matchedId ? 1 : 2 + (order.get(f.id) ?? 99))
       wanted.sort((a, b) => rank(a) - rank(b))
-      const placed: number[][] = []
-      const tp = map.project([trigger.lon, trigger.lat])
-      const tw = trigger.name.length * 6.6, tr = monitorRadius(trigger, isNarrow())
-      placed.push([tp.x - tw / 2, tp.y + tr + 5, tp.x + tw / 2, tp.y + tr + 35])
-      const hits = (b: number[]) => placed.some((p) => b[0] < p[2] && b[2] > p[0] && b[1] < p[3] && b[3] > p[1])
-      return wanted.filter((f) => {
-        const lines = facilityLabel(f).split('\n')
-        const w = Math.max(...lines.map((l) => l.length)) * 6.6, h = lines.length * 15
-        const { x, y } = map.project([f.lon, f.lat])
-        const where = placement(f)
-        const box = where === 'right' ? [x + 13, y - h / 2, x + 13 + w, y + h / 2]
-          : where === 'left' ? [x - 13 - w, y - h / 2, x - 13, y + h / 2]
-          : [x - w / 2, y + 13, x + w / 2, y + 13 + h]
-        if (!isRevealed(f) && hits(box)) return false
-        placed.push(box)
-        return true
-      })
+      const where = new Map<string, { w: Where; dx: number }>()
+      for (const f of wanted) {
+        const p = map.project([f.lon, f.lat])
+        const size = textBox(facilityLabel(f), labelSize(narrow))
+        const cost = (b: Box) => (inside(b) ? 0 : 1000) + 100 * placed.filter((q) => hit(b, q)).length
+          + dots.filter((d) => d.id !== f.id && hit(b, d.box)).length
+        // A centred label (below or above) slides sideways to stay on the map, so a long name isn't cut off.
+        const slide = (b: Box) => (b[0] < 4 ? 4 - b[0] : b[2] > el.clientWidth - 4 ? el.clientWidth - 4 - b[2] : 0)
+        const options = (['right', 'left', 'below', 'above'] as Where[]).map((w) => {
+          const b0 = boxAt(p.x, p.y, size, w)
+          const dx = w === 'below' || w === 'above' ? slide(b0) : 0
+          const b: Box = [b0[0] + dx, b0[1], b0[2] + dx, b0[3]]
+          return { w, dx, b, c: cost(b) }
+        })
+        const best = options.reduce((a, o) => (o.c < a.c ? o : a))
+        if (!isRevealed(f) && best.c >= 100) continue
+        where.set(f.id, { w: best.w, dx: best.dx })
+        placed.push(best.b)
+      }
+      return { where, corridorAt: corridorSpot(dots, placed) }
+    }
+
+    // The corridor label goes inside the wedge where it covers no dot and no other label: along the widest arc's
+    // centre line first, then swung toward its edges. With no clear spot it is left off; the legend names it.
+    const corridorSpot = (dots: { box: Box }[], placed: Box[]): [number, number] | null => {
+      if (!cor || !origin || !widest) return null
+      const size = textBox(CORRIDOR_LABEL, 12)
+      const span = widest[1] - widest[0]
+      for (const reach of [0.85, 0.95, 0.75, 0.65, 0.55, 0.45]) {
+        for (const swing of [0, -0.25, 0.25, -0.4, 0.4]) {
+          const at = destination(origin.lat, origin.lon, (widest[0] + widest[1]) / 2 + swing * span, cor.max_km * reach)
+          const p = map.project(at)
+          const b: Box = [p.x - size[0] / 2, p.y - size[1] / 2, p.x + size[0] / 2, p.y + size[1] / 2]
+          if (inside(b) && !dots.some((d) => hit(b, d.box)) && !placed.some((q) => hit(b, q))) return at
+        }
+      }
+      return null
     }
 
     let labelEpoch = 0
-    // kn: width estimated at ~6.6px per character of the longest label line; measure text if labels get styled.
-    // Right of the dot if it fits, else left, else centred underneath.
-    const placement = (f: Facility): 'right' | 'left' | 'below' => {
-      const w = 13 + Math.max(...facilityLabel(f).split('\n').map((l) => l.length)) * 6.6
-      const x = map.project([f.lon, f.lat]).x
-      if (x + w <= el.clientWidth - 8) return 'right'
-      if (x - w >= 8) return 'left'
-      return 'below'
-    }
-    const ANCHOR = { right: 'start', left: 'end', below: 'middle' } as const
-    const BASELINE = { right: 'center', left: 'center', below: 'top' } as const
-    const OFFSET = { right: [13, 0], left: [-13, 0], below: [0, 13] } as const
+    const ANCHOR = { right: 'start', left: 'end', below: 'middle', above: 'middle' } as const
+    const BASELINE = { right: 'center', left: 'center', below: 'top', above: 'bottom' } as const
+    const OFFSET = { right: [13, 0], left: [-13, 0], below: [0, 13], above: [0, -13] } as const
 
-    const buildLayers = (narrow: boolean) => [
+    const buildLayers = (narrow: boolean) => {
+      const { where, corridorAt } = layout(narrow)
+      const placeOf = (f: Facility) => where.get(f.id)?.w ?? 'below'
+      return [
       wedges.length > 0 &&
         new PolygonLayer<{ ring: [number, number][] }>({
           id: 'corridor',
@@ -353,18 +408,18 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         data: drawOrder,
         pickable: true,
         getPosition: (f) => [f.lon, f.lat],
-        getRadius: (f) => (isRevealed(f) ? 11 : f.id === matchedId ? 10 : 8),
+        getRadius: (f) => facilityRadius(f, narrow),
         radiusUnits: 'pixels',
         getFillColor: facilityColor,
         stroked: true,
         getLineColor: (f) => (isRevealed(f) ? C.focus : C.white),
         getLineWidth: (f) => (isRevealed(f) ? 3 : 2),
         lineWidthUnits: 'pixels',
-        updateTriggers: { getRadius: [hoverId, highlight.current], getLineColor: [hoverId, highlight.current], getLineWidth: [hoverId, highlight.current] },
+        updateTriggers: { getRadius: [hoverId, highlight.current, narrow], getLineColor: [hoverId, highlight.current], getLineWidth: [hoverId, highlight.current] },
       }),
       new TextLayer<Facility>({
         id: 'facility-numbers',
-        data: drawOrder.filter((f) => order.has(f.id)),
+        data: drawOrder.filter((f) => numbered(f, narrow)),
         getPosition: (f) => [f.lon, f.lat],
         getText: (f) => String(order.get(f.id)),
         getSize: 10,
@@ -374,14 +429,14 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       }),
       new TextLayer<Facility>({
         id: 'facility-labels',
-        data: labeled(),
+        data: ev.facilities.filter((f, i, all) => where.has(f.id) && all.findIndex((g) => g.id === f.id) === i),
         getPosition: (f) => [f.lon, f.lat],
         getText: facilityLabel,
         getColor: (f) => (f.id === matchedId ? C.matched : C.text),
-        getSize: narrow ? 11 : 12,
-        getTextAnchor: (f) => ANCHOR[placement(f)],
-        getAlignmentBaseline: (f) => BASELINE[placement(f)],
-        getPixelOffset: (f) => [...OFFSET[placement(f)]],
+        getSize: labelSize(narrow),
+        getTextAnchor: (f) => ANCHOR[placeOf(f)],
+        getAlignmentBaseline: (f) => BASELINE[placeOf(f)],
+        getPixelOffset: (f) => [OFFSET[placeOf(f)][0] + (where.get(f.id)?.dx ?? 0), OFFSET[placeOf(f)][1]],
         updateTriggers: { getTextAnchor: labelEpoch, getAlignmentBaseline: labelEpoch, getPixelOffset: labelEpoch },
         background: true,
         getBackgroundColor: C.labelBg,
@@ -389,12 +444,11 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         fontFamily: 'system-ui, sans-serif',
         characterSet: 'auto',
       }),
-      // Drawn last so dots never cover it; phones carry this label in the legend instead.
-      !narrow &&
-        corridorLabelAt &&
+      // Drawn last; placed only where it covers no dot (see corridorSpot), and the legend names the wedge too.
+      corridorAt &&
         new TextLayer({
           id: 'corridor-label',
-          data: [{ pos: corridorLabelAt }],
+          data: [{ pos: corridorAt }],
           getPosition: (d: { pos: [number, number] }) => d.pos,
           getText: () => CORRIDOR_LABEL,
           getSize: 12,
@@ -407,7 +461,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           fontFamily: 'system-ui, sans-serif',
           fontWeight: 600,
         }),
-    ].filter(Boolean)
+      ].filter(Boolean)
+    }
 
     // kn: standalone Deck synced to the MapLibre camera, because @deck.gl/mapbox 9.4.1 reads map.transform,
     // which MapLibre 6 removed (throws inside MapLibre's render loop). Swap back to MapboxOverlay once a
@@ -448,7 +503,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     // Hover (mouse) and tap (touch) reveal a facility's name; picking runs on deck's own buffer.
     const pickAt = (x: number, y: number) =>
-      phaseNow !== 'flat' ? null : (deck.pickObject({ x, y, radius: 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
+      phaseNow !== 'flat' ? null : (deck.pickObject({ x, y, radius: narrow ? 10 : 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
     const setHover = (id: string | null) => {
       if (id === hoverId) return
       hoverId = id
@@ -637,7 +692,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       {/* Hidden (not removed) during the intro: fit() measures its height for the top padding. */}
       <ul ref={legend} className={phase === 'flat' ? 'legend' : 'legend is-hidden'} aria-hidden="true">
         <li><span className="lg lg-pulse" /> Flagged monitor</li>
-        <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
+        <li><span className="lg lg-scale" /> Monitor (size = {unitShort(ev.compound.units)})</li>
         <li><span className="lg lg-nodata" /> No data</li>
         <li><span className="lg lg-facility">1</span> Facility</li>
         {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}

@@ -153,7 +153,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
-        <h2>{t(STEPS[active].title)}</h2>
+        <h2 key={step}>{t(STEPS[active].title)}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
         {step === 'check' && <Check ev={ev} lang={packetReview.lang} />}
