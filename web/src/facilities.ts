@@ -159,6 +159,10 @@ export const MONITOR_SITES: Readonly<Record<string, string>> = {
   'Houston Milby Park': '48_201_0069',
   'Lynchburg Ferry': '48_201_1015',
   'Manchester East Ave N': '48_201_0307',
+  'Channelview Drive Water Tower': '48_201_0036',
+  'Houston Deer Park #2': '48_201_1039',
+  'Pasadena Richey Elementary School': '48_201_1049',
+  'Cesar Chavez': '48_201_6000',
 }
 
 /** Past spikes filtered to one monitor, or null for a monitor the log does not cover. */
@@ -170,7 +174,7 @@ export const nightHref = (nightId: string, base = ''): string => `${base}?night=
 
 // Raw pipeline values shown in the UI, mapped to string keys so they read in the reader's language.
 // A value not listed here renders as the pipeline wrote it, marked lang="en".
-const EVENT_TYPE = { 'Emissions Event': 'fx.typeEvent', 'Maintenance': 'fx.typeMaint', 'Excess Opacity': 'fx.typeOpacity' } as const
+const EVENT_TYPE = { 'Emissions Event': 'fx.typeEvent', 'Maintenance': 'fx.typeMaint', 'Excess Opacity': 'fx.typeOpacity', 'Air Startup': 'fx.typeStartup' } as const
 export const eventTypeKey = (type: string) => (Object.hasOwn(EVENT_TYPE, type) ? EVENT_TYPE[type as keyof typeof EVENT_TYPE] : null)
 const TRI_STATUS = { linked_no_benzene_or_butadiene_form: 'fx.triLinkedNone', no_tri_id: 'fx.triNoId' } as const
 export const triReasonKey = (status: string) => (Object.hasOwn(TRI_STATUS, status) ? TRI_STATUS[status as keyof typeof TRI_STATUS] : null)
