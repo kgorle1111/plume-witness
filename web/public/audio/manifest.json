@@ -1,0 +1,30 @@
+{
+  "template_en": {
+    "file": "template_en.mp3",
+    "voice": "af_heart",
+    "sha256": "dfece9cfbcf9e64d009ff906c20697418ccda5fe181803690b88e662ce99e72b",
+    "spoken_sha256": "3783825bb721c612e4add5da2cc400bc0f741f60e85ead72425482a4f7d74423",
+    "seconds": 54.7
+  },
+  "template_es": {
+    "file": "template_es.mp3",
+    "voice": "ef_dora",
+    "sha256": "bba1b2a9a27884949e442c8cb15a62267f7cfb6811448ccefb0e13264d848ee4",
+    "spoken_sha256": "afab172ec775c856cb465ba58b14a03de5dce1e736fa25d1937a8ca1bdc1f68a",
+    "seconds": 53.0
+  },
+  "ai_en": {
+    "file": "ai_en.mp3",
+    "voice": "af_heart",
+    "sha256": "5d1533c09f8adb58c5df7a21837e5c669c71b2c7aa6751a175414a3e25e1cef0",
+    "spoken_sha256": "f84bfb21ba5fc47079e8f9650a9fadf16d4cf1aac4a495196236979542281ae6",
+    "seconds": 77.8
+  },
+  "ai_es": {
+    "file": "ai_es.mp3",
+    "voice": "ef_dora",
+    "sha256": "1881c7a6ccd78d76a9c4a134ada965569bc506937701336efa4fa2ba15a5be9c",
+    "spoken_sha256": "2bda1b7c7769d03df2beee5f1393c239f1b84dd43e9c0c9384f9c41b7ade87bb",
+    "seconds": 75.8
+  }
+}
