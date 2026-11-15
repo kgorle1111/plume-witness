@@ -80,8 +80,9 @@
 
 .pulse-anchor { width: 22px; height: 22px; pointer-events: none; }
 .pulse-ring {
-  width: 22px;
-  height: 22px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   border: 3px solid var(--trigger);
   pointer-events: none;
@@ -92,7 +93,7 @@
   to { transform: scale(2.8); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pulse-ring { animation: none; transform: scale(1.6); opacity: 0.9; }
+  .pulse-ring { animation: none; transform: scale(1.15); opacity: 0.9; }
 }
 
 .panel {
@@ -361,3 +362,6 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   p.wide-only { display: block; }
   .narrow-only { display: none; }
 }
+.lg-pulse { background: var(--trigger); box-shadow: 0 0 0 2px rgb(190 30 45 / 0.35); }
+.lg-scale { width: 14px; height: 14px; background: linear-gradient(135deg, rgb(120 165 215), rgb(190 30 45)); }
+.lg-nodata { background: transparent; border: 2px solid rgb(110 110 120); box-shadow: none; }
