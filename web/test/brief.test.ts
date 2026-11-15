@@ -2,6 +2,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { inlineText, parseInline, parseMarkdown, type Block } from '../src/md.ts'
+import { BRIEF_ES, numbersIn } from '../src/briefEs.ts'
+import { BANNED_WORDS } from '../src/i18n.ts'
 
 const src = readFileSync(new URL('../../docs/brief.md', import.meta.url), 'utf8')
 const blocks = parseMarkdown(src)
@@ -31,7 +33,7 @@ test('the brief renders every section it promises, with one title', () => {
 
 test('the brief keeps its headline numbers with their denominators', () => {
   const t = allText(blocks)
-  for (const s of ['52 of 72', '3 of 72', '19 of 386', '95% CI 61-81%', '95% CI 1-12%', '95% CI 3-8%']) assert.ok(t.includes(s), s)
+  for (const s of ['60 of 77', '5 of 77', '26 of 410', '95% CI 68-86%', '95% CI 3-14%', '95% CI 4-9%']) assert.ok(t.includes(s), s)
 })
 
 test('the brief avoids words that assert wrongdoing or proof', () => {
@@ -56,4 +58,20 @@ test('a bracketed citation link keeps its brackets outside the link text', () =>
   blocks.forEach((b) => ('items' in b ? b.items.forEach(walk) : walk(b.v)))
   assert.ok(links.length > 5)
   for (const l of links) assert.ok(!/^\[|\]$/.test(l), `link text carries a bracket: ${l}`)
+})
+
+test('the Spanish summary states the same numbers as the English sections it translates', () => {
+  for (const sec of BRIEF_ES.sections) {
+    const at = blocks.findIndex((b) => b.t === 'h2' && inlineText(b.v) === sec.en)
+    assert.ok(at >= 0, `brief.md has no section "${sec.en}"`)
+    const list = blocks[at + 1]
+    assert.ok('items' in list, `"${sec.en}" is not followed by a list`)
+    assert.equal(list.items.length, sec.items.length, `${sec.en}: item count`)
+    list.items.forEach((it, i) => assert.deepEqual(numbersIn(sec.items[i]), numbersIn(inlineText(it)), `${sec.en} item ${i + 1}`))
+  }
+})
+
+test('the Spanish summary carries no banned verdict word', () => {
+  for (const s of [BRIEF_ES.title, ...BRIEF_ES.sections.flatMap((x) => [x.title, ...x.items])])
+    for (const re of BANNED_WORDS) assert.ok(!re.test(s), `${re} in: ${s}`)
 })

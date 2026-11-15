@@ -19,7 +19,7 @@ export interface IndexRow {
 }
 
 export interface FacilityIndex {
-  coverage: { detail_pages_cached: number; placed_on_a_major: number; placed_elsewhere: number; not_placed: number }
+  coverage: { search_rows?: number; detail_pages_cached: number; placed_on_a_major: number; placed_elsewhere: number; not_placed: number }
   caveats: string[]
   facilities: IndexRow[]
 }
@@ -104,8 +104,13 @@ export function searchFacilities(rows: IndexRow[], query: string): IndexRow[] {
 export const facilityHref = (id: string, base = ''): string => `${base}?view=facility&id=${encodeURIComponent(id)}`
 export const facilitiesHref = (base = '', q = ''): string => `${base}?view=facilities${q ? `&q=${encodeURIComponent(q)}` : ''}`
 
-export const lbs = (n: number | null | undefined): string =>
-  n === null || n === undefined ? 'no number given' : `${n.toLocaleString('en-US', { maximumFractionDigits: 2 })} lb`
+// Whole pounds from 10 lb up (the facility's own estimate; "8,469.743 lb" claims a precision it does not have), one
+// decimal from 1 lb, two significant digits below that so a small release never reads as "0 lb".
+export const lbs = (n: number | null | undefined): string => {
+  if (n === null || n === undefined) return 'no number given'
+  const opts: Intl.NumberFormatOptions = n >= 10 ? { maximumFractionDigits: 0 } : n >= 1 ? { maximumFractionDigits: 1 } : { maximumSignificantDigits: 2 }
+  return `${n.toLocaleString('en-US', opts)} lb`
+}
 
 /** "2024-06-06T06:30" -> "2024-06-06 06:30" (local time at the facility, as TCEQ publishes it). */
 export const localTime = (s: string): string => s.replace('T', ' ')
@@ -135,4 +140,75 @@ function word(w: string, first: boolean): string {
 export function displayName(name: string): string {
   if (/[a-z]/.test(name)) return name
   return name.split(' ').map((w, i) => w.split('-').map((part) => word(part, i === 0)).join('-')).join(' ')
+}
+
+/** The list pages at this many cards, like the spikes log: 191 cards at once made a 57-screen phone page. */
+export const PAGE_SIZE = 50
+
+/** A query echoed back in "No facility matches …", cut so a pasted paragraph cannot widen the page. */
+export const clipQuery = (q: string, max = 60): string => (q.length > max ? `${q.slice(0, max - 1)}…` : q)
+
+// The eight Houston monitors a facility can be nearest to (spikes.json site_id), so a facility page can link to that
+// monitor's spikes. test/facilities.test.ts checks this against facilities/index.json and spikes.json.
+export const MONITOR_SITES: Readonly<Record<string, string>> = {
+  'Channelview': '48_201_0026',
+  'Clinton': '48_201_1035',
+  'Galena Park': '48_201_0057',
+  'HRM-16 Deer Park': '48_201_1614',
+  'HRM-3 Haden Road': '48_201_0803',
+  'Houston Milby Park': '48_201_0069',
+  'Lynchburg Ferry': '48_201_1015',
+  'Manchester East Ave N': '48_201_0307',
+  'Channelview Drive Water Tower': '48_201_0036',
+  'Houston Deer Park #2': '48_201_1039',
+  'Pasadena Richey Elementary School': '48_201_1049',
+  'Cesar Chavez': '48_201_6000',
+}
+
+/** Past spikes filtered to one monitor, or null for a monitor the log does not cover. */
+export const monitorSpikesHref = (monitor: string, base = ''): string | null =>
+  MONITOR_SITES[monitor] ? `${base}?view=spikes&site=${MONITOR_SITES[monitor]}` : null
+
+/** A matched night opens on its Check step, without the globe intro (about 9 MB of tiles on a desktop). */
+export const nightHref = (nightId: string, base = ''): string => `${base}?night=${encodeURIComponent(nightId)}&intro=0#check`
+
+// Raw pipeline values shown in the UI, mapped to string keys so they read in the reader's language.
+// A value not listed here renders as the pipeline wrote it, marked lang="en".
+const EVENT_TYPE = { 'Emissions Event': 'fx.typeEvent', 'Maintenance': 'fx.typeMaint', 'Excess Opacity': 'fx.typeOpacity', 'Air Startup': 'fx.typeStartup' } as const
+export const eventTypeKey = (type: string) => (Object.hasOwn(EVENT_TYPE, type) ? EVENT_TYPE[type as keyof typeof EVENT_TYPE] : null)
+const TRI_STATUS = { linked_no_benzene_or_butadiene_form: 'fx.triLinkedNone', no_tri_id: 'fx.triNoId' } as const
+export const triReasonKey = (status: string) => (Object.hasOwn(TRI_STATUS, status) ? TRI_STATUS[status as keyof typeof TRI_STATUS] : null)
+/** "benzene" in prose (the column labels stay capitalised). Facility files say "butadiene" or "1,3-butadiene". */
+export const compoundKey = (c: string) => (/butadiene/i.test(c) ? 'fx.cmpButadiene' : /benzene/i.test(c) ? 'fx.cmpBenzene' : null)
+
+/** Why a facility file did not load, kept apart so a dropped connection never reads as "Facility not found". */
+export type LoadError = { kind: 'network' } | { kind: 'http'; status: number } | { kind: 'damaged'; detail: string }
+
+export const isLoadError = (e: unknown): e is LoadError =>
+  isObj(e) && (e.kind === 'network' || e.kind === 'http' || e.kind === 'damaged')
+
+/** Fetch and parse one JSON file, rejecting with a LoadError. An abort rejects with the abort itself. */
+export async function loadJson<T>(url: string, parse: (raw: unknown) => T, fetchFn: typeof fetch = fetch, signal?: AbortSignal): Promise<T> {
+  let r: Response
+  try {
+    r = await fetchFn(url, { signal })
+  } catch (e) {
+    if (signal?.aborted) throw e
+    throw { kind: 'network' } satisfies LoadError
+  }
+  if (!r.ok) throw { kind: 'http', status: r.status } satisfies LoadError
+  let raw: unknown
+  try {
+    raw = await r.json()
+  } catch (e) {
+    if (signal?.aborted) throw e
+    // A body that is not JSON is damaged data; anything else here is the connection dropping mid-download.
+    if (!(e instanceof SyntaxError)) throw { kind: 'network' } satisfies LoadError
+    throw { kind: 'damaged', detail: `${url}: ${e.message}` } satisfies LoadError
+  }
+  try {
+    return parse(raw)
+  } catch (e) {
+    throw { kind: 'damaged', detail: e instanceof Error ? e.message : String(e) } satisfies LoadError
+  }
 }

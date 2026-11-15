@@ -6,8 +6,8 @@
 ## Method
 
 1. **Universe.** EPA ECHO air facilities classed "Major Emissions" in the lists already cached for the pipeline and
-   backtest, kept if within 15 km of any of the 8 AutoGC monitors (TAMIS coordinates, haversine).
-   That is 191 facilities.
+   backtest, kept if within 15 km of any of the 12 AutoGC monitors (TAMIS coordinates, haversine).
+   That is 194 facilities.
 2. **Linkage to TRI.** First, the TRI facility ids (TRIFIDs) ECHO itself lists for the facility. Where ECHO lists
    none, a TRI facility whose `epa_registry_id` equals the ECHO RegistryID. Nothing is matched by name.
 3. **Data.** Envirofacts `tri_reporting_form` joined to `tri_facility` and `tri_release_qty`, for CAS 71-43-2
@@ -20,26 +20,26 @@
 
 ## Match rate
 
-119 of 191 ECHO majors in the area (62%) link to a TRI facility id
-(119 via ECHO's TRIIDs, 0 via the registry-id fallback);
-35 of them filed a benzene or 1,3-butadiene form in 2020-2024.
-72 have no TRI id in ECHO. In `tri.json` each of these carries `status` and a `reason`.
+121 of 194 ECHO majors in the area (62%) link to a TRI facility id
+(121 via ECHO's TRIIDs, 0 via the registry-id fallback);
+36 of them filed a benzene or 1,3-butadiene form in 2020-2024.
+73 have no TRI id in ECHO. In `tri.json` each of these carries `status` and a `reason`.
 
-**Coverage gap, stated plainly.** 16 TRI facilities that filed these forms in the same
-counties are not among the linked area majors; 6 of them sit within 15 km of a monitor by
+**Coverage gap, stated plainly.** 15 TRI facilities that filed these forms in the same
+counties are not among the linked area majors; 5 of them sit within 15 km of a monitor by
 TRI's own coordinates (nearest-monitor distance in `unlinked_tri_reporters`). They are absent from the cached ECHO
 major list or carry no TRIID there, so they are **not** in the totals below, which therefore understate the area.
-Their 2024 totals, listed separately: DIXIE CHEMICAL CO INC (benzene no figure, 1,3-butadiene 2,455 lb); INEOS STYROLUTION AMERICA LLC (benzene 8,393 lb, 1,3-butadiene no figure); TRECORA WAX LLC (benzene no figure, 1,3-butadiene no figure); MONUMENT CHEMICAL BAYTOWN LLC (benzene 44 lb, 1,3-butadiene no figure); OXY VINYLS LP DEER PARK-VCM PLANT (benzene 1 lb, 1,3-butadiene no figure); GALENA PARK TERMINAL CHEVRON USA INC (benzene 440 lb, 1,3-butadiene no figure).
+Their 2024 totals, listed separately: DIXIE CHEMICAL CO INC (benzene no figure, 1,3-butadiene 2,455 lb); TRECORA WAX LLC (benzene no figure, 1,3-butadiene no figure); MONUMENT CHEMICAL BAYTOWN LLC (benzene 44 lb, 1,3-butadiene no figure); OXY VINYLS LP DEER PARK-VCM PLANT (benzene 1 lb, 1,3-butadiene no figure); GALENA PARK TERMINAL CHEVRON USA INC (benzene 440 lb, 1,3-butadiene no figure).
 
 ## Totals in the 15 km area, pounds per year reported to EPA
 
 | Year | Benzene (air, lb) | Facilities | 1,3-Butadiene (air, lb) | Facilities |
 |---|---|---|---|---|
-| 2024 | 259,166 | 22 | 457,200 | 20 |
-| 2023 | 227,853 | 22 | 418,841 | 21 |
-| 2022 | 236,577 | 25 | 434,911 | 20 |
-| 2021 | 258,372 | 23 | 361,060 | 19 |
-| 2020 | 228,171 | 24 | 340,688 | 20 |
+| 2024 | 267,559 | 23 | 457,200 | 20 |
+| 2023 | 234,012 | 23 | 418,841 | 21 |
+| 2022 | 247,593 | 26 | 434,911 | 20 |
+| 2021 | 265,318 | 24 | 361,060 | 19 |
+| 2020 | 234,020 | 25 | 340,688 | 20 |
 
 ## Largest reported totals, 2024
 
@@ -53,8 +53,8 @@ Their 2024 totals, listed separately: DIXIE CHEMICAL CO INC (benzene no figure, 
 | EXXONMOBIL CHEMICAL CO BAYTOWN OLEFINS PLANT (PART) | 25,800 | 9,600 | 16,200 |
 | INEOS PHENOL | 18,400 | 6,300 | 12,100 |
 | HOUSTON REFINING LP | 14,336 | 2,501 | 11,835 |
+| INEOS STYROLUTION AMERICA LLC | 8,393 | 4,131 | 4,261 |
 | VALERO REFINING - TEXAS L.P. HOUSTON REFINERY | 4,935 | 4,557 | 378 |
-| PASADENA REFINING SYSTEM INC | 3,172 | 2,095 | 1,077 |
 
 
 **1,3-butadiene, 2024**

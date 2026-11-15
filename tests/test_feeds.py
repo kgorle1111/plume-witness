@@ -69,7 +69,7 @@ def test_counts_match_spikes_json(data, built):
     for sid, n in by_site.items():
         assert len(_items(files[f"{sid}.xml"])) == n
     assert len(_items(files["all.xml"])) == min(feeds.ALL_N, len(data["rows"]))
-    assert sum(by_site.values()) == data["summary"]["spikes"] == 415
+    assert sum(by_site.values()) == data["summary"]["spikes"] == 468
     assert {f["id"]: f["items"] for f in index["feeds"]} == {"all": feeds.ALL_N, **by_site}
 
 

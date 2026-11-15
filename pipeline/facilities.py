@@ -244,7 +244,8 @@ def write(files: dict[str, dict], cov: dict, out_dir: Path = OUT_DIR) -> dict:
     rows = index_rows(files)
     index = {
         "schema": INDEX_SCHEMA, "generated_by": "uv run python -m pipeline.facilities",
-        "universe": "EPA ECHO 'Major Emissions' air facilities within 15 km of any of the 8 AutoGC monitors",
+        "universe": f"EPA ECHO 'Major Emissions' air facilities within 15 km of any of the {len(backtest.SITE_NAMES)} "
+                    "AutoGC monitors",
         "report_years": list(YEARS), "coverage": cov, "caveats": CAVEATS, "facilities": rows,
     }
     (out_dir / "index.json").write_text(dumps(index))

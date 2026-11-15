@@ -18,6 +18,7 @@ import json
 import statistics
 from pathlib import Path
 
+from pipeline import build
 from pipeline.backtest import BT, SITE_NAMES, YEARS
 from pipeline.build import COMPOUNDS, TRIGGER_FLOOR_PPB
 from pipeline.parse import hourly_table
@@ -122,12 +123,18 @@ def _merge(tables: list[dict[str, list[float | None]]]) -> dict[str, list[float 
 
 def site_rose(site: str, raw: Path = BT, years: tuple[str, ...] = YEARS) -> dict:
     """Roses for one site, or {'skipped': reason} when its own wind or readings are missing."""
-    met = [raw / f"met_{y}_{site}_{c}.html" for y in years for c in ("61102", "61101")]
-    missing = [p.name for p in met if not p.exists()]
-    if missing:
+    # Own wind only, in build.WIND_SOURCES order (met form, else the AutoGC form's resultant wind), every year from
+    # one source; a rose is never drawn from a neighbour's wind.
+    missing: list[str] = []
+    for source in build.WIND_SOURCES:
+        files = [[raw / f for f in build.wind_files(site, y, source)] for y in years]  # [speed, direction] per year
+        missing = [p.name for pair in files for p in pair if not p.exists()]
+        if not missing:
+            break
+    else:
         return {"skipped": f"no wind measured at this site (missing {', '.join(missing)})"}
-    wdir = _merge([hourly_table(raw / f"met_{y}_{site}_61102.html") for y in years])
-    wspd = _merge([hourly_table(raw / f"met_{y}_{site}_61101.html") for y in years])
+    wspd = _merge([hourly_table(pair[0]) for pair in files])
+    wdir = _merge([hourly_table(pair[1]) for pair in files])
     if not any(d is not None for row in wdir.values() for d in row):
         return {"skipped": "wind direction files hold no valid hours"}
     compounds, skipped = {}, {}
@@ -143,7 +150,7 @@ def site_rose(site: str, raw: Path = BT, years: tuple[str, ...] = YEARS) -> dict
             skipped[param] = str(e)
             continue
         compounds[param] = {"name": name, **rose, "dropped_hours": dropped, "headline": headline(rose)}
-    return {"compounds": compounds, "skipped_compounds": skipped}
+    return {"compounds": compounds, "skipped_compounds": skipped, "wind_source": source}
 
 
 def run(raw: Path = BT, sites: dict[str, str] = SITE_NAMES) -> dict:
@@ -162,7 +169,8 @@ def run(raw: Path = BT, sites: dict[str, str] = SITE_NAMES) -> dict:
             "threshold_population": "the site's own analysed hours (reading, direction and speed >= 3 mph)",
             "direction": "degrees the wind blows from; sector i covers [30i, 30i + 30)",
             "high": "value >= threshold", "units": "ppb-v", "trigger_floor_ppb": TRIGGER_FLOOR_PPB,
-            "source": "TCEQ AutoGC and met hourly summaries (data/raw/backtest)",
+            "source": "TCEQ AutoGC and met hourly summaries (data/raw/backtest); wind_source per site says whether its "
+                      "wind is the met form or the AutoGC form's resultant wind (61104/61103)",
         },
         "caveat": "This shows the direction chronic high readings arrive from. It does not name a source.",
         "sites": out_sites, "skipped_sites": skipped,
