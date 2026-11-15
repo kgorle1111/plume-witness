@@ -1,0 +1,2182 @@
+<!-- BEGIN $Id$ -->
+
+<!-- END $Id$ -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	
+
+	<title>TAMISWeb v6.10 - Site Details - Basic Information</title>
+	<link rel="stylesheet" href="https://www17.tceq.texas.gov/tamis/includes/styles/external/style.css" type="text/css" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="https://www.tceq.texas.gov/assets/images/favicon.ico" type="image/x-icon" />
+	<meta name="DC.Title" content="TAMISWeb v6.10 - Site Details - Basic Information" />
+
+	<meta name="language" content="en" />
+	<link rel="stylesheet" type="text/css" href='https://www17.tceq.texas.gov/tamis/includes/styles/jquery-ui.css'>
+	<link rel="stylesheet" href="https://www17.tceq.texas.gov/tamis/includes/styles/tamis.css" type="text/css" />
+	<link rel="stylesheet" href="https://www17.tceq.texas.gov/tamis/includes/styles/tamis-external.css" type="text/css" />
+	
+	<!--[if lt IE 10]>
+			<link rel="stylesheet" href="https://www17.tceq.texas.gov/tamis/includes/styles/ie.css" type="text/css" />
+	<![endif]-->
+
+	
+	<link rel="stylesheet" href="https://www17.tceq.texas.gov/tamis/includes/styles/calendar.css" type="text/css" />
+
+	<meta http-equiv="Content-Language" content="en-us" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="Keywords" content="TAMIS, NCAMIS, TAMIS Project" />
+	<meta name="Description" content="The TAMIS Project Webpage." />
+
+	
+
+	
+	<script type="text/javascript" src='https://www17.tceq.texas.gov/tamis/includes/javascript/cookies.js'></script>
+
+	
+	<script type="text/javascript" src='https://www17.tceq.texas.gov/tamis/includes/javascript/prototype.js'></script>
+
+	
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/default_enter_submit.js'></script>
+
+	
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/calendar.js'></script>
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/calendar-en.js'></script>
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/calendar-setup.js'></script>
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/jquery-3.6.1.js'></script>
+	<script type='text/javascript' src='https://www17.tceq.texas.gov/tamis/includes/javascript/jquery-ui.js'></script>
+	<script type='text/javascript'>
+		// Give $ back to prototype.js; create new alias to jQuery.
+		var $jq = jQuery.noConflict();
+	</script>
+	
+	
+
+<script type="text/javascript">
+//<![CDATA[
+<!--
+	
+	function openPopup(cfa, type, in_width, in_height) {
+	//Opens a Pop-up screen
+		//Defaults
+		var width = in_width || 350;
+		var height = in_height || 700;
+		if (window.name == 'popup') {
+			var popupName = 'popup2';
+		} else {
+			var popupName = 'popup';
+		}
+
+		//cfa is the current fuseaction
+		var parms;
+		if (type == 'help') {
+			parms = 'fuseaction=home.help&cfa='+cfa;
+		} else {
+			parms = 'fuseaction='+cfa;
+		}
+		
+		var newWindow = window.open('https://www17.tceq.texas.gov/tamis/index.cfm?' + parms, popupName, 'toolbar=no, directories=no, rel=noopener, location=no, status=yes, menubar=no, resizable=yes, scrollbars=yes, width=' + width + ', height=' + height);
+		if (window.focus) {
+			newWindow.focus()
+		}
+
+		return false;
+	}
+
+	function goFuseaction(fa) {
+		document.goForm.fuseaction.value = fa;
+		document.goForm.submit();
+		return false;
+	}
+
+	function setNotify() {
+		var notifyRadio = document.getElementsByName("notify");
+		for (var i=0; i < notifyRadio.length; i++) {
+			if (notifyRadio[i].checked) {
+				var notifyValue = notifyRadio[i].value;
+			}
+		}
+
+		Set_Cookie('notify', notifyValue, 5000);
+	}
+
+	function positionList(elementName) {
+		var list = document.getElementById(elementName);
+		if (list.selectedIndex >= 0) {
+			for (var i = 0; i < list.length; i++) {
+				if (list[i].selected) {
+					list[i].selected = true;
+					break;
+				}
+			}
+		}
+	}
+
+
+// -->
+//]]>
+</script>
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-EVEM0950GS"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-EVEM0950GS');
+	</script>
+
+
+
+</head>
+<body >
+	<div id="wrapper">
+		<div id="header">
+			<a href="https://www.tceq.texas.gov" aria-label="Texas Commission on Environmental Quality">
+				<img src="https://www17.tceq.texas.gov/tamis/includes/styles/external/images/homepageLogo.png" class="headerImg" alt="Texas Commission on Environmental Quality"/>
+			</a>
+			<div id="questionscomments">
+				<a href="mailto:TAMIS@tceq.texas.gov?subject=Questions or Comments about TAMISWeb external">Questions or Comments &gt;&gt;</a>
+			</div>
+			<div id="topnav" style="float:right;">
+				<ul>
+					
+						<li><a href="" onclick="return goFuseaction('home.welcome');" title="Welcome page and website description">About</a></li>
+						<li><a href="index.cfm?fuseaction=home.news&currentOnly=true" title="Latest updates to the TAMISWeb project">News</a></li>
+						<li><a href="" onclick="return goFuseaction('report.main');" title="Creation of Air Monitoring data files">Reports</a></li>
+						
+						<li id="selectednav"><a href="" onclick="return goFuseaction('report.site_list');" title="List of sites with optional details">Site List</a></li>
+						
+							<li><a href="" onclick="return goFuseaction('home.login');" title="Connect to application">Login</a></li>
+						
+						<li><a href="" onclick="return goFuseaction('report.reference');" title="Reference tables and codes">Reference</a></li>
+						<li><a href="https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539" target="_blank" title="Geographical Texas Air Monitoring">GeoTAM</a></li>
+						<li><a href="" onclick="return openPopup('report.view_site', 'help')" title="Application assistance (page specific)">Help</a></li>
+					
+				</ul>
+			</div>
+		</div>
+
+		<div id="content">
+			
+     <form name="goForm" action="https://www17.tceq.texas.gov/tamis/index.cfm" method="get">
+          <input type="hidden" name="fuseaction" value="" />
+     </form>
+
+
+<div id="warnHeader">
+
+
+
+    <div class="noteMessage"><strong>NOTE:</strong>  Some data may have been evaluated by the TCEQ Toxicologists. <a href="https://www.tceq.texas.gov/toxicology/regmemo/AirMain.html" target="_blank" rel="noopener noreferrer" title="Click here to visit Toxicology Evaluation Website">Click here to see Toxicological Evaluations</a>.
+</div>
+
+</div>
+
+<noscript>
+     <div class="errorMessage">ERROR:  This site requires javascript to be enabled, and it is currently disabled by this browser.  To enable javascript, <a href="https://www.google.com/support/bin/answer.py?answer=23852" target="_blank" rel="noopener noreferrer">check here</a> for instructions.</div>
+</noscript>
+
+<script type="text/javascript">
+//<![CDATA[
+<!--
+	Set_Cookie( 'cookie_test', 'none', '', '/', '', 'true' );
+
+	if (Get_Cookie('cookie_test')) {
+		Delete_Cookie('cookie_test', '/', '');
+	} else {
+		document.write("<div class='errorMessage'>ERROR:  This site requires cookies to be enabled, and they are currently disabled by this browser.  To enable cookies, <a href='http://www.google.com/cookies.html' target='_blank' rel='noopener noreferrer'>check here</a> for instructions.</div>")
+	}
+// -->
+//]]>
+</script>
+
+
+<div id="pageError" class="sectionTitle error">
+</div>
+
+
+<div class="noteMessage">NOTE:  Information shown on this page is subject to change without notice.
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+<!--
+	function submitFilterForm() {
+		if (typeof(document.monForm) != "undefined" && typeof(document.monForm.showActMonOnlyCB) != "undefined") {
+			if (document.monForm.showActMonOnlyCB.checked == true) {
+				document.filterForm.showActMonOnly.value = 1;
+			} else {
+				document.filterForm.showActMonOnly.value = 0;
+			}
+		}
+		document.filterForm.submit();
+	}
+
+	function checkSelection() {
+		if (document.siteForm.siteID[document.siteForm.siteID.selectedIndex].value == 0) {
+			alert('You must select a site.');
+			return false;
+		} else {
+			return true;
+		}
+	}
+// -->
+//]]>
+</script>
+
+
+<div class="infoSet">
+
+<form name="filterForm" action="https://www17.tceq.texas.gov/tamis/index.cfm" method="post">
+	<input type="hidden" name="formSub" value="1" />
+	<input type="hidden" name="fuseaction" value="report.view_site" />
+	<input type="hidden" name="tab" value="info" />
+   <input type="hidden" name="activeOnly" value="0" />
+	<input type="hidden" name="showActMonOnly" value="1" />
+
+
+<div class="twoColumn leftPadded">
+     <div class="clear">
+          <input type="checkbox" class="checkbox" name="showActiveOnly" id="showActiveOnly" value="0"  onclick="submitFilterForm();" /><label for="showActiveOnly" class="fieldValue checkboxText">Show Active Sites Only</label>
+     </div>
+     <fieldset>
+          <legend class="fieldValue">Sort</legend>
+          <input type="radio" class="radio" name="siteOrderBy" id="siteName" onclick="submitFilterForm();" value="name" checked="checked" />
+          <label for="siteName" class="fieldValue">Name</label>
+          <input type="radio" class="radio" name="siteOrderBy" id="aqsCode" onclick="submitFilterForm();" value="aqs_code"  />
+          <label for="aqsCode" class="fieldValue">AQS Code</label>
+     </fieldset>
+</div>
+
+<div>
+	<div class="clearBoth">
+        <span class="infoPrompt"><label for="siteID">Select Site</label></span>
+        <select name="siteID" id="siteID" class="listValue inline">
+            <option value="0">Please Select A Site</option>
+    
+            <option value="478" >Aberdeen (482010008)</option>
+        
+            <option value="503" >Aberdeen 2 (482010044)</option>
+        
+            <option value="692" >Abilene Central Fire Station (484410001)</option>
+        
+            <option value="1069" >Abilene Industrial Boulevard (484411509)</option>
+        
+            <option value="884" >Abilene KABI (484415015)</option>
+        
+            <option value="693" >Abilene State Park (484410002)</option>
+        
+            <option value="259" >AC Jones High School (480250001)</option>
+        
+            <option value="446" >Air Control Lab (481670031)</option>
+        
+            <option value="648" >Air Terminal Fire Station (483750003)</option>
+        
+            <option value="523" >Airport Boulevard (482011027)</option>
+        
+            <option value="480" >Alabama (482010010)</option>
+        
+            <option value="120" >ALLENDALE SUBDIVISION (482010064)</option>
+        
+            <option value="428" >Althea Park (481410040)</option>
+        
+            <option value="304" >Alvin Junior College (480390001)</option>
+        
+            <option value="1075" >Amarillo 24th Avenue (483751025)</option>
+        
+            <option value="762" >Amarillo A&amp;M (483750320)</option>
+        
+            <option value="59" >AMARILLO DOWNTOWN (483750005)</option>
+        
+            <option value="1003" >Amarillo SH 136 (483750024)</option>
+        
+            <option value="1238" >Amarillo Xcel El Rancho (483751077)</option>
+        
+            <option value="208" >Anna (480850010)</option>
+        
+            <option value="900" >Aransas Pass (484090659)</option>
+        
+            <option value="823" >Arlington Airport KGKY (484395007)</option>
+        
+            <option value="657" >Arlington City Hall Annex (484390002)</option>
+        
+            <option value="13" >Arlington Municipal Airport (484393011)</option>
+        
+            <option value="660" >Arlington Municipal Airport 1977-81 (484390005)</option>
+        
+            <option value="50" >Arlington Office (484390057)</option>
+        
+            <option value="1050" >Arlington UT Campus (484391018)</option>
+        
+            <option value="439" >Army Reserve Training Building (481670003)</option>
+        
+            <option value="155" >Ascarate Park SE (481410055)</option>
+        
+            <option value="38" >AT THE DALLAS&#x2f;FORT WORTH AIRPORT (484393004)</option>
+        
+            <option value="55" >at Tyler Airport (484230004)</option>
+        
+            <option value="748" >Atascocita (482010560)</option>
+        
+            <option value="394" >Auger Road (481390004)</option>
+        
+            <option value="399" >Auger Road Water Treatment Plant (481390013)</option>
+        
+            <option value="1115" >Austin 5th Street (484531026)</option>
+        
+            <option value="25" >Austin Audubon Society (484530020)</option>
+        
+            <option value="821" >Austin Bergstrom KAUS (484535003)</option>
+        
+            <option value="696" >Austin City Hall (484530001)</option>
+        
+            <option value="698" >Austin City-County Health Department (484530004)</option>
+        
+            <option value="26" >AUSTIN DOWNTOWN C32 (484530017)</option>
+        
+            <option value="386" >Austin Junior High School (481133002)</option>
+        
+            <option value="29" >Austin North Hills Drive (484530014)</option>
+        
+            <option value="1054" >Austin North Interstate 35 (484531068)</option>
+        
+            <option value="374" >Austin Street (481131001)</option>
+        
+            <option value="24" >Austin Webberville Rd (484530021)</option>
+        
+            <option value="667" >Avenue I (484390012)</option>
+        
+            <option value="661" >Azle Avenue (484390006)</option>
+        
+            <option value="678" >Azle Fire Station (484390024)</option>
+        
+            <option value="362" >B.T. Johnson (481130058)</option>
+        
+            <option value="702" >Balcones Drive Fire Station (484530008)</option>
+        
+            <option value="443" >Banana &amp; 3rd (481670024)</option>
+        
+            <option value="125" >Baytown (482010058)</option>
+        
+            <option value="1049" >Baytown Garth (482011017)</option>
+        
+            <option value="827" >Baytown Wetlands Center (482010552)</option>
+        
+            <option value="475" >Bayway Drive Fire Station (482010003)</option>
+        
+            <option value="324" >Beach City Community Building (480710001)</option>
+        
+            <option value="562" >Beaumont Avenue (482450006)</option>
+        
+            <option value="93" >Beaumont Downtown (482450009)</option>
+        
+            <option value="95" >Beaumont Health Department (482450001)</option>
+        
+            <option value="969" >Beaumont Mary (482451050)</option>
+        
+            <option value="561" >Beaumont Water Plant (482450005)</option>
+        
+            <option value="276" >Beck Road (480290019)</option>
+        
+            <option value="753" >Beeville (480250641)</option>
+        
+            <option value="479" >Bellaire (482010009)</option>
+        
+            <option value="355" >Belmont (481130042)</option>
+        
+            <option value="1015" >Benito Juarez Police Station (800060005)</option>
+        
+            <option value="490" >Bethlehem Steel (482010020)</option>
+        
+            <option value="720" >Beulah Masterson School (484790005)</option>
+        
+            <option value="274" >Bexar Metro Water (480290017)</option>
+        
+            <option value="552" >Bicentennial at Maple (482151003)</option>
+        
+            <option value="553" >Big Spring Fire Station &#x23;3 (482270001)</option>
+        
+            <option value="1233" >Big Spring Midway (482271072)</option>
+        
+            <option value="132" >BINGLE (482010045)</option>
+        
+            <option value="481" >Bingle-Malibu (482010011)</option>
+        
+            <option value="1292" >Boerne Lake (482591622)</option>
+        
+            <option value="361" >Bonnie View (481130055)</option>
+        
+            <option value="1234" >Borger FM 1559 (482331073)</option>
+        
+            <option value="607" >Bosque Blvd (483090007)</option>
+        
+            <option value="1070" >Bowie Patterson Street (483371507)</option>
+        
+            <option value="177" >Box Crow Cement Company (481390014)</option>
+        
+            <option value="196" >Boy&#x27;s Club (481130057)</option>
+        
+            <option value="491" >Brady Island (482010021)</option>
+        
+            <option value="278" >Braunig Lake Power Plant (480290021)</option>
+        
+            <option value="221" >Bravo Big Bend (480430101)</option>
+        
+            <option value="353" >Brewer (481130039)</option>
+        
+            <option value="730" >Bridgeport Water Filtration Plant (484970001)</option>
+        
+            <option value="298" >Brooks Army Hospital (480291001)</option>
+        
+            <option value="219" >Brownsville (480610006)</option>
+        
+            <option value="1259" >Brownsville East 6th Street (480611098)</option>
+        
+            <option value="1247" >Bryan Finfeather Road (480411086)</option>
+        
+            <option value="162" >Buford (481410043)</option>
+        
+            <option value="625" >Bulk Materials Dock (483550004)</option>
+        
+            <option value="488" >Bulk Materials Plant (482010018)</option>
+        
+            <option value="493" >Bulk Materials Plant 2 (482010025)</option>
+        
+            <option value="818" >Bulverde Elementary (480910503)</option>
+        
+            <option value="847" >Bunker Hill Village (482010562)</option>
+        
+            <option value="825" >Burnet County Airport KBMQ (480535009)</option>
+        
+            <option value="840" >Burnet County Hospital C322 (480530322)</option>
+        
+            <option value="860" >C1027-Alabama-Coushatta-TX (483739001)</option>
+        
+            <option value="265" >Cadillac Drive Water Pump Station (480290006)</option>
+        
+            <option value="229" >Calaveras Lake (480290059)</option>
+        
+            <option value="1275" >Calaveras Lake Park (480291609)</option>
+        
+            <option value="260" >Calveras State Park (480290001)</option>
+        
+            <option value="231" >Camp Bullis (480290052)</option>
+        
+            <option value="261" >Camp Bullis - TACB&#x2f;SAMHD (480290002)</option>
+        
+            <option value="708" >Camp Croft at Westlake High Road (484531001)</option>
+        
+            <option value="820" >Camp Mabry KATT (484535001)</option>
+        
+            <option value="636" >Cantwell Lane (483550016)</option>
+        
+            <option value="435" >Canutillo (481411002)</option>
+        
+            <option value="1282" >CAPCOG Bastrop (480211612)</option>
+        
+            <option value="1290" >CAPCOG East Austin (484531619)</option>
+        
+            <option value="1283" >CAPCOG Elgin (480211613)</option>
+        
+            <option value="1034" >CAPCOG Hutto College Street (484916602)</option>
+        
+            <option value="955" >CAPCOG Lake Georgetown (484910690)</option>
+        
+            <option value="1312" >CAPCOG Lake Kyle Park (482091630)</option>
+        
+            <option value="1318" >CAPCOG Pflugerville (484531633)</option>
+        
+            <option value="925" >CAPCOG Round Rock (484910674)</option>
+        
+            <option value="1291" >CAPCOG Round Rock Brushy Creek West (484911620)</option>
+        
+            <option value="926" >CAPCOG San Marcos (482090675)</option>
+        
+            <option value="1040" >CAPCOG San Marcos Staples Road (482091675)</option>
+        
+            <option value="1311" >CAPCOG Taylor Murphy Park (484911629)</option>
+        
+            <option value="463" >Carbide Park (481673001)</option>
+        
+            <option value="87" >CARROLL STREET PARK (482450020)</option>
+        
+            <option value="737" >CD Juarez 20 30 Club (800060006)</option>
+        
+            <option value="736" >CD Juarez Advance (800060004)</option>
+        
+            <option value="738" >CD Juarez Delphi (800060007)</option>
+        
+            <option value="401" >Cedar Drive (481390084)</option>
+        
+            <option value="729" >Cedar Street (484790014)</option>
+        
+            <option value="513" >Center at 13th (482011001)</option>
+        
+            <option value="243" >Cesar Chavez (482016000)</option>
+        
+            <option value="344" >Chalk Hill (481130005)</option>
+        
+            <option value="357" >Chalk Hill 2 (481130048)</option>
+        
+            <option value="530" >Chambers Elementary School (482012003)</option>
+        
+            <option value="134" >Channelview (482010026)</option>
+        
+            <option value="927" >Channelview Drive Water Tower (482010036)</option>
+        
+            <option value="477" >Channelview High School (482010006)</option>
+        
+            <option value="876" >Channelview North (482010030)</option>
+        
+            <option value="176" >Chaparral Steel Company (481390012)</option>
+        
+            <option value="686" >Cherry at Elizabeth (484390069)</option>
+        
+            <option value="674" >Cherry Lane (484390019)</option>
+        
+            <option value="679" >Cherry Lane 2 (484390025)</option>
+        
+            <option value="676" >Cherry Street (484390021)</option>
+        
+            <option value="732" >Chico High School (484971001)</option>
+        
+            <option value="521" >Chimney Rock (482011025)</option>
+        
+            <option value="84" >Chriswell (482451010)</option>
+        
+            <option value="405" >City Gas Pumps (481410005)</option>
+        
+            <option value="322" >City Hall (480613001)</option>
+        
+            <option value="391" >City Hall Roof (481390001)</option>
+        
+            <option value="819" >City of Garden Ridge (480910505)</option>
+        
+            <option value="88" >City Service Center &#x2f; PA (482450019)</option>
+        
+            <option value="312" >City Swimming Pool (480570001)</option>
+        
+            <option value="647" >City-County Health Unit (483750002)</option>
+        
+            <option value="537" >Civic Center (482014002)</option>
+        
+            <option value="872" >Clarksville NTRD C648 (483870648)</option>
+        
+            <option value="831" >Clear Brook High School (482010570)</option>
+        
+            <option value="444" >Clear Creek (481670025)</option>
+        
+            <option value="241" >Clear Creek High School (481670571)</option>
+        
+            <option value="240" >Clear Lake High School (482010572)</option>
+        
+            <option value="82" >Cleburne Airport (482510003)</option>
+        
+            <option value="581" >Cleburne City Service Center (482510002)</option>
+        
+            <option value="580" >Cleburne State Park (482510001)</option>
+        
+            <option value="149" >Clendenin School (481410059)</option>
+        
+            <option value="404" >Clint High School (481410004)</option>
+        
+            <option value="109" >Clinton (482011035)</option>
+        
+            <option value="507" >Clinton Drive (482010052)</option>
+        
+            <option value="528" >Clinton Street (482012001)</option>
+        
+            <option value="487" >Clinton-Federal (482010017)</option>
+        
+            <option value="496" >Cloverleaf (482010031)</option>
+        
+            <option value="225" >Clute (480391003)</option>
+        
+            <option value="354" >Cockrell Hill Fire Station (481130040)</option>
+        
+            <option value="202" >Coit (481130035)</option>
+        
+            <option value="373" >Coit Road (481130086)</option>
+        
+            <option value="1027" >Coleto (481750624)</option>
+        
+            <option value="896" >College Station KCLL (480415011)</option>
+        
+            <option value="583" >Colquitt Road (482570001)</option>
+        
+            <option value="363" >Commerce Drive (481130059)</option>
+        
+            <option value="677" >Commerce Fire Station (484390022)</option>
+        
+            <option value="72" >CONROE (483390089)</option>
+        
+            <option value="746" >Conroe Airport KCXO (483395006)</option>
+        
+            <option value="73" >Conroe Relocated (483390078)</option>
+        
+            <option value="409" >Convair Road (481410011)</option>
+        
+            <option value="198" >Convention Center (481130050)</option>
+        
+            <option value="1239" >Cookville FM 4855 (484491078)</option>
+        
+            <option value="407" >Coranado Fire Station (481410007)</option>
+        
+            <option value="70" >Corpus Christi Fire Station &#x23;5 (483550012)</option>
+        
+            <option value="624" >Corpus Christi Fire Station &#x23;7 (483550003)</option>
+        
+            <option value="67" >Corpus Christi Hillcrest (483550029)</option>
+        
+            <option value="64" >Corpus Christi Huisache (483550032)</option>
+        
+            <option value="1005" >Corpus Christi Palm (483550083)</option>
+        
+            <option value="66" >CORPUS CHRISTI POTH (483550030)</option>
+        
+            <option value="68" >Corpus Christi Tuloso (483550026)</option>
+        
+            <option value="69" >Corpus Christi West (483550025)</option>
+        
+            <option value="989" >Corsicana Airport (483491051)</option>
+        
+            <option value="880" >Corsicana KCRS (483495014)</option>
+        
+            <option value="621" >Corsicana Library (483490001)</option>
+        
+            <option value="308" >Courthouse Annex (480410001)</option>
+        
+            <option value="10" >CPS Pecan Valley (480290055)</option>
+        
+            <option value="828" >Crosby Library (482010553)</option>
+        
+            <option value="1112" >Cuero (481231602)</option>
+        
+            <option value="263" >Culebra Road (480290004)</option>
+        
+            <option value="295" >Culebra Road 2 (480290048)</option>
+        
+            <option value="502" >Cullen (482010043)</option>
+        
+            <option value="517" >Cullen-Elgin (482011006)</option>
+        
+            <option value="516" >Cullen-Mowery (482011005)</option>
+        
+            <option value="515" >Cy-Fair High School (482011004)</option>
+        
+            <option value="75" >CYPRESS RIVER AIRPORT (483150050)</option>
+        
+            <option value="1257" >Dallas Bexar Street (481131096)</option>
+        
+            <option value="1071" >Dallas Elm Fork (481131505)</option>
+        
+            <option value="194" >Dallas Ervay (481130053)</option>
+        
+            <option value="193" >Dallas Hinton (481130069)</option>
+        
+            <option value="1053" >Dallas LBJ Freeway (481131067)</option>
+        
+            <option value="197" >Dallas Martin Luther King (481130046)</option>
+        
+            <option value="188" >Dallas North &#x23;2 (481130075)</option>
+        
+            <option value="200" >Dallas North C5 (481130045)</option>
+        
+            <option value="187" >Dallas Redbird Airport Executive (481130087)</option>
+        
+            <option value="195" >Dallas-481130056 (481130056)</option>
+        
+            <option value="756" >Danciger (480390618)</option>
+        
+            <option value="406" >Darrington (481410006)</option>
+        
+            <option value="664" >Dean Road (484390009)</option>
+        
+            <option value="731" >Decatur Airfield (484970087)</option>
+        
+            <option value="1022" >Decatur Thompson (484970088)</option>
+        
+            <option value="111" >DEER PARK (482011003)</option>
+        
+            <option value="712" >Del Rio Central Fire Station (484650002)</option>
+        
+            <option value="903" >Del Rio KDRT (484655017)</option>
+        
+            <option value="414" >Delta Fire Station (481410017)</option>
+        
+            <option value="824" >Denton Airport KDTO (481215008)</option>
+        
+            <option value="183" >Denton Airport South (481210034)</option>
+        
+            <option value="181" >Denton Colony (481210054)</option>
+        
+            <option value="388" >Denton Municipal Airport (481210002)</option>
+        
+            <option value="184" >Denton Municipal Airport on Airport Road (481210033)</option>
+        
+            <option value="37" >DFW AIRPORT &#x23;2 (484393005)</option>
+        
+            <option value="33" >DIAMOND HILL (484393008)</option>
+        
+            <option value="1010" >DISH Airfield (481211013)</option>
+        
+            <option value="63" >Dona Park (483550034)</option>
+        
+            <option value="238" >Draughton Miller Airport (480270001)</option>
+        
+            <option value="1" >Dripping Springs School (482090614)</option>
+        
+            <option value="616" >Dumas Junior High School (483410001)</option>
+        
+            <option value="544" >Dunbar School (482090001)</option>
+        
+            <option value="663" >Eagle (484390008)</option>
+        
+            <option value="46" >Eagle Mountain Lake (484390075)</option>
+        
+            <option value="751" >Eagle Pass (483230004)</option>
+        
+            <option value="192" >Earhart (481130061)</option>
+        
+            <option value="597" >East 17th Street (483030013)</option>
+        
+            <option value="697" >East 53rd (484530002)</option>
+        
+            <option value="651" >East Fate Main Place (483970081)</option>
+        
+            <option value="684" >East Felix (484390067)</option>
+        
+            <option value="232" >East Kelly AFB (480290042)</option>
+        
+            <option value="350" >East Northwest Highway (481130028)</option>
+        
+            <option value="49" >EAST OF FAA &amp; AMERICAN INTERSECTION (484390029)</option>
+        
+            <option value="98" >Edinburg (482150042)</option>
+        
+            <option value="1120" >Edinburg East Freddy Gonzalez Drive (482151046)</option>
+        
+            <option value="271" >Edison Dr Water Pump Station (480290013)</option>
+        
+            <option value="161" >El Paso Chamizal (481410044)</option>
+        
+            <option value="1036" >El Paso Delta (481411011)</option>
+        
+            <option value="169" >EL PASO DOWNTOWN (481410027)</option>
+        
+            <option value="168" >EL PASO EAST C30 (481410028)</option>
+        
+            <option value="154" >El Paso Lower Valley (481410054)</option>
+        
+            <option value="164" >El Paso Mimosa (481410038)</option>
+        
+            <option value="411" >El Paso Natural Gas (481410013)</option>
+        
+            <option value="156" >El Paso Sun Metro (481410053)</option>
+        
+            <option value="165" >El Paso UTEP (481410037)</option>
+        
+            <option value="106" >ELLINGTON FIELD (482011040)</option>
+        
+            <option value="812" >Elm Creek Elementary (480290501)</option>
+        
+            <option value="400" >Ennis Airport (481390082)</option>
+        
+            <option value="343" >Envoy Court (481130004)</option>
+        
+            <option value="286" >EPA-480290035 (480290035)</option>
+        
+            <option value="598" >Erskine (483030014)</option>
+        
+            <option value="334" >Erwin City Park (480850085)</option>
+        
+            <option value="294" >Espada Road (480290047)</option>
+        
+            <option value="1030" >Everman Johnson Park (484391009)</option>
+        
+            <option value="35" >FAA &#x23;2 &#x2f; &#x23;3 (484393007)</option>
+        
+            <option value="326" >Fahring Building (480710003)</option>
+        
+            <option value="815" >Fair Oaks Ranch (480290502)</option>
+        
+            <option value="1245" >Fairfield FM 2570 Ward Ranch (481611084)</option>
+        
+            <option value="723" >Faria School (484790008)</option>
+        
+            <option value="743" >Fayette County (481490001)</option>
+        
+            <option value="671" >Felix (484390016)</option>
+        
+            <option value="687" >Felix at Vermont (484390070)</option>
+        
+            <option value="857" >FHR Easement (483550039)</option>
+        
+            <option value="44" >FIRE DEPT DOWNTOWN (484391003)</option>
+        
+            <option value="718" >Fire Station &#x23;1 (484790003)</option>
+        
+            <option value="586" >Fire Station &#x23;2 (483030002)</option>
+        
+            <option value="726" >Fire Station &#x23;5 (484790011)</option>
+        
+            <option value="39" >FIRE STATION AT GRAPEVINE (484393002)</option>
+        
+            <option value="32" >Fish Hatchery &#x23;1 (484511001)</option>
+        
+            <option value="358" >Fish Trap Road (481130049)</option>
+        
+            <option value="287" >Flagle Street (480290037)</option>
+        
+            <option value="281" >Flagle Street Water Pump Station (480290024)</option>
+        
+            <option value="1073" >Floresville Hospital Boulevard (484931038)</option>
+        
+            <option value="634" >Flour Bluff Health Department Annex (483550014)</option>
+        
+            <option value="1025" >Flower Mound Shiloh (481211007)</option>
+        
+            <option value="157" >Fort Bliss (481410051)</option>
+        
+            <option value="724" >Fort McIntosh (484790009)</option>
+        
+            <option value="1067" >Fort Worth Benbrook Lake (484391503)</option>
+        
+            <option value="1024" >Fort Worth Berry (484390097)</option>
+        
+            <option value="1122" >Fort Worth California Parkway North (484391053)</option>
+        
+            <option value="1046" >Fort Worth Joe B. Rushing Road (484391065)</option>
+        
+            <option value="36" >FORT WORTH LOCAL PROGRAM HQS (484393006)</option>
+        
+            <option value="45" >Fort Worth Northwest (484391002)</option>
+        
+            <option value="47" >FORT WORTH PORTALES (484390063)</option>
+        
+            <option value="1023" >Fort Worth Yuma (484390089)</option>
+        
+            <option value="351" >Frank (481130036)</option>
+        
+            <option value="228" >Frank Wing Municipal Court (480290060)</option>
+        
+            <option value="593" >Frankfort (483030009)</option>
+        
+            <option value="1237" >Franklin Oak Grove (483951076)</option>
+        
+            <option value="301" >Fredericksburg Road (480292002)</option>
+        
+            <option value="1033" >Freeport South Avenue I (480391012)</option>
+        
+            <option value="213" >Frisco (480850005)</option>
+        
+            <option value="212" >Frisco 5th St (480850003)</option>
+        
+            <option value="210" >Frisco 7 (480850007)</option>
+        
+            <option value="207" >Frisco Eubanks (480850009)</option>
+        
+            <option value="1019" >Frisco Stonebrook (480850029)</option>
+        
+            <option value="482" >Fulton (482010012)</option>
+        
+            <option value="504" >Fulton 2 (482010048)</option>
+        
+            <option value="498" >Fuqua (482010039)</option>
+        
+            <option value="1068" >Gainesville Doss Street (480971504)</option>
+        
+            <option value="126" >Galena Park (482010057)</option>
+        
+            <option value="454" >Galveston 56 1&#x2f;2 Street (481670047)</option>
+        
+            <option value="915" >Galveston 99th Street (481671034)</option>
+        
+            <option value="144" >GALVESTON AIRPORT (481670014)</option>
+        
+            <option value="747" >Galveston Airport KGLS (481675005)</option>
+        
+            <option value="456" >Galveston County Hospital (481670051)</option>
+        
+            <option value="445" >Galveston County Park (481670026)</option>
+        
+            <option value="867" >Gardner Rd. Gas Sub-Station (480290623)</option>
+        
+            <option value="186" >Garland (481131006)</option>
+        
+            <option value="863" >Gate 58 CPS (480290626)</option>
+        
+            <option value="862" >Gate 9A CPS (480290625)</option>
+        
+            <option value="675" >Geddes (484390020)</option>
+        
+            <option value="289" >Gembler (480290039)</option>
+        
+            <option value="283" >Gembler Fire Station (480290027)</option>
+        
+            <option value="525" >Genoa (482011029)</option>
+        
+            <option value="218" >Gladys Porter Zoo (480610004)</option>
+        
+            <option value="316" >Gladys Porter Zoo 2 (480610005)</option>
+        
+            <option value="592" >Globe (483030008)</option>
+        
+            <option value="206" >Globe Union Battery (480850008)</option>
+        
+            <option value="378" >Globe Union Battery NE (481131005)</option>
+        
+            <option value="377" >Globe Union Battery NW (481131004)</option>
+        
+            <option value="376" >Globe Union Battery SW (481131003)</option>
+        
+            <option value="189" >GNB Battery (481130071)</option>
+        
+            <option value="1065" >Godley FM2331 (482511501)</option>
+        
+            <option value="1254" >Goldsmith Street (481351093)</option>
+        
+            <option value="878" >Goodyear GC (482010671)</option>
+        
+            <option value="947" >Goodyear Houston Site &#x23;2 (482010673)</option>
+        
+            <option value="396" >Gorman Road (481390006)</option>
+        
+            <option value="1113" >Gorzycki Middle School (484531603)</option>
+        
+            <option value="209" >Gould National Battery (480850006)</option>
+        
+            <option value="332" >Gould Plant (480850002)</option>
+        
+            <option value="701" >Govalle Fire Station (484530007)</option>
+        
+            <option value="1276" >Government Canyon (480291610)</option>
+        
+            <option value="380" >Graham Street (481132001)</option>
+        
+            <option value="508" >Granada (482010053)</option>
+        
+            <option value="96" >Granbury (482210001)</option>
+        
+            <option value="690" >Grand Avenue (484391005)</option>
+        
+            <option value="34" >Grapevine Fairway (484393009)</option>
+        
+            <option value="466" >Grayson County Health Department (481810001)</option>
+        
+            <option value="468" >Grayson County Health Department - Houston (481810003)</option>
+        
+            <option value="3" >Greenville (482311006)</option>
+        
+            <option value="509" >Gregg (482010056)</option>
+        
+            <option value="91" >Groves (482450014)</option>
+        
+            <option value="932" >GUADALUPE MOUNTAIN NATIONAL PARK C658 (481090658)</option>
+        
+            <option value="886" >Guadalupe Pass KGDP (481095018)</option>
+        
+            <option value="719" >Guadelupe (484790004)</option>
+        
+            <option value="615" >Gulf States Utilities (483390088)</option>
+        
+            <option value="560" >Gulf States Utilities Neches Station (482450004)</option>
+        
+            <option value="385" >Haley Elementary School (481133001)</option>
+        
+            <option value="898" >Halletsville (482850649)</option>
+        
+            <option value="1240" >Hallsville Red Oak Road (482031079)</option>
+        
+            <option value="85" >Hamshire (482450022)</option>
+        
+            <option value="666" >Handley (484390011)</option>
+        
+            <option value="683" >Handley Church Roof (484390066)</option>
+        
+            <option value="306" >Hargett &amp; Main (480391002)</option>
+        
+            <option value="1056" >Harlingen Teege (480611023)</option>
+        
+            <option value="321" >Harlingen Water Works (480612001)</option>
+        
+            <option value="531" >Hartsock (482012004)</option>
+        
+            <option value="501" >Hartsook (482010042)</option>
+        
+            <option value="599" >Harvard (483030015)</option>
+        
+            <option value="43" >Haws Athletic Center (484391006)</option>
+        
+            <option value="545" >Hays County Health Department (482090002)</option>
+        
+            <option value="272" >Helotes Park Estates (480290014)</option>
+        
+            <option value="417" >Hercules Fire Station (481410020)</option>
+        
+            <option value="842" >Heritage Middle School (480290622)</option>
+        
+            <option value="398" >Hidden Valley Trail (481390011)</option>
+        
+            <option value="441" >Highway 519 at Highway 146 (481670012)</option>
+        
+            <option value="722" >Highway Department (484790007)</option>
+        
+            <option value="280" >Hills and Dales Water Company (480290023)</option>
+        
+            <option value="492" >HL&amp;P Bertron Station (482010023)</option>
+        
+            <option value="566" >Hogaboom Road (482451001)</option>
+        
+            <option value="901" >Holly Road (483550660)</option>
+        
+            <option value="627" >Holly Road Water Pump House (483550006)</option>
+        
+            <option value="639" >Horne Road (483550021)</option>
+        
+            <option value="632" >Horne Road Fire Station (483550011)</option>
+        
+            <option value="137" >Houston Aldine (482010024)</option>
+        
+            <option value="127" >Houston Bayland Park (482010055)</option>
+        
+            <option value="136" >Houston City Health Department (482010007)</option>
+        
+            <option value="108" >HOUSTON CRAWFORD (482011037)</option>
+        
+            <option value="129" >Houston Croquet (482010051)</option>
+        
+            <option value="107" >Houston Deer Park &#x23;2 (482011039)</option>
+        
+            <option value="110" >Houston East (482011034)</option>
+        
+            <option value="1260" >Houston Finnigan Park (482011099)</option>
+        
+            <option value="1271" >Houston Hartwick (482011054)</option>
+        
+            <option value="1288" >Houston Harvard Street (482010417)</option>
+        
+            <option value="123" >Houston Kirkpatrick (482010060)</option>
+        
+            <option value="121" >Houston Monroe (482010062)</option>
+        
+            <option value="1121" >Houston North Loop (482011052)</option>
+        
+            <option value="131" >Houston North Wayside (482010046)</option>
+        
+            <option value="1303" >Houston Pleasantville Elementary (482011056)</option>
+        
+            <option value="115" >Houston Regional Office (482010070)</option>
+        
+            <option value="1052" >Houston Southwest Freeway (482011066)</option>
+        
+            <option value="15" >Houston Texas Avenue (482010075)</option>
+        
+            <option value="119" >Houston Westhollow (482010066)</option>
+        
+            <option value="117" >Houston Wharton (482010068)</option>
+        
+            <option value="554" >Howard County Courthouse (482270002)</option>
+        
+            <option value="114" >HRM &#x23;3 Haden Rd (482010803)</option>
+        
+            <option value="328" >HRM 10 Mont Belvieu (480710900)</option>
+        
+            <option value="329" >HRM 11 East Baytown (480710901)</option>
+        
+            <option value="1284" >HRM 16-Deer Park (482011614)</option>
+        
+            <option value="112" selected="selected">HRM 7 BAYTOWN (482010807)</option>
+        
+            <option value="800" >HRM-4 Sheldon Rd C604 (482010804)</option>
+        
+            <option value="801" >HRM-8 LaPorte C608 (482010808)</option>
+        
+            <option value="1032" >Huffman Wolf Road (482010563)</option>
+        
+            <option value="672" >Hulen (484390017)</option>
+        
+            <option value="703" >Hunters Glen (484530011)</option>
+        
+            <option value="882" >Huntsville KUTS (484715012)</option>
+        
+            <option value="714" >Huntsville Shop Building (484710001)</option>
+        
+            <option value="691" >Hwy 121 &amp; Dam Road (484393001)</option>
+        
+            <option value="270" >Hwy 90 Water Pump Station (480290012)</option>
+        
+            <option value="604" >Idalou City Hall (483031001)</option>
+        
+            <option value="234" >IH-410 San Antonio International Airport (480290050)</option>
+        
+            <option value="311" >Indian Creek Road (480490002)</option>
+        
+            <option value="1021" >Inez (484690609)</option>
+        
+            <option value="949" >Ingleside (484090685)</option>
+        
+            <option value="856" >Inner Harbor (483550038)</option>
+        
+            <option value="292" >International Airport Loop (480290044)</option>
+        
+            <option value="419" >International Boundary (481410022)</option>
+        
+            <option value="873" >Isla Blanca State Park Road (480612004)</option>
+        
+            <option value="953" >Italy (481391044)</option>
+        
+            <option value="881" >ITALY HIGH SCHOOL (481390650)</option>
+        
+            <option value="167" >Ivanhoe (481410029)</option>
+        
+            <option value="855" >J.I Hailey (483550037)</option>
+        
+            <option value="536" >Jacinto City (482014001)</option>
+        
+            <option value="1255" >Jarrell FM 487 (484911094)</option>
+        
+            <option value="499" >Jeannetta (482010040)</option>
+        
+            <option value="555" >Jeff Davis County Courthouse (482430001)</option>
+        
+            <option value="89" >Jefferson County Airport (482450018)</option>
+        
+            <option value="559" >Jefferson County Airport 1971-81 (482450003)</option>
+        
+            <option value="352" >John West Road Fire Station (481130038)</option>
+        
+            <option value="1026" >Johnson County Luisa (482511008)</option>
+        
+            <option value="99" >Karnack (482030002)</option>
+        
+            <option value="1119" >Karnes County (482551070)</option>
+        
+            <option value="839" >Katy Park (482010559)</option>
+        
+            <option value="81" >Kaufman (482570005)</option>
+        
+            <option value="8" >KEIST (481133004)</option>
+        
+            <option value="40" >Keller (484392003)</option>
+        
+            <option value="1043" >Kennedale Treepoint Drive (484391062)</option>
+        
+            <option value="166" >Kern (481410033)</option>
+        
+            <option value="420" >Kern Fire Station (481410023)</option>
+        
+            <option value="549" >KGBT Radio (482150004)</option>
+        
+            <option value="956" >Killeen Skylark Field (480271047)</option>
+        
+            <option value="293" >Kings Mountain (480290045)</option>
+        
+            <option value="104" >Kingwood (482011042)</option>
+        
+            <option value="835" >Kingwood Library C555 (482010555)</option>
+        
+            <option value="408" >Koger Building (481410008)</option>
+        
+            <option value="628" >Kostoryz Fire Station (483550007)</option>
+        
+            <option value="472" >Kountze City Hall (481990002)</option>
+        
+            <option value="505" >Kress (482010049)</option>
+        
+            <option value="128" >Kress 2 (482010054)</option>
+        
+            <option value="519" >Kress-Lyons (482011018)</option>
+        
+            <option value="429" >Krupp Drive (481410042)</option>
+        
+            <option value="866" >La Porte Airport C243 (482011043)</option>
+        
+            <option value="539" >La Porte Police Station (482015001)</option>
+        
+            <option value="836" >La Porte Sylvan Beach (482010556)</option>
+        
+            <option value="631" >La Retama Library (483550010)</option>
+        
+            <option value="369" >La Reunion Parkway (481130068)</option>
+        
+            <option value="269" >Lackland City Spring (480290011)</option>
+        
+            <option value="255" >Lake Amistad (484650003)</option>
+        
+            <option value="307" >Lake Jackson (480391016)</option>
+        
+            <option value="564" >Lamar University (482450008)</option>
+        
+            <option value="563" >Lampman Drive Fire Station (482450007)</option>
+        
+            <option value="203" >Lancaster (481130020)</option>
+        
+            <option value="1064" >Lancaster Cedardale (481131500)</option>
+        
+            <option value="130" >Lang (482010047)</option>
+        
+            <option value="18" >Laredo Bridge (484790017)</option>
+        
+            <option value="19" >Laredo College (484790016)</option>
+        
+            <option value="20" >Laredo Junior College (484790015)</option>
+        
+            <option value="705" >Lavaca &amp; 17th (484530013)</option>
+        
+            <option value="141" >LEAGUE CITY COUNTY BLDG (481671005)</option>
+        
+            <option value="464" >League City East Main (481674001)</option>
+        
+            <option value="642" >Leopard Street (483550024)</option>
+        
+            <option value="585" >Liberty Municipal Park (482910089)</option>
+        
+            <option value="1297" >Liberty Sam Houston Library (482911626)</option>
+        
+            <option value="160" >LINDBERGH (481410045)</option>
+        
+            <option value="670" >Lipscomb (484390015)</option>
+        
+            <option value="356" >Live Oak &amp; Pearl (481130047)</option>
+        
+            <option value="1114" >Lockhart (480551604)</option>
+        
+            <option value="618" >Lone Star City Hall (483430002)</option>
+        
+            <option value="617" >Lone Star Steel Works (483430001)</option>
+        
+            <option value="379" >Long Creek (481131047)</option>
+        
+            <option value="138" >Longview (481830001)</option>
+        
+            <option value="803" >Longview Big Woods C605 (481830002)</option>
+        
+            <option value="442" >Loop 197 at Highway 146 (481670013)</option>
+        
+            <option value="453" >Loop 197 Lift Station (481670046)</option>
+        
+            <option value="629" >Louisiana Fire Station (483550008)</option>
+        
+            <option value="79" >Lubbock (483030001)</option>
+        
+            <option value="1264" >Lubbock 12th Street (483031028)</option>
+        
+            <option value="596" >Lubbock 14th Street (483030012)</option>
+        
+            <option value="594" >Lubbock 19th Street (483030010)</option>
+        
+            <option value="595" >Lubbock 20th Street (483030011)</option>
+        
+            <option value="587" >Lubbock 51st &amp; Wayne (483030003)</option>
+        
+            <option value="589" >Lubbock 51st Street (483030005)</option>
+        
+            <option value="601" >Lubbock 73rd Street (483030020)</option>
+        
+            <option value="600" >Lubbock Airport (483030017)</option>
+        
+            <option value="603" >Lubbock State School (483030023)</option>
+        
+            <option value="929" >Lubbock-PM25 (483030325)</option>
+        
+            <option value="897" >Lufkin KLFK (480055013)</option>
+        
+            <option value="4" >Lynchburg Ferry (482011015)</option>
+        
+            <option value="449" >Magnolia Street (481670042)</option>
+        
+            <option value="452" >Magnolia Street 2 (481670045)</option>
+        
+            <option value="310" >Main &amp; Austin (480490001)</option>
+        
+            <option value="124" >MANCHESTER (482010059)</option>
+        
+            <option value="742" >Manchester East Avenue N (482010307)</option>
+        
+            <option value="1051" >Mansfield Flying L Lane (482511063)</option>
+        
+            <option value="223" >Manvel Croix Park (480391004)</option>
+        
+            <option value="485" >Market (482010015)</option>
+        
+            <option value="506" >Market 2 (482010050)</option>
+        
+            <option value="383" >Marshall (481132004)</option>
+        
+            <option value="611" >Maverick County Tax Office (483230003)</option>
+        
+            <option value="546" >McAllen Health Department (482150001)</option>
+        
+            <option value="410" >McCrae (481410012)</option>
+        
+            <option value="6" >McDonald Observatory (482430004)</option>
+        
+            <option value="556" >McDonald Observatory 1974-75 (482430002)</option>
+        
+            <option value="557" >McDonald Observatory 1976-81 (482430003)</option>
+        
+            <option value="135" >McElroy Park (482010004)</option>
+        
+            <option value="568" >McKinley Water Station (482451004)</option>
+        
+            <option value="347" >McKinney Avenue (481130012)</option>
+        
+            <option value="928" >McKinney Roughs (480210684)</option>
+        
+            <option value="609" >McMullen County Courthouse (483110001)</option>
+        
+            <option value="665" >Meadowbrook (484390010)</option>
+        
+            <option value="520" >Memorial (482011024)</option>
+        
+            <option value="577" >Memorial &amp; 32nd (482453001)</option>
+        
+            <option value="572" >Memorial Blvd (482451009)</option>
+        
+            <option value="968" >Mercedes (482151048)</option>
+        
+            <option value="837" >Mercer Arboretum (482010557)</option>
+        
+            <option value="749" >Meyer Park (482010561)</option>
+        
+            <option value="1256" >Midland Avalon Drive (483291095)</option>
+        
+            <option value="612" >Midland City Hall (483290001)</option>
+        
+            <option value="613" >Midland Civic Center (483290002)</option>
+        
+            <option value="174" >Midlothian OFW (481390016)</option>
+        
+            <option value="175" >Midlothian Tower (481390015)</option>
+        
+            <option value="173" >Midlothian Wyatt Rd (481390017)</option>
+        
+            <option value="116" >Milby Park (482010069)</option>
+        
+            <option value="952" >Millpond PK San Saba (484110653)</option>
+        
+            <option value="1066" >Mineral Wells 23rd Street (483631502)</option>
+        
+            <option value="97" >Mission (482150043)</option>
+        
+            <option value="345" >Mockingbird Lane Fire Station (481130008)</option>
+        
+            <option value="699" >Mollie Dawson School (484530005)</option>
+        
+            <option value="438" >Moody College (481670002)</option>
+        
+            <option value="158" >Moon City (481410050)</option>
+        
+            <option value="622" >Morgan Street (483550001)</option>
+        
+            <option value="204" >Morrell (481130018)</option>
+        
+            <option value="709" >Mount Larson (484531002)</option>
+        
+            <option value="694" >Mount Pleasant Water Treatment Plant (484490001)</option>
+        
+            <option value="325" >Mt. Belvieu Fire Station (480710002)</option>
+        
+            <option value="397" >Mt. Creek Water Supply (481390008)</option>
+        
+            <option value="426" >Mulberry Avenue (481410036)</option>
+        
+            <option value="757" >Mustang Bayou (480390619)</option>
+        
+            <option value="201" >N of Douglas &amp; Berkshire Intersection (481130029)</option>
+        
+            <option value="620" >Nacodoches Fire Station (483470002)</option>
+        
+            <option value="5" >National Seashore (482730314)</option>
+        
+            <option value="71" >NAVIGATION (483550020)</option>
+        
+            <option value="641" >Navigation Blvd (483550023)</option>
+        
+            <option value="633" >Navigation Boulevard Fire Station (483550013)</option>
+        
+            <option value="315" >Navigation District Office (480610003)</option>
+        
+            <option value="733" >NE of Ave De La Industria &amp; Thomas Fernandez Intersection (800060001)</option>
+        
+            <option value="48" >NE OF DIAZ AVE &amp; GUILFORD RD. INTERSECTION (484390060)</option>
+        
+            <option value="570" >Neches Drive (482451006)</option>
+        
+            <option value="921" >Nederland 17th Street (482451035)</option>
+        
+            <option value="143" >NESSLER POOL (481670053)</option>
+        
+            <option value="817" >New Braunfels Airport (481870504)</option>
+        
+            <option value="822" >New Braunfels Airport KBAZ (481875004)</option>
+        
+            <option value="1249" >New Braunfels Oak Run Parkway (480911088)</option>
+        
+            <option value="275" >New Braunfels Rd City Service Center (480290018)</option>
+        
+            <option value="285" >New Braunfels Road (480290033)</option>
+        
+            <option value="387" >New City Hall (481210001)</option>
+        
+            <option value="725" >New Health Building (484790010)</option>
+        
+            <option value="191" >New Micro (481130070)</option>
+        
+            <option value="267" >Newport (480290008)</option>
+        
+            <option value="870" >Newton NTRD C639 (483510639)</option>
+        
+            <option value="1031" >Ninez Mexicana Juarez (800060011)</option>
+        
+            <option value="14" >NOLEN (481130066)</option>
+        
+            <option value="336" >North Central Street (480910002)</option>
+        
+            <option value="437" >North City Building (481670001)</option>
+        
+            <option value="392" >North City Limits (481390002)</option>
+        
+            <option value="348" >North Hampton Fire Station (481130023)</option>
+        
+            <option value="728" >North Highway Department (484790013)</option>
+        
+            <option value="389" >North Mill Street (481211001)</option>
+        
+            <option value="538" >North Munger (482014003)</option>
+        
+            <option value="190" >North of Texas &amp; Houston Streets Intersection (481130072)</option>
+        
+            <option value="534" >North San Jacinto (482013002)</option>
+        
+            <option value="483" >North Wayside (482010013)</option>
+        
+            <option value="682" >Northeast 36th (484390062)</option>
+        
+            <option value="170" >Northeast Clinic (481410010)</option>
+        
+            <option value="133" >Northwest Harris County (482010029)</option>
+        
+            <option value="646" >Northwest Texas Hospital (483750001)</option>
+        
+            <option value="384" >NW 13TH (481132005)</option>
+        
+            <option value="237" >NW of Bowie &amp; Durange Streets Intersection (480290034)</option>
+        
+            <option value="264" >Oak Hills Country Club (480290005)</option>
+        
+            <option value="760" >Oak Park (483550035)</option>
+        
+            <option value="653" >Odem (484090002)</option>
+        
+            <option value="935" >Odem-SEP (484090686)</option>
+        
+            <option value="179" >Odessa El Ranchito (481350004)</option>
+        
+            <option value="11" >Odessa Gonzales (481351014)</option>
+        
+            <option value="1253" >Odessa Westmark Street (481351092)</option>
+        
+            <option value="180" >Odessa-Hays Elementary School (481350003)</option>
+        
+            <option value="1062" >Ojo De Agua (481411021)</option>
+        
+            <option value="638" >Old Galveston Road (483550019)</option>
+        
+            <option value="727" >Old Health Building (484790012)</option>
+        
+            <option value="922" >Old Hwy 90 (480290677)</option>
+        
+            <option value="393" >Optimist Ball Park (481390003)</option>
+        
+            <option value="1244" >Orange 1st Street (483611083)</option>
+        
+            <option value="643" >Orange 7th at Elm (483610001)</option>
+        
+            <option value="644" >Orange Health Department (483610002)</option>
+        
+            <option value="574" >Orchard Street (482452003)</option>
+        
+            <option value="1272" >Oyster Creek (480391607)</option>
+        
+            <option value="305" >Oyster Creek Bend (480391001)</option>
+        
+            <option value="425" >Paisano-Irrigation Gate Lock (481410031)</option>
+        
+            <option value="871" >Palestine C647 (480010647)</option>
+        
+            <option value="370" >Palmer Paper Co. (481130073)</option>
+        
+            <option value="923" >Palo Alto (480290676)</option>
+        
+            <option value="841" >Panola C627 (483650627)</option>
+        
+            <option value="256" >Pantex 4 (480650004)</option>
+        
+            <option value="257" >Pantex 5 (480650005)</option>
+        
+            <option value="799" >Pantex 7 (480650007)</option>
+        
+            <option value="474" >Park Court Water Tower (482010002)</option>
+        
+            <option value="904" >Park Place (482010416)</option>
+        
+            <option value="579" >Park Street (482454004)</option>
+        
+            <option value="61" >Parker County (483670081)</option>
+        
+            <option value="497" >Parkhurst (482010038)</option>
+        
+            <option value="518" >Parkside-Strawberry (482011008)</option>
+        
+            <option value="31" >PARMER LANE CAMS 25 (484530003)</option>
+        
+            <option value="905" >PASADENA  AAMS  C672 (482010672)</option>
+        
+            <option value="954" >Pasadena AAMS C0688 (482010688)</option>
+        
+            <option value="113" >Pasadena HL&amp;P (482010071)</option>
+        
+            <option value="960" >Pasadena Richey Elementary School (482011049)</option>
+        
+            <option value="359" >Pavahoe Pump Station (481130051)</option>
+        
+            <option value="484" >Pearl (482010014)</option>
+        
+            <option value="416" >Pershing (481410019)</option>
+        
+            <option value="734" >Pestalozzi (800060002)</option>
+        
+            <option value="2" >PFLUGERVILLE WASTEWATER (484530613)</option>
+        
+            <option value="434" >Phelps Dodge (481410102)</option>
+        
+            <option value="524" >Phillips Petroleum Adams Terminal (482011028)</option>
+        
+            <option value="578" >Picton Towing (482453004)</option>
+        
+            <option value="912" >Pilot Point (481211032)</option>
+        
+            <option value="637" >Pipe Line Sign Navigation Boulevard (483550017)</option>
+        
+            <option value="470" >Plainview High School (481890001)</option>
+        
+            <option value="364" >Pontiac &amp; Sargent (481130060)</option>
+        
+            <option value="571" >Port Arthur Main Sewage Plant (482451008)</option>
+        
+            <option value="86" >Port Arthur Memorial School (482450021)</option>
+        
+            <option value="569" >Port Arthur Service Center (482451005)</option>
+        
+            <option value="92" >Port Arthur West (482450011)</option>
+        
+            <option value="1232" >Port Arthur West 7th Street Gate 2 (482451071)</option>
+        
+            <option value="854" >Port Grain Elevator (483550036)</option>
+        
+            <option value="489" >Port Houston Terminal Office (482010019)</option>
+        
+            <option value="558" >Port Neches Avenue B (482450002)</option>
+        
+            <option value="90" >Port Neches Avenue L (482450017)</option>
+        
+            <option value="576" >Port Neches Sewage Plant (482452005)</option>
+        
+            <option value="899" >Port O Connor (480570657)</option>
+        
+            <option value="739" >Presidentia Municipal&#x2f;City Hall (800060010)</option>
+        
+            <option value="349" >Prichard Fire Station (481130027)</option>
+        
+            <option value="547" >Progresso Elementary School (482150002)</option>
+        
+            <option value="150" >Radian-481570001 (481570001)</option>
+        
+            <option value="147" >Radian-481570002 (481570002)</option>
+        
+            <option value="148" >Radian-481570003 (481570003)</option>
+        
+            <option value="635" >Rand Morgan Road Fire Station (483550015)</option>
+        
+            <option value="658" >Randol Mill Park (484390003)</option>
+        
+            <option value="659" >Randol Mill Park Fire Station (484390004)</option>
+        
+            <option value="367" >Rector Street (481130065)</option>
+        
+            <option value="700" >Research Blvd Fire Station (484530006)</option>
+        
+            <option value="1057" >Rhome Seven Hills Road (484971064)</option>
+        
+            <option value="1242" >Richland Southeast 1220 Road (483491081)</option>
+        
+            <option value="30" >Ridgetop School (484530010)</option>
+        
+            <option value="465" >Robert E. Lee JH School (481790001)</option>
+        
+            <option value="1236" >Rockdale John D. Harper Road (483311075)</option>
+        
+            <option value="58" >Rockwall Heath (483970001)</option>
+        
+            <option value="473" >Roseland Park (482010001)</option>
+        
+            <option value="462" >Rosenburg Avenue (481672001)</option>
+        
+            <option value="436" >Rosenburg Public Works (481570004)</option>
+        
+            <option value="548" >Runn Elementary School (482150003)</option>
+        
+            <option value="721" >Saint Joseph Academy (484790006)</option>
+        
+            <option value="291" >Salinas and Camaron (480290041)</option>
+        
+            <option value="695" >San Angelo City Hall (484510001)</option>
+        
+            <option value="894" >San Angelo KSJT (484515016)</option>
+        
+            <option value="262" >San Antonio (480290003)</option>
+        
+            <option value="1037" >San Antonio 99th Street (480291052)</option>
+        
+            <option value="1248" >San Antonio Bulverde Parkway (480291087)</option>
+        
+            <option value="266" >San Antonio City Service Center (480290007)</option>
+        
+            <option value="233" >San Antonio Downtown (480290046)</option>
+        
+            <option value="1241" >San Antonio Gardner Road (480291080)</option>
+        
+            <option value="279" >San Antonio International Airport (480290022)</option>
+        
+            <option value="1258" >San Antonio Interstate 10 West (480291097)</option>
+        
+            <option value="1055" >San Antonio Interstate 35 (480291069)</option>
+        
+            <option value="236" >San Antonio North (480290036)</option>
+        
+            <option value="239" >San Antonio Northwest (480290032)</option>
+        
+            <option value="1289" >San Antonio Red Hill Lane (480291091)</option>
+        
+            <option value="235" >San Antonio Seale (480290051)</option>
+        
+            <option value="535" >San Antonio-Manchester (482013003)</option>
+        
+            <option value="755" >San Augustine Airport NTRD (484050646)</option>
+        
+            <option value="217" >San Benito (480612002)</option>
+        
+            <option value="716" >San Bernardo Avenue (484790001)</option>
+        
+            <option value="421" >San Diego (481410024)</option>
+        
+            <option value="533" >San Jacinto Junior College (482012006)</option>
+        
+            <option value="105" >SAN JACINTO MONUMENT (482011041)</option>
+        
+            <option value="412" >San Jose Road (481410015)</option>
+        
+            <option value="220" >San Marcos Airport (480550062)</option>
+        
+            <option value="268" >SARA Sewage Treatment Plant (480290009)</option>
+        
+            <option value="366" >Sargent Road (481130064)</option>
+        
+            <option value="375" >School Administration Building (481131002)</option>
+        
+            <option value="662" >Schwartz (484390007)</option>
+        
+            <option value="681" >Schwartz Roof (484390061)</option>
+        
+            <option value="211" >SE of Hickory Street &amp; 6th Street Intersection (480850001)</option>
+        
+            <option value="103" >Seabrook Friendship Park (482011050)</option>
+        
+            <option value="101" >Seabrook Intermediate School (482017001)</option>
+        
+            <option value="273" >Seale Road Water Pump Station (480290015)</option>
+        
+            <option value="500" >Seamist (482010041)</option>
+        
+            <option value="826" >Seguin Outdoor Learning Center (481870506)</option>
+        
+            <option value="230" >Selma (480290053)</option>
+        
+            <option value="745" >SETRPC  40  Sabine Pass (482450101)</option>
+        
+            <option value="9" >SETRPC 42 Mauriceville (483611100)</option>
+        
+            <option value="798" >SETRPC 43 Jefferson Co Airport (482450102)</option>
+        
+            <option value="740" >SETRPC Port Arthur (482450628)</option>
+        
+            <option value="652" >SFA Elementary (484090001)</option>
+        
+            <option value="619" >SFA University Forestry Building (483470001)</option>
+        
+            <option value="448" >Shady Lane (481670035)</option>
+        
+            <option value="606" >Shallowater Tower (483031003)</option>
+        
+            <option value="100" >Shaw (482015002)</option>
+        
+            <option value="810" >Sheldon (482010551)</option>
+        
+            <option value="514" >Shell Oil Deer Park (482011002)</option>
+        
+            <option value="415" >Shelter Place (481410018)</option>
+        
+            <option value="467" >Sherman Police Department (481810002)</option>
+        
+            <option value="122" >Shore Acres (482010061)</option>
+        
+            <option value="403" >Shorty Lane Fire Station (481410003)</option>
+        
+            <option value="151" >Skyline Park (481410058)</option>
+        
+            <option value="605" >Slaton City Hall (483031002)</option>
+        
+            <option value="433" >Smeltertown (481410101)</option>
+        
+            <option value="510" >Smith Branch Library (482010063)</option>
+        
+            <option value="215" >Smith Point Hawkins Camp (480710013)</option>
+        
+            <option value="654" >Snyder Water Purification Plant (484150001)</option>
+        
+            <option value="153" >Socorro Hueco (481410057)</option>
+        
+            <option value="424" >Socorro Road (481410030)</option>
+        
+            <option value="761" >Solar Estates (483550041)</option>
+        
+            <option value="277" >Somerset Water Pump Station (480290020)</option>
+        
+            <option value="346" >South Akard Street (481130011)</option>
+        
+            <option value="630" >South Caranchua Fire Station (483550009)</option>
+        
+            <option value="656" >South Collin (484390001)</option>
+        
+            <option value="541" >South Houston Fire Station (482018001)</option>
+        
+            <option value="290" >South New Braunfels (480290040)</option>
+        
+            <option value="335" >South Seguin Street (480910001)</option>
+        
+            <option value="582" >South Swenson (482530001)</option>
+        
+            <option value="56" >South Vine Street (484230003)</option>
+        
+            <option value="80" >South Virgina Street (482570003)</option>
+        
+            <option value="282" >Southcross (480290026)</option>
+        
+            <option value="476" >Spring High School (482010005)</option>
+        
+            <option value="303" >Spruce Street (480370003)</option>
+        
+            <option value="319" >St Margaret Ann Catholic Church (480611001)</option>
+        
+            <option value="1267" >St. Edwards University (484531605)</option>
+        
+            <option value="365" >St. Germain (481130063)</option>
+        
+            <option value="12" >Stage Coach (484393010)</option>
+        
+            <option value="529" >Stewart Street (482012002)</option>
+        
+            <option value="222" >Sul Ross University (480430002)</option>
+        
+            <option value="185" >Sunnyvale Long Creek (481133003)</option>
+        
+            <option value="320" >Sunshine Strip (480611002)</option>
+        
+            <option value="216" >Superfund Site (480651001)</option>
+        
+            <option value="704" >TACB Headquarters (484530012)</option>
+        
+            <option value="936" >Taft-SEP (484090687)</option>
+        
+            <option value="1243" >Tatum CR 2181d Martin Creek Lake (484011082)</option>
+        
+            <option value="178" >Tayman Drive Water Treatment Plant (481390007)</option>
+        
+            <option value="41" >TCEQ-484392002 (484392002)</option>
+        
+            <option value="27" >TCEQ-484530015 (484530015)</option>
+        
+            <option value="52" >Teague (484230006)</option>
+        
+            <option value="584" >Tejas Drive (482570002)</option>
+        
+            <option value="930" >TEMPLE C651 (480270651)</option>
+        
+            <option value="1074" >Temple Georgia (480271045)</option>
+        
+            <option value="427" >Teresita Church (481410039)</option>
+        
+            <option value="1000" >Terrell Jamison Court (482570020)</option>
+        
+            <option value="226" >Texarkana (480370004)</option>
+        
+            <option value="1265" >Texarkana New Boston (480371031)</option>
+        
+            <option value="550" >Texas A&amp;I University (482151001)</option>
+        
+            <option value="142" >TEXAS CITY (481671002)</option>
+        
+            <option value="991" >Texas City 11th Street (481670683)</option>
+        
+            <option value="460" >Texas City 16th &amp; Texas Avenue (481671011)</option>
+        
+            <option value="461" >Texas City 1972-81 (481671043)</option>
+        
+            <option value="758" >Texas City 34th Street (481670056)</option>
+        
+            <option value="451" >Texas City 5th &amp; Orchard (481670044)</option>
+        
+            <option value="146" >Texas City Ball Park (481670005)</option>
+        
+            <option value="1006" >Texas City BP 31st Street &#x28;Site 1&#x29; (481670615)</option>
+        
+            <option value="1008" >Texas City BP Logan Street &#x28;Site 3&#x29; (481670621)</option>
+        
+            <option value="1007" >Texas City BP Onsite &#x28;Site 2&#x29; (481670616)</option>
+        
+            <option value="455" >Texas City Dike (481670050)</option>
+        
+            <option value="145" >Texas City Fire Station (481670004)</option>
+        
+            <option value="459" >Texas City North 5th &amp; 9th (481671003)</option>
+        
+            <option value="715" >Texas Highway Department Yard (484730001)</option>
+        
+            <option value="314" >Texas Southwest College (480610002)</option>
+        
+            <option value="16" >Third Street (484850002)</option>
+        
+            <option value="418" >Thomas Manor Elementary School (481410021)</option>
+        
+            <option value="171" >Tillman (481410002)</option>
+        
+            <option value="838" >Tom Bass (482010558)</option>
+        
+            <option value="542" >Tomball High School (482019001)</option>
+        
+            <option value="368" >Toronto Street (481130067)</option>
+        
+            <option value="879" >TPC FTIR North (482010670)</option>
+        
+            <option value="877" >TPC FTIR South (482010669)</option>
+        
+            <option value="688" >Trinity High School (484391001)</option>
+        
+            <option value="413" >Trowbridge at Marlow (481410016)</option>
+        
+            <option value="53" >Tyler Airport Relocated (484230007)</option>
+        
+            <option value="655" >Tyler Fire Station (484230002)</option>
+        
+            <option value="565" >Tyrell School (482450010)</option>
+        
+            <option value="1012" >UH Coastal Center (481670697)</option>
+        
+            <option value="1281" >UH Launch Trailer (482011611)</option>
+        
+            <option value="1011" >UH Moody Tower (482010695)</option>
+        
+            <option value="1268" >UH Smith Point (480711606)</option>
+        
+            <option value="987" >UH Sugarland (481570696)</option>
+        
+            <option value="1014" >UH West Liberty (482910699)</option>
+        
+            <option value="1013" >UH WG Jones Forest (483390698)</option>
+        
+            <option value="685" >University  at Harley (484390068)</option>
+        
+            <option value="390" >University &amp; Park (481350002)</option>
+        
+            <option value="673" >University Drive (484390018)</option>
+        
+            <option value="689" >University Drive 2 (484391004)</option>
+        
+            <option value="623" >Upper River Road (483550002)</option>
+        
+            <option value="626" >US Weather Bureau (483550005)</option>
+        
+            <option value="300" >USEPA-480292001 (480292001)</option>
+        
+            <option value="227" >USEPA-480370001 (480370001)</option>
+        
+            <option value="341" >USEPA-481130001 (481130001)</option>
+        
+            <option value="205" >USEPA-481130002 (481130002)</option>
+        
+            <option value="182" >USEPA-481350001 (481350001)</option>
+        
+            <option value="172" >USEPA-481410001 (481410001)</option>
+        
+            <option value="139" >USEPA-481675001 (481675001)</option>
+        
+            <option value="512" >USEPA-482010101 (482010101)</option>
+        
+            <option value="102" >USEPA-482013001 (482013001)</option>
+        
+            <option value="540" >USEPA-482016001 (482016001)</option>
+        
+            <option value="78" >USEPA-483090001 (483090001)</option>
+        
+            <option value="74" >USEPA-483210001 (483210001)</option>
+        
+            <option value="57" >USEPA-484230001 (484230001)</option>
+        
+            <option value="42" >USEPA-484392001 (484392001)</option>
+        
+            <option value="717" >USEPA-484790002 (484790002)</option>
+        
+            <option value="17" >USEPA-484850001 (484850001)</option>
+        
+            <option value="967" >Van Buren (481410693)</option>
+        
+            <option value="60" >Van Buren &amp; 4th (483750004)</option>
+        
+            <option value="339" >Van Horn City Hall (481090001)</option>
+        
+            <option value="590" >Vanda (483030006)</option>
+        
+            <option value="486" >Vicksburg (482010016)</option>
+        
+            <option value="22" >Victoria (484690003)</option>
+        
+            <option value="802" >Victoria Rabbit Run C602 (484690004)</option>
+        
+            <option value="713" >Victoria Water Treatment Plant (484690001)</option>
+        
+            <option value="163" >VILAS (481410041)</option>
+        
+            <option value="902" >Violet (483550664)</option>
+        
+            <option value="1251" >Von Ormy Highway 16 (480131090)</option>
+        
+            <option value="76" >WACO (483091002)</option>
+        
+            <option value="895" >Waco KACT (483095010)</option>
+        
+            <option value="937" >Waco Mazanec (483091037)</option>
+        
+            <option value="759" >Wallisville Road (482010617)</option>
+        
+            <option value="284" >Walzem Pump Station (480290029)</option>
+        
+            <option value="754" >WAMBA Texarkana  NTRD (480370645)</option>
+        
+            <option value="450" >Washington &amp; Carver (481670043)</option>
+        
+            <option value="608" >Washington Park (483090008)</option>
+        
+            <option value="811" >Waskom C612 (482030003)</option>
+        
+            <option value="402" >Water &amp; Elm (481391002)</option>
+        
+            <option value="323" >Water Works (480614001)</option>
+        
+            <option value="645" >Weatherford Agricultural College (483670080)</option>
+        
+            <option value="1072" >Weatherford Tin Top Road (483671506)</option>
+        
+            <option value="28" >Webberville Road (484530016)</option>
+        
+            <option value="680" >Wesleyan Avenue (484390026)</option>
+        
+            <option value="522" >West 43rd (482011026)</option>
+        
+            <option value="575" >West 90th Street (482452004)</option>
+        
+            <option value="342" >West Commerce (481130003)</option>
+        
+            <option value="614" >West Davis (483390001)</option>
+        
+            <option value="640" >West Guth Park (483550022)</option>
+        
+            <option value="532" >West Harris (482012005)</option>
+        
+            <option value="309" >West Holland (480430001)</option>
+        
+            <option value="834" >West Houston (482010554)</option>
+        
+            <option value="360" >West Illinois (481130052)</option>
+        
+            <option value="382" >West Main (481132003)</option>
+        
+            <option value="381" >West Main Street Fire Station (481132002)</option>
+        
+            <option value="199" >West Mockingbird (481130044)</option>
+        
+            <option value="62" >West Orange (483611001)</option>
+        
+            <option value="288" >West Southcross (480290038)</option>
+        
+            <option value="741" >Wichita Falls (484850315)</option>
+        
+            <option value="885" >WICHITA FALLS   TEXAQSII (484850652)</option>
+        
+            <option value="1076" >Wichita Falls MWSU (484851508)</option>
+        
+            <option value="668" >Wilbarger (484390013)</option>
+        
+            <option value="875" >Williams Park (483551024)</option>
+        
+            <option value="458" >Willowick (481671001)</option>
+        
+            <option value="299" >Winans Road (480291002)</option>
+        
+            <option value="573" >Winnie &amp; Hamshire (482452001)</option>
+        
+            <option value="327" >Winnie Municipal Annex (480710004)</option>
+        
+            <option value="54" >WINONA ELEMENTARY SCHOOL (484230005)</option>
+        
+            <option value="669" >Witchita (484390014)</option>
+        
+            <option value="77" >Wolfforth City Limits (483030025)</option>
+        
+            <option value="588" >Wolfforth Post Office (483030004)</option>
+        
+            <option value="159" >Womble (481410047)</option>
+        
+            <option value="7" >World Trade Bridge (484790313)</option>
+        
+            <option value="51" >Worth Heights Elementary (484390023)</option>
+        
+            <option value="422" >Zack White School (481410025)</option>
+        
+            <option value="985" >Zavala Elementary (484530326)</option>
+        
+            <option value="735" >Zenco (800060003)</option>
+        
+            <option value="602" >Zenith Fire Station (483030021)</option>
+        
+        </select>
+
+        &nbsp;&nbsp;
+
+        <button type="submit">Display Site</button>
+
+	</div>
+</div>
+</form>
+</div>
+
+
+<br />
+
+
+    <h2>HRM 7 BAYTOWN</h2>
+
+    <div id="listingdiv" class="indentmenu">
+    <ul>
+        <li><a href="index.cfm?fuseaction=report.view_site&amp;siteID=112&amp;siteOrderBy=name&amp;showActiveOnly=0&amp;showActMonOnly=1&amp;formSub=1&amp;tab=info" class="selected">Basic Information</a></li>
+        <li><a href="index.cfm?fuseaction=report.view_site&amp;siteID=112&amp;siteOrderBy=name&amp;showActiveOnly=0&amp;showActMonOnly=1&amp;formSub=1&amp;tab=mons">Monitoring Information</a></li>
+        <li><a href="index.cfm?fuseaction=report.view_site&amp;siteID=112&amp;siteOrderBy=name&amp;showActiveOnly=0&amp;showActMonOnly=1&amp;formSub=1&amp;tab=pics">Photos</a></li>
+        <li><a href="index.cfm?fuseaction=report.view_site&amp;siteID=112&amp;siteOrderBy=name&amp;showActiveOnly=0&amp;showActMonOnly=1&amp;formSub=1&amp;tab=data">Validated Data</a></li>
+    </ul>
+    <br style="clear: left" />
+    </div>
+
+
+    <div class="tabcontent">
+	
+
+     <ul>
+          <li>EPA Site Number: 482010807</li>
+          <li>CAMS: 0607</li>
+          <li>Activation Date: November 29, 1999</li>
+          <li>Current Status: Active</li>
+
+          <li>State: TEXAS</li>
+          <li>County: HARRIS</li>
+          <li>City: Baytown</li>
+          <li>Address: 4621-4639 W Baker Rd </li>
+          <li>ZIP: 77520</li>
+          <li>Site Coordinates:
+               <ul>
+                    <li>Latitude: 29&ordm; 46' 9'' North (29.7692640&ordm;)</li>
+                    <li>Longitude: -95&ordm; 1' 3'' West (-95.0175090&ordm;)</li>
+                    <li>Elevation: 6.0 m</li>
+               </ul>
+          </li>
+          <li>Owned By: Houston Regional Monitoring</li>
+	
+          <li class="accessSpace"><a href="https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539&query=AQS%20ACTIVE%20SITES,AQS_SITE_CD,482010807" target="_blank" class="accessLink" rel="noopener noreferrer" title="A map of the site using the Geographical Texas Air Monitoring viewer">GeoTAM Site Map</a></li>
+    
+          <li class="accessSpace"><a href="https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539&query=TCEQ%20Regions,TCEQ_REG,12" target="_blank" class="accessLink" rel="noopener noreferrer" title="A map of the site's region using the Geographical Texas Air Monitoring viewer">GeoTAM Region Map</a></li>
+     </ul>
+</div>
+
+
+
+<br /><br />
+
+
+
+<div id="warnFooter">
+
+
+     <div class="infoText"><strong>NOTE:</strong>  Throughout the TAMIS portion of the TCEQ website, users can access valid, validated, ambient (non-QC) data.</div>
+     
+
+</div> 
+
+<div id="iconInfo">
+
+<div class="infoText">
+	<img class="ajaxImage" src="https://www17.tceq.texas.gov/tamis/includes/images/bolt.bmp" alt="Page Interaction Lightning Bolt" /> indicates that this control alters the webpage in some way without refreshing.  Selecting the lightning bolt will explain what changes will occur.
+</div>
+
+     <div class="infoText">
+          <img class="infoImage" src="https://www17.tceq.texas.gov/tamis/includes/images/book.bmp" alt="Details Book" /> indicates that a more detailed list exists.  Selecting the book will open a popup window with the detailed list.
+     </div>
+
+
+</div> 
+		</div> 
+
+		<div id="footer">
+			<p>
+				<a href="https://www.tceq.texas.gov/help">Site Help</a> |
+				<a href="" onclick="return goFuseaction('home.sitemap');" title="TAMIS Site Map">Site Map</a> |
+				<a href="https://www.tceq.texas.gov/help/policies/disclaimer_policy.html">Disclaimer</a> |
+				<a href="https://www.tceq.texas.gov/help/policies/index.html">Web Policies</a> |
+				<a href="https://www.tceq.texas.gov/help/policies/accessibility_policy.html">Accessibility</a> |
+				<a href="https://www.tceq.texas.gov/agency/compact.html">Our Compact with Texans</a> |
+				<a href="https://www.tceq.texas.gov/response/security/index.html">TCEQ Homeland Security</a> |
+				<a href="https://www.tceq.texas.gov/about/directory/">Contact Us</a>
+				<br />
+				Statewide Links:
+				<a href="https://www.texas.gov">Texas.gov</a> |
+				<a href="http://www.texashomelandsecurity.org/">Texas Homeland Security</a> |
+				<a href="https://www.tsl.texas.gov/trail/index.html">TRAIL Statewide Archive</a> |
+				<a href="https://veterans.portal.texas.gov/">Texas Veterans Portal</a>
+			</p>
+			<p>
+				<br />
+				&copy; 2002 <script>new Date().getFullYear()>2002&&document.write("- "+new Date().getFullYear());</script> Texas Commission on Environmental Quality
+			</p>
+		</div>
+	</div> 
+</body></html>
