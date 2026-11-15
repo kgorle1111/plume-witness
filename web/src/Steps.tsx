@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type NrcReport, type PlumeEvent, type RecordCheck } from './types'
-import { compass, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
+import { compass, countyList, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote, noteUrl } from './note'
@@ -135,7 +135,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const rule = ruleParts(d.rule)
   // Ten times a zero baseline is still zero: on those nights only the floor flagged the reading.
   const ruleKey = d.baseline === 0 ? 'det.ruleZero' : 'det.ruleText'
-  const county = titleCase(regionByKey(ev.region?.key).county)
+  const county = countyList(regionByKey(ev.region?.key).county, lang)
   const rc = ev.record_check
   const hasReport = Boolean(rc.reported) || (rc.day_incidents?.length ?? 0) > 0
   const note = timeNote(ev.time_note, lang, hasReport)
@@ -155,7 +155,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
           <dd>{rule ? t(ruleKey, { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
         </div>
       </dl>
-      <p className="small">{t('det.notAlert', { county })}</p>
+      <p className="small">{county.many ? t('det.notAlertMany', { counties: county.counties }) : t('det.notAlert', { county: county.counties })}</p>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
         {t('det.replayHour', { hour: hourLabel(hour) })} <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : t('tl.noData')}</strong>
@@ -170,7 +170,6 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
 }
 
 /** regions.generated.json writes counties in capitals ("JEFFERSON"). */
-const titleCase = (s: string) => s.toLowerCase().replace(/\b\p{L}/gu, (c) => c.toUpperCase())
 
 // Phones and tablets have no hover, so the Trace hint talks about taps there and about hover and Tab elsewhere.
 const NO_HOVER = '(hover: none)'

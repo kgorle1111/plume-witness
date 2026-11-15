@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { readingText, unitFirst, unitShort, unitTitle } from '../src/format.ts'
+import { countyList, readingText, unitFirst, unitShort, unitTitle } from '../src/format.ts'
 
 test('ppb-v reads as ppb; other units are left as given', () => {
   for (const u of ['ppb-v', 'ppbv', 'PPB-V', 'ppb', ' ppb-v ']) assert.equal(unitShort(u), 'ppb', u)
@@ -75,4 +75,13 @@ test('the hourly table cell drops the CST its header already gives', async () =>
   const { hourShort } = await import('../src/format.ts')
   assert.equal(hourShort(7), '07:00')
   assert.equal(hourShort(23), '23:00')
+})
+
+test('a region county list reads as running text in each language', () => {
+  assert.deepEqual(countyList('HARRIS', 'en'), { counties: 'Harris', many: false })
+  assert.deepEqual(countyList('EL PASO', 'es'), { counties: 'El Paso', many: false })
+  assert.deepEqual(countyList('ECTOR, MIDLAND', 'en'), { counties: 'Ector and Midland', many: true })
+  assert.deepEqual(countyList('ECTOR, MIDLAND', 'es'), { counties: 'Ector y Midland', many: true })
+  assert.deepEqual(countyList('DALLAS, DENTON, JOHNSON, TARRANT, WISE', 'en'), { counties: 'Dallas, Denton, Johnson, Tarrant and Wise', many: true })
+  assert.deepEqual(countyList('BEXAR, COMAL, WILSON', 'es'), { counties: 'Bexar, Comal y Wilson', many: true })
 })

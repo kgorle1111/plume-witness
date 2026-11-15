@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
+import { animate } from 'motion/mini'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
@@ -13,7 +14,7 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
-import { DEFAULT_REGION, NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionByKey, regionFrom, regionQuery, regionUnknown } from './region'
+import { DEFAULT_REGION, compoundLabel, eventTitle, regionByKey, regionFrom, regionQuery, regionUnknown } from './region'
 import { NIGHT_ID, navHref, regionStartNight } from './routes'
 import { SiteHeader } from './SiteHeader'
 import { LoadError, classifyLoadError, responseError, type LoadErrorKind } from './loadError'
@@ -101,6 +102,18 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   }, [siteLang])
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
+  const panel = useRef<HTMLElement>(null)
+  const shownStep = useRef(active)
+  // Each step fades in when it opens (PR #90): opacity only, so nothing shifts. The first paint and reduced motion
+  // skip it. motion's mini animate is a Web Animation with no fill: if it never runs, the step is simply shown.
+  useLayoutEffect(() => {
+    if (shownStep.current === active) return
+    shownStep.current = active
+    const el = panel.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const fade = animate(el, { opacity: [0, 1] }, { duration: 0.2, ease: 'easeOut' })
+    return () => fade.stop()
+  }, [active])
 
   useEffect(() => {
     // An unknown hash shows Detect; the URL says so too, since Embed and share copy it.
@@ -143,6 +156,8 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   return (
     <>
       <div className="stepper" role="tablist" aria-label={t('nav.steps')} onKeyDown={onKey}>
+        {/* Pill nav (PR #90): one pill slides behind the selected step; the tabs carry the state. */}
+        <span className="step-pill" aria-hidden="true" style={{ transform: `translateX(${active * 100}%)` }} />
         {STEPS.map((s, i) => (
           <button
             key={s.id}
@@ -167,7 +182,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       </div>
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
-      <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
+      <section ref={panel} role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2 key={step}>{t(STEPS[active].title)}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
@@ -241,9 +256,6 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
         <p className="fixture-banner" role="note"><strong>{t('app.fixtureLead')}</strong> {t('app.fixtureBody')}</p>
       )}
       {regionUnknown(window.location.search) && <p className="site-region-note" role="note">{t('region.unknown')}</p>}
-      {ev.region && !ev.region.backtested && (
-        <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note === NOT_BACKTESTED_NOTE ? t('region.notBacktested') : ev.region.note}</strong></p>
-      )}
       <div className="layout">
         <div className="stage">
         <section className="map-wrap" aria-labelledby="map-label" aria-describedby="map-note">

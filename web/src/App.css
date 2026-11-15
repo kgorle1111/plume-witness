@@ -103,15 +103,15 @@
 .lg-facility { background: var(--facility); width: 14px; height: 14px; }
 .lg-matched { background: var(--matched); width: 14px; height: 14px; }
 /* The map canvas keeps its light-theme marker colours in dark mode (the tiles stay light), so these two swatches
-   do too: they match the dots they explain, and the white numeral stays readable (13.7:1 and 6.4:1). The dark
-   tokens (#d0d6d8, #5fd694) put white at 1.5:1 and 1.8:1. */
-[data-theme='dark'] .lg-facility { background: #2d2d34; }
-[data-theme='dark'] .lg-matched { background: #006e3c; }
+   do too: they match the dots they explain, and the white numeral stays readable (12.6:1 and 6.3:1). The dark
+   tokens (#d0d6d8, #8fd3b9) put white at 1.5:1 and 1.7:1. */
+[data-theme='dark'] .lg-facility { background: #24363b; }
+[data-theme='dark'] .lg-matched { background: #2f6b57; }
 .lg-tri { width: 16px; height: 10px; border-radius: 2px; border: 1.5px dashed rgb(109 40 217 / 0.8); box-shadow: none; background: transparent; }
 .lg-ring { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid rgb(109 40 217); box-shadow: none; background: transparent; }
 .tri-note { font-size: 0.9rem; padding: 8px 12px; border-left: 3px solid rgb(109 40 217); background: var(--bg-2); }
 .tri-tag { justify-self: start; font-size: 0.75rem; font-weight: 600; color: rgb(91 33 182); }
-.lg-corridor { width: 16px; height: 10px; border-radius: 2px; border: 1.5px solid rgb(190 30 45 / 0.55); box-shadow: none; background: rgb(190 30 45 / 0.09); }
+.lg-corridor { width: 16px; height: 10px; border-radius: 2px; border: 1.5px solid rgb(208 96 77 / 0.8); box-shadow: none; background: rgb(224 122 104 / 0.17); }
 .lg-line { width: 18px; height: 4px; border: 0; border-radius: 2px; box-shadow: none; background: var(--trigger); }
 
 .pulse-anchor { width: 22px; height: 22px; pointer-events: none; }
@@ -186,31 +186,53 @@
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  padding: 6px 12px;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
+  isolation: isolate;
+}
+/* The track; the pill (App.tsx .step-pill, aria-hidden) moves by its own width per step, so it needs no measuring. */
+.stepper::before {
+  content: '';
+  position: absolute;
+  inset: 6px 12px;
+  z-index: -2;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+.step-pill {
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 15px;
+  z-index: -1;
+  width: calc((100% - 30px) / 4);
+  border-radius: 999px;
+  background: var(--teal);
+  box-shadow: 0 4px 12px -4px rgb(20 41 46 / 0.45);
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .step-tab {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2px;
   min-height: 52px;
   padding: 6px 2px;
   border: 0;
-  border-bottom: 3px solid transparent;
+  border-radius: 999px;
   background: none;
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--ink-2);
   cursor: pointer;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  transition: color 0.15s ease-out;
 }
-.step-tab:hover { background: var(--bg-2); color: var(--ink); }
-.step-tab[aria-selected='true'] {
-  color: var(--ink);
-  font-weight: 700;
-  border-bottom-color: var(--accent);
-}
-.step-tab:focus-visible { outline-offset: -3px; }
+.step-tab:hover { color: var(--ink); }
+.step-tab[aria-selected='true'] { color: var(--on-teal); font-weight: 700; }
+.step-tab:focus-visible { outline-offset: 1px; border-radius: 999px; }
 /* Landscape phones: the two-line tabs were 60px of a 375px screen; one 44px row keeps the labels and the targets. */
 @media (max-height: 500px) {
   .step-tab { flex-direction: row; justify-content: center; gap: 6px; min-height: 44px; padding: 4px 2px; }
@@ -222,17 +244,22 @@
   height: 22px;
   border-radius: 50%;
   border: 1.5px solid currentColor;
-  font-size: 0.75rem;
+  font: 600 0.75rem/1 var(--mono);
 }
-.step-tab[aria-selected='true'] .step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.step-tab[aria-selected='true'] .step-num { background: var(--on-teal); border-color: var(--on-teal); color: var(--teal); }
+/* Forced colours would drop the pill's fill: paint it and the selected label in the system highlight pair. */
+@media (forced-colors: active) {
+  .step-pill { forced-color-adjust: none; background: Highlight; }
+  .step-tab[aria-selected='true'] { forced-color-adjust: none; color: HighlightText; }
+}
 
 /* The limits panel has the row to itself: the page language switch lives in the header (one switch per site). */
 .limits-bar { margin: 12px 16px 0; }
 .seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
 .cannot-say {
-  border: 1px solid var(--amber-line);
+  border: 1px solid var(--peach-line);
   border-radius: var(--radius);
-  background: #fffaf0;
+  background: var(--peach-soft);
 }
 .cannot-say summary {
   padding: 8px 14px;
@@ -243,7 +270,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #3d2e00;
+  color: var(--peach-ink);
 }
 .cannot-say ul { display: grid; gap: 6px; padding: 0 16px 12px 34px; font-size: 0.9rem; }
 /* Disclosures had no hover feedback; the underline matches the links beside them. */
@@ -286,12 +313,13 @@
 .list-heading { font-size: 0.95rem; }
 .question { font-size: 1rem; }
 
-.facts { display: grid; gap: 6px; }
-.facts > div { display: grid; grid-template-columns: minmax(7.5em, 38%) 1fr; gap: 8px; font-size: 0.9rem; }
+.facts { display: grid; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.facts > div { display: grid; grid-template-columns: minmax(7.5em, 38%) 1fr; gap: 8px; padding: 6px 12px; font-size: 0.9rem; }
+.facts > div + div { border-top: 1px solid var(--line); }
 .facts dt { color: var(--ink-2); }
 .facts dd { overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-.facts .fact-key { align-items: baseline; padding: 8px 0; border-block: 1px solid var(--line); }
-.reading-value { display: block; font-size: 1.75rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--trigger); }
+.facts .fact-key { align-items: baseline; padding-block: 8px; background: var(--spike-soft); }
+.reading-value { display: block; font-size: 1.75rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--spike-ink); }
 .reading-when { font-size: 0.85rem; color: var(--ink-2); }
 .prov-badge { display: inline-block; padding: 0 6px; border: 1px solid var(--line); border-radius: 4px; font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; cursor: help; }
 /* The toggletip version (ProvBadge): 24px tall for touch, without growing the status line. */
@@ -301,10 +329,10 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
 .prov-tip { display: block; font-size: 0.8rem; color: var(--ink-2); }
 .prov-tip:not(:empty) { margin-top: 4px; }
 .site-corrections { margin: 0; flex-basis: 100%; white-space: normal; }
-code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); padding: 1px 4px; border-radius: 4px; }
+code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); border: 1px solid var(--line); padding: 0 4px; border-radius: 4px; }
 
 .spark svg { display: block; width: 100%; max-width: 420px; height: auto; }
-.spark-bar { fill: var(--monitor); }
+.spark-bar { fill: var(--monitor); opacity: 0.6; }
 .spark-peak { fill: var(--trigger); }
 .spark-baseline { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 4 3; }
 .spark-report-fill { fill: rgb(176 96 0 / 0.22); }
@@ -325,7 +353,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 }
 .spark figcaption { font-size: 0.78rem; color: var(--ink-2); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .key { display: inline-block; width: 10px; height: 10px; }
-.key-bar { background: var(--monitor); }
+.key-bar { background: var(--monitor); opacity: 0.6; }
 .key-base { height: 0; border-top: 2px dashed var(--ink); margin-left: 6px; }
 .hourly-table { margin-top: 6px; font-size: 0.85rem; }
 .hourly-table summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
@@ -374,7 +402,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .filed-tag::before { content: '✓ '; }
 .fl-align { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--ink-2); }
 .align-track { flex: 0 0 72px; height: 6px; border-radius: 3px; background: var(--bg-2); border: 1px solid var(--line); overflow: hidden; }
-.align-fill { display: block; height: 100%; background: var(--ink-2); }
+.align-fill { display: block; height: 100%; border-radius: 3px; background: var(--teal); }
 /* Padding, not flex: a flex summary loses its disclosure marker. */
 .outside summary { cursor: pointer; font-size: 0.9rem; padding-block: 12px; }
 
@@ -397,11 +425,12 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .status-reported_nrc { color: #164a83; background: #e6f0fa; }
-.is-matched-note { padding: 8px 12px; border: 1px solid rgb(0 110 60 / 0.45); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
-.checks { list-style: none; padding: 0; display: grid; gap: 8px; }
+.is-matched-note { padding: 8px 12px; border: 1px solid var(--sage); border-left: 3px solid var(--matched); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
+.checks { list-style: none; padding: 0; display: grid; border: 1px solid var(--line); border-radius: var(--radius); }
 /* Label above its pill: side by side, both wrapped ("Notice within 24 / hours" beside a 3-line pill at 320px) and the
    rows misaligned. Stacked, the longest pill still fits one line at 288px. */
-.checks li { display: grid; justify-items: start; gap: 2px; }
+.checks li { display: grid; justify-items: start; gap: 2px; padding: 8px 12px; }
+.checks li + li { border-top: 1px solid var(--line); }
 .check-at { font-size: 0.85rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
 .controls { display: grid; gap: 12px; }
@@ -436,7 +465,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .seg-sub { font-size: 0.75rem; font-weight: 500; color: var(--ink-2); }
 .seg button[aria-pressed='true'] .seg-sub { color: rgb(255 255 255 / 0.82); }
 .draft-label { font-weight: 700; font-size: 0.9rem; }
-.approved-tag { color: #14532d; }
+.approved-tag { color: var(--matched); }
 .draft {
   width: 100%;
   padding: 10px 12px;
@@ -469,7 +498,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .btn:active:not(:disabled) { transform: translateY(1px); }
 .btn-primary { background: var(--btn-primary-bg); border-color: var(--btn-primary-line); color: var(--btn-primary-ink); }
 .btn-primary:hover:not(:disabled) { background: var(--btn-primary-bg-hover); }
-.btn-done { background: #e7f6ec; border-color: #14532d; color: #14532d; }
+.btn-done { background: var(--matched-soft); border-color: var(--matched); color: var(--matched); }
 .btn-done::before { content: '✓ '; }
 .btn:disabled { background: var(--bg-2); border-color: var(--line); color: #6b6b74; cursor: not-allowed; }
 /* list-style none drops the marker (a grid li had already lost it); the drawn numbers are aria-hidden and
@@ -569,8 +598,11 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   padding: 16px;
   text-align: center;
   color: var(--ink-2);
-  background: var(--bg-2);
+  background-color: var(--bg-2);
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
+.map-skeleton p { padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
 
 /* Replay: the map and the hour scrubber share the "stage"; on phones it keeps the map at ~55% height. */
 .stage { display: flex; flex-direction: column; flex: 0 0 auto; }
@@ -601,9 +633,9 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   p.wide-only { display: block; }
   .narrow-only { display: none; }
 }
-.lg-pulse { background: var(--trigger); box-shadow: 0 0 0 2px rgb(190 30 45 / 0.35); }
-.lg-scale { width: 14px; height: 14px; background: linear-gradient(135deg, rgb(120 165 215), rgb(190 30 45)); }
-.lg-nodata { background: transparent; border: 2px solid rgb(110 110 120); box-shadow: none; }
+.lg-pulse { background: var(--trigger); box-shadow: 0 0 0 2px rgb(208 96 77 / 0.35); }
+.lg-scale { width: 14px; height: 14px; background: linear-gradient(135deg, rgb(157 191 195), rgb(208 96 77)); }
+.lg-nodata { background: transparent; border: 2px solid rgb(98 111 114); box-shadow: none; }
 
 .skip-link {
   position: absolute;
@@ -624,7 +656,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 /* Globe intro (EventMap). */
 .legend.is-hidden { visibility: hidden; }
 .intro-pin { display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; }
-.intro-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--trigger); border: 2px solid #fff; box-shadow: 0 0 0 2px rgb(190 30 45 / 0.35); order: 2; }
+.intro-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--trigger); border: 2px solid #fff; box-shadow: 0 0 0 2px rgb(208 96 77 / 0.35); order: 2; }
 .intro-label { order: 1; padding: 3px 8px; border-radius: 6px; background: rgb(255 255 255 / 0.94); color: var(--ink); font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
 .intro-caption {
   position: absolute;

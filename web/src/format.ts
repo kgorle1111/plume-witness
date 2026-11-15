@@ -216,3 +216,12 @@ export function normCompound(raw: string): string {
 export function offWindDeg(alignment: number): number {
   return Math.round((Math.acos(Math.max(0, Math.min(1, alignment))) * 180) / Math.PI)
 }
+
+/** A region's county list ("ECTOR, MIDLAND", from regions.generated.json) as running text: "Ector and Midland" /
+ *  "Ector y Midland", "Dallas, Denton and Wise". `many` picks the plural sentence ("counties", "los condados de"). */
+export function countyList(raw: string, lang: Lang): { counties: string; many: boolean } {
+  const names = raw.split(',').map((c) => c.trim().toLowerCase().replace(/\b\p{L}/gu, (ch) => ch.toUpperCase())).filter(Boolean)
+  const and = lang === 'es' ? ' y ' : ' and '
+  const counties = names.length < 2 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')}${and}${names[names.length - 1]}`
+  return { counties, many: names.length > 1 }
+}

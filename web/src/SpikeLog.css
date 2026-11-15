@@ -32,13 +32,6 @@
   color: var(--ink);
 }
 .sl-region a[aria-current='page'] { border-color: var(--ink); font-weight: 700; background: var(--bg-2); }
-.sl-region-note, .region-banner {
-  padding: 8px 12px;
-  border-left: 4px solid var(--amber-line);
-  background: #fff3c4;
-  color: #16161a;
-  font-size: 0.9rem;
-}
 
 /* A closed <details>: the summary line carries the one rule that must be on the first screen. */
 .sl-explain {
