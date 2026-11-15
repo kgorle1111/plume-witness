@@ -4827,5 +4827,629 @@
   "bytes": 11072,
   "sha256": "324f1dae8004cb544a704a33f04b8e1d43961b058c6fa6d8668793f5fa63ffb6",
   "fetched_at": "2026-11-15T00:36:11+00:00"
+ },
+ {
+  "file": "backtest/tamis_48_201_0036.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482010036",
+  "params": null,
+  "bytes": 90624,
+  "sha256": "1da827adc34c3ea77299162ed96bda68b7116b9e390d6108dac634b9f1cf417a",
+  "fetched_at": "2026-11-15T08:13:22+00:00"
+ },
+ {
+  "file": "backtest/tamis_48_201_1039.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482011039",
+  "params": null,
+  "bytes": 90639,
+  "sha256": "2744b2e302050f0f2d4b2cbc97e3380460a738eb109acf7706bd44e49cb57a7e",
+  "fetched_at": "2026-11-15T08:13:25+00:00"
+ },
+ {
+  "file": "backtest/tamis_48_201_1049.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482011049",
+  "params": null,
+  "bytes": 90627,
+  "sha256": "091635a2b94c2463f6847b858bd052ca7720375f83b2c8c8ddeac1a9fcd206b8",
+  "fetched_at": "2026-11-15T08:13:28+00:00"
+ },
+ {
+  "file": "backtest/tamis_48_201_6000.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482016000",
+  "params": null,
+  "bytes": 90608,
+  "sha256": "84cf1ee67150bcce728bb3113a14c537c7b90dc7622359331705daffcdfbaa7c",
+  "fetched_at": "2026-11-15T08:13:30+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_0036_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0036",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 87911,
+  "sha256": "338f2da969ba33b7eb596a1566069334ae122a615b2f4f0ef997dabf1d9efc33",
+  "fetched_at": "2026-11-15T08:13:37+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_0036_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0036",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 87892,
+  "sha256": "21ed1eee9d219cf7674dbe056646ea993afb4cada5c085db4e9eedcfec697a54",
+  "fetched_at": "2026-11-15T08:13:43+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_0036_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0036",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 87558,
+  "sha256": "55ae16301e1e661bd2c8045a4a831967964cdffb5ac201b7bed042f6550d3fe7",
+  "fetched_at": "2026-11-15T08:13:49+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_0036_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0036",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 87548,
+  "sha256": "62531115b4342e7d83a369c60c871daa3336bc908b0e707397a7f597304d9f24",
+  "fetched_at": "2026-11-15T08:13:55+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_1039_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_1039",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88121,
+  "sha256": "a0b3b124d1b52278cb4c6690518aa26332cc778be9e6cd4a279507c4e9801afa",
+  "fetched_at": "2026-11-15T08:14:01+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_1039_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_1039",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88254,
+  "sha256": "b60f6207e1d588a83a944d764463c503774f09e202da3f8157b3cc964e47481b",
+  "fetched_at": "2026-11-15T08:14:06+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_1039_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_1039",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88096,
+  "sha256": "6599f7e40c641a613a051435a44b5c739604e04afe2403ecef6901e71131625d",
+  "fetched_at": "2026-11-15T08:14:13+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_1039_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_1039",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88110,
+  "sha256": "6676dbbb3d77be44e586c9daa9423215624f11f1b4d46f103c464e113609ec90",
+  "fetched_at": "2026-11-15T08:14:18+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_1049_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_1049",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88715,
+  "sha256": "c5e9a1e2158a8d91e4a52c7c73408d0cda7314d9f4759ac83dffc81381e4c04a",
+  "fetched_at": "2026-11-15T08:14:24+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_1049_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_1049",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88723,
+  "sha256": "143a98171f06d3e772cc6108e70cd983b3eb4511a9da98677a3a6f0375755fb1",
+  "fetched_at": "2026-11-15T08:14:30+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_1049_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_1049",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88448,
+  "sha256": "8a0c3f39142491d15391f1228c664b7192246d4ff7977dbbe682d3e0c8a7cf9a",
+  "fetched_at": "2026-11-15T08:14:36+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_1049_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_1049",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88450,
+  "sha256": "314ebeb618ada78acbd7325cee740e07d1c97e2e51288a108d3589c15080ed44",
+  "fetched_at": "2026-11-15T08:14:42+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_6000_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_6000",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88104,
+  "sha256": "287a8d9aafc862cf25e1d9d083c1b20eb65a4a1819cd9c438c488db9a5d2c896",
+  "fetched_at": "2026-11-15T08:14:48+00:00"
+ },
+ {
+  "file": "backtest/agc_2024_48_201_6000_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_6000",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88111,
+  "sha256": "a9fd5933cca0424fd2ac5b2d3ff3a69c2063d85f8c2b5a616aa603cf29ecf0fd",
+  "fetched_at": "2026-11-15T08:14:53+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_6000_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_6000",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88157,
+  "sha256": "f8d6348a8f52e09187c571ad8a764aedc64278da28808526add93ea73634987a",
+  "fetched_at": "2026-11-15T08:15:00+00:00"
+ },
+ {
+  "file": "backtest/agc_2025_48_201_6000_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_6000",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88167,
+  "sha256": "cd3d5445f54bd6a2b99dae6ee294ebe83c5b838712ca9666fbc30fb1a988abeb",
+  "fetched_at": "2026-11-15T08:15:05+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_0036_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Channelview Drive Water Tower C1036 |48_201_0036|1036",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68887,
+  "sha256": "9786869789e88cc526ee8aa8b05f17a578f86731c265fb96bea38a271f647974",
+  "fetched_at": "2026-11-15T08:20:30+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_0036_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Channelview Drive Water Tower C1036 |48_201_0036|1036",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72596,
+  "sha256": "5cf79d4f8ad63e13340f33d859bcf440d3bf2b46048011a9a133990c2a28c9e8",
+  "fetched_at": "2026-11-15T08:20:30+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_0036_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Channelview Drive Water Tower C1036 |48_201_0036|1036",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69075,
+  "sha256": "1e3091303bb49f4ce42eea29efde92b81cb7af0a45f84ea35f4544515142100e",
+  "fetched_at": "2026-11-15T08:20:46+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_0036_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Channelview Drive Water Tower C1036 |48_201_0036|1036",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72666,
+  "sha256": "5b06f74114275ebf7b7bb7bd5fcd6753140462aa071fbf339b7e1606923761cd",
+  "fetched_at": "2026-11-15T08:20:46+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_1039_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|35",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68947,
+  "sha256": "0eccbabedaf43a242b9c936455b4424f384e57aabb4a24a12e55658fa25c8c88",
+  "fetched_at": "2026-11-15T08:21:20+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_1039_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|35",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71886,
+  "sha256": "6d3159c8b0e3214fa4b3c234228db55540bd6b1b1854c95d8d1ed5616c323e3c",
+  "fetched_at": "2026-11-15T08:21:20+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_1039_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|35",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69468,
+  "sha256": "e4c4c5d9330db18ba3b3573fc7dccd2dadc1b68c570aa92cb9edeca9e6c587fb",
+  "fetched_at": "2026-11-15T08:21:54+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_1039_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|35",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71907,
+  "sha256": "f88ddc3e8007a322afe65d7f8cbcb380e8ef93836a7a00d8a3d787bc8ff5445a",
+  "fetched_at": "2026-11-15T08:21:54+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_1049_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Pasadena Richey Elementary School C1049|48_201_1049|1049",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68813,
+  "sha256": "040688eaf2ab9e3a714de30ef6a88c71e37db36359f715c09e3447148b3b65f7",
+  "fetched_at": "2026-11-15T08:22:12+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_1049_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Pasadena Richey Elementary School C1049|48_201_1049|1049",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71648,
+  "sha256": "df1c0a3b232cd3401ec40e11293bb8352d15eff6e9c21623f6f6801f508b44a4",
+  "fetched_at": "2026-11-15T08:22:12+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_1049_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Pasadena Richey Elementary School C1049|48_201_1049|1049",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69279,
+  "sha256": "64c698e05c01f8841f50a9574ac0535c6a9ad62141226c43fd71248f7b7efdc0",
+  "fetched_at": "2026-11-15T08:22:29+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_1049_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Pasadena Richey Elementary School C1049|48_201_1049|1049",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71410,
+  "sha256": "a3748fb2fbb828b2d5029fa331b5666280390bc9f6f4cbfc78fccefe4982846c",
+  "fetched_at": "2026-11-15T08:22:29+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_6000_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Cesar Chavez C1020/175 |48_201_6000|175",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69235,
+  "sha256": "f1380383bf199354b7f4d6ff8047567eed9afbffdce0ec7c2ec039992617f48f",
+  "fetched_at": "2026-11-15T08:22:45+00:00"
+ },
+ {
+  "file": "backtest/met_2024_48_201_6000_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Cesar Chavez C1020/175 |48_201_6000|175",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71460,
+  "sha256": "7e2181932ddea6fb9c8a6a9d7370fd61130a722139f8409f073f4fb794e07dfc",
+  "fetched_at": "2026-11-15T08:22:45+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_6000_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Cesar Chavez C1020/175 |48_201_6000|175",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 69343,
+  "sha256": "04e92d6070a03e8415fb52093a82e74e19241e3209acbf3ba1c4f84c3b384856",
+  "fetched_at": "2026-11-15T08:23:01+00:00"
+ },
+ {
+  "file": "backtest/met_2025_48_201_6000_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Cesar Chavez C1020/175 |48_201_6000|175",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71401,
+  "sha256": "ea2d1db146d0a1ae6bcfe48ac8cb0ea548fd8180b52d3561bc2a176869076819",
+  "fetched_at": "2026-11-15T08:23:01+00:00"
+ },
+ {
+  "file": "backtest/echo_48_201_0036_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.7717",
+   "p_long": "-95.1208",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "214",
+   "pageno": "1"
+  },
+  "bytes": 479728,
+  "sha256": "e040c466a088fb8905aa987a381d5cede12e45bff4799467ec4e8f8fd2b30b17",
+  "fetched_at": "2026-11-15T08:23:08+00:00"
+ },
+ {
+  "file": "backtest/echo_48_201_1039_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.6705",
+   "p_long": "-95.1299",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "227",
+   "pageno": "1"
+  },
+  "bytes": 505599,
+  "sha256": "fb701e102d44b64e53c804c6d2783c2573bc6bb468b6f03d2c437f3313bbb9bf",
+  "fetched_at": "2026-11-15T08:23:15+00:00"
+ },
+ {
+  "file": "backtest/echo_48_201_1049_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.7031",
+   "p_long": "-95.2220",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "233",
+   "pageno": "1"
+  },
+  "bytes": 546641,
+  "sha256": "0da230d3a01b72dcaae7051f0cd521356bd72207481a86a3c8dc55b7f12202b9",
+  "fetched_at": "2026-11-15T08:23:21+00:00"
+ },
+ {
+  "file": "backtest/echo_48_201_6000_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.6844",
+   "p_long": "-95.2536",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "240",
+   "pageno": "1"
+  },
+  "bytes": 476232,
+  "sha256": "9d0521150239e8865c42bba9a88f2dbeb1957fe400c76ce0b25df8b5d6d3965a",
+  "fetched_at": "2026-11-15T08:23:28+00:00"
+ },
+ {
+  "file": "backtest/steers_428535.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=428535",
+  "params": null,
+  "bytes": 11410,
+  "sha256": "63cbb02fbb055532952a5bddf6c6872959de951d0ab713d044097ecb07e19d1a",
+  "fetched_at": "2026-11-15T08:23:32+00:00"
+ },
+ {
+  "file": "backtest/steers_446778.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446778",
+  "params": null,
+  "bytes": 13319,
+  "sha256": "96add6ff1e901b9f3822146b85d5d1e16033bdc3c97d9318f3de3cbf4099d78a",
+  "fetched_at": "2026-11-15T08:23:35+00:00"
  }
 ]
