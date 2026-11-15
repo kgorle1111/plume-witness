@@ -46,6 +46,13 @@ REASONS = {
 }
 
 
+# kn: `reason` keeps the three sentences web/src/spikes.ts maps to labels today (the "check" one sends the reader to
+# the night's Check step, which states the real cause). Drop this once the web maps reason_code; REASONS above is the
+# accurate text (feeds use it).
+WEB_REASON = {"no_wind": REASONS["no_wind"], "day_search_incomplete": REASONS["day_search_incomplete"]}
+WEB_REASON_CHECK = "A report filed that day could not be placed on the map, so absence cannot be claimed."
+
+
 def incomplete_reason(s: dict) -> str:
     """The reason code for a search_incomplete backtest row (see REASONS)."""
     if not s.get("search_complete"):
@@ -119,7 +126,7 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
         "site_id": site, "site": site_names[site],
         "lat": round(lat, 5), "lon": round(lon, 5), "param": param, "compound": COMPOUNDS[param], "value_ppb": value,
         "baseline_ppb": base, "ratio": round(value / base, 1) if base > 0 else None, "status": status,
-        "reason": REASONS[code] if code else None, "reason_code": code, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
+        "reason": WEB_REASON.get(code, WEB_REASON_CHECK) if code else None, "reason_code": code, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
         "report_url": build.STEERS_URL.format(incident) if incident else None,
     }
     return {k: v for k, v in row.items() if k in ROW_KEYS or v is not None}

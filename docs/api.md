@@ -72,7 +72,8 @@ Schema `plume-witness.spikes/v1`, exported by [`pipeline/spikes.py`](../pipeline
 `known_missed_reports`), `rows[]`. Each row: `night_id`, `date`, `hour_cst`, `site_id`, `site`, `lat`, `lon`, `param`,
 `compound`, `value_ppb`, `baseline_ppb`, `ratio`, `status`, `reports_that_day`, and when present `reason`,
 `reason_code`, `matched_incident`, `report_url`. Rows carry counts and ids, never a facility name. 283 of 468 rows are
-`search_incomplete` (the record check could not finish); the row's `reason` says why and `reason_code` is one of
+`search_incomplete` (the record check could not finish). `reason` is one of three sentences the site maps to a label
+(the most common one sends the reader to the night's Check step); `reason_code` is the precise cause, one of
 `calm_wind` (under 3 mph, no corridor drawn), `report_not_placed` (a report open at that hour, from that day or
 earlier, could not be placed on the map), `earlier_search_incomplete` (the 30 days before were not all searched),
 `day_search_incomplete` (TCEQ's search for that week did not return every row) or `no_wind`. The backtest that measures how

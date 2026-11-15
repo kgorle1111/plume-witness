@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from datetime import date
 from pathlib import Path
 
+from pipeline import spikes
 from pipeline.contract import STATUSES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -78,7 +79,7 @@ def item_for(r: dict) -> dict:
                f"{ratio} at {r['site']} on {r['date']} in the hour starting {hour_text(r['hour_cst'])}.")
     lines = [reading, f"Record check: {STATUS_TEXT[status]}"]
     if r.get("reason") and status == "search_incomplete":
-        lines.append(f"Why: {r['reason']}")
+        lines.append(f"Why: {spikes.REASONS.get(r.get('reason_code'), r['reason'])}")
     replay = night_link(r["night_id"]) if r.get("night_id") else None
     lines += ([f"Replay this night: {replay}"] if replay else [])
     lines += [f"All spikes at this monitor: {monitor_link(r['site_id'])}", CAVEAT]

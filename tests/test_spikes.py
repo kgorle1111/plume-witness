@@ -141,5 +141,5 @@ def test_incomplete_reason_matches_the_night_it_links_to(out):
         assert (code == "calm_wind") == (calm and "found; search incomplete)" not in rc["search_scope"]), r["night_id"]
         if code == "report_not_placed":
             assert "could not be located" in rc["search_scope"], r["night_id"]
-        assert r["reason"] == spikes.REASONS[code]
+        assert r["reason"] == spikes.WEB_REASON.get(code, spikes.WEB_REASON_CHECK)
     assert {"calm_wind", "report_not_placed"} <= seen
