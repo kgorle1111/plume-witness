@@ -1,5 +1,5 @@
 import type { Status } from './types'
-import { translate, type Lang } from './i18n.ts'
+import { translate, zoneLabel, type Lang } from './i18n.ts'
 
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
 // kn: the Spanish has had no community reader's review; the UI names English as the reference next to it.
@@ -62,6 +62,17 @@ const CANNOT_SAY_ES: Record<string, string> = {
   // pipeline/build.py BORROWED_WIND_CAVEAT: only on nights whose wind was measured at another monitor.
   'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
     'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
+  // pipeline/regions.py LOS_ANGELES.cannot_say and pipeline/la_replay.py AIRPORT_WIND_CAVEAT (Los Angeles nights).
+  'Los Angeles County has no public list of every emissions event: Cal OES spill reports and National Response Center reports are phone reports with a start time and no end time, so a missing match cannot be claimed':
+    'El condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones: los reportes de derrames de Cal OES y los reportes al Centro Nacional de Respuesta son avisos telefónicos con una hora de inicio y ninguna de fin, así que no se puede afirmar que falte un reporte que coincida',
+  'The upwind corridor comes from wind direction at one airport weather station (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart':
+    'El corredor viento arriba sale de la dirección del viento en una estación meteorológica de aeropuerto (solo geometría), no de un modelo de dispersión; no puede distinguir entre instalaciones en la misma dirección',
+  "Hours when all seven compounds the analyzer reports read 5 ppb or more at once are the analyzer's check gas and are not counted":
+    'Las horas en que los siete compuestos que reporta el analizador marcan 5 ppb o más a la vez son el gas de verificación del analizador y no se cuentan',
+  "Only South Coast AQMD's Rule 1180 community monitors are used, never low-cost sensors":
+    'Solo se usan los monitores comunitarios de la Regla 1180 de South Coast AQMD, nunca sensores de bajo costo',
+  'The wind used here was measured at an airport weather station, not at the monitor that flagged the spike, so the upwind direction there may differ':
+    'El viento usado aquí se midió en una estación meteorológica de aeropuerto, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
   // pipeline/regions.py BACKTESTED_NOTE; the "(n = 81, 2024-2025)" part is carried over as written.
   'Backtested against company-reported releases':
     'Probado retrospectivamente con liberaciones reportadas por las empresas',
@@ -88,7 +99,7 @@ export function cannotSayEs(en: string): string | null {
 }
 
 export function hourLabel(h: number): string {
-  return `${String(h).padStart(2, '0')}:00 CST`
+  return `${String(h).padStart(2, '0')}:00 ${zoneLabel()}`
 }
 
 const COMPASS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']

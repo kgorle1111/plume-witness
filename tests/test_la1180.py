@@ -80,4 +80,8 @@ def test_raw_files_match_their_provenance():
     for e in ledger:
         b = (la1180.RAW.parent / e["file"]).read_bytes()
         assert (len(b), hashlib.sha256(b).hexdigest()) == (e["bytes"], e["sha256"]), e["file"]
-        assert e["url"].startswith(("https://www.aqmd.gov/", "https://xappprod.aqmd.gov/"))
+        if e["url"] is None:  # a committed extract, with the files it came from
+            assert e["derived_from"] and e["in_git"], e["file"]
+        else:
+            assert e["url"].startswith(("https://www.aqmd.gov/", "https://xappprod.aqmd.gov/",
+                                        "https://mesonet.agron.iastate.edu/", "https://echodata.epa.gov/")), e["url"]

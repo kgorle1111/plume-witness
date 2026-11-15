@@ -171,22 +171,26 @@ def _dms(deg: str | None, mins: str | None, sec: str | None, quad: str | None) -
     return -x if (quad or "").strip().upper() in ("S", "W") else x
 
 
-def coords(ic: dict) -> tuple[float, float] | None:
-    """The record's own latitude/longitude, or None. A point outside Texas's box is a typo, not a location."""
+TX_BOX = (25.5, 36.6, -106.7, -93.5)  # lat min, lat max, lon min, lon max
+
+
+def coords(ic: dict, box: tuple[float, float, float, float] = TX_BOX) -> tuple[float, float] | None:
+    """The record's own latitude/longitude, or None. A point outside the state's box is a typo, not a location."""
     lat = _dms(ic.get("LAT_DEG"), ic.get("LAT_MIN"), ic.get("LAT_SEC"), ic.get("LAT_QUAD"))
     lon = _dms(ic.get("LONG_DEG"), ic.get("LONG_MIN"), ic.get("LONG_SEC"), ic.get("LONG_QUAD") or "W")
     if lat is None or lon is None:
         return None
     if lon > 0:  # NRC often leaves LONG_QUAD blank; every longitude in the United States is west
         lon = -lon
-    if not (25.5 <= lat <= 36.6 and -106.7 <= lon <= -93.5):
+    if not (box[0] <= lat <= box[1] and box[2] <= lon <= box[3]):
         return None
     return (round(lat, 6), round(lon, 6))
 
 
-def record(ic: dict, call: dict | None, mats: list[dict], source_file: str) -> dict:
+def record(ic: dict, call: dict | None, mats: list[dict], source_file: str,
+           box: tuple[float, float, float, float] = TX_BOX) -> dict:
     """One NRC report as a typed row (the extract's shape)."""
-    ll = coords(ic)
+    ll = coords(ic, box)
     return {
         "report": ic["SEQNOS"], "source_file": source_file,
         "incident_local": parse_local(ic.get("INCIDENT_DATE_TIME")),
@@ -203,7 +207,8 @@ def record(ic: dict, call: dict | None, mats: list[dict], source_file: str) -> d
     }
 
 
-def extract(path: Path, counties: tuple[str, ...] = COUNTIES, state: str = STATE) -> list[dict]:
+def extract(path: Path, counties: tuple[str, ...] = COUNTIES, state: str = STATE,
+            box: tuple[float, float, float, float] = TX_BOX) -> list[dict]:
     """Every NRC report in one yearly xlsx whose location is in `state` and one of `counties`."""
     with zipfile.ZipFile(path) as z:
         strings = _shared_strings(z)
@@ -215,7 +220,7 @@ def extract(path: Path, counties: tuple[str, ...] = COUNTIES, state: str = STATE
         for r in sheet_rows(z, "MATERIAL_INVOLVED", strings):
             if r.get("SEQNOS") in ic:
                 mats.setdefault(r["SEQNOS"], []).append(r)
-    return [record(ic[s], calls.get(s), mats.get(s, []), path.name) for s in sorted(ic, key=int)]
+    return [record(ic[s], calls.get(s), mats.get(s, []), path.name, box) for s in sorted(ic, key=int)]
 
 
 # ---- matching -----------------------------------------------------------------------------------------------------
@@ -253,21 +258,21 @@ def place(rep: dict, facilities: list[dict], echo_rows: list[dict], origin: tupl
             "bearing_deg": round(build.bearing_deg(origin, p), 1), "in_corridor": False, "located_by": how}
 
 
-def window(det_day: date, det_hour_cst: int) -> tuple[datetime, datetime]:
+def window(det_day: date, det_hour_cst: int, tz=build.LOCAL_TZ) -> tuple[datetime, datetime]:
     """The STEERS match window, [spike - 6 h, spike + 2 h] in local time (build.MATCH_WINDOW_H)."""
-    t = build._local(det_day, det_hour_cst)
+    t = build._local(det_day, det_hour_cst, tz)
     return t + timedelta(hours=build.MATCH_WINDOW_H[0]), t + timedelta(hours=build.MATCH_WINDOW_H[1])
 
 
 def candidates(reports: list[dict], det_day: date, det_hour_cst: int, param: str, facilities: list[dict],
-               echo_rows: list[dict], origin: tuple[float, float], winds: list[float]) -> list[dict]:
+               echo_rows: list[dict], origin: tuple[float, float], winds: list[float], tz=build.LOCAL_TZ) -> list[dict]:
     """NRC reports that started inside the match window and name the compound, each placed against the corridor
     (in_corridor True, False, or None when it could not be located). Nearest start to the spike first.
 
     NRC gives a start and no end, so the report's start must itself fall in the window (a STEERS report only has to
     overlap it)."""
-    lo, hi = window(det_day, det_hour_cst)
-    spike = build._local(det_day, det_hour_cst)
+    lo, hi = window(det_day, det_hour_cst, tz)
+    spike = build._local(det_day, det_hour_cst, tz)
     out = []
     for rep in reports:
         if not rep.get("incident_local"):

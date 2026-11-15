@@ -40,14 +40,17 @@ def test_schema(full):
             assert sum(s["by_status"].values()) == s["spikes"]
 
 
-def test_los_angeles_rows_are_the_rule_1180_stations_counted_not_checked(full):
+def test_los_angeles_rows_are_the_rule_1180_stations_with_their_spike_log(full):
     la = [s for s in full["sites"] if s["area"] == "los_angeles"]
     assert [s["site_id"] for s in la] == [f"r1180_{c}" for c in la1180.STATIONS]
     summary = la1180.summary()
+    log = json.loads(regions.LOS_ANGELES.spikes_out.read_text())
     for s in la:
         code = s["site_id"].removeprefix("r1180_")
-        assert s["county"] == "Los Angeles" and s["region_key"] is None and s["wind_source"] is None
-        assert s["by_status"] == {}, "Los Angeles spikes are not checked against reports"
+        assert s["county"] == "Los Angeles" and s["region_key"] == "los_angeles" and s["wind_source"] == "borrowed"
+        assert s["by_status"] == {k: sum(1 for r in log["rows"] if r["site_id"] == code and r["status"] == k)
+                                  for k in s["by_status"]}
+        assert sum(s["by_status"].values()) == s["spikes"]
         assert set(s["years"]) <= set(la1180.YEARS) and s["has_data"]
         assert s["spikes"] == len(summary[code]["spikes"])
         assert 33.7 < s["lat"] < 34.0 and -118.45 < s["lon"] < -118.2

@@ -915,11 +915,11 @@
    "site_id": "r1180_HDSN",
    "name": "Hudson Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.802417,
    "lon": -118.219933,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -928,18 +928,20 @@
    "max_benzene_ppb": 22.91,
    "max_butadiene_ppb": 28.61,
    "spikes": 2,
-   "by_status": {},
+   "by_status": {
+    "search_incomplete": 2
+   },
    "area": "los_angeles"
   },
   {
    "site_id": "r1180_IPRT",
    "name": "Inner Port Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.781534,
    "lon": -118.213713,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -948,18 +950,20 @@
    "max_benzene_ppb": 4.09,
    "max_butadiene_ppb": 16.23,
    "spikes": 1,
-   "by_status": {},
+   "by_status": {
+    "search_incomplete": 1
+   },
    "area": "los_angeles"
   },
   {
    "site_id": "r1180_SLKE",
    "name": "St Luke Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.819472,
    "lon": -118.211528,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -968,18 +972,20 @@
    "max_benzene_ppb": 18.55,
    "max_butadiene_ppb": 4.52,
    "spikes": 1,
-   "by_status": {},
+   "by_status": {
+    "search_incomplete": 1
+   },
    "area": "los_angeles"
   },
   {
    "site_id": "r1180_JUDS",
    "name": "Judson Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.825056,
    "lon": -118.268333,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -995,11 +1001,11 @@
    "site_id": "r1180_UMCW",
    "name": "First Methodist Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.782233,
    "lon": -118.267534,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2021,
     2022
@@ -1007,18 +1013,20 @@
    "max_benzene_ppb": 10.26,
    "max_butadiene_ppb": 6.26,
    "spikes": 1,
-   "by_status": {},
+   "by_status": {
+    "search_incomplete": 1
+   },
    "area": "los_angeles"
   },
   {
    "site_id": "r1180_MHAN",
    "name": "Manhattan Beach Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.890196,
    "lon": -118.401469,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2021,
     2022
@@ -1033,11 +1041,11 @@
    "site_id": "r1180_ELSG",
    "name": "El Segundo Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.920611,
    "lon": -118.407111,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020
    ],
@@ -1051,11 +1059,11 @@
    "site_id": "r1180_ANTH",
    "name": "St Anthony Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.918871,
    "lon": -118.407927,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -1071,11 +1079,11 @@
    "site_id": "r1180_GUEN",
    "name": "Guenser Park Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.870487,
    "lon": -118.313445,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2020,
     2021,
@@ -1084,18 +1092,20 @@
    "max_benzene_ppb": 13.88,
    "max_butadiene_ppb": 1.37,
    "spikes": 1,
-   "by_status": {},
+   "by_status": {
+    "search_incomplete": 1
+   },
    "area": "los_angeles"
   },
   {
    "site_id": "r1180_ELMA",
    "name": "Elm Avenue Air Monitoring Station",
    "county": "Los Angeles",
-   "region_key": null,
+   "region_key": "los_angeles",
    "lat": 33.837648,
    "lon": -118.331447,
    "has_data": true,
-   "wind_source": null,
+   "wind_source": "borrowed",
    "years": [
     2022
    ],

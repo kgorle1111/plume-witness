@@ -19,6 +19,8 @@ export interface RegionRow {
   backtested: boolean
   n_sites: number
   county: string
+  /** The clock monitor hours are published in, when not Texas's CST (Los Angeles: PST). */
+  tz?: string
 }
 
 export interface RegionInfo {
@@ -32,6 +34,8 @@ export interface RegionInfo {
   backtested: boolean
   county: string
   nSites: number
+  /** Monitor-hour clock label: CST (Texas) or PST (Los Angeles). */
+  tz: string
   /** Short place name and event-title phrase per language. */
   name: Record<Lang, string>
   where: Record<Lang, string>
@@ -52,7 +56,7 @@ export function buildRegions(rows: readonly RegionRow[]): Regions {
     const name = { en: r.label, es: r.label_es }
     out[r.key] = {
       key: r.key, label: name.en, place: r.label, dir: r.dir, backtested: r.backtested,
-      county: r.county, nSites: r.n_sites, name, where: { en: r.place, es: r.place_es },
+      county: r.county, nSites: r.n_sites, tz: r.tz ?? 'CST', name, where: { en: r.place, es: r.place_es },
     }
   }
   if (!Object.hasOwn(out, DEFAULT_REGION)) throw new Error('regions.generated.json: Houston is missing')

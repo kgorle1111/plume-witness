@@ -10,7 +10,7 @@ import { arrivalTick, calmMph, checkNoteText, daysAfterEvent, reportBand, resolu
 import { savePacketReview, useAiDraftFailed, type Lang, type PacketReview, type Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
-import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
+import { setLang as setSiteLang, zoneLabel, type StringKey, type Vars } from './i18n'
 import { useLang, useT, type Translate } from './useT'
 import { checkAt, ruleParts } from './plainWords'
 import { compoundLabel, regionByKey } from './region'
@@ -93,7 +93,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
         )}
         <text x="2" y={H - 2} className="spark-axis">00</text>
         <text x={W / 2} y={H - 2} className="spark-axis" textAnchor="middle">12</text>
-        <text x={W - 2} y={H - 2} className="spark-axis" textAnchor="end">23 h CST</text>
+        <text x={W - 2} y={H - 2} className="spark-axis" textAnchor="end">{`23 h ${zoneLabel()}`}</text>
       </svg>
       <figcaption>
         <span className="key key-bar" aria-hidden="true" /> {t('spark.keyHourly')} <Unit units={units} />{' '}
@@ -206,9 +206,9 @@ interface TraceProps {
 }
 
 export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: TraceProps) {
-  const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
+  const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst && w.from_deg !== null)
   const matched = ev.record_check.matched_facility_id
-  const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
+  const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.name ?? ev.wind.site_id
   const calm = calmMph(ev.record_check)
   const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
   const t = useT()
@@ -815,9 +815,12 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         )}
         <div className="row">
           <button type="button" className="btn" onClick={copyApproved}>{t('pkt.dlgCopy')}</button>
-          <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
-            {t('pkt.dlgLink')}<span className="sr-only">{t('chk.newTab')}</span>
-          </a>
+          {/* The TCEQ complaint page is Texas's; a region on another clock (Los Angeles) has no filing path here yet. */}
+          {zoneLabel() === 'CST' && (
+            <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
+              {t('pkt.dlgLink')}<span className="sr-only">{t('chk.newTab')}</span>
+            </a>
+          )}
         </div>
         {/* Inside the dialog: a modal makes the rest of the page inert, so the panel's own live region is not heard. */}
         <p className="small" aria-live="polite">{dlgCopy === 'copied' ? t('pkt.dlgCopied') : dlgCopy === 'failed' ? t('pkt.dlgCopyFailed') : ''}</p>

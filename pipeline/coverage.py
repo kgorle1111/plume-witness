@@ -114,16 +114,30 @@ def build_coverage(today: str | None = None) -> dict:
 
 
 def la_sites() -> list[dict]:
-    """The Rule 1180 stations, in file-code order. by_status stays empty: their spikes are counted, not checked."""
+    """The Rule 1180 stations, in file-code order, with their rows of the Los Angeles spike log (pipeline.la_replay).
+    Wind is "borrowed" where an airport weather station lies within the borrow cap (the replay's only wind)."""
+    from pipeline import la_replay  # imported here: la_replay builds on regions and spikes
+
     places, summary = la1180.stations(), la1180.summary()
+    airports = la_replay.read_asos()
+    rows = _spike_rows(regions.LOS_ANGELES)
     out = []
     for code, (name, lat, lon) in places.items():
         s = summary[code]
+        mine = [r for r in rows if r["site_id"] == code]
+        if len(mine) != len(s["spikes"]):
+            raise ValueError(f"{code}: {len(s['spikes'])} spikes in la1180 but {len(mine)} in the spike log; rerun "
+                             "`uv run python -m pipeline.la_replay`")
+        by_status: dict[str, int] = {}
+        for r in mine:
+            by_status[r["status"]] = by_status.get(r["status"], 0) + 1
+        near = min(build.haversine_km((lat, lon), (a["lat"], a["lon"])) for a in airports.values())
         out.append({
-            "site_id": f"r1180_{code}", "name": name, "county": la1180.COUNTY, "region_key": None,
-            "lat": round(lat, 6), "lon": round(lon, 6), "has_data": bool(s["years"]), "wind_source": None,
+            "site_id": f"r1180_{code}", "name": name, "county": la1180.COUNTY, "region_key": regions.LOS_ANGELES.key,
+            "lat": round(lat, 6), "lon": round(lon, 6), "has_data": bool(s["years"]),
+            "wind_source": "borrowed" if near <= backtest.BORROW_MAX_KM else None,
             "years": s["years"], "max_benzene_ppb": s["max"]["45201"], "max_butadiene_ppb": s["max"]["43218"],
-            "spikes": len(s["spikes"]), "by_status": {}, "area": "los_angeles",
+            "spikes": len(mine), "by_status": dict(sorted(by_status.items())), "area": "los_angeles",
         })
     return out
 

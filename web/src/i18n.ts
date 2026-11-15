@@ -719,6 +719,13 @@ const EN = {
   'scope.none': 'No matching report found in a complete search.',
   'scope.unlocated': 'A report open at that time could not be located, so the search is incomplete.',
   'scope.nrc': 'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.',
+  'spikes.reason.register': "No complete list of emissions reports",
+  'spikes.reason.registerLong': "Los Angeles County has no public list of every emissions event: Cal OES spill reports and National Response Center (NRC) reports give a start time and no end time, so a missing match cannot be claimed.",
+  'spikes.reasonShort.register': "no complete report list",
+  'scope.laSearched': "Searched Cal OES spill reports and National Response Center (NRC) reports for Los Angeles County that started in the match window.",
+  'scope.laIncomplete': "Neither source lists every emissions event or gives an end time, so the search is incomplete.",
+  'det.timeNoteLa': "Monitor hours are PST as South Coast AQMD publishes them; the reports use local time ({tz}). South Coast AQMD’s public hourly history for these stations ends in December 2022.",
+  'trc.windAirport': "Wind source: borrowed from {site}, the nearest airport weather station within 6.2 mi (10 km); {trig} has no wind reading in the public files.",
   'scope.complete': 'complete',
   'scope.incomplete': 'incomplete',
   'rw.arrival': 'air could arrive ~{time} {tz}, traveling {km} on a {mph} mph wind',
@@ -786,7 +793,7 @@ const EN = {
   'cv.cvZero': 'A 0 means no hour crossed the trigger in these years. It does not mean the air was clean or safe: smaller rises, other chemicals and hours the monitor was offline are not counted here.',
   'cv.cvNoData': '“No data” means the state file had no hourly readings for that monitor in these years. That is a gap in the record, not a zero.',
   'cv.cvProvisional': 'TCEQ labels these hourly readings provisional; it can revise or invalidate them later. A highest value can be a single hour.',
-  'cv.cvLa': 'Los Angeles: the readings are South Coast AQMD’s public hourly history for its Rule 1180 community stations, which runs from March 2020 to December 2022; later hours are not in it. That history has no wind, so these spikes cannot be traced upwind or matched to a report.',
+  'cv.cvLa': 'Los Angeles: the readings are South Coast AQMD’s public hourly history for its Rule 1180 community stations, which runs from March 2020 to December 2022; later hours are not in it. That history has no wind, so the replay reads the nearest airport weather station within 6.2 mi (10 km), and Los Angeles County has no public list of every emissions event, so a missing report there is “Can’t say”.',
   'cv.cvLaCheckGas': 'Los Angeles: an hour when all seven compounds the analyzer reports (benzene, 1,3-butadiene, toluene, ethylbenzene, styrene and the xylenes) read 5 ppb or more at once is the analyzer’s check gas, not outdoor air. Those hours are left out of the spikes and the highest values.',
   'cv.cvQuestion': 'A spike is a question to check, not a finding. Only monitors in a replayed region have their spikes checked against the state’s record of company reports, and there a missing match is still a question, not a finding.',
   'cv.cvWind': '“Wind from” is where the replay reads wind direction for that monitor; “None” means no usable wind record, so its spikes cannot be traced upwind.',
@@ -1486,6 +1493,13 @@ const ES: Record<StringKey, string> = {
   'scope.none': 'No se encontró un reporte que coincida en una búsqueda completa.',
   'scope.unlocated': 'No se pudo ubicar un reporte abierto en ese momento, así que la búsqueda está incompleta.',
   'scope.nrc': 'También se buscaron reportes al Centro Nacional de Respuesta (NRC) del condado: uno del corredor viento arriba, en la ventana de coincidencia, menciona el compuesto.',
+  'spikes.reason.register': "No hay una lista completa de reportes de emisiones",
+  'spikes.reason.registerLong': "El condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones: los reportes de derrames de Cal OES y los reportes al Centro Nacional de Respuesta (NRC) dan una hora de inicio y ninguna de fin, así que no se puede afirmar que falte un reporte que coincida.",
+  'spikes.reasonShort.register': "sin lista completa de reportes",
+  'scope.laSearched': "Se buscaron reportes de derrames de Cal OES y reportes al Centro Nacional de Respuesta (NRC) del condado de Los Ángeles que empezaron en la ventana de coincidencia.",
+  'scope.laIncomplete': "Ninguna de las dos fuentes lista todos los eventos de emisiones ni da una hora de fin, así que la búsqueda está incompleta.",
+  'det.timeNoteLa': "Las horas del monitor están en PST, como las publica South Coast AQMD; los reportes usan la hora local ({tz}). El historial público por hora de South Coast AQMD para estas estaciones termina en diciembre de 2022.",
+  'trc.windAirport': "Fuente del viento: tomado de {site}, la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km); {trig} no tiene lectura de viento en los archivos públicos.",
   'scope.complete': 'completa',
   'scope.incomplete': 'incompleta',
   'rw.arrival': 'el aire podría llegar ~{time} {tz}, tras viajar {km} con un viento de {mph} mph',
@@ -1552,7 +1566,7 @@ const ES: Record<StringKey, string> = {
   'cv.cvZero': 'Un 0 significa que ninguna hora cruzó el umbral en estos años. No significa que el aire estuviera limpio ni que fuera seguro: las subidas menores, otras sustancias químicas y las horas en que el monitor estuvo fuera de servicio no se cuentan aquí.',
   'cv.cvNoData': '«Sin datos» significa que el archivo estatal no tenía lecturas por hora de ese monitor en estos años. Es un hueco en el registro, no un cero.',
   'cv.cvProvisional': 'La TCEQ marca estas lecturas por hora como provisionales; puede revisarlas o invalidarlas después. Un valor más alto puede ser una sola hora.',
-  'cv.cvLa': 'Los Ángeles: las lecturas son el historial público por hora de South Coast AQMD para sus estaciones comunitarias de la Regla 1180, que va de marzo de 2020 a diciembre de 2022; las horas posteriores no están en él. Ese historial no tiene viento, así que estos picos no se pueden rastrear viento arriba ni comparar con un reporte.',
+  'cv.cvLa': 'Los Ángeles: las lecturas son el historial público por hora de South Coast AQMD para sus estaciones comunitarias de la Regla 1180, que va de marzo de 2020 a diciembre de 2022; las horas posteriores no están en él. Ese historial no tiene viento, así que la reproducción usa la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km), y el condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones, así que ahí la falta de un reporte es «No se puede decir».',
   'cv.cvLaCheckGas': 'Los Ángeles: una hora en que los siete compuestos que reporta el analizador (benceno, 1,3-butadieno, tolueno, etilbenceno, estireno y los xilenos) marcaron 5 ppb o más a la vez es el gas de verificación del analizador, no aire exterior. Esas horas quedan fuera de los picos y de los valores más altos.',
   'cv.cvQuestion': 'Un pico es una pregunta que revisar, no una conclusión. Solo los monitores de una región reproducida tienen sus picos revisados contra el registro estatal de reportes de las empresas, y allí la falta de un reporte que coincida sigue siendo una pregunta, no una conclusión.',
   'cv.cvWind': '«Viento desde» es dónde la reproducción lee la dirección del viento para ese monitor; «Ninguno» significa que no hay un registro de viento utilizable, así que sus picos no se pueden rastrear viento arriba.',
@@ -1571,8 +1585,75 @@ export function fmt(template: string, vars?: Vars): string {
   return vars ? template.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m)) : template
 }
 
+// ---- region copy ----
+// A region outside Texas (Los Angeles) has its own agency, report sources and clock. The page's region is set once at
+// load (main.tsx); these strings then replace the Texas wording, and "CST" reads as the region's zone. Texas sets
+// nothing, so every Texas page reads exactly as before.
+const REGION_STRINGS: Record<string, Record<Lang, Partial<Record<StringKey, string>>>> = {
+  los_angeles: {
+    en: {
+      'step.check.title': 'Check: the report records',
+      'det.lead': 'A South Coast AQMD community monitor recorded a {compound} reading far above its usual level.',
+      'prov.tip': 'South Coast AQMD publishes these hourly readings in its Rule 1180 historical files and can revise them.',
+      'chk.askState': 'What you can do: draft a note →',
+      'chk.searchRecord': 'Search Cal OES spill reports yourself',
+      'trc.windBorrowed': 'Wind source: borrowed from {site}, the nearest airport weather station within 6.2 mi (10 km); {trig} has no wind reading in the public files.',
+      'spikes.what': '**What a spike is.** An hour when a South Coast AQMD community monitor read benzene or 1,3-butadiene at or above 10 times its own 7-day median and at least 10 parts per billion (ppb). There is one row per day and compound; it shows the first monitor and hour (PST) that crossed the line.',
+      'spikes.summary': '**{spikes} spikes on {days} days**; {reported} with a matching report in Cal OES spill reports or National Response Center (NRC) reports.',
+      'spikes.noMatch': '**“Can’t say” is a question, not a finding.** Los Angeles County has no public list of every emissions event. The tool searched Cal OES spill reports and National Response Center (NRC) reports, which give a start time and no end time, so a missing match cannot be claimed{missed}.{search}',
+      'spikes.falseAlarm': '**Not measured: the false-alarm rate.** How many spikes are instrument faults or non-industrial sources is not known. South Coast AQMD can revise these hourly readings.',
+      'spikes.source': 'Source: hourly readings from the automated gas chromatographs (AutoGC) at South Coast AQMD’s Rule 1180 community monitors, wind from airport weather stations (ASOS, via the Iowa Environmental Mesonet), and Cal OES spill reports and National Response Center (NRC) reports, via the Plume Witness {via} ({code}). Rows list monitors, never facilities.',
+      'pkt.dlgHow': 'A filing path for Los Angeles is not set up here yet. To send the note, copy the approved draft and submit it yourself.',
+      'pkt.dlgSearchLink': 'Cal OES spill reports (no matching report was found):',
+      'det.siteId': 'station code {id}',
+      'spikes.title': 'Past spikes, 2020–2022',
+      'pkt.file': 'File it yourself (no filing path set up here yet)',
+    },
+    es: {
+      'step.check.title': 'Verificar: los registros de reportes',
+      'det.lead': 'Un monitor comunitario de South Coast AQMD registró una lectura de {compound} muy por encima de su nivel habitual.',
+      'prov.tip': 'South Coast AQMD publica estas lecturas por hora en sus archivos históricos de la Regla 1180 y puede revisarlas.',
+      'chk.askState': 'Qué puede hacer: preparar una nota →',
+      'chk.searchRecord': 'Busque usted mismo en los reportes de derrames de Cal OES',
+      'trc.windBorrowed': 'Fuente del viento: tomado de {site}, la estación meteorológica de aeropuerto más cercana a menos de 6.2 mi (10 km); {trig} no tiene lectura de viento en los archivos públicos.',
+      'spikes.what': '**Qué es un pico.** Una hora en que un monitor comunitario de South Coast AQMD midió benceno o 1,3-butadieno a 10 veces o más su propia mediana de 7 días y al menos 10 partes por mil millones (ppb). Hay una fila por día y compuesto; muestra el primer monitor y la hora (PST) que cruzó el umbral.',
+      'spikes.summary': '**{spikes} picos en {days} días**; {reported} con un reporte que coincide en los reportes de derrames de Cal OES o en los reportes al Centro Nacional de Respuesta (NRC).',
+      'spikes.noMatch': '**«No se puede decir» es una pregunta, no una conclusión.** El condado de Los Ángeles no tiene una lista pública de todos los eventos de emisiones. La herramienta buscó en los reportes de derrames de Cal OES y en los reportes al Centro Nacional de Respuesta (NRC), que dan una hora de inicio y ninguna de fin, así que no se puede afirmar que falte un reporte{missed}.{search}',
+      'spikes.falseAlarm': '**No medido: la tasa de falsas alarmas.** No se sabe cuántos picos son fallas de instrumentos o fuentes no industriales. South Coast AQMD puede revisar estas lecturas por hora.',
+      'spikes.source': 'Fuente: lecturas horarias de los cromatógrafos de gases automáticos (AutoGC) de los monitores comunitarios de la Regla 1180 de South Coast AQMD, viento de estaciones meteorológicas de aeropuerto (ASOS, mediante el Iowa Environmental Mesonet), y reportes de derrames de Cal OES y reportes al Centro Nacional de Respuesta (NRC), mediante la {via} de Plume Witness ({code}). Las filas listan monitores, nunca instalaciones.',
+      'pkt.dlgHow': 'Aquí todavía no hay una vía para presentar la nota en Los Ángeles. Para enviarla, copie el borrador aprobado y preséntelo usted mismo.',
+      'pkt.dlgSearchLink': 'Reportes de derrames de Cal OES (no se encontró un reporte que coincida):',
+      'det.siteId': 'código de estación {id}',
+      'spikes.title': 'Picos anteriores, 2020–2022',
+      'pkt.file': 'Preséntelo usted mismo (aquí todavía no hay una vía para presentarlo)',
+    },
+  },
+}
+let activeRegion: string | null = null
+let zone = 'CST'
+
+/** Sets the page's region copy and clock label (main.tsx, from ?region=). A Texas region leaves both at Texas's. */
+export function setRegionCopy(region: string | null, tz = 'CST'): void {
+  activeRegion = region !== null && Object.hasOwn(REGION_STRINGS, region) ? region : null
+  zone = tz
+}
+
+/** The clock label monitor hours are shown in: CST for Texas, PST for Los Angeles. */
+export function zoneLabel(): string {
+  return zone
+}
+
+/** The string for a key in the page's region (Texas: the plain table), with CST read as the region's zone. */
+export function rawString(lang: Lang, key: StringKey): string {
+  const s = (activeRegion !== null ? REGION_STRINGS[activeRegion][lang][key] : undefined) ?? STRINGS[lang][key]
+  return zone === 'CST' ? s : s.replace(/\bCST\b/g, zone)
+}
+
+/** Every region override, for the tests (banned words, slots). */
+export const REGION_OVERRIDES = REGION_STRINGS
+
 export function translate(lang: Lang, key: StringKey, vars?: Vars): string {
-  return fmt(STRINGS[lang][key], vars)
+  return fmt(rawString(lang, key), vars)
 }
 
 // ---- language setting ----

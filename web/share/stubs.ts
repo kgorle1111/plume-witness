@@ -9,7 +9,7 @@ export const OG_IMAGE = 'og-image.png'
 export const OG_IMAGE_ALT = 'Plume Witness: a monitor dot on a map with the upwind wedge it reads from. Checks Texas air-monitor spikes against companies’ own pollution reports.'
 
 /** Same shape as src/routes.ts NIGHT_ID (pinned by test); anything else never gets a stub. */
-export const STUB_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
+export const STUB_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_(?:[\d_]+|[A-Z]{4})$/ // a TCEQ site id, or a Rule 1180 station code (LA)
 export const stubPath = (id: string): string => `s/${id}.html`
 
 /** Replay steps a stub link may carry in its hash (#check opens the record check); anything else opens Detect. */

@@ -1,12 +1,12 @@
 import './LangSwitch.css'
 import { Fragment, type ReactNode } from 'react'
-import { STRINGS, fmt, setLang, type StringKey, type Vars } from './i18n'
+import { fmt, rawString, setLang, type StringKey, type Vars } from './i18n'
 import { useLang, useT } from './useT'
 
 /** A string with `{slot}`s filled by React nodes (links, code) and `**bold**` runs. Plain strings use useT(). */
 export function T({ k, v }: { k: StringKey; v?: Record<string, ReactNode> }) {
   const lang = useLang()
-  const parts = STRINGS[lang][k].split(/(\*\*[^*]+\*\*|\{\w+\})/)
+  const parts = rawString(lang, k).split(/(\*\*[^*]+\*\*|\{\w+\})/)
   return (
     <>
       {parts.map((p, i) => {
