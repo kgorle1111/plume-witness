@@ -7,8 +7,13 @@
 .brand, .site-nav a { position: relative; padding-block: 11px; margin-block: -11px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); text-decoration: none; }
 .brand:hover .brand-name { text-decoration: underline; }
-.site-nav { display: flex; flex-wrap: wrap; gap: 0 16px; margin-left: auto; font-size: 0.8rem; }
-.site-nav a { display: inline-block; line-height: 22px; white-space: nowrap; text-decoration: none; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-left: auto; font-size: 0.8rem; }
+/* Weight 400 for every link (SpikeLog.css's .spikes-link is 600, which read as "current" on every other page). */
+.site-nav a { display: inline-block; line-height: 22px; white-space: nowrap; text-decoration: none; font-weight: 400; }
+/* Touch: 44px wide too ("Brief" was 28px); the negative margin keeps the visible spacing. */
+@media (pointer: coarse) {
+  .site-nav a { padding-inline: 8px; margin-inline: -8px; }
+}
 .site-nav a:hover { text-decoration: underline; }
 /* The current page: weight, ink and a thick underline, not colour alone. */
 .site-nav a[aria-current] {
@@ -23,28 +28,42 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 16px;
-  padding: 8px 16px;
+  /* Row gaps here, in .brand-row and in .site-nav are 12px: each link's 44px hit area reaches 11px past its text, so a
+     smaller gap let a wrapped row take taps on the row above (the lower half of "Picos anteriores" opened the brief). */
+  gap: 12px 16px;
+  padding: 8px var(--gutter);
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 }
-.site-head:not(.top) .brand-row { flex: 1 1 auto; row-gap: 10px; }
-.site-head:not(.top) > .lang-switch { margin-left: auto; }
-/* Phones: brand on one line, the four links on the next. */
+.site-head:not(.top) .brand-row { flex: 1 1 auto; row-gap: 12px; }
+/* The switch stays right-aligned on the first row; the Spanish review note takes a row of its own under the header
+   instead of pushing the switch onto a second row, aligned to nothing. */
+.site-head:not(.top) > .lang-switch { display: contents; }
+.site-head:not(.top) > .lang-switch > .seg { margin-left: auto; }
+.site-head:not(.top) > .lang-switch > .es-note { flex: 0 0 100%; margin-top: -6px; }
+/* The replay below 1024px: the switch now follows the brand row in the DOM (and on screen); clear the nav's hit area. */
+@media (max-width: 1023px) {
+  .site-head.top > .lang-switch { margin-top: 10px; }
+}
+/* Phones: brand on one line, the four links on the next. A 10px column gap still keeps each touch hit area (8px past
+   its text) off its neighbour's text, and fits the Spanish links on one row at 375px. */
 @media (max-width: 640px) {
-  .site-head:not(.top) .site-nav { flex-basis: 100%; margin-left: 0; }
+  .site-head:not(.top) .site-nav { flex-basis: 100%; margin-left: 0; column-gap: 10px; }
 }
 @media (min-width: 1024px) {
-  .site-head:not(.top) { padding: 8px 24px; }
   .site-head:not(.top) .site-nav { margin-left: 8px; }
 }
 
 /* Pages other than the replay and the landing: header, main, footer; main takes the spare height. */
 .site-shell { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
-.site-shell > main { flex: 1 0 auto; width: 100%; }
-.site-region-note { padding: 6px 16px; font-size: 0.85rem; color: var(--ink); background: var(--bg-2); border-bottom: 1px solid var(--line); }
-@media (min-width: 1024px) { .site-region-note { padding-inline: 24px; } }
+.site-shell > .site-main { flex: 1 0 auto; display: flex; flex-direction: column; }
+.site-main > main { flex: 1 0 auto; width: 100%; }
+/* While a page's code or data loads, hold the footer below the fold: it painted at the bottom of the screen and then
+   jumped down (CLS 0.146 on phones). */
+.site-main > main[aria-busy='true'] { min-height: 100vh; min-height: 100svh; }
+.site-region-note { padding: 6px var(--gutter); font-size: 0.85rem; color: var(--ink); background: var(--bg-2); border-bottom: 1px solid var(--line); }
 
+/* !important: .site-head:not(.top) { display: flex } outranks a plain .site-head, so the header printed on the brief. */
 @media print {
-  .site-head, .site-foot, .site-region-note { display: none; }
+  .site-head, .site-foot, .site-notes, .site-region-note { display: none !important; }
 }

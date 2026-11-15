@@ -3,15 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#16161a" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Before first paint, so a reader who chose dark gets no white flash while the app loads; theme.ts and
+      // i18n.ts take over from here. The embed keeps the host page's look.
+      try {
+        var q = new URLSearchParams(location.search)
+        if (localStorage.getItem('pw-theme') === 'dark' && !q.has('embed')) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#101a1c')
+        }
+        if (localStorage.getItem('pw-lang') === 'es') document.documentElement.lang = 'es'
+      } catch (e) { /* storage blocked: light, English */ }
+    </script>
     <link rel="alternate" type="application/rss+xml" title="Plume Witness: newest spikes" href="/feeds/all.xml" />
     <title>Plume Witness</title>
     <meta name="description" content="Replay of one air-monitor event: what the monitor saw, what was upwind, and what the state record shows." />
+    <!-- Link previews. Unfurlers do not run JS, so every page shares these. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Plume Witness" />
+    <meta property="og:title" content="Plume Witness: air-monitor spikes on the Houston Ship Channel" />
+    <meta property="og:description" content="Replay of one air-monitor event: what the monitor saw, what was upwind, and what the state record shows." />
+    <meta property="og:image" content="https://kgorle1111.github.io/plume-witness/icon-512.png" />
+    <meta property="og:image:alt" content="Plume Witness logo: a red monitor dot and the upwind wedge it reads from" />
+    <meta name="twitter:card" content="summary" />
+    <style>
+      .boot { margin: 0; padding: 24px 16px; font: 16px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: #214349; }
+      [data-theme='dark'] .boot { color: #e6f0f0; }
+      html:not([lang='es']) .boot [lang='es'], html[lang='es'] .boot [lang='en'] { display: none; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Painted until the app's first render replaces it, so a slow connection does not show a blank page. -->
+    <div id="root"><p class="boot"><span lang="en">Plume Witness is loading…</span><span lang="es">Plume Witness se está cargando…</span></p></div>
+    <noscript>
+      <p class="boot">Plume Witness needs JavaScript to replay air-monitor spikes on the Houston Ship Channel. Without it, read the
+        <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/brief.md">method brief</a> or follow the
+        <a href="feeds/all.xml">newest-spikes feed</a>.</p>
+      <p class="boot" lang="es">Plume Witness necesita JavaScript para mostrar los picos de los monitores de aire del Canal de Navegación de Houston. Sin él, lea el
+        <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/brief.md">resumen del método (en inglés)</a> o siga el
+        <a href="feeds/all.xml">canal de los picos más recientes</a>.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

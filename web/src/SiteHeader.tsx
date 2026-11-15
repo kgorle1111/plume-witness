@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { focusMainHeading } from './focusMain'
 import { LangSwitch } from './LangSwitch'
 import { NAV_ITEMS, navHref, type NavView } from './routes'
 import { useT } from './useT'
@@ -21,14 +22,17 @@ const LABEL = { spikes: 'common.pastSpikes', timeline: 'app.linkTimeline', facil
 /**
  * The one site header: brand (home), then Past spikes · Timeline · Facilities · Brief with the current page marked,
  * then the language switch. The replay passes its eyebrow and title as children, laid out by App.css's .top grid.
+ * `skipTo` adds a skip link to the element with that id (the replay has its own, to the steps).
  * Links keep ?region= so a reader in any region stays in it.
  */
-export function SiteHeader({ current, className = '', lang, children }: {
+export function SiteHeader({ current, className = '', lang, skipTo, children }: {
   /** The page in the nav this view is, or belongs to (one facility's page belongs to Facilities). */
   current?: NavView | 'facility'
   className?: string
   /** Replaces the default language switch (the replay hides the review note here; its panel shows it). */
   lang?: ReactNode
+  /** Id of the element that wraps the page's main content. */
+  skipTo?: string
   children?: ReactNode
 }) {
   const t = useT()
@@ -36,6 +40,10 @@ export function SiteHeader({ current, className = '', lang, children }: {
   const mark = current === 'facility' ? 'facilities' : current
   return (
     <header className={`site-head ${className}`.trim()}>
+      {skipTo && (
+        // A hash in the address bar would open the replay (routes.ts), so the link moves focus itself: to the h1.
+        <a className="skip-link" href={`#${skipTo}`} onClick={(e) => { e.preventDefault(); focusMainHeading() }}>{t('nav.skipMain')}</a>
+      )}
       <div className="brand-row">
         <a className="brand" href={BASE}>
           <BrandMark />
@@ -55,8 +63,9 @@ export function SiteHeader({ current, className = '', lang, children }: {
           ))}
         </nav>
       </div>
-      {children}
+      {/* Before the replay's title block: at 1024px and up the switch sits top right, so Tab reaches it in that order. */}
       {lang ?? <LangSwitch />}
+      {children}
     </header>
   )
 }

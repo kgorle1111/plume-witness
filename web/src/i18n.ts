@@ -35,6 +35,7 @@ const EN = {
   'nav.back': 'Back: {step}',
   'nav.next': 'Next: {step}',
   'nav.skip': 'Skip to steps',
+  'nav.skipMain': 'Skip to main content',
   'nav.eventSteps': 'Event steps',
   'lang.stepperGroup': 'Language for statuses, limits and the draft',
   'lang.nameEn': 'English',
@@ -311,7 +312,7 @@ const EN = {
   // Footer
   'foot.license': 'MIT code. Government data is public domain: cite TCEQ, EPA, Census.',
   'foot.docs': 'Open data docs',
-  'foot.offline': 'Works offline after first visit (map tiles may be blank).',
+  'foot.offline': 'After your first visit, the demo night, Past spikes, Timeline, the Facilities list and the brief work offline (map tiles may be blank).',
   'foot.about': 'About this site',
   'foot.wrong': 'Is something here wrong?',
   'foot.wrongTitle': 'Correction: {page}',
@@ -319,6 +320,11 @@ const EN = {
   'foot.corrections': 'Corrections: if a company, resident or reporter shows us an error with a source, we fix it and note the change in the repository’s history, aiming for 2 days.',
   'foot.install': 'Install app',
   'theme.dark': 'Dark',
+  'load.failed': 'This part of the page did not load. Check your connection, then reload the page.',
+  'load.reload': 'Reload',
+  'update.ready': 'A new version of this site is ready. Reload to use it.',
+  'update.later': 'Not now',
+  'shell.notesLabel': 'Region note',
 
   // Landing page
   'landing.title': 'Trace air pollution',
@@ -712,6 +718,7 @@ const ES: Record<StringKey, string> = {
   'nav.back': 'Atrás: {step}',
   'nav.next': 'Siguiente: {step}',
   'nav.skip': 'Ir a los pasos',
+  'nav.skipMain': 'Ir al contenido principal',
   'nav.eventSteps': 'Pasos del evento',
   'lang.stepperGroup': 'Idioma de los estados, los límites y el borrador',
   'lang.nameEn': 'inglés',
@@ -981,7 +988,7 @@ const ES: Record<StringKey, string> = {
 
   'foot.license': 'Código con licencia MIT. Los datos del gobierno son de dominio público: cite a TCEQ, EPA y el Censo.',
   'foot.docs': 'Documentación de datos abiertos (en inglés)',
-  'foot.offline': 'Funciona sin conexión después de la primera visita (los mosaicos del mapa pueden verse en blanco).',
+  'foot.offline': 'Después de su primera visita, la noche de demostración, Picos anteriores, Cronología, la lista de Instalaciones y el resumen funcionan sin conexión (los mosaicos del mapa pueden verse en blanco).',
   'foot.about': 'Acerca de este sitio',
   'foot.wrong': '¿Algo aquí está mal?',
   'foot.wrongTitle': 'Corrección: {page}',
@@ -989,6 +996,11 @@ const ES: Record<StringKey, string> = {
   'foot.corrections': 'Correcciones: si una empresa, un residente o un periodista nos muestra un error con una fuente, lo corregimos y anotamos el cambio en el historial del repositorio; nuestro objetivo es hacerlo en 2 días.',
   'foot.install': 'Instalar la app',
   'theme.dark': 'Oscuro',
+  'load.failed': 'Esta parte de la página no se cargó. Revise su conexión y vuelva a cargar la página.',
+  'load.reload': 'Volver a cargar',
+  'update.ready': 'Hay una versión nueva de este sitio. Vuelva a cargar la página para usarla.',
+  'update.later': 'Ahora no',
+  'shell.notesLabel': 'Nota sobre la región',
 
   'landing.title': 'Rastree la contaminación del aire',
   'landing.sub': 'Canal de Navegación de Houston · benceno y 1,3-butadieno · 2024–2025',
