@@ -8,6 +8,8 @@
   min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px;
   background: var(--bg-2); font-weight: 600; cursor: pointer;
 }
+/* Resting tabs sit on --bg-2, so hover moves to the strip's own colour and darkens the edge, as .chip does. */
+.embed-tabs button:hover:not([aria-pressed='true']) { background: var(--bg); border-color: var(--ink-2); }
 .embed-tabs button[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .embed-line { font-size: 0.95rem; max-width: 70ch; }
 .embed-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 0.8rem; color: var(--ink-2); }

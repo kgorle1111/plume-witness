@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Link-preview card. Double-braced names are colours from src/index.css :root, filled in by make-og-image.mjs.
+       All text is 52 px or larger so it stays legible when an unfurler shrinks the card to ~500 px wide. -->
+  <rect width="1200" height="630" fill="{{surface}}"/>
+
+  <!-- Brand mark: the favicon's monitor dot and upwind wedge. -->
+  <g transform="translate(80 76) scale(3.5)">
+    <rect width="24" height="24" rx="5" fill="#16161a"/>
+    <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="{{trigger}}" fill-opacity=".35" stroke="#f05a67" stroke-width="1.4" stroke-linejoin="round"/>
+    <circle cx="6" cy="18" r="4" fill="{{trigger}}" stroke="#fff" stroke-width="1.6"/>
+  </g>
+
+  <text x="80" y="292" font-family="Georgia, 'Times New Roman', serif" font-size="92" letter-spacing="-1.4" fill="{{ink}}">Plume Witness</text>
+  <rect x="82" y="326" width="96" height="6" rx="3" fill="{{accent}}"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="52" fill="{{muted}}">
+    <text x="80" y="414">Checks Texas air-monitor</text>
+    <text x="80" y="480">spikes against companies’</text>
+    <text x="80" y="546">own pollution reports</text>
+  </g>
+
+  <!-- Map motif: a channel, a few roads, facility squares, one monitor and the upwind wedge it reads from. -->
+  <defs>
+    <clipPath id="card"><rect x="772" y="56" width="372" height="518" rx="28"/></clipPath>
+  </defs>
+  <g clip-path="url(#card)">
+    <rect x="772" y="56" width="372" height="518" fill="{{surface2}}"/>
+    <g stroke="{{line}}" stroke-width="4" fill="none" stroke-linecap="round">
+      <path d="M772 170 L1144 120"/>
+      <path d="M772 470 L1144 430"/>
+      <path d="M860 56 L900 574"/>
+      <path d="M1060 56 L1030 574"/>
+    </g>
+    <path d="M772 330 C850 300 900 360 970 330 S1080 250 1144 270 L1144 318 C1084 300 1030 380 960 384 S846 352 772 382 Z" fill="{{accent}}" fill-opacity=".16"/>
+    <path d="M772 330 C850 300 900 360 970 330 S1080 250 1144 270" fill="none" stroke="{{accent}}" stroke-opacity=".45" stroke-width="3"/>
+    <path d="M772 382 C846 352 900 384 960 384 S1084 300 1144 318" fill="none" stroke="{{accent}}" stroke-opacity=".45" stroke-width="3"/>
+    <!-- Upwind wedge from the monitor (bottom left) toward the facilities. -->
+    <path d="M880 470 L1050 199 A320 320 0 0 1 1139 282 Z" fill="{{trigger}}" fill-opacity=".12" stroke="{{trigger}}" stroke-width="3" stroke-linejoin="round"/>
+    <g fill="{{facility}}">
+      <rect x="1035" y="246" width="22" height="22" rx="4"/>
+      <rect x="1034" y="299" width="22" height="22" rx="4"/>
+      <rect x="1099" y="266" width="22" height="22" rx="4"/>
+      <rect x="1010" y="410" width="22" height="22" rx="4" fill-opacity=".35"/>
+      <rect x="812" y="214" width="22" height="22" rx="4" fill-opacity=".35"/>
+      <rect x="930" y="120" width="22" height="22" rx="4" fill-opacity=".35"/>
+    </g>
+    <circle cx="880" cy="470" r="44" fill="none" stroke="{{trigger}}" stroke-opacity=".25" stroke-width="3"/>
+    <circle cx="880" cy="470" r="18" fill="{{trigger}}" stroke="#fff" stroke-width="5"/>
+  </g>
+  <rect x="772" y="56" width="372" height="518" rx="28" fill="none" stroke="{{line}}" stroke-width="2"/>
+</svg>
