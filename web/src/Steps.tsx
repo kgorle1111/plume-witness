@@ -400,6 +400,8 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
 const localTime = (stamp: string | undefined, t: Translate) => (stamp ? stamp.replace('T', ' ') : t('chk.notGiven'))
 
 const LANG_NAME: Record<Lang, StringKey> = { en: 'lang.nameEn', es: 'lang.nameEs' }
+// kn: one regulator (both regions are in Texas); per-region link when a night outside Texas lands.
+const COMPLAINT_URL = 'https://www.tceq.texas.gov/compliance/complaints'
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
 /** Stored as a key, not text, so a notice follows the site language when it changes. */
@@ -426,6 +428,18 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const langName = (l: Lang) => t(LANG_NAME[l])
   const noticeText = notice ? t(notice.key, { ...notice.vars, ...(notice.langName ? { lang: langName(notice.langName) } : {}) }) : ''
   const dialog = useRef<HTMLDialogElement>(null)
+  const [dlgCopy, setDlgCopy] = useState<'idle' | 'copied' | 'failed'>('idle')
+  const dlgDraft = useRef<HTMLTextAreaElement>(null)
+  // No clipboard (insecure page, denied permission): the approved text is shown selected so it can be copied by hand.
+  useEffect(() => { if (dlgCopy === 'failed') dlgDraft.current?.select() }, [dlgCopy])
+  const copyApproved = async () => {
+    try {
+      await navigator.clipboard.writeText(drafts[lang])
+      setDlgCopy('copied')
+    } catch {
+      setDlgCopy('failed')
+    }
+  }
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const clip = useRecordedClip(source, lang, drafts[lang])
   const audio = useRef<HTMLAudioElement>(null)
@@ -564,7 +578,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         </li>
         <li>
           <span className="file-step-num" aria-hidden="true">2</span>
-          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => dialog.current?.showModal()}>
+          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => { setDlgCopy('idle'); dialog.current?.showModal() }}>
             {t('pkt.file')}
           </button>
           <p id="file-hint" className="muted small">{t(approved ? 'pkt.fileHint' : 'pkt.approveFirst')}</p>
@@ -576,6 +590,20 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <p>{withSlot(t('pkt.dlgApproved'), 'lang', <strong>{langName(lang)}</strong>)}</p>
         <p>{t('pkt.dlgNothingSent')}</p>
         <p>{t('pkt.dlgHow')}</p>
+        <div className="row">
+          <button type="button" className="btn" onClick={copyApproved}>{t('pkt.dlgCopy')}</button>
+          <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
+            {t('pkt.dlgLink')}<span className="sr-only">{t('chk.newTab')}</span>
+          </a>
+        </div>
+        {/* Inside the dialog: a modal makes the rest of the page inert, so the panel's own live region is not heard. */}
+        <p className="small" aria-live="polite">{dlgCopy === 'copied' ? t('pkt.dlgCopied') : dlgCopy === 'failed' ? t('pkt.dlgCopyFailed') : ''}</p>
+        {dlgCopy === 'failed' && (
+          <>
+            <label className="draft-label" htmlFor="dlg-draft">{t('pkt.dlgDraft')}</label>
+            <textarea id="dlg-draft" ref={dlgDraft} className="draft" lang={lang} rows={6} readOnly value={drafts[lang]} />
+          </>
+        )}
         <form method="dialog"><button className="btn btn-primary" autoFocus>{t('pkt.dlgOk')}</button></form>
       </dialog>
     </>
