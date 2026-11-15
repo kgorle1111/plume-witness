@@ -587,7 +587,7 @@ Compound used: benzene for {by_param["45201"]} events, 1,3-butadiene for
 
 (b) cross-check from the candidate side: of the {d} detected candidates, the check said *no report after
 deadline* on {s["detected_said_no_report_after_deadline"]}, of which {s["detected_said_no_report_but_geo_in_corridor"]}
-had the reporting facility geometrically inside the corridor; it abstained (*search incomplete*) on
+had the reporting facility geometrically inside the corridor; it abstained (*Can’t say*) on
 {s["detected_abstained_search_incomplete"]}.
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
@@ -647,7 +647,7 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
   January 2024 always abstain. A report that started more than {build.LOOKBACK_DAYS} days earlier is still matched
   when it is in the saved searches, but its absence is not guaranteed.
 - **Calm wind:** when the wind at the detection hour or the hour before is under {build.CALM_MPH:g} mph, no
-  corridor is drawn and the check abstains (*search incomplete*, "wind too light to trace").
+  corridor is drawn and the check abstains (*Can’t say: wind too light*).
 
 ## What this does NOT measure
 
