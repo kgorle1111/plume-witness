@@ -1,0 +1,31 @@
+[
+ {
+  "tri_chem_id": "0000071432",
+  "chem_name": "Benzene",
+  "active_date": "1987",
+  "inactive_date": "9999",
+  "caac_ind": "1",
+  "carc_ind": "1",
+  "r3350_ind": "1",
+  "metal_ind": "0",
+  "feds_ind": "0",
+  "classification": 0,
+  "pbt_start_year": null,
+  "pbt_end_year": null,
+  "no_decimals": null,
+  "unit_of_measure": "Pounds",
+  "cas_registry_number": "71-43-2",
+  "srs_id": "4754",
+  "default_percentage_to_81c": 1,
+  "default_percentage_to_81d": 23,
+  "default_percentage_to_87": 76,
+  "pfas_ind": "0",
+  "pbt_ind": "0",
+  "metal_category": "0",
+  "csc_ind": null,
+  "csc_start_year": null,
+  "csc_end_year": null,
+  "pfas_start_year": null,
+  "pfas_end_year": null
+ }
+]
