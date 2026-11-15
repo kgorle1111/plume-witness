@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { createServer } from 'vite'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createElement } from 'react'
+import { pageFromLocation } from '../src/routes.ts'
 
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent', root: fileURLToPath(new URL('..', import.meta.url)) })
 after(() => server.close())
@@ -67,4 +68,14 @@ test('header nav and brand scale up on wide screens but keep their sizes up to 1
   assert.ok(clampPx(css, '.site-nav', 1280, 16) >= 16)
   assert.ok(clampPx(css, '.brand-row', 1280, 16) >= 14)
   assert.ok(clampPx(css, '.site-nav', 1600, 18) >= 18)
+})
+
+test('the landing links to the neighborhood way in on Past spikes, in both languages (U9)', async () => {
+  for (const [l, text] of [['en', 'Start from your neighborhood'], ['es', 'Empiece por su vecindario']] as const) {
+    await setLang(l)
+    const m = new RegExp(`<a href="([^"]+)">${text}</a>`).exec(await landing())
+    assert.ok(m, `${l}: no neighborhood link`)
+    const url = new URL(m[1], 'https://x.org/')
+    assert.equal(pageFromLocation(url), 'spikes', `${l}: ${m[1]} must open Past spikes, where the chips are`)
+  }
 })

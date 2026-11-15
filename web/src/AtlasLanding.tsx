@@ -91,6 +91,9 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </li>
         </ul>
         <nav className="atlas-links" aria-label={t('landing.more')}>
+          {/* A way in by place, not by monitor name: Past spikes has its neighborhood chips right under the intro. No
+              #fragment to them: that page draws after load, so the browser never scrolls to it (measured). */}
+          <a href={`${BASE}?view=spikes`}>{t('landing.nb')}</a>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
           <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
           <a href={`${BASE}?view=coverage`}>{t('nav.coverage')}</a>

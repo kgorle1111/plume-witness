@@ -346,6 +346,7 @@ const EN = {
   'landing.m.questions': 'spikes with no matching report',
   'landing.m.questionsSub': 'a question for the state',
   'landing.more': 'More from the data',
+  'landing.nb': 'Start from your neighborhood',
 
   // Brief page chrome (the brief text itself stays English)
   'brief.actions': 'Brief actions',
@@ -1093,6 +1094,7 @@ const ES: Record<StringKey, string> = {
   'landing.m.questions': 'picos sin reporte que coincida',
   'landing.m.questionsSub': 'una pregunta para el estado',
   'landing.more': 'Más de los datos',
+  'landing.nb': 'Empiece por su vecindario',
 
   'brief.actions': 'Acciones del resumen',
   'brief.spikesLog': 'Registro de picos anteriores',
