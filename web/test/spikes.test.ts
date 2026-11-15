@@ -127,9 +127,11 @@ test('option counts follow the other filters: Channelview has no "Reported" spik
 })
 
 test('every reason code in the published file has a translated label, read from the code, not the stand-in sentence', () => {
+  // Since review L3 no published Houston row stops at an incomplete week search, so that code is checked from the table.
+  const all = ['calm_wind', 'day_search_incomplete', 'earlier_search_incomplete', 'no_wind', 'report_not_placed']
   const codes = new Set(data.rows.map((r) => r.reason_code).filter((c) => c !== undefined))
-  assert.deepEqual([...codes].sort(), ['calm_wind', 'day_search_incomplete', 'earlier_search_incomplete', 'no_wind', 'report_not_placed'])
-  for (const c of codes) {
+  assert.ok([...codes].every((c) => all.includes(c!)) && codes.size >= 4, [...codes].join())
+  for (const c of all) {
     const k = reasonKey({ reason_code: c })
     assert.ok(k, `no key for ${c}`)
     for (const key of [k, `${k}Long` as const]) assert.ok(STRINGS.en[key] && STRINGS.es[key] && STRINGS.es[key] !== STRINGS.en[key], key)
@@ -138,9 +140,10 @@ test('every reason code in the published file has a translated label, read from 
   const incomplete = data.rows.filter((r) => r.status === 'search_incomplete')
   assert.ok(incomplete.length > 0 && incomplete.every((r) => r.reason_code))
   assert.ok(incomplete.every((r) => reasonKey(r) !== 'spikes.reason.check'))
-  // Calm-wind rows carry the pipeline's "could not be placed" stand-in sentence; the label must say calm wind.
+  // A calm-wind row's own sentence says calm wind (no "could not be placed" stand-in), and so does its label.
   const calm = data.rows.find((r) => r.reason_code === 'calm_wind')!
-  assert.match(calm.reason ?? '', /could not be placed/)
+  assert.match(calm.reason ?? '', /too light/)
+  assert.ok(data.rows.every((r) => r.reason_code === 'report_not_placed' || !/could not be placed/.test(r.reason ?? '')))
   assert.equal(reasonKey(calm), 'spikes.reason.calm')
   assert.equal(reasonKey(data.rows.find((r) => r.night_id === null)!), 'spikes.reason.noWind')
   const n = (k: string) => incomplete.filter((r) => reasonKey(r) === k).length

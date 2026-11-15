@@ -56,6 +56,7 @@ CLASSES = {
     "g": "verdict word EN/ES (inflections)",
     "h": "negation flip",
     "i": "real fact from a different night",
+    "j": "cause, blame or failure-to-report claim EN/ES",
 }
 
 
@@ -472,6 +473,35 @@ def gen_g(bases: list[Base]) -> Iterable[Case]:
                                                                          _rng("g", b.id, lang, i))))
 
 
+# Class j (review M3): a real facility from the base's own facts is said to have caused the reading, to be to
+# blame, or to have failed to report. The name is real, so only the claim itself can get the draft rejected.
+CAUSAL = {
+    "en": ["{x} caused this reading.", "The spike was caused by {x}.", "{x} may have caused these readings.",
+           "{x} is causing these readings.", "{x} is responsible for the spike.", "{x} bears responsibility for it.",
+           "{x} is to blame for this reading.", "{x} failed to report the release.", "{x} did not report the release.",
+           "{x} never reported the release.", "{x} neglected to notify the state.", "{x} did not cause this reading."],
+    "es": ["{x} causó esta lectura.", "La lectura fue causada por {x}.", "{x} provocó el pico.",
+           "{x} ocasionó estas lecturas.", "{x} es responsable de la emisión.", "{x} fue responsable de la emisión.",
+           "{x} tiene la culpa de esta lectura.", "{x} no informó la emisión.", "{x} omitió reportar la emisión.",
+           "{x} dejó de notificar al estado.", "{x} es la causante del pico.", "{x} no causó esta lectura."],
+}
+PLANT = {"en": "The plant", "es": "La planta"}
+
+
+def _real_facility(b: Base, lang: str) -> str:
+    rep = (b.facts["record_check"].get("reported") or {}).get("facility")
+    near = b.facts["nearest_upwind_facilities"]
+    return rep or (near[0]["name"] if near else PLANT[lang])
+
+
+def gen_j(bases: list[Base]) -> Iterable[Case]:
+    for b, lang, text in _each(bases):
+        x = _real_facility(b, lang)
+        for i, s in enumerate(CAUSAL[lang]):
+            yield Case("j", b.id, lang, s.format(x=x), mutate(b, lang, insert_sentence(text, s.format(x=x),
+                                                                                       _rng("j", b.id, lang, i))))
+
+
 def gen_h(bases: list[Base]) -> Iterable[Case]:
     for b, lang, text in _each(bases):
         for pat, rep in NEGATIONS[lang]:
@@ -523,7 +553,7 @@ def gen_i(bases: list[Base], others: list[dict[str, Any]] | None = None) -> Iter
 
 
 GENERATORS: dict[str, Gen] = {"a": gen_a, "b": gen_b, "c": gen_c, "d": gen_d, "e": gen_e, "f": gen_f,
-                              "g": gen_g, "h": gen_h, "i": gen_i}
+                              "g": gen_g, "h": gen_h, "i": gen_i, "j": gen_j}
 
 
 # --- benign rewrites -----------------------------------------------------------------------------------
@@ -537,6 +567,15 @@ SYNONYMS = {"en": [("recorded", "measured"), ("Requested follow-up:", "Follow-up
 HEDGE = {"en": "A person will review this draft before anything is filed.",
          "es": "Una persona revisará este borrador antes de presentar nada."}
 CAUTION = {"en": "Other sources can add to a spike.", "es": "Otras fuentes pueden sumar al pico."}
+# Questions and stated limits that name a cause without claiming one; the cause check (class j) must pass them.
+CAUSE_LIMITS = {
+    "en": ["That does not show who or what caused the reading.", "Can the state confirm what caused this reading?",
+           "A report does not show that one facility caused every reading.",
+           "Requested follow-up: confirm whether a facility in the corridor was responsible for the release."],
+    "es": ["Eso no indica quién o qué causó la lectura.", "¿Puede el estado confirmar qué causó esta lectura?",
+           "Un reporte no muestra que una sola instalación causó cada medición.",
+           "Seguimiento solicitado: confirmar si alguna instalación del corredor fue responsable de la emisión."],
+}
 NEGATED_VERDICT = {"en": "This is not proof that the facility caused the reading.",
                    "es": "Esto no demuestra que la instalación causó la lectura."}
 
@@ -593,6 +632,8 @@ def benign(bases: list[Base]) -> Iterable[Case]:
         if m := re.search(r"(?<=\d )mph\b", text):
             unit = "miles per hour" if lang == "en" else "millas por hora"
             yield case(f"mph -> {unit}", text[:m.start()] + unit + text[m.end():])
+        for i, limit in enumerate(CAUSE_LIMITS[lang]):
+            yield case(f"cause question or limit {i + 1}", insert_sentence(text, limit, _rng("limit", b.id, lang, i)))
         yield case("negated verdict hedge", insert_sentence(text, NEGATED_VERDICT[lang], rng),
                    cls="benign_negated_verdict")
 

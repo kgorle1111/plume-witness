@@ -14,8 +14,8 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 1. **Detect**: a spike on a state (TCEQ) regulator-grade monitor, such as hourly benzene from an AutoGC site. Low-cost sensors are never the trigger.
 2. **Trace**: the hourly wind at the monitor points upwind; every major facility within 15 km and ±22.5° of that direction is listed, nearest first. Wind alone can't tell them apart, so nothing is ranked as a likely source. This is geometry, not a dispersion model, and it says so.
-3. **Check the record**: it searches every emissions-event report filed that day in the county, places each on the map, and checks whether one in the corridor, in the time window, lists the same compound: the initial notice within 24 hours, and a FINAL report dated within 14 days of the event's end. Status is one of: *reported*, *not yet reported*, *no report after the deadline*, *reported, but the compound doesn't match*, *search incomplete*.
-4. **Packet**: a hedged evidence summary ("evidence consistent with…") in English and Spanish. A person always reviews, edits and files it. Nothing is sent automatically.
+3. **Check the record**: it searches every emissions-event report filed that day in the county, places each on the map, and checks whether one in the corridor, in the time window, lists the same compound: the initial notice within 24 hours, and a FINAL report dated within 14 days of the event's end. Status is one of: *reported*, *reported late* (the final report is dated more than 14 days after the event ended), *not yet reported*, *no report after the deadline*, *reported, but the compound doesn't match*, *reported to the NRC* (no state report matched, but a federal National Response Center report in the corridor lists the compound), *search incomplete*.
+4. **Packet**: a hedged evidence summary in English and Spanish that states what the record shows and asks a follow-up question. A person always reviews, edits and files it. Nothing is sent automatically.
 
 ## What it can't say
 

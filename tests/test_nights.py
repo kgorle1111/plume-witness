@@ -91,3 +91,30 @@ def test_cap_keeps_top_values_and_says_so(generated, tmp_path):
     kept = {r["id"] for r in json.loads((tmp_path / "n" / "index.json").read_text())}
     top = sorted((r for _, r in evs[:20]), key=lambda r: -r["value"])[: stats["written"]]
     assert kept == {r["id"] for r in top}
+
+
+def test_provenance_lists_every_echo_file_a_placed_report_or_a_site_name_came_from():
+    """Review L6: on 120 nights, 142 reports were placed with coordinates from an ECHO file the night did not list
+    (placement reads every monitor's file). Each placed report's site, and each site named by several permit holders,
+    is in at least one ECHO file the night lists."""
+    raw = ROOT / "data" / "raw"
+    ids: dict[str, set[str]] = {}
+
+    def file_ids(f: str) -> set[str]:
+        if f not in ids:
+            ids[f] = {r.get("RegistryID") for r in json.loads((raw / f).read_text())["Results"]["Facilities"]}
+        return ids[f]
+
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    checked = 0
+    for p in paths:
+        ev = json.loads(p.read_text())
+        listed = [e["file"] for e in ev["provenance"] if e["file"].split("/")[-1].startswith("echo_")]
+        have = set().union(*(file_ids(f) for f in listed))
+        rc = ev["record_check"]
+        placed = {d["facility_id"] for d in rc["day_incidents"] + rc["ongoing_incidents"] if d.get("facility_id")}
+        named = {f["id"] for f in ev["facilities"] if " / " in f["name"] or f.get("echo_names")}
+        assert placed | named <= have, (p.name, sorted((placed | named) - have))
+        checked += len(placed)
+    assert checked > 142

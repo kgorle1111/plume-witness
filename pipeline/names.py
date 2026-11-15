@@ -12,12 +12,12 @@ import re
 # title-cased until it is added in both places.
 KEEP_UPPER = frozenset({
     "LLC", "LP", "LTD", "USA", "US", "TX", "II", "III", "IV", "ACCP", "AES", "ASU", "BASF", "EGU", "EO", "EPOLP", "FC",
-    "GCL", "GE", "HRM", "KMCC", "LBC", "LCY", "MB", "MCA", "NGL", "PCI", "PVA", "PVC", "PWE", "RST", "SI", "SJRR",
+    "GC", "GCL", "GE", "HRM", "KMCC", "LBC", "LCY", "MB", "MCA", "NGL", "PCI", "PVA", "PVC", "PWE", "RST", "SI", "SJRR",
     "SMR", "TECO", "TM", "VCM", "WWTP",
 })
 SMALL = frozenset({"AND", "OF", "THE", "AT", "FOR", "IN", "ON"})
 BRANDS = {"EXXONMOBIL": "ExxonMobil", "LYONDELLBASELL": "LyondellBasell", "TOTALENERGIES": "TotalEnergies",
-          "INEOS": "INEOS"}
+          "INEOS": "INEOS", "INVISTA": "INVISTA"}
 
 _ORDINAL = re.compile(r"[0-9]+(ST|ND|RD|TH)")  # ASCII digits, like JS \d
 _MC = re.compile(r"MC[A-Z]{2,}")

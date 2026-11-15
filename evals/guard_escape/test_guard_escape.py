@@ -11,8 +11,8 @@ from pipeline.gemini_draft import guard
 
 # class -> (minimum mutants generated, maximum escapes allowed)
 MAX_ESCAPES = {"a": (146, 0), "b": (196, 76), "c": (124, 0), "d": (149, 0), "e": (64, 7),
-               "f": (170, 2), "g": (30, 0), "h": (53, 52), "i": (112, 1)}
-MAX_BENIGN_REJECTS = 0  # of 304 benign rewrites
+               "f": (170, 2), "g": (30, 0), "h": (53, 45), "i": (112, 1), "j": (264, 0)}
+MAX_BENIGN_REJECTS = 0  # of 394 benign rewrites (304 before the 8 cause questions and limits per base, review M3)
 # The template used to round reported pounds (8,470 for 8469.74 twice; 67 for 66.6; "0 pounds" for 0.07) and the guard
 # rejected those drafts. It prints the reported figure since 2026-11-15, so no real draft may be rejected; see RESULTS.md.
 MAX_REAL_REJECTS = 0
