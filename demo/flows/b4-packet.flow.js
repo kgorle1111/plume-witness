@@ -5,7 +5,7 @@ module.exports = async (page) => {
   await ready(page);
   await tab(page, 'Packet');
   await hold(page, 2000); // English draft
-  await page.getByRole('button', { name: 'Español' }).click();
+  await page.getByRole('group', { name: 'Draft language' }).getByRole('button', { name: 'Español' }).click();
   await hold(page, 2000); // Spanish draft, same numbers
   await glide(page.locator('h3.list-heading').filter({ hasText: /Review and file|Revisar y presentar/ }), page, 900);
   await page.getByRole('button', { name: /^(Approve this draft|Aprobar este borrador)$/ }).click();
