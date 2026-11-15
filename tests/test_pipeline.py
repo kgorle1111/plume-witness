@@ -124,7 +124,8 @@ def test_report_must_list_the_monitored_compound():
 
 
 def test_final_check_compares_the_report_date():
-    for rtype, rdate, want in (("FINAL", "2024-07-03", "reported"), ("FINAL", "2024-07-20", "not_yet_reported"),
+    # A FINAL report dated after the window is on file, so it is "reported_late", never "not yet reported".
+    for rtype, rdate, want in (("FINAL", "2024-07-03", "reported"), ("FINAL", "2024-07-20", "reported_late"),
                                ("INITIAL", "2024-06-22", "not_yet_reported")):
         placed, details = _inside("9", {"45201": 5.0}, rtype, rdate)
         rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
@@ -177,7 +178,7 @@ def test_t24_counts_from_discovery_not_from_the_spike():
     details["5"] |= {"start_local": "2024-06-21T00:00", "end_local": "2024-06-21T13:00",
                      "notified_local": "2024-06-22T06:00"}
     rc = build.record_check([placed], details, date(2024, 6, 21), 11, search_complete=True, param="45201")
-    assert rc["checks"][0]["status"] == "not_yet_reported"
+    assert rc["checks"][0]["status"] == "reported_late"  # the notice is on file, 30 h after discovery
     assert "30.0 h after the reported discovery" in rc["checks"][0]["note"]
 
 
@@ -317,3 +318,17 @@ def test_published_nights_name_the_filer_of_the_matched_report():
         checked += 1
     assert checked >= 18
 
+
+
+def test_published_checks_never_say_not_yet_once_a_record_exists():
+    """UI audit 3, S02: nights 2025-01-23 (before #91) and 2024-01-09 showed "Not yet reported" for notices filed
+    26.9 h and 3029 h after discovery. A check whose note cites a filing date is never "not_yet_reported"."""
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    late = 0
+    for p in paths:
+        for c in json.loads(p.read_text())["record_check"]["checks"]:
+            filed = c["note"].startswith(("initial notice filed", "final report dated"))
+            assert not (filed and c["status"] == "not_yet_reported"), (p.name, c)
+            late += c["status"] == "reported_late"
+    assert late >= 2  # 2024-01-09: notice 3029 h after discovery, final 133 days after the end

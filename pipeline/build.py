@@ -189,11 +189,14 @@ FINAL_DEADLINE_DAYS = 14  # 30 TAC 101.201(b): final record within two weeks aft
 
 
 def final_check(inc: dict) -> tuple[str, str]:
-    """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end."""
+    """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end.
+
+    A FINAL report dated later is 'reported_late', never 'not_yet_reported': the record exists, so "not yet" would
+    be false. 'not_yet_reported' is kept for a report whose cached page has no final date."""
     if inc.get("report_type") != "FINAL" or not inc.get("report_date"):
         return "not_yet_reported", f"report type {inc.get('report_type') or 'not stated'}; no final report date"
     days = (date.fromisoformat(inc["report_date"]) - datetime.fromisoformat(inc["end_local"]).date()).days
-    status = "reported" if days <= FINAL_DEADLINE_DAYS else "not_yet_reported"
+    status = "reported" if days <= FINAL_DEADLINE_DAYS else "reported_late"
     return status, f"final report dated {inc['report_date']}, {days} days after the event ended"
 
 
@@ -270,7 +273,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         start = datetime.fromisoformat(inc["start_local"])
         # 30 TAC 101.201(a)(1): the initial notice is due within 24 h of discovery, not of the monitor spike.
         notice_h = (datetime.fromisoformat(inc["notified_local"]) - start).total_seconds() / 3600
-        t24 = "reported" if notice_h <= 24 else "not_yet_reported"
+        t24 = "reported" if notice_h <= 24 else "reported_late"  # the notice is on file, dated after 24 h
         t14, t14_note = final_check(inc)
         status = "reported_mismatch" if mismatch else t14
         basis = ("started near the spike" if start.date() >= det_day

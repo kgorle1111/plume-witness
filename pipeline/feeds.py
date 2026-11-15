@@ -29,6 +29,7 @@ ATOM = "http://www.w3.org/2005/Atom"
 # Plain-words status text. The no-report sentence is fixed wording; keep it exactly as is.
 STATUS_TEXT = {
     "reported": "A company report from the upwind area lists this compound and starts near the spike hour.",
+    "reported_late": "A company report from the upwind area is on the state record, dated after the reporting window.",
     "not_yet_reported": "The reporting deadline has not passed yet, so there is nothing to compare against.",
     "no_report_after_deadline": "No matching company report was found in a complete search. "
                                 "This is a question for the state, not a finding.",
