@@ -249,6 +249,8 @@ def test_earlier_days_unsearched_means_incomplete(tmp_path):
 
 
 def test_spike_matched_by_a_report_started_the_day_before(result):
-    r = next(r for r in result["spikes"] if r["day"] == "06/13/2024" and r["param"] == "45201")
-    assert r["status"] != "no_report_after_deadline" and r["matched_incident"] == "424533"
+    # Report 421635 started 04/20/2024. (The earlier example, 06/13/2024 HRM-16 -> 424533, now abstains: since
+    # 2026-11-15 HRM-16 borrows the calmer wind of Houston Deer Park #2, 4.5 km away, instead of Lynchburg Ferry.)
+    r = next(r for r in result["spikes"] if r["day"] == "04/22/2024" and r["param"] == "43218")
+    assert r["status"] != "no_report_after_deadline" and r["matched_incident"] == "421635"
     assert r["matched_ongoing"] is True

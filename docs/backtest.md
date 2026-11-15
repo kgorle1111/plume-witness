@@ -6,48 +6,48 @@ Do not edit the numbers by hand; rerun the command.
 
 ## Headline
 
-Of **72** real 2024-2025 emissions events that a company reported to TCEQ (benzene or 1,3-butadiene, Harris
+Of **77** real 2024-2025 emissions events that a company reported to TCEQ (benzene or 1,3-butadiene, Harris
 County, facility within 15 km of a Ship Channel AutoGC monitor):
 
 | Step | Count | Denominator |
 |---|---|---|
-| Monitor spike detected on the event's start day | 16 / 72 (22%; 95% CI 14-33%) | all candidates |
-| ...and the reporting facility inside the upwind corridor | 3 / 16 (19%; 95% CI 7-43%) | detected |
-| ...and the pipeline matched that exact report | 1 / 16 (6%; 95% CI 1-28%) | detected |
-| End to end: detected and matched | 1 / 72 (1%; 95% CI 0-8%) | all candidates |
-| Monitor spike within -1 h to +6 h of the company's reported start | 3 / 72 (4%; 95% CI 1-12%) | all candidates |
+| Monitor spike detected on the event's start day | 18 / 77 (23%; 95% CI 15-34%) | all candidates |
+| ...and the reporting facility inside the upwind corridor | 2 / 18 (11%; 95% CI 3-33%) | detected |
+| ...and the pipeline matched that exact report | 1 / 18 (6%; 95% CI 1-26%) | detected |
+| End to end: detected and matched | 1 / 77 (1%; 95% CI 0-7%) | all candidates |
+| Monitor spike within -1 h to +6 h of the company's reported start | 5 / 77 (6%; 95% CI 3-14%) | all candidates |
 
 "Detected" above means a trigger hit at any hour of the start day, and the pipeline takes the earliest one, which
 is often hours from the release. Requiring the hit near the reported start (CST, daylight saving removed) leaves
-3 of 72; 1 of those 3 matched.
+5 of 77; 1 of those 5 matched.
 So the day-level count overstates how often a release reached a monitor, and the (b) cross-check below compares
 day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
 
 Of the 1 matches, 1 came from a day search the pipeline could call complete.
-On 2 detected events the pipeline matched a different report filed that
-day instead of the candidate. Compound used: benzene for 47 events, 1,3-butadiene for
+On 0 detected events the pipeline matched a different report filed that
+day instead of the candidate. Compound used: benzene for 52 events, 1,3-butadiene for
 25 (events that reported no benzene).
 
 ## The three numbers for the slide
 
 | Question | Answer | Denominator |
 |---|---|---|
-| (a) Matched / missed | 1 matched, 71 missed (56 never detected, 15 detected but not matched) | 72 reported candidate events (16 detected) |
-| (b) False "no report": the check said *no report after deadline* although a candidate report running in the match window had its facility inside that spike's corridor (ECHO coordinates) | 0 | 415 detected spikes |
-| (c) Real spikes with no matching report in the corridor after a complete search | 170 | 415 detected spikes |
+| (a) Matched / missed | 1 matched, 76 missed (59 never detected, 17 detected but not matched) | 77 reported candidate events (18 detected) |
+| (b) False "no report": the check said *no report after deadline* although a candidate report running in the match window had its facility inside that spike's corridor (ECHO coordinates) | 0 | 468 detected spikes |
+| (c) Real spikes with no matching report in the corridor after a complete search | 171 | 468 detected spikes |
 
-(b) cross-check from the candidate side: of the 16 detected candidates, the check said *no report after
+(b) cross-check from the candidate side: of the 18 detected candidates, the check said *no report after
 deadline* on 4, of which 0
 had the reporting facility geometrically inside the corridor; it abstained (*search incomplete*) on
-9.
+13.
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
-8 sites: 415 (day, compound) spikes on 345 distinct days. Status of each
-spike's record check: search_incomplete 227, no_report_after_deadline 170, reported_mismatch 11, reported 6, no_wind 1. The pipeline abstains rather than
+12 sites: 468 (day, compound) spikes on 378 distinct days. Status of each
+spike's record check: search_incomplete 280, no_report_after_deadline 171, reported_mismatch 13, reported 3, no_wind 1. The pipeline abstains rather than
 claim absence when the day's search or the 30 days before it are not completely searched, or
-the wind is too light to trace (227 spikes; 98 of them
-under 3 mph, 55 because earlier days were not searched).
-14 spikes matched a report that started on an earlier day and was still running.
+the wind is too light to trace (280 spikes; 169 of them
+under 3 mph, 44 because earlier days were not searched).
+12 spikes matched a report that started on an earlier day and was still running.
 "No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
 the corridor is geometry only. These spikes are counted, never named.
@@ -56,10 +56,10 @@ the corridor is geometry only. These spikes are counted, never named.
 
 | Reason | Events |
 |---|---|
-| no monitor crossed the trigger rule | 56 |
-| reporting facility outside the corridor | 7 |
-| wind too light to trace | 6 |
-| in corridor, but report time does not overlap the detection-time window | 2 |
+| no monitor crossed the trigger rule | 59 |
+| wind too light to trace | 10 |
+| reporting facility outside the corridor | 6 |
+| in corridor, but report time does not overlap the detection-time window | 1 |
 
 Unmatched events are not listed by name here. Every candidate *did* file a report; an unmatched row is a miss by
 this pipeline, not a finding about the facility.
@@ -69,18 +69,18 @@ this pipeline, not a finding about the facility.
 | Step | Rows |
 |---|---|
 | STEERS rows, Harris County, any type, started 2024-01-01..2025-12-31 (week-by-week searches) | 335 |
-| listed as a non-emissions event type in the search results (detail page not fetched) | 20 |
-| not an EMISSIONS EVENT (maintenance, startup, shutdown, opacity) | 11 |
+| listed as a non-emissions event type in the search results (detail page not fetched) | 18 |
+| not an EMISSIONS EVENT (maintenance, startup, shutdown, opacity) | 13 |
 | no benzene or 1,3-butadiene pounds reported | 209 |
 | facility not located in EPA ECHO (no unique match by name, name + street number, or address) | 18 |
-| facility more than 15 km from every AutoGC site | 5 |
-| **candidates** | **72** |
+| facility more than 15 km from every AutoGC site | 0 |
+| **candidates** | **77** |
 
 Week searches whose page did not list every record: 0.
 
 ## Exact rules
 
-- **Sites:** Houston Milby Park (48_201_0069), Manchester East Ave N (48_201_0307), Galena Park (48_201_0057), HRM-16 Deer Park (48_201_1614), Clinton (48_201_1035), Lynchburg Ferry (48_201_1015), HRM-3 Haden Road (48_201_0803), Channelview (48_201_0026). Coordinates from TCEQ TAMIS.
+- **Sites:** Houston Milby Park (48_201_0069), Manchester East Ave N (48_201_0307), Galena Park (48_201_0057), HRM-16 Deer Park (48_201_1614), Clinton (48_201_1035), Lynchburg Ferry (48_201_1015), HRM-3 Haden Road (48_201_0803), Channelview (48_201_0026), Channelview Drive Water Tower (48_201_0036), Houston Deer Park #2 (48_201_1039), Pasadena Richey Elementary School (48_201_1049), Cesar Chavez (48_201_6000). Coordinates from TCEQ TAMIS.
 - **Monitors per event:** the AutoGC sites within 15 km of the facility (a farther site's
   corridor can never reach it). A monitor without data or baseline for the day is dropped and recorded.
 - **Detection (unchanged pipeline):** value >= max(10 x 7-day median, 10 ppb), earliest hour of the event's start day.
@@ -104,12 +104,12 @@ Week searches whose page did not list every record: 0.
   readings, so they cannot be scored as right or wrong; this is not a precision number.
 - **Reports below detection.** A release that never reaches a monitor at
   10x baseline and 10 ppb counts as "not detected", whether or not
-  any monitor could have seen it. 56 of the 72 candidates stop here, so this backtest mostly measures
+  any monitor could have seen it. 59 of the 77 candidates stop here, so this backtest mostly measures
   whether that trigger fires, and says little about the tracing on the events it never saw.
 - **Next-day spikes.** Detection looks only at the event's start day (CST hours); a late-night release that
   reached a monitor after midnight counts as missed.
 - **Causation.** A match means the timing and geometry are consistent with the report, not that this release
   caused the reading.
-- **Facilities outside the candidate set** (18 unlocated, 5 beyond
+- **Facilities outside the candidate set** (18 unlocated, 0 beyond
   15 km) are not in any denominator.
 - AutoGC data are labeled provisional by TCEQ and may change; a rerun on refetched data can differ.

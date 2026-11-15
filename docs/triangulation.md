@@ -25,23 +25,24 @@ number in `docs/backtest.md`; it adds an optional `triangulation` block to each 
 
 | Question | Answer |
 |---|---|
-| Spikes in the scan | 415 (1 without wind at the flagged monitor, so no corridor) |
-| 2+ monitors met the trigger within 1 h | 18 / 415 (4%; 95% CI 3-7%) |
-| ...and 2+ of them had a usable wedge (own wind, not calm) | 4 / 415 (1%; 95% CI 0-2%) |
-| Median facilities: corridor vs intersection (those 4) | 5.0 vs 1.0 (median share kept 0.25) |
-| Verdict "narrows" (intersection <= 75% of corridor) | 1 / 4 (25%; 95% CI 5-70%) |
-| ...of which the monitors were under 22.5 degrees apart as seen from the intersection | 1 of 1 |
-| Spikes whose record check matched a report | 17 |
+| Spikes in the scan | 468 (1 without wind at the flagged monitor, so no corridor) |
+| 2+ monitors met the trigger within 1 h | 31 / 468 (7%; 95% CI 5-9%) |
+| ...and 2+ of them had a usable wedge (own wind, not calm) | 5 / 468 (1%; 95% CI 0-2%) |
+| Median facilities: corridor vs intersection (those 5) | 6 vs 2 (median share kept 0.5) |
+| Verdict "narrows" (intersection <= 75% of corridor) | 2 / 5 (40%; 95% CI 12-77%) |
+| ...of which the monitors were under 22.5 degrees apart as seen from the intersection | 2 of 2 |
+| Spikes whose record check matched a report | 16 |
 | ...with 2+ usable wedges | 1 |
 | ...matched facility inside the intersection | 1 / 1 (100%; 95% CI 21-100%) |
 
-Verdicts over all nights: single 300, not_traced 98, single_wind 12, no_overlap 2, aligned 1, narrows 1. Monitors that met the trigger but were left out (on spikes with 2+
-triggering): no wind reading of its own (10), no wind reading of its own (corridor drawn from a neighbour's wind) (9), wind too light to trace (2.3 mph) (1), wind too light to trace (2.8 mph) (1).
+Verdicts over all nights: single 279, not_traced 169, single_wind 14, narrows 2, no_overlap 2, aligned 1. Monitors that met the trigger but were left out (on spikes with 2+
+triggering): no wind reading of its own (13), no wind reading of its own (corridor drawn from a neighbour's wind) (12), wind too light to trace (0.9 mph) (2), wind too light to trace (1.2 mph) (2), wind too light to trace (2.7 mph) (1), wind too light to trace (1.5 mph) (1), wind too light to trace (2.3 mph) (1), wind too light to trace (0.7 mph) (1), wind too light to trace (1.9 mph) (1), wind too light to trace (2.4 mph) (1), wind too light to trace (1.7 mph) (1), wind too light to trace (2.8 mph) (1), wind too light to trace (1.4 mph) (1).
 
 ## Every spike with 2+ usable wedges
 
 | Night | Monitors (flagged first) | Corridor | Intersection | Separation (deg) | Verdict | Record check | Matched facility in intersection |
 |---|---|---|---|---|---|---|---|
+| 2024-01-10_45201_48_201_0036 | 48_201_0036, 48_201_1015 | 39 | 29 | 18.6 | narrows | search_incomplete | - |
 | 2024-06-21_45201_48_201_0069 | 48_201_0069, 48_201_0307 | 47 | 37 | 10.5 | aligned | reported | yes |
 | 2025-03-02_43218_48_201_0069 | 48_201_0069, 48_201_0026 | 4 | 0 | - | no_overlap | no_report_after_deadline | - |
 | 2025-05-28_43218_48_201_0307 | 48_201_0307, 48_201_0069 | 4 | 2 | 4.7 | narrows | no_report_after_deadline | - |
@@ -49,11 +50,11 @@ triggering): no wind reading of its own (10), no wind reading of its own (corrid
 
 ## What this does and does not show
 
-- **n is tiny.** 4 of 415 spikes had two usable wedges, and
+- **n is tiny.** 5 of 468 spikes had two usable wedges, and
   1 of those had a matched report, so the "matched facility inside the intersection"
   row is an anecdote, not a rate. Its 95% interval says as much.
-- **Seen from the intersection, the monitors were nearly in line.** On 2 of the
-  2 spikes with a non-empty intersection the monitors were under 22.5 degrees apart
+- **Seen from the intersection, the monitors were nearly in line.** On 3 of the
+  3 spikes with a non-empty intersection the monitors were under 22.5 degrees apart
   as seen from it, so any narrowing there comes from two wind vanes pointing in slightly different directions,
   which is as consistent with wind-direction noise as with a smaller source area. (Monitors used were at most
   16.9 km apart.)
