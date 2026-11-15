@@ -27,14 +27,14 @@ curl -s https://kgorle1111.github.io/plume-witness/spikes.json \
 
 | File | What it is | Size |
 |---|---|---|
-| `event.json` | The demo night (2024-06-21, Milby Park) | 36 KB |
-| `nights/index.json` | One row per replayable spike night (415) | 89 KB |
-| `nights/<id>.json` | One full replay per spike night; same schema as `event.json` | about 25 KB each |
-| `spikes.json` | The past-spikes log | 148 KB |
-| `rose.json` | Which wind directions high readings arrive from, per monitor | 45 KB |
-| `people.json` | Census population within 3 km of each monitor | 16 KB |
-| `tri.json` | EPA TRI yearly benzene and 1,3-butadiene air totals per facility | 139 KB |
-| `facilities/index.json`, `facilities/<registry_id>.json` | Facility history (191 facilities) | 388 KB total |
+| `event.json` | The demo night (2024-06-21, Milby Park) | 38 KB |
+| `nights/index.json` | One row per replayable spike night (466: the 468 spikes minus the 2 with no wind data, which have no replay) | 99 KB |
+| `nights/<id>.json` | One full replay per spike night; same schema as `event.json` | about 30 KB each |
+| `spikes.json` | The past-spikes log | 185 KB |
+| `rose.json` | Which wind directions high readings arrive from, per monitor | 128 KB |
+| `people.json` | Census population within 3 km of each monitor | 23 KB |
+| `tri.json` | EPA TRI yearly benzene and 1,3-butadiene air totals per facility | 138 KB |
+| `facilities/index.json`, `facilities/<registry_id>.json` | Facility history (194 facilities) | 410 KB total |
 | `packet.ai.json` | One model-drafted evidence packet for the demo night (published only because its number-and-id guard passed; see the README) | 2 KB |
 
 ### `event.json` and `nights/<id>.json`
@@ -48,11 +48,11 @@ tool that reads one reads all.
 | `label` | `real` (public data) or `fixture` (invented, for tests; never published on the site) |
 | `compound` | `{name, aqs_param, units}`; `aqs_param` 45201 is benzene, 43218 is 1,3-butadiene; units are ppb-v |
 | `monitors[]` | Each state monitor that day: `site_id`, `name`, `lat`, `lon`, `baseline` (7-day median), `peak`, `triggered`, `hourly[24]` as `{hour_cst, value, flag}` |
-| `wind` | `{site_id, hourly[24]}` of `{hour_cst, from_deg, speed_mph}`: degrees the wind blows **from** |
+| `wind` | `{site_id, hourly[24]}` of `{hour_cst, from_deg, speed_mph}`: degrees the wind blows **from**. When it is not the flagged monitor's own weather-station (met form) wind it also has `source` (`own_autogc`: the monitor's own AutoGC resultant wind; `borrowed_met` / `borrowed_autogc`: a nearby monitor's, named by `site_id`) and a plain `source_note`; a borrowed wind also adds a line to `cannot_say` |
 | `detection` | The trigger: `{site_id, hour_cst, value, baseline, rule}`. Rule: value >= max(10 x baseline, 10 ppb) |
-| `facilities[]` | EPA ECHO major sources near the monitor: `id` (EPA registry id), `name`, `lat`, `lon`, `distance_km`, `bearing_deg`, `alignment`, `in_corridor`, `rank` (nearest first; not a likelihood) |
+| `facilities[]` | EPA ECHO major sources near the monitor: `id` (EPA registry id), `name`, `lat`, `lon`, `distance_km`, `bearing_deg`, `alignment`, `in_corridor`, `rank` (nearest first; not a likelihood). On the facility whose report matched, `name` is the filer as the TCEQ report names it, and `echo_names[]` lists every name ECHO gives that site (one EPA registry id can hold several permit holders) |
 | `corridor` | `{origin_site_id, half_width_deg, max_km, wind_from_deg[]}` |
-| `record_check` | The state-record check: `status` (one of `reported`, `not_yet_reported`, `no_report_after_deadline`, `reported_mismatch`, `search_incomplete`), `incident`, `matched_facility_id`, `source_url` (TCEQ record), `day_incidents[]` (every STEERS report that day with where it sits), `checks[]` (T+24h and T+14d), `search_scope` |
+| `record_check` | The state-record check: `status` (one of `reported`, `reported_late`, `not_yet_reported`, `no_report_after_deadline`, `reported_mismatch`, `search_incomplete`; `reported_late` means the notice or final report is on the record but dated after its check's window, 24 h or 14 days), `incident`, `matched_facility_id`, `source_url` (TCEQ record), `day_incidents[]` (every STEERS report that day with where it sits), `checks[]` (T+24h and T+14d), `search_scope` |
 | `packet` | English and Spanish evidence summary drafts: a person reviews and files; nothing is sent automatically |
 | `cannot_say[]` | The limits that go with this night |
 | `provenance[]` | Every raw file used: `file`, `url`, request `params`, `bytes`, `sha256`, `fetched_at` |
@@ -71,14 +71,19 @@ Schema `plume-witness.spikes/v1`, exported by [`pipeline/spikes.py`](../pipeline
 `corridor`, `years`, `units`, `tceq_search_page`, `summary` (`spikes`, `spike_days`, `by_status`,
 `known_missed_reports`), `rows[]`. Each row: `night_id`, `date`, `hour_cst`, `site_id`, `site`, `lat`, `lon`, `param`,
 `compound`, `value_ppb`, `baseline_ppb`, `ratio`, `status`, `reports_that_day`, and when present `reason`,
-`matched_incident`, `report_url`. Rows carry counts and ids, never a facility name. 228 of 415 rows are
-`search_incomplete` (the record check could not finish); the row's `reason` says why. The backtest that measures how
-well this check works is in [`backtest.md`](backtest.md): the pipeline matched 1 of 72 company-reported releases end to end.
+`reason_code`, `matched_incident`, `report_url`. Rows carry counts and ids, never a facility name. 283 of 468 rows are
+`search_incomplete` (the record check could not finish). `reason` is one of three sentences the site maps to a label
+(the most common one sends the reader to the night's Check step); `reason_code` is the precise cause, one of
+`calm_wind` (under 3 mph, no corridor drawn), `report_not_placed` (a report open at that hour, from that day or
+earlier, could not be placed on the map), `earlier_search_incomplete` (the 30 days before were not all searched),
+`day_search_incomplete` (TCEQ's search for that week did not return every row) or `no_wind`. The backtest that measures how
+well this check works is in [`backtest.md`](backtest.md): the pipeline matched 1 of 77 company-reported releases end to end.
 
 ### `rose.json`
 
 Per monitor and compound, the share of high hours by 30-degree wind-from sector (conditional probability function,
-2024, hourly, wind >= 3 mph). `method` documents the thresholds. It shows which direction chronic high readings arrive
+2024-2025, hourly, wind >= 3 mph), from each monitor's own wind only (`wind_source`: `met` form, or the `autogc` form's
+resultant wind where the site has no met wind). `method` documents the thresholds. It shows which direction chronic high readings arrive
 from; it does not name a source. Code: [`pipeline/rose.py`](../pipeline/rose.py).
 
 ### `people.json`
@@ -91,9 +96,9 @@ internal point, not area overlap. See [`people.md`](people.md).
 ### `tri.json`
 
 EPA Toxics Release Inventory, air releases (stack plus fugitive) of benzene and 1,3-butadiene, 2020-2024, in pounds
-per year, for 191 ECHO major facilities within 15 km of a monitor. `facilities.<registry_id>.years.<year>.<compound>`
-holds `stack_lbs`, `fugitive_lbs`, `total_lbs`; a `null` means the form gave no number, which is not zero. Only 119 of
-the 191 link to a TRI facility id; `facilities.<id>.status` and `reason` say how each one linked or why not, and
+per year, for 194 ECHO major facilities within 15 km of a monitor. `facilities.<registry_id>.years.<year>.<compound>`
+holds `stack_lbs`, `fugitive_lbs`, `total_lbs`; a `null` means the form gave no number, which is not zero. Only 121 of
+the 194 link to a TRI facility id; `facilities.<id>.status` and `reason` say how each one linked or why not, and
 `unlinked_tri_reporters` lists reporters in the same counties that did not link. These are self-reported annual
 estimates of routine releases: not measurements, not events. See [`tri.md`](tri.md).
 
@@ -112,11 +117,11 @@ Each facility file:
 
 | Field | Meaning |
 |---|---|
-| `registry_id`, `name`, `address`, `lat`, `lon` | ECHO's record, name and address as published (upper case) |
-| `distance_km`, `nearest_monitor` | Distance to the nearest of the 8 monitors |
+| `registry_id`, `name`, `address`, `lat`, `lon` | ECHO's record, name and address as published (upper case). A site ECHO lists under several major-source names (7 of 194) is named by all of them, joined by " / " |
+| `distance_km`, `nearest_monitor` | Distance to the nearest of the 12 monitors |
 | `echo_url` | EPA ECHO facility report |
-| `reports_to_state.reports[]` | Emissions-event reports the facility filed with TCEQ that started in 2024-2025: `incident`, `event_type` (as TCEQ labels it), `start_local`, `end_local` (local time), `benzene_lbs`, `butadiene_lbs` (summed over emission points; 0 = not listed), `cause_excerpt` (the facility's own words, at most 200 characters; withheld, with `cause_withheld: true`, if it contains a word this project does not republish), `url` (the TCEQ record) |
-| `reports_to_epa` | The facility's `tri.json` entry: `status`, `reason`, `tri_ids`, `years` |
+| `reports_to_state.reports[]` | Emissions-event reports the facility filed with TCEQ that started in 2024-2025: `incident`, `filed_by` (the regulated entity named on the TCEQ report), `event_type` (as TCEQ labels it) and `event_type_code` (e.g. `emissions_event`), `start_local`, `end_local` (local time), `benzene_lbs`, `butadiene_lbs` (summed over emission points; 0 = not listed), `cause_excerpt` (the facility's own words, at most 200 characters; withheld, with `cause_withheld: true`, if it contains a word this project does not republish), `url` (the TCEQ record) |
+| `reports_to_epa` | The facility's `tri.json` entry: `status` (a code: `tri_data`, `no_tri_id` or `linked_no_benzene_or_butadiene_form`), `reason` (English), `tri_ids`, `years` |
 | `matched_nights[]` | Replayed nights where the facility sat in the upwind corridor **and** its own report was the match (status `reported`): `night_id`, `date`, `hour_cst`, `monitor`, `compound`, `value_ppb`, `incident`, `distance_km`, `bearing_deg` |
 | `caveats[]` | Always includes: "Being upwind of a spike is not evidence of anything; wind at one monitor cannot tell facilities apart." |
 

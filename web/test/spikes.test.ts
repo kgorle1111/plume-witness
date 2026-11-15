@@ -2,7 +2,12 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
-import { NO_FILTER, PAGE_SIZE, csvCell, dateText, logView, parseSpikes, selectRows, spikeKey, toCsv } from '../src/spikes.ts'
+import {
+  NO_FILTER, PAGE_SIZE, cleanFilters, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
+  reasonKey, selectRows, spikeKey, toCsv,
+} from '../src/spikes.ts'
+import { NEIGHBORHOODS } from '../src/neighborhoods.ts'
+import { STRINGS } from '../src/i18n.ts'
 
 const data = parseSpikes(JSON.parse(readFileSync(new URL('../public/spikes.json', import.meta.url), 'utf8')))
 
@@ -50,12 +55,12 @@ test('a malformed file fails with a fix', () => {
   assert.throws(() => parseSpikes({ ...data, schema: 'plume-witness.spikes/v1', rows: [{ date: 'Jan 1' }] }), /row 0/)
 })
 
-test('a row links to a replay exactly when its night file exists (Galena Park 2025-10-28 has none)', () => {
+test('a row links to a replay exactly when its night file exists (Galena Park 2025-07-26 has none)', () => {
   for (const r of data.rows) {
     const file = new URL(`../public/nights/${spikeKey(r)}.json`, import.meta.url)
     assert.equal(r.night_id !== null, existsSync(file), spikeKey(r))
   }
-  const galena = data.rows.find((r) => spikeKey(r) === '2025-10-28_45201_48_201_0057')!
+  const galena = data.rows.find((r) => spikeKey(r) === '2025-07-26_45201_48_201_0057')!
   assert.equal(galena.night_id, null)
 })
 
@@ -98,4 +103,68 @@ test('"Show more" adds a page, the last press adds only what is left, and a bad 
 test('the first page holds the row the judge video replays (newest "No matching report", 2025-11-18 Manchester)', () => {
   const v = logView(data.rows, { ...NO_FILTER, status: 'no_report_after_deadline' }, 'date', 'desc', PAGE_SIZE)
   assert.equal(v.shown.find((r) => r.night_id)?.night_id, '2025-11-18_43218_48_201_0307')
+})
+
+test('a shared link with filter values this file lacks drops them and names them; known values stay', () => {
+  const bad = cleanFilters(data.rows, { site: 'bogus', compound: 'benzene', status: 'nope', year: '2030' })
+  assert.deepEqual(bad.filters, { ...NO_FILTER, compound: 'benzene' })
+  assert.deepEqual(bad.dropped, ['site', 'status', 'year'])
+  const good = cleanFilters(data.rows, { site: '48_201_0057', compound: '', status: 'no_report_after_deadline', year: '2025' })
+  assert.deepEqual(good.dropped, [])
+  assert.equal(good.filters.site, '48_201_0057')
+  // The cleaned filters never show 0 rows because of a value the file does not have.
+  assert.ok(selectRows(data.rows, bad.filters, 'date', 'desc').length > 0)
+})
+
+test('option counts follow the other filters: Channelview has no "Reported" spike, so that option counts 0', () => {
+  const f = { ...NO_FILTER, site: '48_201_0026' }
+  const status = optionCounts(data.rows, f, 'status')
+  for (const [v, n] of status) assert.equal(n, selectRows(data.rows, { ...f, status: v }, 'date', 'desc').length, v)
+  assert.equal(status.get('reported'), 0)
+  // A select's own value does not narrow its own counts: every monitor still counts its spikes.
+  const sites = optionCounts(data.rows, f, 'site')
+  assert.equal([...sites.values()].reduce((a, b) => a + b, 0), data.rows.length)
+})
+
+test('every reason in the published file has a translated key, and an unknown one does not', () => {
+  const reasons = new Set(data.rows.map((r) => r.reason).filter((r) => r !== undefined))
+  assert.ok(reasons.size >= 2)
+  for (const r of reasons) {
+    const k = reasonKey(r)
+    assert.ok(k, `no key for ${r}`)
+    assert.ok(STRINGS.en[k] && STRINGS.es[k] && STRINGS.es[k] !== STRINGS.en[k], k)
+  }
+  // The row with no replay is the no-wind one; the most common reason sends the reader to the Check step.
+  assert.equal(reasonKey(data.rows.find((r) => r.night_id === null)!.reason), 'spikes.reason.noWind')
+  const counts = new Map<string, number>()
+  for (const r of data.rows) if (r.reason) counts.set(r.reason, (counts.get(r.reason) ?? 0) + 1)
+  assert.equal(reasonKey([...counts].sort((x, y) => y[1] - x[1])[0][0]), 'spikes.reason.check')
+  assert.equal(reasonKey('A new pipeline sentence.'), null)
+  assert.equal(reasonKey(undefined), null)
+  assert.equal(reasonKey('toString'), null)
+})
+
+test('a neighborhood picks the closest monitor in the file', () => {
+  const near = (label: string) => nearestSite(data.rows, NEIGHBORHOODS.find((p) => p.label === label)!)!
+  assert.equal(near('Galena Park').site_id, '48_201_0057')
+  assert.ok(near('Galena Park').km > 0.7 && near('Galena Park').km < 0.9)
+  assert.equal(near('Manchester').site_id, '48_201_0307')
+  assert.equal(near('Deer Park').site_id, '48_201_1614')
+  assert.equal(nearestSite([], NEIGHBORHOODS[0]), null)
+})
+
+test('the neighborhood points match the replay place search picks', () => {
+  const src = readFileSync(new URL('../src/PlaceSearch.tsx', import.meta.url), 'utf8')
+  const picks = [...src.matchAll(/\{ label: '([^']+)', lat: ([\d.-]+), lon: ([\d.-]+) \}/g)].map((m) => ({ label: m[1], lat: Number(m[2]), lon: Number(m[3]) }))
+  assert.deepEqual(picks, NEIGHBORHOODS)
+})
+
+test('a saved list position is used only for the same URL and only when well formed', () => {
+  const raw = JSON.stringify({ search: '?view=spikes&site=48_201_0057', limit: 100, y: 1750 })
+  assert.deepEqual(parseSpot(raw, '?view=spikes&site=48_201_0057'), { search: '?view=spikes&site=48_201_0057', limit: 100, y: 1750 })
+  assert.equal(parseSpot(raw, '?view=spikes'), null)
+  assert.equal(parseSpot('{not json', '?view=spikes'), null)
+  assert.equal(parseSpot(null, '?view=spikes'), null)
+  assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 'all', y: 3 }), '?view=spikes'), null)
+  assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 1e9, y: -5 }), '?view=spikes')?.limit, 10_000)
 })

@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 import './Rose.css'
 import { unitTitle } from './format'
 import { useLang, useT } from './useT'
@@ -60,10 +60,18 @@ function loadRose(): Promise<RoseData> {
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`
+// One decimal where two percentages sit side by side (the key, the table), so 8% and 8.3% are not read as one number.
+const pct1 = (x: number) => `${(x * 100).toFixed(1)}%`
 const ppb = (x: number) => `${Number(x.toPrecision(3))} ppb`
 
 const C = 150
 const R = 104
+/** Puts `reason` where `{reason}` sits in the translated sentence, so a reason kept in English can carry lang="en". */
+function withReason(text: string, reason: ReactNode): ReactNode {
+  const [before, ...rest] = text.split('{reason}')
+  return <>{before}{reason}{rest.join('')}</>
+}
+
 function pt(deg: number, r: number): [number, number] {
   const a = (deg * Math.PI) / 180
   return [C + r * Math.sin(a), C - r * Math.cos(a)]
@@ -74,9 +82,10 @@ function wedge(from: number, to: number, r: number): string {
   return `M${C},${C} L${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 0 1 ${x1.toFixed(1)},${y1.toFixed(1)} Z`
 }
 
-export function Rose({ siteId, param }: { siteId: string; param: string }) {
+/** `name` is the monitor's display name, used when rose.json has no entry for the site at all. */
+export function Rose({ siteId, param, name: monitorName }: { siteId: string; param: string; name?: string }) {
   const [data, setData] = useState<RoseData | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [failed, setFailed] = useState(false)
   const [p, setP] = useState<Pct>('p99')
   const id = useId()
   const t = useT()
@@ -90,29 +99,40 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
     let live = true
     loadRose().then(
       (d) => { if (live) setData(d) },
-      (e: unknown) => { if (live) setError(e instanceof Error ? e.message : String(e)) },
+      (e: unknown) => {
+        // The cause (and the pipeline command that fixes it) is for whoever runs the site, not for readers.
+        console.error('Pollution rose:', e)
+        if (live) setFailed(true)
+      },
     )
     return () => { live = false }
   }, [])
 
-  if (error) return <p className="muted small">{t('rose.unavailable', { err: error })}</p>
+  if (failed) return <p className="muted small">{t('rose.unavailable')}</p>
   if (!data) return <p className="muted small">{t('rose.loading')}</p>
 
   const site = data.sites[siteId]
   const rose = site?.compounds[param]
   if (!site || !rose) {
     const skip = data.skipped_sites.find((s) => s.site_id === siteId)
-    const name = skip?.name ?? site?.name ?? siteId
+    const name = skip?.name ?? site?.name ?? monitorName ?? siteId
+    // rose.py's reason is English with a file list in brackets; the one known reason is translated, any other is
+    // shown as written and marked English. The wind sentence only follows a missing-wind reason.
+    const reason = skip ? skip.reason.split(' (')[0] : null
+    const noWind = reason === 'no wind measured at this site'
     return (
       <p className="muted small">
-        {t('rose.none', { name, reason: skip ? skip.reason.split(' (')[0] : t('rose.noReadings') })}
+        {withReason(t('rose.none', { name }), reason === null || noWind
+          ? <>{t(noWind ? 'rose.noWind' : 'rose.noReadings')}</>
+          : <span lang="en">{reason}</span>)}
+        {noWind && <> {t('rose.noneWind')}</>}
       </p>
     )
   }
 
   const years = `${data.method.years[0]}–${data.method.years[data.method.years.length - 1]}`
   const thr = rose.thresholds_ppb[p]
-  const unitTip = unitTitle(data.method.units)
+  const unitTip = unitTitle(data.method.units, lang)
   const cpfs = rose.sectors.map((s) => s[p].cpf ?? 0)
   const max = Math.max(...cpfs, BASE_RATE[p])
   const scale = (v: number) => (v / max) * R
@@ -164,7 +184,7 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
         ))}
         <circle className="rose-base" cx={C} cy={C} r={scale(BASE_RATE[p])} />
         {[0.5, 1].map((f) => (
-          <text key={f} className="rose-ring-label" x={C - 4} y={C - R * f + 11} textAnchor="end">{pct(max * f)}</text>
+          <text key={f} className="rose-ring-label" x={C - 4} y={C - R * f + 14} textAnchor="end">{pct(max * f)}</text>
         ))}
         {t('rose.compassShort').split(',').map((l, i) => {
           const [x, y] = pt(i * 90, R + 18)
@@ -174,13 +194,13 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
 
       <p className="small rose-key">
         {t('rose.key', { top: TOP[p], base: pct(BASE_RATE[p]) })}
-        {top && t('rose.keyTop', { from: top.from_deg, to: top.to_deg, cpf: pct(top[p].cpf ?? 0), top: TOP[p], hours: top[p].high_hours, days: top[p].high_days })}
+        {top && t('rose.keyTop', { from: top.from_deg, to: top.to_deg, cpf: pct1(top[p].cpf ?? 0), top: TOP[p], hours: top[p].high_hours, days: top[p].high_days })}
       </p>
 
       <div className="rose-caveat">
         <p><strong>{t('rose.notSay')}</strong> {lang === 'es' ? t('rose.caveat') /* kn: fixed ES copy of rose.json's caveat; re-translate if the pipeline text changes */ : data.caveat} {t('rose.caveatTail')}</p>
         <p>
-          {t('rose.starts', { top: cap(TOP[p]), thr: ppb(thr) })} ({unitTip ? <abbr title={unitTip}>{data.method.units}</abbr> : data.method.units}, {t('rose.hourly')})
+          {cap(t('rose.starts', { top: TOP[p], thr: ppb(thr) }))} ({unitTip ? <abbr title={unitTip}>{data.method.units}</abbr> : data.method.units}, {t('rose.hourly')})
           {thr < data.method.trigger_floor_ppb ? t('rose.low', { floor: data.method.trigger_floor_ppb }) : '.'}
           {' '}{t('rose.based', { n: rose.n_hours.toLocaleString(lang === 'es' ? 'es-US' : 'en-US'), mph: data.method.min_speed_mph })}
         </p>
@@ -197,8 +217,8 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
             {rose.sectors.map((s) => (
               <tr key={s.from_deg} className={s === top ? 'is-top' : undefined}>
                 <th scope="row">{s.from_deg}–{s.to_deg}°</th>
-                <td>{pct(s.share_of_hours)}</td>
-                <td>{s[p].cpf === null ? '—' : `${(s[p].cpf * 100).toFixed(1)}%`}{s.sparse ? t('rose.few') : ''}</td>
+                <td>{pct1(s.share_of_hours)}</td>
+                <td>{s[p].cpf === null ? '—' : pct1(s[p].cpf)}{s.sparse ? t('rose.few') : ''}</td>
                 <td>{s[p].high_hours}</td>
               </tr>
             ))}

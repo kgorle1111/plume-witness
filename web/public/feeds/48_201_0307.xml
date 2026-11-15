@@ -24,8 +24,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-11_45201_48_201_0307</guid>
       <pubDate>Sat, 11 Oct 2025 03:00:00 -0600</pubDate>
       <description>Benzene read 12.7 ppb against a baseline of 0.59 ppb (21.5 times baseline) at Manchester East Ave N on 2025-10-11 in the hour starting 3:00 a.m. CST.
-Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-11_45201_48_201_0307
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0307
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -81,19 +80,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 12 Apr 2025 04:00:00 -0600</pubDate>
       <description>Benzene read 11.99 ppb against a baseline of 0.17 ppb (70.5 times baseline) at Manchester East Ave N on 2025-04-12 in the hour starting 4:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-04-12_45201_48_201_0307
-All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0307
-Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
-    </item>
-    <item>
-      <title>Benzene spike at Manchester East Ave N, 2025-03-06 6:00 a.m. CST</title>
-      <link>https://kgorle1111.github.io/plume-witness/?night=2025-03-06_45201_48_201_0307</link>
-      <guid isPermaLink="false">plume-witness:2025-03-06_45201_48_201_0307</guid>
-      <pubDate>Thu, 06 Mar 2025 06:00:00 -0600</pubDate>
-      <description>Benzene read 19.23 ppb against a baseline of 0.265 ppb (72.6 times baseline) at Manchester East Ave N on 2025-03-06 in the hour starting 6:00 a.m. CST.
-Record check: A company report from the upwind area lists this compound and starts near the spike hour.
-Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-03-06_45201_48_201_0307
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0307
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
     </item>
@@ -104,7 +92,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Mon, 18 Nov 2024 09:00:00 -0600</pubDate>
       <description>1,3-butadiene read 11.43 ppb against a baseline of 0.1 ppb (114.3 times baseline) at Manchester East Ave N on 2024-11-18 in the hour starting 9:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: A report open at that hour (started that day or earlier) could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-11-18_43218_48_201_0307
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0307
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -149,7 +137,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Sat, 02 Mar 2024 04:00:00 -0600</pubDate>
       <description>1,3-butadiene read 19.69 ppb against a baseline of 0.055 ppb (358 times baseline) at Manchester East Ave N on 2024-03-02 in the hour starting 4:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-03-02_43218_48_201_0307
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0307
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

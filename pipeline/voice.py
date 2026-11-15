@@ -34,7 +34,7 @@ VOICES = {"en": "af_heart", "es": "ef_dora"}
 LANG_CODE = {"en": "a", "es": "e"}  # Kokoro pipeline language codes
 SAMPLE_RATE = 24000
 TARGET_LUFS = -16.0
-BITRATE = "64k"
+BITRATE = "32k"  # speech; 64k doubled the precache for no audible gain (UI audit 3, S170)
 
 MONTHS = {
     "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
@@ -136,13 +136,15 @@ def _ffmpeg(*args: str) -> str:
 
 
 def _to_mp3(wav: Path, mp3: Path) -> None:
-    """Two-pass loudnorm (measure, then linear gain) to -16 LUFS, then mono 64 kbps mp3."""
+    """Two-pass loudnorm (measure, then linear gain) to -16 LUFS, then mono 32 kbps mp3."""
     filt = f"loudnorm=I={TARGET_LUFS}:TP=-1.5:LRA=11"
     log = _ffmpeg("-i", str(wav), "-af", f"{filt}:print_format=json", "-f", "null", "-")
     m = json.loads(log[log.rindex("{"):log.rindex("}") + 1])
     second = (f"{filt}:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
               f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
-    _ffmpeg("-y", "-i", str(wav), "-af", second, "-ac", "1", "-codec:a", "libmp3lame", "-b:a", BITRATE, str(mp3))
+    # loudnorm resamples to 192 kHz; back to Kokoro's 24 kHz so 32 kbps is spent on speech, not a 48 kHz stream
+    _ffmpeg("-y", "-i", str(wav), "-af", second, "-ar", str(SAMPLE_RATE), "-ac", "1", "-codec:a", "libmp3lame",
+            "-b:a", BITRATE, str(mp3))
 
 
 def generate(voices: dict[str, str], out: Path = AUDIO_DIR) -> dict:

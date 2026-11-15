@@ -31,6 +31,9 @@ HERE = Path(__file__).resolve().parent
 LANGS = ("en", "es")
 FIELD = {"en": "draft_en", "es": "draft_es"}
 
+# Frozen copies of the base nights as RESULTS.md scored them (origin/main 4c44f63, 8 monitors): regenerated nights
+# change (more monitors, another wind source, a new trigger site), and a base must not move under the eval.
+BASES = HERE / "bases"
 # Night bases, fixed so every guard version is scored on the same mutants: early nights per
 # record-check status (in file-name order) whose template passes the guard before and after the fix.
 NIGHT_BASES = (
@@ -96,7 +99,7 @@ def _event_base(bid: str, event: dict[str, Any]) -> Base:
 
 def load_bases() -> list[Base]:
     bases = [claude_base(), _event_base("template-demo", _load(PUBLIC / "event.json"))]
-    return bases + [_event_base(f"night-{stem}", _load(PUBLIC / "nights" / f"{stem}.json")) for stem in NIGHT_BASES]
+    return bases + [_event_base(f"night-{stem}", _load(BASES / f"{stem}.json")) for stem in NIGHT_BASES]
 
 
 def real_corpus() -> list[tuple[str, dict[str, str], dict[str, Any]]]:

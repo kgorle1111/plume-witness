@@ -40,6 +40,7 @@ def test_fields_and_bounds():
             assert r["start_local"][:4] in facilities.YEARS and r["end_local"] >= r["start_local"]
             assert r["url"].endswith(f"target={r['incident']}")
             assert r["benzene_lbs"] >= 0 and r["butadiene_lbs"] >= 0
+            assert re.fullmatch(r"[a-z0-9_]+", r["event_type_code"]) and r["filed_by"], (p.name, r["incident"])
         assert f["caveats"][0].startswith("Being upwind of a spike is not evidence of anything")
 
 

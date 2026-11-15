@@ -3,7 +3,7 @@
 
 export const SCHEMA = 'plume-witness.event/v1'
 
-export type Status = 'reported' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete'
+export type Status = 'reported' | 'reported_late' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete'
 
 export interface HourValue {
   hour_cst: number
@@ -114,7 +114,8 @@ export interface PlumeEvent {
   time_note: string
   compound: { name: string; aqs_param: string; units: string }
   monitors: Monitor[]
-  wind: { site_id: string; hourly: WindHour[] }
+  /** source/source_note are absent when the wind is the flagged monitor's own met-form wind (the original shape). */
+  wind: { site_id: string; hourly: WindHour[]; source?: 'own_autogc' | 'borrowed_met' | 'borrowed_autogc'; source_note?: string }
   detection: { site_id: string; hour_cst: number; value: number; baseline: number; rule: string }
   facilities: Facility[]
   record_check: RecordCheck

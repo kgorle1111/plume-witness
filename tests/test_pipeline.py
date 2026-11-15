@@ -124,7 +124,8 @@ def test_report_must_list_the_monitored_compound():
 
 
 def test_final_check_compares_the_report_date():
-    for rtype, rdate, want in (("FINAL", "2024-07-03", "reported"), ("FINAL", "2024-07-20", "not_yet_reported"),
+    # A FINAL report dated after the window is on file, so it is "reported_late", never "not yet reported".
+    for rtype, rdate, want in (("FINAL", "2024-07-03", "reported"), ("FINAL", "2024-07-20", "reported_late"),
                                ("INITIAL", "2024-06-22", "not_yet_reported")):
         placed, details = _inside("9", {"45201": 5.0}, rtype, rdate)
         rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
@@ -177,7 +178,7 @@ def test_t24_counts_from_discovery_not_from_the_spike():
     details["5"] |= {"start_local": "2024-06-21T00:00", "end_local": "2024-06-21T13:00",
                      "notified_local": "2024-06-22T06:00"}
     rc = build.record_check([placed], details, date(2024, 6, 21), 11, search_complete=True, param="45201")
-    assert rc["checks"][0]["status"] == "not_yet_reported"
+    assert rc["checks"][0]["status"] == "reported_late"  # the notice is on file, 30 h after discovery
     assert "30.0 h after the reported discovery" in rc["checks"][0]["note"]
 
 
@@ -205,6 +206,10 @@ def test_calm_wind_draws_no_corridor_and_claims_nothing():
     assert "Wind too light to trace (2 mph)" in rc["search_scope"]
     assert rc["checks"][0]["note"] == "wind too light to trace (2 mph)"
     assert all(d["in_corridor"] is None for d in rc["day_incidents"])
+    # UI audit 3, S56: with no corridor drawn the draft must not ask about "this corridor".
+    pkt = build.template_packet(t["detection"], monitors, t["wind"], t["facilities"], rc)
+    assert "corridor reported" not in pkt["draft_en"] and "este corredor" not in pkt["draft_es"]
+    assert "near the monitor reported a release" in pkt["draft_en"]
 
 
 def test_travel_time_on_the_golden_night(real_event):
@@ -271,3 +276,63 @@ def test_demo_search_completeness_comes_from_the_search_page(monkeypatch):
     real = build.steers_search
     monkeypatch.setattr(build, "steers_search", lambda p: real(p) | {"total": 60})  # a capped, partial listing
     assert "search incomplete" in build.build()["record_check"]["search_scope"]
+
+
+def test_report_at_a_multi_name_echo_site_is_named_as_its_filer():
+    """Night 2024-04-21: Shell Chemical's report 421635 sits at ECHO registry 110031267064, which ECHO lists under
+    five permit holders' names, Airgas first. The corridor kept the first row's name, so the Check step said
+    "Airgas Carbonic Deer Park Plant · Filed report #421635" for a report Shell filed (UI audit 3, S01)."""
+    from pipeline import backtest
+    from pipeline.parse import steers_incident
+
+    bt = backtest.BT
+    echo = json.loads((bt / "echo_48_201_0069_10mi.json").read_text())
+    _, echo_rows = backtest.load_echo()
+    inc = steers_incident(bt / "steers_421635.html")
+    assert inc["entity"] == "SHELL CHEMICAL"
+    origin = backtest.site_coords("48_201_0069")
+    facs = build.corridor(echo, origin, [86.0])
+    site = next(f for f in facs if f["id"] == "110031267064")
+    assert site["name"] == "Airgas Carbonic Deer Park Plant"  # the first of the site's five ECHO rows
+    placed = build.place_incidents([inc], facs, echo_rows, origin, [86.0])
+    assert placed[0]["facility_id"] == "110031267064" and placed[0]["entity"] == "Shell Chemical"
+    rc = build.record_check([], {"421635": inc}, date(2024, 4, 21), 2, search_complete=True, param="43218",
+                            ongoing=placed, earlier_complete=True)
+    assert rc["status"] == "reported" and rc["matched_facility_id"] == "110031267064"
+    build.name_filer(facs, rc, echo["Results"]["Facilities"])
+    # What the Check step prints beside "Filed report #421635" is the company that filed it.
+    assert site["name"] == rc["reported"]["facility"] == "Shell Chemical"
+    assert site["echo_names"] == ["Airgas Carbonic Deer Park Plant", "Deer Park Oil Refinery", "Deer Park Vcm Plant",
+                                  "Shell Chemical", "Westlake Epoxy Deer Park"]
+
+
+def test_published_nights_name_the_filer_of_the_matched_report():
+    """Every published night: the facility the Check step names beside the report is the report's own filer."""
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    paths.append(ROOT / "web" / "public" / "event.json")
+    checked = 0
+    for p in paths:
+        ev = json.loads(p.read_text())
+        rc = ev["record_check"]
+        if not rc["matched_facility_id"]:
+            continue
+        f = next(x for x in ev["facilities"] if x["id"] == rc["matched_facility_id"])
+        assert f["name"] == rc["reported"]["facility"], (p.name, f["name"], rc["reported"]["facility"])
+        checked += 1
+    assert checked >= 18
+
+
+
+def test_published_checks_never_say_not_yet_once_a_record_exists():
+    """UI audit 3, S02: nights 2025-01-23 (before #91) and 2024-01-09 showed "Not yet reported" for notices filed
+    26.9 h and 3029 h after discovery. A check whose note cites a filing date is never "not_yet_reported"."""
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    late = 0
+    for p in paths:
+        for c in json.loads(p.read_text())["record_check"]["checks"]:
+            filed = c["note"].startswith(("initial notice filed", "final report dated"))
+            assert not (filed and c["status"] == "not_yet_reported"), (p.name, c)
+            late += c["status"] == "reported_late"
+    assert late >= 2  # 2024-01-09: notice 3029 h after discovery, final 133 days after the end

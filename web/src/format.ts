@@ -4,10 +4,11 @@ import { translate, type Lang } from './i18n.ts'
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
 // kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
 // `full` is the label where space allows ("a question" is the product's rule: a missing match is not a finding).
-export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial'
+export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late'
 type StatusLabel = { en: string; es: string; icon: StatusIconKind; full?: { en: string; es: string } }
 export const STATUS_TEXT: Record<Status, StatusLabel> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
+  reported_late: { en: 'Filed after the window', es: 'Presentado después del plazo', icon: 'late' },
   not_yet_reported: { en: 'Not yet reported', es: 'Todavía sin reporte', icon: 'clock' },
   no_report_after_deadline: {
     en: 'No matching report', es: 'Sin reporte que coincida', icon: 'question',
@@ -25,6 +26,7 @@ export const STATUS_FILL: Record<string, string> = {
   reported_mismatch: '#7a3fb0',
   search_incomplete: '#8a8a94',
   not_yet_reported: '#3d5a80',
+  reported_late: '#2f6f73',
   reported: '#1f7a45',
 }
 
@@ -55,6 +57,9 @@ const CANNOT_SAY_ES: Record<string, string> = {
     'Solo se usan monitores de grado regulatorio cuyos datos publica el estado, nunca sensores de bajo costo',
   "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released":
     '«Todavía sin reporte» no es una conclusión sobre ninguna instalación: Texas exige un reporte solo cuando se alcanza o se supera una cantidad reportable, y las lecturas del aire no pueden medir cuánto se liberó',
+  // pipeline/build.py BORROWED_WIND_CAVEAT: only on nights whose wind was measured at another monitor.
+  'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
+    'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
   // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
   'New region: no backtest yet; statuses use the same rules; no claims are made from it':
     'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella',
@@ -172,4 +177,31 @@ export function unitTitle(units: string, lang: Lang = 'en'): string | null {
   const m = PPB.exec(units.trim())
   if (!m) return null
   return m[1] ? translate(lang, 'unit.ppbvTitle') : translate(lang, 'unit.ppbLong')
+}
+
+/** "HH:00" for the hourly table, whose column header already says CST. */
+export function hourShort(h: number): string {
+  return `${String(h).padStart(2, '0')}:00`
+}
+
+/** Pounds as published by STEERS can carry three decimals ("8469.743"); whole pounds read better, and a small
+ *  release keeps enough digits that it never shows as 0. */
+export function poundsText(lb: number, lang: Lang = 'en'): string {
+  const digits = lb >= 10 ? 0 : lb >= 1 ? 1 : 2
+  return `${lb.toLocaleString(lang === 'es' ? 'es-US' : 'en-US', { maximumFractionDigits: digits })} lb`
+}
+
+/** STEERS spells the two tracked compounds several ways ("Benzene", "1,3-BUTADIENE", "1,3 Butadiene"). Those map
+ *  to the monitor's own spelling; any other compound is returned as written. */
+export function normCompound(raw: string): string {
+  const s = raw.trim().toLowerCase()
+  if (s === 'benzene') return 'benzene'
+  if (/^1,3[- ]?butadiene$/.test(s)) return '1,3-butadiene'
+  return raw
+}
+
+/** The pipeline's alignment is a mean of cos(angle off the wind); as an angle it says how far off upwind a
+ *  facility sits, which a number between 0 and 1 does not. */
+export function offWindDeg(alignment: number): number {
+  return Math.round((Math.acos(Math.max(0, Math.min(1, alignment))) * 180) / Math.PI)
 }

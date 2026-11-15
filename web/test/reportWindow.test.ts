@@ -17,12 +17,13 @@ test('CDT is CST+1 and CST is CST+0; an unknown zone draws nothing', () => {
   assert.equal(localToCstMinutes('2024-06-21T00:30', '2024-06-21', 1), -30)
 })
 
-test('demo night: 9:38-10:42 CDT is drawn at 8:38-9:42 CST, solid, with the arrival marker', () => {
+test('demo night: 09:38-10:42 CDT is drawn at 08:38-09:42 CST, solid, with the arrival marker', () => {
   const b = reportBand(ev.record_check, ev.date_local)!
   assert.ok(b.matched)
   assert.ok(Math.abs(b.from - (8 + 38 / 60)) < 1e-9 && Math.abs(b.to - (9 + 42 / 60)) < 1e-9)
-  assert.match(b.localText, /^9:38 to 10:42 CDT$/)
-  assert.match(b.cstText, /^8:38 to 9:42 CST$/)
+  // Zero-padded 24 h clock, as every other time on the page ("09:00 CST").
+  assert.equal(b.localText, '09:38 to 10:42 CDT')
+  assert.equal(b.cstText, '08:38 to 09:42 CST')
   const t = arrivalTick(ev.record_check, ev.date_local)!
   assert.ok(Math.abs(t.hourCst - (9 + 36 / 60)) < 1e-9)
   assert.equal(t.text, 'air could arrive ~10:36 CDT (wind 6.8 mph, 10.6 km)')
@@ -42,7 +43,7 @@ test('a report that began the day before is clipped to the chart and says so; on
   assert.equal(b.from, 0)
   assert.ok(b.startsBefore && !b.endsAfter)
   assert.equal(b.cstText, null)
-  assert.equal(b.localText, 'Jun 20 20:00 to 8:15 CDT')
+  assert.equal(b.localText, 'Jun 20 20:00 to 08:15 CDT')
   const gone = { ...r, start_local: '2024-06-20T01:00', end_local: '2024-06-20T03:00' }
   assert.equal(reportBand(base({ reported: gone }), ev.date_local), null)
 })
@@ -61,15 +62,25 @@ test('revision lands 173 days after the demo event and is carried in the event f
 
 test('Spanish: the report window and arrival marker carry no English words', () => {
   const b = reportBand(ev.record_check, ev.date_local, 'es')!
-  assert.equal(b.localText, '9:38 a 10:42 CDT')
-  assert.equal(b.cstText, '8:38 a 9:42 CST')
+  assert.equal(b.localText, '09:38 a 10:42 CDT')
+  assert.equal(b.cstText, '08:38 a 09:42 CST')
   assert.equal(arrivalTick(ev.record_check, ev.date_local, 'es')!.text, 'el aire podría llegar ~10:36 CDT (viento 6.8 mph, 10.6 km)')
 })
 
 test('the time note reads in Spanish, and an unknown note stays as published', () => {
-  assert.equal(timeNote(ev.time_note, 'en'), ev.time_note)
+  // English is rebuilt from the key too, so TCEQ and AutoGC are spelled out once.
+  assert.match(timeNote(ev.time_note, 'en')!, /^Monitor hours are CST as TCEQ \(the Texas Commission on Environmental Quality\).*\(CDT, CST\+1\).*\(AutoGC\)/)
   assert.match(timeNote(ev.time_note, 'es')!, /^Las horas del monitor están en CST.*\(CDT, CST\+1\)/)
   assert.equal(timeNote('Something else.', 'es'), null)
+  assert.equal(timeNote('Something else.', 'en'), 'Something else.')
+})
+
+test('with no company report on the night, the time note drops the report-clock clause', () => {
+  for (const lang of ['en', 'es'] as const) {
+    const text = timeNote(ev.time_note, lang, false)!
+    assert.doesNotMatch(text, /CDT|company|empresa/, text)
+    assert.match(text, /AutoGC/)
+  }
 })
 
 test('report resolutions from build.py read in Spanish; unknown forms stay English', () => {
@@ -91,18 +102,58 @@ test('search scope: every published form reads in Spanish; an unknown sentence k
     assert.equal(es.lang, 'es', `${f} stayed English: ${scope}`)
     assert.doesNotMatch(es.text, /\b(Searched|search|found|reports?|Wind|County)\b/, `${f}: English left in ${es.text}`)
     for (const re of BANNED_WORDS) assert.ok(!re.test(es.text), `banned ${re}: ${es.text}`)
-    assert.deepEqual(searchScopeText(scope, 'en'), { text: scope, lang: 'en' })
+    const en = searchScopeText(scope, 'en')
+    assert.equal(en.lang, 'en')
+    assert.doesNotMatch(en.text, /\d{2}\/\d{2}\/\d{4}/, `${f}: MM/DD/YYYY left in ${en.text}`)
   }
   const s = 'Searched every STEERS emissions event starting 07/09/2025 in Harris County (1 found; search complete). '
     + 'Also searched reports that started in the 30 days before and were still running (0 open that day; earlier search incomplete). '
     + 'Wind too light to trace (1.1 mph): no corridor drawn, so the search is incomplete.'
   assert.deepEqual(searchScopeText(s, 'es'), {
     lang: 'es',
-    text: 'Se revisaron todos los eventos de emisiones de STEERS que empezaron el 9 jul 2025 en el condado de Harris (1 encontrado; búsqueda completa). '
+    text: 'Se revisaron todos los eventos de emisiones de STEERS (el sistema estatal de reportes de eventos de emisiones) que empezaron el 9 jul 2025 en el condado de Harris (1 encontrado; búsqueda completa). '
       + 'También se revisaron los reportes que empezaron en los 30 días anteriores y seguían en curso (0 abiertos ese día; búsqueda anterior incompleta). '
       + 'Viento demasiado débil para rastrear (1.1 mph): no se trazó un corredor, así que la búsqueda está incompleta.',
   })
+  assert.equal(searchScopeText(s, 'en').text.split('. ')[0],
+    'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting Jul 9, 2025 in Harris County (1 found; search complete)')
   const reworded = `${s} Some new sentence from the pipeline.`
+  assert.deepEqual(searchScopeText(reworded, 'en'), { text: reworded, lang: 'en' })
   assert.deepEqual(searchScopeText(reworded, 'es'), { text: reworded, lang: 'en' })
   assert.deepEqual(searchScopeText('Searched every STEERS emissions event starting 2025-07-09 in Harris County (1 found; search complete).', 'es').lang, 'en')
+})
+
+test('check notes: a filing date marks the record as filed; calm wind and unknown notes read honestly', async () => {
+  const { checkNoteText, calmMph } = await import('../src/reportWindow.ts')
+  const notice = checkNoteText('initial notice filed 2024-05-14T13:53 local, 3029.1 h after the reported discovery 2024-01-09T08:45', 'en')!
+  assert.deepEqual(notice, { text: 'Notice filed May 14, 2024 at 13:53 local, 3029.1 h after the reported discovery.', lang: 'en', filed: true })
+  const fin = checkNoteText('final report dated 2024-05-21, 133 days after the event ended', 'es')!
+  assert.ok(fin.filed && fin.lang === 'es' && fin.text.startsWith('Reporte final con fecha') && fin.text.includes('133 días'), fin.text)
+  assert.equal(checkNoteText('final report dated 2024-05-21, 1 day after the event ended', 'en')!.text, 'Final report dated May 21, 2024, 1 day after the event ended.')
+  assert.deepEqual(checkNoteText('wind too light to trace (0.7 mph)', 'es'), { text: 'Viento demasiado débil para rastrear (0.7 mph).', lang: 'es', filed: false })
+  assert.deepEqual(checkNoteText('something new', 'es'), { text: 'something new', lang: 'en', filed: false })
+  assert.equal(checkNoteText('', 'en'), null)
+  assert.equal(calmMph(base({ checks: [{ at: 'T+24h', status: 'search_incomplete', note: 'wind too light to trace (0.7 mph)' } as never] })), 0.7)
+  assert.equal(calmMph(ev.record_check), null)
+})
+
+test('every check note in every published night reads in Spanish', async () => {
+  const { readdirSync } = await import('node:fs')
+  const { checkNoteText } = await import('../src/reportWindow.ts')
+  const pub = new URL('../public/', import.meta.url)
+  const nights = (dir: string) => readdirSync(new URL(dir, pub)).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => `${dir}${f}`)
+  for (const f of ['event.json', ...nights('nights/'), ...nights('regions/beaumont/nights/')]) {
+    for (const c of (JSON.parse(readFileSync(new URL(f, pub), 'utf8')) as { record_check: { checks: { note?: string }[] } }).record_check.checks) {
+      const n = checkNoteText(c.note, 'es')
+      if (n) assert.equal(n.lang, 'es', `${f}: ${c.note}`)
+    }
+  }
+})
+
+test('calm-wind and unplaced day-report resolutions read in Spanish', () => {
+  assert.deepEqual(resolutionText('not traced: wind too light to trace (0.7 mph)', 'es'),
+    { text: 'sin rastrear: viento demasiado débil para rastrear (0.7 mph)', lang: 'es' })
+  assert.equal(resolutionText('unresolved: facility not located', 'es').lang, 'es')
+  assert.deepEqual(resolutionText('unresolved: ambiguous, 2 ECHO sites at the address', 'es'),
+    { text: 'sin resolver: ambiguo, 2 sitios de ECHO en la dirección', lang: 'es' })
 })

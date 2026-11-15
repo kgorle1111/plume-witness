@@ -34,3 +34,21 @@ test('the hash picks the step', async () => {
   assert.match(await render('#check'), /State record:/)
   assert.match(await render('#trace'), /upwind direction/)
 })
+
+test('in Spanish the heading, step names and line are Spanish, and the heading says its language', async () => {
+  const i18n = await server.ssrLoadModule('/src/i18n.ts')
+  i18n.setLang('es')
+  try {
+    const html = await render('#trace')
+    assert.match(html, /<h1 class="sr-only" lang="es">Pico de benceno/)
+    assert.match(html, />Detectar<.*>Rastrear<.*>Verificar</)
+    assert.match(html, /viento arriba/)
+    assert.doesNotMatch(html, />Detect<|Wind came/)
+  } finally {
+    i18n.setLang('en')
+  }
+})
+
+test('the ISO date in the step line stays on one line', async () => {
+  assert.match(await render(''), new RegExp(`<span class="nowrap">${ev.date_local}</span>`))
+})

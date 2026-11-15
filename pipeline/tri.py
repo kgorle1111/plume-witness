@@ -1,7 +1,7 @@
 """EPA Toxics Release Inventory (TRI) context: what the major facilities near the Ship Channel monitors report to EPA
 each year for benzene and 1,3-butadiene air releases. Context only; it explains nothing about any single event.
 
-Universe: ECHO "Major Emissions" air facilities within 15 km of any of the 8 AutoGC monitors (the ECHO lists already
+Universe: ECHO "Major Emissions" air facilities within 15 km of any of the Ship Channel AutoGC monitors (the ECHO lists already
 cached for the pipeline and backtest). Linkage ECHO -> TRI: ECHO's own TRIIDs field; fallback TRI's epa_registry_id
 (the FRS id) equal to the ECHO RegistryID. Data: EPA Envirofacts REST (no key), air stack + fugitive pounds per
 facility per year, for the counties the area facilities sit in.
@@ -221,6 +221,7 @@ def load_area() -> tuple[list[dict], dict]:
     _, rows = backtest.load_echo()
     rows += json.loads((ROOT / "data" / "raw" / "echo_milby_8mi.json").read_text())["Results"]["Facilities"]
     sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    names = build.site_names(rows)
     seen, area = set(), []
     for r in rows:
         rid = r.get("RegistryID")
@@ -231,7 +232,7 @@ def load_area() -> tuple[list[dict], dict]:
         near = min(sites, key=lambda s: build.haversine_km(p, sites[s]))
         d = build.haversine_km(p, sites[near])
         if d <= RADIUS_KM:
-            area.append(r | {"_dist_km": round(d, 1), "_near": backtest.SITE_NAMES[near]})
+            area.append(r | {"_dist_km": round(d, 1), "_near": backtest.SITE_NAMES[near], "_names": names[rid]})
     return sorted(area, key=lambda r: r["RegistryID"]), sites
 
 
@@ -289,7 +290,7 @@ def build_tri() -> dict:
     facilities, claimed = {}, set()
     for r in area:
         rid = r["RegistryID"]
-        e = {"name": clean(r["AIRName"]), "tri_name": None, "trifid": None, "tri_ids": [], "link_via": None,
+        e = {"name": " / ".join(clean(n) for n in r["_names"]), "tri_name": None, "trifid": None, "tri_ids": [], "link_via": None,
              "status": "no_tri_id", "reason": None, "distance_km": r["_dist_km"], "nearest_monitor": r["_near"],
              "lat": float(r["FacLat"]), "lon": float(r["FacLong"]), "link": ECHO_LINK + rid, "years": {}}
         lk = links.get(rid)
@@ -409,7 +410,7 @@ def render_doc(t: dict, event: dict | None) -> str:
 ## Method
 
 1. **Universe.** EPA ECHO air facilities classed "Major Emissions" in the lists already cached for the pipeline and
-   backtest, kept if within {t['radius_km']:.0f} km of any of the 8 AutoGC monitors (TAMIS coordinates, haversine).
+   backtest, kept if within {t['radius_km']:.0f} km of any of the {len(backtest.SITE_NAMES)} AutoGC monitors (TAMIS coordinates, haversine).
    That is {m['echo_majors_in_area']} facilities.
 2. **Linkage to TRI.** First, the TRI facility ids (TRIFIDs) ECHO itself lists for the facility. Where ECHO lists
    none, a TRI facility whose `epa_registry_id` equals the ECHO RegistryID. Nothing is matched by name.

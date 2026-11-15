@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Plume Witness: spikes at Houston Deer Park #2</title>
+    <link>https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1039</link>
+    <description>Benzene and 1,3-butadiene spikes at the Houston Deer Park #2 air monitor, newest first, each with what the state record shows. Hourly provisional data.</description>
+    <language>en-us</language>
+    <atom:link href="https://kgorle1111.github.io/plume-witness/feeds/48_201_1039.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Oct 2025 02:00:00 -0600</lastBuildDate>
+    <item>
+      <title>Benzene spike at Houston Deer Park #2, 2025-10-15 2:00 a.m. CST</title>
+      <link>https://kgorle1111.github.io/plume-witness/?night=2025-10-15_45201_48_201_1039</link>
+      <guid isPermaLink="false">plume-witness:2025-10-15_45201_48_201_1039</guid>
+      <pubDate>Wed, 15 Oct 2025 02:00:00 -0600</pubDate>
+      <description>Benzene read 52.76 ppb against a baseline of 0.2 ppb (263.8 times baseline) at Houston Deer Park #2 on 2025-10-15 in the hour starting 2:00 a.m. CST.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
+Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-15_45201_48_201_1039
+All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1039
+Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
+    </item>
+    <item>
+      <title>Benzene spike at Houston Deer Park #2, 2025-10-02 6:00 a.m. CST</title>
+      <link>https://kgorle1111.github.io/plume-witness/?night=2025-10-02_45201_48_201_1039</link>
+      <guid isPermaLink="false">plume-witness:2025-10-02_45201_48_201_1039</guid>
+      <pubDate>Thu, 02 Oct 2025 06:00:00 -0600</pubDate>
+      <description>Benzene read 22.14 ppb against a baseline of 0.42 ppb (52.7 times baseline) at Houston Deer Park #2 on 2025-10-02 in the hour starting 6:00 a.m. CST.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
+Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-02_45201_48_201_1039
+All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1039
+Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
+    </item>
+    <item>
+      <title>1,3-butadiene spike at Houston Deer Park #2, 2025-02-22 7:00 p.m. CST</title>
+      <link>https://kgorle1111.github.io/plume-witness/?night=2025-02-22_43218_48_201_1039</link>
+      <guid isPermaLink="false">plume-witness:2025-02-22_43218_48_201_1039</guid>
+      <pubDate>Sat, 22 Feb 2025 19:00:00 -0600</pubDate>
+      <description>1,3-butadiene read 10.38 ppb against a baseline of 0.025 ppb (415.2 times baseline) at Houston Deer Park #2 on 2025-02-22 in the hour starting 7:00 p.m. CST.
+Record check: A report exists for that day, but its compound, place or time does not line up with this spike.
+Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-02-22_43218_48_201_1039
+All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1039
+Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
+    </item>
+  </channel>
+</rss>
