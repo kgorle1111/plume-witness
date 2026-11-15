@@ -17,7 +17,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 ## What it can't say
 
-- **"Not yet reported" is not "illegal".** Texas requires a report only when a release exceeds a reportable quantity (30 TAC 101.201), and air readings can't measure how much was released.
+- **"Not yet reported" is not a finding about any facility.** Texas requires a report only when a release exceeds a reportable quantity (30 TAC 101.201), and air readings can't measure how much was released.
 - Facilities along the same bearing can't be told apart from one monitor's wind; the app lists them and checks the record instead of naming a source.
 - It sees only what the state's monitors see. Many neighborhoods have no regulator-grade monitor.
 
