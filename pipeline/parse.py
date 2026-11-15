@@ -58,7 +58,7 @@ def steers_search(path: Path) -> dict:
     t = re.sub(r"\s+", " ", _text(path))
     m = re.search(r"(\d+)-(\d+) of (\d+) Records", t)
     if not m:
-        if "No records" in t or "0 Records" in t:
+        if "No records" in t or "0 Records" in t or "No results were found" in t:
             return {"rows": [], "shown": 0, "total": 0}
         raise ValueError(f"{path.name}: no record count found; the STEERS results format may have changed")
     rows = [{"incident": inc, "rn": rn, "entity": name.strip(), "began": began}

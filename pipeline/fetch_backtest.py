@@ -1,0 +1,302 @@
+"""Fetch the public data the backtest needs, strictly one request at a time, with provenance.
+
+Everything lands in data/raw/backtest/ with its own ledger (provenance.json there), so the single-event
+build's provenance block is unchanged. Files already on disk are skipped: rerunning resumes, never refetches.
+
+Phases (all public, no login):
+1. TCEQ site coordinates (TAMIS site pages) for the Ship Channel AutoGC sites
+2. AutoGC hourly benzene and 1,3-butadiene, 2024-2025, every site
+3. Site wind direction and speed, 2024-2025 (the CAMS id that carries wind is found by trying each listed one)
+4. STEERS searches, Harris County, all event types, week by week 2024-2025 (split when a page hits the 50 cap)
+5. STEERS detail page for every emissions event found, plus every other row on a candidate day
+6. EPA ECHO air facilities within 10 mi of each site
+
+Usage: uv run python -m pipeline.fetch_backtest
+"""
+
+import hashlib
+import html
+import http.cookiejar
+import json
+import re
+import sys
+import time
+import urllib.parse
+import urllib.request
+from datetime import UTC, date, datetime, timedelta
+from pathlib import Path
+
+from pipeline.fetch_tceq import (
+    AGC_URL,
+    DELAY_S,
+    ECHO_PAGE,
+    ECHO_QUERY,
+    MET_URL,
+    STEERS_DETAIL,
+    STEERS_HOME,
+    STEERS_SEARCH,
+    TIMEOUT_S,
+    UA,
+    WIND_DIR,
+    WIND_SPEED,
+    _get,
+)
+
+BT = Path(__file__).resolve().parent.parent / "data" / "raw" / "backtest"
+LEDGER = BT / "provenance.json"
+MAX_FILE_BYTES = 2_000_000  # kn: per-file guard; the whole set is budgeted at ~30 MB
+BENZENE, BUTADIENE = "45201", "43218"
+YEARS = ("2024", "2025")
+TAMIS_SITE = "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS={}"
+
+# Ship Channel AutoGC sites and, per site, the CAMS ids the met form lists for it (wind is on one of them).
+SITES = {
+    "48_201_0069": ["site|Houston Milby Park A169 |48_201_0069|169"],
+    "48_201_0307": ["site|Manchester East Avenue N C1029 |48_201_0307|1029"],
+    "48_201_0057": ["site|Galena Park A1667 |48_201_0057|167"],
+    "48_201_1614": ["site|HRM-16 Deer Park C1614 |48_201_1614|1614"],
+    "48_201_1035": ["site|Clinton C403/C304/AH113 |48_201_1035|403", "site|Clinton C403/C304/AH113 |48_201_1035|304",
+                    "site|Clinton C403/C304/AH113 |48_201_1035|113"],
+    "48_201_1015": ["site|Lynchburg Ferry C1015/A165 |48_201_1015|1015",
+                    "site|Lynchburg Ferry C1015/A165 |48_201_1015|165"],
+    "48_201_0803": ["site|HRM-3 Haden Road C603/A114 |48_201_0803|603",
+                    "site|HRM-3 Haden Road C603/A114 |48_201_0803|114"],
+    "48_201_0026": ["site|Channelview C15/AH115 |48_201_0026|15", "site|Channelview C15/AH115 |48_201_0026|115"],
+}
+
+_ledger: list[dict] = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
+_skipped: list[str] = []
+
+
+def log(msg: str) -> None:
+    print(msg, flush=True)
+
+
+def _save(name: str, url: str, params: dict | None, content: bytes) -> Path | None:
+    if len(content) > MAX_FILE_BYTES:
+        _skipped.append(f"{name}: {len(content)} B over the {MAX_FILE_BYTES} B per-file cap")
+        log(f"SKIP {name} ({len(content)} B)")
+        return None
+    BT.mkdir(parents=True, exist_ok=True)
+    path = BT / name
+    path.write_bytes(content)
+    _ledger.append({"file": f"backtest/{name}", "url": url, "params": params, "bytes": len(content),
+                    "sha256": hashlib.sha256(content).hexdigest(),
+                    "fetched_at": datetime.now(UTC).isoformat(timespec="seconds")})
+    LEDGER.write_text(json.dumps(_ledger, indent=1))
+    return path
+
+
+def _polite_get(url: str, data: dict | None = None) -> bytes:
+    """One retry after a long pause: a 429 means we went too fast, and a second 429 should stop the run."""
+    time.sleep(DELAY_S)
+    try:
+        return _get(url, data)
+    except Exception as e:  # noqa: BLE001 - logged and retried once, then re-raised
+        log(f"retry after error on {url}: {e}")
+        time.sleep(30)
+        return _get(url, data)
+
+
+def fetch_sites() -> None:
+    for site in SITES:
+        name = f"tamis_{site}.html"
+        if (BT / name).exists():
+            continue
+        url = TAMIS_SITE.format(site.replace("_", ""))
+        _save(name, url, None, _polite_get(url))
+        log(f"site {site}")
+
+
+def fetch_agc() -> None:
+    for site in SITES:
+        for year in YEARS:
+            for param in (BENZENE, BUTADIENE):
+                name = f"agc_{year}_{site}_{param}.html"
+                if (BT / name).exists():
+                    continue
+                params = {"user_year": year, "user_site": site, "user_param": param, "user_units": "ppb-v",
+                          "report_format": "comma", "user_decimals": "2"}
+                _save(name, AGC_URL, params, _polite_get(AGC_URL, params))
+                log(f"agc {name}")
+
+
+def _has_hourly_rows(content: bytes) -> bool:
+    return re.search(rb"\d{2}/\d{2}/\d{4},", content) is not None
+
+
+def fetch_met() -> None:
+    for site, selects in SITES.items():
+        for year in YEARS:
+            if all((BT / f"met_{year}_{site}_{p}.html").exists() for p in (WIND_DIR, WIND_SPEED)):
+                continue
+            for sel in selects:
+                got = {}
+                for param in (WIND_DIR, WIND_SPEED):
+                    params = {"submitted": "1", "first_look": "no", "select_site": sel, "user_year": year,
+                              "user_param": param, "time_format": "24hr", "report_format": "comma",
+                              "print_daily_avg": "1"}
+                    got[param] = (params, _polite_get(MET_URL, params))
+                if all(_has_hourly_rows(c) for _, c in got.values()):
+                    for param, (params, content) in got.items():
+                        _save(f"met_{year}_{site}_{param}.html", MET_URL, params, content)
+                    log(f"met {site} {year} via {sel.split('|')[-1]}")
+                    break
+            else:
+                _skipped.append(f"met {site} {year}: no listed CAMS id returned hourly wind")
+                log(f"NO WIND {site} {year}")
+
+
+def _steers_opener() -> urllib.request.OpenerDirector:
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+    opener.addheaders = [("User-Agent", UA)]
+    time.sleep(DELAY_S)
+    opener.open(STEERS_HOME, timeout=TIMEOUT_S).read()
+    return opener
+
+
+def _search(opener, beg: date, end: date) -> bytes:
+    params = {"newsearch": "yes", "event_start_beg_dt": beg.strftime("%m/%d/%Y"),
+              "event_start_end_dt": end.strftime("%m/%d/%Y"), "ls_cnty_name": "HARRIS"}
+    time.sleep(DELAY_S)
+    with opener.open(STEERS_SEARCH, data=urllib.parse.urlencode(params).encode(), timeout=TIMEOUT_S) as r:
+        page = r.read()
+    return params, page
+
+
+def _count(page: bytes) -> tuple[int, int] | None:
+    t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", page.decode("latin-1"))))
+    m = re.search(r"(\d+)-(\d+) of (\d+) Records", t)
+    if m:
+        return int(m.group(2)) - int(m.group(1)) + 1, int(m.group(3))
+    if "returned 0 records" in t or "No records" in t or "No results were found" in t:
+        return 0, 0
+    return None
+
+
+def fetch_steers_weeks() -> None:
+    opener = _steers_opener()
+    todo = []
+    d = date(2024, 1, 1)
+    while d <= date(2025, 12, 31):
+        todo.append((d, min(d + timedelta(days=6), date(2025, 12, 31))))
+        d += timedelta(days=7)
+    while todo:
+        beg, end = todo.pop(0)
+        name = f"steers_search_harris_{beg:%Y%m%d}_{end:%Y%m%d}.html"
+        if (BT / name).exists():
+            continue
+        params, page = _search(opener, beg, end)
+        c = _count(page)
+        if c is None:  # session likely expired: one fresh session, then give up on this window loudly
+            opener = _steers_opener()
+            params, page = _search(opener, beg, end)
+            c = _count(page)
+            if c is None:
+                _skipped.append(f"STEERS search {beg}..{end}: no record count on the page")
+                log(f"SKIP search {beg}..{end}: no record count on the page")
+                continue
+        shown, total = c
+        if total > shown and end > beg:
+            mid = beg + (end - beg) // 2
+            todo[:0] = [(beg, mid), (mid + timedelta(days=1), end)]
+            log(f"split {beg}..{end} ({total} > {shown})")
+            continue
+        _save(name, STEERS_SEARCH, params, page)
+        log(f"search {beg}..{end}: {total}")
+
+
+def _search_rows() -> list[dict]:
+    from pipeline.parse import steers_search
+    rows = []
+    for p in sorted(BT.glob("steers_search_harris_*.html")):
+        rows += steers_search(p)["rows"]
+    return rows
+
+
+def fetch_steers_details(only_emissions: bool = True, days: set[str] | None = None) -> None:
+    t_all = b" ".join(re.sub(rb"\s+", b" ", p.read_bytes()) for p in BT.glob("steers_search_harris_*.html"))
+    for r in _search_rows():
+        inc = r["incident"]
+        if (BT / f"steers_{inc}.html").exists():
+            continue
+        if days is not None and r["began"][:10] not in days:
+            continue
+        if only_emissions and days is None:
+            # the row's event type follows its end time on the results page
+            m = re.search(rb">\s*" + inc.encode() + rb"\s*<.{0,1500}?(EMISSIONS EVENT|MAINTENANCE|AIR STARTUP|"
+                          rb"AIR SHUTDOWN|EXCESS OPACITY)", t_all, re.DOTALL)
+            if m and m.group(1) != b"EMISSIONS EVENT":
+                continue
+        url = STEERS_DETAIL.format(incident=inc)
+        _save(f"steers_{inc}.html", url, None, _polite_get(url))
+        log(f"detail {inc}")
+
+
+def fetch_echo() -> None:
+    for site in SITES:
+        name = f"echo_{site}_10mi.json"
+        if (BT / name).exists():
+            continue
+        lat, lon = site_coords(site)
+        q = {"output": "JSON", "p_lat": f"{lat:.4f}", "p_long": f"{lon:.4f}", "p_radius": "10", "p_act": "Y"}
+        qid = json.loads(_polite_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"]["QueryID"]
+        page = {"output": "JSON", "qid": qid, "pageno": "1"}
+        content = _polite_get(ECHO_PAGE + "?" + urllib.parse.urlencode(page))
+        _save(name, ECHO_PAGE, {**q, **page}, content)
+        res = json.loads(content)["Results"]
+        log(f"echo {site}: {len(res.get('Facilities', []))} of {res.get('QueryRows')}")
+
+
+def fetch_echo_names(names: list[str]) -> None:
+    for name in names:
+        tag = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+        out = f"echo_name_{tag}.json"
+        if (BT / out).exists() or (BT / f"{out}.none").exists():
+            continue
+        q = {"output": "JSON", "p_fn": name, "p_st": "TX"}
+        qid = json.loads(_polite_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"].get("QueryID")
+        if not qid:
+            (BT / f"{out}.none").write_text("")
+            log(f"echo name {name}: none")
+            continue
+        page = {"output": "JSON", "qid": qid, "pageno": "1"}
+        _save(out, ECHO_PAGE, {**q, **page}, _polite_get(ECHO_PAGE + "?" + urllib.parse.urlencode(page)))
+        log(f"echo name {name}")
+
+
+def site_coords(site: str) -> tuple[float, float]:
+    t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", (BT / f"tamis_{site}.html").read_text(encoding="latin-1")))
+    lat = re.search(r"Latitude:[^(]*\((-?\d+\.\d+)", t)
+    lon = re.search(r"Longitude:[^(]*\((-?\d+\.\d+)", t)
+    if not (lat and lon):
+        raise ValueError(f"tamis_{site}.html: no Latitude/Longitude found; the TAMIS page format may have changed")
+    return float(lat.group(1)), float(lon.group(1))
+
+
+def fetch_candidate_day_details() -> None:
+    """Every report (any event type) that started on a candidate day: the record check reads them all."""
+    from pipeline import backtest
+    sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    universe, _ = backtest.load_universe()
+    cands, _, _ = backtest.select_candidates(universe, backtest.load_echo()[1], sites)
+    fetch_steers_details(days={c["day"] for c in cands})
+
+
+def fetch_spike_day_details() -> None:
+    """Every report that started on a day the trigger fires: needed before the check may call a search complete."""
+    from pipeline import backtest
+    sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    fetch_steers_details(days={d for d, _, _, _ in backtest.spike_days(sites)})
+
+
+if __name__ == "__main__":
+    phases = sys.argv[1:] or ["sites", "echo", "agc", "met", "weeks", "details", "daydetails", "spikedetails"]
+    for ph in phases:
+        {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
+         "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,
+         "spikedetails": fetch_spike_day_details}[ph]()
+    total = sum(p.stat().st_size for p in BT.iterdir())
+    log(f"done: {len(_ledger)} files in ledger, {total / 1e6:.1f} MB on disk")
+    for s in _skipped:
+        log(f"SKIPPED {s}")
