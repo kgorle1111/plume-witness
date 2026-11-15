@@ -389,3 +389,19 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .lg-pulse { background: var(--trigger); box-shadow: 0 0 0 2px rgb(190 30 45 / 0.35); }
 .lg-scale { width: 14px; height: 14px; background: linear-gradient(135deg, rgb(120 165 215), rgb(190 30 45)); }
 .lg-nodata { background: transparent; border: 2px solid rgb(110 110 120); box-shadow: none; }
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 10;
+  padding: 10px 14px;
+  min-height: 44px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.skip-link:focus { top: 8px; }
+.panel:focus { outline: none; }
+.panel:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }

@@ -109,6 +109,18 @@ function Replay({ ev }: { ev: PlumeEvent }) {
   const [hour, setHour] = useState(ev.detection.hour_cst)
   return (
     <div className="app">
+      {/* The map, its canvas and the attribution links come before the steps in tab order. The step state lives
+          in location.hash, so the link moves focus itself instead of navigating to #steps. */}
+      <a
+        className="skip-link"
+        href="#steps"
+        onClick={(e) => {
+          e.preventDefault()
+          document.getElementById('steps')?.focus()
+        }}
+      >
+        Skip to steps
+      </a>
       <header className="top">
         <p className="brand">Plume Witness <span className="event-meta">· {ev.date_local} · {ev.compound.name} · {ev.label === 'real' ? 'Real public data' : 'Fixture'}</span></p>
         <h1 className="event-title">{ev.title}</h1>
@@ -124,7 +136,7 @@ function Replay({ ev }: { ev: PlumeEvent }) {
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>
-        <aside className="panel" aria-label="Event steps">
+        <aside className="panel" id="steps" tabIndex={-1} aria-label="Event steps">
           <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} />
         </aside>
       </main>
