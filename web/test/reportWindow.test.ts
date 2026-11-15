@@ -96,7 +96,9 @@ test('search scope: every published form reads in Spanish; an unknown sentence k
   const { BANNED_WORDS } = await import('../src/i18n.ts')
   const pub = new URL('../public/', import.meta.url)
   const nights = (dir: string) => readdirSync(new URL(dir, pub)).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => `${dir}${f}`)
-  for (const f of ['event.json', ...nights('nights/'), ...nights('regions/beaumont/nights/')]) {
+  const regions = readdirSync(new URL('regions/', pub)).flatMap((r) => nights(`regions/${r}/nights/`))
+  assert.ok(regions.some((f) => f.startsWith('regions/midland_odessa/')), 'multi-county region nights are covered')
+  for (const f of ['event.json', ...nights('nights/'), ...regions]) {
     const scope = (JSON.parse(readFileSync(new URL(f, pub), 'utf8')) as PlumeEvent).record_check.search_scope
     const es = searchScopeText(scope, 'es')
     assert.equal(es.lang, 'es', `${f} stayed English: ${scope}`)
@@ -117,6 +119,13 @@ test('search scope: every published form reads in Spanish; an unknown sentence k
   })
   assert.equal(searchScopeText(s, 'en').text.split('. ')[0],
     'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting Jul 9, 2025 in Harris County (1 found; search complete)')
+  // pipeline/build.py county_en for a region searched in several counties.
+  const two = 'Searched every STEERS emissions event starting 10/03/2024 in Ector and Midland counties (0 found; search complete).'
+  assert.match(searchScopeText(two, 'es').text, /que empezaron el 3 oct 2024 en los condados de Ector y Midland \(0 encontrados; búsqueda completa\)\.$/)
+  assert.match(searchScopeText(two, 'en').text, / starting Oct 3, 2024 in Ector and Midland counties \(0 found; search complete\)\.$/)
+  const three = 'Searched every STEERS emissions event starting 10/03/2024 in Bexar, Comal and Wilson counties (1 found; search incomplete).'
+  assert.match(searchScopeText(three, 'es').text, / en los condados de Bexar, Comal y Wilson \(1 encontrado; búsqueda incompleta\)\.$/)
+  assert.equal(searchScopeText(three.replace(' counties', ' County'), 'es').lang, 'en')
   const reworded = `${s} Some new sentence from the pipeline.`
   assert.deepEqual(searchScopeText(reworded, 'en'), { text: reworded, lang: 'en' })
   assert.deepEqual(searchScopeText(reworded, 'es'), { text: reworded, lang: 'en' })

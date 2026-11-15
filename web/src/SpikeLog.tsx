@@ -2,7 +2,7 @@ import { memo, startTransition, useCallback, useEffect, useMemo, useRef, useStat
 import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
 import {
-  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv,
+  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv, yearSpan,
   type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow,
 } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
@@ -363,6 +363,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const orderText = t(sort === 'date' ? (dir === 'asc' ? 'order.oldest' : 'order.newest') : (dir === 'asc' ? 'order.lowest' : 'order.highest'))
   const caption = t('spikes.capSorted', { what: filtered ? t('spikes.capFiltered') : t('spikes.capMonitors', { n: order.sites.length }), by: sortText, order: orderText })
   const empty = !rows.length
+  const count = countKey(data.rows.length, rows.length, filtered)
   const calendar = !empty && (
     <SpikeCalendar
       rows={rows}
@@ -448,7 +449,13 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         </details>
       </details>
 
-      <section className="sl-controls" aria-labelledby="sl-controls-h">
+      {count === 'spikes.none' && (
+        <section className="sl-empty" role="status">
+          <p>{t('spikes.none', { years: yearSpan(data.years) })}</p>
+          <p><T k="spikes.noneCoverage" v={{ link: <a href={navHref(import.meta.env.BASE_URL, 'coverage', window.location.search)}>{t('spikes.noneCoverageLink')}</a> }} /></p>
+        </section>
+      )}
+      {count !== 'spikes.none' && <section className="sl-controls" aria-labelledby="sl-controls-h">
         <h2 id="sl-controls-h" className="sr-only">{t('spikes.filterLabel')}</h2>
         {region.key === DEFAULT_REGION && (
           <NeighborhoodPicks rows={data.rows} picked={picked} onPick={(p) => {
@@ -477,8 +484,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         )}
         <div className="sl-actions">
           <p className="sl-count" aria-live="polite">
-            {empty ? t('spikes.empty', { total: s.spikes })
-              : filtered ? t('spikes.showingFiltered', { n: view.shown.length, m: rows.length, total: s.spikes })
+            {count === 'spikes.empty' ? t('spikes.empty', { total: s.spikes })
+              : count === 'spikes.showingFiltered' ? t('spikes.showingFiltered', { n: view.shown.length, m: rows.length, total: s.spikes })
                 : t('spikes.showing', { n: view.shown.length, total: s.spikes })}
           </p>
           {filtered && <button type="button" className="btn" onClick={clearFilters}>{t('spikes.clear')}</button>}
@@ -493,7 +500,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
             }}>{t('spikes.jump')}</button>
           )}
         </div>
-      </section>
+      </section>}
 
       {/* Phones get the list first (the calendar marks are hard to tap there); laptops get the overview first. */}
       {!phone && calendar}
