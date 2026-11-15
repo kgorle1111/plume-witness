@@ -1,12 +1,17 @@
 .atlas-landing {
   color-scheme: light;
-  /* The landing keeps its light paper in both themes, so it pins the light-theme text and button tokens too;
-     without this the dark theme's light ink lands on light paper. */
+  /* The landing keeps its light paper in both themes, so it pins the light-theme text, link and button tokens too;
+     without this the dark theme's light ink and links land on light paper (1.6:1). --dk-on-light is the text that
+     dark.css puts on a pressed switch button, whose fill here stays the light --ink. */
   --ink: #214349;
   --muted: #3e5a60;
   --ink-2: #3e5a60;
+  --accent: #36666d;
   --surface: #ffffff;
+  --surface-2: #f2f7f7;
   --bg: #ffffff;
+  --bg-2: #f2f7f7;
+  --dk-on-light: #ffffff;
   --btn-primary-bg: #f2c9b7;
   --btn-primary-bg-hover: #ebae98;
   --btn-primary-ink: #442e29;
