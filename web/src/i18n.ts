@@ -53,6 +53,9 @@ const EN = {
   'app.backDemo': 'Back to the demo night',
   'app.moreNights': 'More nights · Embed',
   'app.mapKey': 'Key',
+  'app.siteLinks': 'Site',
+  'app.linkTimeline': 'Timeline',
+  'app.linkBrief': 'Brief',
 
   // Night picker
   'night.label': 'Replay another night',
@@ -64,6 +67,7 @@ const EN = {
   'foot.license': 'MIT code. Government data is public domain: cite TCEQ, EPA, Census.',
   'foot.docs': 'Open data docs',
   'foot.offline': 'Works offline after first visit (map tiles may be blank).',
+  'foot.about': 'About this site',
   'foot.install': 'Install app',
   'theme.dark': 'Dark',
 
@@ -353,6 +357,9 @@ const ES: Record<StringKey, string> = {
   'app.backDemo': 'Volver a la noche de demostración',
   'app.moreNights': 'Más noches · Insertar',
   'app.mapKey': 'Leyenda',
+  'app.siteLinks': 'Sitio',
+  'app.linkTimeline': 'Cronología',
+  'app.linkBrief': 'Resumen',
 
   'night.label': 'Ver otra noche',
   'night.open': 'Abrir',
@@ -362,6 +369,7 @@ const ES: Record<StringKey, string> = {
   'foot.license': 'Código con licencia MIT. Los datos del gobierno son de dominio público: cite a TCEQ, EPA y el Censo.',
   'foot.docs': 'Documentación de datos abiertos (en inglés)',
   'foot.offline': 'Funciona sin conexión después de la primera visita (los mosaicos del mapa pueden verse en blanco).',
+  'foot.about': 'Acerca de este sitio',
   'foot.install': 'Instalar la app',
   'theme.dark': 'Oscuro',
 
