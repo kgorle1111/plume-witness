@@ -17,6 +17,8 @@ const EN = {
   'common.loading': 'Loading…',
   'common.langGroup': 'Language',
   'common.reviewNote': 'Spanish not yet reviewed by a community reader.',
+  // Phones fold the review note behind this button beside the switch (LangSwitch.tsx); only shown in Spanish.
+  'common.reviewToggle': 'Translation not yet reviewed',
   // Units: event.json gives readings in "ppb-v"; pages say "ppb" and spell it out once (format.ts unitFirst, Unit.tsx).
   'unit.ppbLong': 'parts per billion',
   'unit.ppbvLong': 'parts per billion by volume',
@@ -344,6 +346,7 @@ const EN = {
   'landing.m.questions': 'spikes with no matching report',
   'landing.m.questionsSub': 'a question for the state',
   'landing.more': 'More from the data',
+  'landing.nb': 'Start from your neighborhood',
 
   // Brief page chrome (the brief text itself stays English)
   'brief.actions': 'Brief actions',
@@ -773,6 +776,7 @@ const ES: Record<StringKey, string> = {
   'common.loading': 'Cargando…',
   'common.langGroup': 'Idioma',
   'common.reviewNote': 'Traducción aún no revisada por un lector de la comunidad.',
+  'common.reviewToggle': 'Traducción sin revisar',
   'unit.ppbLong': 'partes por mil millones',
   'unit.ppbvLong': 'partes por mil millones en volumen',
   'unit.ppbvTitle': 'ppb-v: partes por mil millones en volumen (la «-v» significa en volumen), la unidad que publica el estado',
@@ -1090,6 +1094,7 @@ const ES: Record<StringKey, string> = {
   'landing.m.questions': 'picos sin reporte que coincida',
   'landing.m.questionsSub': 'una pregunta para el estado',
   'landing.more': 'Más de los datos',
+  'landing.nb': 'Empiece por su vecindario',
 
   'brief.actions': 'Acciones del resumen',
   'brief.spikesLog': 'Registro de picos anteriores',
