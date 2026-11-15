@@ -50,12 +50,12 @@ test('a malformed file fails with a fix', () => {
   assert.throws(() => parseSpikes({ ...data, schema: 'plume-witness.spikes/v1', rows: [{ date: 'Jan 1' }] }), /row 0/)
 })
 
-test('a row links to a replay exactly when its night file exists (Galena Park 2025-10-28 has none)', () => {
+test('a row links to a replay exactly when its night file exists (Galena Park 2025-07-26 has none)', () => {
   for (const r of data.rows) {
     const file = new URL(`../public/nights/${spikeKey(r)}.json`, import.meta.url)
     assert.equal(r.night_id !== null, existsSync(file), spikeKey(r))
   }
-  const galena = data.rows.find((r) => spikeKey(r) === '2025-10-28_45201_48_201_0057')!
+  const galena = data.rows.find((r) => spikeKey(r) === '2025-07-26_45201_48_201_0057')!
   assert.equal(galena.night_id, null)
 })
 

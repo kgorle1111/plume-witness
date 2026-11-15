@@ -6,12 +6,12 @@ candidate releases of `docs/backtest.md` (as computed on this branch's `pipeline
 
 ## Sentences a pitch can use (each with its denominator)
 
-1. **Downwind:** in 58 / 77 (75%; 95% CI 65-84%) of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start (58 of 77 counting monitors without data that day). "Most releases never reach a state monitor" is not supported by this geometry.
-2. **Recall at the current trigger (10x/10ppb):** 5 / 77 (6%; 95% CI 3-14%) releases had a trigger hit near the reported start; of the 58 with a downwind monitor, 2 hit at a monitor that was downwind that hour or the hour before.
+1. **Downwind:** in 60 / 77 (78%; 95% CI 68-86%) of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start (60 of 77 counting monitors without data that day). "Most releases never reach a state monitor" is not supported by this geometry.
+2. **Recall at the current trigger (10x/10ppb):** 5 / 77 (6%; 95% CI 3-14%) releases had a trigger hit near the reported start; of the 60 with a downwind monitor, 2 hit at a monitor that was downwind that hour or the hour before.
 3. **Control:** on ordinary days (same monitors, same hours, same weekday, 7/14/21 days either side, no candidate that day), the same trigger hits in 26 / 410 (6%; 95% CI 4-9%) of windows. At no setting in the sweep is the release-day rate clearly above the control rate (the 95% intervals overlap at every setting), so **hourly monitors at these triggers cannot tell these releases apart from ordinary days at the same hours.**
 4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits 45 of 77 releases and 252 of 410 control windows, at 13.5 alerts a week across the 12 monitors (current: 4.5 a week). Across all 9 settings, the release-day rate minus the control rate runs from -9 to +0 percentage points: a lower trigger fires more often on release days and on ordinary days alike.
 5. **Small releases:** 27 of 77 releases reported under 10 lb of the monitored compound.
-6. **Calm wind:** 145 / 467 (31%; 95% CI 27-35%) current-trigger alerts with a wind speed reading (468 alerts in all) came in wind under 3 mph at the detecting monitor, where the upwind direction is unreliable.
+6. **Calm wind:** 149 / 465 (32%; 95% CI 28-36%) current-trigger alerts with a wind speed reading (468 alerts in all) came in wind under 3 mph at the detecting monitor, where the upwind direction is unreliable.
 
 ## Threshold sweep
 
@@ -23,15 +23,15 @@ hour after). Alerts = (day, compound) pairs with a hit at any of the 12 monitors
 
 | Ratio | Floor (ppb) | Releases with a near-start hit | Control windows with a hit | Downwind releases hit | Downwind control hit | Alerts 2024-25 | Alerts / week |
 |---|---|---|---|---|---|---|---|
-| 10x (current) | 10 | 5 / 77 (6%; 95% CI 3-14%) | 26 / 410 (6%; 95% CI 4-9%) | 2 / 58 | 5 / 297 | 468 | 4.5 |
-| 10x | 3 | 15 / 77 (19%; 95% CI 12-30%) | 115 / 410 (28%; 95% CI 24-33%) | 7 / 58 | 31 / 297 | 1096 | 10.5 |
-| 10x | 1 | 27 / 77 (35%; 95% CI 25-46%) | 182 / 410 (44%; 95% CI 40-49%) | 9 / 58 | 60 / 297 | 1334 | 12.8 |
-| 5x | 10 | 5 / 77 (6%; 95% CI 3-14%) | 28 / 410 (7%; 95% CI 5-10%) | 2 / 58 | 5 / 297 | 469 | 4.5 |
-| 5x | 3 | 17 / 77 (22%; 95% CI 14-32%) | 127 / 410 (31%; 95% CI 27-36%) | 7 / 58 | 34 / 297 | 1137 | 10.9 |
-| 5x | 1 | 41 / 77 (53%; 95% CI 42-64%) | 236 / 410 (58%; 95% CI 53-62%) | 17 / 58 | 107 / 297 | 1401 | 13.4 |
-| 3x | 10 | 5 / 77 (6%; 95% CI 3-14%) | 28 / 410 (7%; 95% CI 5-10%) | 2 / 58 | 5 / 297 | 469 | 4.5 |
-| 3x | 3 | 18 / 77 (23%; 95% CI 15-34%) | 130 / 410 (32%; 95% CI 27-36%) | 7 / 58 | 36 / 297 | 1144 | 11.0 |
-| 3x | 1 | 45 / 77 (58%; 95% CI 47-69%) | 252 / 410 (61%; 95% CI 57-66%) | 21 / 58 | 120 / 297 | 1413 | 13.5 |
+| 10x (current) | 10 | 5 / 77 (6%; 95% CI 3-14%) | 26 / 410 (6%; 95% CI 4-9%) | 2 / 60 | 7 / 308 | 468 | 4.5 |
+| 10x | 3 | 15 / 77 (19%; 95% CI 12-30%) | 115 / 410 (28%; 95% CI 24-33%) | 8 / 60 | 35 / 308 | 1096 | 10.5 |
+| 10x | 1 | 27 / 77 (35%; 95% CI 25-46%) | 182 / 410 (44%; 95% CI 40-49%) | 11 / 60 | 69 / 308 | 1334 | 12.8 |
+| 5x | 10 | 5 / 77 (6%; 95% CI 3-14%) | 28 / 410 (7%; 95% CI 5-10%) | 2 / 60 | 7 / 308 | 469 | 4.5 |
+| 5x | 3 | 17 / 77 (22%; 95% CI 14-32%) | 127 / 410 (31%; 95% CI 27-36%) | 10 / 60 | 38 / 308 | 1137 | 10.9 |
+| 5x | 1 | 41 / 77 (53%; 95% CI 42-64%) | 236 / 410 (58%; 95% CI 53-62%) | 20 / 60 | 109 / 308 | 1401 | 13.4 |
+| 3x | 10 | 5 / 77 (6%; 95% CI 3-14%) | 28 / 410 (7%; 95% CI 5-10%) | 2 / 60 | 7 / 308 | 469 | 4.5 |
+| 3x | 3 | 18 / 77 (23%; 95% CI 15-34%) | 130 / 410 (32%; 95% CI 27-36%) | 10 / 60 | 40 / 308 | 1144 | 11.0 |
+| 3x | 1 | 45 / 77 (58%; 95% CI 47-69%) | 252 / 410 (61%; 95% CI 57-66%) | 24 / 60 | 122 / 308 | 1413 | 13.5 |
 
 ## Downwind exposure by reported pounds (monitored compound)
 
@@ -40,7 +40,7 @@ compound that day; hit columns count only the "with data" releases.
 
 | Reported pounds | Releases | Downwind | Downwind, with data | Near-start hit | Hit at the downwind monitor |
 |---|---|---|---|---|---|
-| under 10 lb | 27 | 20 | 20 | 0 | 0 |
+| under 10 lb | 27 | 22 | 22 | 0 | 0 |
 | 10-100 lb | 25 | 20 | 20 | 1 | 1 |
 | 100-1,000 lb | 14 | 9 | 9 | 1 | 0 |
 | 1,000 lb or more | 11 | 9 | 9 | 2 | 1 |
@@ -63,7 +63,8 @@ compound that day; hit columns count only the "with data" releases.
   start moves the window.
 - **ECHO coordinates.** Facility positions are EPA ECHO points, which can sit hundreds of meters from the
   emission point; the wedge test uses them as given.
-- **Borrowed wind.** Galena Park, HRM-16 Deer Park, Clinton, HRM-3 Haden Road have no wind of their own and use the nearest site's.
+- **Wind source.** Galena Park, HRM-16 Deer Park, Clinton, HRM-3 Haden Road have no met-form wind and use their own AutoGC-form resultant
+  wind; a site with neither on a day uses the nearest site's.
 - **Geometry, not dispersion.** "Downwind" is the build.py wedge (+/-22.5 deg, 15 km), not a plume model; a
   downwind monitor can still miss a narrow or lofted plume.
 - **Alerts per week is a false-alarm proxy, not a false-alarm rate:** nobody knows the true cause of each alert.

@@ -37,7 +37,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-07_45201_48_201_0803</guid>
       <pubDate>Tue, 07 Oct 2025 18:00:00 -0600</pubDate>
       <description>Benzene read 11.03 ppb against a baseline of 0.39 ppb (28.3 times baseline) at HRM-3 Haden Road on 2025-10-07 in the hour starting 6:00 p.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-07_45201_48_201_0803
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0803
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -48,7 +49,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-06_45201_48_201_0803</guid>
       <pubDate>Mon, 06 Oct 2025 17:00:00 -0600</pubDate>
       <description>Benzene read 14.4 ppb against a baseline of 0.34 ppb (42.4 times baseline) at HRM-3 Haden Road on 2025-10-06 in the hour starting 5:00 p.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-06_45201_48_201_0803
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0803
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

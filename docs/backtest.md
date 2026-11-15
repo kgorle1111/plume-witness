@@ -12,7 +12,7 @@ County, facility within 15 km of a Ship Channel AutoGC monitor):
 | Step | Count | Denominator |
 |---|---|---|
 | Monitor spike detected on the event's start day | 18 / 77 (23%; 95% CI 15-34%) | all candidates |
-| ...and the reporting facility inside the upwind corridor | 2 / 18 (11%; 95% CI 3-33%) | detected |
+| ...and the reporting facility inside the upwind corridor | 3 / 18 (17%; 95% CI 6-39%) | detected |
 | ...and the pipeline matched that exact report | 1 / 18 (6%; 95% CI 1-26%) | detected |
 | End to end: detected and matched | 1 / 77 (1%; 95% CI 0-7%) | all candidates |
 | Monitor spike within -1 h to +6 h of the company's reported start | 5 / 77 (6%; 95% CI 3-14%) | all candidates |
@@ -24,7 +24,7 @@ So the day-level count overstates how often a release reached a monitor, and the
 day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
 
 Of the 1 matches, 1 came from a day search the pipeline could call complete.
-On 0 detected events the pipeline matched a different report filed that
+On 1 detected events the pipeline matched a different report filed that
 day instead of the candidate. Compound used: benzene for 52 events, 1,3-butadiene for
 25 (events that reported no benzene).
 
@@ -34,20 +34,20 @@ day instead of the candidate. Compound used: benzene for 52 events, 1,3-butadien
 |---|---|---|
 | (a) Matched / missed | 1 matched, 76 missed (59 never detected, 17 detected but not matched) | 77 reported candidate events (18 detected) |
 | (b) False "no report": the check said *no report after deadline* although a candidate report running in the match window had its facility inside that spike's corridor (ECHO coordinates) | 0 | 468 detected spikes |
-| (c) Real spikes with no matching report in the corridor after a complete search | 171 | 468 detected spikes |
+| (c) Real spikes with no matching report in the corridor after a complete search | 168 | 468 detected spikes |
 
 (b) cross-check from the candidate side: of the 18 detected candidates, the check said *no report after
 deadline* on 4, of which 0
 had the reporting facility geometrically inside the corridor; it abstained (*search incomplete*) on
-13.
+12.
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
 12 sites: 468 (day, compound) spikes on 378 distinct days. Status of each
-spike's record check: search_incomplete 280, no_report_after_deadline 171, reported_mismatch 13, reported 3, no_wind 1. The pipeline abstains rather than
+spike's record check: search_incomplete 281, no_report_after_deadline 168, reported_mismatch 13, reported 4, no_wind 2. The pipeline abstains rather than
 claim absence when the day's search or the 30 days before it are not completely searched, or
-the wind is too light to trace (280 spikes; 169 of them
-under 3 mph, 44 because earlier days were not searched).
-12 spikes matched a report that started on an earlier day and was still running.
+the wind is too light to trace (281 spikes; 172 of them
+under 3 mph, 42 because earlier days were not searched).
+13 spikes matched a report that started on an earlier day and was still running.
 "No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
 the corridor is geometry only. These spikes are counted, never named.
@@ -57,9 +57,9 @@ the corridor is geometry only. These spikes are counted, never named.
 | Reason | Events |
 |---|---|
 | no monitor crossed the trigger rule | 59 |
-| wind too light to trace | 10 |
-| reporting facility outside the corridor | 6 |
-| in corridor, but report time does not overlap the detection-time window | 1 |
+| wind too light to trace | 8 |
+| reporting facility outside the corridor | 7 |
+| in corridor, but report time does not overlap the detection-time window | 2 |
 
 Unmatched events are not listed by name here. Every candidate *did* file a report; an unmatched row is a miss by
 this pipeline, not a finding about the facility.
@@ -86,8 +86,9 @@ Week searches whose page did not list every record: 0.
 - **Detection (unchanged pipeline):** value >= max(10 x 7-day median, 10 ppb), earliest hour of the event's start day.
 - **Corridor (unchanged pipeline):** +/-22.5 deg of upwind, <= 15.0 km, from the wind at the triggering monitor in the
   detection hour and the hour before; a monitor with no wind uses the nearest site that has it (recorded per event).
-  The TCEQ met form returned no hourly wind for Galena Park, HRM-16 Deer Park, Clinton, HRM-3 Haden Road, so they
-  always borrow.
+  The TCEQ met form returned no hourly wind for Galena Park, HRM-16 Deer Park, Clinton, HRM-3 Haden Road; each uses its
+  own AutoGC-form resultant wind (61104/61103) instead, and borrows only on a day that has neither. Wind source of
+  the 468 spikes: own_met 289, own_autogc 161, borrowed_autogc 15, borrowed_met 3.
   Facilities come from EPA ECHO major sources within 10 mi of the triggering monitor.
 - **Match (unchanged pipeline):** record_check picks this incident: in corridor, report [start, end] overlaps -6h..+2h of detection (it may have started on an earlier day). STEERS local time is converted with America/Chicago DST.
 - **Day's reports:** every STEERS row that started that day, taken from the week search (same query, wider window),

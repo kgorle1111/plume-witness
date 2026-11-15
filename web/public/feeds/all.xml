@@ -256,12 +256,13 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
     </item>
     <item>
       <title>Benzene spike at Galena Park, 2025-10-28 12:00 a.m. CST</title>
-      <link>https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057</link>
+      <link>https://kgorle1111.github.io/plume-witness/?night=2025-10-28_45201_48_201_0057</link>
       <guid isPermaLink="false">plume-witness:2025-10-28_45201_48_201_0057</guid>
       <pubDate>Tue, 28 Oct 2025 00:00:00 -0600</pubDate>
       <description>Benzene read 11.0 ppb against a baseline of 0.48 ppb (22.9 times baseline) at Galena Park on 2025-10-28 in the hour starting 12:00 a.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: No wind data for that day, so no upwind area could be drawn.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-28_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
     </item>
@@ -295,8 +296,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-26_43218_48_201_1614</guid>
       <pubDate>Sun, 26 Oct 2025 18:00:00 -0600</pubDate>
       <description>1,3-butadiene read 17.11 ppb against a baseline of 0.02 ppb (855.5 times baseline) at HRM-16 Deer Park on 2025-10-26 in the hour starting 6:00 p.m. CST.
-Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-26_43218_48_201_1614
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1614
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -363,7 +363,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-18_45201_48_201_0057</guid>
       <pubDate>Sat, 18 Oct 2025 06:00:00 -0600</pubDate>
       <description>Benzene read 24.22 ppb against a baseline of 0.52 ppb (46.6 times baseline) at Galena Park on 2025-10-18 in the hour starting 6:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-18_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -396,7 +397,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-17_45201_48_201_0057</guid>
       <pubDate>Fri, 17 Oct 2025 03:00:00 -0600</pubDate>
       <description>Benzene read 32.25 ppb against a baseline of 0.36 ppb (89.6 times baseline) at Galena Park on 2025-10-17 in the hour starting 3:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-17_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -466,8 +468,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-11_43218_48_201_1614</guid>
       <pubDate>Sat, 11 Oct 2025 05:00:00 -0600</pubDate>
       <description>1,3-butadiene read 30.38 ppb against a baseline of 0.06 ppb (506.3 times baseline) at HRM-16 Deer Park on 2025-10-11 in the hour starting 5:00 a.m. CST.
-Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-11_43218_48_201_1614
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1614
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -489,8 +490,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-10_43218_48_201_1614</guid>
       <pubDate>Fri, 10 Oct 2025 22:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.39 ppb against a baseline of 0.04 ppb (259.8 times baseline) at HRM-16 Deer Park on 2025-10-10 in the hour starting 10:00 p.m. CST.
-Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-10_43218_48_201_1614
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1614
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -513,7 +513,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-07_45201_48_201_0803</guid>
       <pubDate>Tue, 07 Oct 2025 18:00:00 -0600</pubDate>
       <description>Benzene read 11.03 ppb against a baseline of 0.39 ppb (28.3 times baseline) at HRM-3 Haden Road on 2025-10-07 in the hour starting 6:00 p.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-07_45201_48_201_0803
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0803
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -536,7 +537,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-10-06_45201_48_201_0803</guid>
       <pubDate>Mon, 06 Oct 2025 17:00:00 -0600</pubDate>
       <description>Benzene read 14.4 ppb against a baseline of 0.34 ppb (42.4 times baseline) at HRM-3 Haden Road on 2025-10-06 in the hour starting 5:00 p.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-10-06_45201_48_201_0803
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0803
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -593,8 +595,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-09-30_43218_48_201_1614</guid>
       <pubDate>Tue, 30 Sep 2025 04:00:00 -0600</pubDate>
       <description>1,3-butadiene read 10.36 ppb against a baseline of 0.11 ppb (94.2 times baseline) at HRM-16 Deer Park on 2025-09-30 in the hour starting 4:00 a.m. CST.
-Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-09-30_43218_48_201_1614
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1614
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -711,7 +712,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-09-21_45201_48_201_0057</guid>
       <pubDate>Sun, 21 Sep 2025 00:00:00 -0600</pubDate>
       <description>Benzene read 17.29 ppb against a baseline of 0.46 ppb (37.6 times baseline) at Galena Park on 2025-09-21 in the hour starting 12:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-09-21_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -722,7 +724,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-09-20_45201_48_201_0057</guid>
       <pubDate>Sat, 20 Sep 2025 23:00:00 -0600</pubDate>
       <description>Benzene read 32.11 ppb against a baseline of 0.56 ppb (57.3 times baseline) at Galena Park on 2025-09-20 in the hour starting 11:00 p.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-09-20_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
@@ -1115,7 +1118,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-08-09_45201_48_201_0057</guid>
       <pubDate>Sat, 09 Aug 2025 00:00:00 -0600</pubDate>
       <description>Benzene read 12.28 ppb against a baseline of 0.23 ppb (53.4 times baseline) at Galena Park on 2025-08-09 in the hour starting 12:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-08-09_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

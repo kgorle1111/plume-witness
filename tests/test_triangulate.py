@@ -121,9 +121,9 @@ def test_contract_rejects_an_intersection_facility_the_event_does_not_list():
 
 
 # SHA-256 of the backtest summary, spike summary and funnel (json.dumps(..., indent=1, sort_keys=True)). Triangulation
-# is informational: these must not move. Re-pinned 2026-11-15 for the 12-monitor Harris site set (was a5e5f90a... on
-# origin/main 860c42b with 8 monitors).
-BACKTEST_SUMMARY_SHA = "1502eafdec99075de43183a090530a8f2fea0ae2cd34c60c80a6d248fd8a5731"
+# is informational: these must not move. Re-pinned 2026-11-15 for 12 monitors and the own-met -> own-AutoGC -> borrowed
+# wind order (was a5e5f90a... on origin/main 860c42b with 8 monitors and met-or-borrowed wind).
+BACKTEST_SUMMARY_SHA = "f8333ada60d37e2f17a75ab6b67d3f77b41ce46b919536dde586a29553eb64fd"
 
 
 def test_existing_backtest_numbers_are_byte_identical():
@@ -144,9 +144,10 @@ def test_every_night_carries_a_valid_block_and_the_statuses_did_not_move(generat
     for ev, row in evs:
         assert "triangulation" in ev and validate(ev) == [], row["id"]
         statuses[row["status"]] = statuses.get(row["status"], 0) + 1
-    # 12 monitors (2026-11-15); 8 monitors on origin/main 860c42b gave 227 / 11 / 170 / 6
-    assert statuses == {"search_incomplete": 280, "reported_mismatch": 13, "no_report_after_deadline": 171,
-                        "reported": 3}
+    # 12 monitors, own AutoGC wind before borrowing (2026-11-15); 8 monitors on origin/main 860c42b gave
+    # 227 / 11 / 170 / 6
+    assert statuses == {"search_incomplete": 281, "reported_mismatch": 13, "no_report_after_deadline": 168,
+                        "reported": 4}
 
 
 def test_triangulation_doc_is_current(generated):
