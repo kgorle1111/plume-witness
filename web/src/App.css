@@ -608,5 +608,6 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .place-pin.label-left .place-label { left: auto; right: 30px; }
 .lg-place { width: 10px; height: 13px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--place); }
 
-.night-picker { display: block; margin-top: 0.5rem; font-size: 0.85rem; }
-.night-picker select { max-width: 100%; font: inherit; }
+/* A <select> sizes to its longest option; width:100% + min-width:0 keeps long night labels from widening the page. */
+.night-picker { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem; font-size: 0.85rem; min-width: 0; }
+.night-picker select { width: 100%; max-width: 32rem; min-width: 0; min-height: 44px; font: inherit; text-overflow: ellipsis; }

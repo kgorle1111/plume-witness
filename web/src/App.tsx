@@ -229,7 +229,7 @@ function NightPicker({ current }: { current: string | null }) {
   }
   return (
     <label className="night-picker">
-      Replay another night{' '}
+      Replay another night
       <select value={current ?? ''} onChange={(e) => go(e.target.value)}>
         <option value="">Demo night</option>
         {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
