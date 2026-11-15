@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, readingText } from './format'
+import { SplitFlap } from './fx'
 
 // Default Play window: the morning around a typical detection. Clamped to the hours the file actually has.
 const PLAY_FROM = 6
@@ -61,10 +62,10 @@ export function Timeline({ ev, hour, onHour }: Props) {
     <div className="timeline" role="group" aria-label="Hour-by-hour replay">
       <div className="tl-controls">
         <button type="button" className="btn tl-play" onClick={togglePlay} aria-pressed={playing}>
-          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false" fill="currentColor">
-            {playing ? <path d="M3 2h3v10H3zM8 2h3v10H8z" /> : <path d="M3.5 1.8v10.4L12 7z" />}
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false" fill="currentColor">
+            {playing ? <path d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z" /> : <path d="M3 1.3l7.5 4.7L3 10.7z" />}
           </svg>
-          {playing ? 'Pause' : <>Play<span className="wide-only"> {hourLabel(from).slice(0, 5)}–{hourLabel(to).slice(0, 5)}</span></>}
+          {playing ? 'Pause' : <>Play<span className="wide-only num"> {hourLabel(from).slice(0, 5)}–{hourLabel(to).slice(0, 5)}</span></>}
         </button>
         <label className="tl-slider">
           <span className="sr-only">Hour of {ev.date_local} (CST)</span>
@@ -89,7 +90,9 @@ export function Timeline({ ev, hour, onHour }: Props) {
       </div>
       {/* Visible status doubles as the text equivalent of what the map shows for this hour. */}
       <p className="tl-status" aria-live={playing ? 'off' : 'polite'}>
-        <strong>{hourLabel(hour)}</strong> · {trigger.name}: <strong>{reading(trigger)}</strong> · {windText}
+        {/* Split-flap clock is visual; the hour text beside it (sr-only) is what's read. */}
+        <SplitFlap text={hourLabel(hour).slice(0, 5)} className="tl-clock" /><span className="sr-only">{hourLabel(hour)}</span>
+        <span className="tl-tz">CST</span> · {trigger.name}: <strong className="num">{reading(trigger)}</strong> · {windText}
       </p>
       {/* Phones keep the note inside the details to save height; only one copy is ever displayed. */}
       {ev.corridor && <p className="tl-note wide-only">{NOTE}</p>}

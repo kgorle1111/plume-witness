@@ -5,6 +5,8 @@ import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
 import { initialPacketReview, useAiDraft, type PacketReview } from './packet'
 import type { Place } from './PlaceSearch'
+import { useMoreBelow } from './fxHooks'
+import { MotionScope } from './fx'
 import './App.css'
 
 const STEPS = [
@@ -33,8 +35,16 @@ function useCorridor(ev: PlumeEvent) {
 function BrandMark() {
   return (
     <svg className="brand-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(190 30 45 / 0.16)" stroke="#be1e2d" strokeWidth="1.4" strokeLinejoin="round" />
-      <circle cx="6" cy="18" r="4.2" fill="#be1e2d" stroke="#fff" strokeWidth="1.6" />
+      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(224 122 104 / 0.28)" stroke="#e07a68" strokeWidth="1.4" strokeLinejoin="round" />
+      <circle cx="6" cy="18" r="4.2" fill="#e07a68" stroke="#fff" strokeWidth="1.6" />
+    </svg>
+  )
+}
+
+function Arrow({ back = false }: { back?: boolean }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      {back ? <path d="M10 3.5L5.5 8l4.5 4.5" /> : <path d="M6 3.5L10.5 8 6 12.5" />}
     </svg>
   )
 }
@@ -42,7 +52,11 @@ function BrandMark() {
 function CannotSay({ items }: { items: string[] }) {
   return (
     <details className="cannot-say">
-      <summary>What this can't say ({items.length})</summary>
+      <summary>
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <circle cx="8" cy="8" r="6.5" /><path d="M8 7.2v4" /><circle cx="8" cy="4.9" r=".5" fill="currentColor" />
+        </svg>
+        What this can't say ({items.length})</summary>
       <ul>{items.map((t) => <li key={t}>{t}</li>)}</ul>
     </details>
   )
@@ -62,7 +76,9 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   const [packetReview, setPacketReview] = useState<PacketReview>(() => initialPacketReview(ev))
   const ai = useAiDraft()
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
+  const navRef = useRef<HTMLElement>(null)
   const { corridor, outside } = useCorridor(ev)
+  const moreBelow = useMoreBelow(navRef, active)
 
   useEffect(() => {
     const onHash = () => setActive(stepFromHash())
@@ -93,6 +109,8 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   return (
     <>
       <div className="stepper" role="tablist" aria-label="Steps" onKeyDown={onKey}>
+        {/* Pill nav: one pill slides behind the selected step. */}
+        <span className="step-pill" aria-hidden="true" style={{ transform: `translateX(${active * 100}%)` }} />
         {STEPS.map((s, i) => (
           <button
             key={s.id}
@@ -114,15 +132,18 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
 
       <CannotSay items={ev.cannot_say} />
 
-      <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
+      {/* Keyed by step so each step fades in when it opens. */}
+      <section key={step} role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2>{STEPS[active].title}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
-        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
+        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} onCheck={() => go(2, true)} />}
         {step === 'check' && <Check ev={ev} />}
         {step === 'packet' && <Packet ev={ev} ai={ai} review={packetReview} setReview={setPacketReview} />}
-        <nav className="step-nav" aria-label="Step navigation">
-          {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
-          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}</button>}
+        <nav ref={navRef} className="step-nav" aria-label="Step navigation">
+          {/* Gradual blur: hints there is more to scroll above the action bar. */}
+          <span className={moreBelow ? 'more-blur is-on' : 'more-blur'} aria-hidden="true"><span /><span /><span /></span>
+          {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}><Arrow back />Back: {STEPS[active - 1].label}</button>}
+          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}<Arrow /></button>}
         </nav>
       </section>
     </>
@@ -153,9 +174,12 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       <header className="top">
         <p className="brand">
           <BrandMark />
-          <span className="brand-name">Plume Witness</span>
+          <span className="brand-name shiny">Plume Witness</span>
           <span className="event-meta">
-            <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
+            <span className="meta-sep" aria-hidden="true">/</span>
+            <span className="num">{ev.date_local}</span>
+            <span className="meta-sep" aria-hidden="true">·</span>
+            <span className="meta-compound">{ev.compound.name}</span>
           </span>
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
         </p>
@@ -181,6 +205,57 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   )
 }
 
+/** Layout-matched placeholder: same header, stage, timeline, tabs and panel boxes as the replay, so nothing
+ *  jumps when the event file arrives. The map skeleton (MapSlot) takes over the same footprint after. */
+function AppSkeleton() {
+  return (
+    <div className="app skeleton-app" aria-busy="true">
+      <p className="sr-only" role="status">Loading event…</p>
+      <header className="top" aria-hidden="true">
+        <span className="sk sk-meta" />
+        <span className="sk sk-title" />
+      </header>
+      <div className="layout" aria-hidden="true">
+        <div className="stage">
+          <div className="map-wrap"><div className="map-skeleton is-loading" /></div>
+          <div className="sk-timeline"><span className="sk" /><span className="sk" /></div>
+        </div>
+        <div className="panel">
+          <div className="sk-tabs"><span className="sk" /><span className="sk" /><span className="sk" /><span className="sk" /></div>
+          <div className="sk-body">
+            <span className="sk sk-title" />
+            <span className="sk sk-line" style={{ width: '92%' }} />
+            <span className="sk sk-line" style={{ width: '64%' }} />
+            <span className="sk sk-block" />
+            <span className="sk sk-block" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LoadError({ message, onRetry }: { message: string; onRetry: (() => void) | null }) {
+  return (
+    <main className="state-msg">
+      <div className="state-card" role="alert">
+        <span className="state-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10 2.5l8 14.5H2z" /><path d="M10 8v4" /><circle cx="10" cy="14.4" r=".6" fill="currentColor" />
+          </svg>
+        </span>
+        <h1>The event couldn't load</h1>
+        <p className="muted">Plume Witness needs one event file to show the replay. Check your connection and try again.</p>
+        <p className="detail">{message}</p>
+        <div className="row">
+          {onRetry && <button type="button" className="btn btn-primary" onClick={onRetry} autoFocus>Try again</button>}
+          <a className="btn" href={import.meta.env.BASE_URL}>Back to the demo night</a>
+        </div>
+      </div>
+    </main>
+  )
+}
+
 // ?night=<id> replays one of the generated spike nights (web/public/nights/<id>.json); no param is the demo night.
 const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
 const nightParam = (): string | null => new URLSearchParams(window.location.search).get('night')
@@ -203,7 +278,8 @@ function NightPicker({ current }: { current: string | null }) {
   }
   return (
     <label className="night-picker">
-      Replay another night{' '}
+      {/* Visually hidden on phones (the select's own text says what it is); always read by screen readers. */}
+      <span className="np-label">Replay another night</span>{' '}
       <select value={current ?? ''} onChange={(e) => go(e.target.value)}>
         <option value="">Demo night</option>
         {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
@@ -215,6 +291,7 @@ function NightPicker({ current }: { current: string | null }) {
 export default function App() {
   const [ev, setEv] = useState<PlumeEvent | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
   const night = nightParam()
   const invalid = night !== null && !NIGHT_ID.test(night)
 
@@ -232,10 +309,16 @@ export default function App() {
         if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
       })
     return () => ctrl.abort()
-  }, [night, invalid])
+  }, [night, invalid, attempt])
+
+  const retry = () => {
+    setError(null)
+    setAttempt((a) => a + 1)
+  }
 
   const shown = invalid ? `"${night}" is not a night id.` : error
-  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={import.meta.env.BASE_URL}>Back to the demo night</a></p></main>
-  if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
-  return <Replay ev={ev} picker={<NightPicker current={night} />} />
+  // An id that isn't a night can't succeed on retry, so it only offers the way back.
+  if (shown) return <LoadError message={shown} onRetry={invalid ? null : retry} />
+  if (!ev) return <AppSkeleton />
+  return <MotionScope><Replay ev={ev} picker={<NightPicker current={night} />} /></MotionScope>
 }

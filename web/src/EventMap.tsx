@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } from 'maplibre-gl'
+import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type LngLatLike, type MapMouseEvent } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
@@ -20,25 +20,53 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron'
 const ATTRIBUTION = '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'
 
 type RGBA = [number, number, number, number]
+// Mirrors the tokens in index.css (teal / coral / sage palette). Marks meet 3:1 on Positron land (#f2f3f0):
+// trigger coral #d0604d 3.45:1, monitor teal-ink 7.0:1, facilityOut 3.4:1, matched sage-ink 5.6:1. Label text
+// sits on a near-opaque white plate: spike-ink 6.0:1, teal-ink 7.8:1, sage-ink 6.3:1.
 const C = {
-  monitor: [31, 94, 160, 255] as RGBA,
-  trigger: [190, 30, 45, 255] as RGBA,
-  facility: [45, 45, 52, 255] as RGBA,
-  // 3.9:1 on Positron land (#f2f3f0) and 3.4:1 over the corridor fill; the old 140,140,150 was 2.99:1.
-  facilityOut: [120, 120, 130, 255] as RGBA,
-  matched: [0, 110, 60, 255] as RGBA,
+  triggerHalo: [208, 96, 77, 56] as RGBA,
+  monitor: [51, 88, 93, 255] as RGBA,
+  trigger: [208, 96, 77, 255] as RGBA,
+  triggerText: [169, 67, 47, 255] as RGBA,
+  facility: [36, 54, 59, 255] as RGBA,
+  facilityOut: [122, 133, 135, 255] as RGBA,
+  matched: [47, 107, 87, 255] as RGBA,
   white: [255, 255, 255, 255] as RGBA,
-  upwind: [190, 30, 45, 200] as RGBA,
-  labelBg: [255, 255, 255, 235] as RGBA,
-  text: [20, 20, 24, 255] as RGBA,
-  focus: [11, 87, 208, 255] as RGBA,
-  noData: [110, 110, 120, 255] as RGBA,
-  corridorFill: [190, 30, 45, 22] as RGBA,
-  corridorLine: [190, 30, 45, 140] as RGBA,
-  corridorText: [140, 20, 30, 255] as RGBA,
+  upwind: [208, 96, 77, 235] as RGBA,
+  labelBg: [255, 255, 255, 240] as RGBA,
+  text: [20, 41, 46, 255] as RGBA,
+  focus: [78, 122, 128, 255] as RGBA,
+  noData: [98, 116, 120, 255] as RGBA,
+  corridorFill: [224, 122, 104, 44] as RGBA,
+  corridorLine: [208, 96, 77, 200] as RGBA,
+  corridorText: [169, 67, 47, 255] as RGBA,
 }
 
 const CORRIDOR_LABEL = 'Upwind corridor (wind direction only)'
+
+// Positron is grey on grey. Retint its layers into the app palette (plan-drawing look): teal-mint water, sage parks
+// and woods, peach industrial land (the Ship Channel's refineries read at a glance). Land stays near the old
+// #f2f3f0 luminance, so the marker contrast measured against it still holds. Layer ids checked 2026-11-14 against
+// tiles.openfreemap.org/styles/positron; a missing id is skipped.
+const BASEMAP_TINT: [string, string, string][] = [
+  ['background', 'background-color', '#eef4f2'],
+  ['water', 'fill-color', '#a9d5cb'],
+  ['waterway', 'line-color', '#8cc4b6'],
+  ['park', 'fill-color', '#d4eadf'],
+  ['landcover_wood', 'fill-color', '#d9ecdf'],
+  ['landuse_residential', 'fill-color', '#e8efed'],
+  ['building', 'fill-color', '#dbe4e2'],
+  ['aeroway-area', 'fill-color', '#e3eaea'],
+  ['road_area_pier', 'fill-color', '#f7faf9'],
+  ['water_name_point_label', 'text-color', '#2f6a62'],
+  ['water_name_line_label', 'text-color', '#2f6a62'],
+  ['waterway_line_label', 'text-color', '#2f6a62'],
+  ['label_city', 'text-color', '#24363b'],
+  ['label_town', 'text-color', '#33585d'],
+  ['label_village', 'text-color', '#4b6066'],
+  ['label_other', 'text-color', '#4b6066'],
+]
+const INDUSTRIAL_LAYER = 'pw-landuse-industrial'
 
 // Opening "global → local" intro: globe projection zoomed out to Earth, then a fly-in to the event.
 // Only MapLibre-native pieces render on the globe; the deck.gl overlay is hidden until the flat replay is back.
@@ -76,14 +104,18 @@ const PIN_SVG = '<svg width="26" height="32" viewBox="0 0 26 32" aria-hidden="tr
 
 export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   const container = useRef<HTMLDivElement>(null)
-  const legend = useRef<HTMLUListElement>(null)
+  const legend = useRef<HTMLDivElement>(null)
+  const [keyOpen, setKeyOpen] = useState(false)
   const highlight = useRef(highlightId)
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
   const hourRef = useRef(hour)
   const [failure, setFailure] = useState<unknown>(null)
   const [phase, setPhase] = useState<Phase>(() => (introOnLoad() ? 'globe' : 'flat'))
+  // True while the reader parked the map on the globe with "Show globe" (it stays there until "Back to the report").
+  const [held, setHeld] = useState(false)
   const skipIntro = useRef<() => void>(() => {})
-  const replayIntro = useRef<() => void>(() => {})
+  const showGlobe = useRef<() => void>(() => {})
+  const backToReport = useRef<() => void>(() => {})
   const applyHour = useRef<(h: number) => void>(() => {})
   const placeRef = useRef(place)
   const applyPlace = useRef<(p: Place | null) => void>(() => {})
@@ -98,7 +130,11 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const matchedId = ev.record_check.matched_facility_id
     const corridorIds = new Set(corridor.map((f) => f.id))
     const order = new Map(corridor.map((f, i) => [f.id, i + 1]))
-    const standing = new Set([...corridor.slice(0, NEAREST_LABELED).map((f) => f.id), ...(matchedId ? [matchedId] : [])])
+    // Phones keep one standing label (the filed report): at ~390px the nearest three crowded the basemap's own
+    // place names. Tapping a dot or focusing it in the Trace list still shows any name.
+    const standingWide = new Set([...corridor.slice(0, NEAREST_LABELED).map((f) => f.id), ...(matchedId ? [matchedId] : [])])
+    const standingNarrow = new Set(matchedId ? [matchedId] : [])
+    const standing = () => (isNarrow() ? standingNarrow : standingWide)
     let hoverId: string | null = null
     // Matched facility drawn last so neighbours never cover it.
     const drawOrder = [...ev.facilities.filter((f) => f.id !== matchedId), ...ev.facilities.filter((f) => f.id === matchedId)]
@@ -123,7 +159,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const v = readingAt(m)?.value
       if (v == null) return [255, 255, 255, 0]
       const t = share(v)
-      return [Math.round(120 + (190 - 120) * t), Math.round(165 + (30 - 165) * t), Math.round(215 + (45 - 215) * t), 255]
+      return [Math.round(157 + (208 - 157) * t), Math.round(191 + (96 - 191) * t), Math.round(195 + (77 - 195) * t), 255]
     }
     const monitorText = (m: Monitor) => {
       const h = readingAt(m)
@@ -148,8 +184,6 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const origin = cor && ev.monitors.find((m) => m.site_id === cor.origin_site_id)
     const arcs = cor && origin ? mergeArcs(cor.wind_from_deg, cor.half_width_deg) : []
     const wedges = cor && origin ? arcs.map(([a, b]) => ({ ring: sectorRing(origin.lat, origin.lon, a, b, cor.max_km) })) : []
-    const widest = arcs.reduce<[number, number] | null>((w, a) => (!w || a[1] - a[0] > w[1] - w[0] ? a : w), null)
-    const corridorLabelAt = cor && origin && widest ? destination(origin.lat, origin.lon, (widest[0] + widest[1]) / 2, cor.max_km * 0.85) : null
 
     const map = new MlMap({
       container: el,
@@ -161,6 +195,39 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       // The surrounding section already names the map; this names the interactive canvas inside it.
       locale: { 'Map.Title': 'Interactive map: arrow keys pan, plus and minus zoom' },
     })
+
+    const tint = () => {
+      for (const [id, prop, color] of BASEMAP_TINT) {
+        if (!map.getLayer(id)) continue
+        try {
+          (map.setPaintProperty as (l: string, p: string, v: string) => void).call(map, id, prop, color)
+        } catch {
+          /* a renamed paint property in a future style: leave that layer as published */
+        }
+      }
+      // Industrial and port land is not its own layer in Positron; add one from the same landuse source.
+      try {
+        if (!map.getLayer(INDUSTRIAL_LAYER) && map.getSource('openmaptiles')) {
+          map.addLayer({
+            id: INDUSTRIAL_LAYER,
+            type: 'fill',
+            source: 'openmaptiles',
+            'source-layer': 'landuse',
+            filter: ['match', ['get', 'class'], ['industrial', 'railway', 'commercial'], true, false],
+            paint: { 'fill-color': '#f6ddd2', 'fill-opacity': 0.85 },
+          }, map.getLayer('waterway') ? 'waterway' : undefined)
+        }
+      } catch {
+        /* no landuse source in this style */
+      }
+      // A soft atmosphere on the globe; it blends out by zoom 7, so the flat replay is unchanged.
+      try {
+        map.setSky({ 'sky-color': '#cfe6ea', 'horizon-color': '#f5f9fa', 'fog-color': '#f5f9fa', 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 7, 0] } as never)
+      } catch {
+        /* older MapLibre: no sky */
+      }
+    }
+    map.on('style.load', tint)
 
     const bounds = new LngLatBounds()
     ev.monitors.forEach((m) => bounds.extend([m.lon, m.lat]))
@@ -214,7 +281,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const labeled = () => {
       const seen = new Set<string>()
       // Facility ids can repeat in the data; label each id once.
-      const wanted = ev.facilities.filter((f) => (standing.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
+      const keep = standing()
+      const wanted = ev.facilities.filter((f) => (keep.has(f.id) || isRevealed(f)) && !seen.has(f.id) && seen.add(f.id))
       const rank = (f: Facility) => (isRevealed(f) ? 0 : f.id === matchedId ? 1 : 2 + (order.get(f.id) ?? 99))
       wanted.sort((a, b) => rank(a) - rank(b))
       const placed: number[][] = []
@@ -232,6 +300,24 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           : [x - w / 2, y + 13, x + w / 2, y + 13 + h]
         if (!isRevealed(f) && hits(box)) return false
         placed.push(box)
+        return true
+      })
+    }
+
+    // Numbers inside dots that overlap stack into an unreadable smudge (phones, zoomed out). A number is drawn only
+    // where its dot is clear of an already numbered dot, filed report first, then nearest first; the dot itself
+    // always draws, and a revealed facility always gets its number.
+    const NUMBER_CLEARANCE_PX = 15
+    const numbered = () => {
+      const seen = new Set<string>()
+      const candidates = drawOrder.filter((f) => order.has(f.id) && !seen.has(f.id) && seen.add(f.id))
+      const rank = (f: Facility) => (isRevealed(f) ? 0 : f.id === matchedId ? 1 : 2 + (order.get(f.id) ?? 99))
+      candidates.sort((a, b) => rank(a) - rank(b))
+      const placed: { x: number; y: number }[] = []
+      return candidates.filter((f) => {
+        const p = map.project([f.lon, f.lat])
+        if (!isRevealed(f) && placed.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < NUMBER_CLEARANCE_PX)) return false
+        placed.push({ x: p.x, y: p.y })
         return true
       })
     }
@@ -260,16 +346,27 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           getFillColor: C.corridorFill,
           stroked: true,
           getLineColor: C.corridorLine,
-          getLineWidth: 1.5,
+          getLineWidth: 2,
           lineWidthUnits: 'pixels',
         }),
+      // Soft coral halo under the flagged monitor, so the spike is the first thing the eye finds.
+      new ScatterplotLayer<Monitor>({
+        id: 'trigger-halo',
+        data: [trigger],
+        getPosition: (m) => [m.lon, m.lat],
+        getRadius: (m) => monitorRadius(m, narrow) + (narrow ? 10 : 16),
+        radiusUnits: 'pixels',
+        getFillColor: C.triggerHalo,
+        updateTriggers: { getRadius: hourRef.current },
+        transitions: reduceMotion ? undefined : { getRadius: 250 },
+      }),
       upwindFor(hourRef.current) &&
         new PathLayer({
           id: 'upwind',
           data: [upwindFor(hourRef.current)],
           getPath: (d: { path: [number, number][] }) => d.path,
           getColor: C.upwind,
-          getWidth: 4,
+          getWidth: 5,
           widthUnits: 'pixels',
           capRounded: true,
         }),
@@ -297,11 +394,12 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       }),
       new TextLayer<Monitor>({
         id: 'monitor-labels',
-        data: narrow ? [trigger] : ev.monitors,
+        // Only the flagged monitor is labelled; the others' readings are under "All monitors" in the timeline.
+        data: [trigger],
         getPosition: (m) => [m.lon, m.lat],
         getText: monitorText,
         getSize: 12,
-        getColor: (m) => (m.site_id === trigger.site_id ? C.trigger : C.monitor),
+        getColor: (m) => (m.site_id === trigger.site_id ? C.triggerText : C.monitor),
         getTextAnchor: 'middle',
         getAlignmentBaseline: 'top',
         getPixelOffset: (m) => [0, monitorRadius(m, narrow) + 5],
@@ -329,7 +427,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       }),
       new TextLayer<Facility>({
         id: 'facility-numbers',
-        data: drawOrder.filter((f) => order.has(f.id)),
+        data: numbered(),
         getPosition: (f) => [f.lon, f.lat],
         getText: (f) => String(order.get(f.id)),
         getSize: 10,
@@ -354,24 +452,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         fontFamily: 'system-ui, sans-serif',
         characterSet: 'auto',
       }),
-      // Drawn last so dots never cover it; phones carry this label in the legend instead.
-      !narrow &&
-        corridorLabelAt &&
-        new TextLayer({
-          id: 'corridor-label',
-          data: [{ pos: corridorLabelAt }],
-          getPosition: (d: { pos: [number, number] }) => d.pos,
-          getText: () => CORRIDOR_LABEL,
-          getSize: 12,
-          getColor: C.corridorText,
-          getTextAnchor: 'middle',
-          getAlignmentBaseline: 'center',
-          background: true,
-          getBackgroundColor: C.labelBg,
-          backgroundPadding: [4, 2],
-          fontFamily: 'system-ui, sans-serif',
-          fontWeight: 600,
-        }),
+      // The corridor is named in the map Key, not written on the map (less text over the data).
     ].filter(Boolean)
 
     // kn: standalone Deck synced to the MapLibre camera, because @deck.gl/mapbox 9.4.1 reads map.transform,
@@ -468,6 +549,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     ;(pin.querySelector('.intro-label') as HTMLElement).textContent = INTRO_PIN_LABEL
     const pinMarker = new Marker({ element: pin, anchor: 'bottom' }).setLngLat([trigger.lon, trigger.lat])
     let introTimer = 0
+    let heldNow = false
+    let returnTarget: { center?: LngLatLike; zoom?: number } | null = null
     const setIntroPhase = (p: Phase) => {
       phaseNow = p
       setPhase(p)
@@ -475,6 +558,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     const finishIntro = () => {
       if (phaseNow === 'flat') return
+      heldNow = false
+      setHeld(false)
       setIntroPhase('flat')
       window.clearTimeout(introTimer)
       map.stop()
@@ -533,17 +618,47 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       map.fitBounds(frame, { padding: { ...padding, top }, maxZoom: 12, duration: reduceMotion ? 0 : 1200 })
     }
     if (placeRef.current) applyPlace.current(placeRef.current)
-    replayIntro.current = () => {
-      if (phaseNow === 'flat') startIntro()
+
+    // "Show globe": zoom out to the 3D globe and stay there (drag to turn it) until "Back to the report".
+    const flatTarget = () => {
+      const padding = fitPadding()
+      return (padding && map.cameraForBounds(bounds, { padding, maxZoom: 14 })) || { center: [trigger.lon, trigger.lat] as [number, number], zoom: 10 }
+    }
+    showGlobe.current = () => {
+      if (phaseNow !== 'flat') return
+      returnTarget = flatTarget()
+      heldNow = true
+      setHeld(true)
+      setIntroPhase('globe')
+      pulse.style.display = 'none'
+      map.setProjection({ type: 'globe' })
+      pinMarker.addTo(map)
+      const far = { center: [trigger.lon - 35, trigger.lat - 8] as [number, number], zoom: 1.4, pitch: 0, bearing: 0 }
+      if (reduceMotion) map.jumpTo(far)
+      else map.flyTo({ ...far, duration: 1800, essential: true })
+    }
+    backToReport.current = () => {
+      if (!heldNow) return
+      const t = returnTarget ?? flatTarget()
+      heldNow = false
+      setHeld(false)
+      // Stop the zoom-out first: stop() fires its moveend, which must not count as the end of this flight.
+      map.stop()
+      if (reduceMotion) return finishIntro()
+      setIntroPhase('flying')
+      map.once('moveend', finishIntro)
+      map.flyTo({ center: t.center, zoom: t.zoom, bearing: 0, pitch: 0, duration: INTRO_FLY_MS, essential: true })
     }
 
     return () => {
       ro.disconnect()
       window.clearTimeout(introTimer)
       skipIntro.current = () => {}
-      replayIntro.current = () => {}
+      showGlobe.current = () => {}
+      backToReport.current = () => {}
       applyPlace.current = () => {}
       placeMarker.remove()
+      map.off('style.load', tint)
       pinMarker.remove()
       pulseMarker.remove()
       map.off('move', sync)
@@ -583,33 +698,51 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       {phase !== 'flat' && (
         <p className="intro-caption" role="status">
           {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
-          <span className="sr-only">{INTRO_PIN_LABEL}. </span>More cities later. One real night replayed here.
+          <span className="sr-only">{INTRO_PIN_LABEL}. </span>
+          {held ? 'Drag to turn the globe. The report is in Houston.' : 'More cities later. One real night replayed here.'}
         </p>
       )}
-      <div className={phase === 'flat' ? 'intro-ctl is-flat' : 'intro-ctl'}>
-        {phase !== 'flat'
-          ? <button type="button" className="btn" onClick={() => skipIntro.current()}>Skip intro</button>
-          : !prefersReducedMotion() && (
-            <button type="button" className="btn" aria-label="Show globe" onClick={() => replayIntro.current()}>
-              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <circle cx="10" cy="10" r="8" /><ellipse cx="10" cy="10" rx="3.6" ry="8" /><path d="M2 10h16M3.5 5.5h13M3.5 14.5h13" />
-              </svg>
-              {/* Phones show the icon only so the button covers less of the map. */}
-              <span className="wide-only"> Show globe</span>
-            </button>
-          )}
+      {/* "Show globe" and "Back to the report" share one spot, so the way back is where the way out was. */}
+      <div className={phase === 'flat' || held ? 'intro-ctl is-flat' : 'intro-ctl'}>
+        {held ? (
+          <button type="button" className="btn btn-primary" onClick={() => backToReport.current()}>
+            <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round">
+              <path d="M10 18s6-5.2 6-10a6 6 0 0 0-12 0c0 4.8 6 10 6 10z" /><circle cx="10" cy="8" r="2.2" />
+            </svg>
+            Back to the report
+          </button>
+        ) : phase !== 'flat' ? (
+          <button type="button" className="btn" onClick={() => skipIntro.current()}>Skip intro</button>
+        ) : (
+          <button type="button" className="btn" aria-label="Show globe" onClick={() => showGlobe.current()}>
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <circle cx="10" cy="10" r="8" /><ellipse cx="10" cy="10" rx="3.6" ry="8" /><path d="M2 10h16M3.5 5.5h13M3.5 14.5h13" />
+            </svg>
+            {/* Phones show the icon only so the button covers less of the map. */}
+            <span className="wide-only"> Show globe</span>
+          </button>
+        )}
       </div>
-      {/* Hidden (not removed) during the intro: fit() measures its height for the top padding. */}
-      <ul ref={legend} className={phase === 'flat' ? 'legend' : 'legend is-hidden'} aria-hidden="true">
-        <li><span className="lg lg-pulse" /> Flagged monitor</li>
-        <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
-        <li><span className="lg lg-nodata" /> No data</li>
-        <li><span className="lg lg-facility">1</span> Facility</li>
-        {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
-        <li><span className="lg lg-line" /> Wind this hour</li>
-        {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
-        {placeShown && <li><span className="lg lg-place" /> Searched place</li>}
-      </ul>
+      {/* Map Key: collapsed to one button so the map is clear; the list opens over the map. Hidden (not removed)
+          during the intro: fit() measures the closed button's height for the top padding. */}
+      <div ref={legend} className={phase === 'flat' ? 'map-key' : 'map-key is-hidden'}>
+        <button type="button" className="btn key-btn" aria-expanded={keyOpen} aria-controls="map-key-list" onClick={() => setKeyOpen((o) => !o)}>
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+            <path d="M5 4h8M5 8h8M5 12h8" /><circle cx="2.2" cy="4" r=".9" fill="currentColor" /><circle cx="2.2" cy="8" r=".9" fill="currentColor" /><circle cx="2.2" cy="12" r=".9" fill="currentColor" />
+          </svg>
+          Key
+        </button>
+        <ul id="map-key-list" className="legend" hidden={!keyOpen}>
+          <li><span className="lg lg-pulse" /> Flagged monitor</li>
+          <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
+          <li><span className="lg lg-nodata" /> No data</li>
+          <li><span className="lg lg-facility">1</span> Facility</li>
+          {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
+          <li><span className="lg lg-line" /> Wind this hour</li>
+          {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
+          {placeShown && <li><span className="lg lg-place" /> Searched place</li>}
+        </ul>
+      </div>
     </>
   )
 }

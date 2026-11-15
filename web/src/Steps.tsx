@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
+import { useCallback, useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
-import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
+import { compass, hourLabel, safeHttpUrl, statusInfo } from './format'
+import { CountUp, DrawnCheck, FadeWord, HoldButton, SwipeToast } from './fx'
+import { spotlight, useTypewriter } from './fxHooks'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -31,12 +33,15 @@ function InfoIcon() {
   )
 }
 
-export function StatusBadge({ status }: { status: string }) {
+/** `drawDelay` (seconds) draws a "reported" check in and fades its word in after it (Status Mark). The word is
+ *  always there: status is stated in words, the mark only repeats it. */
+export function StatusBadge({ status, drawDelay }: { status: string; drawDelay?: number }) {
   const info = statusInfo(status)
+  const draw = drawDelay !== undefined && info.icon === 'check'
   return (
     <span className={`status status-${status}`}>
-      <StatusIcon kind={info.icon} />
-      <span>{info.en}</span>
+      {draw ? <DrawnCheck delay={drawDelay} /> : <StatusIcon kind={info.icon} />}
+      {draw ? <FadeWord delay={drawDelay}>{info.en}</FadeWord> : <span>{info.en}</span>}
     </span>
   )
 }
@@ -64,6 +69,7 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
           const top = y(h.value)
           return (
             <rect key={h.hour_cst} x={x + 1} y={top} width={bw - 2} height={Math.max(H - pad - top, 1)}
+              style={{ animationDelay: `${i * 22}ms` }}
               className={h.hour_cst === highlightHour ? 'spark-bar spark-peak' : 'spark-bar'} />
           )
         })}
@@ -83,7 +89,7 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
           <thead><tr><th scope="col">Hour (CST)</th><th scope="col">{units}</th><th scope="col">Flag</th></tr></thead>
           <tbody>
             {m.hourly.map((h) => (
-              <tr key={h.hour_cst}>
+              <tr key={h.hour_cst} className={h.hour_cst === highlightHour ? 'is-peak' : undefined}>
                 <td>{hourLabel(h.hour_cst)}</td>
                 <td>{h.value ?? 'no value'}</td>
                 <td>{h.flag ?? ''}</td>
@@ -96,28 +102,34 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
   )
 }
 
+const decimals = (v: number) => (String(v).split('.')[1] ?? '').length
+
 export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const d = ev.detection
   const m = ev.monitors.find((x) => x.site_id === d.site_id) as Monitor
   const u = ev.compound.units
   const others = ev.monitors.filter((x) => x.triggered && x.site_id !== d.site_id)
-  const atHour = m.hourly.find((x) => x.hour_cst === hour)
   return (
     <>
       <p className="lead">A state monitor recorded a {ev.compound.name} reading far above its usual level.</p>
+      <div className="spike-hero">
+        <span className="spike-eyebrow">Peak reading · <span className="num">{hourLabel(d.hour_cst)}, {ev.date_local}</span></span>
+        <span className="spike-value">
+          <CountUp from={d.baseline} to={d.value} format={(n) => n.toFixed(decimals(d.value))} className="num" />
+          <span className="spike-unit">{u}</span>
+        </span>
+        {d.baseline > 0 && (
+          <span className="spike-ratio">
+            About <strong className="num">{Math.round(d.value / d.baseline)}×</strong> its usual <span className="num">{d.baseline} {u}</span>
+          </span>
+        )}
+      </div>
       <dl className="facts">
-        <div><dt>Monitor</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
-        <div className="fact-key">
-          <dt>Reading</dt>
-          <dd><strong className="reading-value">{d.value} {u}</strong> <span className="reading-when">at {hourLabel(d.hour_cst)}, <span className="nowrap">{ev.date_local}</span></span></dd>
-        </div>
-        <div><dt>Usual level (baseline)</dt><dd>{d.baseline} {u}</dd></div>
+        <div><dt>Monitor</dt><dd>{m.name} <span className="muted num">({m.site_id})</span></dd></div>
+        <div><dt>Usual level (baseline)</dt><dd className="num">{d.baseline} {u}</dd></div>
         <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
       </dl>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} />
-      <p className="small">
-        Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, u) : 'no data'}</strong>
-      </p>
       {others.length > 0 && (
         <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${u} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
       )}
@@ -134,9 +146,11 @@ interface TraceProps {
   onHighlight: (id: string | null) => void
   place: Place | null
   onPlace: (p: Place | null) => void
+  /** Empty-state action: go on to the record check, which searches the whole county either way. */
+  onCheck?: () => void
 }
 
-export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: TraceProps) {
+export function Trace({ ev, corridor, outside, onHighlight, place, onPlace, onCheck }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
@@ -160,15 +174,26 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
       </p>
       <p className="caveat"><InfoIcon />Wind direction alone can't tell these apart.</p>
       <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
-      <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
-      <p className="muted small">Hover or focus a facility to show its name on the map; with a keyboard, Tab into the list and use the arrow keys. On the map, tap or point at a dot.</p>
-      {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
+      <h3 className="list-heading">In the upwind corridor <span className="num">({corridor.length})</span></h3>
+      <p className="muted small">
+        Point at a facility to find it on the map.
+        <span className="sr-only"> With a keyboard, Tab into the list and use the arrow keys.</span>
+        {corridor.length > 0 && <> Locations: {corridor[0].source}.</>}
+      </p>
+      {corridor.length === 0 ? (
+        <div className="empty">
+          <h4>No facilities in the upwind corridor</h4>
+          <p>No major permitted facility sits within the corridor's distance and angle for this hour's wind. The record check still searches every report filed that day in the county.</p>
+          {onCheck && <button type="button" className="btn btn-primary" onClick={onCheck}>Check the state record</button>}
+        </div>
+      ) : (
         <ol className="facility-list" onKeyDown={onListKey}>
           {corridor.map((f, i) => (
             // Key on id + rank: the pipeline can emit the same facility id twice.
             <li
               key={`${f.id}-${f.rank}`}
               className={f.id === matched ? 'is-matched' : undefined}
+              {...(f.id === matched ? spotlight : {})}
               ref={(el) => { items.current[i] = el }}
               tabIndex={i === Math.min(current, corridor.length - 1) ? 0 : -1}
               onMouseEnter={() => onHighlight(f.id)}
@@ -178,12 +203,12 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
             >
               <span className="fl-name">{f.name}</span>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
-              <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
+              <span className="fl-geo"><span className="num">{f.distance_km} km</span> away · bearing <span className="num">{f.bearing_deg}°</span> ({compass(f.bearing_deg)})</span>
               <span className="fl-align">
-                <span className="align-label">Wind alignment {f.alignment}</span>
+                <span className="align-label">Wind alignment <span className="num">{f.alignment}</span></span>
                 <span className="align-track" aria-hidden="true"><span className="align-fill" style={{ width: `${Math.max(0, Math.min(1, f.alignment)) * 100}%` }} /></span>
               </span>
-              <span className="muted small">Location source: {f.source}</span>
+              {f.source !== corridor[0].source && <span className="fl-source">Location source: {f.source}</span>}
             </li>
           ))}
         </ol>
@@ -212,23 +237,35 @@ export function Check({ ev }: { ev: PlumeEvent }) {
       </div>
       {matched && (
         <p className="is-matched-note">
-          <strong>{matched.name}</strong>{rc.incident ? <> · Filed report #{rc.incident}</> : null}
+          <strong>{matched.name}</strong>{rc.incident ? <> · Filed report <span className="num">#{rc.incident}</span></> : null}
         </p>
       )}
       <h3 className="list-heading">Checks over time</h3>
-      <ul className="checks">
-        {rc.checks.map((c) => (
-          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} /></li>
-        ))}
-      </ul>
+      {rc.checks.length === 0 ? (
+        <div className="empty">
+          <h4>No checks recorded yet</h4>
+          <p>This file has no 24-hour or 14-day check. Re-run the pipeline after the deadline passes, or open the state record to look yourself.</p>
+        </div>
+      ) : (
+        <ul className="checks">
+          {rc.checks.map((c, i) => (
+            <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} drawDelay={0.2 + i * 0.65} /></li>
+          ))}
+        </ul>
+      )}
       {r && (
         <>
           <h3 className="list-heading">What the report says</h3>
           <dl className="facts">
             {r.compound && <div><dt>Compound</dt><dd>{r.compound}</dd></div>}
-            {r.pounds != null && <div><dt>Amount reported</dt><dd>{r.pounds.toLocaleString('en-US')} lb</dd></div>}
+            {r.pounds != null && (
+              <div><dt>Amount reported</dt><dd>
+                <CountUp to={r.pounds} duration={1.4} className="num"
+                  format={(n) => `${(Number.isInteger(r.pounds) ? Math.round(n) : n).toLocaleString('en-US', { maximumFractionDigits: 3 })} lb`} />
+              </dd></div>
+            )}
             {(r.start_local || r.end_local) && (
-              <div><dt>Time reported</dt><dd>{localTime(r.start_local)} to {localTime(r.end_local)}{r.tz ? ` ${r.tz}` : ''}</dd></div>
+              <div><dt>Time reported</dt><dd><span className="num">{localTime(r.start_local)}</span> to <span className="num">{localTime(r.end_local)}</span>{r.tz ? ` ${r.tz}` : ''}</dd></div>
             )}
             {r.cause && <div><dt>Cause given</dt><dd>{r.cause}</dd></div>}
           </dl>
@@ -245,7 +282,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
 function DayIncidents({ items }: { items: DayIncident[] }) {
   return (
     <>
-      <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
+      <h3 className="list-heading">Other reports filed that day <span className="num">({items.length})</span></h3>
       <ul className="day-incidents">
         {items.map((d) => (
           <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
@@ -259,7 +296,7 @@ function DayIncidents({ items }: { items: DayIncident[] }) {
                 .filter(Boolean)
                 .join(' · ')}
             </span>
-            <span className="muted small">Report #{d.incident}: {d.resolution}</span>
+            <span className="muted small">Report <span className="num">#{d.incident}</span>: {d.resolution}</span>
           </li>
         ))}
       </ul>
@@ -272,6 +309,74 @@ const localTime = (t?: string) => (t ? t.replace('T', ' ') : 'not given')
 const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
+// The draft types itself in once per draft (language and source) per page load; after that it is the reader's text.
+const typedOnce = new Set<string>()
+
+function DraftField({ typeKey, lang, value, isEmpty, approved, onEdit, onTyping }: {
+  typeKey: string
+  lang: Lang
+  value: string
+  isEmpty: boolean
+  approved: boolean
+  onEdit: (v: string) => void
+  onTyping: (typing: boolean) => void
+}) {
+  const [run] = useState(() => !typedOnce.has(typeKey))
+  const { shown, typing, skip } = useTypewriter(value, run)
+  useEffect(() => {
+    typedOnce.add(typeKey)
+  }, [typeKey])
+  useEffect(() => {
+    onTyping(typing)
+  }, [typing, onTyping])
+  return (
+    <>
+      <label className="draft-label" htmlFor="draft">
+        Draft ({LANG_NAME[lang]}){approved ? <span className="approved-tag"> · approved</span> : ''}
+      </label>
+      <div className={typing ? 'draft-wrap is-typing' : 'draft-wrap'}>
+        <textarea
+          id="draft"
+          className="draft"
+          lang={lang}
+          rows={9}
+          value={shown}
+          readOnly={typing}
+          aria-busy={typing}
+          aria-invalid={!typing && isEmpty}
+          aria-describedby={!typing && isEmpty ? 'draft-error draft-meta' : 'draft-meta'}
+          // Any move to read or edit ends the typing at once; nothing the reader types is ever overwritten.
+          onFocus={skip}
+          onPointerDown={skip}
+          onKeyDown={typing ? skip : undefined}
+          onChange={(e) => onEdit(e.target.value)}
+        />
+        {typing && <span className="draft-caret" aria-hidden="true" />}
+      </div>
+    </>
+  )
+}
+
+/** Rubber segment: the thumb slides with a little overshoot and squish; the buttons keep aria-pressed. */
+function RubberSegment<T extends string>({ labelledBy, value, options, onChange }: {
+  labelledBy: string
+  value: T
+  options: { value: T; label: ReactNode; lang?: string }[]
+  onChange: (v: T) => void
+}) {
+  const i = Math.max(0, options.findIndex((o) => o.value === value))
+  return (
+    <div className="seg" role="group" aria-labelledby={labelledBy}>
+      <span className="seg-thumb" aria-hidden="true" style={{ width: `calc((100% - 4px) / ${options.length})`, transform: `translateX(${i * 100}%)` }}>
+        <span key={value} className="seg-squish" />
+      </span>
+      {options.map((o) => (
+        <button key={o.value} type="button" aria-pressed={o.value === value} onClick={() => onChange(o.value)} lang={o.lang}>{o.label}</button>
+      ))}
+    </div>
+  )
+}
+
 interface PacketProps {
   ev: PlumeEvent
   ai: AiDraft | null
@@ -282,12 +387,33 @@ interface PacketProps {
 export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const { lang, source, drafts, approved } = review
   const [speaking, setSpeaking] = useState(false)
+  const [typing, setTyping] = useState(false)
+  // Screen-reader notice (every message) and the visible error line (errors only); successes show as a toast.
   const [notice, setNotice] = useState('')
+  const [errorLine, setErrorLine] = useState('')
+  const [toast, setToast] = useState<{ id: number; msg: string | null }>({ id: 0, msg: null })
   const dialog = useRef<HTMLDialogElement>(null)
+  const doneBtn = useRef<HTMLButtonElement>(null)
+  const focusDone = useRef(false)
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const guard = ev.packet.guard
+  const sourceDrafts = source === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
+  const original = sourceDrafts[lang]
+  const isEmpty = drafts[lang].trim() === ''
+  const isEdited = drafts[lang] !== original
+  const say = (text: string, isError = false) => {
+    setNotice(text)
+    setErrorLine(isError ? text : '')
+    if (!isError) setToast((t) => ({ id: t.id + 1, msg: text }))
+  }
+  const hideToast = useCallback(() => setToast((t) => ({ ...t, msg: null })), [])
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
+  // The hold button becomes the "Approved" button; keep keyboard focus on it.
+  useEffect(() => {
+    if (approved && focusDone.current) doneBtn.current?.focus()
+    focusDone.current = false
+  }, [approved])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
@@ -298,7 +424,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const switchLang = (l: Lang) => {
     if (l === lang) return
     stopSpeech()
-    if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
+    if (approved) say(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
     setReview((r) => ({ ...r, lang: l, approved: false }))
   }
 
@@ -307,7 +433,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     if (s === source || (s === 'ai' && !ai)) return
     stopSpeech()
     const next = s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
-    setNotice(s === 'ai' ? 'Showing the AI draft. Every number in it was checked against the data. Review it before approving.'
+    say(s === 'ai' ? 'Showing the AI draft. Every number in it was checked against the data. Review it before approving.'
       : 'Showing the template draft.')
     setReview((r) => ({ ...r, source: s, drafts: next, approved: false }))
   }
@@ -327,12 +453,20 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   const copy = async () => {
+    if (isEmpty) return say('Nothing to copy: the draft is empty.', true)
     try {
       await navigator.clipboard.writeText(drafts[lang])
-      setNotice('Draft copied.')
+      say('Draft copied.')
     } catch {
-      setNotice('Copy failed. Select the text and copy it by hand.')
+      say('Copy failed. Select the text and copy it by hand.', true)
     }
+  }
+
+  const restore = () => {
+    stopSpeech()
+    // Same rule as an edit: the restored text is new text to the reader, so approval starts over.
+    say(approved ? 'Original draft restored. Approve it again before filing.' : 'Original draft restored.')
+    setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: original }, approved: false }))
   }
 
   return (
@@ -342,71 +476,92 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         {ai && (
           <div className="control">
             <span className="control-label" id="src-label">Who wrote the draft</span>
-            <div className="seg" role="group" aria-labelledby="src-label">
-              <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>
-                Template <span className="seg-sub">(no AI)</span>
-              </button>
-              <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>
-                AI draft <span className="seg-sub">({ai.provider}, number-checked)</span>
-              </button>
-            </div>
+            <RubberSegment<Source> labelledBy="src-label" value={source} onChange={switchSource} options={[
+              { value: 'template', label: <>Template <span className="seg-sub">(no AI)</span></> },
+              { value: 'ai', label: <>AI draft <span className="seg-sub">({ai.provider}, number-checked)</span></> },
+            ]} />
           </div>
         )}
         <div className="control">
           <span className="control-label" id="lang-label">Draft language</span>
-          <div className="seg" role="group" aria-labelledby="lang-label">
-            <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
-            <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
-          </div>
+          <RubberSegment<Lang> labelledBy="lang-label" value={lang} onChange={switchLang} options={[
+            { value: 'en', label: 'English' },
+            { value: 'es', label: 'Español', lang: 'es' },
+          ]} />
         </div>
       </div>
-      <label className="draft-label" htmlFor="draft">
-        Draft ({LANG_NAME[lang]}){approved ? <span className="approved-tag"> · approved</span> : ''}
-      </label>
-      <textarea
-        id="draft"
-        className="draft"
-        lang={lang}
-        rows={9}
-        value={drafts[lang]}
-        onChange={(e) => {
-          const value = e.target.value
-          // Approval covers the exact text a person read; any edit needs a fresh approval.
-          // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
-          if (approved) setNotice('Draft edited. Approve it again before filing.')
-          setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
-        }}
-      />
-      <p className="muted small provenance">
-        {source === 'ai' && ai ? (
-          <>Drafted by {ai.provider} ({ai.model}), generated once on {ai.generated_local} from this event's facts; it has
-            drafted {ai.runs_on_this_event} real event so far. Number check: passed (every number, id and time matches the data).</>
-        ) : (
-          <>Drafted by: {ev.packet.drafted_by ?? 'not stated in this file'}. Number check:{' '}
-            {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.</>
+      <div className="draft-field">
+        <DraftField
+          key={`${source}-${lang}`}
+          typeKey={`${source}-${lang}`}
+          lang={lang}
+          value={drafts[lang]}
+          isEmpty={isEmpty}
+          approved={approved}
+          onTyping={setTyping}
+          onEdit={(value) => {
+            // Approval covers the exact text a person read; any edit needs a fresh approval.
+            // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
+            if (approved) say('Draft edited. Approve it again before filing.')
+            setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
+          }}
+        />
+        {!typing && isEmpty && (
+          <p id="draft-error" className="field-error">
+            <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <circle cx="8" cy="8" r="6.5" /><path d="M8 4.8v3.6" /><circle cx="8" cy="11.1" r=".5" fill="currentColor" />
+            </svg>
+            The draft is empty. Write the summary, or restore the original, before approving it.
+          </p>
         )}
-      </p>
+        <p id="draft-meta" className="draft-meta provenance">
+          <span>
+            {source === 'ai' && ai ? (
+              <>Drafted by {ai.provider} ({ai.model}), generated once on {ai.generated_local} from this event's facts; it has
+                drafted {ai.runs_on_this_event} real event so far. Number check: passed (every number, id and time matches the data).</>
+            ) : (
+              <>Drafted by: {ev.packet.drafted_by ?? 'not stated in this file'}. Number check:{' '}
+                {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.</>
+            )}
+          </span>
+          {isEdited && <span>Edited</span>}
+        </p>
+      </div>
       <div className="row">
         {/* The label states the action, so no aria-pressed: a toggle whose label also flips reads backwards. */}
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak}>
           {speaking ? 'Stop reading' : 'Read aloud'}
         </button>
         <button type="button" className="btn" onClick={copy}>Copy draft</button>
+        {isEdited && <button type="button" className="btn" onClick={restore}>Restore original</button>}
       </div>
       {!canSpeak && <p className="muted small">Read aloud isn't available in this browser.</p>}
       <p className="sr-only" aria-live="polite">{notice}</p>
-      {notice && <p className="muted small" aria-hidden="true">{notice}</p>}
+      {errorLine && <p className="notice is-error" aria-hidden="true">{errorLine}</p>}
 
       <h3 className="list-heading">Review and file</h3>
       <ol className="file-steps">
         <li>
-          <span className="file-step-num" aria-hidden="true">1</span>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
-            {approved ? 'Approved (press to undo)' : 'Approve this draft'}
-          </button>
+          {approved ? (
+            <button ref={doneBtn} type="button" className="btn btn-done" onClick={() => setReview((r) => ({ ...r, approved: false }))}>
+              Approved (press to undo)
+            </button>
+          ) : (
+            <HoldButton
+              onComplete={() => { focusDone.current = true; setReview((r) => ({ ...r, approved: true })) }}
+              disabled={isEmpty || typing}
+              describedBy={isEmpty && !typing ? 'draft-error approve-hint' : 'approve-hint'}
+            >
+              Approve this draft
+            </HoldButton>
+          )}
+          {!approved && (
+            <p id="approve-hint" className="muted small">
+              {typing ? 'The draft is still appearing.' : 'Press and hold to approve. With a keyboard, hold Space or Enter.'}
+            </p>
+          )}
         </li>
         <li>
-          <span className="file-step-num" aria-hidden="true">2</span>
           <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => dialog.current?.showModal()}>
             File with regulator (you submit)
           </button>
@@ -421,6 +576,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <p>To file, copy the approved draft and submit it yourself through the state regulator's own complaint process, with the record link from the Check step.</p>
         <form method="dialog"><button className="btn btn-primary" autoFocus>Got it</button></form>
       </dialog>
+      <SwipeToast id={toast.id} message={toast.msg} onDone={hideToast} />
     </>
   )
 }
