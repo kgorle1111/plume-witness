@@ -64,7 +64,7 @@ const INTRO_FLY_MS = 2500
 // (landingMetrics.ts, tested against spikes.json), so the two pages can't disagree.
 const introPinLabel = (ev: PlumeEvent) => (ev.region ? ev.region.label : REGIONS.houston.place)
 const introCaption = (ev: PlumeEvent, t: Translate) =>
-  ev.region ? t(ev.region.backtested ? 'map.introCaptionRegion' : 'map.introCaptionNew') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
+  ev.region ? t('map.introCaptionRegion') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
 // 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide

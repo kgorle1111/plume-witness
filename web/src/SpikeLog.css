@@ -32,7 +32,7 @@
   color: var(--ink);
 }
 .sl-region a[aria-current='page'] { border-color: var(--ink); font-weight: 700; background: var(--bg-2); }
-.sl-region-note, .region-banner {
+.sl-region-note {
   padding: 8px 12px;
   border-left: 4px solid var(--amber-line);
   background: #fff3c4;
