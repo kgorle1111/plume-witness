@@ -44,5 +44,5 @@ Feed output depends only on `spikes.json` (no clock), so rebuilding unchanged da
 
 A spike is a monitor reading at or above 10 times its own 7-day median and at least 10 ppb. We have not measured
 how many are instrument faults or come from non-industrial sources (traffic, ships), and TCEQ marks these hourly
-values provisional. "No matching report" is a question to ask the state, not a conclusion. A hand audit of the
-"no report" results is in progress; its write-up (`docs/audit-no-report.md`) is not in this branch yet.
+values provisional. "No matching report" is a question to ask the state, not a conclusion. A hand audit of a random
+sample of the "no report" results is in [`audit-no-report.md`](audit-no-report.md).

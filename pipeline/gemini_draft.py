@@ -183,13 +183,262 @@ def _clean(text: str) -> str:
     return "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
 
 
+# Each check below was added for a class of hallucination the guard-escape eval (evals/guard_escape)
+# measured leaking; RESULTS.md there has the before/after catch rates.
+
+# Inflections and close synonyms of the BANNED verdicts, matched on word starts so "improve" and
+# "approved" stay clean. Bare "prove"/"demostrar" are left out: "Can the company prove..." is a fair
+# follow-up question.
+_BANNED_RE = re.compile(
+    r"\bunlawful|\bguilty\b|\bcatch(?:es|ing)?\b|\bprov(?:ed|ing)\b"
+    r"|\bviol(?:ó|aron|an?|ar|ando|ad[oa]s?)\b|\binfring|\bdemostr(?:ó|aron|ad[oa]s?)\b|\bcomprobad[oa]s?\b"
+    r"|\bprueban que\b|\bculpables?\b|\batrapad[oa]s?\b|\bno\s+(?:\w+\s+){0,2}reportad[oa]s?\b"
+    r"|\bno\s+report(?:ó|aron)\b")
+
+# --- spelled-out numbers: rewritten to digits so the number, unit and hour checks see them ---
+_EN_NUM = {w: i for i, w in enumerate((
+    "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+    "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"))}
+_EN_NUM |= {w: 10 * i for i, w in enumerate(
+    ("twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"), 2)}
+_ES_NUM = {w: i for i, w in enumerate((  # accent-folded, like the text they are matched against
+    "cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce",
+    "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "veintiuno",
+    "veintidos", "veintitres", "veinticuatro", "veinticinco", "veintiseis", "veintisiete", "veintiocho",
+    "veintinueve"))}
+_ES_NUM |= {"un": 1, "una": 1, "veintiun": 21, "veintiuna": 21, "cien": 100, "ciento": 100}
+_ES_NUM |= {w: 10 * i for i, w in enumerate(
+    ("treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"), 3)}
+_ES_NUM |= {f"{p}{s}": 100 * n for p, n in (("dos", 2), ("tres", 3), ("cuatro", 4), ("quin", 5), ("seis", 6),
+                                            ("sete", 7), ("ocho", 8), ("nove", 9))
+            for s in (("ientos", "ientas") if p == "quin" else ("cientos", "cientas"))}
+_SCALE = {"hundred": 100, "thousand": 1000, "million": 10**6, "billion": 10**9, "mil": 1000, "millon": 10**6,
+          "millones": 10**6}
+_WORDS = {"en": (_EN_NUM, ("and",), ("point",)), "es": (_ES_NUM, ("y",), ("coma", "punto"))}
+# A lone article/pronoun is not a number ("One of them", "un informe"); it still counts inside a phrase.
+_NOT_ALONE = {"one", "un", "una", "uno"}
+_WORD = re.compile(r"[^\W\d_]+")
+_DIGIT_SCALE = re.compile(r"(?<![\d.,])(\d{1,3}(?:,\d{3})+|\d+(?:[.,]\d+)?)\s+(thousand|million|billion|mil|"
+                          r"mill[oó]n|millones)\b", re.IGNORECASE)
+_UNIT_PHRASES = ((re.compile(r"\bparts per billion\b|\bpartes por mil millones\b", re.IGNORECASE), "ppb"),
+                 (re.compile(r"\bmiles per hour\b|\bmillas por hora\b", re.IGNORECASE), "mph"))
+
+
+def _fold(word: str) -> str:
+    decomposed = unicodedata.normalize("NFD", word.casefold())
+    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn")
+
+
+def _spelled_value(words: list[str], lang: str) -> Decimal | None:
+    table, _, points = _WORDS[lang]
+    total, current, decimals, in_decimals = 0, 0, "", False
+    for w in words:
+        if w in points:
+            in_decimals = True
+        elif in_decimals:
+            if table.get(w, 10) > 9:
+                return None
+            decimals += str(table[w])
+        elif w in table:
+            current += table[w]
+        elif w == "hundred":
+            current = (current or 1) * 100
+        elif w in _SCALE:
+            total, current = total + (current or 1) * _SCALE[w], 0
+    value = total + current
+    return Decimal(f"{value}.{decimals}") if decimals else Decimal(value)
+
+
+def normalize_numbers(text: str, lang: str) -> str:
+    """'forty-seven' -> '47', 'siete mil seiscientos' -> '7600', '7.6 thousand' -> '7600',
+    'parts per billion' -> 'ppb'. Lets the digit checks see numbers written in words."""
+    for pat, unit in _UNIT_PHRASES:
+        text = pat.sub(unit, text)
+
+    def scaled(m: re.Match) -> str:
+        tok = m[1] if re.fullmatch(r"\d{1,3}(?:,\d{3})+", m[1]) else m[1].replace(",", ".")
+        return _canon(str(Decimal(tok.replace(",", "")) * _SCALE[_fold(m[2])]))
+
+    text = _DIGIT_SCALE.sub(scaled, text)
+    table, joiners, points = _WORDS[lang]
+    toks = [(m.start(), m.end(), _fold(m[0])) for m in _WORD.finditer(text)]
+    spans: list[tuple[int, int, str]] = []
+    i = 0
+    while i < len(toks):
+        j = i
+        if lang == "en" and toks[i][2] == "a" and i + 1 < len(toks) and toks[i + 1][2] in _SCALE:
+            j = i + 1  # "a hundred"
+        if toks[j][2] not in table and toks[j][2] not in _SCALE:
+            i += 1
+            continue
+        words = ["one"] if j > i else []
+        k = j
+        while k < len(toks):
+            w = toks[k][2]
+            glued = k == j or re.fullmatch(r"[\s-]+", text[toks[k - 1][1]:toks[k][0]])
+            if not glued:
+                break
+            nxt = toks[k + 1][2] if k + 1 < len(toks) else ""
+            # "and"/"y"/"point" join only between number words: "forty and" alone is not a number
+            joins = (w in joiners or w in points) and words and nxt in table
+            if w in table or w in _SCALE or joins:
+                words.append(w)
+            else:
+                break
+            k += 1
+        if not (len(words) == 1 and words[0] in _NOT_ALONE):
+            value = _spelled_value([w for w in words if w not in joiners], lang)
+            if value is not None:
+                spans.append((toks[i][0], toks[k - 1][1], _canon(str(value))))
+        i = k
+    out, at = [], 0
+    for start, end, digits in spans:
+        out += [text[at:start], digits]
+        at = end
+    return "".join(out) + text[at:]
+
+
+# --- units: a number must be one of the facts' values of the kind its unit measures ---
+_QTY_NUM = r"(?<![\d.,:_])(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![\d:_])"
+_UNIT = {
+    "concentration": r"ppbv|ppb(?:-v)?",
+    "pounds": r"pounds?|lbs?|libras?",
+    "degrees": r"degrees?|grados?|°(?![CF])",
+    "mph": r"mph",
+    "facility count": r"facilit(?:y|ies)|instalaci(?:ón|ones)|plants?|plantas?",
+    "km": r"km|kilomet(?:er|re)s?|kilómetros?|kilometros?",
+}
+_QTY = re.compile(_QTY_NUM + r"((?:\s+[^\W\d_]+){0,3}?)\s*(?:(" + ")|(".join(_UNIT.values()) + r"))(?!\w)",
+                  re.IGNORECASE)
+_UNIT_KEYS = {"value": "concentration", "baseline": "concentration", "pounds": "pounds",
+              "from_deg": "degrees", "speed_mph": "mph", "upwind_corridor_facility_count": "facility count",
+              "distance_km": "km"}
+# Units that never appear in a packet: a real number with one of these is a unit or scale swap.
+_FOREIGN_UNIT = re.compile(r"\b(?:ppmv?|ppt|ppbc|kgs?|kilograms?|kilos?|kilogramos?|tons?|tonnes?|toneladas?|"
+                           r"grams?|gramos?|km/h|kph|kmh|knots?|nudos?|celsius|fahrenheit|m/s)(?!\w)"
+                           r"|[µu]g/m[3³]|mg/m[3³]|°\s?[CF]\b", re.IGNORECASE)
+
+
+def _quantities(text: str) -> list[tuple[str, str]]:
+    """(unit kind, canonical number) for every number followed within three words by a unit."""
+    kinds = list(_UNIT)
+    out = []
+    for m in _QTY.finditer(text):
+        kind = next(kinds[i] for i, g in enumerate(m.groups()[2:]) if g is not None)
+        out.append((kind, _canon(m[1])))
+    return out
+
+
+def allowed_quantities(facts: dict[str, Any], strings: set[str]) -> dict[str, set[str]]:
+    allowed: dict[str, set[str]] = {k: set() for k in _UNIT}
+
+    def walk(obj: Any, key: str | None = None) -> None:
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                walk(v, k)
+        elif isinstance(obj, list):
+            for v in obj:
+                walk(v, key)
+        elif isinstance(obj, int | float) and not isinstance(obj, bool) and key in _UNIT_KEYS:
+            allowed[_UNIT_KEYS[key]].add(_canon(repr(obj)))
+
+    walk(facts)
+    if isinstance(facts.get("nearest_upwind_facilities"), list):
+        allowed["facility count"].add(str(len(facts["nearest_upwind_facilities"])))
+    for s in strings:
+        for kind, num in _quantities(s):
+            allowed[kind].add(num)
+    return allowed
+
+
+# --- dates and hours ---
+_MONTHS_EN = ("january", "february", "march", "april", "may", "june", "july", "august", "september",
+              "october", "november", "december")
+_MONTHS_ES = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
+              "octubre", "noviembre", "diciembre")
+_DATE_EN = re.compile(r"\b(" + "|".join(m.capitalize() for m in _MONTHS_EN) + r")\s+(\d{1,2})(?:st|nd|rd|th)?"
+                      r"(?![\d:])(?:,?\s+(\d{4}))?")
+_DATE_ES = re.compile(r"(?<![\d:.,])(\d{1,2})\s+de\s+(" + "|".join(_MONTHS_ES) + r"|setiembre)\b"
+                      r"(?:\s+(?:de|del)\s+(\d{4}))?", re.IGNORECASE)
+_DATE_ISO = re.compile(r"(?<!\d)(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)")
+_AMPM = r"(a\.?\s?m\.?|p\.?\s?m\.?)(?!\w)"
+_CLOCK_AMPM = re.compile(r"(?<![\d:])(\d{1,2}):(\d{2})\s*" + _AMPM, re.IGNORECASE)
+# Bare hours: "10 a.m.", "9 CST", "hour 9" / "hora 9". An hour stated in CST, or as "hour N", is the
+# monitor hour, so it must be the detection hour; any other bare hour must be the hour of a fact time.
+_ZONE = r"(?:\s+(CST|CDT|CT)\b)?"
+_BARE_HOUR = re.compile(r"(?<![\d:.,])(\d{1,2})\s*" + _AMPM + _ZONE
+                        + r"|(?<![\d:.,])(\d{1,2})\s+(CST|CDT|CT)\b"
+                        + r"|\b(?:hour|hora)\s+(?:de\s+las\s+)?(\d{1,2})(?![\d:.,])" + _ZONE, re.IGNORECASE)
+
+
+def _dates(text: str) -> list[tuple[str, int | None, int, int]]:
+    """(as written, year or None, month, day) for each date in the text."""
+    out = [(m[0], int(m[3]) if m[3] else None, _MONTHS_EN.index(m[1].lower()) + 1, int(m[2]))
+           for m in _DATE_EN.finditer(text)]
+    for m in _DATE_ES.finditer(text):
+        month = m[2].lower().replace("setiembre", "septiembre")
+        out.append((m[0], int(m[3]) if m[3] else None, _MONTHS_ES.index(month) + 1, int(m[1])))
+    out += [(m[0], int(m[1]), int(m[2]), int(m[3])) for m in _DATE_ISO.finditer(text)]
+    return out
+
+
+def _to24(h: int, marker: str) -> int:
+    return h % 12 + (12 if marker.lower().startswith("p") else 0)
+
+
+# --- names: capitalized runs must come from the facts ---
+_CAP_WORD = re.compile(r"[^\W\d_][\w'’&-]*")
+_SENTENCE_END = re.compile(r"[.?!:;][\s¿¡\"'“‘«(]*$|^[\s¿¡\"'“‘«(]*$")
+# Proper nouns a faithful packet uses that the facts spell differently or not at all.
+_NAME_OK = {_fold(w) for w in (
+    "Texas", "Houston", "Harris", "County", "TCEQ", "EPA", "ECHO", "STEERS", "AQS", "AutoGC", "HRM", "CST",
+    "CDT", "CT", "UTC", "AM", "PM", "I", "English", "Spanish", "Monday", "Tuesday", "Wednesday", "Thursday",
+    "Friday", "Saturday", "Sunday", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")}
+_NAME_OK |= set(_MONTHS_EN) | set(_MONTHS_ES)
+
+
+def _name_words(s: str) -> set[str]:
+    return {_fold(w).removesuffix("'s").removesuffix("’s").rstrip("'’") for w in _CAP_WORD.findall(s)}
+
+
+def unknown_names(text: str, fact_words: list[set[str]], lang: str) -> list[str]:
+    """Capitalized word runs whose words do not all come from one fact string. The first word of a
+    sentence is not judged on its own. In Spanish only runs of two or more words are judged, because
+    translated place names are capitalized single words ("el Canal de Navegación")."""
+    runs: list[list[re.Match]] = []
+    for m in _CAP_WORD.finditer(text):
+        if not m[0][0].isupper():
+            continue
+        if runs and re.fullmatch(r" +", text[runs[-1][-1].end():m.start()]):
+            runs[-1].append(m)
+        else:
+            runs.append([m])
+    bad = []
+    for run in runs:
+        if lang == "es" and len(run) < 2:
+            continue
+        start = run[0].start()  # a bounded look-back keeps this linear on an oversized draft
+        judged = run[1:] if start < 16 or _SENTENCE_END.search(text[start - 16:start]) else run
+        words = {w for m in judged for w in _name_words(m[0])} - _NAME_OK
+        if words and not any(words <= fw for fw in fact_words):
+            bad.append(" ".join(m[0] for m in run))
+    return bad
+
+
 def guard(drafts: dict[str, Any], facts: dict[str, Any]) -> list[str]:
     """Return the reasons to reject; empty means the drafts pass."""
     rejected: list[str] = []
     nums, strings = allowed_tokens(facts)
     times = allowed_times(facts, strings)
     ids = {tok for s in strings for tok in _ID.findall(s)}
-    for field in ("draft_en", "draft_es"):
+    quantities = allowed_quantities(facts, strings)
+    times24 = {(int(h), m) for s in strings for h, m in _TIME.findall(s)}
+    times24 |= {(facts["detection"]["hour_cst"], "00")}
+    hours24 = {h for h, _ in times24}
+    fact_dates = {(y, mo, d) for s in strings for _, y, mo, d in _dates(s) if y}
+    fact_words = [_name_words(s) for s in strings]
+    fact_low = " ".join(strings).casefold()
+    for field, lang in (("draft_en", "en"), ("draft_es", "es")):
         text = drafts.get(field)
         if not isinstance(text, str):
             rejected.append(f"{field}: missing or not a string")
@@ -201,18 +450,47 @@ def guard(drafts: dict[str, Any], facts: dict[str, Any]) -> list[str]:
         for stem in BANNED:
             if stem in low:
                 rejected.append(f"{field}: banned word '{stem}'")
+        for m in _BANNED_RE.finditer(low):
+            rejected.append(f"{field}: banned word '{m[0]}'")
+        text = normalize_numbers(text, lang)
+        for h, m, marker in _CLOCK_AMPM.findall(text):
+            if (_to24(int(h), marker), m) not in times24:
+                rejected.append(f"{field}: time '{h}:{m} {marker}' is not in the event facts")
         for h, m in _TIME.findall(text):
             if (int(h), m) not in times:
                 rejected.append(f"{field}: time '{h}:{m}' is not in the event facts")
-        for tok in _NUM.findall(_TIME.sub(" ", text)):
+        untimed = _TIME.sub(" ", text)
+        for h_ampm, marker, zone_a, h_zone, zone_b, h_word, zone_c in _BARE_HOUR.findall(untimed):
+            zone = (zone_a or zone_b or zone_c).upper()
+            pool = {facts["detection"]["hour_cst"]} if zone == "CST" or (h_word and not zone) else hours24
+            h = int(h_ampm or h_zone or h_word)
+            ok = _to24(h, marker) in pool if marker else h in pool or h in {(x % 12) or 12 for x in pool}
+            if not ok:
+                label = f"{h} {marker or zone}".strip()
+                rejected.append(f"{field}: hour '{label}' is not in the event facts")
+        # an hour already checked as an hour is not also a loose number: "11 p.m." is 23, not 11
+        for tok in _NUM.findall(_BARE_HOUR.sub(" ", untimed)):
             if _canon(tok) not in nums:
                 rejected.append(f"{field}: number '{tok}' is not in the event facts")
+        for kind, num in _quantities(untimed):
+            if num not in quantities[kind]:
+                rejected.append(f"{field}: '{num}' is not a {kind} in the event facts")
+        for m in _FOREIGN_UNIT.finditer(text):
+            if m[0].casefold() not in fact_low:
+                rejected.append(f"{field}: unit '{m[0]}' is not the event's unit")
+        for written, y, mo, d in _dates(text):
+            if (y, mo, d) not in fact_dates if y else (mo, d) not in {(fm, fd) for _, fm, fd in fact_dates}:
+                rejected.append(f"{field}: date '{written}' is not in the event facts")
+        for name in unknown_names(text, fact_words, lang):
+            rejected.append(f"{field}: name '{name}' is not in the event facts")
         for tok in _ID.findall(text):
             if tok not in ids:
                 rejected.append(f"{field}: id '{tok}' is not in the event facts")
-    # kn: the number check is set membership, so a wrong number that exists elsewhere in the facts
-    # (an hour 0-23, a rank) passes, and spelled-out numbers and invented names are not checked.
-    # Upgrade path: bind each number to its field (value, pounds, hour) and check names against facts.
+    # kn: numbers are bound to their unit, not to their field: a real number moved within one unit
+    # (the baseline stated as the peak, one monitor's reading given to another) passes, as do negation
+    # flips, invented names built only from words of one real name, and one-word invented names in
+    # Spanish. Upgrade path: claim-level slots (value/baseline/pounds per sentence) or a template the
+    # model fills instead of free text; evals/guard_escape measures each of these leaks.
     return rejected
 
 
