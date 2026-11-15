@@ -92,6 +92,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
         <nav className="atlas-links" aria-label={t('landing.more')}>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
           <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
+          <a href={`${BASE}?view=coverage`}>{t('nav.coverage')}</a>
           <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
           <a href={`${BASE}?view=brief`}>{t('app.linkBrief')}</a>
         </nav>

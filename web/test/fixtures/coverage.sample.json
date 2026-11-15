@@ -1,0 +1,442 @@
+{
+ "generated": "2026-11-15 (test fixture: not published data)",
+ "trigger": "value >= max(10 x 7-day median, 10 ppb), earliest hour of the event's start day",
+ "sites": [
+  {
+   "site_id": "48_201_0069",
+   "name": "Houston Milby Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.70627,
+   "lon": -95.26113,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 51.75,
+   "max_butadiene_ppb": 400.01,
+   "spikes": 106,
+   "by_status": {
+    "no_report_after_deadline": 63,
+    "reported": 3,
+    "reported_mismatch": 4,
+    "search_incomplete": 36
+   }
+  },
+  {
+   "site_id": "48_201_6000",
+   "name": "Cesar Chavez",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.68438,
+   "lon": -95.2536,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 26.73,
+   "max_butadiene_ppb": 38.78,
+   "spikes": 11,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 10
+   }
+  },
+  {
+   "site_id": "48_201_0036",
+   "name": "Channelview Drive Water Tower",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.77172,
+   "lon": -95.1208,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 170.71,
+   "max_butadiene_ppb": 79.26,
+   "spikes": 54,
+   "by_status": {
+    "no_report_after_deadline": 19,
+    "reported_mismatch": 2,
+    "search_incomplete": 33
+   }
+  },
+  {
+   "site_id": "48_201_1015",
+   "name": "Lynchburg Ferry",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.75894,
+   "lon": -95.07935,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 191.5,
+   "max_butadiene_ppb": 57.95,
+   "spikes": 52,
+   "by_status": {
+    "no_report_after_deadline": 17,
+    "reported_mismatch": 2,
+    "search_incomplete": 33
+   }
+  },
+  {
+   "site_id": "48_201_0057",
+   "name": "Galena Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.73426,
+   "lon": -95.23847,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 74.3,
+   "max_butadiene_ppb": 19.0,
+   "spikes": 99,
+   "by_status": {
+    "no_report_after_deadline": 31,
+    "search_incomplete": 68
+   }
+  },
+  {
+   "site_id": "48_201_1614",
+   "name": "HRM-16 Deer Park",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.70849,
+   "lon": -95.11412,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 24.59,
+   "max_butadiene_ppb": 63.47,
+   "spikes": 63,
+   "by_status": {
+    "no_report_after_deadline": 17,
+    "reported": 1,
+    "search_incomplete": 45
+   }
+  },
+  {
+   "site_id": "48_201_1035",
+   "name": "Clinton",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.73374,
+   "lon": -95.25761,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 12.47,
+   "max_butadiene_ppb": 40.4,
+   "spikes": 5,
+   "by_status": {
+    "no_report_after_deadline": 3,
+    "search_incomplete": 2
+   }
+  },
+  {
+   "site_id": "48_201_0307",
+   "name": "Manchester East Ave N",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.71939,
+   "lon": -95.25947,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 12.7,
+   "max_butadiene_ppb": 30.98,
+   "spikes": 12,
+   "by_status": {
+    "no_report_after_deadline": 8,
+    "reported_mismatch": 1,
+    "search_incomplete": 3
+   }
+  },
+  {
+   "site_id": "48_201_0803",
+   "name": "HRM-3 Haden Road",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.76478,
+   "lon": -95.17837,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 37.28,
+   "max_butadiene_ppb": 12.36,
+   "spikes": 9,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 8
+   }
+  },
+  {
+   "site_id": "48_201_0026",
+   "name": "Channelview",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.80271,
+   "lon": -95.12551,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 26.82,
+   "max_butadiene_ppb": 43.48,
+   "spikes": 43,
+   "by_status": {
+    "no_report_after_deadline": 10,
+    "reported_mismatch": 1,
+    "search_incomplete": 32
+   }
+  },
+  {
+   "site_id": "48_201_1049",
+   "name": "Pasadena Richey Elementary School",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.70312,
+   "lon": -95.22197,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 62.12,
+   "max_butadiene_ppb": 16.49,
+   "spikes": 11,
+   "by_status": {
+    "search_incomplete": 11
+   }
+  },
+  {
+   "site_id": "48_201_1039",
+   "name": "Houston Deer Park #2",
+   "county": "Harris",
+   "region_key": "houston",
+   "lat": 29.67055,
+   "lon": -95.12994,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 52.76,
+   "max_butadiene_ppb": 10.38,
+   "spikes": 3,
+   "by_status": {
+    "reported_mismatch": 1,
+    "search_incomplete": 2
+   }
+  },
+  {
+   "site_id": "48_245_1035",
+   "name": "Nederland 17th Street",
+   "county": "Jefferson",
+   "region_key": "beaumont",
+   "lat": 29.97995,
+   "lon": -94.00477,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 4.12,
+   "max_butadiene_ppb": 10.78,
+   "spikes": 1,
+   "by_status": {
+    "search_incomplete": 1
+   }
+  },
+  {
+   "site_id": "48_245_0009",
+   "name": "Beaumont-Downtown",
+   "county": "Jefferson",
+   "region_key": "beaumont",
+   "lat": 30.03643,
+   "lon": -94.07107,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "max_benzene_ppb": 10.41,
+   "max_butadiene_ppb": 1.87,
+   "spikes": 1,
+   "by_status": {
+    "no_report_after_deadline": 1
+   }
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": null,
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 3,
+   "by_status": {},
+   "site_id": "48_201_0807",
+   "name": "HRM-7 W Baytown",
+   "county": "Harris",
+   "lat": 29.7536,
+   "lon": -95.0105,
+   "max_benzene_ppb": 18.4,
+   "max_butadiene_ppb": 3.2
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": "borrowed",
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_201_0617",
+   "name": "Wallisville Road",
+   "county": "Harris",
+   "lat": 29.8214,
+   "lon": -94.99,
+   "max_benzene_ppb": 6.3,
+   "max_butadiene_ppb": 0.9
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_167_1034",
+   "name": "Texas City 34th Street",
+   "county": "Galveston",
+   "lat": 29.3846,
+   "lon": -94.9332,
+   "max_benzene_ppb": 7.9,
+   "max_butadiene_ppb": 0.42
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_039_1016",
+   "name": "Lake Jackson",
+   "county": "Brazoria",
+   "lat": 29.0437,
+   "lon": -95.4728,
+   "max_benzene_ppb": 2.05,
+   "max_butadiene_ppb": 0.31
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": "autogc",
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 2,
+   "by_status": {},
+   "site_id": "48_355_0026",
+   "name": "Corpus Christi Dona Park",
+   "county": "Nueces",
+   "lat": 27.813,
+   "lon": -97.463,
+   "max_benzene_ppb": 22.6,
+   "max_butadiene_ppb": null
+  },
+  {
+   "region_key": null,
+   "has_data": true,
+   "wind_source": "met",
+   "years": [
+    2024,
+    2025
+   ],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_141_0044",
+   "name": "El Paso Chamizal",
+   "county": "El Paso",
+   "lat": 31.7657,
+   "lon": -106.4552,
+   "max_benzene_ppb": 3.4,
+   "max_butadiene_ppb": null
+  },
+  {
+   "region_key": null,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_255_1070",
+   "name": "Karnes City Ecleto Road",
+   "county": "Karnes",
+   "lat": 28.884,
+   "lon": -97.901,
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null
+  },
+  {
+   "region_key": null,
+   "has_data": false,
+   "wind_source": null,
+   "years": [],
+   "spikes": 0,
+   "by_status": {},
+   "site_id": "48_135_1014",
+   "name": "Odessa Gonzales",
+   "county": "Ector",
+   "lat": 31.8681,
+   "lon": -102.3416,
+   "max_benzene_ppb": null,
+   "max_butadiene_ppb": null
+  }
+ ]
+}

@@ -22,9 +22,11 @@ const SpikeLog = lazy(() => import('./SpikeLog'))
 const SpikeRain = lazy(() => import('./SpikeRain'))
 const Brief = lazy(() => import('./Brief'))
 const FacilityViews = lazy(() => import('./FacilityViews'))
+// Explicit extension: on a case-insensitive disk './Coverage' resolves to coverage.ts (the page's pure helpers).
+const Coverage = lazy(() => import('./Coverage.tsx'))
 
 const LOADING = {
-  spikes: 'spikes.loading', timeline: 'rn.loading', brief: 'brief.loading', facility: 'fx.loadingOne', facilities: 'fx.loadingList',
+  spikes: 'spikes.loading', timeline: 'rn.loading', brief: 'brief.loading', facility: 'fx.loadingOne', facilities: 'fx.loadingList', coverage: 'cv.loading',
 } as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, StringKey>
 
 export default function Site() {
@@ -98,7 +100,8 @@ export default function Site() {
     const loading = t(LOADING[page])
     const region = regionFrom(window.location.search)
     const unknown = regionUnknown(window.location.search)
-    const houstonOnly = page !== 'spikes' && page !== 'brief' && region.key !== DEFAULT_REGION
+    // Coverage is statewide: a ?region= it carries along for the nav is not a Houston-only page.
+    const houstonOnly = page !== 'spikes' && page !== 'brief' && page !== 'coverage' && region.key !== DEFAULT_REGION
     return (
       <div className="site-shell">
         <SiteHeader current={page} skipTo="main" />
@@ -118,6 +121,7 @@ export default function Site() {
               {page === 'timeline' && <SpikeRain />}
               {page === 'brief' && <Brief />}
               {(page === 'facility' || page === 'facilities') && <FacilityViews view={page} />}
+              {page === 'coverage' && <Coverage />}
             </Suspense>
           </LoadBoundary>
         </div>
