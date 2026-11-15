@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
-import { Check, Detect, Packet, Trace } from './Steps'
+import { Check, Detect, Packet, Trace, type PacketReview } from './Steps'
 import './App.css'
 
 const STEPS = [
@@ -38,6 +38,12 @@ function CannotSay({ items }: { items: string[] }) {
 
 function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHighlight: (id: string | null) => void }) {
   const [active, setActive] = useState(stepFromHash)
+  // Keep the review when Packet unmounts so a reviewer can check the record and return.
+  const [packetReview, setPacketReview] = useState<PacketReview>(() => ({
+    lang: 'en',
+    drafts: { en: ev.packet.draft_en, es: ev.packet.draft_es },
+    approved: false,
+  }))
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
 
@@ -92,7 +98,7 @@ function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHi
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} />}
         {step === 'check' && <Check ev={ev} />}
-        {step === 'packet' && <Packet ev={ev} />}
+        {step === 'packet' && <Packet ev={ev} review={packetReview} setReview={setPacketReview} />}
         <nav className="step-nav" aria-label="Step navigation">
           {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
           {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}</button>}

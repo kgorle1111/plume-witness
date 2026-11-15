@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
 import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 
@@ -254,10 +254,20 @@ type Lang = 'en' | 'es'
 const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
-export function Packet({ ev }: { ev: PlumeEvent }) {
-  const [lang, setLang] = useState<Lang>('en')
-  const [drafts, setDrafts] = useState({ en: ev.packet.draft_en, es: ev.packet.draft_es })
-  const [approved, setApproved] = useState(false)
+export interface PacketReview {
+  lang: Lang
+  drafts: Record<Lang, string>
+  approved: boolean
+}
+
+interface PacketProps {
+  ev: PlumeEvent
+  review: PacketReview
+  setReview: Dispatch<SetStateAction<PacketReview>>
+}
+
+export function Packet({ ev, review, setReview }: PacketProps) {
+  const { lang, drafts, approved } = review
   const [speaking, setSpeaking] = useState(false)
   const [notice, setNotice] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
@@ -276,8 +286,7 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
     if (l === lang) return
     stopSpeech()
     if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
-    setApproved(false)
-    setLang(l)
+    setReview((r) => ({ ...r, lang: l, approved: false }))
   }
 
   const readAloud = () => {
@@ -318,11 +327,11 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
         rows={6}
         value={drafts[lang]}
         onChange={(e) => {
-          setDrafts((d) => ({ ...d, [lang]: e.target.value }))
+          const value = e.target.value
           // Approval covers the exact text a person read; any edit needs a fresh approval.
           // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
           if (approved) setNotice('Draft edited. Approve it again before filing.')
-          setApproved(false)
+          setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
         }}
       />
       <p className="muted small">
@@ -343,7 +352,7 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
       <h3 className="list-heading">Review and file</h3>
       <ol className="file-steps">
         <li>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setApproved((a) => !a)}>
+          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
             {approved ? 'Approved (press to undo)' : 'Approve this draft'}
           </button>
         </li>
