@@ -1,11 +1,14 @@
-// ?view=brief: the method brief, rendered from docs/brief.md so the page and the file cannot drift apart.
+// ?view=brief: the method brief, rendered from docs/brief.md (or docs/brief.es.md in Spanish) so the page and the
+// files cannot drift apart. test/brief.test.ts holds the Spanish file to the English one's numbers and links.
 import { Fragment, useEffect, type ReactNode } from 'react'
-import src from '../../docs/brief.md?raw'
+import srcEn from '../../docs/brief.md?raw'
+import srcEs from '../../docs/brief.es.md?raw'
 import { LANDING_METRICS as M } from './landingMetrics'
-import { BRIEF_ES } from './briefEs'
 import { parseMarkdown, type Block, type Inline } from './md.ts'
+import type { Lang } from './i18n'
 import { useLang, useT } from './useT'
 import './Brief.css'
+import './BriefEs.css'
 
 function inline(v: Inline[]): ReactNode {
   return v.map((i, k) => {
@@ -19,10 +22,10 @@ function inline(v: Inline[]): ReactNode {
   })
 }
 
-const blocks = parseMarkdown(src)
+const BLOCKS: Record<Lang, Block[]> = { en: parseMarkdown(srcEn), es: parseMarkdown(srcEs) }
 // The title and the one-line lede come before the print button, so the page opens on what it is, not on a button.
-const LEDE = blocks.findIndex((b) => b.t === 'p') + 1
-// Impact measures live in i18n, not brief.md, so Spanish readers get them in Spanish while the brief stays English.
+const lede = (bs: Block[]) => bs.findIndex((b) => b.t === 'p') + 1
+// Impact measures live in i18n, not the brief files: they are UI strings with live counts, not part of the method.
 const IMPACT = ['sent', 'answers', 'wrong', 'time'] as const
 
 function block(b: Block, k: number): ReactNode {
@@ -36,40 +39,21 @@ function block(b: Block, k: number): ReactNode {
   }
 }
 
-/** The answer and the limits in Spanish, above the English sections they translate. Screen only: paper keeps two pages. */
-function SpanishSummary() {
-  const t = useT()
-  return (
-    <section className="br-es" lang="es" aria-labelledby="br-es-title">
-      <p className="br-en-note" role="note">{t('brief.english')}</p>
-      <h2 id="br-es-title">{BRIEF_ES.title}</h2>
-      {BRIEF_ES.sections.map((s) => {
-        const List = s.ordered ? 'ol' : 'ul'
-        return (
-          <Fragment key={s.en}>
-            <h3>{s.title}</h3>
-            <List>{s.items.map((it) => <li key={it}>{it}</li>)}</List>
-          </Fragment>
-        )
-      })}
-    </section>
-  )
-}
-
 export default function Brief() {
   const t = useT()
   const lang = useLang()
+  const blocks = BLOCKS[lang]
+  const LEDE = lede(blocks)
   useEffect(() => { document.title = t('brief.docTitle') }, [t])
   return (
     <main className="br-page">
-      <article className="br-doc" lang="en">
-        <p className="br-kicker" lang={lang}>{t('brief.kicker')}</p>
+      <article className="br-doc" lang={lang}>
+        <p className="br-kicker">{t('brief.kicker')}</p>
         {blocks.slice(0, LEDE).map(block)}
-        <p className="br-print" lang={lang}>
+        <p className="br-print">
           <button type="button" className="btn" onClick={() => window.print()}>{t('brief.print')}</button>
           <small>{t('brief.pdfHelp')}</small>
         </p>
-        {lang === 'es' && <SpanishSummary />}
         {blocks.slice(LEDE).map((b, k) => block(b, k + LEDE))}
       </article>
       <section className="br-doc br-impact" aria-labelledby="br-impact-title">
