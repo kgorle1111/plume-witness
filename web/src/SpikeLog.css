@@ -200,6 +200,11 @@
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 14px; flex: none; background: var(--bg-2); border-radius: 2px; }
+/* Landscape phones and tablets: the 10.5rem name column came out of the 900px, leaving 1.98 px a day at 812x375
+   (77 of 451 marks' centres hit the next day). The strip itself keeps 900px; 1024px and up are unchanged. */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .sl-cal-year { min-width: calc(900px + 10.5rem + 8px); }
+}
 /* Phones: names above the strips, pinned to the left edge while the year scrolls. */
 @media (max-width: 639.98px) {
   .sl-cal-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
