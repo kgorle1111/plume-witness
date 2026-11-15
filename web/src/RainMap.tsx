@@ -21,7 +21,7 @@ export interface RainMapApi {
 }
 
 interface Dot {
-  night: string
+  night: string | null
   lon: number
   lat: number
   r: number
@@ -172,7 +172,7 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
       const onClick = (e: MouseEvent) => {
         const r = el.getBoundingClientRect()
         const hit = d.pickObject({ x: e.clientX - r.left, y: e.clientY - r.top, radius: 8 })?.object as Dot | undefined
-        if (hit?.live) pick.current(hit.night)
+        if (hit?.live && hit.night) pick.current(hit.night)
       }
       const onMove = (e: MouseEvent) => {
         const r = el.getBoundingClientRect()
