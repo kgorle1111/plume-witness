@@ -4,6 +4,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { ScatterplotLayer } from '@deck.gl/layers'
+import { tintBasemap } from './basemapTint'
 import { STATUS_FILL } from './format'
 import { fadeAlpha, hexToRgb, radiusPx, type Timed, type Visible } from './rain'
 
@@ -99,6 +100,9 @@ export default function RainMap({ spikes, label, tipFor, onApi, onPick, onError,
       map = new MlMap({
         container: el,
         style: STYLE_URL,
+        // The replay's retint (EventMap), so Timeline and replay read as one product. The tiles stay light in both
+        // themes there too, so it applies whatever the theme.
+        transformStyle: (_prev, next) => tintBasemap(next),
         center: [-95.2, 29.75],
         zoom: 9,
         // Fixed camera: the page scrolls, and a 50svh map would otherwise trap touch scrolling on a phone.
