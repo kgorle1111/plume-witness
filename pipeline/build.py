@@ -11,6 +11,7 @@ import statistics
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from pipeline.contract import SCHEMA, validate
 from pipeline.parse import hourly_flags, hourly_table, steers_incident, steers_search
@@ -18,9 +19,9 @@ from pipeline.parse import hourly_flags, hourly_table, steers_incident, steers_s
 ROOT = Path(__file__).resolve().parent.parent
 RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "build"
 
-# One demo event. Monitor coordinates are TCEQ TAMIS site records.
+# One demo event; build() takes any config of this shape. Monitor coordinates are TCEQ TAMIS site records.
 EVENT = {
-    "day": "06/21/2024", "year": "2024", "incident": "425347", "echo": "echo_milby_8mi.json",
+    "day": "06/21/2024", "year": "2024", "incident": "425347", "echo": "echo_milby_8mi.json", "param": "45201",
     "monitors": [
         ("48_201_0069", "Houston Milby Park", 29.7062725, -95.2611331),
         ("48_201_0307", "Manchester East Ave N", 29.7193939, -95.2594661),
@@ -33,7 +34,13 @@ BASELINE_DAYS = 7
 TRIGGER_RATIO, TRIGGER_FLOOR_PPB = 10.0, 10.0
 CORRIDOR_RADIUS_KM = 15.0
 CORRIDOR_HALF_ANGLE = 22.5  # degrees either side of upwind; one monitor's wind can't resolve finer than this
-STEERS_TZ_OFFSET_H = 1  # STEERS times are local; in June that is CDT = CST + 1h
+COMPOUNDS = {"45201": ("benzene", "benceno"), "43218": ("1,3-butadiene", "1,3-butadieno")}
+LOCAL_TZ = ZoneInfo("America/Chicago")
+
+
+def steers_tz_offset_h(day: date) -> int:
+    """STEERS times are local (CST or CDT); monitor hours are always CST. CDT = CST + 1h."""
+    return 1 if datetime(day.year, day.month, day.day, 12, tzinfo=LOCAL_TZ).dst() else 0
 
 
 def haversine_km(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -144,7 +151,8 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     Absence ('no report after deadline') needs a complete search AND every incident of the day located.
     Otherwise the status is search_incomplete; a named facility is never called unreported on partial data.
     """
-    det_local = datetime.combine(det_day, datetime.min.time()) + timedelta(hours=det_hour_cst + STEERS_TZ_OFFSET_H)
+    det_local = datetime.combine(det_day, datetime.min.time()) + timedelta(
+        hours=det_hour_cst + steers_tz_offset_h(det_day))
     lo, hi = det_local - timedelta(hours=6), det_local + timedelta(hours=2)
     hits = [p for p in placed if p["in_corridor"] and lo <= datetime.fromisoformat(p["start_local"]) <= hi]
     scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
@@ -161,7 +169,8 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
             "checks": [{"at": "T+24h", "status": t24, "note": f"initial notice filed {inc['notified_local']} local"},
                        {"at": "T+14d", "status": t14, "note": "final report published" if inc["final"] else ""}],
             "reported": {"facility": p["entity"], "compound": inc["compound"], "pounds": inc["pounds"],
-                         "start_local": inc["start_local"], "end_local": inc["end_local"], "tz": "local (CDT)",
+                         "start_local": inc["start_local"], "end_local": inc["end_local"],
+                         "tz": f"local ({'CDT' if steers_tz_offset_h(det_day) else 'CST'})",
                          "cause": inc["cause"]},
             "day_incidents": placed, "search_scope": scope,
         }
@@ -172,8 +181,10 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
             "reported": None, "day_incidents": placed, "search_scope": scope}
 
 
-def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict) -> dict:
+def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict,
+                    day: str = EVENT["day"], param: str = EVENT["param"]) -> dict:
     """Deterministic EN/ES draft built only from event fields (Gemini drafting is a later, guarded stretch)."""
+    name_en, name_es = COMPOUNDS[param]
     trig = next(m for m in monitors if m["site_id"] == det["site_id"])
     others = [m for m in monitors if m["triggered"] and m["site_id"] != det["site_id"]]
     w = wind["hourly"][det["hour_cst"]]
@@ -187,7 +198,7 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   f"pounds of {r['compound'].lower()} from {r['start_local'][11:]} to {r['end_local'][11:]} local time "
                   f"that day. These readings are consistent with that release reaching the monitors.")
         rec_es = (f" Una de ellas, {r['facility']}, presentó el informe de evento de emisiones {rc['incident']} por "
-                  f"{r['pounds']:,.0f} libras de benceno de {r['start_local'][11:]} a {r['end_local'][11:]}, hora local, "
+                  f"{r['pounds']:,.0f} libras de {name_es} de {r['start_local'][11:]} a {r['end_local'][11:]}, hora local, "
                   f"ese día. Estas lecturas son consistentes con que esa emisión llegó a los monitores.")
         ask_en = (" Requested follow-up: confirm whether nearby residents were notified, and whether the reported "
                   "amount accounts for these readings.")
@@ -199,12 +210,12 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
-    en = (f"On {det_day_str(monitors)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
-          f"benzene in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en} Wind there came "
+    en = (f"On {det_day_str(day)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
+          f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en} Wind there came "
           f"from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph. {n} major permitted facilities lie in the "
           f"upwind corridor.{rec_en}{ask_en}")
-    es = (f"El {det_day_str(monitors, es=True)}, el monitor estatal de Texas en {trig['name']} registró "
-          f"{det['value']} ppb de benceno en la hora de las {h12.replace('a.m.', 'a. m.').replace('p.m.', 'p. m.')} "
+    es = (f"El {det_day_str(day, es=True)}, el monitor estatal de Texas en {trig['name']} registró "
+          f"{det['value']} ppb de {name_es} en la hora de las {h12.replace('a.m.', 'a. m.').replace('p.m.', 'p. m.')} "
           f"CST, frente a una mediana de 7 días de {det['baseline']} ppb.{also_es} El viento venía de "
           f"{w['from_deg']:.0f} grados a {w['speed_mph']} mph. Hay {n} instalaciones permitidas importantes en el "
           f"corredor de donde venía el viento.{rec_es}{ask_es}")
@@ -212,8 +223,8 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
             "guard": {"passed": True, "rejected": []}}
 
 
-def det_day_str(monitors: list[dict], es: bool = False) -> str:
-    d = datetime.strptime(EVENT["day"], "%m/%d/%Y").date()
+def det_day_str(day: str, es: bool = False) -> str:
+    d = datetime.strptime(day, "%m/%d/%Y").date()
     months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
               "noviembre", "diciembre"]
     return f"{d.day} de {months[d.month - 1]} de {d.year}" if es else d.strftime("%B %-d, %Y")
@@ -223,51 +234,86 @@ STEERS_URL = "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getD
 STEERS_SEARCH = "https://www2.tceq.texas.gov/oce/eer/"
 
 
-def build() -> dict:
-    day = EVENT["day"]
-    det_day = datetime.strptime(day, "%m/%d/%Y").date()
+def load_monitors(cfg: dict, raw: Path = RAW) -> list[dict]:
+    """Hourly readings and 7-day baseline for each configured monitor on cfg['day'] (compound cfg['param'])."""
+    day = cfg["day"]
     monitors = []
-    for site, name, lat, lon in EVENT["monitors"]:
-        path = RAW / f"agc_{EVENT['year']}_{site}_45201.html"
+    for site, name, lat, lon in cfg["monitors"]:
+        path = raw / f"agc_{cfg['year']}_{site}_{cfg['param']}.html"
         table, flags = hourly_table(path), hourly_flags(path, day)
         vals, base = table[day], baseline(table, day)
         hourly = [{"hour_cst": h, "value": vals[h], "flag": flags[h]} for h in range(24)]
         peak_h = max((h for h in range(24) if vals[h] is not None), key=lambda h: vals[h])
         monitors.append({"site_id": site, "name": name, "lat": lat, "lon": lon, "hourly": hourly, "baseline": base,
                          "peak": {"hour_cst": peak_h, "value": vals[peak_h]}, "triggered": False})
+    return monitors
+
+
+def load_wind(site: str, year: str, day: str, raw: Path = RAW) -> dict:
+    wdir = hourly_table(raw / f"met_{year}_{site}_61102.html")[day]
+    wspd = hourly_table(raw / f"met_{year}_{site}_61101.html")[day]
+    return {"site_id": site, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]} for h in range(24)]}
+
+
+def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
+          details: dict[str, dict], complete: bool, det_day: date) -> dict:
+    """Detect -> corridor -> place the day's reports -> record check. The one code path build and backtest share.
+
+    wind_site None means: use the triggering monitor's own wind. Returns detection None when nothing triggered,
+    and wind None when the chosen site has no wind for the detection hours.
+    """
     det = detect(monitors)
     if det is None:
-        raise SystemExit("no monitor crossed the trigger rule on this day; nothing to replay")
+        return {"detection": None}
     for m in monitors:
         v = m["hourly"][det["hour_cst"]]["value"]
         m["triggered"] = v is not None and v >= max(TRIGGER_RATIO * m["baseline"], TRIGGER_FLOOR_PPB)
-    ws = EVENT["wind_site"]
-    wdir = hourly_table(RAW / f"met_{EVENT['year']}_{ws}_61102.html")[day]
-    wspd = hourly_table(RAW / f"met_{EVENT['year']}_{ws}_61101.html")[day]
-    wind = {"site_id": ws, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]} for h in range(24)]}
     trig = next(m for m in monitors if m["site_id"] == det["site_id"])
+    wind = winds.get(wind_site or trig["site_id"])
     h = det["hour_cst"]
+    wdir = [x["from_deg"] for x in wind["hourly"]] if wind else [None] * 24
     window = [wdir[max(0, h - 1)], wdir[h]]  # air arriving at hour h left the source up to ~1h earlier at ~7 mph
-    echo = json.loads((RAW / EVENT["echo"]).read_text())
+    if all(w is None for w in window):
+        return {"detection": det, "wind": wind, "window": [], "trig": trig}
     facilities = corridor(echo, (trig["lat"], trig["lon"]), window)
+    placed = place_incidents(list(details.values()), facilities, echo_rows, (trig["lat"], trig["lon"]),
+                             [w for w in window if w is not None])
+    rc = record_check(placed, details, det_day, h, search_complete=complete)
+    return {"detection": det, "wind": wind, "window": [w for w in window if w is not None], "trig": trig,
+            "facilities": facilities, "record_check": rc}
+
+
+def build(cfg: dict = EVENT) -> dict:
+    day = cfg["day"]
+    det_day = datetime.strptime(day, "%m/%d/%Y").date()
+    monitors = load_monitors(cfg)
+    ws = cfg["wind_site"]
+    winds = {ws: load_wind(ws, cfg["year"], day)}
+    echo = json.loads((RAW / cfg["echo"]).read_text())
     search = steers_search(RAW / f"steers_search_harris_{day.replace('/', '')}.html")
     details = {r["incident"]: steers_incident(RAW / f"steers_{r['incident']}.html") for r in search["rows"]}
     complete = search["total"] == search["shown"] == len(details) and search["total"] < 50
     echo_rows = echo["Results"]["Facilities"] + [
         r for p in sorted(RAW.glob("echo_name_*.json")) for r in json.loads(p.read_text())["Results"]["Facilities"]]
-    placed = place_incidents(list(details.values()), facilities, echo_rows, (trig["lat"], trig["lon"]),
-                             [w for w in window if w is not None])
-    rc = record_check(placed, details, det_day, h, search_complete=complete)
+    t = trace(monitors, winds, ws, echo, echo_rows, details, complete, det_day)
+    if t["detection"] is None:
+        raise SystemExit("no monitor crossed the trigger rule on this day; nothing to replay")
+    if "record_check" not in t:
+        raise SystemExit(f"no wind at {ws} for the detection hours; cannot draw a corridor")
+    det, wind, trig, window, facilities, rc = (t[k] for k in ("detection", "wind", "trig", "window", "facilities",
+                                                               "record_check"))
+    name_en = COMPOUNDS[cfg["param"]][0]
+    tz = "CDT, CST+1" if steers_tz_offset_h(det_day) else "CST"
     ev = {
-        "schema": SCHEMA, "label": "real", "event_id": f"steers-{EVENT['incident']}",
-        "title": "Benzene spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
-        "time_note": "Monitor hours are CST as TCEQ publishes them; the company report uses local time (CDT, CST+1). "
+        "schema": SCHEMA, "label": "real", "event_id": f"steers-{cfg['incident']}",
+        "title": f"{name_en.capitalize()} spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
+        "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
                      "TCEQ labels AutoGC data provisional and subject to change.",
-        "compound": {"name": "benzene", "aqs_param": "45201", "units": "ppb-v"},
+        "compound": {"name": name_en, "aqs_param": cfg["param"], "units": "ppb-v"},
         "monitors": monitors, "wind": wind, "detection": det, "facilities": facilities, "record_check": rc,
         "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
-                     "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": [w for w in window if w is not None]},
-        "packet": template_packet(det, monitors, wind, facilities, rc),
+                     "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
+        "packet": template_packet(det, monitors, wind, facilities, rc, day, cfg["param"]),
         "cannot_say": [
             "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
             ("'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, "
