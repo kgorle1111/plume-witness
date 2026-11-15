@@ -1,6 +1,7 @@
 // ?view=brief: the method brief, rendered from docs/brief.md so the page and the file cannot drift apart.
 import { Fragment, useEffect, type ReactNode } from 'react'
 import src from '../../docs/brief.md?raw'
+import { LANDING_METRICS as M } from './landingMetrics'
 import { parseMarkdown, type Inline } from './md.ts'
 import { useLang, useT } from './useT'
 import './Brief.css'
@@ -18,6 +19,8 @@ function inline(v: Inline[]): ReactNode {
 }
 
 const blocks = parseMarkdown(src)
+// Impact measures live in i18n, not brief.md, so Spanish readers get them in Spanish while the brief stays English.
+const IMPACT = ['sent', 'answers', 'wrong', 'time'] as const
 
 export default function Brief() {
   useEffect(() => { document.title = 'Method brief · Plume Witness' }, [])
@@ -44,6 +47,14 @@ export default function Brief() {
           }
         })}
       </article>
+      <section className="br-doc br-impact" aria-labelledby="br-impact-title">
+        <h2 id="br-impact-title">{t('brief.impact.title')}</h2>
+        <ul>
+          {IMPACT.map((k) => (
+            <li key={k}><strong>{t(`brief.impact.${k}.h`)}</strong> {t(`brief.impact.${k}`, { k: M.auditMissed, n: M.auditNights })}</li>
+          ))}
+        </ul>
+      </section>
     </main>
   )
 }

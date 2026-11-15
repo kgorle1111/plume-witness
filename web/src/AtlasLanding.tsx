@@ -54,6 +54,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           <li><b>{M.spikes}</b> {t('landing.m.spikes')}</li>
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
           <li><b>{M.years}</b> {t('landing.m.years')}</li>
+          <li className="atlas-own-line"><b>{M.noReport}</b> {t('landing.m.questions')} <span className="atlas-m-sub">({t('landing.m.questionsSub')})</span></li>
           <li className="atlas-audit"><b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b> {t('landing.m.audit')}</li>
         </ul>
         <nav className="atlas-links" aria-label={t('landing.more')}>

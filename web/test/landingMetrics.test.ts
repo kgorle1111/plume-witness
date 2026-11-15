@@ -15,6 +15,12 @@ test('spike, monitor and year counts match spikes.json', () => {
   assert.equal(LANDING_METRICS.years, spikes.years.length)
 })
 
+test('the "questions for the state" count matches the no-matching-report rows in spikes.json', () => {
+  const open = spikes.rows.filter((r: { status: string }) => r.status === 'no_report_after_deadline').length
+  assert.equal(LANDING_METRICS.noReport, open)
+  assert.equal(LANDING_METRICS.noReport, spikes.summary.by_status.no_report_after_deadline)
+})
+
 test('the hand-audit numbers match audit-no-report.json', () => {
   assert.equal(LANDING_METRICS.auditNights, audit.n)
   assert.equal(LANDING_METRICS.auditMissed, audit.counts['likely missed by us'])
