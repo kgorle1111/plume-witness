@@ -45,3 +45,26 @@ test('the filing dialog shows the same preview link the copied note carries', ()
   assert.match(steps, /<a href=\{replayUrl\}>\{replayUrl\}<\/a>/)
   assert.match(steps, /incidentNote\(ev, replayUrl, lang\)/)
 })
+
+test('each step reads title first, then its limits as a neutral note (not the orange box above the title)', () => {
+  const app = src('App.tsx')
+  const h2 = app.indexOf('<h2 key={step}>'), limits = app.indexOf('<CannotSay items=')
+  assert.ok(h2 > 0 && limits > h2, 'CannotSay renders after the step heading')
+  const block = /\.cannot-say \{[^}]*\}/.exec(src('App.css'))?.[0] ?? ''
+  assert.doesNotMatch(block, /peach/, block)
+})
+
+test('Back/Next, and Approve/File on Packet, stick to the bottom of the step on screens taller than 500px', () => {
+  const css = src('App.css')
+  const tall = media(css, '(min-height: 501px)')
+  assert.match(tall, /\.step-nav \{\s*position: sticky; bottom: 0;/)
+  assert.match(media(css, '(min-height: 700px)'), /\.file-steps \{\s*position: sticky; bottom: 0;/)
+  // With the limits inside the step, scroll anchoring to the swapped step put the ES Trace heading 10px under the
+  // stepper at 320x568 (y 59, stepper bottom 69); every tab change now lands it at 83.
+  assert.match(css, /\.step-panel \{ overflow-anchor: none; \}/)
+})
+
+test('Past spikes: the calendar legend comes before the strips it explains', () => {
+  const cal = src('SpikeCalendar.tsx')
+  assert.ok(cal.indexOf('className="sl-cal-legend"') < cal.indexOf('className="sl-cal-scroll"'))
+})
