@@ -61,7 +61,7 @@ HOUSTON_MET_SELECTS = {
 # Arthur (saved as data/raw/region_beaumont/agc_form.html). Port Arthur itself has no AutoGC site on that list.
 BEAUMONT_SITES = {"48_245_0009": "Beaumont-Downtown", "48_245_1035": "Nederland 17th Street"}
 
-NOT_BACKTESTED_NOTE = "New region: no backtest yet; statuses use the same rules; no claims are made from it."
+NOT_BACKTESTED_NOTE = "Outside the backtest: statuses use the same rules, but how well they work in this region is not measured."
 # One line in a backtested region's limits list (and its files' region block); the doc carries the numbers.
 # The number sits in the parentheses so the web's Spanish table (format.ts cannotSayEs) matches the sentence itself.
 BACKTESTED_NOTE = "Backtested against company-reported releases (n = {n}, 2024-2025)"
