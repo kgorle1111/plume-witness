@@ -120,7 +120,7 @@ function Replay({ ev }: { ev: PlumeEvent }) {
         <div className="stage">
         <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
-          <MapSlot ev={ev} corridor={corridor} labelId="map-label" highlightId={highlightId} hour={hour} />
+          <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} />
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>

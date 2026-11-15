@@ -44,14 +44,13 @@ const NEAREST_LABELED = 3
 interface Props {
   ev: PlumeEvent
   corridor: Facility[]
-  labelId: string
   /** Facility id highlighted from the Trace list (hover or keyboard focus). */
   highlightId: string | null
   /** Replay hour (CST) whose readings and wind the map shows. */
   hour: number
 }
 
-export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
+export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const legend = useRef<HTMLUListElement>(null)
   const highlight = useRef(highlightId)
@@ -127,7 +126,8 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
       center: [trigger.lon, trigger.lat],
       zoom: 11,
       attributionControl: { compact: false, customAttribution: ATTRIBUTION },
-      locale: { 'Map.Title': 'Map of monitors and facilities. The same facilities are listed as text in the Trace step.' },
+      // The surrounding section already names the map; this names the interactive canvas inside it.
+      locale: { 'Map.Title': 'Interactive map: arrow keys pan, plus and minus zoom' },
     })
 
     const bounds = new LngLatBounds()
@@ -444,7 +444,7 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
 
   return (
     <>
-      <div ref={container} className="map-canvas" aria-labelledby={labelId} />
+      <div ref={container} className="map-canvas" />
       <ul ref={legend} className="legend" aria-hidden="true">
         <li><span className="lg lg-pulse" /> Flagged monitor</li>
         <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
