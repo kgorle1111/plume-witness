@@ -75,3 +75,22 @@ test('the Spanish summary carries no banned verdict word', () => {
   for (const s of [BRIEF_ES.title, ...BRIEF_ES.sections.flatMap((x) => [x.title, ...x.items])])
     for (const re of BANNED_WORDS) assert.ok(!re.test(s), `${re} in: ${s}`)
 })
+
+test('on paper only the Sources line spells out its URLs, so every other Reproducibility link shows its address', () => {
+  // Brief.css prints " <href>" after links in the last item of the closing list only.
+  const at = blocks.findIndex((b) => b.t === 'h2' && inlineText(b.v) === 'Reproducibility')
+  const list = blocks[at + 1]
+  assert.ok(at >= 0 && 'items' in list && list.t === 'ul' && blocks.slice(at + 2).every((b) => b.t !== 'ul'), 'Reproducibility is not the last list')
+  assert.match(inlineText(list.items.at(-1)!), /^Sources:/)
+  const bare = (s: string) => s.replace(/^https:\/\//, '').replace(/\/$/, '')
+  for (const it of list.items.slice(0, -1))
+    for (const i of it) if (i.t === 'link') assert.equal(bare(inlineText(i.v)), bare(i.href), `link text hides its address on paper: ${i.href}`)
+})
+
+test('the brief stays inside the word budget that prints on 2 Letter / A4 pages', () => {
+  // kn: a word count stands in for the page count. Measured 2026-11-15 with Chrome page.pdf at 1432 words: 2 pages in
+  // EN and ES, Letter and A4, with 84pt (about 7 lines) spare on the tightest, ES Letter. The budget leaves about half of
+  // that for other browsers' fonts. Rendering the PDF in CI would replace this guess with the real count.
+  const words = src.split(/\s+/).filter(Boolean).length
+  assert.ok(words <= 1480, `brief.md is ${words} words; over 1480 it can spill onto a third printed page`)
+})
