@@ -139,7 +139,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
         <div><dt>{t('det.monitor')}</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
         <div className="fact-key">
           <dt>{t('det.reading')}</dt>
-          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first /> <span className="reading-when">{t('det.atHour', { hour: hourLabel(d.hour_cst) })} <span className="nowrap">{ev.date_local}</span></span></dd>
+          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first /> <span className="reading-when">{t('det.atHour', { hour: hourLabel(d.hour_cst) })} <span className="nowrap">{ev.date_local}</span></span> <span className="prov-badge" title={t('prov.tip')}>{t('prov.badge')}</span></dd>
         </div>
         <div><dt>{t('det.baseline')}</dt><dd>{d.baseline} <Unit units={u} /></dd></div>
         <div>
@@ -147,6 +147,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
           <dd>{rule ? t('det.ruleText', { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
         </div>
       </dl>
+      <p className="small">{t('det.notAlert')}</p>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
         {t('det.replayHour', { hour: hourLabel(hour) })} <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : t('tl.noData')}</strong>

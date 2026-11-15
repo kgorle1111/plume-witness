@@ -89,7 +89,7 @@ export function Timeline({ ev, hour, onHour }: Props) {
       </div>
       {/* Visible status doubles as the text equivalent of what the map shows for this hour. */}
       <p className="tl-status" aria-live={playing ? 'off' : 'polite'}>
-        <strong>{hourLabel(hour)}</strong> · {trigger.name}: <strong>{reading(trigger)}</strong> · {windText}
+        <strong>{hourLabel(hour)}</strong> · {trigger.name}: <strong>{reading(trigger)}</strong> · {windText} <span className="prov-badge" title={t('prov.tip')}>{t('prov.badge')}</span>
       </p>
       {/* Phones keep the note inside the details to save height; only one copy is ever displayed. */}
       {ev.corridor && <p className="tl-note wide-only">{NOTE}</p>}
