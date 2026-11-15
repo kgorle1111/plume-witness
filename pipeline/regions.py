@@ -85,6 +85,15 @@ class Region:
     # STEERS counties searched for the record check when not all of a multi-county region's counties are: only the
     # counties whose monitors had a spike (a county with none needs no record check). Empty means every county.
     steers_counties: tuple[str, ...] = ()
+    # Outside Texas (Los Angeles): the zone and wording the replay uses instead of Texas's. Empty means Texas.
+    tz: str = "America/Chicago"
+    tz_std: str = "CST"
+    time_note: str = ""  # with {tz}: the report's local zone that day
+    monitor_en: str = "the Texas state monitor"
+    monitor_es: str = "el monitor estatal de Texas"
+    records_en: str = "state emissions-event"
+    records_es: str = "estatales de eventos de emisiones"
+    cannot_say: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.backtested != (self.n_backtest is not None):
@@ -251,11 +260,46 @@ REGIONS = {r.key: r for r in (HOUSTON, BEAUMONT, BAYTOWN, BRAZORIA, CORPUS_CHRIS
                               DALLAS_FORT_WORTH, MIDLAND_ODESSA, EL_PASO)}
 ALL_SITE_NAMES = {s: n for r in REGIONS.values() for s, n in r.sites.items()}
 
+# Outside Texas. Not in REGIONS: everything keyed on REGIONS is the Texas TCEQ/STEERS pipeline (coverage form, STEERS
+# fetch, backtest). Los Angeles is built by pipeline.la_replay; the web lists it with the Texas regions.
+LA_STATION_NAMES = {
+    "HDSN": "Hudson Air Monitoring Station", "IPRT": "Inner Port Air Monitoring Station",
+    "SLKE": "St Luke Air Monitoring Station", "JUDS": "Judson Air Monitoring Station",
+    "UMCW": "First Methodist Air Monitoring Station", "MHAN": "Manhattan Beach Air Monitoring Station",
+    "ELSG": "El Segundo Air Monitoring Station", "ANTH": "St Anthony Air Monitoring Station",
+    "GUEN": "Guenser Park Air Monitoring Station", "ELMA": "Elm Avenue Air Monitoring Station",
+}
+LOS_ANGELES = Region(
+    key="los_angeles", label="Los Angeles", county="LOS ANGELES", sites=LA_STATION_NAMES,
+    raw=ROOT / "data" / "raw" / "region_los_angeles",
+    spikes_out=WEB_PUBLIC / "regions" / "los_angeles" / "spikes.json",
+    nights_out=WEB_PUBLIC / "regions" / "los_angeles" / "nights", backtested=False, place="in Los Angeles",
+    label_es="Los Ángeles", place_es="en Los Ángeles",
+    tz="America/Los_Angeles", tz_std="PST",
+    time_note=("Monitor hours are PST as South Coast AQMD publishes them; the reports use local time ({tz}). "
+               "South Coast AQMD's public hourly history for these stations ends in December 2022."),
+    monitor_en="the South Coast AQMD community monitor", monitor_es="el monitor comunitario de South Coast AQMD",
+    records_en="Cal OES spill", records_es="de derrames de Cal OES",
+    cannot_say=(
+        "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
+        ("Los Angeles County has no public list of every emissions event: Cal OES spill reports and National Response "
+         "Center reports are phone reports with a start time and no end time, so a missing match cannot be claimed."),
+        ("The upwind corridor comes from wind direction at one airport weather station (geometry only), not a "
+         "dispersion model; it cannot tell facilities along the same bearing apart."),
+        "Facility coordinates are as published by EPA ECHO and may be approximate.",
+        ("Hours when all seven compounds the analyzer reports read 5 ppb or more at once are the analyzer's check gas "
+         "and are not counted."),
+        "Only South Coast AQMD's Rule 1180 community monitors are used, never low-cost sensors.",
+    ),
+)
+OTHER_REGIONS = {LOS_ANGELES.key: LOS_ANGELES}
+WEB_REGIONS = REGIONS | OTHER_REGIONS
+
 
 def get(key: str) -> Region:
-    if key not in REGIONS:
-        raise SystemExit(f"unknown region {key!r}; expected one of {sorted(REGIONS)}")
-    return REGIONS[key]
+    if key not in WEB_REGIONS:
+        raise SystemExit(f"unknown region {key!r}; expected one of {sorted(WEB_REGIONS)}")
+    return WEB_REGIONS[key]
 
 
 def web_dir(r: Region) -> str:
@@ -270,7 +314,7 @@ def web_dir(r: Region) -> str:
     return d
 
 
-def web_registry(regions: dict[str, Region] = REGIONS) -> list[dict]:
+def web_registry(regions: dict[str, Region] = WEB_REGIONS) -> list[dict]:
     """The fields the web needs, Houston first (the web's default region)."""
     rows = []
     for r in regions.values():
@@ -279,13 +323,13 @@ def web_registry(regions: dict[str, Region] = REGIONS) -> list[dict]:
         rows.append({
             "key": r.key, "label": r.label, "label_es": r.label_es, "place": r.place, "place_es": r.place_es,
             "dir": web_dir(r), "backtested": r.backtested, "n_sites": len(r.sites), "county": r.county,
-        })
+        } | ({} if r.tz_std == "CST" else {"tz": r.tz_std}))
     if not rows or rows[0]["key"] != "houston":
         raise ValueError("Houston must be the first region: the web falls back to it")
     return rows
 
 
-def web_registry_text(regions: dict[str, Region] = REGIONS) -> str:
+def web_registry_text(regions: dict[str, Region] = WEB_REGIONS) -> str:
     return json.dumps(web_registry(regions), indent=1, ensure_ascii=False) + "\n"
 
 
@@ -293,4 +337,4 @@ if __name__ == "__main__":
     if sys.argv[1:] != ["--write-web"]:
         raise SystemExit("usage: uv run python -m pipeline.regions --write-web")
     WEB_REGISTRY.write_text(web_registry_text(), encoding="utf-8")
-    print(f"wrote {WEB_REGISTRY.relative_to(ROOT)} ({len(REGIONS)} regions)")
+    print(f"wrote {WEB_REGISTRY.relative_to(ROOT)} ({len(WEB_REGIONS)} regions)")

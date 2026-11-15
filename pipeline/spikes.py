@@ -44,12 +44,17 @@ REASONS = {
                                  "cannot be claimed.",
     "report_not_placed": "A report open at that hour (started that day or earlier) could not be placed on the map, "
                          "so absence cannot be claimed.",
+    "no_register": "Los Angeles County has no public list of every emissions event (Cal OES and NRC reports have no "
+                   "end time), so absence cannot be claimed.",
 }
 
 
 
 def incomplete_reason(s: dict) -> str:
-    """The reason code for a search_incomplete backtest row (see REASONS)."""
+    """The reason code for a search_incomplete backtest row (see REASONS). A region outside Texas sets its own
+    (pipeline.la_replay: calm_wind or no_register)."""
+    if s.get("reason_code_override"):
+        return s["reason_code_override"]
     if not s.get("search_complete"):
         return "day_search_incomplete"
     if s.get("calm_mph") is not None:
