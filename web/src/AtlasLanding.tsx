@@ -1,4 +1,4 @@
-import { lazy, Suspense, type MouseEventHandler } from 'react'
+import { lazy, Suspense, useEffect, type MouseEventHandler } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import './AtlasLanding.css'
 
@@ -9,6 +9,8 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
   onEnter: MouseEventHandler<HTMLAnchorElement>
   onExit: () => void
 }) {
+  // The replay renames the tab after its night; coming back with the browser's Back button resets it.
+  useEffect(() => { document.title = 'Plume Witness' }, [])
   return (
     <main
       className={`atlas-landing${leaving ? ' atlas-leaving' : ''}`}

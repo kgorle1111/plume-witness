@@ -1,5 +1,5 @@
 // ?view=brief: the method brief, rendered from docs/brief.md so the page and the file cannot drift apart.
-import { Fragment, type ReactNode } from 'react'
+import { Fragment, useEffect, type ReactNode } from 'react'
 import src from '../../docs/brief.md?raw'
 import { parseMarkdown, type Inline } from './md.ts'
 import { DEMO_REPLAY_HREF } from './demoHref'
@@ -20,6 +20,7 @@ function inline(v: Inline[]): ReactNode {
 const blocks = parseMarkdown(src)
 
 export default function Brief() {
+  useEffect(() => { document.title = 'Method brief · Plume Witness' }, [])
   return (
     <main className="br-page">
       <nav className="br-bar" aria-label="Brief actions">

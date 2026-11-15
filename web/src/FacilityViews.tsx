@@ -155,6 +155,7 @@ function FacilityList() {
   const { data, error } = useJson<FacilityIndex>('facilities/index.json', parseIndex)
   const [q, setQ] = useState(() => new URLSearchParams(window.location.search).get('q') ?? '')
   const rows = useMemo(() => (data ? searchFacilities(data.facilities, q) : []), [data, q])
+  useEffect(() => { document.title = 'Facilities · Plume Witness' }, [])
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
     if (q) p.set('q', q)

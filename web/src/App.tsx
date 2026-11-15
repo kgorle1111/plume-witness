@@ -273,6 +273,8 @@ export default function App() {
       })
     return () => ctrl.abort()
   }, [night, invalid])
+  // Every view shared "Plume Witness" as its title (WCAG 2.4.2); name the night being replayed.
+  useEffect(() => { if (ev) document.title = `${ev.title} · Plume Witness` }, [ev])
 
   const shown = invalid ? `"${night}" is not a night id.` : error
   if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={DEMO_REPLAY_HREF}>Back to the demo night</a></p></main>
