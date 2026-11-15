@@ -123,3 +123,28 @@ export function parseEvent(raw: unknown): PlumeEvent {
   }
   return e
 }
+
+/** Optional web/public/packet.ai.json, written by pipeline/claude_draft.py publish() only when the guard passed. */
+export interface AiDraft {
+  provider: string
+  model: string
+  generated_local: string
+  runs_on_this_event: number
+  draft_en: string
+  draft_es: string
+  guard: { passed: true; rejected: string[] }
+}
+
+const AI_MAX_CHARS = 4000
+const isDraftText = (v: unknown): v is string => typeof v === 'string' && v.length > 0 && v.length <= AI_MAX_CHARS
+
+/** Trust boundary: the file is static, but the site shows it to the public, so check its shape before use. */
+export function parseAiDraft(raw: unknown): AiDraft | null {
+  if (!raw || typeof raw !== 'object') return null
+  const r = raw as Record<string, unknown>
+  const g = r.guard as { passed?: unknown } | undefined
+  if (g?.passed !== true || !isDraftText(r.draft_en) || !isDraftText(r.draft_es)) return null
+  if (typeof r.provider !== 'string' || typeof r.model !== 'string' || typeof r.generated_local !== 'string') return null
+  if (typeof r.runs_on_this_event !== 'number') return null
+  return raw as AiDraft
+}

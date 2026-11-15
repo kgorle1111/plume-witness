@@ -96,3 +96,14 @@ def test_missing_key_exits_2_and_writes_nothing(monkeypatch, tmp_path):
     out = tmp_path / "p.json"
     assert cd.main(["--event", str(ROOT / "web" / "public" / "event.json"), "--out", str(out)]) == 2
     assert not out.exists()
+
+
+def test_publish_refuses_a_failed_draft_and_writes_a_passed_one(event, tmp_path):
+    bad = cd.draft(event, client=FakeClient(_msg("not json")))
+    with pytest.raises(ValueError):
+        cd.publish(bad, cd.MODEL, "2026-11-14", tmp_path / "x.json")
+    assert not (tmp_path / "x.json").exists()
+    good = cd.draft(event, client=FakeClient(_msg(faithful(event))))
+    cd.publish(good, cd.MODEL, "2026-11-14", tmp_path / "ok.json")
+    out = json.loads((tmp_path / "ok.json").read_text())
+    assert out["guard"]["passed"] is True and out["model"] == cd.MODEL and out["runs_on_this_event"] == 1
