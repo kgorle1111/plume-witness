@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
+import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
@@ -9,7 +9,9 @@ import { arrivalTick, daysAfterEvent, reportBand } from './reportWindow'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
-import { setLang as setSiteLang } from './i18n'
+import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
+import { useLang, useT, type Translate } from './useT'
+import { checkAt, ruleParts } from './plainWords'
 import { useRecordedClip } from './recorded'
 
 function InfoIcon() {
@@ -38,13 +40,20 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
   const bw = (W - 4) / 24
   const y = (v: number) => H - pad - (v / max) * (H - pad - 6)
   const missing = m.hourly.filter((h) => h.value === null).length
+  const t = useT()
   const band = reportBand(rc, eventDay)
   const tick = band ? arrivalTick(rc, eventDay) : null
-  const bandLabel = band && (band.matched ? 'Company-reported release window (its own report)' : 'Report lists other compounds')
+  const bandLabel = band && t(band.matched ? 'spark.bandMatched' : 'spark.bandOther')
   const bandText = band
-    ? ` Shaded band: ${band.matched ? 'the company-reported release window, from its own report' : 'a report that lists other compounds, drawn dashed'}, ${band.localText}${band.cstText ? ` (${band.cstText})` : ''}${band.startsBefore ? '; it began before this day' : ''}${band.endsAfter ? '; it continues past this day' : ''}.${tick ? ` Marker: ${tick.text}.` : ''}`
+    ? t('spark.ariaBand', {
+      what: t(band.matched ? 'spark.ariaMatched' : 'spark.ariaOther'),
+      when: `${band.localText}${band.cstText ? ` (${band.cstText})` : ''}`,
+      extra: `${band.startsBefore ? t('spark.ariaBefore') : ''}${band.endsAfter ? t('spark.ariaAfter') : ''}`,
+    }) + (tick ? t('spark.ariaMarker', { text: tick.text }) : '')
     : ''
-  const summary = `24 hourly readings at ${m.name}. Highest ${m.peak.value} ${unitShort(units)} at ${hourLabel(m.peak.hour_cst)}; baseline ${m.baseline} ${unitShort(units)}.${missing ? ` ${missing} hours have no value.` : ''}${bandText}`
+  const u = unitShort(units)
+  const summary = t('spark.summary', { name: m.name, peak: m.peak.value, unit: u, hour: hourLabel(m.peak.hour_cst), base: m.baseline })
+    + (missing ? t('spark.missingHours', { n: missing }) : '') + bandText
   const bx = (h: number) => 2 + h * bw
   return (
     <figure className="spark">
@@ -81,26 +90,26 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
         <text x={W - 2} y={H - 2} className="spark-axis" textAnchor="end">23 h CST</text>
       </svg>
       <figcaption>
-        <span className="key key-bar" aria-hidden="true" /> hourly <Unit units={units} lang="en" />{' '}
-        <span className="key key-base" aria-hidden="true" /> baseline{' '}
-        <span className="key key-sel" aria-hidden="true" /> replay hour{missing ? ' · × no value' : ''}
+        <span className="key key-bar" aria-hidden="true" /> {t('spark.keyHourly')} <Unit units={units} />{' '}
+        <span className="key key-base" aria-hidden="true" /> {t('spark.keyBase')}{' '}
+        <span className="key key-sel" aria-hidden="true" /> {t('spark.keyReplay')}{missing ? t('spark.keyMissing') : ''}
       </figcaption>
       {band && (
         <p className="spark-note small">
-          <span className={band.matched ? 'key key-report' : 'key key-report is-mismatch'} aria-hidden="true" /> <strong>{bandLabel}:</strong> {band.localText}{band.cstText ? <> (= {band.cstText}, the clock this chart uses)</> : ''}{band.startsBefore || band.endsAfter ? '; the band covers the part inside this day' : ''}.
+          <span className={band.matched ? 'key key-report' : 'key key-report is-mismatch'} aria-hidden="true" /> <strong>{bandLabel}:</strong> {band.localText}{band.cstText ? <> {t('spark.bandCst', { cst: band.cstText })}</> : ''}{band.startsBefore || band.endsAfter ? t('spark.bandClipped') : ''}.
           {tick && <> <span className="key-arrival" aria-hidden="true">▲</span> {tick.text[0].toUpperCase() + tick.text.slice(1)}.</>}
         </p>
       )}
-      {rc.status === 'no_report_after_deadline' && <p className="spark-note muted small">No matching report in a complete search.</p>}
+      {rc.status === 'no_report_after_deadline' && <p className="spark-note muted small">{t('spark.noMatch')}</p>}
       <details className="hourly-table">
-        <summary>Show all 24 hourly values</summary>
+        <summary>{t('spark.showAll')}</summary>
         <table>
-          <thead><tr><th scope="col">Hour (CST)</th><th scope="col"><Unit units={units} lang="en" /></th><th scope="col">Flag</th></tr></thead>
+          <thead><tr><th scope="col">{t('spark.colHour')}</th><th scope="col"><Unit units={units} /></th><th scope="col">{t('spark.colFlag')}</th></tr></thead>
           <tbody>
             {m.hourly.map((h) => (
               <tr key={h.hour_cst}>
                 <td>{hourLabel(h.hour_cst)}</td>
-                <td>{h.value ?? 'no value'}</td>
+                <td>{h.value ?? t('spark.noValue')}</td>
                 <td>{h.flag ?? ''}</td>
               </tr>
             ))}
@@ -117,24 +126,29 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const u = ev.compound.units
   const others = ev.monitors.filter((x) => x.triggered && x.site_id !== d.site_id)
   const atHour = m.hourly.find((x) => x.hour_cst === hour)
+  const t = useT()
+  const rule = ruleParts(d.rule)
   return (
     <>
-      <p className="lead">A state monitor recorded a {ev.compound.name} reading far above its usual level.</p>
+      <p className="lead">{t('det.lead', { compound: ev.compound.name })}</p>
       <dl className="facts">
-        <div><dt>Monitor</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
+        <div><dt>{t('det.monitor')}</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
         <div className="fact-key">
-          <dt>Reading</dt>
-          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first lang="en" /> <span className="reading-when">at {hourLabel(d.hour_cst)}, <span className="nowrap">{ev.date_local}</span></span></dd>
+          <dt>{t('det.reading')}</dt>
+          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first /> <span className="reading-when">{t('det.atHour', { hour: hourLabel(d.hour_cst) })} <span className="nowrap">{ev.date_local}</span></span></dd>
         </div>
-        <div><dt>Usual level (baseline)</dt><dd>{d.baseline} <Unit units={u} lang="en" /></dd></div>
-        <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
+        <div><dt>{t('det.baseline')}</dt><dd>{d.baseline} <Unit units={u} /></dd></div>
+        <div>
+          <dt>{t('det.rule')}</dt>
+          <dd>{rule ? t('det.ruleText', { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
+        </div>
       </dl>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
-        Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : 'no data'}</strong>
+        {t('det.replayHour', { hour: hourLabel(hour) })} <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : t('tl.noData')}</strong>
       </p>
       {others.length > 0 && (
-        <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${unitShort(u)} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
+        <p className="muted small">{t('det.alsoFlagged', { list: others.map((o) => t('det.alsoItem', { name: o.name, value: o.peak.value, unit: unitShort(u), hour: hourLabel(o.peak.hour_cst) })).join('; ') })}</p>
       )}
       <p className="muted small">{ev.time_note}</p>
       <Rose siteId={m.site_id} param={ev.compound.aqs_param} />
@@ -156,6 +170,8 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
   const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
+  const t = useT()
+  const lang = useLang()
   // One tab stop for the whole list (roving tabindex): 40 facilities were 40 Tab presses before "Next".
   const [current, setCurrent] = useState(0)
   const items = useRef<(HTMLElement | null)[]>([])
@@ -178,15 +194,15 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
     <>
       <p className="lead">
         {wind
-          ? <>At {hourLabel(wind.hour_cst)} the wind at {windSite} came from the {compass(wind.from_deg)} ({wind.from_deg}°) at {wind.speed_mph} mph. These facilities sit in that upwind direction, nearest first.</>
-          : <>No wind reading for {hourLabel(ev.detection.hour_cst)}. Facilities are listed nearest first.</>}
+          ? t('trc.leadWind', { hour: hourLabel(wind.hour_cst), site: windSite, dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph })
+          : t('trc.leadNoWind', { hour: hourLabel(ev.detection.hour_cst) })}
       </p>
-      <p className="caveat"><InfoIcon />Wind direction alone can't tell these apart.</p>
+      <p className="caveat"><InfoIcon />{t('trc.caveat')}</p>
       <TriangulationNote ev={ev} />
       <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
-      <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
-      <p className="muted small">Hover or focus a facility to show its name on the map; with a keyboard, Tab into the list and use the arrow keys. On the map, tap or point at a dot.</p>
-      {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
+      <h3 className="list-heading">{t('trc.heading', { n: corridor.length })}</h3>
+      <p className="muted small">{t('trc.hintPointer')}</p>
+      {corridor.length === 0 ? <p>{t('trc.empty')}</p> : (
         <ol className="facility-list" onKeyDown={onListKey}>
           {corridor.map((f, i) => (
             // Key on id + rank: the pipeline can emit the same facility id twice.
@@ -202,22 +218,22 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
               {linked
                 ? <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)} {...roving(i)}>{f.name}</a>
                 : <span className="fl-name">{f.name}</span>}
-              {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
-              {narrowed.has(f.id) && <span className="tri-tag">In every monitor's wedge</span>}
-              <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
+              {f.id === matched && ev.record_check.incident && <span className="filed-tag">{t('trc.filed', { id: ev.record_check.incident })}</span>}
+              {narrowed.has(f.id) && <span className="tri-tag">{t('trc.everyWedge')}</span>}
+              <span className="fl-geo">{t('trc.geo', { km: f.distance_km, deg: f.bearing_deg, dir: compass(f.bearing_deg, lang) })}</span>
               <span className="fl-align">
-                <span className="align-label">Wind alignment {f.alignment}</span>
+                <span className="align-label">{t('trc.align', { a: f.alignment })}</span>
                 <span className="align-track" aria-hidden="true"><span className="align-fill" style={{ width: `${Math.max(0, Math.min(1, f.alignment)) * 100}%` }} /></span>
               </span>
-              <span className="muted small">Location source: {f.source}</span>
+              <span className="muted small">{t('trc.source', { source: f.source })}</span>
             </li>
           ))}
         </ol>
       )}
       {outside.length > 0 && (
         <details className="outside">
-          <summary>Nearby, outside the corridor ({outside.length})</summary>
-          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{f.name} · {f.distance_km} km · bearing {f.bearing_deg}°</li>)}</ul>
+          <summary>{t('trc.outside', { n: outside.length })}</summary>
+          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{t('trc.outsideItem', { name: f.name, km: f.distance_km, deg: f.bearing_deg })}</li>)}</ul>
         </details>
       )}
     </>
@@ -226,24 +242,20 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
 
 /** One line on whether a second triggering monitor narrows the corridor. Informational; names no facility. */
 function TriangulationNote({ ev }: { ev: PlumeEvent }) {
-  const t = ev.triangulation
-  if (!t || t.verdict === 'not_traced') return null
-  const names = t.monitors.map((m) => m.name)
-  const all = names.length === 2 ? 'both monitors' : `all ${names.length} monitors`
-  if (t.verdict === 'single') return <p className="muted small">Only one monitor triggered, so there is no second wedge to narrow this list.</p>
-  if (t.verdict === 'single_wind') {
-    return <p className="muted small">{t.monitors_triggered} monitors triggered, but {t.verdict_text}, so their wedges can't be intersected.</p>
+  const t = useT()
+  const tri = ev.triangulation
+  if (!tri || tri.verdict === 'not_traced') return null
+  const names = tri.monitors.map((m) => m.name).join(t('tri.and'))
+  const all = tri.monitors.length === 2 ? t('tri.both') : t('tri.all', { n: tri.monitors.length })
+  if (tri.verdict === 'single') return <p className="muted small">{t('tri.single')}</p>
+  if (tri.verdict === 'single_wind') {
+    return <p className="muted small">{t('tri.singleWind', { n: tri.monitors_triggered, why: tri.verdict_text })}</p>
   }
-  const counts = `${t.intersection_count} of the ${t.single_wedge_count} facilities sit inside every monitor's upwind wedge`
-  if (t.verdict === 'narrows') {
-    return (
-      <p className="tri-note">
-        {names.join(' and ')} triggered. The air at {all} could have come from this smaller area: {counts} (ringed on
-        the map and tagged below). {t.caveat}
-      </p>
-    )
+  const counts = t('tri.counts', { k: String(tri.intersection_count), n: tri.single_wedge_count })
+  if (tri.verdict === 'narrows') {
+    return <p className="tri-note">{t('tri.narrows', { names, all, counts, caveat: tri.caveat ?? '' })}</p>
   }
-  return <p className="muted small">{names.join(' and ')} triggered; {counts}: {t.verdict_text}.</p>
+  return <p className="muted small">{t('tri.other', { names, counts, why: tri.verdict_text })}</p>
 }
 
 export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
@@ -251,40 +263,41 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const url = safeHttpUrl(rc.source_url)
   const matched = ev.facilities.find((f) => f.id === rc.matched_facility_id)
   const r = rc.reported
+  const t = useT()
   return (
     <>
-      <h3 className="question">Did any facility in the corridor file a matching report?</h3>
+      <h3 className="question">{t('chk.question')}</h3>
       <div className="status-block">
         <StatusBadge status={rc.status} lang={lang} />
         <p className="muted small">{rc.search_scope}</p>
       </div>
       {matched && (
         <p className="is-matched-note">
-          <strong>{matched.name}</strong>{rc.incident ? <> · Filed report #{rc.incident}</> : null}
+          <strong>{matched.name}</strong>{rc.incident ? <> · {t('trc.filed', { id: rc.incident })}</> : null}
         </p>
       )}
-      <h3 className="list-heading">Checks over time</h3>
+      <h3 className="list-heading">{t('chk.checks')}</h3>
       <ul className="checks">
         {rc.checks.map((c) => (
-          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} lang={lang} /></li>
+          <li key={c.at}><span className="check-at">{checkLabel(c.at, t)}</span> <StatusBadge status={c.status} lang={lang} /></li>
         ))}
       </ul>
       {r && (
         <>
-          <h3 className="list-heading">What the report says</h3>
+          <h3 className="list-heading">{t('chk.says')}</h3>
           <dl className="facts">
-            {r.compound && <div><dt>Compound</dt><dd>{r.compound}</dd></div>}
-            {r.pounds != null && <div><dt>Amount reported</dt><dd>{r.pounds.toLocaleString('en-US')} lb</dd></div>}
+            {r.compound && <div><dt>{t('chk.compound')}</dt><dd>{r.compound}</dd></div>}
+            {r.pounds != null && <div><dt>{t('chk.pounds')}</dt><dd>{r.pounds.toLocaleString('en-US')} lb</dd></div>}
             {(r.start_local || r.end_local) && (
-              <div><dt>Time reported</dt><dd>{localTime(r.start_local)} to {localTime(r.end_local)}{r.tz ? ` ${r.tz}` : ''}</dd></div>
+              <div><dt>{t('chk.time')}</dt><dd>{t('chk.timeRange', { start: localTime(r.start_local, t), end: localTime(r.end_local, t) })}{r.tz ? ` ${r.tz}` : ''}</dd></div>
             )}
-            {r.cause && <div><dt>Cause given</dt><dd>{r.cause}</dd></div>}
+            {r.cause && <div><dt>{t('chk.cause')}</dt><dd>{r.cause}</dd></div>}
             {(r.revisions ?? []).map((v) => {
               const n = r.start_local ? daysAfterEvent(r.start_local, v.date) : null
               return (
                 <div key={`${v.date}-${v.text}`}>
-                  <dt>Report update</dt>
-                  <dd>{n != null ? `Revised ${n} day${n === 1 ? '' : 's'} after the event` : `Revised ${v.date}`}: <q>{v.text}</q> <span className="muted">(company update dated {v.date}, quoted from the state record)</span></dd>
+                  <dt>{t('chk.update')}</dt>
+                  <dd>{n != null ? t(n === 1 ? 'chk.revisedOne' : 'chk.revisedMany', { n }) : t('chk.revisedOn', { date: v.date })}: <q>{v.text}</q> <span className="muted">{t('chk.updateSource', { date: v.date })}</span></dd>
                 </div>
               )
             })}
@@ -293,38 +306,40 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
       )}
       {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} lang={lang} />}
       {url
-        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
-        : <p className="muted">No valid link to the state record in this file.</p>}
+        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">{t('chk.openRecord')}<span className="sr-only">{t('chk.newTab')}</span></a></p>
+        : <p className="muted">{t('chk.noLink')}</p>}
     </>
   )
 }
 
-// kn: Spanish not yet reviewed by a community reader, like the status labels.
-const CORRIDOR_TAG = {
-  in: { en: 'In the upwind corridor', es: 'En el corredor viento arriba' },
-  out: { en: 'Not in the corridor', es: 'Fuera del corredor' },
-  // A report that couldn't be placed is neither in nor out; "not in" read as a verdict on its location.
-  unknown: { en: 'Location unknown', es: 'Ubicación desconocida' },
-} as const
+/** "T+24h" reads as "Notice within 24 hours"; a label of another shape is shown as the pipeline wrote it. */
+function checkLabel(at: string, t: Translate): string {
+  const c = checkAt(at)
+  return c ? t(c.unit === 'h' ? 'chk.atHours' : 'chk.atDays', { n: c.n }) : at
+}
+
+// A report that couldn't be placed is neither in nor out; "not in" read as a verdict on its location.
+const CORRIDOR_TAG = { in: 'chk.tagIn', out: 'chk.tagOut', unknown: 'chk.tagUnknown' } as const
 
 function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
+  const t = useT()
   return (
     <>
-      <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
+      <h3 className="list-heading">{t('chk.dayHeading', { n: items.length })}</h3>
       <ul className="day-incidents">
         {items.map((d) => (
           <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
             <span className="di-entity">{d.entity}</span>
             {/* Corridor membership is stated in words; the border colour only repeats it. */}
             <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'} lang={lang}>
-              {CORRIDOR_TAG[d.in_corridor === true ? 'in' : d.in_corridor === false ? 'out' : 'unknown'][lang]}
+              {t(CORRIDOR_TAG[d.in_corridor === true ? 'in' : d.in_corridor === false ? 'out' : 'unknown'])}
             </span>
             <span className="di-facts">
-              {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? `started ${localTime(d.start_local)}` : null]
+              {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? t('chk.started', { time: localTime(d.start_local, t) }) : null]
                 .filter(Boolean)
                 .join(' · ')}
             </span>
-            <span className="muted small">Report #{d.incident}: {d.resolution}</span>
+            <span className="muted small">{t('chk.reportLine', { id: d.incident, resolution: d.resolution })}</span>
           </li>
         ))}
       </ul>
@@ -332,10 +347,13 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
   )
 }
 
-const localTime = (t?: string) => (t ? t.replace('T', ' ') : 'not given')
+const localTime = (stamp: string | undefined, t: Translate) => (stamp ? stamp.replace('T', ' ') : t('chk.notGiven'))
 
-const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
+const LANG_NAME: Record<Lang, StringKey> = { en: 'lang.nameEn', es: 'lang.nameEs' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
+
+/** Stored as a key, not text, so a notice follows the site language when it changes. */
+interface Notice { key: StringKey; vars?: Vars; langName?: Lang }
 
 interface PacketProps {
   ev: PlumeEvent
@@ -344,10 +362,19 @@ interface PacketProps {
   setReview: Dispatch<SetStateAction<PacketReview>>
 }
 
+/** Puts a node where `{name}` sits in a translated sentence, so the word order stays the translator's. */
+function withSlot(text: string, name: string, node: ReactNode): ReactNode {
+  const [before, ...rest] = text.split(`{${name}}`)
+  return rest.length ? <>{before}{node}{rest.join('')}</> : text
+}
+
 export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const { lang, source, drafts, approved } = review
   const [speaking, setSpeaking] = useState(false)
-  const [notice, setNotice] = useState('')
+  const [notice, setNotice] = useState<Notice | null>(null)
+  const t = useT()
+  const langName = (l: Lang) => t(LANG_NAME[l])
+  const noticeText = notice ? t(notice.key, { ...notice.vars, ...(notice.langName ? { lang: langName(notice.langName) } : {}) }) : ''
   const dialog = useRef<HTMLDialogElement>(null)
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const clip = useRecordedClip(source, lang, drafts[lang])
@@ -368,7 +395,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const switchLang = (l: Lang) => {
     if (l === lang) return
     stopSpeech()
-    if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
+    if (approved) setNotice({ key: 'pkt.switched', langName: l })
     setReview((r) => ({ ...r, lang: l, approved: false }))
     setSiteLang(l)
   }
@@ -378,15 +405,14 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     if (s === source || (s === 'ai' && !ai)) return
     stopSpeech()
     const next = s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
-    setNotice(s === 'ai' ? 'Showing the AI draft. Every number in it was checked against the data. Review it before approving.'
-      : 'Showing the template draft.')
+    setNotice({ key: s === 'ai' ? 'pkt.showingAi' : 'pkt.showingTemplate' })
     setReview((r) => ({ ...r, source: s, drafts: next, approved: false }))
   }
 
   const readAloud = () => {
     if (speaking) return stopSpeech()
     if (clip.url && audio.current) {
-      audio.current.play().then(() => setSpeaking(true), () => setNotice('The recording would not play. Check the sound and try again.'))
+      audio.current.play().then(() => setSpeaking(true), () => setNotice({ key: 'pkt.noPlay' }))
       return
     }
     if (!canSpeak) return
@@ -401,42 +427,42 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     setSpeaking(true)
   }
 
-  const copy = async (text: string, done: string) => {
+  const copy = async (text: string, done: StringKey) => {
     try {
       await navigator.clipboard.writeText(text)
-      setNotice(done)
+      setNotice({ key: done })
     } catch {
-      setNotice('Copy failed. Select the text and copy it by hand.')
+      setNotice({ key: 'pkt.copyFailed' })
     }
   }
 
   return (
     <>
-      <p className="lead">A draft for a person to read, edit and file. Nothing is sent from this app.</p>
+      <p className="lead">{t('pkt.lead')}</p>
       <div className="controls">
         {ai && (
           <div className="control">
-            <span className="control-label" id="src-label">Who wrote the draft</span>
+            <span className="control-label" id="src-label">{t('pkt.source')}</span>
             <div className="seg" role="group" aria-labelledby="src-label">
               <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>
-                Template <span className="seg-sub">(no AI)</span>
+                {t('pkt.template')} <span className="seg-sub">{t('pkt.templateSub')}</span>
               </button>
               <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>
-                AI draft <span className="seg-sub">({ai.provider}, number-checked)</span>
+                {t('pkt.ai')} <span className="seg-sub">{t('pkt.aiSub', { provider: ai.provider })}</span>
               </button>
             </div>
           </div>
         )}
         <div className="control">
-          <span className="control-label" id="lang-label">Draft language</span>
+          <span className="control-label" id="lang-label">{t('pkt.langGroup')}</span>
           <div className="seg" role="group" aria-labelledby="lang-label">
-            <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
+            <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')} lang="en">English</button>
             <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
           </div>
         </div>
       </div>
       <label className="draft-label" htmlFor="draft">
-        Draft ({LANG_NAME[lang]}){approved ? <span className="approved-tag"> · approved</span> : ''}
+        {t('pkt.draftLabel', { lang: langName(lang) })}{approved ? <span className="approved-tag">{t('pkt.approvedTag')}</span> : ''}
       </label>
       <textarea
         id="draft"
@@ -448,58 +474,59 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
           const value = e.target.value
           // Approval covers the exact text a person read; any edit needs a fresh approval.
           // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
-          if (approved) setNotice('Draft edited. Approve it again before filing.')
+          if (approved) setNotice({ key: 'pkt.edited' })
           setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
         }}
       />
       <p className="muted small provenance">
         {source === 'ai' && ai ? (
-          <>Drafted by {ai.provider} ({ai.model}), generated once on {ai.generated_local} from this event's facts; it has
-            drafted {ai.runs_on_this_event} real event so far. Number check: passed (every number, id and time matches the data).</>
+          t('pkt.byAi', { provider: ai.provider, model: ai.model, date: ai.generated_local, n: ai.runs_on_this_event })
         ) : (
-          <>Drafted by: {ev.packet.drafted_by ?? 'not stated in this file'}. Number check:{' '}
-            {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.</>
+          t('pkt.byTemplate', {
+            who: ev.packet.drafted_by ?? t('pkt.whoUnknown'),
+            result: guard.passed ? t('pkt.checkPassed') : t('pkt.checkFailed', { why: guard.rejected.join(', ') || t('pkt.noDetails') }),
+          })
         )}
       </p>
       <div className="row">
         {/* The label states the action, so no aria-pressed: a toggle whose label also flips reads backwards. */}
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak && !clip.url}>
-          {speaking ? 'Stop reading' : 'Read aloud'}
+          {t(speaking ? 'pkt.stopReading' : 'pkt.readAloud')}
         </button>
-        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'Draft copied.')}>Copy draft</button>
-        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'Incident note copied. It is a draft for review, not a finding.')}>
-          Copy as incident note
+        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'pkt.copiedDraft')}>{t('pkt.copyDraft')}</button>
+        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'pkt.copiedNote')}>
+          {t('pkt.copyNote')}
         </button>
       </div>
       {clip.url && <audio ref={audio} src={clip.url} preload="none" onEnded={() => setSpeaking(false)} onError={() => setSpeaking(false)} />}
-      {!clip.url && clip.checked && canSpeak && <p className="muted small">Computer voice (this text has no recorded audio)</p>}
-      {!canSpeak && !clip.url && <p className="muted small">Read aloud isn't available in this browser.</p>}
-      <p className="sr-only" aria-live="polite">{notice}</p>
-      {notice && <p className="muted small" aria-hidden="true">{notice}</p>}
+      {!clip.url && clip.checked && canSpeak && <p className="muted small">{t('pkt.computerVoice')}</p>}
+      {!canSpeak && !clip.url && <p className="muted small">{t('pkt.noSpeech')}</p>}
+      <p className="sr-only" aria-live="polite">{noticeText}</p>
+      {noticeText && <p className="muted small" aria-hidden="true">{noticeText}</p>}
 
-      <h3 className="list-heading">Review and file</h3>
+      <h3 className="list-heading">{t('pkt.reviewFile')}</h3>
       <ol className="file-steps">
         <li>
           <span className="file-step-num" aria-hidden="true">1</span>
           <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
-            {approved ? 'Approved (press to undo)' : 'Approve this draft'}
+            {t(approved ? 'pkt.approved' : 'pkt.approve')}
           </button>
         </li>
         <li>
           <span className="file-step-num" aria-hidden="true">2</span>
           <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => dialog.current?.showModal()}>
-            File with regulator (you submit)
+            {t('pkt.file')}
           </button>
-          <p id="file-hint" className="muted small">{approved ? 'Opens instructions. Nothing is sent.' : 'Approve the draft first.'}</p>
+          <p id="file-hint" className="muted small">{t(approved ? 'pkt.fileHint' : 'pkt.approveFirst')}</p>
         </li>
       </ol>
 
       <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title">
-        <h2 id="dlg-title">You file this yourself</h2>
-        <p>You approved the <strong>{LANG_NAME[lang]}</strong> draft. That is the text to file.</p>
-        <p>Plume Witness does not send anything to the regulator or anyone else.</p>
-        <p>To file, copy the approved draft and submit it yourself through the state regulator's own complaint process, with the record link from the Check step.</p>
-        <form method="dialog"><button className="btn btn-primary" autoFocus>Got it</button></form>
+        <h2 id="dlg-title">{t('pkt.dlgTitle')}</h2>
+        <p>{withSlot(t('pkt.dlgApproved'), 'lang', <strong>{langName(lang)}</strong>)}</p>
+        <p>{t('pkt.dlgNothingSent')}</p>
+        <p>{t('pkt.dlgHow')}</p>
+        <form method="dialog"><button className="btn btn-primary" autoFocus>{t('pkt.dlgOk')}</button></form>
       </dialog>
     </>
   )
