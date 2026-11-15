@@ -196,7 +196,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
       )}
       {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
       {url
-        ? <p><a href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
+        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
     </>
   )

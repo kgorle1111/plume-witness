@@ -204,7 +204,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .key-bar { background: var(--monitor); }
 .key-base { height: 0; border-top: 2px dashed var(--ink); margin-left: 6px; }
 .hourly-table { margin-top: 6px; font-size: 0.85rem; }
-.hourly-table summary { cursor: pointer; color: var(--accent); min-height: 32px; display: flex; align-items: center; }
+.hourly-table summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
+.record-link { display: inline-flex; align-items: center; min-height: 44px; }
 .hourly-table table { border-collapse: collapse; width: 100%; max-width: 320px; }
 .hourly-table th, .hourly-table td { text-align: left; padding: 2px 8px 2px 0; border-bottom: 1px solid var(--line); }
 
@@ -242,7 +243,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .fl-align { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--ink-2); }
 .align-track { flex: 0 0 72px; height: 6px; border-radius: 3px; background: var(--bg-2); border: 1px solid var(--line); overflow: hidden; }
 .align-fill { display: block; height: 100%; background: var(--ink-2); }
-.outside summary { cursor: pointer; font-size: 0.9rem; }
+/* Padding, not flex: a flex summary loses its disclosure marker. */
+.outside summary { cursor: pointer; font-size: 0.9rem; padding-block: 12px; }
 
 .status-block { display: grid; gap: 4px; }
 .status {
@@ -267,7 +269,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .check-at { min-width: 4em; font-family: var(--mono); font-size: 0.85rem; }
 
 .lang-toggle { display: inline-flex; justify-self: start; border: 1.5px solid var(--ink-2); border-radius: 8px; overflow: hidden; }
-.lang-toggle button { min-height: 40px; padding: 0 14px; border: 0; background: var(--bg); cursor: pointer; }
+.lang-toggle button { min-height: 44px; padding: 0 14px; border: 0; background: var(--bg); cursor: pointer; }
 .lang-toggle button[aria-pressed='true'] { background: var(--ink); color: #fff; font-weight: 700; }
 .draft-label { font-weight: 700; font-size: 0.9rem; }
 .draft {
