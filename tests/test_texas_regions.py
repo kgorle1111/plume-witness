@@ -7,7 +7,7 @@ from datetime import date, datetime, timedelta
 
 import pytest
 
-from pipeline import backtest, build, fetch_backtest, nights, regions, spikes
+from pipeline import backtest, build, fetch_backtest, nights, nrc, regions, spikes
 from pipeline.contract import STATUSES, validate
 
 NEW = [r for k, r in regions.REGIONS.items() if k not in ("houston", "beaumont")]
@@ -36,6 +36,13 @@ def test_every_site_is_in_one_region_and_its_county():
             seen[s] = r.key
             assert regions.site_county(s) in r.counties, (r.key, s)
     assert not set(seen) & set(regions.NO_DATA_SITES)
+
+
+def test_nrc_extract_covers_every_region_county():
+    """The record check's second source (NRC) must hold every county a region is searched by."""
+    extract = json.loads(nrc.EXTRACT.read_text())
+    for r in regions.REGIONS.values():
+        assert set(r.counties) <= set(nrc.COUNTIES) == set(extract["counties"]), r.key
 
 
 def test_every_raw_file_has_provenance(region):

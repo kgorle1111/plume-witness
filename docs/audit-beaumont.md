@@ -20,7 +20,7 @@ artifact. One night does not say anything about how often the label is right in 
 | 1. Reports within +/-12 h (any type) | **None.** The pipeline window is -6 h/+2 h; this check widens it to +/-12 h and counts every saved Jefferson County row of any event type. With none to place, the 45 deg wedge question does not arise. |
 | 1. Nearest reports in time | Two emissions events ended before the window: one 21.5 h before the spike hour (20.2 km away, 32 deg off the wind; neither benzene nor 1,3-butadiene listed) and one 26.6 h before (18.5 km away, 30 deg off the wind; lists benzene, 45 lb, and 1,3-butadiene, 34 lb). Both are beyond the 15 km corridor limit, and at 3.5-3.8 mph air needs about 3 h to cover 18.5 km. The next report starts 39.7 h after the spike. |
 | 2. Lumped compound lines | Not applicable: no report in the +/-12 h window. |
-| 3. Name vs address | Not applicable for the same reason (and `build.place_incidents` now places by address when a name is shared). |
+| 3. Name vs address | Not applicable for the same reason (the pipeline places a report by street address when several sites share its name). |
 | 4. The spike itself | The wind was from 179-181 deg at 3.8 and 3.5 mph, just above the 3 mph cutoff for tracing. The rise is not a single point: 0.65, 0.75, **10.41**, 2.71, 1.25 ppb over hours 19-23, all above the 0.5 ppb (10x median) level. The hour before is not QA-flagged; the first flagged hour (a span check) is three hours after the peak. 1,3-butadiene at the same monitor stayed at baseline (0.03, 0.02, 0.04). |
 
 ## What keeps this from being stronger

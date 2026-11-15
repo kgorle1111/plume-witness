@@ -157,3 +157,13 @@ test('calm-wind and unplaced day-report resolutions read in Spanish', () => {
   assert.deepEqual(resolutionText('unresolved: ambiguous, 2 ECHO sites at the address', 'es'),
     { text: 'sin resolver: ambiguo, 2 sitios de ECHO en la dirección', lang: 'es' })
 })
+
+test('search scope: the NRC second-source sentence (pipeline/nrc.py SCOPE_SENTENCE) reads in Spanish', async () => {
+  const { searchScopeText } = await import('../src/reportWindow.ts')
+  const s = 'Searched every STEERS emissions event starting 07/09/2025 in Harris County (1 found; search complete). '
+    + 'No matching report found in a complete search. '
+    + 'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.'
+  const es = searchScopeText(s, 'es')
+  assert.equal(es.lang, 'es', es.text)
+  assert.ok(es.text.endsWith('uno del corredor viento arriba, en la ventana de coincidencia, menciona el compuesto.'), es.text)
+})

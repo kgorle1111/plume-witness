@@ -1,0 +1,38 @@
+[
+ {
+  "file": "nrc/CY24.xlsx",
+  "url": "https://nrc.uscg.mil/FOIAFiles/CY24.xlsx",
+  "params": null,
+  "bytes": 15151431,
+  "sha256": "3ec11e1c44a1a5c39fda9560018cacfd5a0dd8b9234056b896fb4d4ff97a26e1",
+  "fetched_at": "2026-11-15T10:52:16+00:00",
+  "last_modified": "Fri, 03 Jan 2025 20:39:39 GMT",
+  "listed_on": "https://nrc.uscg.mil/",
+  "in_git": false
+ },
+ {
+  "file": "nrc/CY25.xlsx",
+  "url": "https://nrc.uscg.mil/FOIAFiles/CY25.xlsx",
+  "params": null,
+  "bytes": 18026065,
+  "sha256": "086da221569b5bbccb0f8170c54fd83c11cf8b7894258bfdea2c60a218407bda",
+  "fetched_at": "2026-11-15T10:53:16+00:00",
+  "last_modified": "Thu, 21 May 2026 17:36:10 GMT",
+  "listed_on": "https://nrc.uscg.mil/",
+  "in_git": false
+ },
+ {
+  "file": "nrc/nrc_tx_2024_2025.json",
+  "url": null,
+  "params": null,
+  "bytes": 1329397,
+  "sha256": "01b4dee9d21c3d605fc59cf04c2df3cbaddfe232dd7db3b1041eac363317b111",
+  "fetched_at": null,
+  "derived_from": [
+   "nrc/CY24.xlsx",
+   "nrc/CY25.xlsx"
+  ],
+  "generated_by": "uv run python -m pipeline.nrc",
+  "in_git": true
+ }
+]

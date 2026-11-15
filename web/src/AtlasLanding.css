@@ -36,7 +36,6 @@
 }
 /* The shared site header (SiteHeader.css) with its own padding, as on every page; only the fill gives way to the gradient. */
 .site-head.atlas-masthead { background: none; border-bottom-color: var(--line); }
-.site-head.atlas-masthead .es-note { font-size: 0.75rem; }
 
 /* A column that fills the screen under the header. The globe plate takes whatever height is left (down to a floor),
    so the button, the key numbers and the links fit the first screen from 320x568 phones to 2560x1440 projectors. */

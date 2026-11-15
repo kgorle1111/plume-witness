@@ -27,7 +27,7 @@ function fmtNodes(p: string, v?: Record<string, ReactNode>): ReactNode {
 }
 
 /** The same two-button group as the stepper's switch; every page shares one language setting. */
-export function LangSwitch({ note = true, compact = true }: { note?: boolean; compact?: boolean }) {
+export function LangSwitch({ compact = true }: { compact?: boolean }) {
   const lang = useLang()
   const t = useT()
   return (
@@ -36,15 +36,6 @@ export function LangSwitch({ note = true, compact = true }: { note?: boolean; co
         <button type="button" aria-pressed={lang === 'en'} onClick={() => setLang('en')} lang="en">English</button>
         <button type="button" aria-pressed={lang === 'es'} onClick={() => setLang('es')} lang="es">Español</button>
       </div>
-      {note && lang === 'es' && <ReviewNote />}
     </div>
-  )
-}
-
-export function ReviewNote({ className = 'muted small es-note' }: { className?: string }) {
-  return (
-    <p className={className}>
-      <span lang="es">{STRINGS.es['common.reviewNote']}</span> <span lang="en">({STRINGS.en['common.reviewNote']})</span>
-    </p>
   )
 }

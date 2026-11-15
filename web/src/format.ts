@@ -2,9 +2,9 @@ import type { Status } from './types'
 import { translate, type Lang } from './i18n.ts'
 
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
-// kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
+// kn: the Spanish has had no community reader's review; the UI names English as the reference next to it.
 // `full` is the label where space allows ("a question" is the product's rule: a missing match is not a finding).
-export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late'
+export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late' | 'second'
 type StatusLabel = { en: string; es: string; icon: StatusIconKind; full?: { en: string; es: string } }
 export const STATUS_TEXT: Record<Status, StatusLabel> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
@@ -16,6 +16,7 @@ export const STATUS_TEXT: Record<Status, StatusLabel> = {
   },
   reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
   search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'partial' },
+  reported_nrc: { en: 'Reported to NRC', es: 'Reportado al NRC', icon: 'second' },
 }
 
 // Status colours. Text on white needs 4.5:1 and marks 3:1 (test/statusColour.test.ts checks both). The open-question
@@ -28,6 +29,7 @@ export const STATUS_FILL: Record<string, string> = {
   not_yet_reported: '#3d5a80',
   reported_late: '#2f6f73',
   reported: '#1f7a45',
+  reported_nrc: '#1d5fa8',
 }
 
 /** The label to show where there is room for it (falls back to the short chip text). */

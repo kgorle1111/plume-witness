@@ -248,7 +248,8 @@ def county_es(county: str) -> str:
 def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
                  search_complete: bool, param: str, ongoing: list[dict] | None = None,
                  earlier_complete: bool = False, earlier_note: str = "", calm_note: str = "",
-                 speed_mph: float | None = None, county: str = "Harris") -> dict:
+                 speed_mph: float | None = None, county: str = "Harris",
+                 unplaced_other: tuple[str, ...] | list[str] = ()) -> dict:
     """Did ANY facility in the corridor file a matching emissions-event report? Checked at T+24h and T+14d.
 
     A report matches if it was running at any time in [spike - 6 h, spike + 2 h]; it may have started on an
@@ -256,6 +257,8 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     Absence ('no report after deadline') needs the day's search complete, the LOOKBACK_DAYS before it searched
     (`earlier_complete`), traceable wind, and every report of the day and every overlapping earlier report located.
     Otherwise the status is search_incomplete; a named facility is never called out on partial data.
+    `unplaced_other`: ids of second-source (NRC) reports that could match but could not be located; they block
+    absence the same way, and are listed as `unplaced_other_reports`.
     """
     det_local = _local(det_day, det_hour_cst)
     lo, hi = det_local + timedelta(hours=MATCH_WINDOW_H[0]), det_local + timedelta(hours=MATCH_WINDOW_H[1])
@@ -305,7 +308,9 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
                         | ({"revisions": inc["revisions"]} if inc.get("revisions") else {})
                         | _travel(p, inc, det_local, speed_mph),
         }
-    located = all(p["in_corridor"] is not None for p in placed + still_open)
+    located = all(p["in_corridor"] is not None for p in placed + still_open) and not unplaced_other
+    if unplaced_other:
+        base["unplaced_other_reports"] = list(unplaced_other)
     can_claim_absence = search_complete and earlier_complete and located and not calm_note
     none = "no_report_after_deadline" if can_claim_absence else "search_incomplete"
     if can_claim_absence:
@@ -316,6 +321,9 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
                    "checks": [{"at": "T+24h", "status": none, "note": calm_note},
                               {"at": "T+14d", "status": none, "note": calm_note}],
                    "reported": None}
+
+
+NRC_UNITS = {"POUND(S)": ("pounds", "libras"), "GALLON(S)": ("gallons", "galones")}  # NRC's own unit spellings
 
 
 def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict,
@@ -361,6 +369,28 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   f"pero el reporte no incluye {name_es}, así que no corresponde a esta lectura.")
         ask_en = f" Requested follow-up: confirm what caused this {name_en} reading."
         ask_es = f" Seguimiento solicitado: confirmar qué causó esta lectura de {name_es}."
+    elif rc["status"] == "reported_nrc":
+        n = rc["nrc"]
+        who = f"{n['company']}, " if n["company"] else ""
+        start = n["incident_local"].replace("T", " ")
+        unit_en, unit_es = NRC_UNITS.get(n["unit"], (n["unit"].lower(), n["unit"].lower()))
+        amount_en = f"{_exact(n['amount'], grouped=True)} {unit_en}" if n["amount"] is not None else (
+            "an amount not stated")
+        amount_es = f"{_exact(n['amount'], grouped=True)} {unit_es}" if n["amount"] is not None else (
+            "una cantidad no indicada")
+        rec_en = (f" No matching report was found in that day's state emissions-event records for {county} County, but a "
+                  f"report to the federal National Response Center, NRC report {n['report']}, names {who}a site in the "
+                  f"upwind corridor, starting {start} local time, and lists {n['material'].lower()} ({amount_en}). "
+                  "NRC reports are initial phone reports; other sources may also contribute.")
+        rec_es = (f" No se encontró un reporte que coincida en los registros estatales de eventos de emisiones de ese día "
+                  f"en el condado de {county}, pero un reporte al Centro Nacional de Respuesta federal, el reporte NRC "
+                  f"{n['report']}, nombra {('a ' + n['company'] + ', ') if n['company'] else ''}un sitio en el corredor "
+                  f"viento arriba, a partir de {start}, hora local, y menciona {name_es} («{n['material']}»; {amount_es}). "
+                  "Los reportes al NRC son avisos telefónicos iniciales; otras fuentes también pueden contribuir.")
+        ask_en = (" Requested follow-up: confirm whether this release was also reported to the state, and whether it "
+                  "accounts for these readings.")
+        ask_es = (" Seguimiento solicitado: confirmar si esta emisión también se reportó al estado y si explica estas "
+                  "lecturas.")
     elif rc["matched_facility_id"]:
         r = rc["reported"]
         lbs = _exact(r["pounds"], grouped=True)
@@ -520,12 +550,15 @@ def disambiguate(facilities: list[dict], echo_facilities: list[dict], keep_id: s
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
           details: dict[str, dict], complete: bool, det_day: date, param: str,
           earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "",
-          county: str = "Harris") -> dict:
+          county: str = "Harris", nrc_reports: list[dict] | None = None) -> dict:
     """Detect -> corridor -> place the day's reports -> record check. The one code path build and backtest share.
 
     wind_site None means: use the triggering monitor's own wind. Returns detection None when nothing triggered,
     and wind None when the chosen site has no wind for the detection hours. `earlier` holds reports that started
     before the day and may still have been running; record_check keeps the ones that overlap the spike.
+    `nrc_reports` (pipeline.nrc.load) are the second source: one that could match but cannot be located blocks
+    absence like an unlocated STEERS report; one in the corridor counts only where STEERS found nothing in the
+    corridor and window (nrc.second_source). None skips the second source.
     """
     det = detect(monitors)
     if det is None:
@@ -554,9 +587,17 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
         for r in placed + ongoing:
             r |= {"in_corridor": None, "resolution": f"not traced: {calm_note}"}
     speed = speeds[1] if speeds[1] is not None else speeds[0]
+    nrc_cands: list[dict] = []
+    if nrc_reports is not None and not calm_note:
+        from pipeline import nrc  # imported here: nrc builds on this module's geometry and locate
+
+        nrc_cands = nrc.candidates(nrc_reports, det_day, h, param, facilities, echo_rows, origin, winds_ok)
     rc = record_check(placed, details | earlier, det_day, h, search_complete=complete, param=param, ongoing=ongoing,
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
-                      speed_mph=speed, county=county)
+                      speed_mph=speed, county=county,
+                      unplaced_other=[c["report"] for c in nrc_cands if c["in_corridor"] is None])
+    if nrc_cands:
+        rc = nrc.second_source(rc, nrc_cands, param)
     name_filer(facilities, rc, echo["Results"]["Facilities"])
     disambiguate(facilities, echo["Results"]["Facilities"], rc["matched_facility_id"])
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
@@ -649,7 +690,10 @@ def build(cfg: dict = EVENT) -> dict:
     complete = search["total"] == search["shown"] == len(details) and search["total"] < 50
     echo_rows = echo["Results"]["Facilities"] + [
         r for p in sorted(RAW.glob("echo_name_*.json")) for r in json.loads(p.read_text())["Results"]["Facilities"]]
-    t = trace(monitors, winds, ws, echo, echo_rows, details, complete, det_day, cfg["param"])
+    from pipeline import nrc
+
+    t = trace(monitors, winds, ws, echo, echo_rows, details, complete, det_day, cfg["param"],
+              nrc_reports=nrc.load("Harris"))
     if t["detection"] is None:
         raise SystemExit("no monitor crossed the trigger rule on this day; nothing to replay")
     if "record_check" not in t:

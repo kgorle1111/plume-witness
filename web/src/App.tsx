@@ -5,7 +5,7 @@ import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
 import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from './packet'
 import { cannotSayEs } from './format'
-import { LangSwitch, ReviewNote } from './LangSwitch'
+import { LangSwitch } from './LangSwitch'
 import { useLang, useT } from './useT'
 import type { StringKey } from './i18n'
 import type { Place } from './PlaceSearch'
@@ -165,7 +165,6 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       <div className="limits-bar">
         <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
       </div>
-      {packetReview.lang === 'es' && <ReviewNote />}
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
@@ -226,7 +225,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       </a>
       {/* The shared site header (brand row; phones keep only Past spikes), then the eyebrow (date · compound · data
           tag) and the title on its own line. */}
-      <SiteHeader className="top" lang={<LangSwitch note={false} />}>
+      <SiteHeader className="top" lang={<LangSwitch />}>
         {/* The "·" separators are drawn by App.css before each item, so a wrapped line never ends on a dangling one. */}
         <p className="eyebrow">
           <span>{ev.date_local}</span> <span>{compoundLabel(lang, ev.compound.name)}</span>{' '}
