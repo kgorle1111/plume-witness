@@ -17,7 +17,7 @@ test('the fixture parses, with every field of the contract', () => {
   assert.deepEqual(milby, {
     site_id: '48_201_0069', name: 'Houston Milby Park', county: 'Harris', region_key: 'houston', lat: 29.70627, lon: -95.26113,
     has_data: true, wind_source: 'met', years: [2024, 2025], max_benzene_ppb: 51.75, max_butadiene_ppb: 400.01, spikes: 106,
-    by_status: { no_report_after_deadline: 63, reported: 3, reported_mismatch: 4, search_incomplete: 36 },
+    by_status: { no_report_after_deadline: 63, reported: 3, reported_mismatch: 4, search_incomplete: 36 }, area: 'texas',
   })
 })
 
@@ -49,7 +49,7 @@ test('a region key the site has no pages for is shown but neither linked nor cou
 
 test('an empty file is zero monitors, not a crash', () => {
   const s = coverageSummary(parseCoverage({ generated: 'x', trigger: 'y', sites: [] }))
-  assert.deepEqual(s, { monitors: 0, withData: 0, noData: 0, crossed: 0, spikes: 0, crossedNotReplayed: 0, regions: [], years: null })
+  assert.deepEqual(s, { monitors: 0, withData: 0, noData: 0, crossed: 0, spikes: 0, crossedNotReplayed: 0, regions: [], areas: [], years: null })
 })
 
 test('a damaged file is rejected with the field named', () => {
@@ -130,4 +130,33 @@ test('loading: a 404 or a single-page fallback is "not published"; damaged JSON 
   await assert.rejects(loadCoverage('/coverage.json', answer('{"sites": 1', 200, 'application/json')), { kind: 'damaged' })
   await assert.rejects(loadCoverage('/coverage.json', answer('{"generated":"x","trigger":"y","sites":[{}]}', 200, 'application/json')), { kind: 'damaged' })
   await assert.rejects(loadCoverage('/coverage.json', (async () => { throw new TypeError('offline') }) as typeof fetch), { kind: 'network' })
+})
+
+// A real Los Angeles row as pipeline.coverage writes it (web/public/coverage.json, Hudson).
+const hudson = {
+  site_id: 'r1180_HDSN', name: 'Hudson Air Monitoring Station', county: 'Los Angeles', region_key: null, lat: 33.802417,
+  lon: -118.219933, has_data: true, wind_source: null, years: [2020, 2021, 2022], max_benzene_ppb: 22.91,
+  max_butadiene_ppb: 28.61, spikes: 2, by_status: {}, area: 'los_angeles',
+}
+
+test('Los Angeles stations parse, count as crossed but not replayed, and get their own map view', async () => {
+  const { viewBounds, TEXAS } = await import('../src/coverage.ts')
+  const c = raw()
+  c.sites.push(hudson)
+  const parsed = parseCoverage(c)
+  assert.deepEqual(parsed.sites.at(-1), hudson)
+  const s = coverageSummary(parsed)
+  assert.deepEqual(s.areas, ['los_angeles'])
+  assert.equal(s.crossedNotReplayed, 3)
+  assert.deepEqual(s.years, [2020, 2025])
+  assert.deepEqual(viewBounds(parsed.sites, null), TEXAS, 'a Los Angeles monitor does not stretch the Texas view')
+  assert.deepEqual(viewBounds(parsed.sites, 'los_angeles', 0), [[-118.219933, 33.802417], [-118.219933, 33.802417]])
+  assert.deepEqual(markerKind(parsed.sites.at(-1)!), { shape: 'crossed', size: 1 })
+})
+
+test('an unknown area or a made-up site id is rejected', () => {
+  const withSite = (site: Record<string, unknown>) => { const c = raw(); c.sites.push(site); return c }
+  assert.throws(() => parseCoverage(withSite({ ...hudson, area: 'mars' })), /area/)
+  assert.throws(() => parseCoverage(withSite({ ...hudson, site_id: 'r1180_hdsn' })), /site_id/)
+  assert.throws(() => parseCoverage(withSite({ ...hudson, site_id: 'HDSN' })), /site_id/)
 })
