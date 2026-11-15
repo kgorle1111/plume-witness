@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
+import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
 import './App.css'
 
@@ -35,7 +36,7 @@ function CannotSay({ items }: { items: string[] }) {
   )
 }
 
-function Stepper({ ev, onHighlight }: { ev: PlumeEvent; onHighlight: (id: string | null) => void }) {
+function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHighlight: (id: string | null) => void }) {
   const [active, setActive] = useState(stepFromHash)
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
@@ -88,7 +89,7 @@ function Stepper({ ev, onHighlight }: { ev: PlumeEvent; onHighlight: (id: string
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2>{STEPS[active].title}</h2>
-        {step === 'detect' && <Detect ev={ev} />}
+        {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} />}
         {step === 'check' && <Check ev={ev} />}
         {step === 'packet' && <Packet ev={ev} />}
@@ -104,6 +105,8 @@ function Stepper({ ev, onHighlight }: { ev: PlumeEvent; onHighlight: (id: string
 function Replay({ ev }: { ev: PlumeEvent }) {
   const { corridor } = useCorridor(ev)
   const [highlightId, setHighlightId] = useState<string | null>(null)
+  // The replay opens on the detection hour so the spike is the first thing on screen.
+  const [hour, setHour] = useState(ev.detection.hour_cst)
   return (
     <div className="app">
       <header className="top">
@@ -114,12 +117,15 @@ function Replay({ ev }: { ev: PlumeEvent }) {
         <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
       )}
       <main className="layout">
+        <div className="stage">
         <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
           <MapSlot ev={ev} corridor={corridor} labelId="map-label" highlightId={highlightId} />
         </section>
+        <Timeline ev={ev} hour={hour} onHour={setHour} />
+        </div>
         <aside className="panel" aria-label="Event steps">
-          <Stepper ev={ev} onHighlight={setHighlightId} />
+          <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} />
         </aside>
       </main>
     </div>

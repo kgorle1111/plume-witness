@@ -332,3 +332,32 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   color: var(--ink-2);
   background: var(--bg-2);
 }
+
+/* Replay: the map and the hour scrubber share the "stage"; on phones it keeps the map at ~55% height. */
+.stage { display: flex; flex-direction: column; flex: 0 0 auto; }
+.stage .map-wrap { flex: 1 1 auto; height: 44vh; height: 44dvh; }
+.timeline { display: grid; gap: 4px; padding: 8px 16px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.tl-controls { display: flex; align-items: center; gap: 10px; }
+.tl-play { flex: 0 0 auto; min-width: 5em; }
+.tl-jump { flex: 0 0 auto; padding: 0 10px; }
+.tl-slider { flex: 1 1 auto; display: flex; min-width: 0; }
+.tl-slider input { width: 100%; min-height: 44px; accent-color: var(--trigger); }
+.tl-status { font-size: 0.85rem; }
+.tl-all { font-size: 0.8rem; color: var(--ink-2); }
+.tl-all summary { cursor: pointer; }
+.tl-all ul { padding-left: 1.2em; }
+.spark-selected { fill: rgb(11 87 208 / 0.14); stroke: var(--accent); stroke-width: 1; }
+.key-sel { background: rgb(11 87 208 / 0.14); border: 1px solid var(--accent); margin-left: 6px; }
+
+@media (min-width: 1024px) {
+  .stage { flex: 1; min-width: 0; border-right: 1px solid var(--line); }
+  .stage .map-wrap { border-right: 0; height: auto; }
+  .timeline { padding: 8px 24px; }
+}
+.tl-note { font-size: 0.75rem; color: var(--ink-2); }
+.wide-only { display: none; }
+@media (min-width: 1024px) {
+  .wide-only { display: inline; }
+  p.wide-only { display: block; }
+  .narrow-only { display: none; }
+}
