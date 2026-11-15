@@ -6,7 +6,8 @@ import { statusInfo } from './format.ts'
 export const SCHEMA = 'plume-witness.spikes/v1'
 
 export interface SpikeRow {
-  night_id: string
+  /** Null when no replay file exists for the night (e.g. a day with no wind data). */
+  night_id: string | null
   date: string
   hour_cst: number
   site_id: string
@@ -45,13 +46,16 @@ export function parseSpikes(raw: unknown): SpikeFile {
     throw new Error(`spikes.json is not ${SCHEMA}. Re-run \`uv run python -m pipeline.spikes\`.`)
   }
   f.rows.forEach((r, i) => {
-    const ok = r && isStr(r.night_id) && /^\d{4}-\d{2}-\d{2}$/.test(r.date) && isNum(r.hour_cst) && isStr(r.site_id)
+    const ok = r && (r.night_id === null || isStr(r.night_id)) && /^\d{4}-\d{2}-\d{2}$/.test(r.date) && isNum(r.hour_cst) && isStr(r.site_id)
       && isStr(r.site) && isNum(r.lat) && isNum(r.lon) && isStr(r.param) && isStr(r.compound) && isNum(r.value_ppb)
       && isNum(r.baseline_ppb) && (r.ratio === null || isNum(r.ratio)) && isStr(r.status)
     if (!ok) throw new Error(`spikes.json row ${i} is malformed. Re-run \`uv run python -m pipeline.spikes\`.`)
   })
   return f as SpikeFile
 }
+
+/** Stable row id, replay or not (matches pipeline/spikes.py spike_id); night_id is null where there is no replay. */
+export const spikeKey = (r: SpikeRow): string => `${r.date}_${r.param}_${r.site_id}`
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 /** ISO date as text without Date(), which would read it as UTC midnight and shift it a day west of Greenwich. */
@@ -98,6 +102,6 @@ export function selectRows(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir)
   const sign = dir === 'asc' ? 1 : -1
   return rows.sort((a, b) => {
     const ka = key(a), kb = key(b)
-    return (ka < kb ? -1 : ka > kb ? 1 : a.night_id.localeCompare(b.night_id)) * sign
+    return (ka < kb ? -1 : ka > kb ? 1 : spikeKey(a).localeCompare(spikeKey(b))) * sign
   })
 }

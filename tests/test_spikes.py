@@ -1,12 +1,13 @@
 """Past-spikes export: one row per backtest spike, no facility names, contract statuses only, under budget."""
 
+import dataclasses
 import json
 import re
 from pathlib import Path
 
 import pytest
 
-from pipeline import backtest, spikes
+from pipeline import backtest, regions, spikes
 from pipeline.contract import STATUSES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -90,12 +91,34 @@ def test_published_file_is_current_and_under_budget(out):
 
 
 def test_night_id_matches_the_replay_file_format(out):
-    ids = [r["night_id"] for r in out["rows"]]
+    ids = [r["night_id"] for r in out["rows"] if r["night_id"]]
     assert len(set(ids)) == len(ids)
     assert "2024-06-21_45201_48_201_0069" in ids
     for r in out["rows"]:
-        assert r["night_id"] == f"{r['date']}_{r['param']}_{r['site_id']}"
-        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}_(45201|43218)_48_201_\d{4}", r["night_id"])
+        assert spikes.spike_id(r) == f"{r['date']}_{r['param']}_{r['site_id']}"
+        if r["night_id"]:
+            assert r["night_id"] == spikes.spike_id(r)
+            assert re.fullmatch(r"\d{4}-\d{2}-\d{2}_(45201|43218)_48_201_\d{4}", r["night_id"])
+
+
+def test_replay_link_exists_exactly_when_the_night_file_does(out):
+    nights = ROOT / "web" / "public" / "nights"
+    for r in out["rows"]:
+        assert (r["night_id"] is not None) == (nights / f"{spikes.spike_id(r)}.json").is_file(), spikes.spike_id(r)
+
+
+def test_no_wind_spike_has_no_replay_link(out):
+    """Galena Park 2025-10-28 has no wind, so no night file: a Replay link there would 404."""
+    row = next(r for r in out["rows"] if spikes.spike_id(r) == "2025-10-28_45201_48_201_0057")
+    assert row["night_id"] is None and row["reason"] == spikes.ABSTAIN["no_wind"][1]
+    assert sum(1 for r in out["rows"] if r["night_id"] is None) == 1
+
+
+def test_a_missing_night_file_that_is_not_no_wind_fails_loud(bt, tmp_path):
+    coords = {s: (0.0, 0.0) for s in backtest.SITE_NAMES}
+    reg = dataclasses.replace(regions.HOUSTON, nights_out=tmp_path)
+    with pytest.raises(spikes.SpikeExportError, match="pipeline.nights"):
+        spikes.export(bt, coords, reg)
 
 
 def test_every_incomplete_check_says_why(out):

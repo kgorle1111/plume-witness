@@ -1,6 +1,6 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { STATUS_FILL, hourLabel, statusInfo } from './format'
-import { parseSpikes } from './spikes'
+import { parseSpikes, spikeKey } from './spikes'
 import {
   MONTHS_TOTAL, SPEEDS, TOTAL_DAYS, clampDay, countAt, dayFromParam, fadeDaysFor, isoFromDay, monthOfDay,
   monthStartDay, monthSummary, prefixCounts, timeSpikes, visibleAt, type SpeedKey, type Timed,
@@ -16,6 +16,9 @@ import './SpikeRain.css'
 const RainMap = lazy(() => import('./RainMap'))
 
 const STATUS_ORDER = ['no_report_after_deadline', 'reported_mismatch', 'search_incomplete', 'reported']
+/** A spike with no night file (no wind data) is listed but not linked: a link would 404. */
+const RowLink = ({ id, children }: { id: string | null; children: ReactNode }) =>
+  id ? <a href={nightHref(id)}>{children}</a> : <span className="rn-nolink">{children}</span>
 const nightHref = (id: string) => `${import.meta.env.BASE_URL}?night=${encodeURIComponent(id)}`
 
 function useReducedMotion(): boolean {
@@ -302,12 +305,12 @@ export default function SpikeRain() {
             {listed.length ? (
               <ul className="rn-list">
                 {listed.map((s) => (
-                  <li key={s.row.night_id}>
-                    <a href={nightHref(s.row.night_id)}>
+                  <li key={spikeKey(s.row)}>
+                    <RowLink id={s.row.night_id}>
                       <span className="rn-li-when"><time dateTime={s.row.date}>{dateLabel(s.row.date, lang)}</time> · {hourLabel(s.row.hour_cst)}</span>
                       <span className="rn-li-what">{[s.row.site, s.row.compound, s.row.ratio === null ? null : t('rn.ratio', { r: s.row.ratio })].filter(Boolean).join(' · ')}</span>
                       <span className={`sl-status sl-status-${s.row.status}`} lang={lang}>{statusInfo(s.row.status)[lang]}</span>
-                    </a>
+                    </RowLink>
                   </li>
                 ))}
               </ul>

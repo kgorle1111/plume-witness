@@ -41,7 +41,7 @@ def test_every_feed_is_well_formed_rss_with_required_fields(built):
         for it in _items(blob):
             for tag in ("title", "link", "guid", "pubDate", "description"):
                 assert (it.findtext(tag) or "").strip(), f"{name}: item missing {tag}"
-            assert it.findtext("link").startswith(feeds.SITE + "?night=")
+            assert it.findtext("link").startswith((feeds.SITE + "?night=", feeds.SITE + "?view=spikes&site="))
             assert "?view=spikes&site=" in it.findtext("description")
 
 
@@ -50,6 +50,15 @@ def test_awkward_characters_are_escaped_not_dropped():
            "compound": "benzene", "value_ppb": 1, "baseline_ppb": 0.5, "ratio": 2, "status": "reported"}
     blob = feeds.build_feed("t", "d", feeds.SITE, feeds.SITE + "feeds/x.xml", [row])
     assert _items(blob)[0].findtext("title").count("A & B <Park>") == 1
+
+
+def test_a_row_without_a_night_file_links_to_its_monitor_not_a_404():
+    row = {"night_id": None, "date": "2025-10-28", "hour_cst": 3, "site_id": "48_201_0057", "site": "Galena Park",
+           "param": "45201", "compound": "benzene", "value_ppb": 2, "baseline_ppb": 0.5, "ratio": 4,
+           "status": "search_incomplete", "reason": "No wind data for that day."}
+    it = feeds.item_for(row)
+    assert it["guid"] == "plume-witness:2025-10-28_45201_48_201_0057"
+    assert "?night=" not in it["link"] + it["description"] and "?view=spikes&site=48_201_0057" in it["link"]
 
 
 def test_counts_match_spikes_json(data, built):
@@ -68,14 +77,14 @@ def test_all_feed_is_the_newest_n_in_order(data, built):
     files, _ = built
     dates = [it.findtext("guid") for it in _items(files["all.xml"])]
     newest = sorted(data["rows"], key=lambda r: (r["date"], r["hour_cst"], r["site_id"], r["param"]), reverse=True)
-    assert dates == [f"plume-witness:{r['night_id']}" for r in newest[: feeds.ALL_N]]
+    assert dates == [f"plume-witness:{feeds.row_id(r)}" for r in newest[: feeds.ALL_N]]
 
 
 def test_guids_are_stable_unique_and_clock_free(data, built):
     files, _ = built
     guids = [it.findtext("guid") for it in _items(files["all.xml"])]
     assert len(set(guids)) == len(guids)
-    assert guids[0] == f"plume-witness:{feeds.newest_first(data['rows'])[0]['night_id']}"
+    assert guids[0] == f"plume-witness:{feeds.row_id(feeds.newest_first(data['rows'])[0])}"
     again, _ = feeds.build_all(data)
     assert again == files, "rebuilding unchanged data must produce identical bytes (no timestamps)"
 
