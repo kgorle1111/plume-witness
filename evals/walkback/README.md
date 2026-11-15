@@ -1,4 +1,4 @@
-# J1 walk-back reader: runner, validation report, optional labeled eval
+# Walk-back reader: runner, validation report, optional labeled eval
 
 The reader (`pipeline/walkback.py`) reads the company's free text on each cached STEERS page (cause, actions
 taken, basis for quantities, and any UPDATE notes inside them) and returns one record:
@@ -52,8 +52,8 @@ Agreeing with a baseline does not make a reading correct.
 ## Baselines (no labels needed)
 
 - **Parser** (`parse.steers_revisions`): reads 1 of 315 pages, `steers_425347`, the INEOS demo page.
-- **Regex flagger** (`walkback.regex_read`): flags 43 of 315 using change, walk-back and UPDATE wording. D9
-  counted 39 with its own pattern. It flags known noise as well: "piping was revised", "operator incorrectly
+- **Regex flagger** (`walkback.regex_read`): flags 43 of 315 using change, walk-back and UPDATE wording. An
+  earlier pattern counted 39. It flags known noise as well: "piping was revised", "operator incorrectly
   assumed".
 
 ## Optional: the labeled eval (the only real accuracy number)

@@ -72,7 +72,7 @@ Their 2024 totals, listed separately: DIXIE CHEMICAL CO INC (benzene no figure, 
 
 ## The 2024-06-21 demo corridor
 
-40 major facilities sit in the upwind corridor; 10 of them have benzene or 1,3-butadiene TRI forms.
+47 major facilities sit in the upwind corridor; 12 of them have benzene or 1,3-butadiene TRI forms.
 
 - INVISTA HOUSTON: reports benzene 1,100 lb, butadiene 28 lb to EPA for 2024
 - HOUSTON REFINING LP: reports benzene 14,336 lb, butadiene no 2024 form to EPA for 2024
@@ -84,6 +84,8 @@ Their 2024 totals, listed separately: DIXIE CHEMICAL CO INC (benzene no figure, 
 - PHILLIPS 66 PASADENA TERMINAL: reports benzene 1,130 lb, butadiene no 2024 form to EPA for 2024
 - PASADENA PERFORMANCE PRODUCTS LLC: reports benzene no 2024 form, butadiene 295 lb to EPA for 2024
 - INEOS PHENOL: reports benzene 18,400 lb, butadiene no 2024 form to EPA for 2024
+- DEER PARK REFINING LP: reports benzene 39,600 lb, butadiene 107,650 lb to EPA for 2024
+- LUBRIZOL CORP DEER PARK FACILITY: reports benzene no 2024 form, butadiene 993 lb to EPA for 2024
 
 ## Limits
 
