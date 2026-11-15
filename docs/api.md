@@ -71,7 +71,7 @@ Schema `plume-witness.spikes/v1`, exported by [`pipeline/spikes.py`](../pipeline
 `corridor`, `years`, `units`, `tceq_search_page`, `summary` (`spikes`, `spike_days`, `by_status`,
 `known_missed_reports`), `rows[]`. Each row: `night_id`, `date`, `hour_cst`, `site_id`, `site`, `lat`, `lon`, `param`,
 `compound`, `value_ppb`, `baseline_ppb`, `ratio`, `status`, `reports_that_day`, and when present `reason`,
-`matched_incident`, `report_url`. Rows carry counts and ids, never a facility name. 226 of 415 rows are
+`matched_incident`, `report_url`. Rows carry counts and ids, never a facility name. 228 of 415 rows are
 `search_incomplete` (the record check could not finish); the row's `reason` says why. The backtest that measures how
 well this check works is in [`backtest.md`](backtest.md): the pipeline matched 1 of 72 company-reported releases end to end.
 
