@@ -107,6 +107,11 @@ def steers_revisions(t: str) -> list[dict]:
     return out
 
 
+def _address(t: str) -> str:
+    m = re.search(r"Physical Location: (.+?) County:", t)
+    return m.group(1).strip() if m else ""
+
+
 def steers_incident(path: Path) -> dict:
     """Key facts from a STEERS emissions-event detail page (times are local, as published)."""
     t = re.sub(r"\s+", " ", _text(path))
@@ -117,6 +122,7 @@ def steers_incident(path: Path) -> dict:
     return {
         "incident": path.stem.split("_")[-1],
         "rn": _after("RN:", t, "Physical Location"),
+        "address": _address(t),
         "entity": _after("Regulated Entity Name", t, "RN:"),
         "start_local": datetime.strptime(started, "%m/%d/%Y %I:%M %p").isoformat(timespec="minutes"),
         "end_local": datetime.strptime(ended, "%m/%d/%Y %I:%M %p").isoformat(timespec="minutes"),

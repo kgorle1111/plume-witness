@@ -61,32 +61,7 @@ def event_meta(path: Path) -> dict:
     return {"type": typ.group(1).strip() if typ else None, "address": loc.group(1).strip() if loc else ""}
 
 
-def _street_no(addr: str | None) -> str | None:
-    m = re.match(r"\s*(\d+)", addr or "")
-    return m.group(1) if m else None
-
-
-def locate(entity: str, address: str, echo_rows: list[dict]) -> tuple[dict | None, str]:
-    """Ground-truth location for a reporting facility: exact ECHO name, disambiguated by street number.
-
-    Falls back to street number + street name when the names differ. Ambiguity is never resolved by guessing.
-    """
-    norm = build._norm
-    rows = [r for r in echo_rows if r.get("FacLat")]
-    by_name = {r["RegistryID"]: r for r in rows if norm(r["AIRName"]) == norm(entity)}
-    no = _street_no(address)
-    if len(by_name) == 1:
-        return next(iter(by_name.values())), "ECHO exact name"
-    if len(by_name) > 1:
-        same = {k: r for k, r in by_name.items() if no and _street_no(r.get("AIRStreet")) == no}
-        if len(same) == 1:
-            return next(iter(same.values())), "ECHO exact name + street number"
-        return None, f"ambiguous: {len(by_name)} ECHO sites share the name"
-    street = norm(address.split(";")[0])
-    by_addr = {r["RegistryID"]: r for r in rows if no and street and norm(r.get("AIRStreet") or "") == street}
-    if len(by_addr) == 1:
-        return next(iter(by_addr.values())), "ECHO street address"
-    return None, "not located in ECHO" if not by_addr else f"ambiguous: {len(by_addr)} ECHO sites at the address"
+locate = build.locate  # the shared implementation lives in build; kept here for the callers that import it
 
 
 def load_universe(raw: Path = BT) -> tuple[list[dict], list[str]]:

@@ -41,10 +41,17 @@ LUMPED_RE = re.compile(r"(?:\bunspeciated |\btotal |\bother )?(?:\bVOCs?|volatil
 CONTAMINANT_RE = re.compile(r"([A-Za-z0-9][^<>]{1,80}?) (\d[\d,]*\.?\d*) POUNDS")
 
 
+# Spikes that were `no_report_after_deadline` when the sample was drawn and now abstain: their report's name is
+# shared by several ECHO sites and the street address does not settle it (finding B, fixed in `build.place_incidents`).
+# They stay in the population the seeded shuffle draws from, so the 10 hand-read nights do not change.
+DRAWN_BEFORE_NAME_FIX = {"2025-09-22_45201_48_201_0057", "2025-09-22_43218_48_201_0057"}
+
+
 def sample(spikes: list[dict], seed: int = SEED, n: int = N, cap: int = MAX_PER_MONITOR) -> list[dict]:
     """Seeded shuffle of the no-report spikes (sorted first, so file order cannot change it), then take spikes in
     shuffled order, skipping any whose monitor already has `cap`."""
-    pool = sorted((s for s in spikes if s["status"] == "no_report_after_deadline"),
+    pool = sorted((s for s in spikes
+                   if s["status"] == "no_report_after_deadline" or spike_id(s) in DRAWN_BEFORE_NAME_FIX),
                   key=lambda s: (datetime.strptime(s["day"], "%m/%d/%Y"), s["param"], s["site_id"]))
     random.Random(seed).shuffle(pool)
     out, per = [], {}

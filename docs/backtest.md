@@ -34,7 +34,7 @@ day instead of the candidate. Compound used: benzene for 47 events, 1,3-butadien
 |---|---|---|
 | (a) Matched / missed | 1 matched, 71 missed (56 never detected, 15 detected but not matched) | 72 reported candidate events (16 detected) |
 | (b) False "no report": the check said *no report after deadline* although a candidate report running in the match window had its facility inside that spike's corridor (ECHO coordinates) | 0 | 415 detected spikes |
-| (c) Real spikes with no matching report in the corridor after a complete search | 172 | 415 detected spikes |
+| (c) Real spikes with no matching report in the corridor after a complete search | 170 | 415 detected spikes |
 
 (b) cross-check from the candidate side: of the 16 detected candidates, the check said *no report after
 deadline* on 4, of which 0
@@ -43,9 +43,9 @@ had the reporting facility geometrically inside the corridor; it abstained (*sea
 
 The spike scan runs the unchanged trigger on every day of 2024-2025 for both compounds at all
 8 sites: 415 (day, compound) spikes on 345 distinct days. Status of each
-spike's record check: search_incomplete 225, no_report_after_deadline 172, reported_mismatch 13, reported 4, no_wind 1. The pipeline abstains rather than
+spike's record check: search_incomplete 227, no_report_after_deadline 170, reported_mismatch 11, reported 6, no_wind 1. The pipeline abstains rather than
 claim absence when the day's search or the 30 days before it are not completely searched, or
-the wind is too light to trace (225 spikes; 98 of them
+the wind is too light to trace (227 spikes; 98 of them
 under 3 mph, 55 because earlier days were not searched).
 14 spikes matched a report that started on an earlier day and was still running.
 "No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
@@ -57,10 +57,9 @@ the corridor is geometry only. These spikes are counted, never named.
 | Reason | Events |
 |---|---|
 | no monitor crossed the trigger rule | 56 |
+| reporting facility outside the corridor | 7 |
 | wind too light to trace | 6 |
-| reporting facility outside the corridor | 6 |
 | in corridor, but report time does not overlap the detection-time window | 2 |
-| pipeline could not locate the reporting facility | 1 |
 
 Unmatched events are not listed by name here. Every candidate *did* file a report; an unmatched row is a miss by
 this pipeline, not a finding about the facility.

@@ -60,6 +60,50 @@ def test_ambiguous_names_are_never_guessed():
     assert backtest.locate("Houston Plant", "9 B ST; HOUSTON", rows)[0]["RegistryID"] == "B"
 
 
+def _two_sites_one_name() -> list[dict]:
+    return [{"AIRName": "HOUSTON PLANT", "RegistryID": "A", "FacLat": "29.70", "FacLong": "-95.20", "AIRStreet": "1 A ST"},
+            {"AIRName": "HOUSTON PLANT", "RegistryID": "B", "FacLat": "29.90", "FacLong": "-95.00", "AIRStreet": "9 B ST"}]
+
+
+def _inc(address: str) -> dict:
+    return {"incident": "1", "entity": "HOUSTON PLANT", "rn": "RN1", "start_local": "2024-06-21T09:00",
+            "compound": "Benzene", "pounds": 5.0, "address": address}
+
+
+def test_duplicate_name_is_placed_by_the_reports_own_street_number():
+    rows, origin = _two_sites_one_name(), (29.70, -95.30)
+    # Site B is the one in the corridor list; the report's address says it is site A, which is not.
+    corridor_b = [{"id": "B", "name": "Houston Plant", "distance_km": 30.0, "bearing_deg": 40.0}]
+    for addr, rid, in_corr in (("1 A ST; HOUSTON", "A", False), ("9 B ST; HOUSTON", "B", True)):
+        (p,) = build.place_incidents([_inc(addr)], corridor_b, rows, origin, [90.0])
+        assert (p["facility_id"], p["in_corridor"]) == (rid, in_corr)
+
+
+def test_duplicate_name_the_address_cannot_settle_is_unresolved_not_guessed():
+    for addr in ("5 C ST; HOUSTON", ""):
+        (p,) = build.place_incidents([_inc(addr)], [], _two_sites_one_name(), (29.70, -95.30), [90.0])
+        assert p["in_corridor"] is None and p["facility_id"] is None and p["resolution"].startswith("unresolved")
+    rc = build.record_check([p], {}, date(2024, 6, 21), 9, search_complete=True, param="45201", earlier_complete=True)
+    assert rc["status"] == "search_incomplete"
+
+
+def test_real_duplicate_name_report_is_placed_at_its_street_address_site():
+    """Audit finding B: incident 438290 shares its name with two ECHO sites. The old last-row lookup put it at
+    110070190741 (9.5 km); its own street number is the site at 110000504892 (5.9 km)."""
+    sites = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    _, echo_rows = backtest.load_echo()
+    inc = backtest.steers_incident(backtest.BT / "steers_438290.html")
+    (p,) = build.place_incidents([inc], [], echo_rows, sites["48_201_0069"], [200.0])
+    assert (p["facility_id"], p["distance_km"], p["bearing_deg"]) == ("110000504892", 5.9, 71.7)
+
+
+def test_demo_night_still_matches_the_ineos_report():
+    ev = build.build()
+    assert ev["record_check"]["status"] == "reported" and ev["record_check"]["incident"] == "425347"
+    assert ev["record_check"]["matched_facility_id"] == INEOS_REGISTRY_ID
+    assert ev == __import__("json").loads((ROOT / "web" / "public" / "event.json").read_text())
+
+
 def test_steers_offset_follows_daylight_saving():
     assert build.steers_tz_offset_h(date(2024, 6, 21)) == 1
     assert build.steers_tz_offset_h(date(2024, 1, 15)) == 0

@@ -3,7 +3,7 @@
  "seed": 20261114,
  "n": 10,
  "max_per_monitor": 3,
- "population": 172,
+ "population": 170,
  "generated_by": "uv run python -m pipeline.audit_no_report --write",
  "counts": {
   "gap stands": 8,
@@ -28,9 +28,9 @@
   ]
  },
  "population_sweep": {
-  "spikes": 172,
-  "reproduced": 172,
-  "with_any_report_within_12h": 103,
+  "spikes": 170,
+  "reproduced": 170,
+  "with_any_report_within_12h": 101,
   "report_within_12h_inside_22_5_deg": 3,
   "report_within_12h_inside_45_deg": 14,
   "report_in_match_window_inside_45_deg": 9,
@@ -39,12 +39,12 @@
   "report_name_shared_by_several_echo_sites": 9,
   "report_placed_elsewhere_than_its_address": 8,
   "trigger_hour_right_after_flagged_hour": 30,
-  "single_hour_over_trigger": 99,
-  "wind_borrowed_from_another_site": 74
+  "single_hour_over_trigger": 98,
+  "wind_borrowed_from_another_site": 72
  },
  "wide_wedge_compound_reports_wilson_95": [
-  0.012,
-  0.066
+  0.013,
+  0.067
  ],
  "rows": [
   {
