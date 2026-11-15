@@ -44,6 +44,30 @@ test('the hand-check workload matches the no-matching-report night files', () =>
   assert.equal(HAND_CHECK.facilitiesTotal, facilities.reduce((a, b) => a + b, 0))
 })
 
+test('the residents count matches people.json near_open_questions', () => {
+  const q = read('../public/people.json').near_open_questions
+  assert.equal(LANDING_METRICS.residentsNearQuestions, q.population)
+  assert.equal(LANDING_METRICS.questionMonitors, q.site_ids.length)
+  assert.equal(q.radius_km, 3)
+})
+
+test('the "data as of" date is the newest fetch in the raw provenance files', () => {
+  const raw = new URL('../../data/raw/', import.meta.url)
+  const slash = (p: string) => p.replace(/\\/g, '/')
+  const ledgers = readdirSync(raw, { recursive: true }).map(String).map(slash).filter((p) => p.endsWith('provenance.json'))
+  const dates = ledgers.flatMap((p) => JSON.parse(readFileSync(new URL(p, raw), 'utf8')) as { fetched_at?: string }[])
+    .map((e) => e.fetched_at).filter((d): d is string => !!d)
+  const latest = dates.map((d) => new Date(d).toISOString().slice(0, 10)).sort().at(-1)
+  assert.equal(LANDING_METRICS.rawFetchedLatest, latest)
+})
+
+test('the backtest numbers match data/build/backtest.json', () => {
+  const bt = read('../../data/build/backtest.json').summary
+  assert.equal(LANDING_METRICS.backtestReleases, bt.candidates)
+  assert.equal(LANDING_METRICS.backtestSpiked, bt.spike_near_start)
+  assert.equal(LANDING_METRICS.backtestMatched, bt.detected_and_matched)
+})
+
 test('the hand-audit numbers match audit-no-report.json', () => {
   assert.equal(LANDING_METRICS.auditNights, audit.n)
   assert.equal(LANDING_METRICS.auditMissed, audit.counts['likely missed by us'])

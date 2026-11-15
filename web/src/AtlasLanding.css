@@ -211,6 +211,14 @@
 .atlas-metrics .atlas-m-sub { white-space: nowrap; }
 
 .atlas-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; margin-top: 8px; }
+/* How we know: a quiet evidence list under the links (paper stays light in both themes). */
+.atlas-how { width: min(100%, 40rem); margin: 28px auto 0; padding: 18px 20px; text-align: left; border: 1px solid #c9dcd8; border-radius: 12px; background: rgb(255 255 255 / 0.7); }
+.atlas-how h2 { margin: 0 0 8px; font-size: 1rem; letter-spacing: -0.01em; color: #1f3d42; }
+.atlas-how ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; font-size: 0.875rem; line-height: 1.5; color: #24474d; }
+.atlas-how a { color: #33585d; text-underline-offset: 3px; white-space: nowrap; }
 .atlas-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.9375rem; color: #442e29; text-underline-offset: 3px; }
 .atlas-links a:hover { text-decoration-thickness: 2px; }
 .atlas-links a:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }
+/* The health note sits with the numbers it qualifies, smaller and in plain ink. */
+.atlas-health { font-size: 0.8125rem; line-height: 1.5; color: #395960; max-width: 34rem; margin-inline: auto; }
+.atlas-health a { color: #33585d; text-underline-offset: 3px; }

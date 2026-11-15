@@ -2,11 +2,12 @@ import { Component, lazy, Suspense, useEffect, useState, type MouseEventHandler,
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { LANDING_METRICS as M } from './landingMetrics'
 import { SiteHeader } from './SiteHeader'
-import { useT } from './useT'
+import { useLang, useT } from './useT'
 import './AtlasLanding.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
 const BASE = import.meta.env.BASE_URL
+const REPO = 'https://github.com/kgorle1111/plume-witness'
 
 /** A globe chunk that fails to load (venue Wi-Fi) leaves an empty disc, not a blank page: the text and the button stay. */
 class GlobeBoundary extends Component<{ onFail: () => void; children: ReactNode }, { failed: boolean }> {
@@ -33,6 +34,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
   const [paused, setPaused] = useState(false)
   const [globeFailed, setGlobeFailed] = useState(false)
   const t = useT()
+  const lang = useLang()
   return (
     <main
       className={`atlas-landing${leaving ? ' atlas-leaving' : ''}`}
@@ -87,6 +89,8 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
           <li><b>{M.years}</b> {t('landing.m.years')}</li>
           <li className="atlas-own-line"><b>{M.noReport}</b> {t('landing.m.questions')} <span className="atlas-m-sub">({t('landing.m.questionsSub')})</span></li>
+          <li className="atlas-own-line"><b>{M.residentsNearQuestions.toLocaleString(lang === 'es' ? 'es-US' : 'en-US')}</b> {t('landing.m.residents', { m: M.questionMonitors })}</li>
+          <li className="atlas-own-line atlas-health">{t('landing.m.benzene')} <a href="https://www.epa.gov/sites/default/files/2016-09/documents/benzene.pdf" rel="noopener">{t('landing.m.benzeneLink')}</a></li>
           <li className="atlas-audit">
             {t('landing.m.auditLead')} <b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b>{' '}
             {t('landing.m.audit', { upper: M.auditUpperPct, u: M.auditUnclear, n: M.auditNights })}
@@ -102,6 +106,16 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
           <a href={`${BASE}?view=brief`}>{t('app.linkBrief')}</a>
         </nav>
+        {/* The rigor behind the numbers, one line each, with the evidence one click away. */}
+        <section className="atlas-how" aria-labelledby="atlas-how-title">
+          <h2 id="atlas-how-title">{t('landing.how.title')}</h2>
+          <ul>
+            <li>{t('landing.how.files', { date: M.rawFetchedLatest })} <a href={`${REPO}/tree/main/data/raw`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.backtest', { n: M.backtestReleases, s: M.backtestSpiked, m: M.backtestMatched })} <a href={`${REPO}/blob/main/docs/backtest.md`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.audit', { n: M.auditNights, k: M.auditMissed, upper: M.auditUpperPct })} <a href={`${REPO}/blob/main/docs/audit-no-report.md`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.ci')} <a href={`${REPO}/actions`} rel="noopener">{t('landing.how.link')}</a></li>
+          </ul>
+        </section>
       </section>
     </main>
   )
