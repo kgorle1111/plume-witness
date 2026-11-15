@@ -120,7 +120,11 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
             autoComplete="off"
             enterKeyHint="search"
             aria-describedby="ps-note"
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              // A message about the last search would read as an answer to the new text.
+              setError(null)
+            }}
           />
           <button type="submit" className="btn" disabled={pending || !query.trim()}>
             {pending ? t('ps.searching') : t('ps.search')}
@@ -150,6 +154,8 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
           ) : (
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
+              {/* The spike's own monitor nearby comes first: "outside the corridor" alone read as "not affected". */}
+              {r.monitor.site_id === ev.detection.site_id && <p>{t('ps.spikeHere', { site: r.monitor.name, km: kmText(r.monitor.km) })}</p>}
               <dl className="facts">
                 <div><dt>{t('ps.nearest')}</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
                 <div>
