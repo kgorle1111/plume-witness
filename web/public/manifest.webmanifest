@@ -1,0 +1,15 @@
+{
+  "name": "Plume Witness",
+  "short_name": "Plume Witness",
+  "description": "Replay of one air-monitor event: what the monitor saw, what was upwind, and what the state record shows.",
+  "start_url": "./?intro=0",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#16161a",
+  "background_color": "#ffffff",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

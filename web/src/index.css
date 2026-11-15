@@ -64,5 +64,5 @@ a { color: var(--accent); }
 /* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links. */
 @media (max-width: 1023px) {
   .app .site-foot { padding: 0 16px; flex-wrap: nowrap; }
-  .app .site-foot span, .app .site-foot a:last-child { display: none; }
+  .app .site-foot span, .app .site-foot a:nth-of-type(3) { display: none; }
 }
