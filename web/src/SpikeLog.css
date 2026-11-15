@@ -34,17 +34,19 @@
   font-size: 0.9rem;
 }
 
+/* A closed <details>: the summary line carries the one rule that must be on the first screen. */
 .sl-explain {
-  display: grid;
-  gap: 8px;
   max-width: 72ch;
-  padding: 12px 14px;
+  padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius, 10px);
   background: var(--bg-2);
   font-size: 0.92rem;
 }
-.sl-statuses summary { cursor: pointer; font-weight: 600; padding-block: 6px; }
+.sl-explain > summary { cursor: pointer; font-weight: 600; min-height: 44px; padding-block: 11px; }
+.sl-explain[open] { padding-bottom: 12px; }
+.sl-explain > :not(summary) + :not(summary) { margin-top: 8px; }
+.sl-statuses summary { cursor: pointer; font-weight: 600; min-height: 44px; padding-block: 11px; }
 .sl-statuses dl { display: grid; gap: 8px; margin-top: 6px; }
 .sl-statuses dl > div { display: grid; gap: 2px; }
 .sl-statuses dd { margin: 0; color: var(--ink-2); }
@@ -83,7 +85,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  min-height: 32px;
+  min-height: 44px;
   padding: 0 4px;
   margin: 0 -4px;
   border: 0;
@@ -93,7 +95,7 @@
   color: var(--accent);
   cursor: pointer;
 }
-.sl-sort-mark { font-size: 0.7rem; }
+.sl-sort-mark { font-size: 0.75rem; }
 
 .sl-status-cell { display: grid; gap: 2px; justify-items: start; }
 .sl-status {
@@ -113,7 +115,12 @@
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 28ch; }
-.sl-report { display: inline-block; margin-top: 4px; font-size: 0.8rem; }
+.sl-report { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8rem; }
+/* Stand-alone links in the rows get a 44px-tall hit area on every pointer, not only touch (project bar). */
+.sl-replay { display: inline-flex; align-items: center; min-height: 44px; }
+/* "Show more" focuses the first row it added; the outline shows only for keyboard focus (:focus-visible). */
+.sl-table tbody tr:focus-visible, .sl-card:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.sl-more { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .sl-empty { padding: 16px 12px; color: var(--ink-2); }
 .sl-foot { font-size: 0.8rem; color: var(--ink-2); }
 
@@ -140,7 +147,7 @@
 .sl-card-when { font-weight: 700; font-variant-numeric: tabular-nums; }
 .sl-card-where { font-size: 0.85rem; color: var(--ink-2); overflow-wrap: anywhere; }
 .sl-card-nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; font-variant-numeric: tabular-nums; }
-.sl-card-nums dt { font-size: 0.72rem; font-weight: 700; color: var(--ink-2); }
+.sl-card-nums dt { font-size: 0.75rem; font-weight: 700; color: var(--ink-2); }
 .sl-card-nums dd { margin: 0; font-size: 1.05rem; font-weight: 600; }
 .sl-card-replay { padding-top: 2px; }
 .sl-card .sl-replay { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
@@ -160,7 +167,7 @@
 .sl-cal-row { display: grid; grid-template-columns: 10.5rem 1fr; align-items: center; gap: 8px; }
 .sl-cal-name { font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sl-cal-axis .sl-cal-name { font-weight: 700; color: var(--ink); font-size: 0.8rem; }
-.sl-cal-months { position: relative; height: 1rem; font-size: 0.7rem; color: var(--ink-2); }
+.sl-cal-months { position: relative; height: 1rem; font-size: 0.75rem; color: var(--ink-2); }
 .sl-cal-months span { position: absolute; top: 0; }
 /* Marks are 4 px wide buttons centred on their day. With 2.5 to 2.7 px per day neighbouring days overlap a little
    rather than shrinking below 4 px. The ::before widens the hit area to 10 px without changing what is drawn. */
