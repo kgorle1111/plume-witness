@@ -128,11 +128,30 @@ def draft(event: dict[str, Any], client=None, model: str = MODEL) -> dict[str, A
             "drafted_by": DRAFTED_BY.format(model=model), "guard": {"passed": True, "rejected": []}}
 
 
+PUBLISH_MAX_CHARS = 4000
+
+
+def publish(packet: dict[str, Any], model: str, generated: str, path: Path) -> None:
+    """Write the site's optional AI draft file. Refuses unless the guard passed, so the public site can only
+    ever show a draft whose every number, id and time was checked against the event."""
+    if not packet.get("guard", {}).get("passed"):
+        raise ValueError("refusing to publish: the guard did not pass this draft")
+    for k in ("draft_en", "draft_es"):
+        if not isinstance(packet.get(k), str) or not 0 < len(packet[k]) <= PUBLISH_MAX_CHARS:
+            raise ValueError(f"refusing to publish: {k} missing or over {PUBLISH_MAX_CHARS} chars")
+    out = {"provider": "Claude", "model": model, "generated_local": generated, "runs_on_this_event": 1,
+           "draft_en": packet["draft_en"], "draft_es": packet["draft_es"],
+           "drafted_by": packet["drafted_by"], "guard": packet["guard"]}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--event", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--publish", type=Path, help="also write the site's AI draft file, only if the guard passed")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     if args.event.stat().st_size > MAX_EVENT_BYTES:
@@ -150,6 +169,9 @@ def main(argv: list[str] | None = None) -> int:
     print(f"wrote {args.out}: drafted_by={packet['drafted_by']!r} guard.passed={g['passed']}")
     for r in g["rejected"]:
         print(f"  rejected: {r}")
+    if args.publish and g["passed"]:
+        publish(packet, args.model, time.strftime("%Y-%m-%d"), args.publish)
+        print(f"published {args.publish}")
     return 0 if g["passed"] else 1
 
 
