@@ -1,0 +1,12 @@
+/* Step-panel pieces added with UI audit 3. The rest of the panel's styles live in App.css. */
+
+/* "What we searched" under the Check answer: padding, not flex, keeps the browser's disclosure marker. */
+.scope-details summary { cursor: pointer; font-size: 0.9rem; padding-block: 12px; color: var(--accent); }
+.scope-details p { margin-top: 2px; }
+
+/* A check's note (filed date, calm wind) sits on its own line under the label and status. */
+.checks li { flex-wrap: wrap; }
+.check-note { flex-basis: 100%; }
+
+/* Phones: "Show on map" under each corridor facility. */
+.fl-show { justify-self: start; margin-top: 4px; }
