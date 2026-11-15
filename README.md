@@ -1,65 +1,165 @@
 # Plume Witness
 
-**Plume Witness replays real nights of Texas state air-monitor data: when a monitor records a pollution spike, it traces the air upwind, lists the facilities in its path, and checks whether any of them filed the emissions-event report Texas requires. It is built for the people who check these reports by hand today: reporters, watchdog analysts and environmental volunteers.**
+![Plume Witness replaying a real night on the Houston Ship Channel: the upwind corridor on the map beside the list of facilities inside it](docs/img/replay-trace.jpg)
 
-**Live site:** [kgorle1111.github.io/plume-witness](https://kgorle1111.github.io/plume-witness/) (static, no login, English and Spanish).
+**A fact-checker for the pollution reports Texas companies file about themselves.** When a state air monitor spikes, Plume Witness traces the air upwind, lists the facilities in its path, and checks whether any of them filed the emissions-event report Texas requires.
 
-> **Status: in progress.** Built at GDG on Campus UCSC DevFest Hackathon 2026 (Best Social Impact track). Nothing here is a finished product. Results are labeled with what they are measured on.
+[![Live site](https://img.shields.io/badge/Live_site-kgorle1111.github.io%2Fplume--witness-2b6f77)](https://kgorle1111.github.io/plume-witness/)
+[![Video](https://img.shields.io/badge/Video-demo-de7f6b)](VIDEO_URL)
+[![Devpost](https://img.shields.io/badge/Devpost-DevFest_2026-003e54)](DEVPOST_URL)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
-## Why
+**Live site:** [kgorle1111.github.io/plume-witness](https://kgorle1111.github.io/plume-witness/), static, no login, English and Spanish · **Video:** [VIDEO_URL](VIDEO_URL) · **Devpost:** [DEVPOST_URL](DEVPOST_URL)
 
-Industrial facilities in Texas report their own unplanned releases ("emissions events") to the state. The Environmental Integrity Project counted **21,769** such events in Texas in FY2017-2022; the state designated **0.5%** of them "excessive". Fenceline advocates check these self-reports against what the air actually showed by hand, slowly, for a few events a year. Plume Witness automates that check for one corridor, starting with the Houston Ship Channel.
+Built at GDG on Campus UCSC DevFest 2026 for the Best Social Impact track.
 
 ## What it does
 
-1. **Detect**: a spike on a state (TCEQ) regulator-grade monitor, such as hourly benzene from an AutoGC site. Low-cost sensors are never the trigger.
-2. **Trace**: the hourly wind at the monitor points upwind; every major facility within 15 km and ±22.5° of that direction is listed, nearest first. Wind alone can't tell them apart, so nothing is ranked as a likely source. This is geometry, not a dispersion model, and it says so.
-3. **Check the record**: it searches every emissions-event report filed that day in the county, places each on the map, and checks whether one in the corridor, in the time window, lists the same compound: the initial notice within 24 hours, and a FINAL report dated within 14 days of the event's end. Status is one of: *reported*, *not yet reported*, *no report after the deadline*, *reported, but the compound doesn't match*, *search incomplete*.
-4. **Packet**: a hedged evidence summary ("evidence consistent with…") in English and Spanish. A person always reviews, edits and files it. Nothing is sent automatically.
+Industrial facilities in Texas report their own unplanned releases ("emissions events") to the state. The Environmental Integrity Project counted 21,769 such events from FY2017 to FY2022, and the state designated 119 events (0.55%) excessive. <!-- CL-014 --> Advocates and reporters check these self-reports against what the air showed, by hand. Plume Witness does that check from public data, in four steps, on a real night you can replay:
 
-## What it can't say
+1. **Detect.** A spike on a state (TCEQ) regulator-grade monitor. On 2024-06-21 the Houston Milby Park monitor read 51.75 ppb of benzene in the 9:00 a.m. CST hour, against a 7-day median of 0.21 ppb, below the Texas 1-hour benzene health value. <!-- CL-001 --> Low-cost sensors are never the trigger. <!-- CL-010 -->
+2. **Trace.** The wind came from 77 degrees <!-- CL-003 -->, and 47 major facilities sit in the upwind corridor, within 15 km and 22.5° of the wind direction. <!-- CL-004 --> This is wind direction at one monitor, not a dispersion model: it cannot tell facilities on the same bearing apart, so it lists them nearest first and never names a source.
+3. **Check.** It pulls every emissions-event report filed that day in the county (2 reports, search complete) <!-- CL-007 --> and finds INEOS Americas Pasadena Site inside the corridor; the company's own report lists 7,634 lb of benzene. <!-- CL-005 --> The initial notice came 5 hours after discovery and the final report 12 days after the event ended, inside the 24 hours and 14 days Texas allows. <!-- CL-006 --> On this night the company reported, so it shows the check passing, not a missing report.
+4. **Packet.** A hedged evidence summary in English and Spanish, written by a fixed template from the event's own fields, with read-aloud and a number check that rejects any number or ID not in the input. <!-- CL-009 --> A person reads, edits, approves and files it; the app sends nothing. <!-- CL-008 -->
 
-- **"Not yet reported" is not a finding about any facility.** Texas requires a report only when a release exceeds a reportable quantity (30 TAC 101.201), and air readings can't measure how much was released.
-- Facilities along the same bearing can't be told apart from one monitor's wind; the app lists them and checks the record instead of naming a source.
-- It sees only what the state's monitors see. Many neighborhoods have no regulator-grade monitor.
+**Who it's for:** reporters, watchdog analysts and environmental volunteers who check these reports by hand today. TEJAS volunteers in Houston verify, document, share and translate each incident themselves <!-- CL-028 -->, and around the Galena Park monitor 77.1% of residents age 5 and over speak Spanish at home. <!-- CL-035 -->
 
-## Measured so far
+Beyond the demo night, the site has a Past spikes log of 468 spikes at 12 monitors with a CSV download and a calendar, replays 466 of those nights, and has a place search with neighborhood shortcuts. <!-- CL-031 --> It also has a two-year spike timeline, a history page for each of 194 facilities near the monitors, RSS feeds per monitor, an embeddable replay for newsrooms, a printable 2-page method brief, documented open data files ([docs/api.md](docs/api.md)), install-as-app with offline replay, and a second region, Beaumont-Port Arthur, with 2 monitors. <!-- CL-033 -->
 
-- **One real night, replayed.** 2024-06-21, Milby Park: the check finds the company's own report (INEOS, 7,634 lb of benzene) inside the upwind corridor, filed on time. It shows the check passing. Across 2024-2025, at 12 Ship Channel monitors, 168 of 468 spikes ended as "no matching report" after a complete search; the site lists them as questions for the state, never as findings. A hand check of 10 of them at random (drawn from the earlier 8-monitor scan) found 0 of 10 with a report the pipeline missed, and 2 of 10 could not be settled from public data; with 10 nights the true miss rate could be as high as 28% ([docs/audit-no-report.md](docs/audit-no-report.md)).
-- **Backtest on 77 releases companies reported to the state** ([docs/backtest.md](docs/backtest.md)): only 5 of 77 showed a spike at a state monitor from 1 h before to 6 h after the reported start, and the pipeline matched 1 of 77 end to end.
-- **What the monitors can see** ([docs/detector.md](docs/detector.md)): in 60 of 77 a monitor within 15 km was downwind near the reported start, yet ordinary days at the same monitors and hours spiked just as often (26 of 410 windows) at every trigger setting tested. For these releases, hourly state monitors cannot confirm or contradict a company's report. How often a "no report" result is wrong is estimated only from the 10-night hand check above.
-- **Also in the data:** a past-spikes log of all 468 spikes in 2024-2025 with a replay of 466 of those nights (2 have no wind for the detection hours), a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)), and a history page for each of 194 major facilities near the monitors (`?view=facilities`): what each reported to the state and to EPA, never a list of nights it was merely upwind.
-- **Open data:** every JSON the site serves is documented, with fields, units, provenance and caveats, in [docs/api.md](docs/api.md).
-- **Evals:** the AI-draft guard is scored against hand-built mutants in [evals/guard_escape/RESULTS.md](evals/guard_escape/RESULTS.md) (in-sample; model-written attacks not tested). A reader for companies' report walk-backs has a validation report, not an accuracy measure: no labeled set has been scored ([evals/walkback/README.md](evals/walkback/README.md)).
-- **Method brief** for advocates and public comment: [docs/brief.md](docs/brief.md), also on the site as a printable page at `?view=brief`.
-- Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
-- **Second region, not backtested: Beaumont-Port Arthur** (Jefferson County). New region: no backtest yet; statuses use the same rules; no claims are made from it. Same trigger, corridor and record check on the two Jefferson County AutoGC sites TCEQ lists (Beaumont-Downtown, Nederland 17th Street; Port Arthur has none). The unchanged trigger fires twice in 2024-2025 there (readings above 10 ppb are rare at these two sites), so the log has 2 rows. Spike log at `?view=spikes&region=beaumont`, nights at `?region=beaumont&night=<id>`. Regenerate with `uv run python -m pipeline.fetch_backtest --region beaumont`, then `uv run python -m pipeline.spikes --region beaumont` and `uv run python -m pipeline.nights --region beaumont`; raw files and provenance in `data/raw/region_beaumont/`.
-- **Adding a region** needs no web code: add a `Region` to `REGIONS` in `pipeline/regions.py` (outputs under `web/public/regions/<key>/`, `label_es`/`place_es` for the Spanish switch and titles), generate its `spikes` and `nights` with `--region <key>`, then run `uv run python -m pipeline.regions --write-web` and commit `web/src/regions.generated.json`. The region switch, links and titles read that file; tests fail if it is stale or a listed region has no data.
+## Results
 
-## Data (all public)
+Measured on public data for the Houston Ship Channel. Each row says what the number does and does not show.
 
-- TCEQ ambient monitoring (AutoGC hourly VOCs, site meteorology)
-- TCEQ Air Emission Event Report Database (STEERS)
-- EPA ECHO / TRI facility locations
-- U.S. Census Bureau ACS 2024 5-year (tract level)
-- Every raw file is stored under `data/raw/` with its source URL, fetch time and SHA-256 in the neighbouring `provenance.json`
-- Map data © OpenStreetMap contributors
+| What we measured | Result | What it means |
+|---|---|---|
+| Spikes checked against the record, 12 monitors | The check has run on all 468 spikes; 168 ended as no report after a complete search <!-- CL-011 --> | A missing match is a question for the state, never a finding: reports are required only above a reportable quantity, and other sources raise readings too. The site counts these spikes and names no facility. How often a no-report result is wrong is estimated only from the hand check below. |
+| Hand check of no-report spikes | Of 10 picked at random, the gap held in 8 of 10, 2 of 10 could not be settled from public data, and 0 of 10 was a report the pipeline missed <!-- CL-032 --> | One reviewer; with 10 nights the true miss rate could be as high as 28% (Wilson 95%). [docs/audit-no-report.md](docs/audit-no-report.md) |
+| Backtest on releases companies reported | Of 77 reported releases, only 5 of 77 showed a spike at a state monitor from 1 hour before to 6 hours after the reported start, and the pipeline matched 1 of 77 end to end <!-- CL-023 --> | Start day only; a spike near the start is consistent with the release, not proof it caused the reading. The backtest does not measure how often a no-report result is wrong. [docs/backtest.md](docs/backtest.md) |
+| What hourly monitors can see | In 60 of 77 a state monitor within 15 km was downwind near the start, yet ordinary days at the same monitors and hours spiked in 26 of 410 windows <!-- CL-029 --> | The 95% intervals overlap at every setting tested, so these monitors cannot tell these releases apart from ordinary days at the same hours. [docs/detector.md](docs/detector.md) |
+| A night with no answer | On March 29, 2024 at 23:00 CST Galena Park read 15.84 ppb of benzene against a usual 0.27 ppb; 12 facilities sit upwind, and a hand check by one reviewer found no report of any type running within 12 hours <!-- CL-034 --> | TCEQ labels the reading provisional. The gap is a question for the state, not a finding that a release went unreported. |
 
-## Stack
+## Architecture
 
-- `pipeline/`: Python 3.12, uv, pytest. Pulls public data, detects, lists the upwind corridor, checks the record, writes `web/public/nights/` and the demo night as `web/public/event.json` (`uv run python -m pipeline.nights`).
-- `web/`: Vite + React + MapLibre GL + deck.gl. A replay of one real night, mobile-first.
-- The packet draft comes from a deterministic EN/ES template built only from event fields. An optional Gemini drafter (`pipeline/gemini_draft.py`, see `docs/gemini.md`) sits behind a guard that rejects any number or ID not present in the input; it has not yet run successfully against Google's live API. A Claude drafter (`pipeline/claude_draft.py`) behind the same guard ran once on the demo night; its draft is published as `web/public/packet.ai.json` only because the guard passed, and the Packet step offers it beside the template. No API key ships in the web app.
-
-## Run
-
-```bash
-uv sync && uv run pytest
-cd web && npm install && npm run dev
+```mermaid
+flowchart LR
+  subgraph SRC["Public sources"]
+    S1["TCEQ AutoGC<br/>hourly readings"]
+    S2["TCEQ met wind"]
+    S3["TCEQ STEERS<br/>event reports"]
+    S4["EPA ECHO / TRI"]
+    S5["Census ACS"]
+  end
+  subgraph PIPE["Python pipeline"]
+    P1["Detect"] --> P2["Trace"] --> P3["Record check"]
+    P4["Backtest"]
+    P5["Number guard"]
+    P6["Evals"]
+  end
+  subgraph JSON["Static JSON"]
+    J1["spikes · nights<br/>facilities · regions<br/>coverage"]
+  end
+  subgraph WEB["Web app"]
+    W1["React · Vite<br/>MapLibre · deck.gl<br/>PWA · EN/ES"]
+  end
+  K["Packet<br/>template or Claude draft"]
+  H(["A person reviews<br/>and files"])
+  SRC --> PIPE
+  PIPE --> JSON
+  JSON --> WEB
+  WEB --> K
+  P5 -. checks .-> K
+  K --> H
 ```
 
-Open the local site and select **Enter the replay**. Use `?intro=0#detect` to open the demo directly, or use a step hash such as `#packet` to deep-link to one of the four steps.
+The pipeline is deterministic and runs from cached public files: every value comes from public data, and each raw file is stored under `data/raw/` with its source URL, fetch time and SHA-256 hash. <!-- CL-018 --> The site is static: no server, no account, no API key in the browser. It runs in a phone or laptop browser, and the Trace step lists every corridor facility as text, so the map is never the only way to read it. <!-- CL-021 -->
+
+## Tech stack
+
+| Layer | What we use |
+|---|---|
+| Pipeline | Python 3.12, [uv](https://docs.astral.sh/uv/), pytest, Ruff (`pipeline/`, `tests/`, `evals/`) |
+| Data sources | TCEQ AutoGC hourly VOCs and site meteorology, TCEQ STEERS emissions-event reports, EPA ECHO facility locations and TRI totals, U.S. Census Bureau ACS (tract level) |
+| Web | Vite, React 19, TypeScript, MapLibre GL, deck.gl, OpenFreeMap tiles, service worker and web manifest (installable PWA, offline replay), English and Spanish UI (`web/src/i18n.ts`), oxlint, `node --test` |
+| AI | Anthropic Python SDK: Claude Opus 5.5 (`claude-opus-5-5`) writes the optional packet draft (`pipeline/claude_draft.py`); Claude Sonnet 5.5 (`claude-sonnet-5-5`) reads companies' report revisions (`pipeline/walkback.py`). Model output passes a deterministic number guard, which has its own guard-escape eval ([evals/guard_escape](evals/guard_escape/RESULTS.md)). |
+| Voice | Kokoro text-to-speech, voices `af_heart` (English) and `ef_dora` (Spanish), pre-generated for read-aloud (`pipeline/voice.py`) |
+| CI/CD | GitHub Actions (Ruff, pytest, web build, oxlint and web tests on every pull request); GitHub Pages deploy gated on the web tests |
+| Design | Teal and coral redesign by teammate NagaGun |
+
+Exact versions are pinned in [pyproject.toml](pyproject.toml), [uv.lock](uv.lock) and [web/package-lock.json](web/package-lock.json).
+
+## How we built it
+
+- **Deterministic first.** Detection, the upwind corridor and the record check are plain, tested Python on public data. No model decides a result a reader sees.
+- **Every number traces to a source.** A claims file names the evidence file and hash behind each number in our public copy, and a linter (truthlint) checks the copy against it before it ships.
+- **The model sits behind a guard.** Claude drafts only behind a number guard that rejects any number, ID or time not in the input, and the guard is scored by its own eval. The Claude draft on the site was published because it passed that check. <!-- CL-022 -->
+- **One fix per pull request.** Every change lands as its own PR with CI; the Pages deploy runs the web tests before it publishes.
+- **Independent review.** Hand audits, a backtest against companies' own reports, and separate review passes checked the method, the numbers and the copy.
+- **AI-assisted, human-decided.** Claude Code (Claude Opus 5.5) wrote much of the pipeline and web code with the builder; every commit it helped with carries a Co-Authored-By trailer, and the team made each decision. <!-- CL-020 -->
+
+## Roadmap
+
+- Place the reports the pipeline cannot yet locate, using a reviewed lookup table of TCEQ regulated-entity numbers.
+- Ship the report-revision ("walk-back") reader once it has a labeled eval.
+- More monitors, starting where the wind data is solved.
+- A statewide list of open questions across every TCEQ AutoGC site.
+- AI drafts for every replayable night, behind the same guard.
+- A second report source to cross-check STEERS.
+- Redesign follow-ups across the remaining pages.
+
+## Method and limits
+
+Plume Witness checks records; it does not assign blame. The limits that change what a reader should conclude:
+
+- **The corridor is geometry, not a plume model.** Wind at one monitor cannot tell facilities on the same bearing apart, so the app lists them and checks the record instead of naming a source.
+- **A missing report is a question, not a finding.** Texas requires an initial notice within 24 hours and a final record within 14 days only for an emissions event at or above a reportable quantity (30 TAC 101.201) <!-- CL-013 -->, and air readings cannot measure how much was released. A matching report is not proof the facility caused every reading either.
+- **Hourly state monitors are a coarse instrument.** For the releases we backtested, they cannot confirm or contradict a company's report (see Results). The backtest covers the 12 Houston Ship Channel monitors.
+- **Only regulator-grade monitors.** It sees what TCEQ's AutoGC monitors see, and many neighborhoods have none. TCEQ labels AutoGC data provisional.
+- **A person files.** Every packet is reviewed, edited and filed by a person.
+
+The app keeps these limits on every step in a "What this can't say" panel. <!-- CL-017 --> The full method is in the [method brief](docs/brief.md) (also on the site at `?view=brief`, and in Spanish in [docs/brief.es.md](docs/brief.es.md)) and the [backtest report](docs/backtest.md).
+
+## Run it locally
+
+Requires Python 3.12 with [uv](https://docs.astral.sh/uv/), and Node 24 (the web tests use Node's built-in TypeScript support).
+
+```bash
+git clone https://github.com/kgorle1111/plume-witness.git
+cd plume-witness
+
+# Pipeline and tests
+uv sync
+uv run pytest -q
+
+# Web app
+cd web
+npm ci
+npm run dev        # open the printed local URL, then "Enter the replay"
+
+# Web tests (the offline-cache test reads the build output)
+npm run build
+npm test
+```
+
+Use `?intro=0#detect` to open the demo night directly, or a step hash such as `#packet` to deep-link to a step. The pipeline regenerates the site's data from the cached raw files, for example `uv run python -m pipeline.nights` and `uv run python -m pipeline.backtest`; [docs/api.md](docs/api.md) documents every JSON file the site serves.
+
+## Data sources and licenses
+
+| Source | Used for | License / terms |
+|---|---|---|
+| [TCEQ](https://www.tceq.texas.gov/) AutoGC hourly readings and site meteorology | Detect, Trace | Public government data; cite TCEQ |
+| TCEQ STEERS Air Emission Event Report Database | Check | Public government records; cite TCEQ |
+| [EPA ECHO](https://echo.epa.gov/) and [TRI](https://www.epa.gov/toxics-release-inventory-tri-program) | Facility locations and yearly totals | U.S. federal data, public domain |
+| [U.S. Census Bureau ACS](https://www.census.gov/programs-surveys/acs) | Who lives near each monitor ([docs/people.md](docs/people.md)) | U.S. federal data, public domain |
+| [OpenStreetMap](https://www.openstreetmap.org/copyright) via [OpenFreeMap](https://openfreemap.org/) | Base map | Map data © OpenStreetMap contributors (ODbL) |
+
+Every raw file is kept under `data/raw/` with its URL, fetch time and SHA-256 in the neighbouring `provenance.json`.
+
+## Team
+
+- **Kannishk**: data pipeline, backtest, web app
+- **Chanchal**: [ROLE]
+- **Nagatanmayee**: [ROLE]
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Code is MIT. See [LICENSE](LICENSE).
