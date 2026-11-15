@@ -357,8 +357,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   font-size: 0.9rem;
 }
 .status-reported { color: #14532d; background: #e7f6ec; }
-.status-not_yet_reported { color: #6b4500; background: #fff4dc; }
-.status-no_report_after_deadline { color: #8b1a1a; background: #fdecea; }
+.status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .is-matched-note { padding: 8px 12px; border: 1px solid rgb(0 110 60 / 0.45); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }

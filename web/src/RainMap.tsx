@@ -29,7 +29,10 @@ interface Dot {
   line: [number, number, number, number]
   /** Picking is off for dots that have all but faded, so a click never lands on something you can't see. */
   live: boolean
+  /** No matching report is a hollow ring (an open question); every other status is a filled disc. */
+  ring: boolean
 }
+const OPEN_QUESTION = 'no_report_after_deadline'
 
 const rgb = (status: string) => hexToRgb(STATUS_FILL[status] ?? '#16161a')
 
@@ -42,7 +45,7 @@ function dotsFor(spikes: readonly Timed[], frame: Frame): Dot[] {
       // The ring swells to 1.7x as the spike ages; the fill thins faster than the outline so the position stays readable.
       return {
         night: s.night_id, lon: s.lon, lat: s.lat, r: radiusPx(s.ratio) * (1 + 0.7 * age),
-        fill: [r, g, b, Math.round(150 * a)], line: [r, g, b, Math.round(255 * a)], live: age < 0.75,
+        fill: [r, g, b, s.status === OPEN_QUESTION ? 0 : Math.round(150 * a)], line: [r, g, b, Math.round(255 * a)], live: age < 0.75, ring: s.status === OPEN_QUESTION,
       }
     })
   }
@@ -53,7 +56,7 @@ function dotsFor(spikes: readonly Timed[], frame: Frame): Dot[] {
     const [r, g, b] = on ? rgb(s.status) : NEUTRAL
     return {
       night: s.night_id, lon: s.lon, lat: s.lat, r: on ? radiusPx(s.ratio) : 3,
-      fill: [r, g, b, on ? 190 : 70], line: [r, g, b, on ? 255 : 0], live: on,
+      fill: [r, g, b, s.status === OPEN_QUESTION && on ? 0 : on ? 190 : 70], line: [r, g, b, on ? 255 : 0], live: on, ring: on && s.status === OPEN_QUESTION,
     }
   })
 }
@@ -156,7 +159,7 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
               getLineColor: (x) => x.line,
               radiusUnits: 'pixels',
               lineWidthUnits: 'pixels',
-              getLineWidth: 1.5,
+              getLineWidth: (x) => (x.ring ? 3.5 : 1.5),
               stroked: true,
               filled: true,
               pickable: true,

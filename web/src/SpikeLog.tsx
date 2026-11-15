@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { hourLabel, safeHttpUrl, statusInfo } from './format'
+import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { StatusIcon } from './StatusIcon'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { NO_FILTER, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
@@ -63,7 +64,7 @@ function downloadCsv(rows: SpikeRow[], f: Filters) {
 function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   return (
     <span className="sl-status-cell">
-      <span className={`sl-status sl-status-${row.status}`} lang={lang}>{statusInfo(row.status)[lang]}</span>
+      <span className={`sl-status sl-status-${row.status}`} lang={lang}><StatusIcon kind={statusInfo(row.status).icon} size={14} />{statusInfo(row.status)[lang]}</span>
       {row.reason && <span className="sl-reason">{row.reason}</span>}
     </span>
   )
@@ -199,7 +200,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           <summary>{t('spikes.statusesHelp')}</summary>
           <dl>
             {STATUS_NOTES.map((k) => (
-              <div key={k}><dt><span className={`sl-status sl-status-${k}`} lang={lang}>{statusInfo(k)[lang]}</span></dt><dd>{t(`status.note.${k}`)}</dd></div>
+              <div key={k}><dt><span className={`sl-status sl-status-${k}`} lang={lang}><StatusIcon kind={statusInfo(k).icon} size={14} />{statusLabel(k, lang)}</span></dt><dd>{t(`status.note.${k}`)}</dd></div>
             ))}
           </dl>
         </details>

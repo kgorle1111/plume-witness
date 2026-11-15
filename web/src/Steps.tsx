@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
-import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
+import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { StatusIcon } from './StatusIcon'
 import { incidentNote } from './note'
 import { facilityHref } from './facilities'
 import { arrivalTick, daysAfterEvent, reportBand } from './reportWindow'
@@ -9,23 +10,6 @@ import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
 import { setLang as setSiteLang } from './i18n'
 import { useRecordedClip } from './recorded'
-
-function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
-  const common = { width: 18, height: 18, viewBox: '0 0 20 20', 'aria-hidden': true, focusable: false } as const
-  const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 2.2, strokeLinecap: 'round', strokeLinejoin: 'round' } as const
-  switch (kind) {
-    case 'check':
-      return <svg {...common}><circle cx="10" cy="10" r="8.5" {...stroke} /><path d="M6 10.5l2.7 2.7L14 7.5" {...stroke} /></svg>
-    case 'clock':
-      return <svg {...common}><circle cx="10" cy="10" r="8.5" {...stroke} /><path d="M10 5.5V10l3 2" {...stroke} /></svg>
-    case 'mismatch':
-      return <svg {...common}><circle cx="10" cy="10" r="8.5" {...stroke} /><path d="M6 8h8M6 12h8M12.5 5.5l-5 9" {...stroke} /></svg>
-    case 'question':
-      return <svg {...common}><circle cx="10" cy="10" r="8.5" {...stroke} /><path d="M7.7 7.6a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1.1.9-1.1 1.6v.4" {...stroke} /><circle cx="10" cy="14.6" r=".6" fill="currentColor" /></svg>
-    default:
-      return <svg {...common}><path d="M10 2.5l8 14.5H2z" {...stroke} /><path d="M10 8v4" {...stroke} /><circle cx="10" cy="14.4" r=".6" fill="currentColor" /></svg>
-  }
-}
 
 function InfoIcon() {
   return (
@@ -41,7 +25,7 @@ export function StatusBadge({ status, lang = 'en' }: { status: string; lang?: La
   return (
     <span className={`status status-${status}`} lang={lang}>
       <StatusIcon kind={info.icon} />
-      <span>{info[lang]}</span>
+      <span>{statusLabel(status, lang)}</span>
     </span>
   )
 }
