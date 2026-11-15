@@ -21,6 +21,7 @@ export function incidentNote(ev: PlumeEvent, pageUrl?: string): string {
     wind
       ? `Wind at ${hourLabel(wind.hour_cst)} (${windSite}): from the ${compass(wind.from_deg)} (${wind.from_deg}°) at ${wind.speed_mph} mph`
       : `Wind at ${hourLabel(d.hour_cst)}: no reading`,
+    ...(ev.wind.source_note ? [ev.wind.source_note] : []),
     `State record check: ${statusInfo(rc.status).en}${rc.incident ? `, report #${rc.incident}` : ''}${matched ? ` (${matched.name})` : ''}`,
     url ? `State record: ${url}` : 'State record: no valid link in this file',
     '',

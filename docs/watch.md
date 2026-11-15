@@ -29,7 +29,7 @@ Feed output depends only on `spikes.json` (no clock), so rebuilding unchanged da
 
 - **There is no scheduled job yet.** Feeds are rebuilt by hand with `uv run python -m pipeline.feeds`. A
   manual rebuild workflow is proposed separately and has not run.
-- **Nothing fetches new data yet.** The feeds cover the 2024-2025 backtest (415 spikes). A feed reader will show
+- **Nothing fetches new data yet.** The feeds cover the 2024-2025 backtest (468 spikes). A feed reader will show
   new items only after someone refreshes `spikes.json` from newer TCEQ data and merges.
 - **Data lag is unknown.** We have not measured how long after an hour TCEQ publishes AutoGC values, or how
   long a company has to file a STEERS report, as the pipeline sees them. A recent spike may show a result that

@@ -89,15 +89,9 @@ def load_echo(raw: Path = BT) -> tuple[dict[str, dict], list[dict]]:
 
 
 def load_winds(year: str, day: str, sites: dict[str, tuple[float, float]], raw: Path = BT) -> dict[str, dict]:
-    """Each site's own wind; a site without wind borrows the nearest site that has it (site_id says which)."""
-    own = {}
-    for s in sites:
-        try:
-            w = build.load_wind(s, year, day, raw)
-        except (FileNotFoundError, KeyError, ValueError):
-            continue
-        if any(h["from_deg"] is not None for h in w["hourly"]):
-            own[s] = w
+    """Each site's own wind (met form, else AutoGC form: build.own_wind); a site with neither that day borrows the
+    nearest site that has its own (site_id says which)."""
+    own = {s: w for s in sites if (w := build.own_wind(s, year, day, raw, _table))}
     out = {}
     for s, p in sites.items():
         if s in own:
@@ -275,7 +269,8 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
         earlier_ok, det_day = sp["earlier_complete"], sp["det_day"]
         row = {"day": day, "param": param, "site_id": det["site_id"], "hour_cst": det["hour_cst"],
                "value": det["value"], "baseline": det["baseline"], "search_complete": complete,
-               "earlier_search_complete": earlier_ok, "day_reports": len(rows_by_day.get(day, []))}
+               "earlier_search_complete": earlier_ok, "day_reports": len(rows_by_day.get(day, [])),
+               "wind_source": wind_source(t.get("wind"), det["site_id"])}
         if "record_check" not in t:
             rows.append(row | {"status": "no_wind", "matched_incident": None, "candidate_reports_in_corridor": 0})
             continue
@@ -294,6 +289,13 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
                                               "the spike",
                            "candidate_reports_in_corridor": len(in_geo)})
     return rows
+
+
+def wind_source(wind: dict | None, site: str) -> str:
+    """own_met / own_autogc / borrowed_met / borrowed_autogc, or none: where a spike's corridor wind came from."""
+    if not wind:
+        return "none"
+    return f"{'own' if wind['site_id'] == site else 'borrowed'}_{wind.get('source', 'met')}"
 
 
 def trigger_hours(monitors: list[dict]) -> list[int]:
@@ -345,7 +347,8 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
         out["calm_mph"] = t["calm_mph"]
     rc = t["record_check"]
     mine = next((d for d in rc["day_incidents"] if d["incident"] == c["incident"]), None)
-    out |= {"wind_site": t["wind"]["site_id"], "wind_from_deg": t["window"],
+    out |= {"wind_site": t["wind"]["site_id"], "wind_source": wind_source(t["wind"], det["site_id"]),
+            "wind_from_deg": t["window"],
             "corridor_size": len(t["facilities"]), "record_status": rc["status"],
             "facility_in_corridor": mine["in_corridor"] if mine else None,
             "pipeline_resolution": mine["resolution"] if mine else "incident missing from the day's search",
@@ -429,6 +432,7 @@ def run(raw: Path = BT) -> dict:
         "abstained_earlier_days_unsearched": sum(1 for r in spikes if r["status"] == "search_incomplete"
                                                  and r["search_complete"] and not r["earlier_search_complete"]),
         "matched_an_ongoing_report": sum(1 for r in spikes if r.get("matched_ongoing")),
+        "wind_source": _count(r["wind_source"] for r in spikes),
     }
     summary = {
         "candidates": len(results), "detected": len(det),
@@ -562,8 +566,9 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
 - **Detection (unchanged pipeline):** {res["rules"]["trigger"]}.
 - **Corridor (unchanged pipeline):** {res["rules"]["corridor"]}, from the wind at the triggering monitor in the
   detection hour and the hour before; a monitor with no wind uses the nearest site that has it (recorded per event).
-  The TCEQ met form returned no hourly wind for {", ".join(SITE_NAMES[x] for x in no_wind) or "none"}, so they
-  always borrow.
+  The TCEQ met form returned no hourly wind for {", ".join(SITE_NAMES[x] for x in no_wind) or "none"}; each uses its
+  own AutoGC-form resultant wind (61104/61103) instead, and borrows only on a day that has neither. Wind source of
+  the {sp["spikes"]} spikes: {", ".join(f"{k} {v}" for k, v in sp["wind_source"].items())}.
   Facilities come from EPA ECHO major sources within 10 mi of the triggering monitor.
 - **Match (unchanged pipeline):** {res["rules"]["match"]}. STEERS local time is converted with America/Chicago DST.
 - **Day's reports:** every STEERS row that started that day, taken from the week search (same query, wider window),
