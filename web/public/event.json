@@ -1203,32 +1203,6 @@
   }
  ],
  "record_check": {
-  "status": "reported",
-  "incident": "425347",
-  "matched_facility_id": "110000462623",
-  "source_url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
-  "checks": [
-   {
-    "at": "T+24h",
-    "status": "reported",
-    "note": "initial notice filed 2024-06-21T14:38 local"
-   },
-   {
-    "at": "T+14d",
-    "status": "reported",
-    "note": "final report dated 2024-07-03, 12 days after the event ended"
-   }
-  ],
-  "compound_match": true,
-  "reported": {
-   "facility": "Ineos Americas Pasadena Site",
-   "compound": "Benzene",
-   "pounds": 7634.0,
-   "start_local": "2024-06-21T09:38",
-   "end_local": "2024-06-21T10:42",
-   "tz": "local (CDT)",
-   "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release"
-  },
   "day_incidents": [
    {
     "incident": "425367",
@@ -1257,7 +1231,44 @@
     "resolution": "in the upwind corridor"
    }
   ],
-  "search_scope": "Searched every STEERS emissions event starting 06/21/2024 in Harris County (2 found; search complete)."
+  "ongoing_incidents": [],
+  "search_scope": "Searched every STEERS emissions event starting 06/21/2024 in Harris County (2 found; search complete). Events that started on earlier days were not searched.",
+  "status": "reported",
+  "incident": "425347",
+  "matched_facility_id": "110000462623",
+  "source_url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425347",
+  "checks": [
+   {
+    "at": "T+24h",
+    "status": "reported",
+    "note": "initial notice filed 2024-06-21T14:38 local, 5.0 h after the reported discovery 2024-06-21T09:38"
+   },
+   {
+    "at": "T+14d",
+    "status": "reported",
+    "note": "final report dated 2024-07-03, 12 days after the event ended"
+   }
+  ],
+  "compound_match": true,
+  "reported": {
+   "facility": "Ineos Americas Pasadena Site",
+   "compound": "Benzene",
+   "pounds": 7634.0,
+   "start_local": "2024-06-21T09:38",
+   "end_local": "2024-06-21T10:42",
+   "tz": "local (CDT)",
+   "cause": "Pump, P-2, experienced a mechanical failure when its seal blew causing benzene to release",
+   "match_basis": "started near the spike",
+   "travel_h": 0.97,
+   "travel_speed_mph": 6.8,
+   "travel_distance_km": 10.6,
+   "start_to_spike_h": 0.37,
+   "arrival_local": "2024-06-21T10:36",
+   "spike_hour_local": [
+    "2024-06-21T10:00",
+    "2024-06-21T11:00"
+   ]
+  }
  },
  "corridor": {
   "origin_site_id": "48_201_0069",
@@ -1279,7 +1290,7 @@
  },
  "cannot_say": [
   "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
-  "'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
+  "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
   "The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart.",
   "Facility coordinates are as published by EPA ECHO and may be approximate.",
   "Only regulator-grade state monitors are used; many neighborhoods have none."
