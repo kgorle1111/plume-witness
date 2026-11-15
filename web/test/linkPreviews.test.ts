@@ -52,7 +52,7 @@ test('the description reads the night in plain words: monitor, compound, value a
   assert.deepEqual(describe(n), {
     title: '1,3-butadiene spike at Houston Milby Park, Jan 4, 2024',
     description: 'The Houston Milby Park air monitor read 10.75 ppb of 1,3-butadiene at 17:00 CST on Jan 4, 2024, '
-      + 'about 154× its usual level of 0.07 ppb. State record check: Search incomplete.',
+      + 'about 154× its usual level of 0.07 ppb. State record check: Can’t say.',
   })
   const q = describe({ ...n, status: 'no_report_after_deadline', baseline: 0 }).description
   assert.match(q, /its usual level was 0 ppb\. State record check: No matching report \(a question\)\.$/)

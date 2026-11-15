@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { STATUS_FILL as FILL, hourLabel, statusLabel } from './format'
 import { compoundLabel } from './region'
-import { reasonKey, spikeKey, type SpikeRow } from './spikes'
+import { reasonInLabel, reasonKey, rowStatusLabel, spikeKey, type SpikeRow } from './spikes'
 import { T } from './LangSwitch'
 import { useLang, useT } from './useT'
 import { dateLabel, monthShort, translate, type Lang } from './i18n'
@@ -44,15 +44,17 @@ interface Props {
 }
 interface Tip { cell: Cell; x: number; y: number }
 
-/** Why a row's check stopped short, in the reader's language; an uncoded pipeline sentence stays English. */
+/** Why a row's check stopped short, in the reader's language; an uncoded pipeline sentence stays English. Empty when
+ *  the status label already names the cause ("Can’t say: wind too light"). */
 const reasonText = (r: SpikeRow, lang: Lang): string => {
+  if (reasonInLabel(r)) return ''
   const k = reasonKey(r)
   return k ? translate(lang, k) : r.reason ?? ''
 }
 const cellText = (c: Cell, lang: Lang) =>
   c.rows.map((r) => {
     const why = reasonText(r, lang)
-    return `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}${why ? ` – ${why}` : ''}`
+    return `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${rowStatusLabel(r, lang)}${why ? ` – ${why}` : ''}`
   }).join('; ')
 
 /** Centre of a day as a percentage of its year strip. */
@@ -198,7 +200,7 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
           {tip.cell.rows.map((r) => (
             <span className="sl-cal-tip-row" key={r.param}>
               {compoundLabel(lang, r.compound)}: {r.value_ppb} ppb ({r.ratio === null ? '—' : `${r.ratio}×`}) · {hourLabel(r.hour_cst)}
-              <span className={`sl-status sl-status-${r.status}`} lang={lang}>{statusLabel(r.status, lang)}</span>
+              <span className={`sl-status sl-status-${r.status}`} lang={lang}>{rowStatusLabel(r, lang)}</span>
               {reasonText(r, lang) && <span className="sl-reason" lang={reasonKey(r) ? undefined : 'en'}>{reasonText(r, lang)}</span>}
             </span>
           ))}

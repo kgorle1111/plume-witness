@@ -4,6 +4,7 @@ import { compass, countyList, distanceText, hourLabel, hourShort, maxFracDigits,
 import { Num, Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote, noteUrl } from './note'
+import { noteShareUrl } from './shareLink'
 import { facilityHref } from './facilities'
 import { arrivalTick, calmMph, checkNoteText, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
 import { savePacketReview, useAiDraftFailed, type Lang, type PacketReview, type Source } from './packet'
@@ -667,7 +668,8 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   const copyNote = async () => {
-    const text = incidentNote(ev, replayUrl, lang)
+    // A forwarded note unfurls as this night's preview page (title, reading, status), which opens the replay on Check.
+    const text = incidentNote(ev, noteShareUrl(import.meta.env.BASE_URL, location.href) ?? replayUrl, lang)
     try {
       await navigator.clipboard.writeText(text)
       setNoteFallback(null)

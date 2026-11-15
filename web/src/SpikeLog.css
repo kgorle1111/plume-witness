@@ -6,9 +6,9 @@
   gap: 16px;
   /* minmax(0, 1fr): a long unbreakable label (an open explainer in Spanish) cannot widen the page past the screen. */
   grid-template-columns: minmax(0, 1fr);
-  max-width: 1180px;
+  max-width: var(--page-wide);
   margin: 0 auto;
-  padding: 12px 16px 32px;
+  padding: 12px var(--gutter) 32px;
   min-width: 0;
 }
 /* Holds the footer below the fold while spikes.json loads, so it does not jump when the log arrives. */
@@ -85,7 +85,8 @@
 .sl-table th, .sl-table td { padding: 8px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
 .sl-table thead th { position: sticky; top: 0; background: var(--bg); font-size: 0.8rem; white-space: nowrap; color: var(--ink-2); vertical-align: bottom; }
 .sl-table tbody th { font-weight: 600; }
-.sl-table tbody tr:nth-child(even) { background: #fafafb; }
+/* A tint of the ink, not a fixed near-white: on the off-white paper #fafafb striped lighter than the page. */
+.sl-table tbody tr:nth-child(even) { background: rgb(20 41 46 / 0.03); }
 .sl-table .num { text-align: right; }
 .sl-sort {
   display: inline-flex;
@@ -105,25 +106,13 @@
 .sl-sort-mark { font-size: 0.75rem; }
 
 .sl-status-cell { display: grid; gap: 2px; justify-items: start; }
-.sl-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 1px 8px;
-  border-radius: 999px;
-  border: 1px solid currentColor;
-  font-weight: 600;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-.sl-status-reported { color: #14532d; background: #e7f6ec; }
-.sl-status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
-.sl-status-reported_late { color: #1f4f53; background: #e3f1f2; }
-.sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
-.sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
-.sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
-.sl-status-reported_nrc { color: #164a83; background: #e6f0fa; }
+/* The pill itself is index.css's one status pill (S100); in a table cell it keeps to one line. */
+.sl-status { white-space: nowrap; }
 .sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 34ch; }
+/* "Can’t say: <cause>" carries its reason in the chip, so the chip may wrap; the cell's floor keeps it to two lines
+   when the table is squeezed (auto layout would otherwise shrink it to one word per line). */
+.sl-status-cell { min-width: 13rem; }
+.sl-status-cell .sl-status { white-space: normal; }
 .sl-report { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8rem; }
 /* Stand-alone links in the rows get a 44px-tall hit area on every pointer, not only touch (project bar). */
 .sl-replay { display: inline-flex; align-items: center; min-height: 44px; }

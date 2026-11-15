@@ -36,7 +36,7 @@ const STATUS_WORDS: Record<string, string> = {
   not_yet_reported: 'Not yet reported',
   no_report_after_deadline: 'No matching report (a question)',
   reported_mismatch: "Reported, but doesn't match",
-  search_incomplete: 'Search incomplete',
+  search_incomplete: 'Can’t say',
   reported_nrc: 'Reported to NRC',
 }
 export const statusWords = (s: string): string =>
@@ -107,7 +107,7 @@ export function stubHtml(n: StubNight): string {
 </head>
 <body>
 <p>${e(description)}</p>
-<p><a id="go" href="${href}">Open this night in Plume Witness</a></p>
+<p><a id="go" href="${href}">Open this spike in Plume Witness</a></p>
 <script>
 var u = new URL(document.getElementById('go').href)
 if (/^#(${STUB_STEPS.join('|')})$/.test(location.hash)) u.hash = location.hash

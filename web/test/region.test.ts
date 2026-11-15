@@ -77,9 +77,9 @@ test('Houston and Beaumont labels are the place name only, in both languages', (
   assert.equal(REGIONS.houston.place, 'Houston Ship Channel')
   assert.equal(REGIONS.beaumont.place, 'Beaumont-Port Arthur')
   assert.equal(translate('en', 'shell.houstonOnly', { region: REGIONS.beaumont.name.en }),
-    'This page covers the Houston Ship Channel only. Beaumont-Port Arthur has its own spike log and night replays.')
+    'This page covers the Houston Ship Channel only. Beaumont-Port Arthur has its own spike log and replays.')
   assert.equal(translate('es', 'shell.houstonOnly', { region: REGIONS.beaumont.name.es }),
-    'Esta página cubre solo el Canal de Navegación de Houston. Beaumont-Port Arthur tiene su propio registro de picos y repeticiones de noches.')
+    'Esta página cubre solo el Canal de Navegación de Houston. Beaumont-Port Arthur tiene su propio registro de picos y sus recorridos.')
 })
 
 // Test-only extra region (Victoria County has no AutoGC monitor): nothing in src names it, so it routes and labels only through the registry.
