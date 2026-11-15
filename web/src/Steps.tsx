@@ -169,6 +169,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
+  const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
   // One tab stop for the whole list (roving tabindex): 40 facilities were 40 Tab presses before "Next".
   const [current, setCurrent] = useState(0)
   const items = useRef<(HTMLLIElement | null)[]>([])
@@ -188,6 +189,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
           : <>No wind reading for {hourLabel(ev.detection.hour_cst)}. Facilities are listed nearest first.</>}
       </p>
       <p className="caveat"><InfoIcon />Wind direction alone can't tell these apart.</p>
+      <TriangulationNote ev={ev} />
       <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
       <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
       <p className="muted small">Hover or focus a facility to show its name on the map; with a keyboard, Tab into the list and use the arrow keys. On the map, tap or point at a dot.</p>
@@ -207,6 +209,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
             >
               <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)}>{f.name}</a>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
+              {narrowed.has(f.id) && <span className="tri-tag">In every monitor's wedge</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
               <span className="fl-align">
                 <span className="align-label">Wind alignment {f.alignment}</span>
@@ -225,6 +228,28 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
       )}
     </>
   )
+}
+
+/** One line on whether a second triggering monitor narrows the corridor. Informational; names no facility. */
+function TriangulationNote({ ev }: { ev: PlumeEvent }) {
+  const t = ev.triangulation
+  if (!t || t.verdict === 'not_traced') return null
+  const names = t.monitors.map((m) => m.name)
+  const all = names.length === 2 ? 'both monitors' : `all ${names.length} monitors`
+  if (t.verdict === 'single') return <p className="muted small">Only one monitor triggered, so there is no second wedge to narrow this list.</p>
+  if (t.verdict === 'single_wind') {
+    return <p className="muted small">{t.monitors_triggered} monitors triggered, but {t.verdict_text}, so their wedges can't be intersected.</p>
+  }
+  const counts = `${t.intersection_count} of the ${t.single_wedge_count} facilities sit inside every monitor's upwind wedge`
+  if (t.verdict === 'narrows') {
+    return (
+      <p className="tri-note">
+        {names.join(' and ')} triggered. The air at {all} could have come from this smaller area: {counts} (ringed on
+        the map and tagged below). {t.caveat}
+      </p>
+    )
+  }
+  return <p className="muted small">{names.join(' and ')} triggered; {counts}: {t.verdict_text}.</p>
 }
 
 export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {

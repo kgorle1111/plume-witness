@@ -13,7 +13,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from pipeline import backtest, build, regions
+from pipeline import backtest, build, regions, triangulate
 from pipeline.contract import validate
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -80,6 +80,12 @@ def generate(raw: Path | None = None, region: regions.Region = regions.HOUSTON) 
             continue
         prov = provenance_for(sp, t["wind"]["site_id"], ctx["rows_by_day"], ctx["prov"], raw.name)
         ev = build.assemble_event(t, sp["monitors"], sp["det_day"], sp["param"], nid, prov, labeled)
+        ev["triangulation"] = triangulate.triangulate(t, sp["monitors"])
+        extra = triangulate.wind_files(ev["triangulation"], sp["day"][-4:], t["wind"]["site_id"])
+        missing = [f for f in extra if f"{raw.name}/{f}" not in ctx["prov"]]
+        if missing:
+            raise ValueError(f"{nid}: no provenance entry for triangulation wind {missing}")
+        ev["provenance"] += [ctx["prov"][f"{raw.name}/{f}"] for f in extra]
         errs = validate(ev)
         if errs:
             raise ValueError(f"{nid} failed the contract:\n- " + "\n- ".join(errs))

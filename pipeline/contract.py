@@ -69,4 +69,32 @@ def validate(ev: dict[str, Any]) -> list[str]:
             errors.append("record_check: a real event must list day_incidents (empty list if none)")
     if ev["label"] == "real" and not ev["provenance"]:
         errors.append("a real event needs provenance")
+    if "triangulation" in ev:
+        errors += _triangulation(ev["triangulation"], {f["id"] for f in ev["facilities"]}, banned)
+    return errors
+
+
+TRI_VERDICTS = ("narrows", "aligned", "no_narrowing", "no_overlap", "single", "single_wind", "not_traced")
+
+
+def _triangulation(tr: dict, facility_ids: set[str], banned: tuple[str, ...]) -> list[str]:
+    """Optional block (pipeline/triangulate.py): informational, so it may only point at facilities already listed."""
+    errors: list[str] = []
+    _need(tr, ("monitors", "excluded", "single_wedge_count", "intersection_count", "intersection_ids",
+               "separation_deg", "verdict", "verdict_text", "half_width_deg", "max_km"), "triangulation", errors)
+    if errors:
+        return errors
+    if tr["verdict"] not in TRI_VERDICTS:
+        errors.append(f"triangulation.verdict must be one of {TRI_VERDICTS}")
+    for i, m in enumerate(tr["monitors"]):
+        _need(m, ("site_id", "name", "lat", "lon", "wind_from_deg"), f"triangulation.monitors[{i}]", errors)
+    ids = tr["intersection_ids"]
+    if not set(ids) <= facility_ids:
+        errors.append("triangulation.intersection_ids must all be facilities listed in the event")
+    if tr["intersection_count"] is not None and tr["intersection_count"] != len(ids):
+        errors.append("triangulation.intersection_count must equal len(intersection_ids)")
+    if tr["intersection_count"] is None and ids:
+        errors.append("triangulation: intersection_ids without an intersection_count")
+    text = f"{tr['verdict_text']} {tr.get('caveat') or ''}".lower()
+    errors += [f"banned word in triangulation text: '{w}'" for w in banned if w in text]
     return errors
