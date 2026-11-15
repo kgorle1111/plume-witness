@@ -36,6 +36,9 @@ const C = {
   corridorFill: [190, 30, 45, 22] as RGBA,
   corridorLine: [190, 30, 45, 140] as RGBA,
   corridorText: [140, 20, 30, 255] as RGBA,
+  // Violet: the triangulation overlay (other monitors' wedges, facilities inside every wedge).
+  triLine: [109, 40, 217, 200] as RGBA,
+  triFill: [109, 40, 217, 14] as RGBA,
 }
 
 const CORRIDOR_LABEL = 'Upwind corridor (wind direction only)'
@@ -151,6 +154,12 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const wedges = cor && origin ? arcs.map(([a, b]) => ({ ring: sectorRing(origin.lat, origin.lon, a, b, cor.max_km) })) : []
     const widest = arcs.reduce<[number, number] | null>((w, a) => (!w || a[1] - a[0] > w[1] - w[0] ? a : w), null)
     const corridorLabelAt = cor && origin && widest ? destination(origin.lat, origin.lon, (widest[0] + widest[1]) / 2, cor.max_km * 0.85) : null
+    // Triangulation (informational): drawn only when the pipeline says intersecting the wedges narrows the list.
+    const tri = ev.triangulation?.verdict === 'narrows' ? ev.triangulation : null
+    const triWedges = tri
+      ? tri.monitors.slice(1).flatMap((m) => mergeArcs(m.wind_from_deg, tri.half_width_deg).map(([a, b]) => ({ ring: sectorRing(m.lat, m.lon, a, b, tri.max_km) })))
+      : []
+    const triIds = new Set(tri ? tri.intersection_ids : [])
 
     const map = new MlMap({
       container: el,
@@ -262,6 +271,31 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           stroked: true,
           getLineColor: C.corridorLine,
           getLineWidth: 1.5,
+          lineWidthUnits: 'pixels',
+        }),
+      triWedges.length > 0 &&
+        new PolygonLayer<{ ring: [number, number][] }>({
+          id: 'tri-wedges',
+          data: triWedges,
+          getPolygon: (d) => d.ring,
+          filled: true,
+          getFillColor: C.triFill,
+          stroked: true,
+          getLineColor: C.triLine,
+          getLineWidth: 1.5,
+          lineWidthUnits: 'pixels',
+        }),
+      triIds.size > 0 &&
+        new ScatterplotLayer<Facility>({
+          id: 'tri-rings',
+          data: ev.facilities.filter((f) => triIds.has(f.id)),
+          getPosition: (f) => [f.lon, f.lat],
+          getRadius: 13,
+          radiusUnits: 'pixels',
+          filled: false,
+          stroked: true,
+          getLineColor: C.triLine,
+          getLineWidth: 2.5,
           lineWidthUnits: 'pixels',
         }),
       upwindFor(hourRef.current) &&
@@ -609,6 +643,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
         <li><span className="lg lg-line" /> Wind this hour</li>
         {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
+        {ev.triangulation?.verdict === 'narrows' && <li><span className="lg lg-tri" /> Other triggering monitor's upwind wedge</li>}
+        {ev.triangulation?.verdict === 'narrows' && <li><span className="lg lg-ring" /> Inside every monitor's wedge</li>}
         {placeShown && <li><span className="lg lg-place" /> Searched place</li>}
       </ul>
     </>

@@ -88,6 +88,23 @@ export interface Corridor {
   wind_from_deg: number[]
 }
 
+/** Optional, informational (pipeline/triangulate.py): other triggering monitors' wedges intersected with the
+ *  corridor. Never changes the record check or the corridor list. */
+export interface Triangulation {
+  half_width_deg: number
+  max_km: number
+  monitors_triggered: number
+  monitors: { site_id: string; name: string; lat: number; lon: number; role: string; wind_from_deg: number[] }[]
+  excluded: { site_id: string; name: string; reason: string }[]
+  single_wedge_count: number
+  intersection_count: number | null
+  intersection_ids: string[]
+  separation_deg: number | null
+  verdict: 'narrows' | 'aligned' | 'no_narrowing' | 'no_overlap' | 'single' | 'single_wind' | 'not_traced'
+  verdict_text: string
+  caveat: string | null
+}
+
 export interface PlumeEvent {
   schema: string
   label: 'real' | 'fixture'
@@ -108,6 +125,7 @@ export interface PlumeEvent {
     guard: { passed: boolean; rejected: string[] }
   }
   corridor?: Corridor
+  triangulation?: Triangulation
   /** Present only on a night from a region other than Houston (pipeline/regions.py). */
   region?: { key: string; label: string; backtested: boolean; note: string | null }
   cannot_say: string[]
