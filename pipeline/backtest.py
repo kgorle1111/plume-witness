@@ -28,6 +28,9 @@ BT = ROOT / "data" / "raw" / "backtest"
 OUT = ROOT / "data" / "build" / "backtest.json"
 DOCS = ROOT / "docs" / "backtest.md"
 CANDIDATE_RADIUS_KM = 15.0
+# kn: hours around the reported start (CST) in which a trigger hit counts as "near the release". Start day only, so a
+# release after ~18:00 whose plume arrives after midnight is missed; extend to the next day if that matters.
+NEAR_START_H = (-1, 6)
 YEARS = ("2024", "2025")
 
 # Ship Channel AutoGC sites; coordinates are the TAMIS site records saved in data/raw/backtest/tamis_*.html.
@@ -230,6 +233,17 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
     return rows
 
 
+def trigger_hours(monitors: list[dict]) -> list[int]:
+    """Every CST hour of the day at which any monitor meets the unchanged trigger rule."""
+    return sorted({h for m in monitors for h in range(24) if m["hourly"][h]["value"] is not None
+                   and m["hourly"][h]["value"] >= max(build.TRIGGER_RATIO * m["baseline"], build.TRIGGER_FLOOR_PPB)})
+
+
+def start_hour_cst(began_local: str) -> int:
+    t = datetime.strptime(began_local, "%m/%d/%Y %I:%M %p")
+    return t.hour - build.steers_tz_offset_h(t.date())
+
+
 def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict],
                   incomplete_weeks: list[str], raw: Path = BT) -> dict:
     day, year, param = c["day"], c["day"][-4:], c["param"]
@@ -243,7 +257,10 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
             monitors += build.load_monitors(cfg, raw)
         except (FileNotFoundError, KeyError, ValueError) as e:
             dropped.append(f"{s}: {type(e).__name__}: {e}")
+    hits, start = trigger_hours(monitors), start_hour_cst(c["began_local"])
     out = {"monitors": [m["site_id"] for m in monitors], "monitors_dropped": dropped, "detected": False,
+           "trigger_hours_cst": hits, "start_hour_cst": start,
+           "spike_near_start": any(start + NEAR_START_H[0] <= h <= start + NEAR_START_H[1] for h in hits),
            "detection": None, "wind_site": None, "facility_in_corridor": None, "matched": False,
            "matched_other_incident": None, "record_status": None, "search_complete": None, "reason": None}
     if not monitors:
@@ -352,6 +369,8 @@ def run(raw: Path = BT) -> dict:
         "detected_said_no_report_but_geo_in_corridor": sum(
             1 for r in det if r["record_status"] == "no_report_after_deadline" and r.get("geo_in_corridor")),
         "detected_abstained_search_incomplete": sum(1 for r in det if r["record_status"] == "search_incomplete"),
+        "spike_near_start": sum(1 for r in results if r["spike_near_start"]),
+        "spike_near_start_and_matched": sum(1 for r in results if r["spike_near_start"] and r["matched"]),
     }
     return {"schema": "plume-witness.backtest/v1", "generated_by": "uv run python -m pipeline.backtest",
             "rules": {"candidate_radius_km": CANDIDATE_RADIUS_KM, "years": list(YEARS),
@@ -400,6 +419,13 @@ County, facility within {CANDIDATE_RADIUS_KM:g} km of a Ship Channel AutoGC moni
 | ...and the reporting facility inside the upwind corridor | {pct(c, d)} | detected |
 | ...and the pipeline matched that exact report | {pct(m, d)} | detected |
 | End to end: detected and matched | {pct(m, n)} | all candidates |
+| Monitor spike within {NEAR_START_H[0]:+d} h to +{NEAR_START_H[1]} h of the company's reported start | {pct(s["spike_near_start"], n)} | all candidates |
+
+"Detected" above means a trigger hit at any hour of the start day, and the pipeline takes the earliest one, which
+is often hours from the release. Requiring the hit near the reported start (CST, daylight saving removed) leaves
+{s["spike_near_start"]} of {n}; {s["spike_near_start_and_matched"]} of those {s["spike_near_start"]} matched.
+So the day-level count overstates how often a release reached a monitor, and the (b) cross-check below compares
+day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
 
 Of the {m} matches, {s["matched_on_complete_search"]} came from a day search the pipeline could call complete.
 On {s["detected_but_other_incident_matched"]} detected events the pipeline matched a different report filed that

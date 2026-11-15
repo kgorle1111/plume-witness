@@ -97,3 +97,22 @@ def test_spike_rows_carry_no_facility_names(result):
 def test_unsearched_day_is_never_complete(tmp_path):
     details, complete, _ = backtest.day_reports("06/21/2024", {}, [], tmp_path)
     assert details == {} and complete is False
+
+
+def test_start_hour_is_cst():
+    assert backtest.start_hour_cst("06/21/2024 09:38 AM") == 8
+    assert backtest.start_hour_cst("01/12/2025 05:36 PM") == 17
+
+
+def test_trigger_hours_uses_the_unchanged_rule():
+    flat = [{"value": 0.2} for _ in range(24)]
+    spike = [dict(v) for v in flat]
+    spike[9] = {"value": 51.75}
+    assert backtest.trigger_hours([{"baseline": 0.21, "hourly": spike}, {"baseline": 0.21, "hourly": flat}]) == [9]
+
+
+def test_near_start_is_a_subset_of_detected_and_holds_the_golden_row(result):
+    s, ev = result["summary"], result["events"]
+    assert all(r["detected"] for r in ev if r["spike_near_start"])
+    assert s["spike_near_start_and_matched"] <= s["spike_near_start"] <= s["detected"]
+    assert _row(result, "425347")["spike_near_start"] is True
