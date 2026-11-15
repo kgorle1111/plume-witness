@@ -691,8 +691,11 @@ const EN = {
   'det.timeNoteNoReport': 'Monitor hours are CST as TCEQ (the Texas Commission on Environmental Quality) publishes them. TCEQ labels data from its automated gas chromatographs (AutoGC) provisional and subject to change.',
   // record_check.search_scope, sentence by sentence as pipeline/build.py and backtest.py write it (reportWindow.ts searchScopeText).
   // The English must stay identical to the pipeline's; the One variants differ only in Spanish (singular).
-  'scope.day': 'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting {date} in {county} County ({n} found; search {state}).',
-  'scope.dayOne': 'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting {date} in {county} County ({n} found; search {state}).',
+  'scope.day': 'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting {date} in {place} ({n} found; search {state}).',
+  'scope.dayOne': 'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting {date} in {place} ({n} found; search {state}).',
+  // {place} in scope.day: pipeline/build.py county_en / county_es.
+  'scope.countyOne': '{county} County',
+  'scope.countyMany': '{rest} and {last} counties',
   'scope.earlier': 'Also searched reports that started in the {days} days before and were still running ({n} open that day; earlier search {state}).',
   'scope.earlierOne': 'Also searched reports that started in the {days} days before and were still running ({n} open that day; earlier search {state}).',
   'scope.midnight': 'The match window runs past midnight, so reports that started {date} by {time} local were also searched ({n} found; search {state}).',
@@ -1441,8 +1444,10 @@ const ES: Record<StringKey, string> = {
   'chk.resAmbiguous': 'sin resolver: ambiguo, {n} sitios de ECHO en la dirección',
   'det.timeNote': 'Las horas del monitor están en CST, como las publica la TCEQ (Comisión de Calidad Ambiental de Texas); el reporte de la empresa usa la hora local ({tz}). La TCEQ marca como provisionales y sujetos a cambio los datos de sus cromatógrafos de gases automáticos (AutoGC).',
   'det.timeNoteNoReport': 'Las horas del monitor están en CST, como las publica la TCEQ (Comisión de Calidad Ambiental de Texas). La TCEQ marca como provisionales y sujetos a cambio los datos de sus cromatógrafos de gases automáticos (AutoGC).',
-  'scope.day': 'Se revisaron todos los eventos de emisiones de STEERS (el sistema estatal de reportes de eventos de emisiones) que empezaron el {date} en el condado de {county} ({n} encontrados; búsqueda {state}).',
-  'scope.dayOne': 'Se revisaron todos los eventos de emisiones de STEERS (el sistema estatal de reportes de eventos de emisiones) que empezaron el {date} en el condado de {county} ({n} encontrado; búsqueda {state}).',
+  'scope.day': 'Se revisaron todos los eventos de emisiones de STEERS (el sistema estatal de reportes de eventos de emisiones) que empezaron el {date} en {place} ({n} encontrados; búsqueda {state}).',
+  'scope.dayOne': 'Se revisaron todos los eventos de emisiones de STEERS (el sistema estatal de reportes de eventos de emisiones) que empezaron el {date} en {place} ({n} encontrado; búsqueda {state}).',
+  'scope.countyOne': 'el condado de {county}',
+  'scope.countyMany': 'los condados de {rest} y {last}',
   'scope.earlier': 'También se revisaron los reportes que empezaron en los {days} días anteriores y seguían en curso ({n} abiertos ese día; búsqueda anterior {state}).',
   'scope.earlierOne': 'También se revisaron los reportes que empezaron en los {days} días anteriores y seguían en curso ({n} abierto ese día; búsqueda anterior {state}).',
   'scope.midnight': 'La ventana de coincidencia pasa de la medianoche, así que también se revisaron los reportes que empezaron el {date} hasta las {time}, hora local ({n} encontrados; búsqueda {state}).',

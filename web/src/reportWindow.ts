@@ -152,7 +152,9 @@ export function calmMph(rc: RecordCheck): number | null {
 // record_check.search_scope is a run of fixed sentences (pipeline/build.py, backtest.py). Each must match one known form
 // exactly (anchored patterns); if any sentence is unknown the whole paragraph stays as published (marked English)
 // rather than half-translated.
-const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (.+) County \((\d+) found; search (complete|incomplete)\)\.$/
+// The county phrase is pipeline/build.py county_en: "Harris County", or "Ector and Midland counties" / "Bexar, Comal and
+// Wilson counties" for a region searched in several.
+const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (?:([^,()]+) County|((?:[^,()]+, )*[^,()]+) and ([^,()]+) counties) \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_EARLIER = /^Also searched reports that started in the (\d+) days before and were still running \((\d+) open that day; earlier search (complete|incomplete)\)\.$/
 const SCOPE_MIDNIGHT = /^The match window runs past midnight, so reports that started (\d{2})\/(\d{2})\/(\d{4}) by (\d{2}:\d{2}) local were also searched \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_CALM = /^Wind too light to trace \(([\d.]+) mph\): no corridor drawn, so the search is incomplete\.$/
@@ -170,8 +172,9 @@ function scopeSentence(s: string, lang: Lang): string | null {
   if (fixed) return translate(lang, fixed)
   let m = SCOPE_DAY.exec(s)
   if (m) {
-    const key = m[5] === '1' ? 'scope.dayOne' : 'scope.day'
-    return translate(lang, key, { date: dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), county: m[4], n: m[5], state: state(m[6]) })
+    const key = m[7] === '1' ? 'scope.dayOne' : 'scope.day'
+    const place = m[4] ? translate(lang, 'scope.countyOne', { county: m[4] }) : translate(lang, 'scope.countyMany', { rest: m[5], last: m[6] })
+    return translate(lang, key, { date: dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), place, n: m[7], state: state(m[8]) })
   }
   m = SCOPE_EARLIER.exec(s)
   if (m) {
