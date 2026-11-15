@@ -6,6 +6,7 @@ import { Check, Detect, Packet, Trace } from './Steps'
 import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from './packet'
 import { cannotSayEs } from './format'
 import type { Place } from './PlaceSearch'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
@@ -236,7 +237,9 @@ function NightPicker({ current }: { current: string | null }) {
   }, [region.dir])
   if (!rows.length) return null
   const go = (id: string) => {
-    window.location.search = id ? regionQuery(region, { night: id }) : ''
+    // With the atlas landing page, an empty query would open the landing page, so "back to the demo" goes to the replay.
+    if (id) window.location.search = regionQuery(region, { night: id })
+    else window.location.assign(DEMO_REPLAY_HREF)
   }
   return (
     <label className="night-picker">
@@ -272,7 +275,7 @@ export default function App() {
   }, [night, invalid])
 
   const shown = invalid ? `"${night}" is not a night id.` : error
-  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={import.meta.env.BASE_URL}>Back to the demo night</a></p></main>
+  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={DEMO_REPLAY_HREF}>Back to the demo night</a></p></main>
   if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
   if (isEmbed(window.location.search)) return <EmbedReplay ev={ev} />
   return <Replay ev={ev} picker={<NightPicker current={night} />} />

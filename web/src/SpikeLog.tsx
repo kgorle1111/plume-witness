@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo } from './format'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import { NO_FILTER, dateText, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
@@ -152,7 +153,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const set = (k: keyof Filters) => (v: string) => setFilters((f) => ({ ...f, [k]: v }))
   const filtered = Object.values(filters).some(Boolean)
 
-  const back = <a className="sl-back" href={import.meta.env.BASE_URL}>← Back to the event replay</a>
+  const back = <a className="sl-back" href={DEMO_REPLAY_HREF}>← Back to the event replay</a>
   if (error) return <main className="sl-page state-msg" role="alert"><h1>Past spikes</h1><p>{error}</p>{back}</main>
   if (!data) return <main className="sl-page state-msg"><p>Loading the spike log…</p></main>
 
