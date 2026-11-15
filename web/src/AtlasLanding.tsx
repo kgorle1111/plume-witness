@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, type MouseEventHandler } from 'react'
+import { Component, lazy, Suspense, useEffect, useState, type MouseEventHandler, type ReactNode } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { LANDING_METRICS as M } from './landingMetrics'
 import { SiteHeader } from './SiteHeader'
@@ -8,6 +8,21 @@ import './AtlasLanding.css'
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
 const BASE = import.meta.env.BASE_URL
 
+/** A globe chunk that fails to load (venue Wi-Fi) leaves an empty disc, not a blank page: the text and the button stay. */
+class GlobeBoundary extends Component<{ onFail: () => void; children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch(error: unknown) {
+    console.error('Landing globe failed to load', error)
+    this.props.onFail()
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
 export function AtlasLanding({ leaving, onEnter, onExit }: {
   leaving: boolean
   onEnter: MouseEventHandler<HTMLAnchorElement>
@@ -16,6 +31,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
   // The replay renames the tab after its night; coming back with the browser's Back button resets it.
   useEffect(() => { document.title = 'Plume Witness' }, [])
   const [paused, setPaused] = useState(false)
+  const [globeFailed, setGlobeFailed] = useState(false)
   const t = useT()
   return (
     <main
@@ -28,21 +44,34 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
         <p className="atlas-sub">{t('landing.sub')}</p>
-        <div className="atlas-plate" aria-hidden="true">
-          <div className="atlas-grid" />
-          <svg className="atlas-survey" viewBox="0 0 650 462" fill="none">
+        <div className="atlas-plate">
+          <div className="atlas-grid" aria-hidden="true" />
+          <svg className="atlas-survey" viewBox="0 0 650 462" fill="none" aria-hidden="true">
             <circle cx="325" cy="231" r="218" strokeDasharray="1 5" />
             <circle cx="325" cy="231" r="208" />
             <path className="atlas-survey-accent" d="M142 131a208 208 0 0 1 72-76M508 331a208 208 0 0 1-72 76" />
             <path d="M325 0v29m0 404v29M94 231h29m404 0h29M168 74l13 13m288 288 13 13m0-314-13 13M181 375l-13 13" />
             <path d="M0 231h86m478 0h86" strokeDasharray="3 5" />
           </svg>
-          <div className="atlas-planet"><Suspense><AtlasGlobe paused={paused} /></Suspense></div>
+          <div className="atlas-planet">
+            <GlobeBoundary onFail={() => setGlobeFailed(true)}><Suspense><AtlasGlobe paused={paused} /></Suspense></GlobeBoundary>
+            {/* A small toggle on the globe, so it never looks like the page's main action; hidden by CSS when reduced motion
+                already holds the globe still, and gone when the globe could not load. */}
+            {!globeFailed && (
+              <button
+                type="button"
+                className="atlas-pause"
+                aria-label={paused ? t('landing.spin') : t('landing.pause')}
+                title={paused ? t('landing.spin') : t('landing.pause')}
+                onClick={() => setPaused((p) => !p)}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  {paused ? <path d="M4.5 2.5v11l9-5.5z" fill="currentColor" /> : <path d="M4 2.5h2.6v11H4zm5.4 0H12v11H9.4z" fill="currentColor" />}
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
-        {/* Outside the aria-hidden plate so it stays reachable; hidden by CSS when reduced motion already stops the spin. */}
-        <button type="button" className="atlas-pause" onClick={() => setPaused((p) => !p)}>
-          {paused ? t('landing.spin') : t('landing.pause')}
-        </button>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
           {t('landing.enter')}
@@ -55,13 +84,16 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
           <li><b>{M.years}</b> {t('landing.m.years')}</li>
           <li className="atlas-own-line"><b>{M.noReport}</b> {t('landing.m.questions')} <span className="atlas-m-sub">({t('landing.m.questionsSub')})</span></li>
-          <li className="atlas-audit"><b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b> {t('landing.m.audit')}</li>
+          <li className="atlas-audit">
+            {t('landing.m.auditLead')} <b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b>{' '}
+            {t('landing.m.audit', { upper: M.auditUpperPct, u: M.auditUnclear, n: M.auditNights })}
+          </li>
         </ul>
         <nav className="atlas-links" aria-label={t('landing.more')}>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
-          <a href={`${BASE}?view=timeline`}>{t('landing.timeline')}</a>
+          <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
           <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
-          <a href={`${BASE}?view=brief`}>{t('landing.brief')}</a>
+          <a href={`${BASE}?view=brief`}>{t('app.linkBrief')}</a>
         </nav>
       </section>
     </main>

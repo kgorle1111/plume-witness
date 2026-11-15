@@ -123,3 +123,15 @@ export function numberedDots(dots: { id: string; x: number; y: number; r: number
   }
   return out
 }
+
+/** Dots within `radius` px of a tap, nearest first. A phone tap over a crowded cluster lists these to choose from
+ *  instead of guessing the nearest (at 320px about 40 of 47 corridor dots fall in a ~200x90px area). */
+export function dotsNear<T extends { id: string; x: number; y: number }>(dots: T[], x: number, y: number, radius: number): T[] {
+  const seen = new Set<string>()
+  return dots
+    .map((d) => ({ d, dist: Math.hypot(d.x - x, d.y - y) }))
+    .filter(({ dist }) => dist <= radius)
+    .sort((a, b) => a.dist - b.dist)
+    .filter(({ d }) => !seen.has(d.id) && seen.add(d.id))
+    .map(({ d }) => d)
+}

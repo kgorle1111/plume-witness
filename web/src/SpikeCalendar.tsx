@@ -1,5 +1,6 @@
-import { memo, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react'
-import { STATUS_FILL as FILL, hourLabel, statusInfo, statusLabel } from './format'
+import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
+import { STATUS_FILL as FILL, hourLabel, statusLabel } from './format'
+import { compoundLabel } from './region'
 import { spikeKey, type SpikeRow } from './spikes'
 import { T } from './LangSwitch'
 import { useLang, useT } from './useT'
@@ -18,7 +19,12 @@ const SHAPE: Record<string, [number, number][]> = {
 }
 const shapeOf = (s: string) => SHAPE[s] ?? SHAPE.reported
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-const MARK_PX = 4
+// A mark's hit area reaches halfway to each neighbour, at most this far from its centre: neighbouring hit areas
+// abut instead of overlapping, so the point under a mark's centre always belongs to that mark.
+const HIT_HALF_PX = 5
+// The tooltip touches the mark's hit area, so the pointer can move onto it (1.4.13); hiding waits this long anyway,
+// so a diagonal move that clips a corner does not drop it.
+const HIDE_MS = 150
 
 function dayOfYear(iso: string): number {
   const [y, m, d] = iso.split('-').map(Number)
@@ -37,16 +43,22 @@ interface Props {
 interface Tip { cell: Cell; x: number; y: number }
 
 const cellText = (c: Cell, lang: Lang) =>
-  c.rows.map((r) => `${r.compound} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusInfo(r.status)[lang]}`).join('; ')
+  c.rows.map((r) => `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}`).join('; ')
 
-interface MarkProps { cell: Cell; n: number; tab: boolean; label: string; onShow: (c: Cell, el: HTMLElement) => void; onHide: () => void; onActivate: (c: Cell, e: React.MouseEvent) => void; onKey: (e: KeyboardEvent<HTMLElement>) => void; onFocusMark: (c: Cell) => void }
+/** Centre of a day as a percentage of its year strip. */
+const centre = (c: Cell, n: number) => ((dayOfYear(c.top.date) + 0.5) / n) * 100
+
+interface MarkProps { cell: Cell; at: number; hl: number; hr: number; tab: boolean; label: string; onShow: (c: Cell, el: HTMLElement) => void; onLeave: () => void; onHide: () => void; onActivate: (c: Cell, e: React.MouseEvent) => void; onKey: (e: KeyboardEvent<HTMLElement>) => void; onFocusMark: (c: Cell) => void }
 
 // memo: hover moves the tooltip on every mark change, and 415 marks should not re-render with it.
-const Mark = memo(function Mark({ cell, n, tab, label, onShow, onHide, onActivate, onKey, onFocusMark }: MarkProps) {
+// Positions are in cqw (1% of the strip, a size container), so the drawn 4 px mark can sit inside a hit area whose
+// sides are percentages of the strip, not of the button.
+const Mark = memo(function Mark({ cell, at, hl, hr, tab, label, onShow, onLeave, onHide, onActivate, onKey, onFocusMark }: MarkProps) {
+  const style = { '--hl': `min(${hl}cqw, ${HIT_HALF_PX}px)`, '--hr': `min(${hr}cqw, ${HIT_HALF_PX}px)`, left: `calc(${at}cqw - var(--hl))` } as CSSProperties
   return (
     <button type="button" className="sl-cal-mark" data-cell={cell.key} tabIndex={tab ? 0 : -1} aria-label={label}
-      style={{ left: `calc(${((dayOfYear(cell.top.date) + 0.5) / n) * 100}% - ${MARK_PX / 2}px)` }}
-      onMouseEnter={(e) => onShow(cell, e.currentTarget)} onMouseLeave={onHide}
+      style={style}
+      onMouseEnter={(e) => onShow(cell, e.currentTarget)} onMouseLeave={onLeave}
       onFocus={(e) => { onFocusMark(cell); if (e.currentTarget.matches(':focus-visible')) onShow(cell, e.currentTarget) }}
       onBlur={onHide} onClick={(e) => onActivate(cell, e)} onKeyDown={onKey}>
       <svg viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false" fill={FILL[cell.top.status] ?? '#16161a'}>
@@ -56,13 +68,14 @@ const Mark = memo(function Mark({ cell, n, tab, label, onShow, onHide, onActivat
   )
 })
 
-/** Two years at a glance: one strip per monitor, one mark per day with a spike. Marks are 4 px buttons: hover or
- *  focus shows the reading, a click opens that night. Keyboard: the marks are one tab stop (roving tabindex, arrows
- *  move, Enter opens); the table below stays the full accessible version of the same rows. */
+/** Two years at a glance: one strip per monitor, one mark per day with a spike. Marks are drawn 4 px wide inside
+ *  buttons that reach halfway to each neighbour: hover or focus shows the reading, a click opens that night.
+ *  Keyboard: the marks are one tab stop (roving tabindex, arrows move, Enter opens); the list stays the full
+ *  accessible version of the same rows. */
 export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
   const lang = useLang()
   const t = useT()
-  const MONTHS = Array.from({ length: 12 }, (_, i) => monthShort(i, lang).slice(0, 1).toUpperCase())
+  const MONTHS = Array.from({ length: 12 }, (_, i) => monthShort(i, lang))
   const figRef = useRef<HTMLElement>(null)
   const [tip, setTip] = useState<Tip | null>(null)
   const [tabKey, setTabKey] = useState<string | null>(null)
@@ -88,13 +101,18 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
   const shown = new Set(rows.map((r) => r.status))
   const tabStop = tabKey && cells.has(tabKey) ? tabKey : order[0]
 
+  const hideTimer = useRef<number | undefined>(undefined)
+  const keep = useCallback(() => window.clearTimeout(hideTimer.current), [])
+  useEffect(() => keep, [keep])
   const onShow = useCallback((cell: Cell, el: HTMLElement) => {
+    keep()
     const fig = figRef.current
     if (!fig) return
-    const f = fig.getBoundingClientRect(), r = el.getBoundingClientRect()
+    const f = fig.getBoundingClientRect(), r = (el.querySelector('svg') ?? el).getBoundingClientRect()
     setTip({ cell, x: r.left - f.left + r.width / 2, y: r.bottom - f.top })
-  }, [])
-  const onHide = useCallback(() => setTip(null), [])
+  }, [keep])
+  const onHide = useCallback(() => { keep(); setTip(null) }, [keep])
+  const onLeave = useCallback(() => { keep(); hideTimer.current = window.setTimeout(() => setTip(null), HIDE_MS) }, [keep])
   const onFocusMark = useCallback((c: Cell) => setTabKey(c.key), [])
   const openCell = useCallback((c: Cell) => {
     const night = c.rows.find((r) => r.night_id)?.night_id
@@ -125,7 +143,8 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
   const label = (c: Cell) => `${dateLabel(c.top.date, lang)}, ${c.name}: ${cellText(c, lang)}. ${c.rows.some((r) => r.night_id) ? t('spikes.replayLink') : t('spikes.noReplay')}`
 
   return (
-    <figure className="sl-cal" ref={figRef} onPointerDown={(e) => { lastPointer.current = e.pointerType }}>
+    <figure className="sl-cal" ref={figRef} aria-labelledby="sl-cal-h" onPointerDown={(e) => { lastPointer.current = e.pointerType }}>
+      <h2 id="sl-cal-h" className="sr-only">{t('spikes.hCalendar')}</h2>
       <figcaption>
         <T k="cal.caption" />
       </figcaption>
@@ -146,10 +165,14 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
                 <div className="sl-cal-row" key={site}>
                   <span className="sl-cal-name">{name}</span>
                   <div className="sl-cal-strip">
-                    {order.filter((k) => k.startsWith(`${site}|${year}`)).map((k) => {
+                    {order.filter((k) => k.startsWith(`${site}|${year}`)).map((k, i, strip) => {
                       const c = cells.get(k)!
-                      return <Mark key={spikeKey(c.top)} cell={c} n={n} tab={k === tabStop} label={label(c)}
-                        onShow={onShow} onHide={onHide} onActivate={onActivate} onKey={onKey} onFocusMark={onFocusMark} />
+                      const at = centre(c, n)
+                      const prev = i > 0 ? centre(cells.get(strip[i - 1])!, n) : 0
+                      const next = i < strip.length - 1 ? centre(cells.get(strip[i + 1])!, n) : 100
+                      return <Mark key={spikeKey(c.top)} cell={c} at={at} hl={i > 0 ? (at - prev) / 2 : at} hr={i < strip.length - 1 ? (next - at) / 2 : next - at}
+                        tab={k === tabStop} label={label(c)}
+                        onShow={onShow} onLeave={onLeave} onHide={onHide} onActivate={onActivate} onKey={onKey} onFocusMark={onFocusMark} />
                     })}
                   </div>
                 </div>
@@ -159,13 +182,13 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
         })}
       </div>
       {tip && (
-        <div className="sl-cal-tip" role="presentation" aria-hidden="true"
-          style={{ left: `clamp(var(--tip-half), ${tip.x}px, calc(100% - var(--tip-half)))`, top: tip.y + 6 }}>
+        <div className="sl-cal-tip" role="presentation" aria-hidden="true" onMouseEnter={keep} onMouseLeave={onLeave}
+          style={{ left: `clamp(var(--tip-half), ${tip.x}px, calc(100% - var(--tip-half)))`, top: tip.y + 1 }}>
           <strong>{dateLabel(tip.cell.top.date, lang)}</strong> · {tip.cell.name}
           {tip.cell.rows.map((r) => (
             <span className="sl-cal-tip-row" key={r.param}>
-              {r.compound}: {r.value_ppb} ppb ({r.ratio === null ? '—' : `${r.ratio}×`}) · {hourLabel(r.hour_cst)}
-              <span className={`sl-status sl-status-${r.status}`} lang={lang}>{statusInfo(r.status)[lang]}</span>
+              {compoundLabel(lang, r.compound)}: {r.value_ppb} ppb ({r.ratio === null ? '—' : `${r.ratio}×`}) · {hourLabel(r.hour_cst)}
+              <span className={`sl-status sl-status-${r.status}`} lang={lang}>{statusLabel(r.status, lang)}</span>
             </span>
           ))}
           <span className="sl-cal-tip-hint">{tip.cell.rows.some((r) => r.night_id) ? t('cal.hint') : t('spikes.noReplay')}</span>
