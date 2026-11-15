@@ -179,6 +179,8 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
   .app .site-foot { flex-wrap: nowrap; align-items: center; padding: 0 var(--gutter); white-space: nowrap; }
   .app .site-foot > span { min-width: 0; white-space: normal; }
   .app .site-foot > a, .app .site-foot .site-about { flex: none; }
+  /* flex: none above beats .site-about[open]'s 100% basis, and the open note then ran 356px past 1280. */
+  .app .site-foot .site-about[open] { flex: 0 1 100%; min-width: 0; }
 }
 /* Mouse only: touch keeps the 44px targets above. */
 @media (min-width: 1024px) and (pointer: fine) {

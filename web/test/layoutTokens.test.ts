@@ -118,3 +118,10 @@ test('the timeline\'s fixed list cards are sized from the pill index.css draws',
   assert.match(index, /@media \(min-width: 1280px\) \{\s*\.status, \.sl-status \{ font-size: 1rem; \}/)
   assert.match(rain, new RegExp(`--rn-pill: calc\\(2 \\* 1rem \\* ${lh} \\+ ${chrome}px\\)`), '1280px pill height drifted from index.css')
 })
+
+test('the open "About this site" note takes a full row in the desktop replay footer instead of its one-line width', () => {
+  // The desktop footer sets flex: none on .site-about, which beats .site-about[open]'s 100% basis (page was 1636px at 1280).
+  const desk = index.slice(index.indexOf('/* Desktop replay: one short row'))
+  const block = desk.slice(0, desk.indexOf('\n}'))
+  assert.match(block, /\.app \.site-foot \.site-about\[open\] \{ flex: 0 1 100%; min-width: 0; \}/)
+})
