@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
+import { incidentNote } from './note'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -31,12 +32,12 @@ function InfoIcon() {
   )
 }
 
-export function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status, lang = 'en' }: { status: string; lang?: Lang }) {
   const info = statusInfo(status)
   return (
-    <span className={`status status-${status}`}>
+    <span className={`status status-${status}`} lang={lang}>
       <StatusIcon kind={info.icon} />
-      <span>{info.en}</span>
+      <span>{info[lang]}</span>
     </span>
   )
 }
@@ -198,7 +199,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   )
 }
 
-export function Check({ ev }: { ev: PlumeEvent }) {
+export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const rc = ev.record_check
   const url = safeHttpUrl(rc.source_url)
   const matched = ev.facilities.find((f) => f.id === rc.matched_facility_id)
@@ -207,7 +208,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
     <>
       <h3 className="question">Did any facility in the corridor file a matching report?</h3>
       <div className="status-block">
-        <StatusBadge status={rc.status} />
+        <StatusBadge status={rc.status} lang={lang} />
         <p className="muted small">{rc.search_scope}</p>
       </div>
       {matched && (
@@ -218,7 +219,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
       <h3 className="list-heading">Checks over time</h3>
       <ul className="checks">
         {rc.checks.map((c) => (
-          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} /></li>
+          <li key={c.at}><span className="check-at">{c.at}</span> <StatusBadge status={c.status} lang={lang} /></li>
         ))}
       </ul>
       {r && (
@@ -326,10 +327,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     setSpeaking(true)
   }
 
-  const copy = async () => {
+  const copy = async (text: string, done: string) => {
     try {
-      await navigator.clipboard.writeText(drafts[lang])
-      setNotice('Draft copied.')
+      await navigator.clipboard.writeText(text)
+      setNotice(done)
     } catch {
       setNotice('Copy failed. Select the text and copy it by hand.')
     }
@@ -391,7 +392,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak}>
           {speaking ? 'Stop reading' : 'Read aloud'}
         </button>
-        <button type="button" className="btn" onClick={copy}>Copy draft</button>
+        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'Draft copied.')}>Copy draft</button>
+        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'Incident note copied. It is a draft for review, not a finding.')}>
+          Copy as incident note
+        </button>
       </div>
       {!canSpeak && <p className="muted small">Read aloud isn't available in this browser.</p>}
       <p className="sr-only" aria-live="polite">{notice}</p>
