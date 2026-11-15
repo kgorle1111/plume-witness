@@ -1,17 +1,30 @@
 :root {
   /* Light only for S2: the Positron basemap is light, and one theme keeps contrast checks honest. */
   color-scheme: light;
-  --ink: #16161a;
-  --ink-2: #44444c;
-  --line: #d9d9df;
-  --bg: #ffffff;
-  --bg-2: #f4f4f6;
-  --accent: #0b57d0;
+  /* One visual language with the landing (AtlasLanding.css): its ink and paper for text and surfaces, a deepened teal
+     for links and selection, its peach for the one primary action, its focus brown, its serif for page h1s only.
+     Contrast on --surface / --surface-2: ink 10.7 / 9.9, muted 7.4 / 6.9, accent 6.4 / 5.9, focus 5.8 / 5.3;
+     white on accent 6.4; primary ink on its fill 8.3 (hover 6.6). The data colours below (--trigger onward) stay
+     semantic and are not part of this set. */
+  --surface: #ffffff;
+  --surface-2: #f2f7f7;
+  --ink: #214349;
+  --muted: #3e5a60;
+  --accent: #36666d;
+  --btn-primary-bg: #f2c9b7;
+  --btn-primary-bg-hover: #ebae98;
+  --btn-primary-ink: #442e29;
+  --btn-primary-line: #a35f50;
+  --serif: Georgia, 'Times New Roman', serif;
+  --ink-2: var(--muted);
+  --line: #d5e1de;
+  --bg: var(--surface);
+  --bg-2: var(--surface-2);
   --trigger: #be1e2d;
   --monitor: #1f5ea0;
   --facility: #2d2d34;
   --matched: #006e3c;
-  --focus: #0b57d0;
+  --focus: #995241;
   --ink-3: #5f5f69;
   /* Searched place: a hue no data point uses (7.1:1 on white). */
   --place: #6d28d9;
@@ -34,7 +47,7 @@
   caret-color: var(--accent);
 }
 
-::selection { background: rgb(11 87 208 / 0.2); }
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
 .nowrap { white-space: nowrap; }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -42,7 +55,9 @@ html, body, #root { margin: 0; height: 100%; }
 body { background: var(--bg); overflow-x: hidden; }
 h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
 button, input, textarea { font: inherit; color: inherit; }
-a { color: var(--accent); }
+a { color: var(--accent); text-underline-offset: 2px; }
+/* The landing's serif, for page titles only; everything else stays in the system sans. */
+h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
 
 :focus-visible {
   outline: 3px solid var(--focus);
