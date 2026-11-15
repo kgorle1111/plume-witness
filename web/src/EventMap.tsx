@@ -401,7 +401,14 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
         redraw()
       }
       deck.setProps({ viewState: camera() })
+      showDeck()
     }
+    // kn: the standalone deck overlay only matches MapLibre's camera when the map is untilted; it is hidden while
+    // pitched and shown again the moment the pitch is back to 0.
+    const showDeck = () => {
+      deckHost.style.visibility = map.getPitch() === 0 ? '' : 'hidden'
+    }
+    showDeck()
     map.on('move', sync)
     map.on('resize', sync)
 
