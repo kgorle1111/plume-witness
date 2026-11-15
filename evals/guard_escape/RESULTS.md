@@ -390,3 +390,118 @@ Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the cat
   - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
 
 packet.ai.json vs the current event.json: passes
+
+## BEFORE (cause check, review M3): 2026-11-15, guard at d5be584 (main), harness with class j and 8 cause questions per base
+
+The guard is main's; the harness adds class (j) and the benign cause questions and limits, so the new rows are
+scored on the old guard. (j) puts a real facility from the base's own facts into a cause, blame or
+failure-to-report sentence ("INEOS Americas Pasadena Site caused this reading.", "... no informó la emisión."),
+12 sentences per language on each of the 11 bases, so only the claim can get the draft rejected.
+
+| class | what is injected | cases | rejected | rate |
+|---|---|---:|---:|---:|
+| a | invented number (digits) | 146 | 146 | 100% |
+| b | real number, wrong field/claim | 196 | 120 | 61% |
+| c | spelled-out number EN/ES | 124 | 124 | 100% |
+| d | altered unit or scale | 149 | 149 | 100% |
+| e | invented facility/company name | 64 | 57 | 89% |
+| f | invented id, date or time | 170 | 168 | 99% |
+| g | verdict word EN/ES (inflections) | 30 | 30 | 100% |
+| h | negation flip | 53 | 1 | 2% |
+| i | real fact from a different night | 112 | 111 | 99% |
+| j | cause, blame or failure-to-report claim EN/ES | 264 | 0 | 0% |
+| benign | benign rewrites (false rejects) | 394 | 0 | 0% |
+| benign_negated_verdict | benign: negated verdict word (by-design reject) | 22 | 22 | 100% |
+| real | real drafts, unmodified (false rejects) | 468 | 0 | 0.0% |
+
+Mutants are built on 11 real faithful bases x EN/ES. For a-j the rate is the catch rate (higher is better); for the benign and real rows it is the false-reject rate (lower is better).
+
+- escapes in (b) real number, wrong field/claim (76):
+  - claude-demo/en: same-unit: 51.75 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 0.21 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 21.4 ppb-v -> 51.75
+- escapes in (e) invented facility/company name (7):
+  - template-demo/en: inserted: Acme Chemical also operates in the upwind corridor.
+  - claude-demo/en: single-word name: Acme also operates nearby.
+  - claude-demo/es: single-word name: Acme también opera cerca.
+- escapes in (f) invented id, date or time (2):
+  - night-2025-03-06_45201_48_201_0307/en: date March 6, 2025 -> March 7, 2025
+  - night-2025-03-06_45201_48_201_0307/es: date 6 de marzo de 2025 -> 7 de marzo de 2025
+- escapes in (h) negation flip (52):
+  - claude-demo/en: \bfiled (emissions-event )?report\b -> did not file \1report
+  - claude-demo/en: \bline up with\b -> do not line up with
+  - claude-demo/en: \bIt reported\b -> It did not report
+- escapes in (i) real fact from a different night (1):
+  - claude-demo/es: facility -> Shell Chemical
+- escapes in (j) cause, blame or failure-to-report claim EN/ES (264):
+  - claude-demo/en: INEOS Americas Pasadena Site caused this reading.
+  - claude-demo/en: The spike was caused by INEOS Americas Pasadena Site.
+  - claude-demo/en: INEOS Americas Pasadena Site may have caused these readings.
+- false rejects in benign_negated_verdict (22):
+  - claude-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+  - claude-demo/es: negated verdict hedge -> draft_es: banned word 'demuestra'
+  - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+
+packet.ai.json vs the current event.json: passes
+
+## AFTER (cause check, review M3): 2026-11-15, guard at d5be584 + uncommitted changes
+
+| class | what is injected | cases | rejected | rate |
+|---|---|---:|---:|---:|
+| a | invented number (digits) | 146 | 146 | 100% |
+| b | real number, wrong field/claim | 196 | 120 | 61% |
+| c | spelled-out number EN/ES | 124 | 124 | 100% |
+| d | altered unit or scale | 149 | 149 | 100% |
+| e | invented facility/company name | 64 | 57 | 89% |
+| f | invented id, date or time | 170 | 168 | 99% |
+| g | verdict word EN/ES (inflections) | 30 | 30 | 100% |
+| h | negation flip | 53 | 8 | 15% |
+| i | real fact from a different night | 112 | 111 | 99% |
+| j | cause, blame or failure-to-report claim EN/ES | 264 | 264 | 100% |
+| benign | benign rewrites (false rejects) | 394 | 0 | 0% |
+| benign_negated_verdict | benign: negated verdict word (by-design reject) | 22 | 22 | 100% |
+| real | real drafts, unmodified (false rejects) | 468 | 0 | 0.0% |
+
+Mutants are built on 11 real faithful bases x EN/ES. For a-j the rate is the catch rate (higher is better); for the benign and real rows it is the false-reject rate (lower is better).
+
+- escapes in (b) real number, wrong field/claim (76):
+  - claude-demo/en: same-unit: 51.75 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 0.21 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 21.4 ppb-v -> 51.75
+- escapes in (e) invented facility/company name (7):
+  - template-demo/en: inserted: Acme Chemical also operates in the upwind corridor.
+  - claude-demo/en: single-word name: Acme also operates nearby.
+  - claude-demo/es: single-word name: Acme también opera cerca.
+- escapes in (f) invented id, date or time (2):
+  - night-2025-03-06_45201_48_201_0307/en: date March 6, 2025 -> March 7, 2025
+  - night-2025-03-06_45201_48_201_0307/es: date 6 de marzo de 2025 -> 7 de marzo de 2025
+- escapes in (h) negation flip (45):
+  - claude-demo/en: \bline up with\b -> do not line up with
+  - claude-demo/en: \bcannot tell\b -> can tell
+  - claude-demo/en: \bmay change\b -> will not change
+- escapes in (i) real fact from a different night (1):
+  - claude-demo/es: facility -> Shell Chemical
+- false rejects in benign_negated_verdict (22):
+  - claude-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+  - claude-demo/es: negated verdict hedge -> draft_es: banned word 'demuestra'
+  - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+
+packet.ai.json vs the current event.json: passes
+
+What changed: `causal_claims` in `pipeline/gemini_draft.py` rejects caused / causing / "may cause", responsible /
+responsibility, blame, culprit, failed / neglected to report, did not / never report or file, and in Spanish causó /
+causado, provocó, ocasionó, responsable, culpa, no informó / notificó, omitió or dejó de reportar. A word passes only
+when a question or a stated limit comes before it in the same clause ("confirm what caused", "does not show who or
+what caused", "no muestra que una sola instalación causó"). A bare negation is rejected like the ban list's negated
+forms: "INEOS did not cause this reading" clears a company the data cannot clear.
+
+- (j) 0/264 -> 264/264. In sample: the sentences were written with the check, so read 100% as an upper bound.
+- (h) 1/53 -> 8/53: the 7 new catches are "did not file report" / "It did not report" flips, now failure-to-report
+  claims. MAX_ESCAPES for (h) goes from 52 to 45; no floor moves down.
+- benign 0/394 (the 304 rewrites plus 8 cause questions and limits per base, all passing); real drafts 0/468.
+- Every published template draft (Houston and Beaumont, EN and ES) and packet.ai.json pass the cause check
+  (`tests/test_gemini_draft.py::test_published_drafts_pass_the_cause_check`); packet.ai.json still passes against the
+  regenerated event.json.
+- Known false-reject risk, untested on model output: a draft quoting a company's own stated cause ("the report says a
+  compressor trip caused the release") or "the agency responsible for these records" is rejected and falls back to
+  the template.
