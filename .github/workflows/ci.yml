@@ -41,9 +41,11 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
       - run: npm run build
       - run: npx oxlint
+      # Needs Node >=23.6 (native TS type stripping), hence Node 24 above.
+      - run: npm test
