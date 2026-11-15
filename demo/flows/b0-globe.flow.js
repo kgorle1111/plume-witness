@@ -7,6 +7,7 @@ module.exports = async (page) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   const url = new URL(page.url());
   url.searchParams.delete('intro');
+  url.searchParams.set('view', 'replay');
   // A fresh load so the take starts at the very beginning of the intro, whatever the first load already did.
   await page.goto(url.toString(), { timeout: 30000 });
   const phase = page.locator('.map-canvas');

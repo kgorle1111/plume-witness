@@ -1,0 +1,123 @@
+.atlas-landing {
+  color-scheme: light;
+  --paper: #f5f9fa;
+  --ink: #214349;
+  --teal: #4d787f;
+  --line: #a9c6bd;
+  --coral: #de7f6b;
+  --peach: #f2c9b7;
+  --mono: 'Cascadia Mono', Consolas, monospace;
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding-inline: clamp(24px, 5.6vw, 100px);
+  padding-bottom: 26px;
+  border-top: 5px solid var(--teal);
+  background: radial-gradient(ellipse at 50% 48%, #b4d9cb 0%, #deede7 55%, var(--paper) 100%);
+}
+.atlas-masthead {
+  display: flex;
+  align-items: center;
+  min-height: 65px;
+  border-bottom: 1px solid var(--line);
+  font: 500 11px var(--mono);
+  letter-spacing: .09em;
+}
+.atlas-signature { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 650; text-transform: uppercase; }
+.atlas-signature svg { stroke: var(--teal); stroke-width: 1.2; }
+.atlas-signature .atlas-logo-dot { fill: var(--coral); stroke: var(--paper); stroke-width: 1; }
+
+.atlas-hero {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-width: 0;
+  padding: 29px 0 35px;
+  text-align: center;
+}
+.atlas-hero h1 { margin: 0; color: var(--ink); font: 400 clamp(40px, 5.6vw, 78px)/1.04 Georgia, 'Times New Roman', serif; letter-spacing: -.055em; text-wrap: balance; }
+.atlas-plate {
+  width: min(690px, 100%);
+  height: clamp(280px, 49svh, 446px);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+}
+.atlas-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 10px -13%;
+  background-image: linear-gradient(#4d787f3a 1px, transparent 1px), linear-gradient(90deg, #4d787f3a 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000b 11%, #0009 52%, transparent);
+  pointer-events: none;
+}
+.atlas-survey { position: absolute; width: 100%; height: 100%; stroke: #4d787fa2; stroke-width: 1; overflow: visible; }
+.atlas-survey-accent { stroke: #b16050; stroke-width: 1.7; }
+.atlas-planet {
+  position: relative;
+  width: min(388px, 43svh, 68vw);
+  aspect-ratio: 1;
+  border: 1px solid #4d787fc0;
+  border-radius: 50%;
+  background: #c4ded9;
+  box-shadow: 0 16px 40px #37665b2b;
+}
+.atlas-planet canvas { display: block; width: 100%; height: 100%; border-radius: inherit; }
+
+.atlas-purpose { width: min(100%, 525px); margin: 5px 0 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.5; color: #395960; text-wrap: pretty; }
+.atlas-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  min-height: 49px;
+  margin-top: 21px;
+  padding: 10px 17px 10px 19px;
+  background: var(--peach);
+  color: #442e29;
+  border: 1px solid #be7463;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color .18s, box-shadow .18s;
+}
+.atlas-enter:hover { background: #ebae98; box-shadow: 0 3px 0 #de7f6b65; }
+.atlas-enter:focus-visible { outline: 2px solid #995241; outline-offset: 4px; }
+
+.atlas-leaving {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+  animation: atlas-fade 540ms cubic-bezier(.32,.06,.25,1) both;
+}
+.atlas-leaving .atlas-planet { animation: atlas-approach 540ms ease-out both; }
+@keyframes atlas-fade { to { opacity: 0; } }
+@keyframes atlas-approach { to { transform: scale(1.10); } }
+
+.replay-entry:focus { outline: none; }
+
+@media (max-width: 640px) {
+  .atlas-landing { padding-inline: 20px; overflow: hidden; }
+  .atlas-masthead { min-height: 55px; font-size: 10px; letter-spacing: .045em; }
+  .atlas-signature { gap: 7px; }
+  .atlas-signature svg { width: 26px; height: 26px; }
+  .atlas-hero { padding-block: 26px; }
+  .atlas-hero h1 { font-size: clamp(36px, 9.2vw, 59px); }
+  .atlas-plate { height: clamp(271px, 81vw, 390px); margin-top: 4px; }
+  .atlas-survey { width: 134%; }
+  .atlas-planet { width: min(66vw, 327px); }
+  .atlas-purpose { max-width: 350px; margin-top: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-leaving, .atlas-leaving .atlas-planet { animation-duration: 1ms; }
+}

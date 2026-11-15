@@ -47,6 +47,8 @@ uv sync && uv run pytest
 cd web && npm install && npm run dev
 ```
 
+Open the local site and select **Enter the replay**. Use `?intro=0#detect` to open the demo directly, or use a step hash such as `#packet` to deep-link to one of the four steps.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
