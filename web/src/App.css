@@ -139,6 +139,8 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* The sticky stepper (~60px) hid controls that Shift+Tab scrolled to (WCAG 2.4.11): keep focus below it. */
+  scroll-padding-top: 72px;
   background: var(--bg);
   scrollbar-width: thin;
   scrollbar-color: #b9b9c2 transparent;
@@ -152,6 +154,8 @@
   /* Keep the 240px floor: EventMap's fitBounds padding (legend + 76px) throws on a shorter map. */
   .map-wrap, .stage .map-wrap { height: 60vh; height: 60dvh; }
   .panel { flex: none; overflow: visible; }
+  /* Here the document scrolls and the stepper sticks to the viewport instead. */
+  html { scroll-padding-top: 72px; }
 }
 
 .stepper {
