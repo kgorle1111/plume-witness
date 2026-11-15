@@ -19,7 +19,7 @@ comes from the cached pages in `data/raw/backtest/`.
 counted as errors, it would be 2 of 10 (6-51%). Ten nights cannot rule out an error rate in the 20s; they do
 rule out a tool that is wrong most of the time.
 
-An automated sweep of all 172 nights (checks 1 and 3 below, no hand reading) adds one number the sample is too
+An automated sweep of all 170 nights (checks 1 and 3 below, no hand reading) adds one number the sample is too
 small to see: on **5 of 170 (2.9%, 95% CI 1.3-6.7%)** a report that lists the spiking compound was running at the
 spike, inside a wider 45 deg wedge but outside the pipeline's 22.5 deg corridor. None of those 5 is in the sample.
 That is the size of the main systematic weakness found (proposal A).
@@ -49,17 +49,17 @@ verdicts are unchanged: the shuffle still draws from the 172 that existed when t
 
 ## Method
 
-**Population.** The 172 spikes with status `no_report_after_deadline` after PR #35: the day's STEERS search is
+**Population.** The spikes with status `no_report_after_deadline` after PR #35 (172 when the sample was drawn, before a facility-name fix; 170 now): the day's STEERS search is
 complete, every report of the day and every overlapping earlier report was located in ECHO, the wind was at least
 3 mph, and the 30 days before were searched.
 
-**Sample.** Sort the 172 by (date, compound, monitor), shuffle with `random.Random(20261114)`, then take spikes
+**Sample.** Sort the 172 drawn from before the facility-name fix (170 now) by (date, compound, monitor), shuffle with `random.Random(20261114)`, then take spikes
 in shuffled order, skipping any whose monitor already has 3, until there are 10 (`audit_no_report.sample`).
 Galena Park and Houston Milby Park each hit the cap of 3. Sorting first means the sample does not depend on the
 order of the JSON file; a test pins the 10 ids.
 
 **Rebuild.** Each night is rebuilt with the unchanged pipeline code (`backtest.scan_monitors`, `build.detect`,
-`backtest.day_reports`, `backtest.earlier_reports`, `build.trace`). All 10 sampled nights, and all 172 in the
+`backtest.day_reports`, `backtest.earlier_reports`, `build.trace`). All 10 sampled nights, and all 170 in the
 sweep, reproduce `no_report_after_deadline` with the same monitor, hour and value.
 
 **Checks** (`audit_no_report.evidence`), then a hand reading of the evidence and the cached detail pages:
@@ -121,7 +121,7 @@ Times are CST hour of the hourly reading; values in ppb (7-day median baseline i
 
 ## Systematic findings, as proposals (no matching logic changed in this PR)
 
-**A. The 22.5 deg corridor misses some reports just outside it.** On 5 of 172 nights a report listing the
+**A. The 22.5 deg corridor misses some reports just outside it.** On 5 of 170 nights a report listing the
 spiking compound (in three cases thousands of pounds of 1,3-butadiene, 13.3 km away and 38-42 deg off the wind)
 was running at the spike, outside the corridor but inside 45 deg. 43% of these nights borrow wind from another
 site, which makes a 22.5 deg half-angle tighter than the wind data support. Proposal: keep 22.5 deg for "in the
@@ -131,7 +131,7 @@ on the night page as nearby, not matched. Cost: on this data it moves about 5 of
 Measure before adopting: rerun the backtest and check that the 72-candidate match numbers do not change.
 
 **B. Duplicate names are placed at an arbitrary site (fixed; see the update above).** `build.place_incidents` maps a report to ECHO by exact
-name and keeps the last row when several sites share the name. 8 of 172 nights had a running report placed at a
+name and keeps the last row when several sites share the name. 8 of 170 nights had a running report placed at a
 different site than its own street address. None of the 8 changed a night's status in the audit sample, but the
 fix did move four spikes elsewhere in the 415 (see the update above). Done: reports are placed with `build.locate`
 (name plus street number, then street address) and an ambiguous name is unresolved, which blocks an absence claim.
@@ -139,10 +139,10 @@ fix did move four spikes elsewhere in the 415 (see the update above). Done: repo
 **C. Lumped VOC lines do not cause false "no report" labels.** By construction, any report that is in the
 corridor and running in the window already turns the night into `reported` or `reported_mismatch`, whatever
 compounds it lists. A lumped VOC line only matters for `reported` vs `reported_mismatch`, and for the wider
-wedge in A (3 of 172 nights). Proposal: when the only line that could contain the compound is a lumped VOC line,
+wedge in A (3 of 170 nights). Proposal: when the only line that could contain the compound is a lumped VOC line,
 label the match "compound not itemized" rather than `reported_mismatch`.
 
-**D. Trigger hours right after a calibration check.** 30 of 172 trigger hours (17%) follow an hour flagged ST,
+**D. Trigger hours right after a calibration check.** 30 of 170 trigger hours (18%) follow an hour flagged ST,
 BL or another QA code; at the two site-years checked, about 6% of all hours do. Readings right after a span
 check are over-represented among 10 ppb readings (2.8% vs 0.6% at Lynchburg Ferry in 2024). Proposal: mark these
 nights on the page and, before calling one a gap, require a second hour over the trigger or wait for TCEQ's
