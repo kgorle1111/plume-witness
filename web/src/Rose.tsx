@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from 'react'
 import './Rose.css'
 import { unitTitle } from './format'
+import { useLang, useT } from './useT'
 
 // Mirrors pipeline/rose.py (web/public/rose.json). The pipeline owns the shape; change both together.
 interface SectorStat { high_hours: number; high_days: number; cpf: number | null; share_of_high: number | null }
@@ -40,7 +41,7 @@ export interface RoseData {
 }
 
 type Pct = 'p90' | 'p99'
-const TOP: Record<Pct, string> = { p90: 'top 10%', p99: 'top 1%' }
+const TOP_KEY = { p90: 'rose.top90', p99: 'rose.top99' } as const
 const BASE_RATE: Record<Pct, number> = { p90: 0.1, p99: 0.01 }
 
 let cache: Promise<RoseData> | null = null
@@ -58,9 +59,6 @@ function loadRose(): Promise<RoseData> {
   return cache
 }
 
-// Words, not 'NE': read aloud and plain for a first-time reader.
-const COMPASS = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west']
-const compass = (deg: number) => COMPASS[Math.round(deg / 45) % 8]
 const pct = (x: number) => `${Math.round(x * 100)}%`
 const ppb = (x: number) => `${Number(x.toPrecision(3))} ppb`
 
@@ -81,6 +79,12 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
   const [error, setError] = useState<string | null>(null)
   const [p, setP] = useState<Pct>('p99')
   const id = useId()
+  const t = useT()
+  const lang = useLang()
+  const TOP: Record<Pct, string> = { p90: t(TOP_KEY.p90), p99: t(TOP_KEY.p99) }
+  // Words, not 'NE': read aloud and plain for a first-time reader.
+  const compass = (deg: number) => t('rose.compass').split(',')[Math.round(deg / 45) % 8]
+  const cap = (x: string) => x[0].toUpperCase() + x.slice(1)
 
   useEffect(() => {
     let live = true
@@ -91,8 +95,8 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
     return () => { live = false }
   }, [])
 
-  if (error) return <p className="muted small">Pollution rose unavailable: {error}</p>
-  if (!data) return <p className="muted small">Loading the two-year wind pattern…</p>
+  if (error) return <p className="muted small">{t('rose.unavailable', { err: error })}</p>
+  if (!data) return <p className="muted small">{t('rose.loading')}</p>
 
   const site = data.sites[siteId]
   const rose = site?.compounds[param]
@@ -101,8 +105,7 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
     const name = skip?.name ?? site?.name ?? siteId
     return (
       <p className="muted small">
-        No pollution rose for {name}: {skip ? skip.reason.split(' (')[0] : 'no readings for this compound'}.
-        A rose needs the monitor's own wind; another site's wind would point at the wrong place.
+        {t('rose.none', { name, reason: skip ? skip.reason.split(' (')[0] : t('rose.noReadings') })}
       </p>
     )
   }
@@ -116,34 +119,37 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
   const top = rose.sectors.filter((s) => !s.sparse && s[p].share_of_high !== null)
     .reduce<Sector | null>((a, s) => (!a || (s[p].share_of_high ?? 0) > (a[p].share_of_high ?? 0) ? s : a), null)
   const summaryId = `${id}-summary`
+  // Compound names come from rose.json in English; the two this tool tracks have Spanish names in i18n.
+  const cmpName = lang === 'es' ? ({ benzene: 'benceno', '1,3-butadiene': '1,3-butadieno' } as Record<string, string>)[rose.name] ?? rose.name : rose.name
 
-  let summary = `Not enough hours in any direction for a summary at ${site.name}.`
+  let summary = t('rose.summaryNone', { site: site.name })
   if (top) {
     const share = top[p].share_of_high ?? 0
-    const lead = share >= 0.5 ? `Most ${rose.name} readings in the ${TOP[p]}` : `The largest share of ${rose.name} readings in the ${TOP[p]}`
-    summary = `${lead} at ${site.name} (${pct(share)}) ${share >= 0.5 ? 'arrive' : 'arrives'} with wind from ${top.from_deg}–${top.to_deg}° ` +
-      `(roughly ${compass((top.from_deg + top.to_deg) / 2)}), which blows ${pct(top.share_of_hours)} of the time.`
+    summary = t(share >= 0.5 ? 'rose.summaryMost' : 'rose.summaryLargest', {
+      cmp: cmpName, top: TOP[p], site: site.name, share: pct(share), from: top.from_deg, to: top.to_deg,
+      dir: compass((top.from_deg + top.to_deg) / 2), blow: pct(top.share_of_hours),
+    })
   }
 
   return (
     <figure className="rose" aria-labelledby={summaryId}>
       <figcaption>
-        <h3 className="rose-title">Where high {rose.name} readings arrive from, {years}</h3>
+        <h3 className="rose-title">{t('rose.title', { cmp: cmpName, years })}</h3>
         <p id={summaryId} className="rose-summary">{summary}</p>
       </figcaption>
 
       <fieldset className="rose-toggle">
-        <legend className="sr-only">Which readings count as high</legend>
+        <legend className="sr-only">{t('rose.which')}</legend>
         {(['p99', 'p90'] as Pct[]).map((k) => (
           <label key={k}>
             <input type="radio" name={`${id}-pct`} value={k} checked={p === k} onChange={() => setP(k)} />
-            {TOP[k][0].toUpperCase() + TOP[k].slice(1)}
+            {cap(TOP[k])}
           </label>
         ))}
       </fieldset>
 
       <svg className="rose-svg" viewBox="0 0 300 300" role="img"
-        aria-label={`Pollution rose chart for the ${TOP[p]}; the same numbers are in the table below.`}>
+        aria-label={t('rose.aria', { top: TOP[p] })}>
         {[0.5, 1].map((f) => <circle key={f} className="rose-ring" cx={C} cy={C} r={R * f} />)}
         {[0, 90, 180, 270].map((d) => {
           const [x, y] = pt(d, R)
@@ -160,42 +166,39 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
         {[0.5, 1].map((f) => (
           <text key={f} className="rose-ring-label" x={C - 4} y={C - R * f + 11} textAnchor="end">{pct(max * f)}</text>
         ))}
-        {(['N', 'E', 'S', 'W'] as const).map((l, i) => {
+        {t('rose.compassShort').split(',').map((l, i) => {
           const [x, y] = pt(i * 90, R + 18)
           return <text key={l} className="rose-compass" x={x} y={y} textAnchor="middle" dominantBaseline="central">{l}</text>
         })}
       </svg>
 
       <p className="small rose-key">
-        Each wedge is a wind direction. Its length is the chance that an hour with wind from there is in the {TOP[p]}.
-        The dashed circle is {pct(BASE_RATE[p])}, what every direction would show if direction did not matter.
-        {top && <> From {top.from_deg}–{top.to_deg}°, {pct(top[p].cpf ?? 0)} of hours are in the {TOP[p]}: {top[p].high_hours} hours on {top[p].high_days} days.</>}
+        {t('rose.key', { top: TOP[p], base: pct(BASE_RATE[p]) })}
+        {top && t('rose.keyTop', { from: top.from_deg, to: top.to_deg, cpf: pct(top[p].cpf ?? 0), top: TOP[p], hours: top[p].high_hours, days: top[p].high_days })}
       </p>
 
       <div className="rose-caveat">
-        <p><strong>What this does not say.</strong> {data.caveat} Anything in that direction, near or far, could contribute.</p>
+        <p><strong>{t('rose.notSay')}</strong> {lang === 'es' ? t('rose.caveat') /* kn: fixed ES copy of rose.json's caveat; re-translate if the pipeline text changes */ : data.caveat} {t('rose.caveatTail')}</p>
         <p>
-          The {TOP[p]} at this monitor starts at {ppb(thr)} ({unitTip ? <abbr title={unitTip}>{data.method.units}</abbr> : data.method.units}, hourly)
-          {thr < data.method.trigger_floor_ppb
-            ? <>: low levels, below the {data.method.trigger_floor_ppb} ppb at which this tool starts a trace.</>
-            : '.'}
-          {' '}Based on {rose.n_hours.toLocaleString('en-US')} hours with wind of {data.method.min_speed_mph} mph or more.
+          {t('rose.starts', { top: cap(TOP[p]), thr: ppb(thr) })} ({unitTip ? <abbr title={unitTip}>{data.method.units}</abbr> : data.method.units}, {t('rose.hourly')})
+          {thr < data.method.trigger_floor_ppb ? t('rose.low', { floor: data.method.trigger_floor_ppb }) : '.'}
+          {' '}{t('rose.based', { n: rose.n_hours.toLocaleString(lang === 'es' ? 'es-US' : 'en-US'), mph: data.method.min_speed_mph })}
         </p>
       </div>
 
       <details className="rose-table">
-        <summary>Rose as a table</summary>
+        <summary>{t('rose.tableSum')}</summary>
         <table>
-          <caption className="sr-only">{rose.name} at {site.name}, {years}, {TOP[p]} = {ppb(thr)} or more</caption>
+          <caption className="sr-only">{t('rose.caption', { cmp: cmpName, site: site.name, years, top: TOP[p], thr: ppb(thr) })}</caption>
           <thead>
-            <tr><th scope="col">Wind from</th><th scope="col">Share of hours</th><th scope="col">Chance of {TOP[p]}</th><th scope="col">{TOP[p]} hours</th></tr>
+            <tr><th scope="col">{t('rose.colFrom')}</th><th scope="col">{t('rose.colShare')}</th><th scope="col">{t('rose.colChance', { top: TOP[p] })}</th><th scope="col">{cap(t('rose.colHours', { top: TOP[p] }))}</th></tr>
           </thead>
           <tbody>
             {rose.sectors.map((s) => (
               <tr key={s.from_deg} className={s === top ? 'is-top' : undefined}>
                 <th scope="row">{s.from_deg}–{s.to_deg}°</th>
                 <td>{pct(s.share_of_hours)}</td>
-                <td>{s[p].cpf === null ? '—' : `${(s[p].cpf * 100).toFixed(1)}%`}{s.sparse ? ' (few hours)' : ''}</td>
+                <td>{s[p].cpf === null ? '—' : `${(s[p].cpf * 100).toFixed(1)}%`}{s.sparse ? t('rose.few') : ''}</td>
                 <td>{s[p].high_hours}</td>
               </tr>
             ))}

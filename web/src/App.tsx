@@ -170,7 +170,6 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   const title = eventTitle(lang, ev.title, ev.compound.name, regionKey)
   const phone = usePhone()
   // The phone map hides its legend behind a "Key" toggle; the legend is visual only (aria-hidden in EventMap).
-  const [keyOpen, setKeyOpen] = useState(false)
   // Rendered in one place at a time: the picker and the Embed box carry element ids.
   const tools = <>{picker}<EmbedButton title={ev.title} /></>
   const { corridor } = useCorridor(ev)
@@ -212,14 +211,9 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       )}
       <main className="layout">
         <div className="stage">
-        <section className={keyOpen ? 'map-wrap key-open' : 'map-wrap'} aria-labelledby="map-label">
+        <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">{t('app.mapLabel')}</h2>
           <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} place={place} />
-          {phone && (
-            <button type="button" className="map-key-btn" aria-expanded={keyOpen} onClick={() => setKeyOpen((o) => !o)}>
-              {t('app.mapKey')}
-            </button>
-          )}
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>

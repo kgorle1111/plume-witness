@@ -1,4 +1,5 @@
 import type { RecordCheck } from './types.ts'
+import { monthShort, translate, type Lang } from './i18n.ts'
 
 /** Offset of the company's local clock from the monitors' CST, read from the pipeline's own tz note. */
 export function localOffsetH(tz?: string): number | null {
@@ -39,7 +40,7 @@ const hm = (min: number) => {
 }
 
 /** Null when there is nothing honest to draw: no report, a status that is not a report match, or no usable times. */
-export function reportBand(rc: RecordCheck, eventDay: string): ReportBand | null {
+export function reportBand(rc: RecordCheck, eventDay: string, lang: Lang = 'en'): ReportBand | null {
   const r = rc.reported
   const matched = rc.status === 'reported' || rc.status === 'not_yet_reported'
   if (!r || !(matched || rc.status === 'reported_mismatch') || !r.start_local || !r.end_local) return null
@@ -51,16 +52,15 @@ export function reportBand(rc: RecordCheck, eventDay: string): ReportBand | null
   const from = Math.max(s, 0), to = Math.min(e, MIN_PER_DAY)
   if (to <= from) return null
   const tzLabel = off ? 'CDT' : 'CST'
-  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const lt = (x: string) => {
     const t = x.slice(11).replace(/^0/, '')
-    return x.slice(0, 10) === eventDay ? t : `${MONTHS[+x.slice(5, 7) - 1]} ${+x.slice(8, 10)} ${t}`
+    return x.slice(0, 10) === eventDay ? t : `${monthShort(+x.slice(5, 7) - 1, lang)} ${+x.slice(8, 10)} ${t}`
   }
   const sameDay = r.start_local.slice(0, 10) === eventDay && r.end_local.slice(0, 10) === eventDay
   return {
     from: from / 60, to: to / 60, startsBefore: s < 0, endsAfter: e > MIN_PER_DAY, matched: rc.status !== 'reported_mismatch',
-    localText: `${lt(r.start_local)} to ${lt(r.end_local)} ${tzLabel}`,
-    cstText: sameDay && off ? `${hm(s)} to ${hm(e)} CST` : null, tzLabel,
+    localText: `${lt(r.start_local)} ${translate(lang, 'rw.to')} ${lt(r.end_local)} ${tzLabel}`,
+    cstText: sameDay && off ? `${hm(s)} ${translate(lang, 'rw.to')} ${hm(e)} CST` : null, tzLabel,
   }
 }
 
@@ -70,7 +70,7 @@ export interface ArrivalTick {
 }
 
 /** The pipeline's own travel estimate, drawn only when all of its fields exist. */
-export function arrivalTick(rc: RecordCheck, eventDay: string): ArrivalTick | null {
+export function arrivalTick(rc: RecordCheck, eventDay: string, lang: Lang = 'en'): ArrivalTick | null {
   const r = rc.reported
   if (!r || r.travel_h == null || !r.arrival_local || r.travel_speed_mph == null || r.travel_distance_km == null) return null
   const off = localOffsetH(r.tz)
@@ -80,7 +80,7 @@ export function arrivalTick(rc: RecordCheck, eventDay: string): ArrivalTick | nu
   const label = off ? 'CDT' : 'CST'
   return {
     hourCst: min / 60,
-    text: `air could arrive ~${r.arrival_local.slice(11).replace(/^0/, '')} ${label} (wind ${r.travel_speed_mph} mph, ${r.travel_distance_km} km)`,
+    text: translate(lang, 'rw.arrival', { time: r.arrival_local.slice(11).replace(/^0/, ''), tz: label, mph: r.travel_speed_mph, km: r.travel_distance_km }),
   }
 }
 
@@ -89,4 +89,24 @@ export function daysAfterEvent(startLocal: string, revisionDate: string): number
   const a = /^(\d{4})-(\d{2})-(\d{2})/.exec(startLocal), b = /^(\d{4})-(\d{2})-(\d{2})$/.exec(revisionDate)
   if (!a || !b) return null
   return Math.round((Date.UTC(+b[1], +b[2] - 1, +b[3]) - Date.UTC(+a[1], +a[2] - 1, +a[3])) / 86_400_000)
+}
+
+// The pipeline writes one fixed sentence; only the time zone in brackets varies. A sentence that doesn't match
+// is shown as published (marked English) rather than guessed at.
+const TIME_NOTE = /^Monitor hours are CST as TCEQ publishes them; the company report uses local time \(([^)]+)\)\. TCEQ labels AutoGC data provisional and subject to change\.$/
+
+/** The event's time note in the reader's language, or null when only the published English text is available. */
+export function timeNote(note: string, lang: Lang): string | null {
+  const m = TIME_NOTE.exec(note.trim())
+  return m ? translate(lang, 'det.timeNote', { tz: m[1] }) : lang === 'en' ? note : null
+}
+
+// pipeline/build.py writes three forms; the first two are rebuilt in the reader's language, "unresolved: …" stays as written.
+const RES_OUT = /^outside the corridor \(([\d.]+) km, (\d+)° off the wind\)$/
+
+/** A day-report resolution in the reader's language; `lang` is the language the returned text is actually in. */
+export function resolutionText(res: string, lang: Lang): { text: string; lang: Lang } {
+  if (res === 'in the upwind corridor') return { text: translate(lang, 'chk.resIn'), lang }
+  const m = RES_OUT.exec(res)
+  return m ? { text: translate(lang, 'chk.resOut', { km: m[1], deg: m[2] }), lang } : { text: res, lang: 'en' }
 }

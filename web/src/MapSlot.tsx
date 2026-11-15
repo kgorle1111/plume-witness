@@ -1,5 +1,6 @@
 import { Component, lazy, Suspense, useState, type ComponentProps, type ReactNode } from 'react'
 import type { EventMap as EventMapType } from './EventMap'
+import { getLang, translate } from './i18n'
 
 // MapLibre + deck.gl are ~90% of the JS. Loading them lazily lets the header, stepper and Detect numbers
 // (the text that carries the event) render first on a slow phone connection.
@@ -25,8 +26,8 @@ class MapErrorBoundary extends Component<{ onRetry: () => void; children: ReactN
     if (!this.state.failed) return this.props.children
     return (
       <div className="map-skeleton" role="status">
-        <p>The map couldn't load. Every facility is listed as text in the Trace step.</p>
-        <button type="button" className="btn" onClick={this.props.onRetry}>Try loading the map again</button>
+        <p>{translate(getLang(), 'map.loadFailed')}</p>
+        <button type="button" className="btn" onClick={this.props.onRetry}>{translate(getLang(), 'map.retry')}</button>
       </div>
     )
   }
@@ -40,7 +41,7 @@ export function MapSlot(props: MapProps) {
   }
   return (
     <MapErrorBoundary key={attempt} onRetry={retry}>
-      <Suspense fallback={<div className="map-skeleton" role="status"><p>Loading map…</p></div>}>
+      <Suspense fallback={<div className="map-skeleton" role="status"><p>{translate(getLang(), 'map.loadingMap')}</p></div>}>
         <LazyMap {...props} />
       </Suspense>
     </MapErrorBoundary>
