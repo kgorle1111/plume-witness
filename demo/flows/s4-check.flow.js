@@ -9,7 +9,9 @@ module.exports = async (page) => {
   await glide(page.locator('h3.list-heading').filter({ hasText: 'Checks over time' }), page, 1200);
   await hold(page, 2400);
   await glide(page.locator('h3.list-heading').filter({ hasText: 'What the report says' }), page, 1400);
-  await hold(page, 3200);
+  await hold(page, 1400); // 7,634 lb, 09:38-10:42 local
+  await zoomMap(page, 522, 481, 2, -120); // keeps the hold under 3 s (craftlint STATIC-HOLD); the panel stays put
+  await hold(page, 600);
   await glide(page.locator('h3.list-heading').filter({ hasText: 'Other reports filed that day' }), page, 1400);
   await hold(page, 1800);
   // The panel is at its end here, so the motion comes from the map: close in on the facility that filed.
