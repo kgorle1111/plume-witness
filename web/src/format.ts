@@ -225,3 +225,63 @@ export function countyList(raw: string, lang: Lang): { counties: string; many: b
   const counties = names.length < 2 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')}${and}${names[names.length - 1]}`
   return { counties, many: names.length > 1 }
 }
+
+// Distances: the pipeline, the record-check guard and the packet drafts work in km; the screen shows miles first
+// (US readers) with the km in parentheses, so a number can still be matched against a draft or the data.
+export const KM_PER_MILE = 1.609344
+
+/** One decimal, with no trailing ".0" padding a whole number; a positive value too small to show reads "< 0.1". */
+const tenths = (x: number, keepZero: boolean): string => {
+  if (x > 0 && x < 0.05) return '< 0.1'
+  return keepZero ? x.toFixed(1) : String(Number(x.toFixed(1)))
+}
+
+/** "6.6 mi (10.6 km)": miles converted exactly from the km and shown to 0.1 mi; the km as given, to at most 0.1 km
+ *  (the inputs are point locations, not property lines). The same in Spanish ("mi" and "km" are used as is). */
+export function distanceText(km: number | string): string {
+  const n = typeof km === 'string' ? Number(km) : km
+  if (!Number.isFinite(n) || n < 0) return `${km} km`
+  return `${tenths(n / KM_PER_MILE, true)} mi (${tenths(n, false)} km)`
+}
+
+// Table columns show numbers exactly as the data writes them (no rounding, no padding zeros). To line up the decimal
+// points anyway, a cell is split at the point and the decimals sit in a box as wide as the column's longest
+// decimals (Unit.tsx Num); the digits themselves never change.
+
+/** The number as JavaScript writes it (its shortest exact form), with an exponent ("1e-7", "1.5e+21") written out
+ *  in plain digits: the same digits, only the point moved. */
+export function plainDecimal(n: number): string {
+  const s = String(n)
+  const m = /^(-?)(\d+)(?:\.(\d+))?e([+-]\d+)$/.exec(s)
+  if (!m) return s
+  const [, sign, whole, frac = '', e] = m
+  const digits = whole + frac
+  const point = whole.length + Number(e)
+  if (point <= 0) return `${sign}0.${'0'.repeat(-point)}${digits}`
+  if (point >= digits.length) return `${sign}${digits}${'0'.repeat(point - digits.length)}`
+  return `${sign}${digits.slice(0, point)}.${digits.slice(point)}`
+}
+
+/** How many decimals the number has as written (12.5 -> 1, 3 -> 0, 1e-7 -> 7). */
+export function fracDigits(n: number | null | undefined): number {
+  if (n === null || n === undefined || !Number.isFinite(n)) return 0
+  const m = /\.(\d+)$/.exec(plainDecimal(n))
+  return m ? m[1].length : 0
+}
+
+/** The most decimals any value in a column has: the width the column's decimal box is sized to. */
+export function maxFracDigits(values: Iterable<number | null | undefined>): number {
+  let max = 0
+  for (const v of values) max = Math.max(max, fracDigits(v))
+  return max
+}
+
+/** A number split at its decimal point, digits exactly as written (plainDecimal). `group` adds thousands commas to
+ *  the whole part (the same in en-US and es-US). A non-finite value is kept whole. */
+export function decimalParts(n: number, group = false): { int: string; frac: string } {
+  const s = plainDecimal(n)
+  const m = /^(-?)(\d+)(\.\d+)?$/.exec(s)
+  if (!m) return { int: s, frac: '' }
+  const int = group ? m[2].replace(/\B(?=(\d{3})+(?!\d))/g, ',') : m[2]
+  return { int: `${m[1]}${int}`, frac: m[3] ?? '' }
+}

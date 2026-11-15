@@ -2,10 +2,12 @@
 // site replays. Site.tsx wraps it in the site header and footer. The table is the full alternative to the map.
 import { Component, Suspense, lazy, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import {
-  SORT_KEYS, coverageSummary, firstDir, loadCoverage, markerGeometry, markerKind, ppbText, regionSpikesHref, replayable,
+  SORT_KEYS, coverageSummary, firstDir, loadCoverage, markerGeometry, markerKind, regionSpikesHref, replayable,
   sortSites, viewBounds, type Coverage as CoverageData, type CoverageSite, type MarkerKind, type SortDir, type SortKey,
 } from './coverage.ts'
 import { isLoadError, type LoadError } from './facilities'
+import { maxFracDigits } from './format'
+import { Num } from './Unit'
 import { T } from './LangSwitch'
 import { replayHref } from './routes'
 import { REGIONS } from './region'
@@ -181,9 +183,10 @@ function MapSection({ data }: { data: CoverageData }) {
   )
 }
 
-function ppbCell(t: Translate, s: CoverageSite, v: number | null) {
+/** A highest reading exactly as published, its decimal point in line with the column's (`frac`, Unit.tsx Num). */
+function ppbCell(t: Translate, s: CoverageSite, v: number | null, frac: number) {
   if (!s.has_data) return <span className="cv-gap">{t('cv.noData')}</span>
-  return v === null ? <span className="cv-gap">{t('cv.noValue')}</span> : ppbText(v)
+  return v === null ? <span className="cv-gap">{t('cv.noValue')}</span> : <Num value={v} frac={frac} />
 }
 
 function regionText(lang: Lang, key: string | null): string {
@@ -207,6 +210,10 @@ function SiteTable({ data }: { data: CoverageData }) {
     () => sortSites(data.sites, sort.key, sort.dir, (k) => regionText(lang, k), lang === 'es' ? 'es' : 'en'),
     [data.sites, sort, lang],
   )
+  const frac = useMemo(() => ({
+    benzene: maxFracDigits(data.sites.map((s) => s.max_benzene_ppb)),
+    butadiene: maxFracDigits(data.sites.map((s) => s.max_butadiene_ppb)),
+  }), [data.sites])
   const choose = (key: SortKey) => setSort((s) => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: firstDir(key) }))
   return (
     <section className="cv-table-section" aria-labelledby="cv-table-h">
@@ -240,8 +247,8 @@ function SiteTable({ data }: { data: CoverageData }) {
                 </th>
                 <td>{s.county}</td>
                 <td><RegionCell s={s} /></td>
-                <td className="num">{ppbCell(t, s, s.max_benzene_ppb)}</td>
-                <td className="num">{ppbCell(t, s, s.max_butadiene_ppb)}</td>
+                <td className="num">{ppbCell(t, s, s.max_benzene_ppb, frac.benzene)}</td>
+                <td className="num">{ppbCell(t, s, s.max_butadiene_ppb, frac.butadiene)}</td>
                 <td className="num">{s.has_data ? s.spikes : <span className="cv-gap">{t('cv.noData')}</span>}</td>
                 <td>{t(s.wind_source ? `cv.wind.${s.wind_source}` : 'cv.wind.none')}</td>
               </tr>

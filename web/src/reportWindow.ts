@@ -1,5 +1,6 @@
 import type { RecordCheck } from './types.ts'
 import { dateLabel, monthShort, translate, type Lang } from './i18n.ts'
+import { distanceText } from './format.ts'
 
 /** Offset of the company's local clock from the monitors' CST, read from the pipeline's own tz note. */
 export function localOffsetH(tz?: string): number | null {
@@ -80,7 +81,7 @@ export function arrivalTick(rc: RecordCheck, eventDay: string, lang: Lang = 'en'
   const label = off ? 'CDT' : 'CST'
   return {
     hourCst: min / 60,
-    text: translate(lang, 'rw.arrival', { time: r.arrival_local.slice(11), tz: label, mph: r.travel_speed_mph, km: r.travel_distance_km }),
+    text: translate(lang, 'rw.arrival', { time: r.arrival_local.slice(11), tz: label, mph: r.travel_speed_mph, km: distanceText(r.travel_distance_km) }),
   }
 }
 
@@ -113,7 +114,7 @@ export function resolutionText(res: string, lang: Lang): { text: string; lang: L
   if (res === 'in the upwind corridor') return { text: translate(lang, 'chk.resIn'), lang }
   if (res === 'unresolved: facility not located') return { text: translate(lang, 'chk.resUnlocated'), lang }
   let m = RES_OUT.exec(res)
-  if (m) return { text: translate(lang, 'chk.resOut', { km: m[1], deg: m[2] }), lang }
+  if (m) return { text: translate(lang, 'chk.resOut', { km: distanceText(m[1]), deg: m[2] }), lang }
   m = RES_CALM.exec(res)
   if (m) return { text: translate(lang, 'chk.resCalm', { mph: m[1] }), lang }
   m = RES_AMBIGUOUS.exec(res)

@@ -1,4 +1,4 @@
-import { kmText } from './geo'
+import { distanceText } from './format'
 import { NEIGHBORHOODS } from './neighborhoods'
 import { nearestSite, type SpikeRow } from './spikes'
 import { useT } from './useT'
@@ -31,7 +31,7 @@ export function NeighborhoodPicks({ rows, picked, onPick }: {
       </div>
       {/* Always rendered, so the first result is announced. */}
       <p className="sl-nb-result" role="status">
-        {place && near ? t('spikes.nbResult', { place: place.label, site: near.site, km: kmText(near.km) }) : ''}
+        {place && near ? t('spikes.nbResult', { place: place.label, site: near.site, km: distanceText(near.km) }) : ''}
       </p>
     </div>
   )

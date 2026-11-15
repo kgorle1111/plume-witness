@@ -1,5 +1,6 @@
 import { memo, startTransition, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
-import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { hourLabel, maxFracDigits, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { Num } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import {
   NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv, yearSpan,
@@ -135,6 +136,9 @@ function ReplayLink({ row, region, lang, onOpen }: { row: SpikeRow; region: Regi
 }
 
 interface RowProps { r: SpikeRow; i: number; region: RegionInfo; lang: Lang; onOpen: () => void }
+/** Each number column's most decimals among the rows on screen, so its decimal points line up (Unit.tsx Num). Passed
+ *  as separate numbers so memo keeps drawn rows when "Show more" leaves them unchanged. */
+interface Fracs { fValue: number; fBase: number; fRatio: number }
 
 // memo: "Show all", a sort or "Show more" re-renders the list; rows already drawn keep their DOM (PERF-10).
 const Card = memo(function Card({ r, i, region, lang, onOpen }: RowProps) {
@@ -158,7 +162,7 @@ const Card = memo(function Card({ r, i, region, lang, onOpen }: RowProps) {
   )
 })
 
-const Row = memo(function Row({ r, i, region, lang, onOpen }: RowProps) {
+const Row = memo(function Row({ r, i, region, lang, onOpen, fValue, fBase, fRatio }: RowProps & Fracs) {
   const t = useT()
   const report = safeHttpUrl(r.report_url)
   return (
@@ -167,9 +171,9 @@ const Row = memo(function Row({ r, i, region, lang, onOpen }: RowProps) {
       <td className="nowrap">{hourLabel(r.hour_cst)}</td>
       <td>{r.site}</td>
       <td className="nowrap">{compoundLabel(lang, r.compound)}</td>
-      <td className="num">{r.value_ppb}</td>
-      <td className="num">{r.baseline_ppb}</td>
-      <td className="num">{r.ratio === null ? '—' : `${r.ratio}×`}</td>
+      <td className="num"><Num value={r.value_ppb} frac={fValue} /></td>
+      <td className="num"><Num value={r.baseline_ppb} frac={fBase} /></td>
+      <td className="num"><Num value={r.ratio} frac={fRatio} suffix="×" /></td>
       <td>
         <StatusTag row={r} lang={lang} />
         {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
@@ -293,6 +297,11 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
 
   const limit = paging.key === filterKey ? paging.limit : PAGE_SIZE
   const view = useMemo(() => logView(data?.rows ?? [], filters, sort, dir, limit), [data, filters, sort, dir, limit])
+  const fracs = useMemo<Fracs>(() => ({
+    fValue: maxFracDigits(view.shown.map((r) => r.value_ppb)),
+    fBase: maxFracDigits(view.shown.map((r) => r.baseline_ppb)),
+    fRatio: maxFracDigits(view.shown.map((r) => r.ratio)),
+  }), [view.shown])
   const rows = view.rows
   const listRef = useRef<HTMLDivElement>(null)
   const focusRow = useRef<number | null>(null)
@@ -399,7 +408,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           </tr>
         </thead>
         <tbody>
-          {view.shown.map((r, i) => <Row key={spikeKey(r)} r={r} i={i} region={region} lang={lang} onOpen={onOpenNight} />)}
+          {view.shown.map((r, i) => <Row key={spikeKey(r)} r={r} i={i} region={region} lang={lang} onOpen={onOpenNight} {...fracs} />)}
         </tbody>
       </table>
     </div>
