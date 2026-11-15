@@ -233,6 +233,18 @@ def _travel(p: dict, inc: dict, det_local: datetime, speed_mph: float | None) ->
                                  (det_local + timedelta(hours=1)).isoformat(timespec="minutes")]}
 
 
+def county_en(county: str) -> str:
+    """"Harris" -> "Harris County"; a region searched by several, "Ector, Midland" -> "Ector and Midland counties"."""
+    *rest, last = [c.strip() for c in county.split(",")]
+    return f"{last} County" if not rest else f"{', '.join(rest)} and {last} counties"
+
+
+def county_es(county: str) -> str:
+    """"Harris" -> "el condado de Harris"; "Ector, Midland" -> "los condados de Ector y Midland"."""
+    *rest, last = [c.strip() for c in county.split(",")]
+    return f"el condado de {last}" if not rest else f"los condados de {', '.join(rest)} y {last}"
+
+
 def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
                  search_complete: bool, param: str, ongoing: list[dict] | None = None,
                  earlier_complete: bool = False, earlier_note: str = "", calm_note: str = "",
@@ -255,7 +267,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     still_open = [p for p in ongoing or [] if overlaps(p)]
     # placed may also hold next-day reports (a window past midnight); the next-day count is in earlier_note
     today = sum(1 for p in placed if (p.get("start_local") or "")[:10] <= det_day.isoformat())
-    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in {county} County "
+    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in {county_en(county)} "
              f"({today} found; search {'complete' if search_complete else 'incomplete'}).")
     scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
     if calm_note:
@@ -366,9 +378,9 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   "explica estas lecturas.")
     elif rc["status"] == "no_report_after_deadline":
         rec_en = (" No matching report found in a complete search of that day's emissions-event records for "
-                  f"{county} County. That does not show who or what caused the reading.")
+                  f"{county_en(county)}. That does not show who or what caused the reading.")
         rec_es = (" No se encontró un reporte que coincida en una búsqueda completa de los registros de eventos "
-                  f"de emisiones de ese día en el condado de {county}. Eso no indica quién o qué causó la lectura.")
+                  f"de emisiones de ese día en {county_es(county)}. Eso no indica quién o qué causó la lectura.")
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
@@ -603,7 +615,7 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
         "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
                      "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
         "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param,
-                                  region.county_title if region else "Harris"),
+                                  region.search_county_title if region else "Harris"),
         "cannot_say": (list(CANNOT_SAY) if region is None else _region_cannot_say(region))
         + ([BORROWED_WIND_CAVEAT] if wind and wind["site_id"] != trig["site_id"] else []),
         "provenance": provenance,
@@ -612,9 +624,9 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
 
 
 def _region_cannot_say(region) -> list[str]:
-    """Houston's list minus its Houston-only monitor-network line, with the region's backtest line (or the
-    not-backtested label) first."""
-    return [region.note, *(c for c in CANNOT_SAY if "Houston" not in c),
+    """Houston's list minus its Houston-only monitor-network line, with the region's backtest line (if it has one)
+    first."""
+    return [*([region.note] if region.note else []), *(c for c in CANNOT_SAY if "Houston" not in c),
             "Only regulator-grade monitors whose data the state publishes are used, never low-cost sensors."]
 
 

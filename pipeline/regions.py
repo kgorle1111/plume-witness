@@ -61,7 +61,6 @@ HOUSTON_MET_SELECTS = {
 # Arthur (saved as data/raw/region_beaumont/agc_form.html). Port Arthur itself has no AutoGC site on that list.
 BEAUMONT_SITES = {"48_245_0009": "Beaumont-Downtown", "48_245_1035": "Nederland 17th Street"}
 
-NOT_BACKTESTED_NOTE = "New region: no backtest yet; statuses use the same rules; no claims are made from it."
 # One line in a backtested region's limits list (and its files' region block); the doc carries the numbers.
 # The number sits in the parentheses so the web's Spanish table (format.ts cannotSayEs) matches the sentence itself.
 BACKTESTED_NOTE = "Backtested against company-reported releases (n = {n}, 2024-2025)"
@@ -83,6 +82,9 @@ class Region:
     met_selects: dict[str, list[str]] = field(default_factory=dict)
     # Candidate releases in the region's backtest (summary.candidates); None until it is backtested.
     n_backtest: int | None = None
+    # STEERS counties searched for the record check when not all of a multi-county region's counties are: only the
+    # counties whose monitors had a spike (a county with none needs no record check). Empty means every county.
+    steers_counties: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.backtested != (self.n_backtest is not None):
@@ -93,11 +95,26 @@ class Region:
         return self.county.title()
 
     @property
+    def counties(self) -> tuple[str, ...]:
+        """`county` is one STEERS county name, or several joined by ", " for a region that spans counties."""
+        return tuple(c.strip() for c in self.county.split(","))
+
+    @property
+    def search_counties(self) -> tuple[str, ...]:
+        return self.steers_counties or self.counties
+
+    @property
+    def search_county_title(self) -> str:
+        """The searched counties as the record-check text names them ("Harris"; "Ector, Midland")."""
+        return ", ".join(c.title() for c in self.search_counties)
+
+    @property
     def note(self) -> str | None:
-        """Houston: None (its files never carried one). Another region: its backtest line, or the not-backtested one."""
-        if self.key == "houston":
+        """Houston: None (its files never carried one). Another region: its backtest line if it has one, else None;
+        no public file says a region is not backtested."""
+        if self.key == "houston" or not self.backtested:
             return None
-        return BACKTESTED_NOTE.format(n=self.n_backtest) if self.backtested else NOT_BACKTESTED_NOTE
+        return BACKTESTED_NOTE.format(n=self.n_backtest)
 
 
 HOUSTON = Region(
@@ -124,7 +141,114 @@ BEAUMONT = Region(
     },
 )
 
-REGIONS = {r.key: r for r in (HOUSTON, BEAUMONT)}
+
+# Every other Texas AutoGC site with 2024-2025 hourly data, grouped by the county STEERS is searched by. Sites,
+# names and counties are the TCEQ AutoGC yearly-summary form's list (data/raw/texas_coverage/agc_form.html); the
+# CAMS ids are the met form's options for each site.
+# The AQS id's middle part is the county FIPS code, which is how coverage.json and the tests check each site's county.
+TX_COUNTY_FIPS = {
+    "029": "BEXAR", "039": "BRAZORIA", "091": "COMAL", "113": "DALLAS", "121": "DENTON", "135": "ECTOR",
+    "141": "EL PASO", "201": "HARRIS", "245": "JEFFERSON", "251": "JOHNSON", "255": "KARNES", "329": "MIDLAND",
+    "355": "NUECES", "439": "TARRANT", "493": "WILSON", "497": "WISE",
+}
+
+
+def site_county(site: str) -> str:
+    return TX_COUNTY_FIPS[site.split("_")[1]]
+
+
+# AutoGC sites on the form with no hourly benzene or 1,3-butadiene for 2024 or 2025 (TAMIS lists them inactive, except
+# Odessa Hays). They are in no region; data/raw/texas_coverage/ holds the empty AutoGC pages that show it.
+NO_DATA_SITES = {
+    "48_355_0035": "Oak Park", "48_355_0041": "Solar Estates", "48_135_0003": "Odessa Hays",
+    "48_141_1011": "El Paso Delta",
+}
+COVERAGE_RAW = ROOT / "data" / "raw" / "texas_coverage"
+
+
+def _sel(site: str, label: str, *cams: str) -> list[str]:
+    return [f"site|{label}|{site}|{c}" for c in cams]
+
+
+def _new_region(key: str, label: str, label_es: str, place: str, place_es: str, county: str,
+                selects: dict[str, tuple[str, list[str]]], steers_counties: tuple[str, ...] = ()) -> Region:
+    """A region with the usual layout: data/raw/region_<key>/ in, web/public/regions/<key>/ out. Labels are plain
+    place names. Not backtested: STEERS is searched only where the record check needs it (`steers_counties`)."""
+    return Region(
+        key=key, label=label, county=county, sites={s: n for s, (n, _) in selects.items()},
+        raw=ROOT / "data" / "raw" / f"region_{key}", spikes_out=WEB_PUBLIC / "regions" / key / "spikes.json",
+        nights_out=WEB_PUBLIC / "regions" / key / "nights", backtested=False, place=place, label_es=label_es,
+        place_es=place_es, met_selects={s: sel for s, (_, sel) in selects.items()},
+        steers_counties=steers_counties,
+    )
+
+
+# The two Harris County AutoGC sites Houston leaves out (no met-form wind at their own CAMS id; they use the AutoGC
+# form's resultant wind). A region of their own so Houston's backtested numbers stay exactly as published.
+BAYTOWN = _new_region(
+    "baytown", "Baytown", "Baytown", "near Baytown", "cerca de Baytown", "HARRIS", {
+        "48_201_0807": ("HRM-7 W Baytown", _sel("48_201_0807", "HRM-7 W Baytown C607 ", "607")),
+        "48_201_0617": ("Wallisville Road", _sel("48_201_0617", "Wallisville Road C617 ", "617")),
+    })
+
+BRAZORIA = _new_region(
+    "brazoria", "Brazoria County", "Condado de Brazoria", "in Brazoria County", "en el condado de Brazoria",
+    "BRAZORIA", {"48_039_1607": ("Oyster Creek", _sel("48_039_1607", "Oyster Creek C1607 ", "1607"))})
+
+# Victoria County has no AutoGC site on the form; Oak Park and Solar Estates (Nueces) have no 2024-2025 data.
+CORPUS_CHRISTI = _new_region(
+    "corpus_christi", "Corpus Christi", "Corpus Christi", "in Corpus Christi", "en Corpus Christi", "NUECES",
+    {"48_355_0083": ("Corpus Christi Palm", _sel("48_355_0083", "Corpus Christi Palm C83 ", "83"))})
+
+KARNES = _new_region(
+    "karnes", "Karnes County", "Condado de Karnes", "in Karnes County", "en el condado de Karnes", "KARNES",
+    {"48_255_1070": ("Karnes County Courthouse",
+                     _sel("48_255_1070", "Karnes County Courthouse C1070 ", "1070"))})
+
+SAN_ANTONIO = _new_region(
+    "san_antonio", "San Antonio area", "Área de San Antonio", "in the San Antonio area", "en el área de San Antonio",
+    "BEXAR, COMAL, WILSON", {
+        "48_029_0052": ("Camp Bullis", _sel("48_029_0052", "Camp Bullis C58 ", "58")),
+        "48_091_0505": ("AACOG City of Garden Ridge",
+                        _sel("48_091_0505", "AACOG City of Garden Ridge C505 ", "505")),
+        "48_493_1038": ("Floresville Hospital Blvd", _sel("48_493_1038", "Floresville Hospital Blvd C1038 ", "1038")),
+    })
+
+DALLAS_FORT_WORTH = _new_region(
+    "dallas_fort_worth", "Dallas-Fort Worth", "Dallas-Fort Worth", "in Dallas-Fort Worth", "en Dallas-Fort Worth",
+    "DALLAS, DENTON, JOHNSON, TARRANT, WISE", {
+        "48_113_0069": ("Dallas Hinton St.", _sel("48_113_0069", "Dallas Hinton St. C401/C60/AH161 ", "60", "161",
+                                                  "401", "3002")),
+        "48_113_1505": ("Dallas Elm Fork", _sel("48_113_1505", "Dallas Elm Fork C1505 ", "1505")),
+        "48_121_1007": ("Flower Mound Shiloh", _sel("48_121_1007", "Flower Mound Shiloh C1007 ", "1007")),
+        "48_121_1013": ("Dish Airfield", _sel("48_121_1013", "Dish Airfield C1013 ", "1013")),
+        "48_251_1063": ("Mansfield Flying L Lane", _sel("48_251_1063", "Mansfield Flying L Lane C1063 ", "1063")),
+        "48_251_1501": ("Godley FM2331", _sel("48_251_1501", "Godley FM2331 C1501 ", "1501")),
+        "48_439_0075": ("Eagle Mountain Lake", _sel("48_439_0075", "Eagle Mountain Lake C75 ", "75")),
+        "48_439_1002": ("Fort Worth Northwest (Meacham)", _sel("48_439_1002", "Ft. Worth Northwest C13/AH302 ", "13")),
+        "48_439_1009": ("Everman Johnson Park", _sel("48_439_1009", "Everman Johnson Park C1009 ", "1009")),
+        "48_439_1018": ("Arlington UT Campus", _sel("48_439_1018", "Arlington UT Campus C1018 ", "1018")),
+        "48_439_1062": ("Kennedale Treepoint Dr", _sel("48_439_1062", "Kennedale Treepoint Dr C1062 ", "1062")),
+        "48_439_1065": ("Fort Worth Joe B Rushing Road",
+                        _sel("48_439_1065", "Fort Worth Joe B Rushing Road C1065 ", "1065")),
+        "48_439_1503": ("Fort Worth Benbrook Lake", _sel("48_439_1503", "Fort Worth Benbrook Lake C1503 ", "1503")),
+        "48_497_0088": ("Decatur Thompson", _sel("48_497_0088", "Decatur Thompson C88 ", "88")),
+        "48_497_1064": ("Rhome Seven Hills Road", _sel("48_497_1064", "Rhome Seven Hills Road C1064 ", "1064")),
+    }, steers_counties=("DALLAS",))  # only the Dallas County monitors (Hinton St., Elm Fork) had a spike
+
+MIDLAND_ODESSA = _new_region(
+    "midland_odessa", "Midland-Odessa", "Midland-Odessa", "in Midland-Odessa", "en Midland-Odessa", "ECTOR, MIDLAND", {
+        "48_135_1092": ("Odessa Westmark Street", _sel("48_135_1092", "Odessa Westmark Street C1092 ", "1092")),
+        "48_135_1093": ("Goldsmith Street", _sel("48_135_1093", "Goldsmith Street C1093 ", "1093")),
+        "48_329_1095": ("Midland Avalon Drive", _sel("48_329_1095", "Midland Avalon Drive C1095 ", "1095")),
+    })
+
+EL_PASO = _new_region(
+    "el_paso", "El Paso", "El Paso", "in El Paso", "en El Paso", "EL PASO",
+    {"48_141_0044": ("Chamizal", _sel("48_141_0044", "Chamizal C41/AH126 ", "41", "126", "3001"))})
+
+REGIONS = {r.key: r for r in (HOUSTON, BEAUMONT, BAYTOWN, BRAZORIA, CORPUS_CHRISTI, KARNES, SAN_ANTONIO,
+                              DALLAS_FORT_WORTH, MIDLAND_ODESSA, EL_PASO)}
 ALL_SITE_NAMES = {s: n for r in REGIONS.values() for s, n in r.sites.items()}
 
 

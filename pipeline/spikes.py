@@ -138,7 +138,8 @@ def export(bt: dict, coords: dict[str, tuple[float, float]], region: regions.Reg
         raise SpikeExportError(f"backtest schema is {bt.get('schema')!r}, expected {SOURCE_SCHEMA}; "
                                "re-run `uv run python -m pipeline.backtest`")
     spikes = bt.get("spikes")
-    if not isinstance(spikes, list) or not spikes:
+    # A not-backtested region with no reading above the trigger is a real result (an empty log), not a broken file.
+    if not isinstance(spikes, list) or (not spikes and region is regions.HOUSTON):
         raise SpikeExportError("backtest.json has no 'spikes' list; re-run `uv run python -m pipeline.backtest`")
     rows = [export_row(s, i, coords, region.sites, region.nights_out) for i, s in enumerate(spikes)]
     rows.sort(key=lambda r: (r["date"], r["hour_cst"], r["site_id"], r["param"]))
@@ -188,12 +189,12 @@ def region_scan(region: regions.Region) -> tuple[dict, dict[str, tuple[float, fl
     rows_by_day: dict[str, list[dict]] = {}
     for r in universe:
         rows_by_day.setdefault(r["began"][:10], []).append(r)
-    rows = backtest.spike_scan(coords, rows_by_day, echo_site, echo_rows, incomplete, [], raw, region.county_title)
+    rows = backtest.spike_scan(coords, rows_by_day, echo_site, echo_rows, incomplete, [], raw, region.search_county_title)
     rules = {"years": list(backtest.YEARS),
              "trigger": f"value >= max({build.TRIGGER_RATIO:g} x {build.BASELINE_DAYS}-day median, "
                         f"{build.TRIGGER_FLOOR_PPB:g} ppb), earliest hour of the day",
              "corridor": f"+/-{build.CORRIDOR_HALF_ANGLE} deg of upwind, <= {build.CORRIDOR_RADIUS_KM} km"}
-    bt = {"schema": SOURCE_SCHEMA, "source": f"{raw.relative_to(ROOT)} (spike scan only; no backtest)",
+    bt = {"schema": SOURCE_SCHEMA, "source": f"{raw.relative_to(ROOT)} (spike scan)",
           "rules": rules, "spikes": rows, "spike_summary": {"spikes": len(rows), "false_no_report": None},
           "incomplete_week_searches": incomplete}
     return bt, coords

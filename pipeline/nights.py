@@ -78,7 +78,7 @@ def generate(raw: Path | None = None, region: regions.Region = regions.HOUSTON) 
     labeled = None if region is regions.HOUSTON else region
     nights, skipped = [], []
     for sp in backtest.traced_spikes(ctx["sites"], ctx["rows_by_day"], ctx["echo_site"], ctx["echo_rows"],
-                                     ctx["incomplete"], raw, full=True, county=region.county_title):
+                                     ctx["incomplete"], raw, full=True, county=region.search_county_title):
         t, det = sp["trace"], sp["det"]
         nid = night_id(sp["day"], sp["param"], det["site_id"])
         if "record_check" not in t:
