@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
-import { NO_FILTER, csvCell, dateText, parseSpikes, selectRows, spikeKey, toCsv } from '../src/spikes.ts'
+import { NO_FILTER, PAGE_SIZE, csvCell, dateText, logView, parseSpikes, selectRows, spikeKey, toCsv } from '../src/spikes.ts'
 
 const data = parseSpikes(JSON.parse(readFileSync(new URL('../public/spikes.json', import.meta.url), 'utf8')))
 
@@ -65,4 +65,37 @@ test('a null night_id still parses, sorts and exports to CSV', () => {
   const g = data.rows.find((r) => r.night_id === null)!
   const cols = toCsv([g]).split('\r\n')[1]
   assert.ok(cols.endsWith(','), 'night_id column is empty, not the text "null"')
+})
+
+test('the log pages after filtering and sorting, and the CSV keeps every filtered row', () => {
+  const f = { ...NO_FILTER, status: 'no_report_after_deadline' }
+  const all = selectRows(data.rows, f, 'value', 'desc')
+  assert.ok(all.length > PAGE_SIZE, 'needs more filtered rows than one page for this test to mean anything')
+  const v = logView(data.rows, f, 'value', 'desc', PAGE_SIZE)
+  assert.equal(v.shown.length, PAGE_SIZE)
+  // The page is the top of the filtered, sorted list: every shown row passes the filter and the order holds.
+  assert.deepEqual(v.shown.map(spikeKey), all.slice(0, PAGE_SIZE).map(spikeKey))
+  assert.ok(v.shown.every((r) => r.status === 'no_report_after_deadline'))
+  assert.deepEqual(v.rows.map(spikeKey), all.map(spikeKey))
+  assert.equal(v.remaining, all.length - PAGE_SIZE)
+  assert.equal(v.next, Math.min(PAGE_SIZE, v.remaining))
+  assert.equal(toCsv(v.rows).trimEnd().split('\r\n').length, all.length + 1)
+})
+
+test('"Show more" adds a page, the last press adds only what is left, and a bad limit falls back to one page', () => {
+  const total = data.rows.length
+  const v2 = logView(data.rows, NO_FILTER, 'date', 'desc', PAGE_SIZE * 2)
+  assert.equal(v2.shown.length, PAGE_SIZE * 2)
+  const last = logView(data.rows, NO_FILTER, 'date', 'desc', total - 15)
+  assert.equal(last.next, 15)
+  const every = logView(data.rows, NO_FILTER, 'date', 'desc', total + 100)
+  assert.equal(every.shown.length, total)
+  assert.equal(every.remaining, 0)
+  assert.equal(every.next, 0)
+  for (const bad of [0, -3, Number.NaN, Number.POSITIVE_INFINITY]) assert.equal(logView(data.rows, NO_FILTER, 'date', 'desc', bad).shown.length, PAGE_SIZE)
+})
+
+test('the first page holds the row the judge video replays (newest "No matching report", 2025-11-18 Manchester)', () => {
+  const v = logView(data.rows, { ...NO_FILTER, status: 'no_report_after_deadline' }, 'date', 'desc', PAGE_SIZE)
+  assert.equal(v.shown.find((r) => r.night_id)?.night_id, '2025-11-18_43218_48_201_0307')
 })

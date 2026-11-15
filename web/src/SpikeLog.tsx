@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
 import { DEMO_REPLAY_HREF } from './demoHref'
-import { NO_FILTER, parseSpikes, spikeKey, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
+import { NO_FILTER, PAGE_SIZE, logView, parseSpikes, spikeKey, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
 import { REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
@@ -172,7 +172,25 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
     }
   }, [data, t, lang])
 
-  const rows = useMemo(() => selectRows(data?.rows ?? [], filters, sort, dir), [data, filters, sort, dir])
+  // The page size resets when the filters change (a new list starts at its top) but not on a re-sort.
+  const filterKey = JSON.stringify(filters)
+  const [paging, setPaging] = useState({ key: filterKey, limit: PAGE_SIZE })
+  const limit = paging.key === filterKey ? paging.limit : PAGE_SIZE
+  const view = useMemo(() => logView(data?.rows ?? [], filters, sort, dir, limit), [data, filters, sort, dir, limit])
+  const rows = view.rows
+  const listRef = useRef<HTMLDivElement>(null)
+  const focusRow = useRef<number | null>(null)
+  const showMore = (n: number) => {
+    focusRow.current = view.shown.length
+    setPaging({ key: filterKey, limit: view.shown.length + n })
+  }
+  // Keyboard and screen-reader users land on the first row "Show more" added, not back at the button below it.
+  useEffect(() => {
+    const i = focusRow.current
+    if (i === null) return
+    focusRow.current = null
+    listRef.current?.querySelector<HTMLElement>(`[data-row="${i}"]`)?.focus()
+  }, [view.shown.length])
 
   const onSort = (k: SortKey) => {
     if (k === sort) setDir(dir === 'asc' ? 'desc' : 'asc')
@@ -210,7 +228,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         <p className="sl-brief-link"><T k="spikes.brief" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=brief`}>{t('spikes.briefLink')}</a> }} /></p>
       </header>
 
-      <section className="sl-explain" aria-label={t('spikes.explain')}>
+      <details className="sl-explain">
+        <summary>{t('spikes.explain')}</summary>
         <p><T k="spikes.what" /></p>
         <p>
           <T k="spikes.noMatch" v={{
@@ -229,7 +248,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
             ))}
           </dl>
         </details>
-      </section>
+      </details>
 
       <section className="sl-controls" aria-label={t('spikes.filterLabel')}>
         <div className="sl-filters">
@@ -248,7 +267,9 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           </div>
         )}
         <div className="sl-actions">
-          <p className="sl-count" aria-live="polite">{t('spikes.showing', { n: rows.length, total: s.spikes })}</p>
+          <p className="sl-count" aria-live="polite">
+            {filtered ? t('spikes.showingFiltered', { n: view.shown.length, m: rows.length, total: s.spikes }) : t('spikes.showing', { n: view.shown.length, total: s.spikes })}
+          </p>
           {filtered && <button type="button" className="btn" onClick={() => setFilters(NO_FILTER)}>{t('spikes.clear')}</button>}
           <button type="button" className="btn btn-primary" disabled={!rows.length} onClick={() => downloadCsv(rows, filters)}>
             {t('spikes.csv', { n: rows.length })}
@@ -264,15 +285,15 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
       />
 
       {phone ? (
-        <div className="sl-cards-wrap">
+        <div className="sl-cards-wrap" ref={listRef}>
           <p id="sl-caption" className="sl-cards-cap">
             {t('spikes.capSorted', { what: filtered ? t('spikes.capFiltered') : t('spikes.capMonitors', { n: options.site.length - 1 }), by: sortText, order: orderText })}
           </p>
           <ul className="sl-cards" aria-label={t('spikes.cardsLabel')}>
-            {rows.map((r) => {
+            {view.shown.map((r, i) => {
               const report = safeHttpUrl(r.report_url)
               return (
-                <li key={spikeKey(r)} className="sl-card">
+                <li key={spikeKey(r)} className="sl-card" data-row={i} tabIndex={-1}>
                   <div className="sl-card-top">
                     <p className="sl-card-when"><time dateTime={r.date}>{dateLabel(r.date, lang)}</time> · {hourLabel(r.hour_cst)}</p>
                     <StatusTag row={r} lang={lang} />
@@ -292,7 +313,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           {!rows.length && <p className="sl-empty">{t('spikes.empty')}</p>}
         </div>
       ) : (
-      <div className="sl-table-wrap" tabIndex={0} role="region" aria-labelledby="sl-caption">
+      <div className="sl-table-wrap" tabIndex={0} role="region" aria-labelledby="sl-caption" ref={listRef}>
         <table className="sl-table">
           <caption id="sl-caption">
             {t('spikes.capSorted', { what: filtered ? t('spikes.capFiltered') : t('spikes.capMonitors', { n: options.site.length - 1 }), by: sortText, order: orderText })}
@@ -311,10 +332,10 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => {
+            {view.shown.map((r, i) => {
               const report = safeHttpUrl(r.report_url)
               return (
-                <tr key={spikeKey(r)}>
+                <tr key={spikeKey(r)} data-row={i} tabIndex={-1}>
                   <th scope="row" className="nowrap"><time dateTime={r.date}>{dateLabel(r.date, lang)}</time></th>
                   <td className="nowrap">{hourLabel(r.hour_cst)}</td>
                   <td>{r.site}</td>
@@ -336,6 +357,14 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         </table>
         {!rows.length && <p className="sl-empty">{t('spikes.empty')}</p>}
       </div>
+      )}
+      {view.remaining > 0 && (
+        <div className="sl-more">
+          <button type="button" className="btn" onClick={() => showMore(view.next)}>{t('spikes.more', { n: view.next })}</button>
+          {view.remaining > view.next && (
+            <button type="button" className="btn" onClick={() => showMore(view.remaining)}>{t('spikes.all', { n: rows.length })}</button>
+          )}
+        </div>
       )}
       <p className="sl-foot">
         <T k="spikes.source" v={{ via: t(region.backtested ? 'spikes.srcBacktest' : 'spikes.srcScan'), code: <code>pipeline/spikes.py</code> }} />
