@@ -6,6 +6,8 @@ import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
 import { destination, mergeArcs, readingText, sectorRing } from './format'
+import { placeReadout } from './geo'
+import type { Place } from './PlaceSearch'
 
 // MapLibre 6 ships its worker as a separate module; Vite needs its URL (per the OpenFreeMap quick start).
 setWorkerUrl(workerUrl)
@@ -66,9 +68,13 @@ interface Props {
   highlightId: string | null
   /** Replay hour (CST) whose readings and wind the map shows. */
   hour: number
+  /** Searched or picked place; pinned only when it is inside the replay's coverage. */
+  place: Place | null
 }
 
-export function EventMap({ ev, corridor, highlightId, hour }: Props) {
+const PIN_SVG = '<svg width="26" height="32" viewBox="0 0 26 32" aria-hidden="true"><path d="M13 31s11-10.4 11-18.5A11 11 0 0 0 2 12.5C2 20.6 13 31 13 31z" fill="#6d28d9" stroke="#fff" stroke-width="2"/><circle cx="13" cy="12.5" r="4" fill="#fff"/></svg>'
+
+export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const legend = useRef<HTMLUListElement>(null)
   const highlight = useRef(highlightId)
@@ -79,6 +85,8 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   const skipIntro = useRef<() => void>(() => {})
   const replayIntro = useRef<() => void>(() => {})
   const applyHour = useRef<(h: number) => void>(() => {})
+  const placeRef = useRef(place)
+  const applyPlace = useRef<(p: Place | null) => void>(() => {})
 
   useEffect(() => {
     const el = container.current
@@ -494,6 +502,36 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
     }
     if (phaseNow !== 'flat') map.once('style.load', startIntro)
     skipIntro.current = finishIntro
+
+    // Searched place: a violet teardrop (no data point on this map is a teardrop), framed with the nearest
+    // monitor and facility so the readout's distances are on screen. Far places get no pin and no camera move.
+    const placeEl = document.createElement('div')
+    placeEl.className = 'place-pin'
+    placeEl.setAttribute('aria-hidden', 'true')
+    placeEl.innerHTML = `${PIN_SVG}<span class="place-label"></span>`
+    const placeMarker = new Marker({ element: placeEl, anchor: 'bottom' })
+    applyPlace.current = (p) => {
+      placeMarker.remove()
+      if (!p) return
+      const r = placeReadout(ev, p)
+      if (r.kind === 'far') return
+      if (phaseNow !== 'flat') finishIntro()
+      ;(placeEl.querySelector('.place-label') as HTMLElement).textContent = p.label
+      placeMarker.setLngLat([p.lon, p.lat]).addTo(map)
+      const frame = new LngLatBounds([p.lon, p.lat], [p.lon, p.lat])
+      frame.extend([r.monitorAt.lon, r.monitorAt.lat])
+      if (r.facility) frame.extend([r.facility.lon, r.facility.lat])
+      // The flagged monitor stays in frame so the place is always seen against the spike.
+      frame.extend([trigger.lon, trigger.lat])
+      const padding = fitPadding()
+      // Near the right edge the label goes on the pin's left so it isn't clipped (checked once the camera lands).
+      map.once('moveend', () => {
+        placeEl.classList.toggle('label-left', map.project([p.lon, p.lat]).x > el.clientWidth - 150)
+      })
+      // Extra top room for the pin itself, which stands above its point.
+      if (padding) map.fitBounds(frame, { padding: { ...padding, top: padding.top + 36 }, maxZoom: 12, duration: reduceMotion ? 0 : 1200 })
+    }
+    if (placeRef.current) applyPlace.current(placeRef.current)
     replayIntro.current = () => {
       if (phaseNow === 'flat') startIntro()
     }
@@ -503,6 +541,8 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
       window.clearTimeout(introTimer)
       skipIntro.current = () => {}
       replayIntro.current = () => {}
+      applyPlace.current = () => {}
+      placeMarker.remove()
       pinMarker.remove()
       pulseMarker.remove()
       map.off('move', sync)
@@ -525,6 +565,13 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   useEffect(() => {
     applyHour.current(hour)
   }, [hour])
+
+  useEffect(() => {
+    placeRef.current = place
+    applyPlace.current(place)
+  }, [place])
+
+  const placeShown = place !== null && placeReadout(ev, place).kind === 'near'
 
   // Re-thrown during render (after every hook) so MapSlot's error boundary shows its fallback.
   if (failure) throw failure
@@ -560,6 +607,7 @@ export function EventMap({ ev, corridor, highlightId, hour }: Props) {
         {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
         <li><span className="lg lg-line" /> Wind this hour</li>
         {ev.corridor && <li><span className="lg lg-corridor" /> {CORRIDOR_LABEL}</li>}
+        {placeShown && <li><span className="lg lg-place" /> Searched place</li>}
       </ul>
     </>
   )

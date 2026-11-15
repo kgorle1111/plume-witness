@@ -3,6 +3,8 @@ import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
+import { initialPacketReview, useAiDraft, type PacketReview } from './packet'
+import type { Place } from './PlaceSearch'
 import './App.css'
 
 const STEPS = [
@@ -27,6 +29,16 @@ function useCorridor(ev: PlumeEvent) {
   }, [ev])
 }
 
+/** Monitor dot with the upwind wedge it reads from; the same shapes the map uses. */
+function BrandMark() {
+  return (
+    <svg className="brand-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(190 30 45 / 0.16)" stroke="#be1e2d" strokeWidth="1.4" strokeLinejoin="round" />
+      <circle cx="6" cy="18" r="4.2" fill="#be1e2d" stroke="#fff" strokeWidth="1.6" />
+    </svg>
+  )
+}
+
 function CannotSay({ items }: { items: string[] }) {
   return (
     <details className="cannot-say">
@@ -36,8 +48,19 @@ function CannotSay({ items }: { items: string[] }) {
   )
 }
 
-function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHighlight: (id: string | null) => void }) {
+interface StepperProps {
+  ev: PlumeEvent
+  hour: number
+  onHighlight: (id: string | null) => void
+  place: Place | null
+  onPlace: (p: Place | null) => void
+}
+
+function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   const [active, setActive] = useState(stepFromHash)
+  // Keep the review when Packet unmounts so a reviewer can check the record and return (from PR #21).
+  const [packetReview, setPacketReview] = useState<PacketReview>(() => initialPacketReview(ev))
+  const ai = useAiDraft()
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
 
@@ -47,10 +70,14 @@ function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHi
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
-  const go =(i: number, focus = false) => {
+  const go = (i: number, focus = false) => {
     setActive(i)
     history.replaceState(null, '', `#${STEPS[i].id}`)
-    if (focus) tabs.current[i]?.focus()
+    // A new step starts at its top: "Next" at the end of the long Trace list used to open Check half scrolled.
+    const panel = document.getElementById('steps')
+    if (panel && panel.scrollHeight > panel.clientHeight) panel.scrollTop = 0
+    else if (panel && panel.getBoundingClientRect().top < 0) panel.scrollIntoView({ block: 'start' })
+    if (focus) tabs.current[i]?.focus({ preventScroll: true })
   }
 
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -90,9 +117,9 @@ function Stepper({ ev, hour, onHighlight }: { ev: PlumeEvent; hour: number; onHi
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2>{STEPS[active].title}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
-        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} />}
+        {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
         {step === 'check' && <Check ev={ev} />}
-        {step === 'packet' && <Packet ev={ev} />}
+        {step === 'packet' && <Packet ev={ev} ai={ai} review={packetReview} setReview={setPacketReview} />}
         <nav className="step-nav" aria-label="Step navigation">
           {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
           {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}</button>}
@@ -107,6 +134,8 @@ function Replay({ ev }: { ev: PlumeEvent }) {
   const [highlightId, setHighlightId] = useState<string | null>(null)
   // The replay opens on the detection hour so the spike is the first thing on screen.
   const [hour, setHour] = useState(ev.detection.hour_cst)
+  // A searched or picked place stays on the map across steps until cleared.
+  const [place, setPlace] = useState<Place | null>(null)
   return (
     <div className="app">
       {/* The map, its canvas and the attribution links come before the steps in tab order. The step state lives
@@ -122,7 +151,14 @@ function Replay({ ev }: { ev: PlumeEvent }) {
         Skip to steps
       </a>
       <header className="top">
-        <p className="brand">Plume Witness <span className="event-meta">· {ev.date_local} · {ev.compound.name} · {ev.label === 'real' ? 'Real public data' : 'Fixture'}</span></p>
+        <p className="brand">
+          <BrandMark />
+          <span className="brand-name">Plume Witness</span>
+          <span className="event-meta">
+            <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
+          </span>
+          <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
+        </p>
         <h1 className="event-title">{ev.title}</h1>
       </header>
       {ev.label === 'fixture' && (
@@ -132,12 +168,12 @@ function Replay({ ev }: { ev: PlumeEvent }) {
         <div className="stage">
         <section className="map-wrap" aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
-          <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} />
+          <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} place={place} />
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>
         <aside className="panel" id="steps" tabIndex={-1} aria-label="Event steps">
-          <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} />
+          <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} place={place} onPlace={setPlace} />
         </aside>
       </main>
     </div>

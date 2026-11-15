@@ -61,6 +61,9 @@ export function Timeline({ ev, hour, onHour }: Props) {
     <div className="timeline" role="group" aria-label="Hour-by-hour replay">
       <div className="tl-controls">
         <button type="button" className="btn tl-play" onClick={togglePlay} aria-pressed={playing}>
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false" fill="currentColor">
+            {playing ? <path d="M3 2h3v10H3zM8 2h3v10H8z" /> : <path d="M3.5 1.8v10.4L12 7z" />}
+          </svg>
           {playing ? 'Pause' : <>Play<span className="wide-only"> {hourLabel(from).slice(0, 5)}–{hourLabel(to).slice(0, 5)}</span></>}
         </button>
         <label className="tl-slider">
