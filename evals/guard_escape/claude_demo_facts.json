@@ -1,5 +1,5 @@
 {
- "source": "facts_for(web/public/event.json at commit 0e36b84), the event the committed packet.ai.json Claude draft was generated and guarded against (40 corridor facilities; the event was regenerated with 47 in 18f8abd)",
+ "source": "facts_for(web/public/event.json, 47 corridor facilities), the event the committed packet.ai.json Claude draft was regenerated and guarded against on 2026-11-15 (fix/packet-ai-refresh)",
  "facts": {
   "title": "Benzene spike on the Houston Ship Channel",
   "date_local": "2024-06-21",
@@ -33,7 +33,7 @@
    "speed_mph": 6.8,
    "site_id": "48_201_0069"
   },
-  "upwind_corridor_facility_count": 40,
+  "upwind_corridor_facility_count": 47,
   "nearest_upwind_facilities": [
    {
     "id": "110000461107",
@@ -96,7 +96,7 @@
    "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
    "The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart.",
    "Facility coordinates are as published by EPA ECHO and may be approximate.",
-   "Only regulator-grade state monitors are used; many neighborhoods have none."
+   "Only regulator-grade monitors whose data the state publishes are used (including two industry-funded Houston Regional Monitoring sites), never low-cost sensors."
   ]
  }
 }

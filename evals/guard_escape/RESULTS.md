@@ -240,3 +240,51 @@ Findings outside the guard (not fixed here):
 - The deterministic template rounds reported pounds: "8,470" for 8469.74 (2 nights), "67" for 66.6,
   and "0 pounds" for a 0.07 lb report. The guard demands the exact figure, so these 4 of 416 real drafts
   are rejected. The old guard let "0 pounds" through only because a 0 appeared elsewhere in the facts.
+
+## 2026-11-15 rebased on the refreshed Claude draft (47 facilities): 2026-11-15, guard at da3f919 + uncommitted changes
+
+| class | what is injected | cases | rejected | rate |
+|---|---|---:|---:|---:|
+| a | invented number (digits) | 148 | 148 | 100% |
+| b | real number, wrong field/claim | 200 | 122 | 61% |
+| c | spelled-out number EN/ES | 126 | 126 | 100% |
+| d | altered unit or scale | 149 | 149 | 100% |
+| e | invented facility/company name | 64 | 57 | 89% |
+| f | invented id, date or time | 168 | 166 | 99% |
+| g | verdict word EN/ES (inflections) | 30 | 30 | 100% |
+| h | negation flip | 53 | 1 | 2% |
+| i | real fact from a different night | 111 | 109 | 98% |
+| benign | benign rewrites (false rejects) | 300 | 0 | 0% |
+| benign_negated_verdict | benign: negated verdict word (by-design reject) | 22 | 22 | 100% |
+| real | real drafts, unmodified (false rejects) | 416 | 4 | 1.0% |
+
+Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the catch rate (higher is better); for the benign and real rows it is the false-reject rate (lower is better).
+
+- escapes in (b) real number, wrong field/claim (78):
+  - claude-demo/en: same-unit: 51.75 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 0.21 ppb-v -> 21.4
+  - claude-demo/en: same-unit: 21.4 ppb-v -> 51.75
+- escapes in (e) invented facility/company name (7):
+  - template-demo/en: inserted: Acme Chemical also operates in the upwind corridor.
+  - claude-demo/en: single-word name: Acme also operates nearby.
+  - claude-demo/es: single-word name: Acme también opera cerca.
+- escapes in (f) invented id, date or time (2):
+  - night-2025-03-06_45201_48_201_0307/en: date March 6, 2025 -> March 7, 2025
+  - night-2025-03-06_45201_48_201_0307/es: date 6 de marzo de 2025 -> 7 de marzo de 2025
+- escapes in (h) negation flip (52):
+  - claude-demo/en: \bare consistent with\b -> are not consistent with
+  - claude-demo/en: \bIt reported\b -> It did not report
+  - claude-demo/en: \bcannot tell\b -> can tell
+- escapes in (i) real fact from a different night (2):
+  - claude-demo/es: facility -> Shell Chemical
+  - template-demo/es: count 47 -> 5 from 2024-01-26_45201_48_201_1015
+- false rejects in benign_negated_verdict (22):
+  - claude-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+  - claude-demo/es: negated verdict hedge -> draft_es: banned word 'demuestra'
+  - template-demo/en: negated verdict hedge -> draft_en: banned word 'proof that'
+- real drafts rejected (4):
+  - night-2024-04-21_43218_48_201_0069: draft_en: number '8,470' is not in the event facts
+  - night-2024-04-22_43218_48_201_0069: draft_en: number '8,470' is not in the event facts
+  - night-2024-06-13_45201_48_201_1614: draft_en: number '67' is not in the event facts
+
+packet.ai.json vs the current event.json: passes
