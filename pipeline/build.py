@@ -263,7 +263,7 @@ def det_day_str(day: str, es: bool = False) -> str:
     d = datetime.strptime(day, "%m/%d/%Y").date()
     months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
               "noviembre", "diciembre"]
-    return f"{d.day} de {months[d.month - 1]} de {d.year}" if es else d.strftime("%B %-d, %Y")
+    return f"{d.day} de {months[d.month - 1]} de {d.year}" if es else f"{d:%B} {d.day}, {d.year}"
 
 
 STEERS_URL = "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target={}"
