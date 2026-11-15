@@ -124,6 +124,10 @@
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .sl-status-reported_nrc { color: #164a83; background: #e6f0fa; }
 .sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 34ch; }
+/* "Can’t say: <cause>" carries its reason in the chip, so the chip may wrap; the cell's floor keeps it to two lines
+   when the table is squeezed (auto layout would otherwise shrink it to one word per line). */
+.sl-status-cell { min-width: 13rem; }
+.sl-status-cell .sl-status { white-space: normal; }
 .sl-report { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8rem; }
 /* Stand-alone links in the rows get a 44px-tall hit area on every pointer, not only touch (project bar). */
 .sl-replay { display: inline-flex; align-items: center; min-height: 44px; }

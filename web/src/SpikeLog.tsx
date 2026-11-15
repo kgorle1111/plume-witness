@@ -2,7 +2,7 @@ import { memo, startTransition, useCallback, useEffect, useMemo, useRef, useStat
 import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
 import {
-  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonKey, spikeKey, toCsv, yearSpan,
+  NO_FILTER, PAGE_SIZE, REASON_CODE_KEYS, cleanFilters, countKey, logView, optionCounts, parseSpikes, parseSpot, reasonInLabel, reasonKey, rowStatusLabel, spikeKey, toCsv, yearSpan,
   type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow,
 } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
@@ -118,8 +118,8 @@ function Reason({ row }: { row: Pick<SpikeRow, 'reason' | 'reason_code'> }) {
 function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   return (
     <span className="sl-status-cell">
-      <span className={`sl-status sl-status-${row.status}`} lang={lang}><StatusIcon kind={statusInfo(row.status).icon} size={14} />{statusLabel(row.status, lang)}</span>
-      <Reason row={row} />
+      <span className={`sl-status sl-status-${row.status}`} lang={lang}><StatusIcon kind={statusInfo(row.status).icon} size={14} />{rowStatusLabel(row, lang)}</span>
+      {!reasonInLabel(row) && <Reason row={row} />}
     </span>
   )
 }
