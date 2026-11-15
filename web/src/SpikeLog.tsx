@@ -154,6 +154,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         <p className="sl-summary">
           <strong>{s.spikes} spikes on {s.spike_days} days</strong>; {reported} with a matching company report.
         </p>
+        <p><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
       </header>
 
       <section className="sl-explain" aria-label="How to read this log">
