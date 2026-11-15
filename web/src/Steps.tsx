@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
-import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
+import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote } from './note'
 import { facilityHref } from './facilities'
@@ -43,7 +44,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
   const bandText = band
     ? ` Shaded band: ${band.matched ? 'the company-reported release window, from its own report' : 'a report that lists other compounds, drawn dashed'}, ${band.localText}${band.cstText ? ` (${band.cstText})` : ''}${band.startsBefore ? '; it began before this day' : ''}${band.endsAfter ? '; it continues past this day' : ''}.${tick ? ` Marker: ${tick.text}.` : ''}`
     : ''
-  const summary = `24 hourly readings at ${m.name}. Highest ${m.peak.value} ${units} at ${hourLabel(m.peak.hour_cst)}; baseline ${m.baseline} ${units}.${missing ? ` ${missing} hours have no value.` : ''}${bandText}`
+  const summary = `24 hourly readings at ${m.name}. Highest ${m.peak.value} ${unitShort(units)} at ${hourLabel(m.peak.hour_cst)}; baseline ${m.baseline} ${unitShort(units)}.${missing ? ` ${missing} hours have no value.` : ''}${bandText}`
   const bx = (h: number) => 2 + h * bw
   return (
     <figure className="spark">
@@ -80,7 +81,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
         <text x={W - 2} y={H - 2} className="spark-axis" textAnchor="end">23 h CST</text>
       </svg>
       <figcaption>
-        <span className="key key-bar" aria-hidden="true" /> hourly {units}{' '}
+        <span className="key key-bar" aria-hidden="true" /> hourly <Unit units={units} lang="en" />{' '}
         <span className="key key-base" aria-hidden="true" /> baseline{' '}
         <span className="key key-sel" aria-hidden="true" /> replay hour{missing ? ' · × no value' : ''}
       </figcaption>
@@ -94,7 +95,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
       <details className="hourly-table">
         <summary>Show all 24 hourly values</summary>
         <table>
-          <thead><tr><th scope="col">Hour (CST)</th><th scope="col">{units}</th><th scope="col">Flag</th></tr></thead>
+          <thead><tr><th scope="col">Hour (CST)</th><th scope="col"><Unit units={units} lang="en" /></th><th scope="col">Flag</th></tr></thead>
           <tbody>
             {m.hourly.map((h) => (
               <tr key={h.hour_cst}>
@@ -123,17 +124,17 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
         <div><dt>Monitor</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
         <div className="fact-key">
           <dt>Reading</dt>
-          <dd><strong className="reading-value">{d.value} {u}</strong> <span className="reading-when">at {hourLabel(d.hour_cst)}, <span className="nowrap">{ev.date_local}</span></span></dd>
+          <dd><strong className="reading-value">{d.value}</strong> <Unit units={u} first lang="en" /> <span className="reading-when">at {hourLabel(d.hour_cst)}, <span className="nowrap">{ev.date_local}</span></span></dd>
         </div>
-        <div><dt>Usual level (baseline)</dt><dd>{d.baseline} {u}</dd></div>
+        <div><dt>Usual level (baseline)</dt><dd>{d.baseline} <Unit units={u} lang="en" /></dd></div>
         <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
       </dl>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
-        Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, u) : 'no data'}</strong>
+        Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : 'no data'}</strong>
       </p>
       {others.length > 0 && (
-        <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${u} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
+        <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${unitShort(u)} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
       )}
       <p className="muted small">{ev.time_note}</p>
       <Rose siteId={m.site_id} param={ev.compound.aqs_param} />

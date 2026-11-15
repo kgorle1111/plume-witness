@@ -1,4 +1,5 @@
 import type { Status } from './types'
+import { translate, type Lang } from './i18n.ts'
 
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
 // kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
@@ -141,4 +142,25 @@ export function sectorRing(lat: number, lon: number, start: number, end: number,
 export function readingText(value: number | null, flag: string | null, units: string): string {
   if (value === null) return flag ? `no data (${flag})` : 'no data'
   return `${value} ${units}`
+}
+
+// event.json gives concentrations as "ppb-v" (parts per billion by volume, as the state publishes them). Pages show
+// "ppb", spell it out on the first mention, and explain the "-v" in a tooltip (Unit.tsx). Numbers are never touched.
+const PPB = /^ppb(-?v)?$/i
+
+/** Display form of a concentration unit: "ppb-v" reads as "ppb"; any other unit is shown as given. */
+export function unitShort(units: string): string {
+  return PPB.test(units.trim()) ? 'ppb' : units
+}
+
+/** First-mention form, e.g. "parts per billion (ppb)"; a unit that isn't ppb is shown as given. */
+export function unitFirst(units: string, lang: Lang = 'en'): string {
+  return PPB.test(units.trim()) ? `${translate(lang, 'unit.ppbLong')} (ppb)` : units
+}
+
+/** Tooltip for a ppb unit: what the "-v" means when the data says "ppb-v"; null for any other unit. */
+export function unitTitle(units: string, lang: Lang = 'en'): string | null {
+  const m = PPB.exec(units.trim())
+  if (!m) return null
+  return m[1] ? translate(lang, 'unit.ppbvTitle') : translate(lang, 'unit.ppbLong')
 }
