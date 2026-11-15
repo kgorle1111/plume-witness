@@ -1,6 +1,6 @@
 /* Statewide coverage (?view=coverage). One readable column; the table may scroll sideways inside its own box on a
    phone, the page never does. Colours are the shared tokens (index.css, dark.css), so both themes follow. */
-.cv-page { display: grid; gap: 20px; align-content: start; width: 100%; max-width: 1040px; margin: 0 auto; padding: 12px var(--gutter) 32px; min-width: 0; }
+.cv-page { display: grid; gap: 20px; align-content: start; width: 100%; max-width: var(--page-wide); margin: 0 auto; padding: 12px var(--gutter) 32px; min-width: 0; }
 .cv-page > section { display: grid; gap: 10px; min-width: 0; }
 .cv-head { display: grid; gap: 4px; }
 .cv-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }

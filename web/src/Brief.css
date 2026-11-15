@@ -1,6 +1,8 @@
 /* Method brief (?view=brief). One readable column on screen; on paper, two US Letter / A4 pages with links spelled out. */
-/* 64ch keeps list items near 75 characters a line (72ch gave 88). */
-.br-page { max-width: 64ch; margin: 0 auto; padding: 12px 16px 40px; min-width: 0; }
+/* The reading column every one-column page uses (index.css --page-read), so the brief starts where Facilities does;
+   the text inside stops at 64ch, near 75 characters a line (72ch gave 88). */
+.br-page { max-width: var(--page-read); margin: 0 auto; padding: 12px var(--gutter) 40px; min-width: 0; }
+.br-page > * { max-width: 64ch; }
 .br-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
 /* The kicker sits 4px above the h1, as on the other pages' headers. */
 .br-doc > .br-kicker { margin-bottom: -6px; }
@@ -38,7 +40,8 @@
      selector outranks both, and :has() keeps it to the brief page. */
   .site-shell:has(.br-page) > :is(.site-head, .site-foot, .site-region-note) { display: none; }
   .br-print, .br-kicker, .br-es { display: none; }
-  .br-page { max-width: none; padding: 0; }
+  .br-page, .br-page > * { max-width: none; }
+  .br-page { padding: 0; }
   .br-doc { gap: 3pt; line-height: 1.22; }
   .br-doc h1 { font-size: 15pt; }
   .br-doc h2 { font-size: 11pt; margin-top: 4pt; padding-top: 3pt; border-top: 0.5pt solid #999; break-after: avoid; page-break-after: avoid; }
@@ -54,7 +57,7 @@
   /* Paper is light whatever the screen theme: dark.css re-values these tokens under [data-theme='dark']. */
   :root:root:has(.br-page) {
     color-scheme: light;
-    --surface: #fff; --surface-2: #f2f7f7; --ink: #000; --muted: #333; --ink-3: #333; --accent: #000; --line: #999;
+    --surface: #fff; --surface-2: #f2f7f7; --paper: #fff; --ink: #000; --muted: #333; --ink-3: #333; --accent: #000; --line: #999;
     background: #fff;
   }
 }
