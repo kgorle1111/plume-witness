@@ -5,6 +5,7 @@ import { incidentNote } from './note'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
+import { useRecordedClip } from './recorded'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
   const common = { width: 18, height: 18, viewBox: '0 0 20 20', 'aria-hidden': true, focusable: false } as const
@@ -294,12 +295,17 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const [notice, setNotice] = useState('')
   const dialog = useRef<HTMLDialogElement>(null)
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
+  const clip = useRecordedClip(source, lang, drafts[lang])
+  const audio = useRef<HTMLAudioElement>(null)
   const guard = ev.packet.guard
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
+  // The text, language or source changed under a playing recording: it no longer matches what is on screen.
+  useEffect(() => () => { audio.current?.pause(); setSpeaking(false) }, [clip.url])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
+    if (audio.current) { audio.current.pause(); audio.current.currentTime = 0 }
     setSpeaking(false)
   }
 
@@ -322,8 +328,12 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   const readAloud = () => {
-    if (!canSpeak) return
     if (speaking) return stopSpeech()
+    if (clip.url && audio.current) {
+      audio.current.play().then(() => setSpeaking(true), () => setNotice('The recording would not play. Check the sound and try again.'))
+      return
+    }
+    if (!canSpeak) return
     const u = new SpeechSynthesisUtterance(drafts[lang])
     u.lang = SPEECH_LANG[lang]
     const voice = window.speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith(lang))
@@ -397,7 +407,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
       </p>
       <div className="row">
         {/* The label states the action, so no aria-pressed: a toggle whose label also flips reads backwards. */}
-        <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak}>
+        <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak && !clip.url}>
           {speaking ? 'Stop reading' : 'Read aloud'}
         </button>
         <button type="button" className="btn" onClick={() => copy(drafts[lang], 'Draft copied.')}>Copy draft</button>
@@ -405,7 +415,9 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
           Copy as incident note
         </button>
       </div>
-      {!canSpeak && <p className="muted small">Read aloud isn't available in this browser.</p>}
+      {clip.url && <audio ref={audio} src={clip.url} preload="none" onEnded={() => setSpeaking(false)} onError={() => setSpeaking(false)} />}
+      {!clip.url && clip.checked && canSpeak && <p className="muted small">Computer voice (this text has no recorded audio)</p>}
+      {!canSpeak && !clip.url && <p className="muted small">Read aloud isn't available in this browser.</p>}
       <p className="sr-only" aria-live="polite">{notice}</p>
       {notice && <p className="muted small" aria-hidden="true">{notice}</p>}
 
