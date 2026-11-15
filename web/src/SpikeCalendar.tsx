@@ -160,6 +160,12 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
       <figcaption>
         <T k="cal.caption" />
       </figcaption>
+      {/* The key comes before the two years of strips it explains. */}
+      <ul className="sl-cal-legend">
+        {RANK.filter((s) => shown.has(s)).map((s) => (
+          <li key={s}><svg className="sl-cal-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" fill={FILL[s]} aria-hidden="true" focusable="false">{shapeOf(s).map(([y0, y1]) => <rect key={y0} x={0} y={y0} width={1} height={y1 - y0} />)}</svg><span lang={lang}>{statusLabel(s, lang)}</span></li>
+        ))}
+      </ul>
       <div className="sl-cal-scroll" role="group" aria-label={t('cal.group')} onScroll={onHide}>
         {years.map((year) => {
           const n = daysIn(Number(year))
@@ -207,11 +213,6 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
           <span className="sl-cal-tip-hint">{tip.cell.rows.some((r) => r.night_id) ? t('cal.hint') : t('spikes.noReplay')}</span>
         </div>
       )}
-      <ul className="sl-cal-legend">
-        {RANK.filter((s) => shown.has(s)).map((s) => (
-          <li key={s}><svg className="sl-cal-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" fill={FILL[s]} aria-hidden="true" focusable="false">{shapeOf(s).map(([y0, y1]) => <rect key={y0} x={0} y={y0} width={1} height={y1 - y0} />)}</svg><span lang={lang}>{statusLabel(s, lang)}</span></li>
-        ))}
-      </ul>
     </figure>
   )
 }
