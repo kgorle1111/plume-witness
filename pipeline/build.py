@@ -243,7 +243,9 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
             "reported": {"facility": p["entity"], "compound": inc["compound"], "pounds": inc["pounds"],
                          "start_local": inc["start_local"], "end_local": inc["end_local"],
                          "tz": f"local ({'CDT' if steers_tz_offset_h(det_day) else 'CST'})",
-                         "cause": inc["cause"], "match_basis": basis} | _travel(p, inc, det_local, speed_mph),
+                         "cause": inc["cause"], "match_basis": basis}
+                        | ({"revisions": inc["revisions"]} if inc.get("revisions") else {})
+                        | _travel(p, inc, det_local, speed_mph),
         }
     located = all(p["in_corridor"] is not None for p in placed + still_open)
     can_claim_absence = search_complete and earlier_complete and located and not calm_note

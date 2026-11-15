@@ -90,6 +90,23 @@ def _report_date(t: str) -> str | None:
     return datetime.strptime(m.group(1), "%m/%d/%Y").date().isoformat() if m else None
 
 
+# Only the quoted email form is parsed: the quote marks give a hard end to the company's words. The page's other
+# update form, "UPDATE (5/30/2024): free text", runs on into the next field with nothing to cut it at, so it is skipped.
+REVISION_RE = re.compile(r'UPDATE VIA EMAIL ON (\d{2}/\d{2}/\d{4}): ["\u201c](.{1,120}?)["\u201d](?= |$)')
+
+
+def steers_revisions(t: str) -> list[dict]:
+    """Dated, quoted revision lines on a STEERS detail page (whitespace-collapsed text): [{date ISO, text <= 120}]."""
+    out = []
+    for d, quote in REVISION_RE.findall(t):
+        try:
+            iso = datetime.strptime(d, "%m/%d/%Y").date().isoformat()
+        except ValueError:
+            continue
+        out.append({"date": iso, "text": quote.strip()})
+    return out
+
+
 def steers_incident(path: Path) -> dict:
     """Key facts from a STEERS emissions-event detail page (times are local, as published)."""
     t = re.sub(r"\s+", " ", _text(path))
@@ -111,4 +128,5 @@ def steers_incident(path: Path) -> dict:
         # The page's own report fields. "FINAL" appears in the text of every page, so it is never searched for.
         "report_type": _after("Report Type:", t, "Report Date") if "Report Type:" in t else None,
         "report_date": _report_date(t),
+        "revisions": steers_revisions(t),
     }
