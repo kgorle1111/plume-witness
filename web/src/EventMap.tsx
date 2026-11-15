@@ -22,7 +22,8 @@ const C = {
   monitor: [31, 94, 160, 255] as RGBA,
   trigger: [190, 30, 45, 255] as RGBA,
   facility: [45, 45, 52, 255] as RGBA,
-  facilityOut: [140, 140, 150, 255] as RGBA,
+  // 3.9:1 on Positron land (#f2f3f0) and 3.4:1 over the corridor fill; the old 140,140,150 was 2.99:1.
+  facilityOut: [120, 120, 130, 255] as RGBA,
   matched: [0, 110, 60, 255] as RGBA,
   white: [255, 255, 255, 255] as RGBA,
   upwind: [190, 30, 45, 200] as RGBA,
