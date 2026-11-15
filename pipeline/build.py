@@ -240,8 +240,10 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         return datetime.fromisoformat(inc["start_local"]) <= hi and datetime.fromisoformat(inc["end_local"]) >= lo
 
     still_open = [p for p in ongoing or [] if overlaps(p)]
+    # placed may also hold next-day reports (a window past midnight); the next-day count is in earlier_note
+    today = sum(1 for p in placed if (p.get("start_local") or "")[:10] <= det_day.isoformat())
     scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in {county} County "
-             f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
+             f"({today} found; search {'complete' if search_complete else 'incomplete'}).")
     scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
     if calm_note:
         scope += f" {calm_note[0].upper()}{calm_note[1:]}: no corridor drawn, so the search is incomplete."
@@ -261,7 +263,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         t24 = "reported" if notice_h <= 24 else "not_yet_reported"
         t14, t14_note = final_check(inc)
         status = "reported_mismatch" if mismatch else t14
-        basis = ("started near the spike" if start.date() == det_day
+        basis = ("started near the spike" if start.date() >= det_day
                  else f"ongoing (started {start.date().isoformat()})")
         return base | {
             "status": status, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
@@ -309,10 +311,21 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                if calm else f" Hay {n} instalaciones permitidas importantes en el corredor de donde venía el viento.")
     if rc["status"] == "reported_mismatch":
         r = rc["reported"]
-        rec_en = (f" One of them, {r['facility']}, filed report {rc['incident']} for a release starting near that hour, "
+        start, end = r["start_local"].replace("T", " "), r["end_local"].replace("T", " ")
+        # Say when the report says the release ran, from match_basis: most mismatches are reports that were already
+        # running for days, and calling those "starting near that hour" would overstate the link.
+        if r["match_basis"].startswith("ongoing"):
+            when_en = f"a release that started {start[:10]} and, per the report, ran until {end} local time"
+            when_es = (f"una emisión que empezó el {start[:10]} y que, según el informe, siguió hasta el {end}, "
+                       "hora local")
+        else:
+            until = end[11:] if end[:10] == start[:10] else end
+            when_en = f"a release from {start[11:]} to {until} local time that day"
+            when_es = f"una emisión de {start[11:]} a {until}, hora local, ese día"
+        rec_en = (f" One of them, {r['facility']}, filed report {rc['incident']} for {when_en}, "
                   f"but the report does not list {name_en}, so it does not match this reading.")
-        rec_es = (f" Una de ellas, {r['facility']}, presentó el informe {rc['incident']} por una emisión que empezó "
-                  f"cerca de esa hora, pero el informe no incluye {name_es}, así que no corresponde a esta lectura.")
+        rec_es = (f" Una de ellas, {r['facility']}, presentó el informe {rc['incident']} por {when_es}, "
+                  f"pero el informe no incluye {name_es}, así que no corresponde a esta lectura.")
         ask_en = f" Requested follow-up: confirm what caused this {name_en} reading."
         ask_es = f" Seguimiento solicitado: confirmar qué causó esta lectura de {name_es}."
     elif rc["matched_facility_id"]:

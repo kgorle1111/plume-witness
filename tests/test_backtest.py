@@ -168,8 +168,70 @@ def test_butadiene_spelled_with_a_space_counts_but_lookalikes_do_not(tmp_path):
     assert backtest.compound_pounds(p) == {"45201": 0.0, "43218": 5.0}
 
 
+def _table_row(name: str, qty: str) -> str:
+    return f"<tr>\n  <td>\n    {name}\n  </td>\n  <td class='alignrt'>\n    {qty}\n  </td>\n  <td>\n    POUNDS\n  </td>\n</tr>\n"
+
+
+def test_prefixed_compound_names_in_the_steers_table_do_not_count(tmp_path):
+    # The real STEERS layout: one table cell per field, so a word before the name inside the cell is another compound.
+    p = tmp_path / "steers_3.html"
+    p.write_text("<table>" + "".join(_table_row(n, q) for n, q in (
+        ("Tetramethyl benzene", "572.81"), ("Ethyl Benzene", "0.41"), ("Ethylbenzene", "3"), ("Benzene", "10"),
+        ("2-Methyl-1,3 butadiene", "4"), ("Isoprene 1,3-butadiene", "6"), ("1,3-Butadiene", "2"))) + "</table>")
+    assert backtest.compound_pounds(p) == {"45201": 10.0, "43218": 2.0}
+
+
+def test_real_steers_pages_count_only_the_benzene_row():
+    from pipeline.parse import steers_incident
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw" / "backtest"
+    assert steers_incident(raw / "steers_418948.html")["lbs_by_param"]["45201"] == 1473.91
+    assert steers_incident(raw / "steers_442288.html")["lbs_by_param"]["45201"] == 41.0
+
+
 def _week(raw: Path, beg: str, end: str) -> None:
-    (raw / f"steers_search_harris_{beg}_{end}.html").write_text("<p>No records</p>")
+    """An empty week as TCEQ serves it: the results header and the echoed search criteria, with no rows."""
+    b, e = (f"{d[4:6]}/{d[6:]}/{d[:4]}" for d in (beg, end))
+    (raw / f"steers_search_harris_{beg}_{end}.html").write_text(
+        "<title>Search Results</title><p>No results were found for the selected search criteria.</p>"
+        f"<h2>Search Criteria</h2><p>Event Start Date Range: {b} to {e}</p><p>County: HARRIS</p>")
+
+
+def test_an_error_page_saying_no_results_is_not_an_empty_week(tmp_path):
+    _week(tmp_path, "20240617", "20240623")
+    bad = "steers_search_harris_20240624_20240630.html"
+    (tmp_path / bad).write_text("<h1>Service Unavailable</h1><p>No results were found. Try again later.</p>")
+    _, incomplete = backtest.load_universe(tmp_path)
+    assert incomplete == [bad]
+    assert backtest.day_reports("06/21/2024", {}, incomplete, tmp_path)[1] is True
+    assert backtest.day_reports("06/26/2024", {}, incomplete, tmp_path)[1] is False
+
+
+def test_late_spike_window_also_searches_the_next_day(tmp_path):
+    # 2025-09-20 23:00 CST at Galena Park: report 446527 started 00:50 local the next day, inside the window.
+    universe, incomplete = backtest.load_universe()
+    rows_by_day: dict[str, list[dict]] = {}
+    for r in universe:
+        rows_by_day.setdefault(r["began"][:10], []).append(r)
+    details, complete, _, note = backtest.window_reports("09/20/2025", 23, rows_by_day, incomplete)
+    assert "446527" in details and complete is True and "09/21/2025" in note
+    # the next day not in the saved searches: abstain rather than claim a complete search
+    one, both = tmp_path / "one", tmp_path / "both"  # separate dirs: week listings are cached per directory
+    for raw in (one, both):
+        raw.mkdir()
+        _week(raw, "20240617", "20240623")
+    _week(both, "20240624", "20240630")
+    assert backtest.window_reports("06/23/2024", 21, {}, [], one)[1] is False  # 22:00 CDT + 2 h crosses midnight
+    assert backtest.window_reports("06/23/2024", 21, {}, [], both)[1] is True
+    assert backtest.window_reports("06/23/2024", 20, {}, [], one)[1] is True  # window ends at midnight's edge
+
+
+def test_any_unreadable_report_blocks_a_complete_day(tmp_path, monkeypatch):
+    _week(tmp_path, "20240617", "20240623")
+    rows = {"06/21/2024": [{"incident": "1", "search_file": "steers_search_harris_20240617_20240623.html"}]}
+    assert backtest.day_reports("06/21/2024", rows, [], tmp_path)[1] is False  # no detail page saved
+    # the unreadable list alone must block completeness, whatever the readable count says
+    monkeypatch.setattr(backtest, "_details", lambda rows, raw: ({"1": {}}, ["2: ValueError"]))
+    assert backtest.day_reports("06/21/2024", rows, [], tmp_path)[1] is False
 
 
 def test_earlier_days_unsearched_means_incomplete(tmp_path):

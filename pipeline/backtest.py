@@ -51,7 +51,7 @@ def site_coords(site: str, raw: Path = BT) -> tuple[float, float]:
 
 def compound_pounds(path: Path) -> dict[str, float]:
     """Total reported pounds per compound across every emission point on a STEERS detail page."""
-    return lbs_by_param(re.sub(r"\s+", " ", _text(path)))
+    return lbs_by_param(_text(path))
 
 
 def event_meta(path: Path) -> dict:
@@ -68,7 +68,11 @@ def load_universe(raw: Path = BT) -> tuple[list[dict], list[str]]:
     """Every STEERS row (any event type) from the week searches, and any week whose page is not complete."""
     rows, incomplete = [], []
     for p in sorted(raw.glob("steers_search_*_*_*.html")):
-        s = steers_search(p)
+        try:
+            s = steers_search(p)
+        except ValueError:  # not a results page (an error page, say): the week is unsearched, not empty
+            incomplete.append(p.name)
+            continue
         if not (s["total"] == s["shown"] == len(s["rows"])):
             incomplete.append(p.name)
         rows += [r | {"search_file": p.name} for r in s["rows"]]
@@ -117,11 +121,28 @@ def _details(rows: list[dict], raw: Path) -> tuple[dict[str, dict], list[str]]:
 def day_reports(day: str, rows_by_day: dict, incomplete_weeks: list[str], raw: Path = BT) -> tuple:
     """Every STEERS report that started on `day`, and whether that list is complete enough to claim absence."""
     day_rows = rows_by_day.get(day, [])
-    covered = searched(day, raw)
+    covered = searched(day, raw, incomplete_weeks)
     details, unreadable = _details(day_rows, raw)
     complete = (covered and not any(r["search_file"] in incomplete_weeks for r in day_rows) and not unreadable
                 and len(details) == len(day_rows))
     return details, complete, unreadable
+
+
+def window_reports(day: str, hour_cst: int, rows_by_day: dict, incomplete_weeks: list[str],
+                   raw: Path = BT) -> tuple:
+    """day_reports, plus the next day's reports when the match window [spike - 6 h, spike + 2 h] crosses local
+    midnight (a 21-23 CST spike). (details, complete, unreadable, note.) The next day unsearched means incomplete."""
+    details, complete, unreadable = day_reports(day, rows_by_day, incomplete_weeks, raw)
+    det_day = datetime.strptime(day, "%m/%d/%Y").date()
+    hi = build._local(det_day, hour_cst) + timedelta(hours=build.MATCH_WINDOW_H[1])
+    if hi.date() == det_day:
+        return details, complete, unreadable, ""
+    nxt = (det_day + timedelta(days=1)).strftime("%m/%d/%Y")
+    more, more_ok, more_bad = day_reports(nxt, rows_by_day, incomplete_weeks, raw)
+    more = {i: d for i, d in more.items() if datetime.fromisoformat(d["start_local"]) <= hi}
+    note = (f"The match window runs past midnight, so reports that started {nxt} by {hi:%H:%M} local were also "
+            f"searched ({len(more)} found; search {'complete' if more_ok else 'incomplete'}).")
+    return details | more, complete and more_ok, unreadable + more_bad, note
 
 
 def earlier_reports(day: str, rows_by_day: dict, incomplete_weeks: list[str], raw: Path = BT) -> tuple:
@@ -159,10 +180,11 @@ def _weeks(raw: Path) -> list[tuple[str, str, str]]:
     return _WEEKS[raw]
 
 
-def searched(day: str, raw: Path = BT) -> bool:
-    """True only if a saved week search covers the day: an unsearched day has zero rows, which is not 'none'."""
+def searched(day: str, raw: Path = BT, incomplete_weeks: list[str] = ()) -> bool:
+    """True only if a complete saved week search covers the day: an unsearched day has zero rows, which is not
+    'none'."""
     d = datetime.strptime(day, "%m/%d/%Y").strftime("%Y%m%d")
-    return any(b <= d <= e for b, e, _ in _weeks(raw))
+    return any(b <= d <= e and name not in incomplete_weeks for b, e, name in _weeks(raw))
 
 
 def geo_in_corridor(fac: tuple[float, float], trig: dict, window: list[float]) -> bool:
@@ -233,8 +255,9 @@ def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: li
     The one loop behind both the backtest's spike scan and pipeline.nights (the replayable night files)."""
     for day, param, mons, det in spike_days(sites, raw, full):
         det_day = datetime.strptime(day, "%m/%d/%Y").date()
-        details, complete, _ = day_reports(day, rows_by_day, incomplete_weeks, raw)
+        details, complete, _, next_note = window_reports(day, det["hour_cst"], rows_by_day, incomplete_weeks, raw)
         earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
+        note = f"{note} {next_note}".strip()
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
                         details, complete, det_day, param, earlier, earlier_ok, note, county=county)
         yield {"day": day, "param": param, "det_day": det_day, "monitors": mons, "det": det, "details": details,
@@ -305,11 +328,12 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
            "matched_other_incident": None, "record_status": None, "search_complete": None, "reason": None}
     if not monitors:
         return out | {"reason": "no monitor data for the day"}
-    details, complete, unreadable = day_reports(day, rows_by_day, incomplete_weeks, raw)
     earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
     det = build.detect(monitors)
     if det is None:
         return out | {"reason": "no monitor crossed the trigger rule"}
+    details, complete, unreadable, next_note = window_reports(day, det["hour_cst"], rows_by_day, incomplete_weeks, raw)
+    note = f"{note} {next_note}".strip()
     out |= {"detected": True, "detection": {k: det[k] for k in ("site_id", "hour_cst", "value", "baseline")},
             "search_complete": complete, "earlier_search_complete": earlier_ok, "unreadable_day_reports": unreadable}
     # the corridor is drawn from ECHO around the triggering monitor (10 mi = 16 km > the 15 km corridor)
