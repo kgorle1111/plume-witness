@@ -9,6 +9,7 @@ import type { Place } from './PlaceSearch'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
+import { REGIONS, regionFrom, regionQuery } from './region'
 import './App.css'
 
 const STEPS = [
@@ -186,7 +187,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
             <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
           </span>
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
-          <a className="spikes-link" href="?view=spikes">Past spikes</a>
+          <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>Past spikes</a>
         </p>
         <h1 className="event-title">{ev.title}</h1>
         {picker}
@@ -194,6 +195,9 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       </header>
       {ev.label === 'fixture' && (
         <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
+      )}
+      {ev.region && !ev.region.backtested && (
+        <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note}</strong></p>
       )}
       <main className="layout">
         <div className="stage">
@@ -213,6 +217,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
 }
 
 // ?night=<id> replays one of the generated spike nights (web/public/nights/<id>.json); no param is the demo night.
+// ?region=beaumont&night=<id> reads web/public/regions/beaumont/nights/<id>.json instead.
 const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
 const nightParam = (): string | null => new URLSearchParams(window.location.search).get('night')
 
@@ -220,23 +225,24 @@ interface NightRow { id: string; date: string; site_name: string; compound: stri
 
 function NightPicker({ current }: { current: string | null }) {
   const [rows, setRows] = useState<NightRow[]>([])
+  const region = regionFrom(window.location.search)
   useEffect(() => {
     const ctrl = new AbortController()
-    fetch(`${import.meta.env.BASE_URL}nights/index.json`, { signal: ctrl.signal })
+    fetch(`${import.meta.env.BASE_URL}${region.dir}nights/index.json`, { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : []))
       .then((j) => { if (Array.isArray(j)) setRows(j as NightRow[]) })
       .catch(() => {})
     return () => ctrl.abort()
-  }, [])
+  }, [region.dir])
   if (!rows.length) return null
   const go = (id: string) => {
-    window.location.search = id ? `?night=${encodeURIComponent(id)}` : ''
+    window.location.search = id ? regionQuery(region, { night: id }) : ''
   }
   return (
     <label className="night-picker">
       Replay another night
       <select value={current ?? ''} onChange={(e) => go(e.target.value)}>
-        <option value="">Demo night</option>
+        <option value="">{region.backtested ? 'Demo night' : 'Demo night (Houston)'}</option>
         {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
       </select>
     </label>
@@ -252,7 +258,7 @@ export default function App() {
   useEffect(() => {
     const ctrl = new AbortController()
     if (invalid) return
-    const file = night ? `nights/${night}.json` : 'event.json'
+    const file = night ? `${regionFrom(window.location.search).dir}nights/${night}.json` : 'event.json'
     fetch(`${import.meta.env.BASE_URL}${file}`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => {
         if (!r.ok) throw new Error(`Could not load ${file} (HTTP ${r.status}).`)

@@ -46,6 +46,7 @@ type Phase = 'globe' | 'flying' | 'flat'
 const INTRO_HOLD_MS = 900
 const INTRO_FLY_MS = 2500
 const INTRO_PIN_LABEL = 'Houston Ship Channel: 1 real night replayed'
+const introPinLabel = (ev: PlumeEvent) => (ev.region ? `${ev.region.label}: new region, not backtested` : INTRO_PIN_LABEL)
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 // `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
 const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
@@ -465,7 +466,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     pin.className = 'intro-pin'
     pin.setAttribute('aria-hidden', 'true')
     pin.innerHTML = '<span class="intro-dot"></span><span class="intro-label"></span>'
-    ;(pin.querySelector('.intro-label') as HTMLElement).textContent = INTRO_PIN_LABEL
+    ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev)
     const pinMarker = new Marker({ element: pin, anchor: 'bottom' }).setLngLat([trigger.lon, trigger.lat])
     let introTimer = 0
     const setIntroPhase = (p: Phase) => {
@@ -583,7 +584,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       {phase !== 'flat' && (
         <p className="intro-caption" role="status">
           {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
-          <span className="sr-only">{INTRO_PIN_LABEL}. </span>More cities later. One real night replayed here.
+          <span className="sr-only">{introPinLabel(ev)}. </span>More cities later. One real night replayed here.
         </p>
       )}
       <div className={phase === 'flat' ? 'intro-ctl is-flat' : 'intro-ctl'}>

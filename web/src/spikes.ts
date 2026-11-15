@@ -26,6 +26,8 @@ export interface SpikeRow {
 }
 
 export interface SpikeFile {
+  /** Present only on a region other than Houston; Houston's file predates regions. */
+  region?: { key: string; label: string; county: string; backtested: boolean; note: string | null }
   trigger: string
   corridor: string | null
   tceq_search_page: string

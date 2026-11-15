@@ -31,6 +31,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 - **Also in the data:** a past-spikes log of all 415 spikes in 2024-2025 with a replay of each night, a pollution rose per monitor ([pipeline/rose.py](pipeline/rose.py)), who lives within 3 km of each monitor ([docs/people.md](docs/people.md)), and facilities' yearly TRI totals ([docs/tri.md](docs/tri.md)).
 - **Method brief** for advocates and public comment: [docs/brief.md](docs/brief.md), also on the site as a printable page at `?view=brief`.
 - Regenerate with `uv run python -m pipeline.backtest`; every raw file has its URL and SHA-256 in `data/raw/backtest/provenance.json`.
+- **Second region, not backtested: Beaumont-Port Arthur** (Jefferson County). New region: no backtest yet; statuses use the same rules; no claims are made from it. Same trigger, corridor and record check on the two Jefferson County AutoGC sites TCEQ lists (Beaumont-Downtown, Nederland 17th Street; Port Arthur has none). The unchanged trigger fires twice in 2024-2025 there (readings above 10 ppb are rare at these two sites), so the log has 2 rows. Spike log at `?view=spikes&region=beaumont`, nights at `?region=beaumont&night=<id>`. Regenerate with `uv run python -m pipeline.fetch_backtest --region beaumont`, then `uv run python -m pipeline.spikes --region beaumont` and `uv run python -m pipeline.nights --region beaumont`; raw files and provenance in `data/raw/region_beaumont/`.
 
 ## Data (all public)
 
