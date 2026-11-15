@@ -118,3 +118,21 @@ def test_provenance_lists_every_echo_file_a_placed_report_or_a_site_name_came_fr
         assert placed | named <= have, (p.name, sorted((placed | named) - have))
         checked += len(placed)
     assert checked > 142
+
+
+def test_published_hour_0_nights_read_the_previous_days_2300_wind():
+    """Review L8 on the published files: every night whose spike is in hour 0 (60 across the regions) keeps the
+    previous day's 23:00 reading it used, and its corridor is drawn from that hour and hour 0, not hour 0 twice."""
+    seen = 0
+    for p in sorted((ROOT / "web" / "public").glob("**/nights/*.json")):
+        if p.name == "index.json":
+            continue
+        ev = json.loads(p.read_text())
+        if ev["detection"]["hour_cst"] != 0:
+            assert "prev_hour" not in ev["wind"], p.name
+            continue
+        seen += 1
+        prev, h0 = ev["wind"]["prev_hour"], ev["wind"]["hourly"][0]
+        assert prev["hour_cst"] == 23 and prev["date"] < ev["date_local"], p.name
+        assert ev["corridor"]["wind_from_deg"] == [d for d in (prev["from_deg"], h0["from_deg"]) if d is not None], p.name
+    assert seen == 60

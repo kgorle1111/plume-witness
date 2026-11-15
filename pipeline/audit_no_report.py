@@ -24,13 +24,17 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from pipeline import backtest, build, nights
-from pipeline.parse import _text
+from pipeline.parse import _text, lists_param
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "audit-no-report.json"
 # The scan the hand audit was drawn from (8 monitors, before the 2026-11-15 Harris expansion), frozen so that a
 # changed live scan (more monitors, another borrowed wind) cannot redraw the 10 hand-read nights.
 POPULATION = ROOT / "docs" / "audit-no-report-population.json"
+# The 8 monitors of that scan. Evidence is rebuilt on these alone, so each audited night triggers at the same monitor
+# and hour, and borrows the same wind, as the night the hand verdicts were written against.
+POPULATION_SITES = ("48_201_0026", "48_201_0057", "48_201_0069", "48_201_0307", "48_201_0803", "48_201_1015",
+                    "48_201_1035", "48_201_1614")
 SEED = 20261114
 N = 10
 MAX_PER_MONITOR = 3
@@ -115,15 +119,18 @@ def evidence(s: dict, ctx: dict, raw: Path = backtest.BT) -> dict:
     note = f"{note} {next_note}".strip()
     t = build.trace(mons, backtest.load_winds(day[-4:], day, sites, raw), None, ctx["echo_site"][det["site_id"]],
                     ctx["echo_rows"], details, complete, det_day, param, earlier, earlier_ok, note)
+    # A night the current pipeline cannot trace (no wind for the detection hours) is "no_wind", not a crash: its
+    # evidence is still gathered, with no corridor (2025-07-26 at Galena Park now reads its own AutoGC-form wind,
+    # which has no direction at 23:00 or 00:00).
     rebuilt = {"site_id": det["site_id"], "hour_cst": det["hour_cst"], "value": det["value"],
-               "status": t["record_check"]["status"]}
+               "baseline": det["baseline"], "status": t["record_check"]["status"] if "record_check" in t else "no_wind"}
     origin, window, h = (t["trig"]["lat"], t["trig"]["lon"]), t["window"], det["hour_cst"]
     det_local = build._local(det_day, h)
     lo, hi = det_local - timedelta(hours=AUDIT_WINDOW_H), det_local + timedelta(hours=AUDIT_WINDOW_H + 1)
     mlo, mhi = det_local + timedelta(hours=build.MATCH_WINDOW_H[0]), det_local + timedelta(hours=build.MATCH_WINDOW_H[1])
     echo_rows = [r for r in ctx["echo_rows"] if r.get("FacLat")]
     by_name_last = {build._norm(r["AIRName"]): r for r in echo_rows}  # what place_incidents uses (last one wins)
-    corridor_ids = {f["id"] for f in t["facilities"]}
+    corridor_ids = {f["id"] for f in t.get("facilities", [])}
 
     reports = []
     for rows in ctx["rows_by_day"].values():
@@ -141,7 +148,8 @@ def evidence(s: dict, ctx: dict, raw: Path = backtest.BT) -> dict:
                    "ended_local": ended.strftime("%m/%d/%Y %I:%M %p"),
                    "start_minus_spike_h": round((began - det_local).total_seconds() / 3600, 1),
                    "in_match_window": began <= mhi and ended >= mlo,
-                   "lbs": inc["lbs_by_param"] if inc else None}
+                   "lbs": inc["lbs_by_param"] if inc else None,
+                   "lists": [q for q in build.COMPOUNDS if lists_param(inc, q)] if inc else []}
             if path.exists():
                 lumped = [(n, q) for n, q in _contaminants(path) if LUMPED_RE.search(n)]
                 rep["lumped_lines"] = lumped
@@ -189,10 +197,10 @@ def evidence(s: dict, ctx: dict, raw: Path = backtest.BT) -> dict:
     other_c = None if o is None else {"param": other, "baseline": o["baseline"],
                                       "values_h-1..h+1": [o["hourly"][k]["value"] for k in range(max(0, h - 1),
                                                                                                     min(24, h + 2))]}
-    wind = t["wind"]["hourly"]
-    return {"id": spike_id(s), "row": s, "rebuilt": rebuilt, "wind_site": t["wind"]["site_id"],
-            "window_deg": window, "speed_mph": [wind[max(0, h - 1)]["speed_mph"], wind[h]["speed_mph"]],
-            "corridor_size": len(t["facilities"]), "reports": reports,
+    wind = t["wind"]
+    return {"id": spike_id(s), "row": s, "rebuilt": rebuilt, "wind_site": wind["site_id"] if wind else None,
+            "window_deg": window, "speed_mph": [x["speed_mph"] for x in build.wind_pair(wind, h)] if wind else [],
+            "corridor_size": len(t.get("facilities", [])), "reports": reports,
             "corridor_counties": sorted({(f2.get("AIRCounty") or "?").title() for f2 in ctx["echo_site"][det["site_id"]]
                                          ["Results"]["Facilities"] if f2.get("RegistryID") in corridor_ids}),
             "spike": {"around": around, "previous_hour_flag": prev_flag, "hours_over_trigger": hours_over, "threshold": thr(trig),
@@ -266,10 +274,13 @@ VERDICTS: dict[str, dict] = {
 
 
 def published_row(ev: dict) -> dict:
-    s, v = ev["row"], VERDICTS.get(ev["id"], {})
+    """The published row: the frozen population row says which night, the rebuilt detection gives its reading (the
+    frozen rows keep only day, param, site and status, so hour and values come from the rebuild)."""
+    s, v, rb = ev["row"], VERDICTS.get(ev["id"], {}), ev["rebuilt"]
     return {"id": ev["id"], "date": s["day"], "monitor": s["site_id"], "monitor_name": backtest.SITE_NAMES[s["site_id"]],
-            "compound": build.COMPOUNDS[s["param"]][0], "hour_cst": s["hour_cst"], "value_ppb": s["value"],
-            "baseline_ppb": s["baseline"], "reproduced": ev["rebuilt"]["status"] == s["status"],
+            "compound": build.COMPOUNDS[s["param"]][0], "hour_cst": rb["hour_cst"], "value_ppb": rb["value"],
+            "baseline_ppb": rb["baseline"],
+            "reproduced": rb["status"] == s["status"] and rb["site_id"] == s["site_id"],
             "reports_within_12h": len(ev["reports"]),
             "verdict": v.get("verdict", "unreviewed"), "rule": v.get("rule", ""), "evidence": v.get("evidence", ""),
             "incidents": v.get("incidents", [])}
@@ -291,10 +302,10 @@ def sweep(evs: list[dict]) -> dict:
             for r in e["reports"])),
         "report_in_match_window_inside_45_deg_listing_spike_compound": sum(1 for e in win if any(
             r["in_match_window"] and (r["address_place"] or r["pipeline_place"] or {}).get("in_45")
-            and (r["lbs"] or {}).get(e["row"]["param"], 0) > 0 for r in e["reports"])),
+            and e["row"]["param"] in r["lists"] for r in e["reports"])),
         "report_inside_45_deg_with_lumped_voc_only": sum(1 for e in evs if any(
             (r["address_place"] or r["pipeline_place"] or {}).get("in_45") and r.get("lumped_lines")
-            and not any((r["lbs"] or {}).values()) for r in e["reports"])),
+            and not r["lists"] for r in e["reports"])),
         "report_name_shared_by_several_echo_sites": sum(1 for e in evs if any(
             r["name_sites"] > 1 for r in e["reports"] if r["in_match_window"])),
         "report_placed_elsewhere_than_its_address": sum(1 for e in evs if any(
@@ -321,10 +332,8 @@ def main() -> None:
     if sys.argv[1:2] == ["--region"]:
         print(json.dumps(region_evidence(sys.argv[2]), indent=1, default=str))
         return
-    # kn: evidence is rebuilt by today's pipeline (12 monitors) for nights drawn from the frozen 8-monitor scan, so
-    # --write would publish evidence the hand verdicts were not written against; redo the hand audit before rerunning.
     bt = {"spikes": load_population()}
-    ctx = nights.load_context()
+    ctx = nights.load_context(site_ids=POPULATION_SITES)
     picked = sample(bt["spikes"])
     evs = [evidence(s, ctx) for s in picked]
     if "--write" in sys.argv:

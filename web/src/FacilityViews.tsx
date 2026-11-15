@@ -79,7 +79,9 @@ function Report({ r }: { r: FacilityFile['reports_to_state']['reports'][number] 
       </p>
       <p className="small"><T k="fx.span" v={{ from: <time dateTime={r.start_local}>{localTime(r.start_local)}</time>, to: <time dateTime={r.end_local}>{localTime(r.end_local)}</time> }} /></p>
       <dl className="fx-facts">
-        <div><dt>{t('fx.benzene')}</dt><dd>{r.benzene_lbs > 0 ? lbs(r.benzene_lbs) : t('fx.notListed')}</dd></div>
+        <div><dt>{t('fx.benzene')}</dt><dd>{r.benzene_lbs > 0 ? lbs(r.benzene_lbs)
+          : r.benzene_lumped?.length ? r.benzene_lumped.map((x) => t('fx.inMixture', { lbs: lbs(x.pounds), cell: x.cell })).join('; ')
+            : t('fx.notListed')}</dd></div>
         <div><dt>{t('fx.butadiene')}</dt><dd>{r.butadiene_lbs > 0 ? lbs(r.butadiene_lbs) : t('fx.notListed')}</dd></div>
       </dl>
       <p className="small"><span className="muted">{t('fx.cause')}</span><span lang="en">{r.cause_excerpt}</span></p>

@@ -123,7 +123,7 @@ HOUSTON = Region(
     nights_out=ROOT / "web" / "public" / "nights", backtested=True, place="on the Houston Ship Channel",
     # The web switch has always shown the English name here; the Spanish title phrase is translated.
     label_es="Houston Ship Channel", place_es="en el Canal de Navegación de Houston",
-    met_selects=HOUSTON_MET_SELECTS, n_backtest=77,
+    met_selects=HOUSTON_MET_SELECTS, n_backtest=82,
 )
 
 BEAUMONT = Region(

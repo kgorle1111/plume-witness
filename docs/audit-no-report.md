@@ -9,7 +9,7 @@ comes from the cached pages in `data/raw/backtest/`.
 
 **Population.** The sample comes from the 8-monitor scan, saved as `docs/audit-no-report-population.json`. The
 published spike log uses 12 Harris County monitors and tries each monitor's own AutoGC-form wind before a
-neighbour's; it has 168 no-report spikes. In it, 8 of the 10 audited nights keep their id and status; 2025-06-12
+neighbour's; it has 167 no-report spikes. In it, 8 of the 10 audited nights keep their id and status; 2025-06-12
 (1,3-butadiene) triggers first at Channelview Drive Water Tower (still no matching report), and 2025-10-31 (benzene)
 triggers first at Pasadena Richey Elementary School and abstains (search incomplete). The 4 Galena Park nights use
 Galena Park's own AutoGC-form wind there, not Milby Park's or Manchester's, so the wind lines in their evidence below
@@ -68,9 +68,16 @@ in shuffled order, skipping any whose monitor already has 3, until there are 10 
 Galena Park and Houston Milby Park each hit the cap of 3. Sorting first means the sample does not depend on the
 order of the JSON file; a test pins the 10 ids.
 
-**Rebuild.** Each night is rebuilt with the unchanged pipeline code (`backtest.scan_monitors`, `build.detect`,
-`backtest.day_reports`, `backtest.earlier_reports`, `build.trace`). All 10 sampled nights, and all 170 in the
-sweep, reproduce `no_report_after_deadline` with the same monitor, hour and value.
+**Rebuild.** Each night is rebuilt with the pipeline code (`backtest.scan_monitors`, `build.detect`,
+`backtest.day_reports`, `backtest.earlier_reports`, `build.trace`) on the same 8 monitors the sample was drawn from.
+When the audit was done, all 10 sampled nights, and all 170 in the sweep, reproduced `no_report_after_deadline`
+with the same monitor, hour and value. Rerun on 2026-11-15 with today's code, every night still triggers at the same
+monitor (the 10 sampled at the same hour and value), and 142 of the 170 (9 of the 10 sampled) still reproduce. The other 28 no longer claim absence: 27
+abstain because the wind is now under 3 mph in the detection hour or the hour before (25 of them read the monitor's
+own AutoGC-form wind, which the audit-time code did not use, and one, 2025-11-05, reads the previous day's 23:00
+for its hour-0 spike), and 2025-07-26 has no wind direction for its detection hours. The sampled night that no
+longer reproduces is 2025-10-31 (HRM-16 Deer Park's own wind, 2.1 mph); its verdict stays as written, for the
+night as the pipeline then read it.
 
 **Checks** (`audit_no_report.evidence`), then a hand reading of the evidence and the cached detail pages:
 
@@ -114,20 +121,24 @@ Times are CST hour of the hourly reading; values in ppb (7-day median baseline i
 
 ## Sweep of all 170 nights (automated, not hand-read)
 
-| Check | Nights |
-|---|---|
-| reproduce `no_report_after_deadline` | 170 |
-| any STEERS report running within +/-12 h | 101 |
-| a report within +/-12 h inside the 22.5 deg corridor (all start 6.4-11.1 h after the spike hour) | 3 |
-| a report within +/-12 h inside the 45 deg wedge | 14 |
-| ...running in the pipeline's -6 h/+2 h window | 9 |
-| ...and listing the spiking compound | **5** |
-| a report inside the 45 deg wedge that lists only lumped VOC | 3 |
-| a report in the match window whose name is shared by several ECHO sites | 9 |
-| ...placed by the name lookup at a different site than its street address | 8 (none changes the corridor outcome) |
-| trigger hour comes right after a QA/calibration-flagged hour | 30 |
-| only one hour over the trigger | 98 |
-| wind borrowed from another site | 72 |
+The first column is the sweep the hand audit was read against; the findings below quote it. The second is
+`docs/audit-no-report.json` as `--write` regenerates it with today's code on the same 8 monitors: most nights now
+read their own monitor's AutoGC-form wind instead of a neighbour's, which moves the wedge rows.
+
+| Check | When audited | Today's code (2026-11-15) |
+|---|---|---|
+| reproduce `no_report_after_deadline` | 170 | 142 |
+| any STEERS report running within +/-12 h | 101 | 101 |
+| a report within +/-12 h inside the 22.5 deg corridor (when audited, all start 6.4-11.1 h after the spike hour) | 3 | 4 |
+| a report within +/-12 h inside the 45 deg wedge | 14 | 21 |
+| ...running in the pipeline's -6 h/+2 h window | 9 | 15 |
+| ...and listing the spiking compound | **5** | **5** |
+| a report inside the 45 deg wedge that lists only lumped VOC | 3 | 10 |
+| a report in the match window whose name is shared by several ECHO sites | 9 | 9 |
+| ...placed by the name lookup at a different site than its street address | 8 (none changes the corridor outcome) | 1 |
+| trigger hour comes right after a QA/calibration-flagged hour | 30 | 30 |
+| only one hour over the trigger | 98 | 98 |
+| wind borrowed from another site | 72 | 11 |
 
 ## Systematic findings
 

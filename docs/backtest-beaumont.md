@@ -84,7 +84,10 @@ Week searches whose page did not list every record: 0.
   corridor can never reach it). A monitor without data or baseline for the day is dropped and recorded.
 - **Detection (unchanged pipeline):** value >= max(10 x 7-day median, 10 ppb), earliest hour of the event's start day.
 - **Corridor (unchanged pipeline):** +/-22.5 deg of upwind, <= 15.0 km, from the wind at the triggering monitor in the
-  detection hour and the hour before; a monitor with no wind uses the nearest site that has it (recorded per event).
+  detection hour and the hour before (for a spike in hour 0, the previous day's 23:00; 0 spikes
+  were in hour 0, and 0 of them had no cached previous day, so they read hour 0
+  alone); a monitor with no wind uses the nearest site that has it, only within 10 km (recorded per
+  event; farther, the spike has no wind and is not traced).
   The TCEQ met form returned no hourly wind for none; each uses its
   own AutoGC-form resultant wind (61104/61103) instead, and borrows only on a day that has neither. Wind source of
   the 2 spikes: own_met 2.

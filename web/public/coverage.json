@@ -282,8 +282,8 @@
    "max_butadiene_ppb": 22.03,
    "spikes": 99,
    "by_status": {
-    "no_report_after_deadline": 31,
-    "search_incomplete": 68
+    "no_report_after_deadline": 30,
+    "search_incomplete": 69
    }
   },
   {
@@ -389,10 +389,10 @@
    "max_butadiene_ppb": 273.08,
    "spikes": 53,
    "by_status": {
-    "no_report_after_deadline": 16,
+    "no_report_after_deadline": 15,
     "reported": 2,
     "reported_mismatch": 3,
-    "search_incomplete": 32
+    "search_incomplete": 33
    }
   },
   {

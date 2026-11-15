@@ -45,29 +45,76 @@ def hourly_flags(path: Path, day: str) -> list[str | None]:
     raise ValueError(f"{path.name}: day {day} not found")
 
 
-# Reported pounds per AQS parameter code. Each STEERS contaminant name is its own table cell, and `_text` turns
-# every tag into a line break, so the name must start its line: "Tetramethyl benzene", "Ethyl Benzene" or
-# "2-Methyl-1,3 butadiene" are other compounds and never count as the monitored one.
-COMPOUND_RE = {
-    "45201": re.compile(r"^[ \t]*benzene\s+(\d[\d,]*\.?\d*)\s+POUNDS", re.IGNORECASE | re.MULTILINE),
-    "43218": re.compile(r"^[ \t]*(?:1,3[- ]?butadiene|butadiene, ?1-3)\s+(\d[\d,]*\.?\d*)\s+POUNDS",
-                        re.IGNORECASE | re.MULTILINE),
+# One contaminant row of a STEERS detail page: the name cell, then its quantity cell in POUNDS. `_text` turns every
+# tag into a line break, so the name starts its line and is the whole cell (never spans a line break).
+CELL_RE = re.compile(r"^[ \t]*(\S[^\n]*?)\s+(\d[\d,]*\.?\d*)\s+POUNDS", re.MULTILINE)
+# Whole-cell names of each monitored compound (AQS parameter code). Whole cell, so "Tetramethyl benzene", "Ethyl
+# Benzene", "1,2-butadiene" or "2-Methyl-1,3 butadiene" are other compounds and never count as the monitored one.
+# A bare "Butadiene" is 1,3-butadiene: the trade name, and how 419486 and 444761 list it (419486's own cause text
+# says 1,3-Butadiene); reports that mean the 1,2 isomer write "1,2-butadiene".
+COMPOUND_NAMES = {
+    "45201": re.compile(r"benzene", re.IGNORECASE),
+    "43218": re.compile(r"(?:1,3|1-3)[- ]?butadiene|butadiene(?:,? ?(?:1,3|1-3)-?|-1,3)?|buta-1,3-diene",
+                        re.IGNORECASE),
 }
+# A lumped row that names benzene as one of its parts, "BTEX - benzene, toluene, ethylbenzene, xylene" (426454) or
+# "Benzene/Toluene", lists benzene. Not when the row excludes it ("C5+ (not including benzene)") or is one compound's
+# index name ("Benzene, (2-methylpropyl)-" is isobutylbenzene: a part that is a locant or substituent, starting with
+# a digit or ending in "-", means the commas belong to a single name). Benzene only: 1,3-butadiene's own
+# comma makes a lumped butadiene row unreadable this way, and none is in the 2024-25 pages.
+LUMPED_SPLIT = re.compile(r"\s+-\s+|[,/;&:()]|\s+and\s+", re.IGNORECASE)
+LUMPED_EXCLUDES = re.compile(r"\b(?:not|excluding|excludes|except|without|other than|less|non)\b", re.IGNORECASE)
 
 
-def lbs_by_param(text: str, exact: bool = False) -> dict[str, float]:
-    """Total reported pounds per monitored compound across every emission point on a STEERS detail page.
+def cell_param(cell: str) -> tuple[str, str] | None:
+    """(AQS parameter, "named" | "lumped") for a contaminant name cell that lists a monitored compound, else None."""
+    name = " ".join(cell.split())
+    for param, rx in COMPOUND_NAMES.items():
+        if rx.fullmatch(name):
+            return param, "named"
+    if LUMPED_EXCLUDES.search(name):
+        return None
+    parts = [p.strip() for p in LUMPED_SPLIT.split(name) if p.strip()]
+    if len(parts) < 2 or any(p[0].isdigit() or p.endswith("-") for p in parts):
+        return None
+    return ("45201", "lumped") if any(COMPOUND_NAMES["45201"].fullmatch(p) for p in parts) else None
 
-    `text` is `_text(path)` before whitespace is collapsed: the line breaks are the cell boundaries. exact=True sums
-    the printed decimals without rounding ("8469.74326"), for text that quotes the figure; the default rounds to 3
-    decimals, which is what decides whether a report lists the compound at all.
-    kn: that rounding reads 4 reports listing 0.00001-0.0001 lb (415589, 415700, 446527, 446678) as listing none,
-    so they are not backtest candidates and would read "does not list" in the corridor; none is today. Counting
-    them moves the backtest from 77 to 81 releases; that call is the lead's."""
-    if exact:
-        return {p: float(sum((Decimal(x.replace(",", "")) for x in rx.findall(text)), Decimal(0)))
-                for p, rx in COMPOUND_RE.items()}
-    return {p: round(sum(float(x.replace(",", "")) for x in rx.findall(text)), 3) for p, rx in COMPOUND_RE.items()}
+
+def contaminant_rows(text: str) -> list[tuple[str, str, str, Decimal]]:
+    """(cell, AQS parameter, "named" | "lumped", pounds) for every row that lists a monitored compound."""
+    out = []
+    for cell, qty in CELL_RE.findall(text):
+        hit = cell_param(cell)
+        if hit:
+            out.append((" ".join(cell.split()), *hit, Decimal(qty.replace(",", ""))))
+    return out
+
+
+def lbs_by_param(text: str) -> dict[str, float]:
+    """Total reported pounds of each monitored compound named on its own row, across every emission point.
+
+    `text` is `_text(path)` before whitespace is collapsed: the line breaks are the cell boundaries. The printed
+    decimals are summed exactly, never rounded: a report listing 0.00001 lb of 1,3-butadiene lists it (415589).
+    A lumped row's pounds are the mixture's, so they are never counted as the compound's (see lumped_by_param)."""
+    rows = contaminant_rows(text)
+    return {p: float(sum((q for _, rp, how, q in rows if rp == p and how == "named"), Decimal(0)))
+            for p in COMPOUND_NAMES}
+
+
+def lumped_by_param(text: str) -> dict[str, list[dict]]:
+    """Lumped rows that name a monitored compound, per parameter: [{"cell", "pounds"}] (the mixture's pounds)."""
+    out: dict[str, list[dict]] = {}
+    for cell, p, how, q in contaminant_rows(text):
+        if how == "lumped":
+            out.setdefault(p, []).append({"cell": cell, "pounds": float(q)})
+    return out
+
+
+def lists_param(inc: dict, param: str) -> bool:
+    """Does a parsed report (steers_incident) list a release of the compound: a positive amount on its own row, of
+    any size, or a lumped row that names it? A row of 0 pounds is a listed zero, not a release."""
+    return inc.get("lbs_by_param", {}).get(param, 0) > 0 or any(
+        r["pounds"] > 0 for r in inc.get("lumped_by_param", {}).get(param, []))
 
 
 def _after(label: str, text: str, until: str) -> str:
@@ -146,7 +193,7 @@ def steers_incident(path: Path) -> dict:
         "pounds": float(m.group(2).replace(",", "")) if m else None,
         "cause": _after("Reason for Scheduled Activity", t, ".") if "Reason for Scheduled Activity" in t else None,
         "lbs_by_param": lbs_by_param(_text(path)),
-        "lbs_exact": lbs_by_param(_text(path), exact=True),
+        "lumped_by_param": lumped_by_param(_text(path)),
         # The page's own report fields. "FINAL" appears in the text of every page, so it is never searched for.
         "report_type": _after("Report Type:", t, "Report Date") if "Report Type:" in t else None,
         "report_date": _report_date(t),
