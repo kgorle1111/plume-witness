@@ -85,7 +85,11 @@
   border-radius: 50%;
   border: 3px solid var(--trigger);
   pointer-events: none;
-  animation: pulse 1.8s ease-out infinite;
+  /* Two cycles (3.6s), then the same static ring reduced motion shows: WCAG 2.2.2 needs a way to stop
+     motion that runs past 5s. At scale(1) the ring hides behind the 22px trigger dot. */
+  transform: scale(1.6);
+  opacity: 0.9;
+  animation: pulse 1.8s ease-out 2;
 }
 @keyframes pulse {
   from { transform: scale(1); opacity: 0.9; }
@@ -93,6 +97,12 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .pulse-ring { animation: none; transform: scale(1.6); opacity: 0.9; }
+}
+
+/* Forced colors repaint the CSS legend but not the map canvas; keep the swatches matching the canvas. */
+@media (forced-colors: active) {
+  .lg { forced-color-adjust: none; }
+  .step-tab[aria-selected='true'] .step-num { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
 }
 
 .panel {
