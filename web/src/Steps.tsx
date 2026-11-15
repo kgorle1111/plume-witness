@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import type { DayIncident, Facility, Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, safeHttpUrl, statusInfo } from './format'
 
@@ -113,6 +113,17 @@ export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
   const wind = ev.wind.hourly.find((w) => w.hour_cst === ev.detection.hour_cst)
   const matched = ev.record_check.matched_facility_id
   const windSite = ev.monitors.find((m) => m.site_id === ev.wind.site_id)?.name ?? ev.wind.site_id
+  // One tab stop for the whole list (roving tabindex): 40 facilities were 40 Tab presses before "Next".
+  const [current, setCurrent] = useState(0)
+  const items = useRef<(HTMLLIElement | null)[]>([])
+  const onListKey = (e: KeyboardEvent<HTMLOListElement>) => {
+    const last = corridor.length - 1
+    const moves: Record<string, number> = { ArrowDown: current + 1, ArrowUp: current - 1, Home: 0, End: last }
+    const next = moves[e.key]
+    if (next === undefined) return
+    e.preventDefault()
+    items.current[Math.max(0, Math.min(last, next))]?.focus()
+  }
   return (
     <>
       <p className="lead">
@@ -122,18 +133,19 @@ export function Trace({ ev, corridor, outside, onHighlight }: TraceProps) {
       </p>
       <p className="caveat">Wind direction alone can't tell these apart.</p>
       <h3 className="list-heading">In the upwind corridor ({corridor.length})</h3>
-      <p className="muted small">Hover or focus a facility to show its name on the map. On the map, tap or point at a dot.</p>
+      <p className="muted small">Hover or focus a facility to show its name on the map; with a keyboard, Tab into the list and use the arrow keys. On the map, tap or point at a dot.</p>
       {corridor.length === 0 ? <p>No facilities in the corridor.</p> : (
-        <ol className="facility-list">
-          {corridor.map((f) => (
+        <ol className="facility-list" onKeyDown={onListKey}>
+          {corridor.map((f, i) => (
             // Key on id + rank: the pipeline can emit the same facility id twice.
             <li
               key={`${f.id}-${f.rank}`}
               className={f.id === matched ? 'is-matched' : undefined}
-              tabIndex={0}
+              ref={(el) => { items.current[i] = el }}
+              tabIndex={i === Math.min(current, corridor.length - 1) ? 0 : -1}
               onMouseEnter={() => onHighlight(f.id)}
               onMouseLeave={() => onHighlight(null)}
-              onFocus={() => onHighlight(f.id)}
+              onFocus={() => { setCurrent(i); onHighlight(f.id) }}
               onBlur={() => onHighlight(null)}
             >
               <span className="fl-name">{f.name}</span>
@@ -196,7 +208,7 @@ export function Check({ ev }: { ev: PlumeEvent }) {
       )}
       {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
       {url
-        ? <p><a href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
+        ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
     </>
   )
@@ -294,6 +306,8 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
         onChange={(e) => {
           setDrafts((d) => ({ ...d, [lang]: e.target.value }))
           // Approval covers the exact text a person read; any edit needs a fresh approval.
+          // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
+          if (approved) setNotice('Draft edited. Approve it again before filing.')
           setApproved(false)
         }}
       />
@@ -302,7 +316,8 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
         {guard.passed ? 'passed' : `failed (${guard.rejected.join(', ') || 'no details'})`}.
       </p>
       <div className="row">
-        <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak} aria-pressed={speaking}>
+        {/* The label states the action, so no aria-pressed: a toggle whose label also flips reads backwards. */}
+        <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak}>
           {speaking ? 'Stop reading' : 'Read aloud'}
         </button>
         <button type="button" className="btn" onClick={copy}>Copy draft</button>
@@ -314,7 +329,7 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
       <h3 className="list-heading">Review and file</h3>
       <ol className="file-steps">
         <li>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} aria-pressed={approved} onClick={() => setApproved((a) => !a)}>
+          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setApproved((a) => !a)}>
             {approved ? 'Approved (press to undo)' : 'Approve this draft'}
           </button>
         </li>

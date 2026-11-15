@@ -85,7 +85,11 @@
   border-radius: 50%;
   border: 3px solid var(--trigger);
   pointer-events: none;
-  animation: pulse 1.8s ease-out infinite;
+  /* Two cycles (3.6s), then the same static ring reduced motion shows: WCAG 2.2.2 needs a way to stop
+     motion that runs past 5s. At scale(1) the ring hides behind the 22px trigger dot. */
+  transform: scale(1.6);
+  opacity: 0.9;
+  animation: pulse 1.8s ease-out 2;
 }
 @keyframes pulse {
   from { transform: scale(1); opacity: 0.9; }
@@ -95,12 +99,30 @@
   .pulse-ring { animation: none; transform: scale(1.6); opacity: 0.9; }
 }
 
+/* Forced colors repaint the CSS legend but not the map canvas; keep the swatches matching the canvas. */
+@media (forced-colors: active) {
+  .lg { forced-color-adjust: none; }
+  .step-tab[aria-selected='true'] .step-num { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
+}
+
 .panel {
+  /* Positioned so .sr-only text stays inside this scroll box instead of stretching the document. */
+  position: relative;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--bg);
+}
+
+/* Short and narrow (phone landscape, 400% zoom): the fixed shell left the step panel 0-80px tall,
+   so the page scrolls as one column instead and the map gives up height (WCAG 1.4.10). */
+@media (max-width: 1023px) and (max-height: 540px) {
+  .app { height: auto; min-height: 100dvh; }
+  .layout { flex: none; }
+  /* Keep the 240px floor: EventMap's fitBounds padding (legend + 76px) throws on a shorter map. */
+  .map-wrap { height: 60vh; height: 60dvh; }
+  .panel { flex: none; overflow: visible; }
 }
 
 .stepper {
@@ -192,7 +214,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .key-bar { background: var(--monitor); }
 .key-base { height: 0; border-top: 2px dashed var(--ink); margin-left: 6px; }
 .hourly-table { margin-top: 6px; font-size: 0.85rem; }
-.hourly-table summary { cursor: pointer; color: var(--accent); min-height: 32px; display: flex; align-items: center; }
+.hourly-table summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
+.record-link { display: inline-flex; align-items: center; min-height: 44px; }
 .hourly-table table { border-collapse: collapse; width: 100%; max-width: 320px; }
 .hourly-table th, .hourly-table td { text-align: left; padding: 2px 8px 2px 0; border-bottom: 1px solid var(--line); }
 
@@ -230,7 +253,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .fl-align { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--ink-2); }
 .align-track { flex: 0 0 72px; height: 6px; border-radius: 3px; background: var(--bg-2); border: 1px solid var(--line); overflow: hidden; }
 .align-fill { display: block; height: 100%; background: var(--ink-2); }
-.outside summary { cursor: pointer; font-size: 0.9rem; }
+/* Padding, not flex: a flex summary loses its disclosure marker. */
+.outside summary { cursor: pointer; font-size: 0.9rem; padding-block: 12px; }
 
 .status-block { display: grid; gap: 4px; }
 .status {
@@ -255,7 +279,7 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .check-at { min-width: 4em; font-family: var(--mono); font-size: 0.85rem; }
 
 .lang-toggle { display: inline-flex; justify-self: start; border: 1.5px solid var(--ink-2); border-radius: 8px; overflow: hidden; }
-.lang-toggle button { min-height: 40px; padding: 0 14px; border: 0; background: var(--bg); cursor: pointer; }
+.lang-toggle button { min-height: 44px; padding: 0 14px; border: 0; background: var(--bg); cursor: pointer; }
 .lang-toggle button[aria-pressed='true'] { background: var(--ink); color: #fff; font-weight: 700; }
 .draft-label { font-weight: 700; font-size: 0.9rem; }
 .draft {
