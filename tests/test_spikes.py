@@ -96,3 +96,8 @@ def test_night_id_matches_the_replay_file_format(out):
     for r in out["rows"]:
         assert r["night_id"] == f"{r['date']}_{r['param']}_{r['site_id']}"
         assert re.fullmatch(r"\d{4}-\d{2}-\d{2}_(45201|43218)_48_201_\d{4}", r["night_id"])
+
+
+def test_every_incomplete_check_says_why(out):
+    assert all(r.get("reason") for r in out["rows"] if r["status"] == "search_incomplete")
+    assert not any(r.get("reason") for r in out["rows"] if r["status"] != "search_incomplete")

@@ -25,8 +25,11 @@ COMPOUNDS = {"45201": "benzene", "43218": "1,3-butadiene"}
 # Backtest-only outcomes where the record check never ran. Each maps to the contract status that says so, plus a
 # reason shown next to it. A new backtest status fails the export until it is mapped here.
 ABSTAIN = {"no_wind": ("search_incomplete", "No wind data for that day, so no upwind area could be drawn.")}
-ROW_KEYS = ("night_id", "date", "hour_cst", "site_id", "site", "lat", "lon", "param", "compound", "value_ppb", "baseline_ppb",
-            "ratio", "status", "search_complete", "reports_that_day")
+# Why a record check stopped short, from what the backtest row says (build.record_check needs both to claim absence).
+INCOMPLETE_REASON = {False: "TCEQ's search for that week did not return every report, so absence cannot be claimed.",
+                     True: "A report filed that day could not be placed on the map, so absence cannot be claimed."}
+ROW_KEYS = ("night_id", "date", "hour_cst", "site_id", "site", "lat", "lon", "param", "compound", "value_ppb",
+            "baseline_ppb", "ratio", "status", "reports_that_day")
 # Present only when they have a value, to keep the file under budget.
 OPTIONAL_KEYS = ("reason", "matched_incident", "report_url")
 
@@ -62,6 +65,8 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]]) -> dict:
     reason = None
     if status in ABSTAIN:
         status, reason = ABSTAIN[status]
+    elif status == "search_incomplete":
+        reason = INCOMPLETE_REASON[bool(s.get("search_complete"))]
     elif status not in STATUSES:
         raise SpikeExportError(f"{where}: status {status!r} is not in contract.STATUSES; map it in spikes.ABSTAIN "
                                "with a plain-language reason, or add it to the contract")
@@ -71,11 +76,11 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]]) -> dict:
         raise SpikeExportError(f"{where}: status 'reported' needs a matched_incident")
     lat, lon = coords[site]
     row = {
-        "night_id": night_id(day.isoformat(), param, site), "date": day.isoformat(), "hour_cst": hour, "site_id": site, "site": backtest.SITE_NAMES[site],
+        "night_id": night_id(day.isoformat(), param, site), "date": day.isoformat(), "hour_cst": hour,
+        "site_id": site, "site": backtest.SITE_NAMES[site],
         "lat": round(lat, 5), "lon": round(lon, 5), "param": param, "compound": COMPOUNDS[param], "value_ppb": value,
         "baseline_ppb": base, "ratio": round(value / base, 1) if base > 0 else None, "status": status,
-        "reason": reason, "search_complete": bool(s.get("search_complete")),
-        "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
+        "reason": reason, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
         "report_url": build.STEERS_URL.format(incident) if incident else None,
     }
     return {k: v for k, v in row.items() if k in ROW_KEYS or v is not None}
