@@ -1,16 +1,9 @@
-// The landing globe's view: an orthographic projection tilted to CENTER_LAT, turned to a longitude that sways around
-// Houston instead of spinning the whole Earth past it. Pure math, so test/globeView.test.ts can check it.
+// The landing globe uses an orthographic view tilted north, with a steady rotation around Earth's axis.
 
 const radians = Math.PI / 180
 
-/** The study area (the Ship Channel monitors sit within ~20 km of this point). */
-export const HOUSTON = { lat: 29.76, lon: -95.37 }
-/** View tilt: a little south of Houston, so Houston sits just above the disc's centre. */
 export const CENTER_LAT = 23
-/** Half-width of the sway in degrees of longitude; Houston stays on the near side at every angle. */
-export const SWAY_DEG = 38
-/** Seconds for one full sway (there and back). */
-export const SWAY_PERIOD_S = 48
+export const SPIN_PERIOD_S = 45
 
 const sinC = Math.sin(CENTER_LAT * radians)
 const cosC = Math.cos(CENTER_LAT * radians)
@@ -24,18 +17,7 @@ export function unproject(x: number, y: number) {
   }
 }
 
-/** Geographic degrees to the disc, for a view centred on longitude `center`; `visible` is false on the far side. */
-export function project(lat: number, lon: number, center: number) {
-  const phi = lat * radians
-  const lambda = (lon - center) * radians
-  return {
-    x: Math.cos(phi) * Math.sin(lambda),
-    y: cosC * Math.sin(phi) - sinC * Math.cos(phi) * Math.cos(lambda),
-    visible: sinC * Math.sin(phi) + cosC * Math.cos(phi) * Math.cos(lambda) > 0,
-  }
-}
-
-/** The view's centre longitude `seconds` into the sway: starts on Houston and eases out to ±SWAY_DEG and back. */
-export function swayCenter(seconds: number) {
-  return HOUSTON.lon + SWAY_DEG * Math.sin((2 * Math.PI * seconds) / SWAY_PERIOD_S)
+/** Start on the Atlantic; wrap after one complete rotation to keep long-running angles small. */
+export function spinCenter(seconds: number) {
+  return -63 + 360 * ((seconds % SPIN_PERIOD_S) / SPIN_PERIOD_S)
 }

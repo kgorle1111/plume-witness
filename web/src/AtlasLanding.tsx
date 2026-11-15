@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useEffect, useState, type MouseEventHandler, type ReactNode } from 'react'
+import { Component, lazy, Suspense, useEffect, type MouseEventHandler, type ReactNode } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { LANDING_METRICS as M } from './landingMetrics'
 import { SiteHeader } from './SiteHeader'
@@ -9,17 +9,16 @@ import './AtlasLanding.css'
 import './StoryEntry.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
-const BASE = import.meta.env.BASE_URL
+const REPO = 'https://github.com/kgorle1111/plume-witness'
 
 /** A globe chunk that fails to load (venue Wi-Fi) leaves an empty disc, not a blank page: the text and the button stay. */
-class GlobeBoundary extends Component<{ onFail: () => void; children: ReactNode }, { failed: boolean }> {
+class GlobeBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() {
     return { failed: true }
   }
   componentDidCatch(error: unknown) {
     console.error('Landing globe failed to load', error)
-    this.props.onFail()
   }
   render() {
     return this.state.failed ? null : this.props.children
@@ -33,8 +32,6 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
 }) {
   // The replay renames the tab after its night; coming back with the browser's Back button resets it.
   useEffect(() => { document.title = 'Plume Witness' }, [])
-  const [paused, setPaused] = useState(false)
-  const [globeFailed, setGlobeFailed] = useState(false)
   const t = useT()
   const lang = useLang()
   return (
@@ -44,7 +41,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       onAnimationEnd={(event) => { if (leaving && event.target === event.currentTarget) onExit() }}
     >
       {/* The skip link goes to the title, as on every other page (the first Tab used to land on the brand). */}
-      <SiteHeader className="atlas-masthead" skipTo="atlas-title" />
+      <SiteHeader className="atlas-masthead" skipTo="atlas-title" showNeighborhood />
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
@@ -59,22 +56,7 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
             <path d="M0 231h86m478 0h86" strokeDasharray="3 5" />
           </svg>
           <div className="atlas-planet">
-            <GlobeBoundary onFail={() => setGlobeFailed(true)}><Suspense><AtlasGlobe paused={paused} /></Suspense></GlobeBoundary>
-            {/* A small toggle on the globe, so it never looks like the page's main action; hidden by CSS when reduced motion
-                already holds the globe still, and gone when the globe could not load. */}
-            {!globeFailed && (
-              <button
-                type="button"
-                className="atlas-pause"
-                aria-label={paused ? t('landing.spin') : t('landing.pause')}
-                title={paused ? t('landing.spin') : t('landing.pause')}
-                onClick={() => setPaused((p) => !p)}
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                  {paused ? <path d="M4.5 2.5v11l9-5.5z" fill="currentColor" /> : <path d="M4 2.5h2.6v11H4zm5.4 0H12v11H9.4z" fill="currentColor" />}
-                </svg>
-              </button>
-            )}
+            <GlobeBoundary><Suspense><AtlasGlobe /></Suspense></GlobeBoundary>
           </div>
         </div>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
@@ -93,26 +75,30 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
             {STORY_COPY[lang].enter}
           </a>
         </div>
+        {/* After the button, not before it: above it, this line pushed the button below the fold at 320x568. */}
+        <p className="atlas-reframe">{t('landing.reframe', { spikes: M.spikes, noReport: M.noReport })}</p>
         <ul className="atlas-metrics" aria-label={t('landing.metrics')}>
           <li><b>{M.spikes}</b> {t('landing.m.spikes')}</li>
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
           <li><b>{M.years}</b> {t('landing.m.years')}</li>
           <li className="atlas-own-line"><b>{M.noReport}</b> {t('landing.m.questions')} <span className="atlas-m-sub">({t('landing.m.questionsSub')})</span></li>
+          <li className="atlas-own-line"><b>{M.residentsNearQuestions.toLocaleString(lang === 'es' ? 'es-US' : 'en-US')}</b> {t('landing.m.residents', { m: M.questionMonitors })}</li>
+          <li className="atlas-own-line atlas-health">{t('landing.m.benzene')} <a href="https://www.epa.gov/sites/default/files/2016-09/documents/benzene.pdf" rel="noopener">{t('landing.m.benzeneLink')}</a></li>
           <li className="atlas-audit">
             {t('landing.m.auditLead')} <b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b>{' '}
             {t('landing.m.audit', { upper: M.auditUpperPct, u: M.auditUnclear, n: M.auditNights })}
           </li>
         </ul>
-        <nav className="atlas-links" aria-label={t('landing.more')}>
-          {/* A way in by place, not by monitor name: Past spikes has its neighborhood chips right under the intro. No
-              #fragment to them: that page draws after load, so the browser never scrolls to it (measured). */}
-          <a href={`${BASE}?view=spikes`}>{t('landing.nb')}</a>
-          <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
-          <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
-          <a href={`${BASE}?view=coverage`}>{t('nav.coverage')}</a>
-          <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
-          <a href={`${BASE}?view=brief`}>{t('app.linkBrief')}</a>
-        </nav>
+        {/* The rigor behind the numbers, one line each, with the evidence one click away. */}
+        <section className="atlas-how" aria-labelledby="atlas-how-title">
+          <h2 id="atlas-how-title">{t('landing.how.title')}</h2>
+          <ul>
+            <li>{t('landing.how.files', { date: M.rawFetchedLatest })} <a href={`${REPO}/tree/main/data/raw`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.backtest', { n: M.backtestReleases, s: M.backtestSpiked, m: M.backtestMatched })} <a href={`${REPO}/blob/main/docs/backtest.md`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.audit', { n: M.auditNights, k: M.auditMissed, upper: M.auditUpperPct })} <a href={`${REPO}/blob/main/docs/audit-no-report.md`} rel="noopener">{t('landing.how.link')}</a></li>
+            <li>{t('landing.how.ci')} <a href={`${REPO}/actions`} rel="noopener">{t('landing.how.link')}</a></li>
+          </ul>
+        </section>
       </section>
     </main>
   )

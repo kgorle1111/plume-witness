@@ -129,3 +129,19 @@ def test_non_harris_row_is_refused(tmp_path, monkeypatch):
     people.LEDGER.write_text(json.dumps(ledger))
     with pytest.raises(ValueError, match="not a Harris tract"):
         people.load_table("b01003")
+
+
+def test_near_open_questions_counts_each_tract_once_for_the_right_monitors():
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    people = json.loads((root / "web" / "public" / "people.json").read_text(encoding="utf-8"))
+    rows = json.loads((root / "web" / "public" / "spikes.json").read_text(encoding="utf-8"))["rows"]
+    q = people["near_open_questions"]
+    assert q["site_ids"] == sorted({r["site_id"] for r in rows if r["status"] == "no_report_after_deadline"})
+    assert len(q["tract_geoids"]) == len(set(q["tract_geoids"])) == q["tracts"]
+    per_monitor = {m["site_id"]: m["radii_km"][str(q["radius_km"])] for m in people["monitors"]}
+    union = set().union(*(per_monitor[s]["tract_geoids"] for s in q["site_ids"]))
+    assert set(q["tract_geoids"]) == union
+    # A union can't hold more people than the overlapping per-monitor counts added up.
+    assert q["population"] <= sum(per_monitor[s]["population"] for s in q["site_ids"])

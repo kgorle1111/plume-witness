@@ -1,0 +1,54 @@
+name: Weekly rebuild check
+
+# Rebuilds the published data from the saved public files in data/raw/ and fails if anything differs from what
+# is committed. It proves the site's numbers still come from the raw files; it does not fetch new data (new
+# months from the state are on the roadmap). Each step below was checked to rebuild byte-for-byte identical
+# output on 2026-11-15. Left out: pipeline.audit_no_report (a hand-audit helper, ~8 min).
+
+on:
+  schedule:
+    - cron: "17 9 * * 1" # Mondays 09:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebuild
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Rebuild the published data from the saved public files (order matters)
+        run: |
+          uv run python -m pipeline.backtest
+          uv run python -m pipeline.backtest --region beaumont
+          uv run python -m pipeline.spikes
+          uv run python -m pipeline.nights
+          uv run python -m pipeline.facilities
+          uv run python -m pipeline.feeds
+          uv run python -m pipeline.people
+          uv run python -m pipeline.coverage
+          uv run python -m pipeline.rose
+          uv run python -m pipeline.triangulate
+          uv run python -m pipeline.regions --write-web
+      - name: Fail if the rebuild differs from what is published
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::The rebuilt data differs from the committed files. Changed files:"
+            git status --short | head -50
+            git diff --stat | tail -5
+            exit 1
+          fi
+          echo "Rebuilt data matches the published files."

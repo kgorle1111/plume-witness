@@ -20,7 +20,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 3. **Check.** It pulls every emissions-event report filed that day in the county (2 reports, search complete) <!-- CL-007 --> and finds INEOS Americas Pasadena Site inside the corridor; the company's own report lists 7,634 lb of benzene. <!-- CL-005 --> The initial notice came 5 hours after discovery and the final report 12 days after the event ended, inside the 24 hours and 14 days Texas allows. For this spike the company reported, so the replay shows the check passing, not a missing report. <!-- CL-006 -->
 4. **Packet.** A hedged evidence summary in English and Spanish, written by a fixed template from the event's own fields, with read-aloud and a number check that rejects any number or ID not in the input. <!-- CL-009 --> A person reads, edits, approves and files it; the app sends nothing. <!-- CL-008 -->
 
-**Who it's for:** reporters, watchdog analysts and environmental volunteers who check these reports by hand today. TEJAS volunteers in Houston verify, document, share and translate each incident themselves <!-- CL-028 -->, and around the Galena Park monitor 77.1% of residents age 5 and over speak Spanish at home. <!-- CL-035 -->
+**Who it's for:** reporters, watchdog analysts and environmental volunteers who check these reports by hand today. TEJAS volunteers in Houston verify, document, share and translate each incident themselves <!-- CL-028 -->, and around the Galena Park monitor 77.1% of residents age 5 and over speak Spanish at home. <!-- CL-035 --> In all, 103,373 people live within 1.9 mi (3 km) of the 8 monitors that have at least one spike with no matching report (U.S. Census ACS; residents, not people exposed). <!-- source: web/public/people.json near_open_questions, from pipeline.people; checked by tests/test_people.py and web/test/landingMetrics.test.ts -->
 
 Beyond the demo spike, the site has a Past spikes log of 468 Houston spikes at 12 monitors with a CSV download and a calendar, replays 466 of those spikes, and has a place search with neighborhood shortcuts. <!-- CL-031 --> It covers all 45 Texas AutoGC monitors in 10 regions on a Coverage page, runs the same check on every one with 2024-2025 data, and checks spikes against a second public report system, the federal National Response Center. It also has a two-year spike timeline, a history page for each of 194 facilities near the Houston monitors, RSS feeds per monitor, an embeddable replay for newsrooms, a printable 2-page method brief in English and Spanish, link previews, documented open data files ([docs/api.md](docs/api.md)), and install-as-app with offline replay. <!-- CL-033 -->
 
@@ -28,12 +28,15 @@ Every record check ends in one status label, the same on every page: **Reported*
 
 ## Results
 
+**What the tool is for.** Hourly state monitors are a coarse instrument, so we don't claim to detect releases (the backtest below shows why). We turn 468 spikes into 167 specific questions for the state that no report in the state's or federal records answers. <!-- source: web/src/landingMetrics.ts, recomputed from web/public/spikes.json by web/test/landingMetrics.test.ts -->
+
 Measured on public data, for the Houston Ship Channel unless the row says otherwise.
 
 | What we measured | Result | What it means |
 |---|---|---|
 | Spikes checked against the record, 12 monitors | Across all 468 spikes in the Past spikes log, 167 ended as No matching report after a complete search, and 284 ended with the search incomplete, labeled Can't say with the cause named <!-- CL-011 --> | Each No matching report is a question for the state, never a finding; the site counts these spikes and names no facility. |
 | Second report source | Every spike is checked against the state's STEERS reports and, where STEERS has no match, the federal National Response Center's; the NRC's 1,508 reports for Harris and Jefferson counties added 0 matches <!-- CL-036 --> | The second source is checked only where STEERS has no corridor match. |
+| Work a hand check takes | For each of the 167 No matching report spikes, checking by hand means searching the state's reports from the spike day and the 30 days before, reading a median of 1 report (up to 4), placing a median of 9 corridor facilities (up to 51) against the wind, and repeating at 14 days: 2,519 facility checks and 136 report reads in all <!-- source: HAND_CHECK in web/src/landingMetrics.ts, recomputed from web/public/nights/ by web/test/landingMetrics.test.ts --> | A count of the work, not a timing. The app runs this check for every spike, and each result is one click away in the Past spikes log. |
 | Hand check of No matching report spikes | Of 10 picked at random, the gap held in 8 of 10, 2 of 10 could not be settled from public data, and 0 of 10 was a report the pipeline missed <!-- CL-032 --> | With 10 spikes the true miss rate could be as high as 28% (Wilson 95%). [docs/audit-no-report.md](docs/audit-no-report.md) |
 | Backtest on releases companies reported | Of 82 reported releases, only 5 of 82 showed a spike at a state monitor from 1 hour before to 6 hours after the reported start, and the pipeline matched 1 of 82 end to end <!-- CL-023 --> | A spike near the start is consistent with the release, not proof it caused the reading. [docs/backtest.md](docs/backtest.md) |
 | What hourly monitors can see | In 64 of 82 a state monitor within 9.3 mi (15 km) was downwind near the start, yet ordinary days at the same monitors and hours spiked in 27 of 429 windows <!-- CL-029 --> | The 95% intervals overlap at every setting tested, so these monitors cannot tell these releases apart from ordinary days at the same hours. [docs/detector.md](docs/detector.md) |
@@ -103,17 +106,19 @@ Exact versions are pinned in [pyproject.toml](pyproject.toml), [uv.lock](uv.lock
 - **Deterministic first.** Detection, the upwind corridor and the record check are plain, tested Python on public data. No model decides a result a reader sees.
 - **Every number traces to a source.** A claims file names the evidence file and hash behind each number in our public copy, and a linter (truthlint) checks the copy against it before it ships.
 - **The model sits behind a guard.** Claude drafts only behind a number guard that rejects any number, ID or time not in the input, and the guard is scored by its own eval. The Claude draft on the site was published because it passed that check. <!-- CL-022 -->
+- **Rebuilt every week.** A scheduled GitHub Action (`.github/workflows/rebuild.yml`) rebuilds the published data from the saved raw files and fails if anything differs, so the site's numbers keep tracing to the public files.
 - **One fix per pull request.** Every change lands as its own PR with CI; the Pages deploy runs the web tests before it publishes.
 - **Independent review.** Hand audits, a backtest against companies' own reports, and separate review passes checked the method, the numbers and the copy.
 - **AI-assisted, human-decided.** Claude Code (Claude Opus 5.5) wrote much of the pipeline and web code with the builder; every commit it helped with carries a Co-Authored-By trailer, and the team made each decision. <!-- CL-020 -->
 
 ## Roadmap
 
+- Fetch new months from the state automatically (today the weekly job rebuilds 2024-2025 from the saved files; it does not fetch new data).
 - Place every report on the map with a reviewed lookup table of TCEQ regulated-entity numbers.
 - A labeled eval for the report-revision ("walk-back") reader, then ship it.
 - One statewide list of open questions across all 10 regions.
 - AI drafts for every replayable spike, behind the same guard.
-- Beyond Texas, Los Angeles first: join the South Coast AQMD's Rule 1180 refinery-fenceline monitors (hourly benzene) to California's Cal OES spill reports. Their public monitor files end in 2022, so it starts as a 2020-2022 backtest. <!-- CL-038 -->
+- Los Angeles: the South Coast AQMD's Rule 1180 refinery-fenceline community stations are on the site now, with 6 spikes from March 2020 to December 2022 that replay on airport wind and are checked against the NRC's and Cal OES's reports, which name neither compound then, so each reads Can't say. Next: a complete report list for Los Angeles. <!-- CL-040 -->
 - The National Response Center's reports cover every state, so the spike-plus-federal-report check can run wherever hourly benzene monitors exist. <!-- CL-039 -->
 
 ## Method and limits

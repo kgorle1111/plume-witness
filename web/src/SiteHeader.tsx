@@ -27,7 +27,7 @@ const LABEL = {
  * `skipTo` adds a skip link to the element with that id (the replay has its own, to the steps).
  * Links keep ?region= so a reader in any region stays in it.
  */
-export function SiteHeader({ current, className = '', lang, skipTo, children }: {
+export function SiteHeader({ current, className = '', lang, skipTo, showNeighborhood = false, children }: {
   /** The page in the nav this view is, or belongs to (one facility's page belongs to Facilities). */
   current?: NavView | 'facility'
   className?: string
@@ -35,6 +35,8 @@ export function SiteHeader({ current, className = '', lang, skipTo, children }: 
   lang?: ReactNode
   /** Id of the element that wraps the page's main content. */
   skipTo?: string
+  /** Past spikes has the neighborhood picker; give it a distinct entry from the landing page. */
+  showNeighborhood?: boolean
   children?: ReactNode
 }) {
   const t = useT()
@@ -52,6 +54,7 @@ export function SiteHeader({ current, className = '', lang, skipTo, children }: 
           <span className="brand-name">Plume Witness</span>
         </a>
         <nav className="site-nav" aria-label={t('app.siteLinks')}>
+          {showNeighborhood && <a href={navHref(BASE, 'spikes', search)}>{t('landing.nb')}</a>}
           {NAV_ITEMS.map((v) => (
             <a
               key={v}

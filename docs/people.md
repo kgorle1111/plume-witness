@@ -4,6 +4,10 @@ Source: U.S. Census Bureau, ACS 2024 5-year (2020-2024), census-tract estimates 
 
 **Method limit.** Tracts whose internal point (TIGERweb INTPTLAT/INTPTLON) lies within the radius of the monitor are summed whole; tracts are not split, so a tract straddling the circle is wholly in or wholly out. Percentages are ratios of summed counts. Income is the mean of tract median household incomes weighted by households (a true median of the pooled households is not recoverable from tract medians). Margins of error are not propagated: tract-level ACS estimates, especially for small areas, can be off by several points. ACS counts residents, not people present during a release (workers, ship crews).
 
+## Near a spike with no matching report
+
+103,373 residents live in the 26 tracts within 3 km of the 8 monitors that have at least one spike with no matching report (54.3% speak Spanish at home; 28.5% are under 18). A tract near two such monitors is counted once. These are residents, not people exposed: a spike at a monitor does not say who breathed it.
+
 ## Within 3 km
 
 | Monitor | Tracts | Residents | Hispanic | Spanish at home | Limited-English households | Under 18 | 65+ | Median household income (approx.) |
