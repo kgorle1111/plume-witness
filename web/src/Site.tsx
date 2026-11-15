@@ -151,7 +151,7 @@ export default function Site() {
           <AtlasLanding leaving={leaving} onEnter={enter} onExit={() => setLeaving(false)} />
         </LoadBoundary>
       )}
-      {page === 'landing' && <SiteFooter />}
+      {page === 'landing' && <SiteFooter showPageLinks={false} />}
       <UpdateNotice />
     </>
   )

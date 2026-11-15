@@ -74,10 +74,14 @@ test('header nav and brand are at least 14px at every width, and 16px from 1600p
   assert.ok(clampPx(css, '.site-nav', 1600, 18) >= 18)
 })
 
-test('the landing links to the neighborhood way in on Past spikes, in both languages (U9)', async () => {
+test('the landing puts neighborhood entry in the site nav without a second nav, in both languages', async () => {
   for (const [l, text] of [['en', 'Start from your neighborhood'], ['es', 'Empiece por su vecindario']] as const) {
     await setLang(l)
-    const m = new RegExp(`<a href="([^"]+)">${text}</a>`).exec(await landing())
+    const html = await landing()
+    const nav = /<nav class="site-nav"[^>]*>([\s\S]*?)<\/nav>/.exec(html)
+    assert.ok(nav, `${l}: no site navigation`)
+    assert.equal((html.match(/<nav\b/g) ?? []).length, 1, `${l}: duplicate landing navigation`)
+    const m = new RegExp(`<a href="([^"]+)">${text}</a>`).exec(nav[1])
     assert.ok(m, `${l}: no neighborhood link`)
     const url = new URL(m[1], 'https://x.org/')
     assert.equal(pageFromLocation(url), 'spikes', `${l}: ${m[1]} must open Past spikes, where the chips are`)
