@@ -3,7 +3,8 @@ import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
-import { initialPacketReview, useAiDraft, type PacketReview } from './packet'
+import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from './packet'
+import { cannotSayEs } from './format'
 import type { Place } from './PlaceSearch'
 import './App.css'
 
@@ -39,11 +40,17 @@ function BrandMark() {
   )
 }
 
-function CannotSay({ items }: { items: string[] }) {
+function CannotSay({ items, lang }: { items: string[]; lang: Lang }) {
   return (
     <details className="cannot-say">
-      <summary>What this can't say ({items.length})</summary>
-      <ul>{items.map((t) => <li key={t}>{t}</li>)}</ul>
+      <summary lang={lang}>{lang === 'es' ? 'Lo que esto no puede decir' : "What this can't say"} ({items.length})</summary>
+      <ul>
+        {items.map((t) => {
+          // Lines without a Spanish match stay in English and say so through lang.
+          const es = lang === 'es' ? cannotSayEs(t) : null
+          return <li key={t} lang={es ? 'es' : 'en'}>{es ?? t}</li>
+        })}
+      </ul>
     </details>
   )
 }
@@ -61,6 +68,13 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   // Keep the review when Packet unmounts so a reviewer can check the record and return (from PR #21).
   const [packetReview, setPacketReview] = useState<PacketReview>(() => initialPacketReview(ev))
   const ai = useAiDraft()
+  const [langNotice, setLangNotice] = useState('')
+  // Approval covers one language's exact text, so switching here clears it, as the Packet switch does.
+  const setLang = (l: Lang) => {
+    if (l === packetReview.lang) return
+    setLangNotice(packetReview.approved ? `Switched to ${l === 'es' ? 'Spanish' : 'English'}. Approve that draft before filing.` : '')
+    setPacketReview((r) => ({ ...r, lang: l, approved: false }))
+  }
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
 
@@ -112,13 +126,24 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
         ))}
       </div>
 
-      <CannotSay items={ev.cannot_say} />
+      <div className="limits-bar">
+        <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
+        {/* Same state as the Packet language switch: one language choice for the draft, statuses and limits. */}
+        <div className="seg seg-compact" role="group" aria-label="Language for statuses, limits and the draft">
+          <button type="button" aria-pressed={packetReview.lang === 'en'} onClick={() => setLang('en')}>English</button>
+          <button type="button" aria-pressed={packetReview.lang === 'es'} onClick={() => setLang('es')} lang="es">Español</button>
+        </div>
+      </div>
+      {packetReview.lang === 'es' && (
+        <p className="muted small es-note">Traducción aún no revisada por un lector de la comunidad. <span lang="en">(Spanish not yet reviewed by a community reader.)</span></p>
+      )}
+      <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2>{STEPS[active].title}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
-        {step === 'check' && <Check ev={ev} />}
+        {step === 'check' && <Check ev={ev} lang={packetReview.lang} />}
         {step === 'packet' && <Packet ev={ev} ai={ai} review={packetReview} setReview={setPacketReview} />}
         <nav className="step-nav" aria-label="Step navigation">
           {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
