@@ -1216,9 +1216,10 @@
    {
     "at": "T+14d",
     "status": "reported",
-    "note": "final report published"
+    "note": "final report dated 2024-07-03, 12 days after the event ended"
    }
   ],
+  "compound_match": true,
   "reported": {
    "facility": "Ineos Americas Pasadena Site",
    "compound": "Benzene",

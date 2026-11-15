@@ -44,6 +44,19 @@ def hourly_flags(path: Path, day: str) -> list[str | None]:
     raise ValueError(f"{path.name}: day {day} not found")
 
 
+# Reported pounds per AQS parameter code. The lookbehind stops "methylbenzene" or "1,2-butadiene"-style names
+# from counting as the monitored compound.
+COMPOUND_RE = {
+    "45201": re.compile(r"(?<![A-Za-z-])benzene (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
+    "43218": re.compile(r"(?<![A-Za-z-])(?:1,3-butadiene|butadiene, ?1-3) (\d[\d,]*\.?\d*) POUNDS", re.IGNORECASE),
+}
+
+
+def lbs_by_param(text: str) -> dict[str, float]:
+    """Total reported pounds per monitored compound across every emission point on a STEERS detail page."""
+    return {p: round(sum(float(x.replace(",", "")) for x in rx.findall(text)), 3) for p, rx in COMPOUND_RE.items()}
+
+
 def _after(label: str, text: str, until: str) -> str:
     i = text.find(label)
     if i < 0:
@@ -67,6 +80,11 @@ def steers_search(path: Path) -> dict:
     return {"rows": rows, "shown": int(m.group(2)) - int(m.group(1)) + 1, "total": int(m.group(3))}
 
 
+def _report_date(t: str) -> str | None:
+    m = re.search(r"Report Date: (\d{2}/\d{2}/\d{4})", t)
+    return datetime.strptime(m.group(1), "%m/%d/%Y").date().isoformat() if m else None
+
+
 def steers_incident(path: Path) -> dict:
     """Key facts from a STEERS emissions-event detail page (times are local, as published)."""
     t = re.sub(r"\s+", " ", _text(path))
@@ -84,5 +102,8 @@ def steers_incident(path: Path) -> dict:
         "compound": m.group(1).strip() if m else None,
         "pounds": float(m.group(2).replace(",", "")) if m else None,
         "cause": _after("Reason for Scheduled Activity", t, ".") if "Reason for Scheduled Activity" in t else None,
-        "final": "VERIFIED" in t or "FINAL" in t,
+        "lbs_by_param": lbs_by_param(t),
+        # The page's own report fields. "FINAL" appears in the text of every page, so it is never searched for.
+        "report_type": _after("Report Type:", t, "Report Date") if "Report Type:" in t else None,
+        "report_date": _report_date(t),
     }

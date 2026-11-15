@@ -56,7 +56,7 @@ def _outside(incident: str) -> dict:
 
 
 def test_absence_is_never_claimed_from_incomplete_search():
-    rc = build.record_check([], {}, date(2024, 6, 21), 9, search_complete=False)
+    rc = build.record_check([], {}, date(2024, 6, 21), 9, search_complete=False, param="45201")
     assert rc["status"] == "search_incomplete"
     assert rc["matched_facility_id"] is None
     assert all(c["status"] == "search_incomplete" for c in rc["checks"])
@@ -64,12 +64,12 @@ def test_absence_is_never_claimed_from_incomplete_search():
 
 def test_absence_needs_every_incident_located():
     unresolved = _outside("1") | {"in_corridor": None, "resolution": "unresolved: facility not located"}
-    rc = build.record_check([unresolved], {}, date(2024, 6, 21), 9, search_complete=True)
+    rc = build.record_check([unresolved], {}, date(2024, 6, 21), 9, search_complete=True, param="45201")
     assert rc["status"] == "search_incomplete"
 
 
 def test_absence_only_with_complete_search_and_all_located():
-    rc = build.record_check([_outside("1")], {}, date(2024, 6, 21), 9, search_complete=True)
+    rc = build.record_check([_outside("1")], {}, date(2024, 6, 21), 9, search_complete=True, param="45201")
     assert rc["status"] == "no_report_after_deadline"
 
 
@@ -100,3 +100,37 @@ def test_real_event_without_corridor_fails_contract(real_event):
 def test_corridor_lists_each_facility_once(real_event):
     ids = [f["id"] for f in real_event["facilities"]]
     assert len(ids) == len(set(ids))
+
+
+def _inside(incident: str, lbs: dict, report_type: str = "FINAL", report_date: str = "2024-07-03") -> tuple[dict, dict]:
+    placed = {"incident": incident, "entity": "Upwind Plant", "rn": "RN1", "start_local": "2024-06-21T09:38",
+              "compound": "X", "pounds": 1.0, "facility_id": "F", "distance_km": 3.0, "bearing_deg": 77.0,
+              "in_corridor": True, "resolution": "in the corridor"}
+    detail = {"incident": incident, "entity": "Upwind Plant", "start_local": "2024-06-21T09:38",
+              "end_local": "2024-06-21T10:42", "notified_local": "2024-06-21T14:38", "compound": "X", "pounds": 1.0,
+              "cause": None, "lbs_by_param": lbs, "report_type": report_type, "report_date": report_date}
+    return placed, {incident: detail}
+
+
+def test_report_must_list_the_monitored_compound():
+    placed, details = _inside("9", {"45201": 0.0, "43218": 0.0})
+    rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+    assert rc["status"] == "reported_mismatch" and rc["compound_match"] is False
+    placed, details = _inside("9", {"45201": 7634.0, "43218": 0.0})
+    rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+    assert rc["status"] == "reported" and rc["compound_match"] is True
+
+
+def test_final_check_compares_the_report_date():
+    for rtype, rdate, want in (("FINAL", "2024-07-03", "reported"), ("FINAL", "2024-07-20", "not_yet_reported"),
+                               ("INITIAL", "2024-06-22", "not_yet_reported")):
+        placed, details = _inside("9", {"45201": 5.0}, rtype, rdate)
+        rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+        assert rc["checks"][1]["status"] == want, (rtype, rdate)
+
+
+def test_ineos_page_parses_report_fields():
+    from pipeline.parse import steers_incident
+    inc = steers_incident(ROOT / "data" / "raw" / "steers_425347.html")
+    assert inc["report_type"] == "FINAL" and inc["report_date"] == "2024-07-03"
+    assert inc["lbs_by_param"]["45201"] == 7634.0

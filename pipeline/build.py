@@ -144,8 +144,20 @@ def place_incidents(incidents: list[dict], facilities: list[dict], echo_rows: li
     return out
 
 
+FINAL_DEADLINE_DAYS = 14  # 30 TAC 101.201(b): final record within two weeks after the event ends
+
+
+def final_check(inc: dict) -> tuple[str, str]:
+    """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end."""
+    if inc.get("report_type") != "FINAL" or not inc.get("report_date"):
+        return "not_yet_reported", f"report type {inc.get('report_type') or 'not stated'}; no final report date"
+    days = (date.fromisoformat(inc["report_date"]) - datetime.fromisoformat(inc["end_local"]).date()).days
+    status = "reported" if days <= FINAL_DEADLINE_DAYS else "not_yet_reported"
+    return status, f"final report dated {inc['report_date']}, {days} days after the event ended"
+
+
 def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
-                 search_complete: bool) -> dict:
+                 search_complete: bool, param: str) -> dict:
     """Did ANY facility in the corridor file a matching emissions-event report? Checked at T+24h and T+14d.
 
     Absence ('no report after deadline') needs a complete search AND every incident of the day located.
@@ -154,7 +166,11 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     det_local = datetime.combine(det_day, datetime.min.time()) + timedelta(
         hours=det_hour_cst + steers_tz_offset_h(det_day))
     lo, hi = det_local - timedelta(hours=6), det_local + timedelta(hours=2)
-    hits = [p for p in placed if p["in_corridor"] and lo <= datetime.fromisoformat(p["start_local"]) <= hi]
+    in_time = [p for p in placed if p["in_corridor"] and lo <= datetime.fromisoformat(p["start_local"]) <= hi]
+    # A report only matches if it lists the compound the monitor saw; otherwise it is reported_mismatch.
+    hits = [p for p in in_time if details[p["incident"]].get("lbs_by_param", {}).get(param, 0) > 0]
+    mismatch = not hits and bool(in_time)
+    hits = hits or in_time
     scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
              f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
     if hits:
@@ -162,12 +178,14 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         inc = details[p["incident"]]
         t24 = "reported" if datetime.fromisoformat(inc["notified_local"]) <= det_local + timedelta(hours=24) \
             else "not_yet_reported"
-        t14 = "reported" if inc["final"] else "not_yet_reported"
+        t14, t14_note = final_check(inc)
+        status = "reported_mismatch" if mismatch else t14
         return {
-            "status": t14, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
+            "status": status, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
             "source_url": STEERS_URL.format(inc["incident"]),
             "checks": [{"at": "T+24h", "status": t24, "note": f"initial notice filed {inc['notified_local']} local"},
-                       {"at": "T+14d", "status": t14, "note": "final report published" if inc["final"] else ""}],
+                       {"at": "T+14d", "status": t14, "note": t14_note}],
+            "compound_match": not mismatch,
             "reported": {"facility": p["entity"], "compound": inc["compound"], "pounds": inc["pounds"],
                          "start_local": inc["start_local"], "end_local": inc["end_local"],
                          "tz": f"local ({'CDT' if steers_tz_offset_h(det_day) else 'CST'})",
@@ -192,7 +210,15 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
     also_en = "".join(f" {m['name']} recorded {m['hourly'][det['hour_cst']]['value']} ppb in the same hour." for m in others)
     also_es = "".join(f" {m['name']} registró {m['hourly'][det['hour_cst']]['value']} ppb en la misma hora." for m in others)
     n = len(facilities)
-    if rc["matched_facility_id"]:
+    if rc["status"] == "reported_mismatch":
+        r = rc["reported"]
+        rec_en = (f" One of them, {r['facility']}, filed report {rc['incident']} for a release starting near that hour, "
+                  f"but the report does not list {name_en}, so it does not match this reading.")
+        rec_es = (f" Una de ellas, {r['facility']}, presentó el informe {rc['incident']} por una emisión que empezó "
+                  f"cerca de esa hora, pero el informe no incluye {name_es}, así que no corresponde a esta lectura.")
+        ask_en = f" Requested follow-up: confirm what caused this {name_en} reading."
+        ask_es = f" Seguimiento solicitado: confirmar qué causó esta lectura de {name_es}."
+    elif rc["matched_facility_id"]:
         r = rc["reported"]
         rec_en = (f" One of them, {r['facility']}, filed emissions-event report {rc['incident']} for {r['pounds']:,.0f} "
                   f"pounds of {r['compound'].lower()} from {r['start_local'][11:]} to {r['end_local'][11:]} local time "
@@ -256,7 +282,7 @@ def load_wind(site: str, year: str, day: str, raw: Path = RAW) -> dict:
 
 
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
-          details: dict[str, dict], complete: bool, det_day: date) -> dict:
+          details: dict[str, dict], complete: bool, det_day: date, param: str) -> dict:
     """Detect -> corridor -> place the day's reports -> record check. The one code path build and backtest share.
 
     wind_site None means: use the triggering monitor's own wind. Returns detection None when nothing triggered,
@@ -278,7 +304,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     facilities = corridor(echo, (trig["lat"], trig["lon"]), window)
     placed = place_incidents(list(details.values()), facilities, echo_rows, (trig["lat"], trig["lon"]),
                              [w for w in window if w is not None])
-    rc = record_check(placed, details, det_day, h, search_complete=complete)
+    rc = record_check(placed, details, det_day, h, search_complete=complete, param=param)
     return {"detection": det, "wind": wind, "window": [w for w in window if w is not None], "trig": trig,
             "facilities": facilities, "record_check": rc}
 
@@ -295,7 +321,7 @@ def build(cfg: dict = EVENT) -> dict:
     complete = search["total"] == search["shown"] == len(details) and search["total"] < 50
     echo_rows = echo["Results"]["Facilities"] + [
         r for p in sorted(RAW.glob("echo_name_*.json")) for r in json.loads(p.read_text())["Results"]["Facilities"]]
-    t = trace(monitors, winds, ws, echo, echo_rows, details, complete, det_day)
+    t = trace(monitors, winds, ws, echo, echo_rows, details, complete, det_day, cfg["param"])
     if t["detection"] is None:
         raise SystemExit("no monitor crossed the trigger rule on this day; nothing to replay")
     if "record_check" not in t:
