@@ -230,6 +230,20 @@ def test_late_spike_window_also_searches_the_next_day(tmp_path):
     assert backtest.window_reports("06/23/2024", 20, {}, [], one)[1] is True  # window ends at midnight's edge
 
 
+def test_next_day_reports_outside_the_window_do_not_block_absence():
+    """Review L3: 2024-07-11 23:00 CST at HRM-16 read "week search incomplete" because next-day report 426228
+    (began 18:59, long after the window's 02:00 end) has no cached detail page. Only reports that began inside the
+    window can match, so only theirs must be readable; the night's real cause is calm wind."""
+    universe, incomplete = backtest.load_universe()
+    rows_by_day: dict[str, list[dict]] = {}
+    for r in universe:
+        rows_by_day.setdefault(r["began"][:10], []).append(r)
+    late = next(r for r in rows_by_day["07/12/2024"] if r["incident"] == "426228")
+    assert late["began"].endswith("06:59 PM") and not (backtest.BT / "steers_426228.html").exists()
+    details, complete, unreadable, _ = backtest.window_reports("07/11/2024", 23, rows_by_day, incomplete)
+    assert complete is True and "426228" not in details and unreadable == []
+
+
 def test_any_unreadable_report_blocks_a_complete_day(tmp_path, monkeypatch):
     _week(tmp_path, "20240617", "20240623")
     rows = {"06/21/2024": [{"incident": "1", "search_file": "steers_search_harris_20240617_20240623.html"}]}

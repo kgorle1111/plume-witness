@@ -6,12 +6,12 @@ candidate releases of `docs/backtest.md` (computed by `pipeline/backtest.py`).
 
 ## Key results (each with its denominator)
 
-1. **Downwind:** in 60 / 77 (78%; 95% CI 68-86%) of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start (60 of 77 counting monitors without data that day). "Most releases never reach a state monitor" is not supported by this geometry.
+1. **Downwind:** in 60 / 77 (78%; 95% CI 68-86%) of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start (monitors without data that day add none). "Most releases never reach a state monitor" is not supported by this geometry.
 2. **Recall at the current trigger (10x/10ppb):** 5 / 77 (6%; 95% CI 3-14%) releases had a trigger hit near the reported start; of the 60 with a downwind monitor, 2 hit at a monitor that was downwind that hour or the hour before.
 3. **Control:** on ordinary days (same monitors, same hours, same weekday, 7/14/21 days either side, no candidate that day), the same trigger hits in 26 / 410 (6%; 95% CI 4-9%) of windows. At no setting in the sweep is the release-day rate clearly above the control rate (the 95% intervals overlap at every setting), so **hourly monitors at these triggers cannot tell these releases apart from ordinary days at the same hours.**
 4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits 45 of 77 releases and 252 of 410 control windows, at 13.5 alerts a week across the 12 monitors (current: 4.5 a week). Across all 9 settings, the release-day rate minus the control rate runs from -9 to +0 percentage points: a lower trigger fires more often on release days and on ordinary days alike.
 5. **Small releases:** 27 of 77 releases reported under 10 lb of the monitored compound.
-6. **Calm wind:** 149 / 465 (32%; 95% CI 28-36%) current-trigger alerts with a wind speed reading (468 alerts in all) came in wind under 3 mph at the detecting monitor, where the upwind direction is unreliable.
+6. **Calm wind:** 149 / 465 (32%; 95% CI 28-36%) current-trigger alerts with a wind speed reading (468 alerts in all) came in wind under 3 mph at the detecting monitor in the detection hour, where the upwind direction is unreliable. The record check's calm rule also looks at the hour before (the lower of the two), so it abstains on more spikes than this count; `docs/backtest.md` gives that number.
 
 ## Threshold sweep
 

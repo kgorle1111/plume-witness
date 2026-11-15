@@ -7,6 +7,7 @@ in CST. Non-numeric cells are QA or calibration flags (ST, BL, LST, AQI, ...) an
 import html
 import re
 from datetime import datetime
+from decimal import Decimal
 from pathlib import Path
 
 
@@ -54,10 +55,18 @@ COMPOUND_RE = {
 }
 
 
-def lbs_by_param(text: str) -> dict[str, float]:
+def lbs_by_param(text: str, exact: bool = False) -> dict[str, float]:
     """Total reported pounds per monitored compound across every emission point on a STEERS detail page.
 
-    `text` is `_text(path)` before whitespace is collapsed: the line breaks are the cell boundaries."""
+    `text` is `_text(path)` before whitespace is collapsed: the line breaks are the cell boundaries. exact=True sums
+    the printed decimals without rounding ("8469.74326"), for text that quotes the figure; the default rounds to 3
+    decimals, which is what decides whether a report lists the compound at all.
+    kn: that rounding reads 4 reports listing 0.00001-0.0001 lb (415589, 415700, 446527, 446678) as listing none,
+    so they are not backtest candidates and would read "does not list" in the corridor; none is today. Counting
+    them moves the backtest from 77 to 81 releases; that call is the lead's."""
+    if exact:
+        return {p: float(sum((Decimal(x.replace(",", "")) for x in rx.findall(text)), Decimal(0)))
+                for p, rx in COMPOUND_RE.items()}
     return {p: round(sum(float(x.replace(",", "")) for x in rx.findall(text)), 3) for p, rx in COMPOUND_RE.items()}
 
 
@@ -137,6 +146,7 @@ def steers_incident(path: Path) -> dict:
         "pounds": float(m.group(2).replace(",", "")) if m else None,
         "cause": _after("Reason for Scheduled Activity", t, ".") if "Reason for Scheduled Activity" in t else None,
         "lbs_by_param": lbs_by_param(_text(path)),
+        "lbs_exact": lbs_by_param(_text(path), exact=True),
         # The page's own report fields. "FINAL" appears in the text of every page, so it is never searched for.
         "report_type": _after("Report Type:", t, "Report Date") if "Report Type:" in t else None,
         "report_date": _report_date(t),

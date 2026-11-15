@@ -2301,7 +2301,7 @@
   },
   {
    "id": "110031267064",
-   "name": "Airgas Carbonic Deer Park Plant",
+   "name": "Airgas Carbonic Deer Park Plant / Deer Park Oil Refinery / Deer Park VCM Plant / Shell Chemical / Westlake Epoxy Deer Park",
    "lat": 29.7138,
    "lon": -95.124036,
    "distance_km": 13.3,
@@ -2327,7 +2327,7 @@
   },
   {
    "id": "110024271786",
-   "name": "EPOLP Houston Ship Channel Marine Loading Facility",
+   "name": "EPOLP Houston Ship Channel Marine Loading Facility / Houston Terminal / Stolthaven Houston Terminal",
    "lat": 29.74939,
    "lon": -95.12361,
    "distance_km": 14.1,
@@ -2415,7 +2415,7 @@
   "compound_match": true,
   "reported": {
    "facility": "INEOS Americas Pasadena Site",
-   "compound": "Benzene",
+   "compound": "benzene",
    "pounds": 7634.0,
    "start_local": "2024-06-21T09:38",
    "end_local": "2024-06-21T10:42",
@@ -2790,6 +2790,182 @@
    "bytes": 529376,
    "sha256": "f379b0276e861593fc0a63212c464ee24abd181f178d02780daf08a7af7e9783",
    "fetched_at": "2026-11-14T23:57:42+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_0026_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.8027",
+    "p_long": "-95.1255",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "206",
+    "pageno": "1"
+   },
+   "bytes": 431190,
+   "sha256": "fbb309b9179f50326e0039622a205b572ad1533f5cdee2f42ad3807868d79314",
+   "fetched_at": "2026-11-14T23:58:28+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_0036_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7717",
+    "p_long": "-95.1208",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "214",
+    "pageno": "1"
+   },
+   "bytes": 479728,
+   "sha256": "e040c466a088fb8905aa987a381d5cede12e45bff4799467ec4e8f8fd2b30b17",
+   "fetched_at": "2026-11-15T08:23:08+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_0057_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7343",
+    "p_long": "-95.2385",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "164",
+    "pageno": "1"
+   },
+   "bytes": 573787,
+   "sha256": "68e5269f11a06701d4e3088eaa6db7bc940dc1e5e1e57d209d368c3a036e2484",
+   "fetched_at": "2026-11-14T23:57:56+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_0307_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7194",
+    "p_long": "-95.2595",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "155",
+    "pageno": "1"
+   },
+   "bytes": 547892,
+   "sha256": "32b1e52ce1e5029dd2c51c497ecb2fd4c76ed6e44517174a30aae22e32e9d904",
+   "fetched_at": "2026-11-14T23:57:49+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_0803_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7648",
+    "p_long": "-95.1784",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "203",
+    "pageno": "1"
+   },
+   "bytes": 514528,
+   "sha256": "8a200be7bad03facb1828816f2028364aae0e473cff399f9619b578413055b8f",
+   "fetched_at": "2026-11-14T23:58:22+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_1015_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7589",
+    "p_long": "-95.0794",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "195",
+    "pageno": "1"
+   },
+   "bytes": 448178,
+   "sha256": "43b85e5e7f65f2bbcfe2aeaeb2b8e2842595dc1ce1b0a9f26d37df1b25b4b755",
+   "fetched_at": "2026-11-14T23:58:15+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_1035_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7337",
+    "p_long": "-95.2576",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "178",
+    "pageno": "1"
+   },
+   "bytes": 569026,
+   "sha256": "4a11ec3d23618d6d6843c0b7bf149687c459c9764dfd9031f23e3479920be6ec",
+   "fetched_at": "2026-11-14T23:58:09+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_1039_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.6705",
+    "p_long": "-95.1299",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "227",
+    "pageno": "1"
+   },
+   "bytes": 505599,
+   "sha256": "fb701e102d44b64e53c804c6d2783c2573bc6bb468b6f03d2c437f3313bbb9bf",
+   "fetched_at": "2026-11-15T08:23:15+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_1049_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7031",
+    "p_long": "-95.2220",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "233",
+    "pageno": "1"
+   },
+   "bytes": 546641,
+   "sha256": "0da230d3a01b72dcaae7051f0cd521356bd72207481a86a3c8dc55b7f12202b9",
+   "fetched_at": "2026-11-15T08:23:21+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_1614_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.7085",
+    "p_long": "-95.1141",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "169",
+    "pageno": "1"
+   },
+   "bytes": 520513,
+   "sha256": "d79dbd4ca6e6c25bf594fb803e2cbc0cbb1de828eb774d4e247af4a5b9dcb9f2",
+   "fetched_at": "2026-11-14T23:58:02+00:00"
+  },
+  {
+   "file": "backtest/echo_48_201_6000_10mi.json",
+   "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+   "params": {
+    "output": "JSON",
+    "p_lat": "29.6844",
+    "p_long": "-95.2536",
+    "p_radius": "10",
+    "p_act": "Y",
+    "qid": "240",
+    "pageno": "1"
+   },
+   "bytes": 476232,
+   "sha256": "9d0521150239e8865c42bba9a88f2dbeb1957fe400c76ce0b25df8b5d6d3965a",
+   "fetched_at": "2026-11-15T08:23:28+00:00"
   },
   {
    "file": "backtest/steers_search_harris_20240617_20240623.html",

@@ -182,6 +182,72 @@ def test_t24_counts_from_discovery_not_from_the_spike():
     assert "30.0 h after the reported discovery" in rc["checks"][0]["note"]
 
 
+def _matched_packet(real_event: dict, start: str, end: str, hour: int = 9, lbs: dict | None = None,
+                    first: tuple[str, float] = ("Benzene", 40.0)) -> tuple[dict, dict]:
+    """record_check + template_packet for one in-corridor report, on the demo night's monitors and wind."""
+    placed, details = _inside("7", lbs or {"45201": 40.0})
+    details["7"] |= {"start_local": start, "end_local": end, "notified_local": start,
+                     "compound": first[0], "pounds": first[1]}
+    placed["start_local"] = start
+    ongoing = start[:10] < "2024-06-21"
+    rc = build.record_check([] if ongoing else [placed], details, date(2024, 6, 21), hour, search_complete=True,
+                            param="45201", ongoing=[placed] if ongoing else [], earlier_complete=True)
+    det = real_event["detection"] | {"hour_cst": hour}
+    return rc, build.template_packet(det, real_event["monitors"], real_event["wind"], real_event["facilities"], rc)
+
+
+def test_matched_packet_says_when_a_report_that_was_already_running_ran(real_event):
+    """Review H1: night 2024-04-21 said report 421635 ran "from 10:37 to 17:00 local time that day" and "lines up"
+    with a 2:00 a.m. spike; the report ran from 2024-04-20 10:37 to 2024-04-25 17:00."""
+    rc, pkt = _matched_packet(real_event, "2024-06-20T10:37", "2024-06-25T17:00")
+    assert rc["status"] == "reported" and rc["reported"]["match_basis"] == "ongoing (started 2024-06-20)"
+    en, es = pkt["draft_en"], pkt["draft_es"]
+    assert "for a release that started 2024-06-20 10:37 and, per the report, ran until 2024-06-25 17:00 local time" in en
+    assert "40 pounds of benzene for the whole release, not for these hours" in en
+    assert "que empezó el 2024-06-20 10:37 y que, según el reporte, siguió hasta el 2024-06-25 17:00, hora local" in es
+    assert "40 libras de benceno para toda la emisión" in es
+    assert "that day" not in en and "ese día" not in es and "line up" not in en and "coinciden" not in es
+
+
+def test_matched_packet_gives_dates_when_the_release_did_not_stay_on_the_spike_day(real_event):
+    _, pkt = _matched_packet(real_event, "2024-06-21T08:00", "2024-06-22T02:00")
+    assert "a release that started at 08:00 that day and, per the report, ran until 2024-06-22 02:00" in pkt["draft_en"]
+    assert "empezó a las 08:00 ese día y que, según el reporte, siguió hasta el 2024-06-22 02:00" in pkt["draft_es"]
+    # A 23:00 CST spike in June is 00:00 CDT the next day; a report that began after midnight is dated, not "that day".
+    _, pkt = _matched_packet(real_event, "2024-06-22T00:30", "2024-06-22T01:30", hour=23)
+    assert "a release that, per the report, ran from 2024-06-22 00:30 to 2024-06-22 01:30 local time" in pkt["draft_en"]
+    assert "local time that day" not in pkt["draft_en"] and ", hora local, ese día" not in pkt["draft_es"]
+
+
+def test_matched_packet_keeps_the_same_day_wording_on_the_demo_night(real_event):
+    en = real_event["packet"]["draft_en"]
+    assert ("filed emissions-event report 425347 for 7,634 pounds of benzene from 09:38 to 10:42 local time that "
+            "day. The reported release window and the wind line up with these readings") in en
+
+
+def test_matched_packet_quotes_the_monitored_compounds_pounds(real_event):
+    """Review M1: the amount came from the report's first contaminant line, and the Spanish text called it benzene.
+    A report listing CO first and benzene on two emission points must quote benzene's total, in both languages."""
+    rc, pkt = _matched_packet(real_event, "2024-06-21T09:38", "2024-06-21T10:42", lbs={"45201": 12.5},
+                              first=("Carbon Monoxide", 370.0))
+    assert rc["reported"]["compound"] == "benzene" and rc["reported"]["pounds"] == 12.5
+    assert "12.5 pounds of benzene" in pkt["draft_en"] and "12.5 libras de benceno" in pkt["draft_es"]
+    assert "370" not in pkt["draft_en"] + pkt["draft_es"]
+    # A mismatch still names what the report does list.
+    placed, details = _inside("9", {"45201": 0.0})
+    details["9"] |= {"compound": "Carbon Monoxide", "pounds": 370.0}
+    rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+    assert rc["status"] == "reported_mismatch" and rc["reported"]["compound"] == "Carbon Monoxide"
+
+
+def test_reported_pounds_keep_the_digits_the_report_printed():
+    from pipeline import backtest
+    from pipeline.parse import steers_incident
+
+    inc = steers_incident(backtest.BT / "steers_421635.html")
+    assert inc["lbs_exact"]["43218"] == 8469.74326 and inc["lbs_by_param"]["43218"] == 8469.743
+
+
 def _demo_inputs(speed_mph: float | None = None) -> tuple:
     cfg, raw = build.EVENT, build.RAW
     monitors = build.load_monitors(cfg)
@@ -206,6 +272,8 @@ def test_calm_wind_draws_no_corridor_and_claims_nothing():
     assert "Wind too light to trace (2 mph)" in rc["search_scope"]
     assert rc["checks"][0]["note"] == "wind too light to trace (2 mph)"
     assert all(d["in_corridor"] is None for d in rc["day_incidents"])
+    # Review M2: calm marks every report untraced; that must not read as "a report could not be located".
+    assert rc["day_incidents"] and "could not be located" not in rc["search_scope"]
     # UI audit 3, S56: with no corridor drawn the draft must not ask about "this corridor".
     pkt = build.template_packet(t["detection"], monitors, t["wind"], t["facilities"], rc)
     assert "corridor reported" not in pkt["draft_en"] and "este corredor" not in pkt["draft_es"]
@@ -317,9 +385,9 @@ def test_report_at_a_multi_name_echo_site_is_named_as_its_filer():
     inc = steers_incident(bt / "steers_421635.html")
     assert inc["entity"] == "SHELL CHEMICAL"
     origin = backtest.site_coords("48_201_0069")
-    facs = build.corridor(echo, origin, [86.0])
+    facs = build.corridor(echo, origin, [86.0], build.site_names(echo_rows))
     site = next(f for f in facs if f["id"] == "110031267064")
-    assert site["name"] == "Airgas Carbonic Deer Park Plant"  # the first of the site's five ECHO rows
+    assert site["name"] == SHELL_SITE  # every holder, until a report names the filer
     placed = build.place_incidents([inc], facs, echo_rows, origin, [86.0])
     assert placed[0]["facility_id"] == "110031267064" and placed[0]["entity"] == "Shell Chemical"
     rc = build.record_check([], {"421635": inc}, date(2024, 4, 21), 2, search_complete=True, param="43218",
@@ -330,6 +398,58 @@ def test_report_at_a_multi_name_echo_site_is_named_as_its_filer():
     assert site["name"] == rc["reported"]["facility"] == "Shell Chemical"
     assert site["echo_names"] == ["Airgas Carbonic Deer Park Plant", "Deer Park Oil Refinery", "Deer Park VCM Plant",
                                   "Shell Chemical", "Westlake Epoxy Deer Park"]
+
+
+SHELL_SITE = ("Airgas Carbonic Deer Park Plant / Deer Park Oil Refinery / Deer Park VCM Plant / Shell Chemical / "
+              "Westlake Epoxy Deer Park")
+EQUISTAR_SITE = "Channelview Cogeneration Facility / Equistar Chemicals Channelview Complex"
+
+
+def test_a_multi_holder_site_is_named_by_every_holder_not_its_first_row():
+    """Review H2: the corridor named EPA registry 110031267064 (5 permit holders at 5900 Highway 225) "Airgas Carbonic
+    Deer Park Plant" on 65 nights, the demo night among them, and 110000463212 "Channelview Cogeneration Facility" on
+    27, from whichever ECHO row came first. A site is named by all its holders, as on its facility page."""
+    from pipeline import backtest
+
+    _, echo_rows = backtest.load_echo()
+    names = build.site_names(echo_rows)
+
+    def sites(monitor: str, wind: float, all_names: bool = True) -> dict[str, dict]:
+        echo = json.loads((backtest.BT / f"echo_{monitor}_10mi.json").read_text())
+        facs = build.corridor(echo, backtest.site_coords(monitor), [wind], names if all_names else None)
+        return {f["id"]: f for f in facs}
+
+    milby = sites("48_201_0069", 86.0)  # the 2024-04-21 night's corridor
+    assert milby["110031267064"]["name"] == SHELL_SITE
+    assert sites("48_201_0026", 14.0)["110000463212"]["name"] == EQUISTAR_SITE  # 2024-11-09's corridor
+    # From one monitor's file alone it still lists every holder that file has, never one of them alone.
+    assert sites("48_201_0069", 86.0, all_names=False)["110031267064"]["name"] == SHELL_SITE
+    # A one-holder site keeps its own name.
+    one = next(f for f in milby.values() if len(names.get(f["id"], [])) == 1)
+    assert " / " not in one["name"]
+
+
+def test_published_nights_name_multi_holder_sites_like_their_facility_pages():
+    """Every corridor site with several ECHO permit holders reads as its facility page does (all holders), except
+    the site whose report matched, which reads as the filer (test below). Includes the demo night."""
+    from pipeline.names import display_name
+
+    index = json.loads((ROOT / "web" / "public" / "facilities" / "index.json").read_text())["facilities"]
+    multi = {f["id"]: " / ".join(display_name(n) for n in f["name"].split(" / ")) for f in index if " / " in f["name"]}
+    assert multi["110031267064"] == SHELL_SITE and multi["110000463212"] == EQUISTAR_SITE
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    paths.append(ROOT / "web" / "public" / "event.json")
+    seen: dict[str, int] = {}
+    for p in paths:
+        ev = json.loads(p.read_text())
+        for f in ev["facilities"]:
+            if f["id"] in multi and f["id"] != ev["record_check"]["matched_facility_id"]:
+                assert f["name"] == multi[f["id"]], (p.name, f["name"])
+                seen[f["id"]] = seen.get(f["id"], 0) + 1
+    demo = json.loads((ROOT / "web" / "public" / "event.json").read_text())
+    assert next(f for f in demo["facilities"] if f["id"] == "110031267064")["name"] == SHELL_SITE
+    assert seen["110031267064"] >= 65 and seen["110000463212"] >= 27
 
 
 def test_published_nights_name_the_filer_of_the_matched_report():
@@ -415,5 +535,47 @@ def test_template_prints_reported_pounds_unrounded():
     night = json.loads((ROOT / "web" / "public" / "nights" / "2024-04-21_43218_48_201_0069.json").read_text())
     p = build.template_packet(night["detection"], night["monitors"], night["wind"], night["facilities"],
                               night["record_check"], "04/21/2024", "43218")
-    assert "for 8,469.74326 pounds" in p["draft_en"] and "por 8,469.74326 libras" in p["draft_es"]
+    assert "listing 8,469.74326 pounds" in p["draft_en"] and "con 8,469.74326 libras" in p["draft_es"]
     assert guard(p, facts_for(night)) == []
+
+
+def test_match_window_includes_both_of_its_edges():
+    """Review mutants: `end >= lo` -> `>` survived. A June spike in the 9:00 CST hour is 10:00 CDT, so the window is
+    [04:00, 12:00] local: a report that ended at 04:00 or began at 12:00 was running inside it."""
+    for start, end in (("2024-06-21T01:00", "2024-06-21T04:00"), ("2024-06-21T12:00", "2024-06-21T13:00")):
+        placed, details = _inside("4", {"45201": 5.0})
+        details["4"] |= {"start_local": start, "end_local": end, "notified_local": start}
+        placed["start_local"] = start
+        rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201",
+                                earlier_complete=True)
+        assert rc["status"] == "reported" and rc["incident"] == "4", (start, end)
+    for start, end in (("2024-06-21T01:00", "2024-06-21T03:59"), ("2024-06-21T12:01", "2024-06-21T13:00")):
+        placed, details = _inside("4", {"45201": 5.0})
+        details["4"] |= {"start_local": start, "end_local": end, "notified_local": start}
+        placed["start_local"] = start
+        rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201",
+                                earlier_complete=True)
+        assert rc["status"] == "no_report_after_deadline", (start, end)
+
+
+def test_corridor_includes_a_site_exactly_on_its_edge():
+    """Review mutants: `off > CORRIDOR_HALF_ANGLE` -> `>=` survived. A site exactly 22.5 deg off the wind is in."""
+    origin, site = (29.7062725, -95.2611331), (29.7138, -95.124036)  # Milby Park; the Deer Park site 13.3 km east
+    b = build.bearing_deg(origin, site)
+    echo = {"Results": {"Facilities": [{"RegistryID": "1", "AIRName": "EDGE PLANT", "AIRUniverse": "Major Emissions",
+                                        "FacLat": str(site[0]), "FacLong": str(site[1])}]}}
+    edge = b + build.CORRIDOR_HALF_ANGLE
+    assert abs((edge - b + 180) % 360 - 180) == build.CORRIDOR_HALF_ANGLE  # exactly on the edge in floating point
+    assert [f["name"] for f in build.corridor(echo, origin, [edge])] == ["Edge Plant"]
+    assert build.corridor(echo, origin, [edge + 0.01]) == []
+
+
+def test_calm_means_below_3_mph_so_exactly_3_draws_a_corridor():
+    """CALM_MPH: "below this" the direction is too unsteady (spikes.REASONS: "under 3 mph"). Exactly 3.0 mph is
+    traceable: 7 published nights sit at 3.0 mph (5 of them no_report_after_deadline), and `<=` would turn those 5
+    into search_incomplete. Pinned here so the threshold cannot move silently."""
+    for speed, calm in ((3.0, False), (2.9, True)):
+        monitors, winds, echo, rows, details = _demo_inputs(speed_mph=speed)
+        t = build.trace(monitors, winds, "48_201_0069", echo, rows, details, True, date(2024, 6, 21), "45201",
+                        earlier={}, earlier_complete=True, earlier_note="Earlier days searched.")
+        assert (t["calm_mph"] is not None) == calm and bool(t["facilities"]) != calm, speed

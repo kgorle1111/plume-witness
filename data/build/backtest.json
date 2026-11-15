@@ -5929,7 +5929,7 @@
    "hour_cst": 23,
    "value": 10.57,
    "baseline": 0.165,
-   "search_complete": false,
+   "search_complete": true,
    "earlier_search_complete": true,
    "day_reports": 0,
    "wind_source": "own_autogc",

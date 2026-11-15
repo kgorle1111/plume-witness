@@ -211,3 +211,58 @@ def test_refuses_non_template_fallback(event):
     ev = event | {"packet": event["packet"] | {"drafted_by": "Gemini"}}
     with pytest.raises(ValueError, match="template"):
         gd.draft(ev, client=FakeClient(faithful(event)))
+
+
+def _ai_draft_plus(event: dict, en: str = "", es: str = "") -> list[str]:
+    """The published Claude draft with one sentence appended, checked against the demo night's facts."""
+    pkt = json.loads((ROOT / "web" / "public" / "packet.ai.json").read_text())
+    drafts = {"draft_en": f"{pkt['draft_en']} {en}".strip(), "draft_es": f"{pkt['draft_es']} {es}".strip()}
+    return gd.guard(drafts, gd.facts_for(event))
+
+
+@pytest.mark.parametrize("en,es", [
+    # Review M3: each of these was appended to packet.ai.json and passed the guard.
+    ("INEOS caused this reading.", ""), ("The plant was responsible for the spike.", ""),
+    ("", "INEOS fue responsable de la emisión."), ("INEOS failed to report the release.", ""),
+    ("", "INEOS causó esta lectura."), ("", "INEOS no reportó la emisión."), ("The spike was caused by INEOS.", ""),
+    ("INEOS may have caused these readings.", ""), ("INEOS did not report the release.", ""),
+    ("INEOS is to blame.", ""), ("", "INEOS no informó la emisión."), ("", "INEOS tiene la culpa."),
+    ("", "La lectura fue causada por INEOS."), ("", "INEOS provocó el pico."),
+    # An exoneration is a verdict too: the data cannot clear a company either.
+    ("INEOS did not cause this reading.", ""), ("", "INEOS no causó esta lectura."),
+    # A limit earlier in the sentence does not cover a claim in a later clause.
+    ("That does not show much, but INEOS caused it.", ""), ("Records do not show it: INEOS caused this.", ""),
+])
+def test_cause_blame_and_failure_to_report_claims_are_rejected(event, en, es):
+    rejected = _ai_draft_plus(event, en, es)
+    # "no reportó" was already on the verdict list; every other sentence here passed before the cause check.
+    assert any("states a cause or a failure to report" in r or "banned word 'no report" in r for r in rejected), rejected
+
+
+@pytest.mark.parametrize("en,es", [
+    # The template's own sentences and the published Claude draft's: a question or a stated limit names no cause.
+    ("That does not show who or what caused the reading.", "Eso no indica quién o qué causó la lectura."),
+    ("Requested follow-up: confirm what caused this benzene reading.",
+     "Seguimiento solicitado: confirmar qué causó esta lectura de benceno."),
+    ("Can the state confirm whether a facility in the corridor was responsible for the release?",
+     "¿Puede el estado confirmar si alguna instalación del corredor fue responsable de la emisión?"),
+    ("The report lists two causes.", ""),
+])
+def test_cause_words_in_a_question_or_a_limit_pass(event, en, es):
+    assert _ai_draft_plus(event, en, es) == []
+
+
+def test_published_drafts_pass_the_cause_check():
+    """0 false rejects: the Claude draft ("A report does not show that one facility caused every reading") and every
+    published template draft, Houston and Beaumont."""
+    from pipeline.gemini_draft import causal_claims
+
+    pkt = json.loads((ROOT / "web" / "public" / "packet.ai.json").read_text())
+    texts = [pkt["draft_en"], pkt["draft_es"]]
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    for p in paths + [ROOT / "web" / "public" / "event.json"]:
+        packet = json.loads(p.read_text())["packet"]
+        texts += [packet["draft_en"], packet["draft_es"]]
+    assert len(texts) >= 2 * 468
+    assert [t for t in texts if causal_claims(t.casefold())] == []
