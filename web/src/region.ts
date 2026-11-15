@@ -1,5 +1,6 @@
 // Which dataset a page reads: ?region=beaumont picks the Beaumont-Port Arthur files; anything else is Houston.
-// Pure and self-contained so `node --test` can load it without a bundler.
+// Pure (imports only i18n.ts) so `node --test` can load it without a bundler.
+import { translate, type Lang } from './i18n.ts'
 
 export type RegionKey = 'houston' | 'beaumont'
 
@@ -35,4 +36,23 @@ export function regionQuery(r: RegionInfo, params: Record<string, string>): stri
   if (r.key !== 'houston') q.set('region', r.key)
   const s = q.toString()
   return s ? `?${s}` : ''
+}
+
+const COMPOUND_KEY: Record<string, 'benzene' | 'butadiene'> = { benzene: 'benzene', '1,3-butadiene': 'butadiene' }
+
+/** A compound name in the reader's language; an unknown one stays as the pipeline wrote it. */
+export function compoundLabel(lang: Lang, compound: string): string {
+  const c = COMPOUND_KEY[compound]
+  return c ? translate(lang, `app.cmp.${c}`) : compound
+}
+
+/**
+ * The replay title in the reader's language. The pipeline writes English titles; one that the English template does not
+ * rebuild exactly (a fixture, a new wording) is shown as written and marked English, never guessed at.
+ */
+export function eventTitle(lang: Lang, title: string, compound: string, region: RegionKey): { text: string; lang: Lang } {
+  const c = COMPOUND_KEY[compound]
+  if (!c) return { text: title, lang: 'en' }
+  const build = (l: Lang) => translate(l, `app.title.${c}`, { where: translate(l, `app.where.${region}`) })
+  return build('en') === title ? { text: build(lang), lang } : { text: title, lang: 'en' }
 }
