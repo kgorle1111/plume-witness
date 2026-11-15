@@ -3,8 +3,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import {
-  NO_FILTER, PAGE_SIZE, cleanFilters, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
-  reasonKey, selectRows, spikeKey, toCsv,
+  NO_FILTER, PAGE_SIZE, cleanFilters, countKey, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
+  reasonKey, selectRows, spikeKey, toCsv, yearSpan,
 } from '../src/spikes.ts'
 import { NEIGHBORHOODS } from '../src/neighborhoods.ts'
 import { STRINGS } from '../src/i18n.ts'
@@ -188,4 +188,24 @@ test('a saved list position is used only for the same URL and only when well for
   assert.equal(parseSpot(null, '?view=spikes'), null)
   assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 'all', y: 3 }), '?view=spikes'), null)
   assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 1e9, y: -5 }), '?view=spikes')?.limit, 10_000)
+})
+
+test('a region with no spikes at all gets its own empty state, not the filter-empty line', () => {
+  const none = parseSpikes(JSON.parse(readFileSync(new URL('../public/regions/brazoria/spikes.json', import.meta.url), 'utf8')))
+  assert.equal(none.rows.length, 0)
+  assert.equal(countKey(none.rows.length, 0, false), 'spikes.none')
+  assert.equal(countKey(none.rows.length, 0, true), 'spikes.none')
+  assert.equal(yearSpan(none.years), '2024–2025')
+  assert.equal(yearSpan(['2025']), '2025')
+  // Houston has spikes: a filter that matches nothing is a filter result; otherwise the showing lines.
+  assert.equal(countKey(data.rows.length, 0, true), 'spikes.empty')
+  assert.equal(countKey(data.rows.length, 5, true), 'spikes.showingFiltered')
+  assert.equal(countKey(data.rows.length, data.rows.length, false), 'spikes.showing')
+  assert.equal(STRINGS.en['spikes.none'].replace('{years}', yearSpan(none.years)), 'No hour at these monitors crossed the trigger in 2024–2025.')
+  assert.equal(STRINGS.es['spikes.none'].replace('{years}', yearSpan(none.years)), 'Ninguna hora en estos monitores cruzó el umbral en 2024–2025.')
+  for (const lang of ['en', 'es'] as const) {
+    assert.match(STRINGS[lang]['spikes.noneCoverage'], /\{link\}/)
+    assert.doesNotMatch(STRINGS[lang]['spikes.none'], /filter|filtro/i)
+  }
+  assert.throws(() => parseSpikes({ ...none, years: undefined }), /Re-run/)
 })
