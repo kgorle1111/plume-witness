@@ -63,7 +63,7 @@ compound that day; hit columns count only the "with data" releases.
   start moves the window.
 - **ECHO coordinates.** Facility positions are EPA ECHO points, which can sit hundreds of meters from the
   emission point; the wedge test uses them as given.
-- **Wind source.** Every site has met-form wind; a site with none on a day uses the nearest site's.
+- **Wind source.** Every site has met-form wind; a site with none on a day uses the nearest site's within 10 km.
 - **Geometry, not dispersion.** "Downwind" is the corridor's wedge (+/-22.5 deg, 15 km), not a plume model; a
   downwind monitor can still miss a narrow or lofted plume.
 - **Alerts per week is a false-alarm proxy, not a false-alarm rate:** nobody knows the true cause of each alert.

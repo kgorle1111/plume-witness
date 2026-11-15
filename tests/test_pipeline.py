@@ -132,6 +132,19 @@ def test_final_check_compares_the_report_date():
         assert rc["checks"][1]["status"] == want, (rtype, rdate)
 
 
+def test_a_matched_report_with_only_its_initial_notice_is_on_the_record():
+    """Review L9: a matched report with an initial notice and no FINAL read "not yet reported" although it is on
+    file. Its status is the notice's; only the T+14d check says the final report is pending."""
+    for notified, want in (("2024-06-21T14:38", "reported"), ("2024-06-23T09:38", "reported_late")):
+        for rtype, rdate in (("INITIAL", "2024-06-22"), ("FINAL", None)):
+            placed, details = _inside("9", {"45201": 5.0}, rtype, rdate)
+            details["9"]["notified_local"] = notified
+            rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+            assert rc["status"] == want and rc["incident"] == "9", (notified, rtype)
+            assert [c["status"] for c in rc["checks"]] == [want, "not_yet_reported"]
+            assert rc["checks"][1]["note"].startswith("final report pending: the cached report is type ")
+
+
 def test_ineos_page_parses_report_fields():
     from pipeline.parse import steers_incident
     inc = steers_incident(ROOT / "data" / "raw" / "steers_425347.html")
@@ -245,7 +258,27 @@ def test_reported_pounds_keep_the_digits_the_report_printed():
     from pipeline.parse import steers_incident
 
     inc = steers_incident(backtest.BT / "steers_421635.html")
-    assert inc["lbs_exact"]["43218"] == 8469.74326 and inc["lbs_by_param"]["43218"] == 8469.743
+    assert inc["lbs_by_param"]["43218"] == 8469.74326
+
+
+def test_a_lumped_row_naming_benzene_matches_but_its_pounds_are_the_mixtures(real_event):
+    """426454 lists benzene only as "BTEX - benzene, toluene, ethylbenzene, xylene" (21.03 lb): that lists benzene,
+    so it matches a benzene spike, and the packet gives the mixture's pounds as the mixture's, never as benzene's."""
+    cell = "BTEX - benzene, toluene, ethylbenzene, xylene"
+    placed, details = _inside("7", {"45201": 0.0, "43218": 0.0})
+    details["7"]["lumped_by_param"] = {"45201": [{"cell": cell, "pounds": 21.03}]}
+    rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="45201")
+    assert rc["status"] == "reported" and rc["compound_match"] is True
+    r = rc["reported"]
+    assert (r["compound"], r["pounds"], r["lumped"]) == (cell, 21.03, True)
+    pkt = build.template_packet(real_event["detection"], real_event["monitors"], real_event["wind"],
+                                real_event["facilities"], rc)
+    assert f'21.03 pounds of a mixture the report lists as "{cell}", which includes benzene' in pkt["draft_en"]
+    assert f"21.03 libras de una mezcla que el reporte indica como «{cell}», que incluye benceno" in pkt["draft_es"]
+    assert "21.03 pounds of benzene" not in pkt["draft_en"]
+    # The same row does not list 1,3-butadiene.
+    rc = build.record_check([placed], details, date(2024, 6, 21), 9, search_complete=True, param="43218")
+    assert rc["status"] == "reported_mismatch"
 
 
 def _demo_inputs(speed_mph: float | None = None) -> tuple:

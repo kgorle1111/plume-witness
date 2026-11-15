@@ -69,7 +69,8 @@ def downwind_hours(fac: tuple[float, float], site: tuple[float, float], wind_hou
 
 
 def winds_for(day: str, sites: dict[str, tuple[float, float]], raw: Path = backtest.BT) -> dict[str, dict]:
-    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's; cached tables)."""
+    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's within
+    backtest.BORROW_MAX_KM; cached tables)."""
     return backtest.load_winds(day[-4:], day, sites, raw)
 
 
@@ -100,6 +101,10 @@ def control_days(day: str, exclude: set[str]) -> list[str]:
     d0 = datetime.strptime(day, "%m/%d/%Y")
     days = [(d0 + timedelta(days=k)).strftime("%m/%d/%Y") for k in CONTROL_OFFSETS_D]
     return [d for d in days if d[-4:] in backtest.YEARS and d not in exclude]
+
+
+# A release whose compound is named only inside a lumped row ("BTEX - benzene, ...") has no pounds of its own.
+LUMPED_BIN = "named only in a lumped row"
 
 
 def pound_bin(lbs: float) -> str:
@@ -158,7 +163,9 @@ def summarize(release: list[dict], control: list[dict], alerts: dict) -> dict:
                 "alerts": alerts["alerts"][k], "alerts_per_week": round(alerts["alerts"][k] / weeks, 1)})
     cur = setting_key(*CURRENT)
     by_lbs = []
-    for _, _, label in POUND_BINS:
+    labels = [label for *_, label in POUND_BINS] + ([LUMPED_BIN] if any(u["lbs_bin"] == LUMPED_BIN
+                                                                         for u in release) else [])
+    for label in labels:
         units = [u for u in release if u["lbs_bin"] == label]
         dw = [u for u in units if u["downwind_with_data"]]
         by_lbs.append({"bin": label, "n": len(units), "downwind": sum(u["downwind"] for u in units),
@@ -187,7 +194,7 @@ def run(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> di
         lbs = c["benzene_lbs"] if c["param"] == "45201" else c["butadiene_lbs"]
         u = evaluate_unit(c["fac_latlon"], c["day"], c["param"], start, sites, raw)
         release.append({"incident": c["incident"], "day": c["day"], "param": c["param"], "start_hour_cst": start,
-                        "lbs": lbs, "lbs_bin": pound_bin(lbs)} | u)
+                        "lbs": lbs, "lbs_bin": LUMPED_BIN if "lumped_lbs" in c else pound_bin(lbs)} | u)
         for d in control_days(c["day"], cand_days):
             control.append({"incident": c["incident"], "day": d} | evaluate_unit(c["fac_latlon"], d, c["param"],
                                                                                   start, sites, raw))
@@ -230,10 +237,13 @@ def render_md(res: dict, region: regions.Region = regions.HOUSTON) -> str:
         n and backtest.wilson(dwn["with_data"], n)[0] > 0.5) else ""
     no_met = [site_names[s] for s in site_names if not any(raw.glob(f"met_*_{s}_61102.html"))]
     wind_src = (f"{', '.join(no_met)} have no met-form wind and use their own AutoGC-form resultant\n  wind; a site "
-                "with neither on a day uses the nearest site's." if no_met else
-                "Every site has met-form wind; a site with none on a day uses the nearest site's.")
+                f"with neither on a day uses the nearest site's within {backtest.BORROW_MAX_KM:g} km." if no_met else
+                "Every site has met-form wind; a site with none on a day uses the nearest site's within "
+                f"{backtest.BORROW_MAX_KM:g} km.")
     row = next(s for s in res["sweep"] if s["current"])
-    gaps = [100 * (s["release_hits"] / s["release_n"] - s["control_hits"] / s["control_n"]) for s in res["sweep"]]
+    # whole points; "+ 0" turns a rounded -0 into 0, so a gap of -0.3 points reads "+0", never "-0"
+    gaps = [round(100 * (s["release_hits"] / s["release_n"] - s["control_hits"] / s["control_n"])) + 0
+            for s in res["sweep"]]
     lo1 = next(s for s in res["sweep"] if s["setting"] == "3x/1ppb")
     any_sep = [s for s in res["sweep"] if s["separable"]]
     calm = res["calm"]

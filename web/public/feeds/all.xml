@@ -177,7 +177,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2025-11-05_45201_48_201_0057</guid>
       <pubDate>Wed, 05 Nov 2025 00:00:00 -0600</pubDate>
       <description>Benzene read 10.05 ppb against a baseline of 0.38 ppb (26.4 times baseline) at Galena Park on 2025-11-05 in the hour starting 12:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: The wind was too light (under 3 mph) to tell which way the air came from, so no upwind area was drawn and absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2025-11-05_45201_48_201_0057
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_0057
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

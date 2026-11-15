@@ -31,6 +31,8 @@ export interface StateReport {
   end_local: string
   benzene_lbs: number
   butadiene_lbs: number
+  /** Benzene named only inside a lumped row ("BTEX - benzene, ..."): the row as filed and the mixture's pounds. */
+  benzene_lumped?: { cell: string; pounds: number }[]
   cause_excerpt: string
   cause_withheld?: boolean
   url: string
