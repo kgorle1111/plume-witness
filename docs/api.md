@@ -35,6 +35,8 @@ curl -s https://kgorle1111.github.io/plume-witness/spikes.json \
 | `people.json` | Census population within 3 km of each monitor | 23 KB |
 | `tri.json` | EPA TRI yearly benzene and 1,3-butadiene air totals per facility | 138 KB |
 | `facilities/index.json`, `facilities/<registry_id>.json` | Facility history (194 facilities) | 410 KB total |
+| `coverage.json` | Every Texas AutoGC monitor on TCEQ's form (45): data, wind source, highest readings, spikes per monitor | 18 KB |
+| `regions/<key>/spikes.json`, `regions/<key>/nights/` | The same spike log and replays for each other region (keys in `web/src/regions.generated.json`) | small |
 | `packet.ai.json` | One model-drafted evidence packet for the demo night (published only because its number-and-id guard passed; see the README) | 2 KB |
 
 ### `event.json` and `nights/<id>.json`
@@ -78,6 +80,17 @@ Schema `plume-witness.spikes/v1`, exported by [`pipeline/spikes.py`](../pipeline
 earlier, could not be placed on the map), `earlier_search_incomplete` (the 30 days before were not all searched),
 `day_search_incomplete` (TCEQ's search for that week did not return every row) or `no_wind`. The backtest that measures how
 well this check works is in [`backtest.md`](backtest.md): the pipeline matched 1 of 77 company-reported releases end to end.
+
+### `coverage.json`
+
+Written by [`pipeline/coverage.py`](../pipeline/coverage.py) from TCEQ's AutoGC site list
+(`data/raw/texas_coverage/agc_form.html`) and each region's published `spikes.json`. Top level: `generated` (date),
+`trigger`, `sites[]`. Each site: `site_id`, `name`, `county`, `region_key` (null for a monitor with no 2024-2025 data),
+`lat`, `lon`, `has_data`, `wind_source` (`met`: its own weather-station wind; `autogc`: the AutoGC form's resultant
+wind; `borrowed`: the nearest monitor's in its region; null with no data), `years` with hourly values,
+`max_benzene_ppb`, `max_butadiene_ppb` (highest hourly values, 2024-2025, null with no data), `spikes` and
+`by_status` (that monitor's rows in its region's spike log). A monitor with readings but `spikes: 0` never crossed the
+trigger in 2024-2025.
 
 ### `rose.json`
 
@@ -154,6 +167,7 @@ finding about any facility.
 uv run python -m pipeline.backtest && uv run python -m pipeline.spikes   # spikes.json
 uv run python -m pipeline.tri                                            # tri.json
 uv run python -m pipeline.facilities                                     # facilities/
+uv run python -m pipeline.coverage                                       # coverage.json (after every region's spikes)
 ```
 
 Every raw file the pipeline reads is in `data/raw/` with its URL and SHA-256 in the neighbouring `provenance.json`.
