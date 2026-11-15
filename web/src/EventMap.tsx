@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -57,6 +57,7 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
   const highlight = useRef(highlightId)
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
   const hourRef = useRef(hour)
+  const [failure, setFailure] = useState<unknown>(null)
   const applyHour = useRef<(h: number) => void>(() => {})
 
   useEffect(() => {
@@ -135,10 +136,16 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
     if (upwindEnd) bounds.extend(upwindEnd)
     wedges.forEach((w) => w.ring.forEach((p) => bounds.extend(p)))
     // Top padding clears the legend; side padding leaves room for the centred labels under each point.
+    // Padding is clamped to the container: a map shorter or narrower than its padding has no room to fit
+    // into (MapLibre warns, and older builds threw NaN coordinates). Below ~40px there's nothing to fit.
     const fit = () => {
-      const side = isNarrow() ? 64 : 80
-      const top = (legend.current?.offsetHeight ?? 0) + 28
-      map.fitBounds(bounds, { padding: { top, bottom: 48, left: side, right: side }, maxZoom: 14, duration: 0 })
+      const w = el.clientWidth, h = el.clientHeight
+      if (w < 40 || h < 40) return
+      const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 32) / 2))
+      const side = room(isNarrow() ? 64 : 80, w)
+      const wantTop = (legend.current?.offsetHeight ?? 0) + 28, wantBottom = 48
+      const scale = Math.min(1, Math.max(0, h - 32) / (wantTop + wantBottom))
+      map.fitBounds(bounds, { padding: { top: wantTop * scale, bottom: wantBottom * scale, left: side, right: side }, maxZoom: 14, duration: 0 })
     }
     fit()
 
@@ -397,9 +404,14 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
     map.on('move', sync)
     map.on('resize', sync)
 
+    // ResizeObserver runs outside React, so an error here would skip the error boundary; hand it over.
     const ro = new ResizeObserver(() => {
-      map.resize()
-      fit()
+      try {
+        map.resize()
+        fit()
+      } catch (e) {
+        setFailure(e)
+      }
     })
     ro.observe(el)
 
@@ -426,6 +438,9 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
   useEffect(() => {
     applyHour.current(hour)
   }, [hour])
+
+  // Re-thrown during render (after every hook) so MapSlot's error boundary shows its fallback.
+  if (failure) throw failure
 
   return (
     <>
