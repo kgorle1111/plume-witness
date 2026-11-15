@@ -89,9 +89,12 @@ def report_summary(path: Path) -> dict:
     lbs = lbs_by_param(_text(path))
     cause = re.search(r"Reason for Scheduled Activity: (.*?) Actions Taken", t)
     text, withheld = cause_excerpt(cause.group(1) if cause else None)
+    event_type = grab(r"Event/Activity Type: (.+?) Date and Time", "event type")
     out = {
         "incident": path.stem.split("_")[-1],
-        "event_type": grab(r"Event/Activity Type: (.+?) Date and Time", "event type").title(),
+        "event_type": event_type.title(),
+        # A stable key for the web's translated label ("emissions_event"); event_type stays TCEQ's own words.
+        "event_type_code": re.sub(r"[^a-z0-9]+", "_", event_type.lower()).strip("_"),
         "start_local": _stamp(grab(rf"Scheduled Activity Start: {stamp}", "start time")),
         "end_local": _stamp(grab(rf"Scheduled Activity Ended: {stamp}", "end time")),
         "benzene_lbs": float(lbs["45201"]),
