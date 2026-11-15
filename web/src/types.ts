@@ -3,7 +3,7 @@
 
 export const SCHEMA = 'plume-witness.event/v1'
 
-export type Status = 'reported' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete'
+export type Status = 'reported' | 'reported_late' | 'not_yet_reported' | 'no_report_after_deadline' | 'reported_mismatch' | 'search_incomplete'
 
 export interface HourValue {
   hour_cst: number

@@ -395,12 +395,12 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
           // kn: types.ts does not declare checks[].note yet; read it as optional until it does.
           const note = checkNoteText((c as { note?: string }).note, lang)
           // A filing date in the note means the record exists: "not yet reported" would be false today.
-          const late = c.status === 'not_yet_reported' && note?.filed
+          const late = c.status === 'reported_late' || (c.status === 'not_yet_reported' && note?.filed)
           return (
             <li key={c.at}>
               <span className="check-at">{checkLabel(c.at, t)}</span>{' '}
               {late
-                ? <span className="status status-not_yet_reported" lang={lang}><StatusIcon kind="clock" /><span>{t('chk.filedAfter')}</span></span>
+                ? <span className="status status-reported_late" lang={lang}><StatusIcon kind="late" /><span>{t('chk.filedAfter')}</span></span>
                 : <StatusBadge status={c.status} lang={lang} />}
               {note && <span className="check-note muted small" lang={note.lang}>{note.text}</span>}
             </li>
