@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
-import { destination, mergeArcs, readingText, sectorRing } from './format'
+import { destination, mergeArcs, readingText, sectorRing, unitShort } from './format'
 import { placeReadout } from './geo'
 import type { Place } from './PlaceSearch'
 
@@ -131,7 +131,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     const monitorText = (m: Monitor) => {
       const h = readingAt(m)
-      return `${m.name}\n${h ? readingText(h.value, h.flag, ev.compound.units) : 'no data'}`
+      return `${m.name}\n${h ? readingText(h.value, h.flag, unitShort(ev.compound.units)) : 'no data'}`
     }
     // Upwind line and arrow for the replay hour: the line points to where the air came from, the arrow
     // points back toward the monitor (the direction the air moved).
@@ -637,7 +637,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       {/* Hidden (not removed) during the intro: fit() measures its height for the top padding. */}
       <ul ref={legend} className={phase === 'flat' ? 'legend' : 'legend is-hidden'} aria-hidden="true">
         <li><span className="lg lg-pulse" /> Flagged monitor</li>
-        <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
+        <li><span className="lg lg-scale" /> Monitor (size = {unitShort(ev.compound.units)})</li>
         <li><span className="lg lg-nodata" /> No data</li>
         <li><span className="lg lg-facility">1</span> Facility</li>
         {ev.record_check.matched_facility_id && <li><span className="lg lg-matched">1</span> Filed report</li>}
