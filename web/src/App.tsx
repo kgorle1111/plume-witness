@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from 'react'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
@@ -7,7 +7,7 @@ import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from '.
 import { cannotSayEs } from './format'
 import { LangSwitch, ReviewNote } from './LangSwitch'
 import { useLang, useT } from './useT'
-import { setLang as setSiteLang, type StringKey } from './i18n'
+import type { StringKey } from './i18n'
 import type { Place } from './PlaceSearch'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
@@ -80,9 +80,8 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   const [packetReview, setPacketReview] = useState<PacketReview>(() => initialPacketReview(ev))
   const ai = useAiDraft()
   const [langNotice, setLangNotice] = useState('')
-  // One language for the whole site: every switch sets the site language, and this follows it. Approval covers
-  // one language's exact text, so a changed language clears it (the Packet switch does the same).
-  const setLang = (l: Lang) => setSiteLang(l)
+  // One language for the whole site, set by the header switch (or Packet's draft switch); this follows it.
+  // Approval covers one language's exact text, so a changed language clears it and says so.
   useEffect(() => {
     if (packetReview.lang === siteLang) return
     if (packetReview.approved) setLangNotice(t('lang.switched', { lang: t(siteLang === 'es' ? 'lang.nameEs' : 'lang.nameEn') }))
@@ -143,17 +142,12 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
 
       <div className="limits-bar">
         <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
-        {/* Same state as the Packet language switch: one language choice for the draft, statuses and limits. */}
-        <div className="seg seg-compact" role="group" aria-label={t('lang.stepperGroup')}>
-          <button type="button" aria-pressed={packetReview.lang === 'en'} onClick={() => setLang('en')}>English</button>
-          <button type="button" aria-pressed={packetReview.lang === 'es'} onClick={() => setLang('es')} lang="es">Español</button>
-        </div>
       </div>
       {packetReview.lang === 'es' && <ReviewNote />}
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
-        <h2>{t(STEPS[active].title)}</h2>
+        <h2 key={step}>{t(STEPS[active].title)}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
         {step === 'check' && <Check ev={ev} lang={packetReview.lang} />}
@@ -167,8 +161,23 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   )
 }
 
+// Phones: the night picker and Embed move below the steps so the step heading makes the first screen.
+const PHONE = '(max-width: 640px)'
+const subscribePhone = (cb: () => void) => {
+  const m = window.matchMedia(PHONE)
+  m.addEventListener('change', cb)
+  return () => m.removeEventListener('change', cb)
+}
+const isPhone = () => window.matchMedia(PHONE).matches
+const usePhone = () => useSyncExternalStore(subscribePhone, isPhone, isPhone)
+
 function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   const t = useT()
+  const phone = usePhone()
+  // The phone map hides its legend behind a "Key" toggle; the legend is visual only (aria-hidden in EventMap).
+  const [keyOpen, setKeyOpen] = useState(false)
+  // Rendered in one place at a time: the picker and the Embed box carry element ids.
+  const tools = <>{picker}<EmbedButton title={ev.title} /></>
   const { corridor } = useCorridor(ev)
   const [highlightId, setHighlightId] = useState<string | null>(null)
   // The replay opens on the detection hour so the spike is the first thing on screen.
@@ -200,8 +209,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
           <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>{t('common.pastSpikes')}</a>
         </p>
         <h1 className="event-title">{ev.title}</h1>
-        {picker}
-        <EmbedButton title={ev.title} />
+        {!phone && tools}
         <LangSwitch note={false} />
       </header>
       {ev.label === 'fixture' && (
@@ -212,14 +220,25 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       )}
       <main className="layout">
         <div className="stage">
-        <section className="map-wrap" aria-labelledby="map-label">
+        <section className={keyOpen ? 'map-wrap key-open' : 'map-wrap'} aria-labelledby="map-label">
           <h2 id="map-label" className="sr-only">{t('app.mapLabel')}</h2>
           <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} place={place} />
+          {phone && (
+            <button type="button" className="map-key-btn" aria-expanded={keyOpen} onClick={() => setKeyOpen((o) => !o)}>
+              {t('app.mapKey')}
+            </button>
+          )}
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>
         <aside className="panel" id="steps" tabIndex={-1} aria-label={t('nav.eventSteps')}>
           <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} place={place} onPlace={setPlace} />
+          {phone && (
+            <details className="more-nights">
+              <summary>{t('app.moreNights')}</summary>
+              <div className="more-nights-body">{tools}</div>
+            </details>
+          )}
         </aside>
       </main>
       <SiteFooter />

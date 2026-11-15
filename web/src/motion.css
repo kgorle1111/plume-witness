@@ -1,0 +1,9 @@
+/* Numbers and step motion. No web font. */
+table, .tl-status, .rn-date, .rn-total, .rn-count-n, .rn-li-when, .reading-value, .reading-when, .check-at, .event-meta,
+.facts dd, .fl-geo, .sl-summary, .sl-count, .sl-cal, .spark-axis, .spark text, .rose-svg text, .rn-tick, .rn-months,
+[role='tooltip'] { font-variant-numeric: tabular-nums; }
+
+/* Step crossfade: the step body mounts fresh per step, so a mount animation is enough; opacity only, nothing waits on it. */
+@keyframes step-fade { from { opacity: 0; } to { opacity: 1; } }
+.step-panel > :not(.step-nav) { animation: step-fade 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .step-panel > :not(.step-nav) { animation: none; } }

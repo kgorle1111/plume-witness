@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react'
-import { STATUS_FILL as FILL, hourLabel, statusInfo } from './format'
+import { STATUS_FILL as FILL, hourLabel, statusInfo, statusLabel } from './format'
 import { spikeKey, type SpikeRow } from './spikes'
 import { T } from './LangSwitch'
 import { useLang, useT } from './useT'
@@ -7,6 +7,16 @@ import { dateLabel, monthShort, type Lang } from './i18n'
 
 // A cell with two spikes (one per compound) shows the result that leaves the most open: no report first.
 const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'search_incomplete', 'reported']
+// Each status is a different mark shape inside its day cell (y0..y1 of the cell height, so the strip can stay
+// preserveAspectRatio=none), so the calendar reads without colour: no matching report is a broken mark, an open question.
+const SHAPE: Record<string, [number, number][]> = {
+  reported: [[0, 1]],
+  no_report_after_deadline: [[0, 0.4], [0.6, 1]],
+  reported_mismatch: [[0.4, 1]],
+  not_yet_reported: [[0, 0.6]],
+  search_incomplete: [[0.35, 0.65]],
+}
+const shapeOf = (s: string) => SHAPE[s] ?? SHAPE.reported
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
 const MARK_PX = 4
 
@@ -35,10 +45,14 @@ interface MarkProps { cell: Cell; n: number; tab: boolean; label: string; onShow
 const Mark = memo(function Mark({ cell, n, tab, label, onShow, onHide, onActivate, onKey, onFocusMark }: MarkProps) {
   return (
     <button type="button" className="sl-cal-mark" data-cell={cell.key} tabIndex={tab ? 0 : -1} aria-label={label}
-      style={{ left: `calc(${((dayOfYear(cell.top.date) + 0.5) / n) * 100}% - ${MARK_PX / 2}px)`, background: FILL[cell.top.status] ?? '#16161a' }}
+      style={{ left: `calc(${((dayOfYear(cell.top.date) + 0.5) / n) * 100}% - ${MARK_PX / 2}px)` }}
       onMouseEnter={(e) => onShow(cell, e.currentTarget)} onMouseLeave={onHide}
       onFocus={(e) => { onFocusMark(cell); if (e.currentTarget.matches(':focus-visible')) onShow(cell, e.currentTarget) }}
-      onBlur={onHide} onClick={(e) => onActivate(cell, e)} onKeyDown={onKey} />
+      onBlur={onHide} onClick={(e) => onActivate(cell, e)} onKeyDown={onKey}>
+      <svg viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false" fill={FILL[cell.top.status] ?? '#16161a'}>
+        {shapeOf(cell.top.status).map(([y0, y1]) => <rect key={y0} x={0} y={y0} width={1} height={y1 - y0} />)}
+      </svg>
+    </button>
   )
 })
 
@@ -159,7 +173,7 @@ export function SpikeCalendar({ rows, monitors, years, onOpen }: Props) {
       )}
       <ul className="sl-cal-legend">
         {RANK.filter((s) => shown.has(s)).map((s) => (
-          <li key={s}><span className="sl-cal-swatch" style={{ background: FILL[s] }} aria-hidden="true" /><span lang={lang}>{statusInfo(s)[lang]}</span></li>
+          <li key={s}><svg className="sl-cal-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" fill={FILL[s]} aria-hidden="true" focusable="false">{shapeOf(s).map(([y0, y1]) => <rect key={y0} x={0} y={y0} width={1} height={y1 - y0} />)}</svg><span lang={lang}>{statusLabel(s, lang)}</span></li>
         ))}
       </ul>
     </figure>

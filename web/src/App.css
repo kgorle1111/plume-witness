@@ -203,12 +203,9 @@
 }
 .step-tab[aria-selected='true'] .step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-/* Limits panel and the page language switch share one row; the switch keeps its own width. */
-.limits-bar { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 8px; margin: 12px 16px 0; }
+/* The limits panel has the row to itself: the page language switch lives in the header (one switch per site). */
+.limits-bar { margin: 12px 16px 0; }
 .seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
-/* Open, the limits list needs the full width; the switch drops below it rather than squeezing it. */
-.limits-bar:has(> .cannot-say[open]) { grid-template-columns: 1fr; }
-.limits-bar:has(> .cannot-say[open]) > .seg { justify-self: end; }
 .es-note { margin: 6px 16px 0; }
 .cannot-say {
   border: 1px solid var(--amber-line);
@@ -228,9 +225,9 @@
 }
 .cannot-say ul { display: grid; gap: 6px; padding: 0 16px 12px 34px; font-size: 0.9rem; }
 /* A flex summary loses the browser's disclosure marker, so draw one: without it these read as plain labels. */
-.cannot-say summary, .hourly-table summary { list-style: none; }
-.cannot-say summary::-webkit-details-marker, .hourly-table summary::-webkit-details-marker { display: none; }
-.cannot-say summary::after, .hourly-table summary::after {
+.cannot-say summary, .hourly-table summary, .more-nights summary { list-style: none; }
+.cannot-say summary::-webkit-details-marker, .hourly-table summary::-webkit-details-marker, .more-nights summary::-webkit-details-marker { display: none; }
+.cannot-say summary::after, .hourly-table summary::after, .more-nights summary::after {
   content: '';
   flex: none;
   width: 7px;
@@ -242,7 +239,7 @@
   transition: transform 0.15s ease-out;
 }
 .hourly-table summary::after { margin-left: 8px; }
-.cannot-say[open] summary::after, .hourly-table[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.cannot-say[open] summary::after, .hourly-table[open] summary::after, .more-nights[open] summary::after { transform: translateY(2px) rotate(-135deg); }
 
 .step-panel { padding: 14px 16px 24px; display: grid; gap: 12px; }
 .step-panel h2 { font-size: 1.2rem; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance; }
@@ -357,8 +354,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   font-size: 0.9rem;
 }
 .status-reported { color: #14532d; background: #e7f6ec; }
-.status-not_yet_reported { color: #6b4500; background: #fff4dc; }
-.status-no_report_after_deadline { color: #8b1a1a; background: #fdecea; }
+.status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .is-matched-note { padding: 8px 12px; border: 1px solid rgb(0 110 60 / 0.45); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
@@ -428,8 +425,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 }
 .btn:hover:not(:disabled) { background: var(--bg-2); }
 .btn:active:not(:disabled) { transform: translateY(1px); }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn-primary:hover:not(:disabled) { background: #0947ad; border-color: #0947ad; }
+.btn-primary { background: var(--btn-primary-bg); border-color: var(--btn-primary-line); color: var(--btn-primary-ink); }
+.btn-primary:hover:not(:disabled) { background: var(--btn-primary-bg-hover); }
 .btn-done { background: #e7f6ec; border-color: #14532d; color: #14532d; }
 .btn-done::before { content: '✓ '; }
 .btn:disabled { background: var(--bg-2); border-color: var(--line); color: #6b6b74; cursor: not-allowed; }
@@ -514,8 +511,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .tl-all { font-size: 0.8rem; color: var(--ink-2); }
 .tl-all summary { cursor: pointer; }
 .tl-all ul { padding-left: 1.2em; }
-.spark-selected { fill: rgb(11 87 208 / 0.14); stroke: var(--accent); stroke-width: 1; }
-.key-sel { background: rgb(11 87 208 / 0.14); border: 1px solid var(--accent); margin-left: 6px; }
+.spark-selected { fill: color-mix(in srgb, var(--accent) 14%, transparent); stroke: var(--accent); stroke-width: 1; }
+.key-sel { background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1px solid var(--accent); margin-left: 6px; }
 
 @media (min-width: 1024px) {
   .stage { flex: 1; min-width: 0; border-right: 1px solid var(--line); }
@@ -642,3 +639,36 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .night-picker select { flex: 1 1 auto; width: 100%; max-width: 32rem; min-width: 0; min-height: 44px; font: inherit; text-overflow: ellipsis; }
 .night-picker-row { display: flex; gap: 8px; min-width: 0; }
 .night-picker-row .btn { flex: none; }
+
+/* Phones (<=640px): the step heading has to make the first 812px screen (it sat at 821-845px). The night picker
+   and Embed move into "More nights · Embed" below the steps (App.tsx), the legend folds behind "Key" and the
+   map gives up a little height; 32dvh of 812 is 260px, above the 240px fitBounds floor. */
+.more-nights { margin: 0 16px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); }
+.more-nights summary { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+.more-nights-body { display: grid; gap: 12px; padding: 0 14px 14px; }
+.more-nights-body .night-picker { margin-top: 0; }
+.map-key-btn { display: none; }
+@media (max-width: 640px) {
+  .stage .map-wrap { height: 32vh; height: 32dvh; }
+  .map-key-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 0.95);
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+  }
+  .map-key-btn[aria-expanded='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .map-wrap:not(.key-open) .legend { display: none; }
+  .map-wrap.key-open .legend { top: 60px; }
+}

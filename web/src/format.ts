@@ -1,27 +1,42 @@
 import type { Status } from './types'
+import { translate, type Lang } from './i18n.ts'
 
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
 // kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
-export const STATUS_TEXT: Record<Status, { en: string; es: string; icon: 'check' | 'clock' | 'alert' | 'mismatch' | 'question' }> = {
+// `full` is the label where space allows ("a question" is the product's rule: a missing match is not a finding).
+export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial'
+type StatusLabel = { en: string; es: string; icon: StatusIconKind; full?: { en: string; es: string } }
+export const STATUS_TEXT: Record<Status, StatusLabel> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
   not_yet_reported: { en: 'Not yet reported', es: 'Todavía sin reporte', icon: 'clock' },
-  no_report_after_deadline: { en: 'No report after the deadline', es: 'Sin reporte después del plazo', icon: 'alert' },
+  no_report_after_deadline: {
+    en: 'No matching report', es: 'Sin reporte que coincida', icon: 'question',
+    full: { en: 'No matching report (a question)', es: 'Sin reporte que coincida (una pregunta)' },
+  },
   reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
-  search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'question' },
+  search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'partial' },
 }
 
-// Fill per record-check result, from the same hue families as the table's status tags (used by the calendar and the rain view).
+// Status colours. Text on white needs 4.5:1 and marks 3:1 (test/statusColour.test.ts checks both). The open-question
+// amber is the only amber here; red (--trigger) is reserved for the monitor spike and never a status.
+// index.css repeats the amber and slate values as --q-* / --pending-*; the same test keeps them equal.
 export const STATUS_FILL: Record<string, string> = {
-  no_report_after_deadline: '#b42318',
+  no_report_after_deadline: '#b45309',
   reported_mismatch: '#7a3fb0',
   search_incomplete: '#8a8a94',
-  not_yet_reported: '#a36200',
+  not_yet_reported: '#3d5a80',
   reported: '#1f7a45',
 }
 
+/** The label to show where there is room for it (falls back to the short chip text). */
+export function statusLabel(s: string, lang: 'en' | 'es'): string {
+  const i = statusInfo(s)
+  return i.full?.[lang] ?? i[lang]
+}
+
 export function statusInfo(s: string) {
-  return (STATUS_TEXT as Record<string, (typeof STATUS_TEXT)[Status]>)[s]
-    ?? { en: `Unknown status (${s})`, es: `Estado desconocido (${s})`, icon: 'alert' as const }
+  return (STATUS_TEXT as Record<string, StatusLabel>)[s]
+    ?? { en: `Unknown status (${s})`, es: `Estado desconocido (${s})`, icon: 'alert' as const, full: undefined }
 }
 
 // Spanish for event.json's cannot_say lines, keyed by the English text. A line that isn't here (for example
@@ -127,4 +142,25 @@ export function sectorRing(lat: number, lon: number, start: number, end: number,
 export function readingText(value: number | null, flag: string | null, units: string): string {
   if (value === null) return flag ? `no data (${flag})` : 'no data'
   return `${value} ${units}`
+}
+
+// event.json gives concentrations as "ppb-v" (parts per billion by volume, as the state publishes them). Pages show
+// "ppb", spell it out on the first mention, and explain the "-v" in a tooltip (Unit.tsx). Numbers are never touched.
+const PPB = /^ppb(-?v)?$/i
+
+/** Display form of a concentration unit: "ppb-v" reads as "ppb"; any other unit is shown as given. */
+export function unitShort(units: string): string {
+  return PPB.test(units.trim()) ? 'ppb' : units
+}
+
+/** First-mention form, e.g. "parts per billion (ppb)"; a unit that isn't ppb is shown as given. */
+export function unitFirst(units: string, lang: Lang = 'en'): string {
+  return PPB.test(units.trim()) ? `${translate(lang, 'unit.ppbLong')} (ppb)` : units
+}
+
+/** Tooltip for a ppb unit: what the "-v" means when the data says "ppb-v"; null for any other unit. */
+export function unitTitle(units: string, lang: Lang = 'en'): string | null {
+  const m = PPB.exec(units.trim())
+  if (!m) return null
+  return m[1] ? translate(lang, 'unit.ppbvTitle') : translate(lang, 'unit.ppbLong')
 }

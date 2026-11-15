@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import './Rose.css'
+import { unitTitle } from './format'
 
 // Mirrors pipeline/rose.py (web/public/rose.json). The pipeline owns the shape; change both together.
 interface SectorStat { high_hours: number; high_days: number; cpf: number | null; share_of_high: number | null }
@@ -108,6 +109,7 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
 
   const years = `${data.method.years[0]}–${data.method.years[data.method.years.length - 1]}`
   const thr = rose.thresholds_ppb[p]
+  const unitTip = unitTitle(data.method.units)
   const cpfs = rose.sectors.map((s) => s[p].cpf ?? 0)
   const max = Math.max(...cpfs, BASE_RATE[p])
   const scale = (v: number) => (v / max) * R
@@ -173,7 +175,7 @@ export function Rose({ siteId, param }: { siteId: string; param: string }) {
       <div className="rose-caveat">
         <p><strong>What this does not say.</strong> {data.caveat} Anything in that direction, near or far, could contribute.</p>
         <p>
-          The {TOP[p]} at this monitor starts at {ppb(thr)} ({data.method.units}, hourly)
+          The {TOP[p]} at this monitor starts at {ppb(thr)} ({unitTip ? <abbr title={unitTip}>{data.method.units}</abbr> : data.method.units}, hourly)
           {thr < data.method.trigger_floor_ppb
             ? <>: low levels, below the {data.method.trigger_floor_ppb} ppb at which this tool starts a trace.</>
             : '.'}

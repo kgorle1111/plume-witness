@@ -17,6 +17,9 @@ const EN = {
   'common.loading': 'Loading…',
   'common.langGroup': 'Language',
   'common.reviewNote': 'Spanish not yet reviewed by a community reader.',
+  // Units: event.json gives readings in "ppb-v"; pages say "ppb" and spell it out once (format.ts unitFirst, Unit.tsx).
+  'unit.ppbLong': 'parts per billion',
+  'unit.ppbvTitle': 'ppb-v: parts per billion by volume (the "-v" means by volume), the unit the state publishes',
 
   // Steps and navigation (App)
   'step.detect': 'Detect',
@@ -48,6 +51,8 @@ const EN = {
   'app.loadingEvent': 'Loading event…',
   'app.notNight': '"{night}" is not a night id.',
   'app.backDemo': 'Back to the demo night',
+  'app.moreNights': 'More nights · Embed',
+  'app.mapKey': 'Key',
 
   // Night picker
   'night.label': 'Replay another night',
@@ -60,6 +65,7 @@ const EN = {
   'foot.docs': 'Open data docs',
   'foot.offline': 'Works offline after first visit (map tiles may be blank).',
   'foot.install': 'Install app',
+  'theme.dark': 'Dark',
 
   // Landing page
   'landing.title': 'Trace air pollution',
@@ -67,7 +73,15 @@ const EN = {
   'landing.spin': 'Spin the globe',
   'landing.purpose': 'Follow pollution spikes upwind and check them against public emissions reports to see what matches.',
   'landing.enter': 'Enter the replay',
-  'landing.also': 'Or watch two years of spikes',
+  'landing.metrics': 'Key numbers',
+  'landing.m.spikes': 'spikes',
+  'landing.m.monitors': 'air monitors',
+  'landing.m.years': 'years',
+  'landing.m.auditValue': '{k} of {n}',
+  'landing.m.audit': 'hand-checked nights with a report we missed',
+  'landing.more': 'More from the data',
+  'landing.timeline': 'Timeline',
+  'landing.brief': 'Method brief',
 
   // Brief page chrome (the brief text itself stays English)
   'brief.actions': 'Brief actions',
@@ -93,7 +107,7 @@ const EN = {
   'spikes.brief': '{link}: what these monitors can and cannot check.',
   'spikes.briefLink': 'Read the 2-page method brief (printable)',
   'spikes.explain': 'How to read this log',
-  'spikes.what': '**What a spike is.** An hour when a state air monitor read benzene or 1,3-butadiene at or above 10 times its own 7-day median and at least 10 ppb. There is one row per day and compound; it shows the first monitor and hour (CST) that crossed the line.',
+  'spikes.what': '**What a spike is.** An hour when a state air monitor read benzene or 1,3-butadiene at or above 10 times its own 7-day median and at least 10 parts per billion (ppb). There is one row per day and compound; it shows the first monitor and hour (CST) that crossed the line.',
   'spikes.noMatch': '**“No matching report” is a question, not a finding.** It means the tool found no company emissions-event report in the state’s public record (TCEQ) that lines up with the spike and the upwind area. The source may not have to report (traffic, a ship, a monitor fault), a report may sit outside our search, or the tool may have missed it{missed}.{search}',
   'spikes.noMatchMissed': ': in our own check against the reports we know of, {k} of {n} such rows had a company report from inside the upwind area',
   'spikes.noMatchSearch': ' You can search the record yourself at {link}.',
@@ -306,6 +320,8 @@ const ES: Record<StringKey, string> = {
   'common.loading': 'Cargando…',
   'common.langGroup': 'Idioma',
   'common.reviewNote': 'Traducción aún no revisada por un lector de la comunidad.',
+  'unit.ppbLong': 'partes por mil millones',
+  'unit.ppbvTitle': 'ppb-v: partes por mil millones en volumen (la "-v" significa en volumen), la unidad que publica el estado',
 
   'step.detect': 'Detectar',
   'step.trace': 'Rastrear',
@@ -335,6 +351,8 @@ const ES: Record<StringKey, string> = {
   'app.loadingEvent': 'Cargando el evento…',
   'app.notNight': '"{night}" no es un id de noche.',
   'app.backDemo': 'Volver a la noche de demostración',
+  'app.moreNights': 'Más noches · Insertar',
+  'app.mapKey': 'Leyenda',
 
   'night.label': 'Ver otra noche',
   'night.open': 'Abrir',
@@ -345,13 +363,22 @@ const ES: Record<StringKey, string> = {
   'foot.docs': 'Documentación de datos abiertos (en inglés)',
   'foot.offline': 'Funciona sin conexión después de la primera visita (los mosaicos del mapa pueden verse en blanco).',
   'foot.install': 'Instalar la app',
+  'theme.dark': 'Oscuro',
 
   'landing.title': 'Rastree la contaminación del aire',
   'landing.pause': 'Pausar el globo',
   'landing.spin': 'Girar el globo',
   'landing.purpose': 'Siga los picos de contaminación viento arriba y compárelos con los reportes públicos de emisiones para ver qué coincide.',
   'landing.enter': 'Entrar a la repetición',
-  'landing.also': 'O vea dos años de picos',
+  'landing.metrics': 'Cifras clave',
+  'landing.m.spikes': 'picos',
+  'landing.m.monitors': 'monitores de aire',
+  'landing.m.years': 'años',
+  'landing.m.auditValue': '{k} de {n}',
+  'landing.m.audit': 'noches revisadas a mano con un reporte que pasamos por alto',
+  'landing.more': 'Más de los datos',
+  'landing.timeline': 'Cronología',
+  'landing.brief': 'Resumen del método',
 
   'brief.actions': 'Acciones del resumen',
   'brief.spikesLog': 'Registro de picos anteriores',
@@ -374,7 +401,7 @@ const ES: Record<StringKey, string> = {
   'spikes.brief': '{link}: lo que estos monitores pueden y no pueden verificar.',
   'spikes.briefLink': 'Lea el resumen del método de 2 páginas (imprimible)',
   'spikes.explain': 'Cómo leer este registro',
-  'spikes.what': '**Qué es un pico.** Una hora en que un monitor estatal del aire midió benceno o 1,3-butadieno a 10 veces o más su propia mediana de 7 días y al menos 10 ppb. Hay una fila por día y compuesto; muestra el primer monitor y la hora (CST) que cruzó el umbral.',
+  'spikes.what': '**Qué es un pico.** Una hora en que un monitor estatal del aire midió benceno o 1,3-butadieno a 10 veces o más su propia mediana de 7 días y al menos 10 partes por mil millones (ppb). Hay una fila por día y compuesto; muestra el primer monitor y la hora (CST) que cruzó el umbral.',
   'spikes.noMatch': '**«Sin reporte que coincida» es una pregunta, no una conclusión.** Significa que la herramienta no encontró, en el registro público del estado (TCEQ), ningún reporte de evento de emisiones de una empresa que coincida con el pico y con el área viento arriba. Puede que la fuente no tenga que reportar (tráfico, un barco, una falla del monitor), que un reporte quede fuera de nuestra búsqueda, o que la herramienta no lo haya encontrado{missed}.{search}',
   'spikes.noMatchMissed': ': en nuestra propia verificación con los reportes que conocemos, {k} de {n} de esas filas tenían un reporte de una empresa dentro del área viento arriba',
   'spikes.noMatchSearch': ' Puede buscar en el registro usted mismo en {link}.',

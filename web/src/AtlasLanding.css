@@ -1,11 +1,9 @@
 .atlas-landing {
   color-scheme: light;
   --paper: #f5f9fa;
-  --ink: #214349;
   --teal: #4d787f;
   --line: #a9c6bd;
   --coral: #de7f6b;
-  --peach: #f2c9b7;
   --mono: 'Cascadia Mono', Consolas, monospace;
   color: var(--ink);
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -86,7 +84,7 @@
   cursor: pointer;
 }
 .atlas-pause:hover { border-color: var(--teal); }
-.atlas-pause:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }
+.atlas-pause:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
 .atlas-purpose { width: min(100%, 525px); margin: 5px 0 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.5; color: #395960; text-wrap: pretty; }
 .atlas-enter {
@@ -97,17 +95,17 @@
   min-height: 49px;
   margin-top: 21px;
   padding: 10px 17px 10px 19px;
-  background: var(--peach);
-  color: #442e29;
-  border: 1px solid #be7463;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-ink);
+  border: 1px solid var(--btn-primary-line);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   border-radius: 3px;
   transition: background-color .18s, box-shadow .18s;
 }
-.atlas-enter:hover { background: #ebae98; box-shadow: 0 3px 0 #de7f6b65; }
-.atlas-enter:focus-visible { outline: 2px solid #995241; outline-offset: 4px; }
+.atlas-enter:hover { background: var(--btn-primary-bg-hover); box-shadow: 0 3px 0 #de7f6b65; }
+.atlas-enter:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 
 .atlas-leaving {
   position: fixed;
@@ -141,5 +139,29 @@
   .atlas-pause { display: none; }
 }
 
-.atlas-also { margin-top: 14px; font-size: 14px; color: #442e29; text-underline-offset: 3px; }
-.atlas-also:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }
+/* Key numbers: quiet lines in the masthead's mono voice, not a stat-card row. The three counts share a line;
+   the audit result, a different kind of claim, gets its own line so no separator ever starts a wrapped line. */
+.atlas-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  max-width: 560px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  font: 500 12px/1.5 var(--mono);
+  letter-spacing: .04em;
+  color: #395960;
+  font-variant-numeric: tabular-nums;
+}
+.atlas-metrics li { white-space: nowrap; }
+.atlas-metrics li + li::before { content: '·'; padding-inline: 10px; color: var(--teal); }
+.atlas-metrics b { font-weight: 700; color: var(--ink); }
+.atlas-metrics .atlas-audit { flex-basis: 100%; white-space: normal; text-wrap: balance; }
+.atlas-metrics .atlas-audit::before { content: none; }
+
+.atlas-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; margin-top: 8px; }
+.atlas-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: #442e29; text-underline-offset: 3px; }
+.atlas-links a:hover { text-decoration-thickness: 2px; }
+.atlas-links a:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }

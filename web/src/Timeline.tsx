@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Monitor, PlumeEvent } from './types'
-import { compass, hourLabel, readingText } from './format'
+import { compass, hourLabel, readingText, unitShort } from './format'
 import { useLang, useT } from './useT'
 
 // Default Play window: the morning around a typical detection. Clamped to the hours the file actually has.
@@ -54,7 +54,7 @@ export function Timeline({ ev, hour, onHour }: Props) {
   const reading = (m: Monitor) => {
     const h = m.hourly.find((x) => x.hour_cst === hour)
     if (!h) return t('tl.noData')
-    return h.value === null ? (h.flag ? `${t('tl.noData')} (${h.flag})` : t('tl.noData')) : readingText(h.value, h.flag, units)
+    return h.value === null ? (h.flag ? `${t('tl.noData')} (${h.flag})` : t('tl.noData')) : readingText(h.value, h.flag, unitShort(units))
   }
   const wind = ev.wind.hourly.find((w) => w.hour_cst === hour)
   const windText = wind ? t('tl.wind', { dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph }) : t('tl.noWind')
