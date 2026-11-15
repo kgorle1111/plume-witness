@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5978056-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-5978056-4');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule 1180 Community Air Monitoring</title>
+    <link rel="shortcut icon" href="#">
+    <!-- Bootstrap -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/iCheck/skins/all.css" rel="stylesheet" />
+    <!-- Select2 -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/select2.min.css" rel="stylesheet">
+    <!-- bootstrap-datetimepicker -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!-- Animate -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/animate.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/pnotify.custom.min.css" rel="stylesheet">
+    <!-- Data Tables-->
+    <link href="/Rule1180CommunityAirMonitoring/vendors/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/Rule1180CommunityAirMonitoring/vendors/responsive.dataTables.min.css" rel="stylesheet">
+    <!-- ESRI Maps -->
+    <link href="https://js.arcgis.com/4.0/esri/css/main.css" rel="stylesheet">
+    <!-- Rule1180 Style -->
+    
+    <link rel="stylesheet" href="/Rule1180CommunityAirMonitoring/Content/rule1180.index.css" />
+
+    <!-- ESRI-->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css" />
+    <!-- jQuery -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/jquery.min.js"></script>
+</head>
+<body>
+    <header id="header-container" class="fixed fullwidth">
+        <!-- Header Container -->
+        <div id="header">
+            <div class="container">
+                <!-- Left Side Header Content -->
+                <div class="left-side">
+                    <!-- Logo -->
+                    <div id="logo" class="hidden-xs">
+                        <a href="/Rule1180CommunityAirMonitoring/">
+                            <img src="/Rule1180CommunityAirMonitoring/Content/Images/aqmd-logo-white.png" alt="">
+                            <span class="application-name cursor-pointer">South Coast AQMD - Rule 1180 Community Air Monitoring</span>
+                        </a>
+                    </div>
+                    
+
+                    
+                    <div class="hidden-xs subscribe-btn">
+                        <i class="fa fa-envelope-o"></i>
+                        <span><a href="/Rule1180CommunityAirMonitoring/Home/Subscribe" target="_blank">SUBSCRIBE</a></span>
+                    </div>
+                    <div id="logo" class="visible-xs" style="width: 100%;">
+                        <a href="/Rule1180CommunityAirMonitoring/"><img src="/Rule1180CommunityAirMonitoring/Content/Images/aqmd-logo-white.png" alt=""></a>
+                        <span class="application-name">Rule 1180 Community Air Monitoring</span>
+                        <div class="text-center" style="width: 100%;">
+                            
+
+                            
+                            <div class="text-center subscribe-mobile-btn">
+                                <i class="fa fa-envelope-o" style=""></i>
+                                <span><a href="/Rule1180CommunityAirMonitoring/Home/Subscribe" target="_blank">SUBSCRIBE</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Left Side Header Content / End -->
+                <!-- Right Side Header Content / End -->
+                <div class="right-side"></div>
+                <!-- Right Side Header Content / End -->
+            </div>
+        </div>
+    </header>
+    <div class="clearfix"></div>
+    <!-- Header Container / End -->
+    
+
+<!-- Map Marker Content -->
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="6" data-monitoring-site-community-name="HUDSON AIR MONITORING STATION" 
+               data-monitoring-site-banner="Hudson Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Carson and Long Beach" 
+               data-monitoring-site-latitude="33.802417" data-monitoring-site-longitude="-118.219933" data-monitoring-site-windspeed="1.4" 
+               data-monitoring-site-winddirection="22.39" data-monitoring-site-winddirectionreverse="202.39" data-monitoring-site-currenthighestpollutantpercentage="4.833" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="1.4" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="5" data-monitoring-site-community-name="HARBOR PARK AIR MONITORING STATION" 
+               data-monitoring-site-banner="Harbor Park Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Wilmington" 
+               data-monitoring-site-latitude="33.786339" data-monitoring-site-longitude="-118.286034" data-monitoring-site-windspeed="2.4" 
+               data-monitoring-site-winddirection="354.54" data-monitoring-site-winddirectionreverse="174.54" data-monitoring-site-currenthighestpollutantpercentage="2.467" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="0.7" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="8" data-monitoring-site-community-name="LEEWARD BAY MARINA AIR MONITORING STATION" 
+               data-monitoring-site-banner="Leeward Bay Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Carson and Wilmington" 
+               data-monitoring-site-latitude="33.777722" data-monitoring-site-longitude="-118.242611" data-monitoring-site-windspeed="0.9" 
+               data-monitoring-site-winddirection="266.60" data-monitoring-site-winddirectionreverse="86.60" data-monitoring-site-currenthighestpollutantpercentage="0" 
+               data-monitoring-site-currenthighestpollutantdesc="" data-monitoring-site-currenthighestvalue="N/A" 
+               data-monitoring-site-currenthighestunit="" data-monitoring-site-currenthighestthreshold="0"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="9" data-monitoring-site-community-name="INNER PORT AIR MONITORING STATION" 
+               data-monitoring-site-banner="Inner Port Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Long Beach" 
+               data-monitoring-site-latitude="33.781534" data-monitoring-site-longitude="-118.213713" data-monitoring-site-windspeed="0.0" 
+               data-monitoring-site-winddirection="334.63" data-monitoring-site-winddirectionreverse="154.63" data-monitoring-site-currenthighestpollutantpercentage="15.065" 
+               data-monitoring-site-currenthighestpollutantdesc="Acetaldehyde" data-monitoring-site-currenthighestvalue="39.2" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="260"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="10" data-monitoring-site-community-name="ST LUKE AIR MONITORING STATION" 
+               data-monitoring-site-banner="St Luke Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Long Beach" 
+               data-monitoring-site-latitude="33.819472" data-monitoring-site-longitude="-118.211528" data-monitoring-site-windspeed="1.6" 
+               data-monitoring-site-winddirection="14.93" data-monitoring-site-winddirectionreverse="194.93" data-monitoring-site-currenthighestpollutantpercentage="6.131" 
+               data-monitoring-site-currenthighestpollutantdesc="Acetaldehyde" data-monitoring-site-currenthighestvalue="15.9" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="260"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="13" data-monitoring-site-community-name="JUDSON AIR MONITORING STATION" 
+               data-monitoring-site-banner="Judson Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Carson" 
+               data-monitoring-site-latitude="33.825056" data-monitoring-site-longitude="-118.268333" data-monitoring-site-windspeed="0.5" 
+               data-monitoring-site-winddirection="8.45" data-monitoring-site-winddirectionreverse="188.45" data-monitoring-site-currenthighestpollutantpercentage="4.233" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="1.3" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="14" data-monitoring-site-community-name="FIRST METHODIST AIR MONITORING STATION" 
+               data-monitoring-site-banner="First Methodist Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Wilmington" 
+               data-monitoring-site-latitude="33.782233" data-monitoring-site-longitude="-118.267534" data-monitoring-site-windspeed="1.1" 
+               data-monitoring-site-winddirection="13.36" data-monitoring-site-winddirectionreverse="193.36" data-monitoring-site-currenthighestpollutantpercentage="2.667" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="0.8" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="22" data-monitoring-site-community-name="G STREET AIR MONITORING STATION" 
+               data-monitoring-site-banner="G Street Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Wilmington" 
+               data-monitoring-site-latitude="33.777850" data-monitoring-site-longitude="-118.281800" data-monitoring-site-windspeed="2.5" 
+               data-monitoring-site-winddirection="325.28" data-monitoring-site-winddirectionreverse="145.28" data-monitoring-site-currenthighestpollutantpercentage="2.500" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="0.8" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="24" data-monitoring-site-community-name="213TH &amp; CHICO AIR MONITORING STATION" 
+               data-monitoring-site-banner="213th &amp; Chico Air Monitoring Station" data-monitoring-site-commissioned="False" data-monitoring-site-description="Community of Carson" 
+               data-monitoring-site-latitude="33.836781" data-monitoring-site-longitude="-118.258583" data-monitoring-site-windspeed="99999" 
+               data-monitoring-site-winddirection="99999" data-monitoring-site-winddirectionreverse="99999" data-monitoring-site-currenthighestpollutantpercentage="9999" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="0" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="0"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="11" data-monitoring-site-community-name="MANHATTAN BEACH AIR MONITORING STATION " 
+               data-monitoring-site-banner="Manhattan Beach Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Manhattan Beach" 
+               data-monitoring-site-latitude="33.890196" data-monitoring-site-longitude="-118.401469" data-monitoring-site-windspeed="5.7" 
+               data-monitoring-site-winddirection="91.19" data-monitoring-site-winddirectionreverse="271.19" data-monitoring-site-currenthighestpollutantpercentage="9.545" 
+               data-monitoring-site-currenthighestpollutantdesc="Formaldehyde" data-monitoring-site-currenthighestvalue="4.2" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="44"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="7" data-monitoring-site-community-name="EL SEGUNDO AIR MONITORING STATION" 
+               data-monitoring-site-banner="El Segundo Air Monitoring Station" data-monitoring-site-commissioned="False" data-monitoring-site-description="Community of El Segundo" 
+               data-monitoring-site-latitude="33.920611" data-monitoring-site-longitude="-118.407111" data-monitoring-site-windspeed="99999" 
+               data-monitoring-site-winddirection="99999" data-monitoring-site-winddirectionreverse="99999" data-monitoring-site-currenthighestpollutantpercentage="0" 
+               data-monitoring-site-currenthighestpollutantdesc="" data-monitoring-site-currenthighestvalue="N/A" 
+               data-monitoring-site-currenthighestunit="" data-monitoring-site-currenthighestthreshold="0"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="15" data-monitoring-site-community-name="ST ANTHONY AIR MONITORING STATION" 
+               data-monitoring-site-banner="St Anthony Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of El Segundo" 
+               data-monitoring-site-latitude="33.918871" data-monitoring-site-longitude="-118.407927" data-monitoring-site-windspeed="99999" 
+               data-monitoring-site-winddirection="99999" data-monitoring-site-winddirectionreverse="99999" data-monitoring-site-currenthighestpollutantpercentage="0" 
+               data-monitoring-site-currenthighestpollutantdesc="" data-monitoring-site-currenthighestvalue="N/A" 
+               data-monitoring-site-currenthighestunit="" data-monitoring-site-currenthighestthreshold="0"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="12" data-monitoring-site-community-name="GUENSER PARK AIR MONITORING STATION" 
+               data-monitoring-site-banner="Guenser Park Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Torrance" 
+               data-monitoring-site-latitude="33.870487" data-monitoring-site-longitude="-118.313445" data-monitoring-site-windspeed="1.9" 
+               data-monitoring-site-winddirection="43.05" data-monitoring-site-winddirectionreverse="223.05" data-monitoring-site-currenthighestpollutantpercentage="5.131" 
+               data-monitoring-site-currenthighestpollutantdesc="Acetaldehyde" data-monitoring-site-currenthighestvalue="13.3" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="260"/>
+        <input type="hidden" class="monitoring-site" data-monitoring-site-id="17" data-monitoring-site-community-name="ELM AVENUE AIR MONITORING STATION" 
+               data-monitoring-site-banner="Elm Avenue Air Monitoring Station" data-monitoring-site-commissioned="True" data-monitoring-site-description="Community of Torrance" 
+               data-monitoring-site-latitude="33.837648" data-monitoring-site-longitude="-118.331447" data-monitoring-site-windspeed="0.0" 
+               data-monitoring-site-winddirection="51.89" data-monitoring-site-winddirectionreverse="231.89" data-monitoring-site-currenthighestpollutantpercentage="1.867" 
+               data-monitoring-site-currenthighestpollutantdesc="Hydrogen Sulfide" data-monitoring-site-currenthighestvalue="0.6" 
+               data-monitoring-site-currenthighestunit="ppb" data-monitoring-site-currenthighestthreshold="30"/>
+
+<!-- Community Name-->
+    <input id="community-code" type="hidden" data-community-code="all" />
+
+
+<!-- System test notice (site-level; shown on "link to the data" when schedule is active) -->
+<script type="application/json" id="system-test-schedules-data">[{"SiteId":"9","StartDateTime":"2026-07-31T07:00:00.0000000","EndDateTime":"2026-07-31T19:00:00.0000000","Title":"System Audit In Progress","Message":"A planned system audit is currently in progress at the Inner Port Community Air Monitoring Station. Data displayed at this station may not be ambient readings due to the audit. All other stations remain available, and data can be viewed online."}]</script>
+<div id="system-test-alert-overlay" class="system-test-alert-overlay is-hidden" role="dialog" aria-labelledby="system-test-alert-title" aria-modal="true">
+    <div class="system-test-alert-panel">
+        <button type="button" class="system-test-alert-close" id="system-test-alert-close" aria-label="Close">&times;</button>
+        <h4 id="system-test-alert-title">System Test in Progress</h4>
+        <p id="system-test-alert-message"></p>
+        <button type="button" class="btn btn-primary" id="system-test-alert-ok">OK</button>
+    </div>
+</div>
+<!-- Map Right Hand Side Panel & Chart Content -->
+<div class="rule1180-container">
+    <div class="rule1180-inner-container content">
+        <div class="rule1180-content">
+            <!-- Default Right Hand Side Content -->
+            <div id="community-content-loader" class="hidden">
+                <div class="bold">Please wait</div>
+                <img src="/Rule1180CommunityAirMonitoring/Content/Images/ajax-loader.gif" />
+            </div>
+            <div id="rule1180-default-content">
+                
+
+<i class="fa fa-chevron-up pr15 expand-info-hook visible-xs visible-sm"></i>
+<div>
+    <ul class="accordion">
+        <li>
+            <a class="accordion-header active" style="cursor: pointer;">
+                <div class="title">
+                    <i class="fa fa-adjust"></i>
+                    <span>Current Highest</span>
+                </div>
+            </a>
+            <div class="accordion-content">
+                <div id="current-highest-container" class="accordion-content">
+                    <div id="current-highest-loader">
+                        <div class="bold">Loading data</div>
+                        <img src="/Rule1180CommunityAirMonitoring/Content/Images/ajax-loader.gif" />
+                    </div>
+                    <div id="current-hightest-sub-container" class="hidden">
+                        <div class="progress-label">Color range of current highest value (in percentage) of the threshold</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-range-1">
+                                <span class="">0% - 50%</span>
+                            </div>
+                            <div class="progress-bar progress-bar-range-2">
+                                <span class="">51% - 75%</span>
+                            </div>
+                            <div class="progress-bar progress-bar-range-3">
+                                <span class="">76% - 98%</span>
+                            </div>
+                            <div class="progress-bar progress-bar-range-4">
+                                <span class="">99% & above</span>
+                            </div>
+                        </div>
+
+
+                                    <div class="communityname">Community of Long Beach/Carson/Wilmington/San Pedro</div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Hudson Air Monitoring Station</div>
+                                        <div class="station-description">Community of Carson and Long Beach</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>1.4 ppb <span class="pl5" style="color:#c8c8c8">(4.8% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="6" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="4.8" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">1.4<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Harbor Park Air Monitoring Station</div>
+                                        <div class="station-description">Community of Wilmington</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>0.7 ppb <span class="pl5" style="color:#c8c8c8">(2.5% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="5" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="2.5" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">0.7<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Inner Port Air Monitoring Station</div>
+                                        <div class="station-description">Community of Long Beach</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Acetaldehyde (C2H4O)</span></p>
+                                        <p class="value-label">Current Highest: <span>39.2 ppb <span class="pl5" style="color:#c8c8c8">(15.1% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="9" data-parameter-id="64" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="15.1" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">39.2<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(260 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">St Luke Air Monitoring Station</div>
+                                        <div class="station-description">Community of Long Beach</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Acetaldehyde (C2H4O)</span></p>
+                                        <p class="value-label">Current Highest: <span>15.9 ppb <span class="pl5" style="color:#c8c8c8">(6.1% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="10" data-parameter-id="64" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="6.1" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">15.9<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(260 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Judson Air Monitoring Station</div>
+                                        <div class="station-description">Community of Carson</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>1.3 ppb <span class="pl5" style="color:#c8c8c8">(4.2% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="13" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="4.2" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">1.3<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">First Methodist Air Monitoring Station</div>
+                                        <div class="station-description">Community of Wilmington</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>0.8 ppb <span class="pl5" style="color:#c8c8c8">(2.7% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="14" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="2.7" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">0.8<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">G Street Air Monitoring Station</div>
+                                        <div class="station-description">Community of Wilmington</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>0.8 ppb <span class="pl5" style="color:#c8c8c8">(2.5% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="22" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="2.5" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">0.8<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="communityname">Community of Manhattan Beach</div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Manhattan Beach Air Monitoring Station</div>
+                                        <div class="station-description">Community of Manhattan Beach</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Formaldehyde (CH2O)</span></p>
+                                        <p class="value-label">Current Highest: <span>4.2 ppb <span class="pl5" style="color:#c8c8c8">(9.5% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="11" data-parameter-id="66" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="9.5" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">4.2<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(44 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="communityname">Community of El Segundo</div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">St Anthony Air Monitoring Station</div>
+                                        <div class="station-description">Community of El Segundo</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>N/A</span></p>
+                                        <p class="value-label">Current Highest: <span>N/A </span></p>
+                                    </div>
+                                    
+                                    <div class="knob-container" data-monitoring-site-id="15" data-parameter-id="0" data-duration-id="0">
+                                        <input class="knob main" data-current-highest-percentage="0" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.05" data-angleOffset="270" data-angleArc="180" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="value-below-mdl">Below MDL</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="communityname">Community of Torrance</div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Guenser Park Air Monitoring Station</div>
+                                        <div class="station-description">Community of Torrance</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Acetaldehyde (C2H4O)</span></p>
+                                        <p class="value-label">Current Highest: <span>13.3 ppb <span class="pl5" style="color:#c8c8c8">(5.1% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="12" data-parameter-id="64" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="5.1" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">13.3<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(260 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-content">
+                                        <div class="station-name">Elm Avenue Air Monitoring Station</div>
+                                        <div class="station-description">Community of Torrance</div>
+                                        <p class="pollutant-name-label">Pollutant: <span>Hydrogen Sulfide (H2S)</span></p>
+                                        <p class="value-label">Current Highest: <span>0.6 ppb <span class="pl5" style="color:#c8c8c8">(1.9% of threshold)</span></span></p>
+                                    </div>
+                                    <div class="knob-container" data-monitoring-site-id="17" data-parameter-id="38" data-duration-id="12">
+                                        <input class="knob main" data-current-highest-percentage="1.9" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="269" data-angleArc="134" data-displayInput=false data-readOnly=true />
+                                        <input class="knob red" data-width="115" type='text' data-linecap=round value='0' data-thickness="0.09" data-angleOffset="59" data-angleArc="32" data-displayInput=false data-readOnly=true />
+                                        <div class="content">
+                                            <div class="header-label">Current Highest</div>
+                                            <div class="value">0.6<span class="unit">ppb</span></div>
+                                        </div>
+                                        <div class="threshold-marker-container">
+                                            <div class="marker">
+                                                <div class="marker-stem"></div>
+                                            </div>
+                                            <div class="text">
+                                                <p class="label">Threshold</p>
+                                                <p class="value">(30 ppb)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a class="accordion-header" style="cursor: pointer;">
+                <div class="title">
+                    <i class="fa fa-th-list"></i>
+                    <span>Legend</span>
+                </div>
+            </a>
+            <div class="accordion-content hidden">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="circle circle-community-station pull-left mt5"></div>
+                        <br />
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Community Air Monitoring Station</span></div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div style="margin-left: 3px" class="pull-left mt5">
+                            <i class="fa fa-arrow-circle-up" style="font-size: 25px; color: blue"></i>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Community Air Monitoring Station With Wind Direction</span></div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="circle circle-torrance-station pull-left mt5"></div>
+                        <br />
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Torrance Air Stations</span></div>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="circle circle-decommission-station pull-left mt5"></div>
+                        <br />
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Decommissioned Air Monitoring Station</span></div>
+                        <br />
+                    </div>
+                </div>
+                
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/refinery_icon.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Refinery</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Chevron_Refinery_El_Segundo.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Chevron Refinery El Segundo</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Marathon_Refinery_Carson.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Marathon Refinery Carson</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Marathon_Refinery_Wilmington.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Marathon Refinery Wilmington</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Phillips_66_Refinery_Carson.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Phillips 66 Refinery Carson</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Phillips_66_Refinery_Wilmington.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Phillips 66 Refinery Wilmington</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Torrance_Refinery.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Torrance Refinery</span></div>
+                    </div>
+                </div>
+                <div class="row mt0 pb15">
+                    <div class="col-xs-2">
+                        <div class="pull-left">
+                            <img class="station-banner-legend" src="/Rule1180CommunityAirMonitoring/Content/Images/Valero_Wilmington.png" />
+                        </div>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="legend-text"><span>Valero Wilmington</span></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a class="accordion-header" style="cursor: pointer;">
+                <div class="title">
+                    <i class="fa fa-users"></i>
+                    <span>COMMUNITY AIR MONITORING</span>
+                </div>
+            </a>
+            <div class="accordion-content hidden">
+                <b>Community Air Monitoring</b> near all major refineries in the South Coast Air Basin (Basin) is being conducted as part of the
+                <a href="http://www.aqmd.gov/Rule1180" target="_blank">Rule 1180 Program.</a> Rule 1180 was adopted by the South Coast AQMD Governing
+                Board on December 1, 2017 and requires all large petroleum refineries in the Basin to collect emission data at or near their fenceline,
+                and to provide data quickly to the public. To this end refineries are required to install and operate continuous fenceline air monitoring
+                systems to monitor a comprehensive list of criteria and toxic air pollutants in real-time. Rule 1180 also establishes a fee schedule,
+                to be paid by the refineries, for the cost of designing, developing, installing, operating and maintaining refinery-related community
+                air monitoring sites. Community air monitoring is conducted by the South Coast AQMD in accordance to the Rule 1180
+                <a href="http://www.aqmd.gov/docs/default-source/fenceline_monitroing/r1180_draft_community_monitoring_plan_final_111919.pdf?sfvrsn=8" target="_blank">Community Air Monitoring Plan (CAMP).</a>
+                <br /><br />
+                <b>Main Goals & Objectives</b>
+                <br />
+                <b>- </b>Implement a robust, continuous and near real-time community air monitoring network near all refineries in the Basin;<br />
+                <b>- </b>Provide near real-time air quality information through a dedicated website to inform the public of current air quality conditions in their community;<br />
+                <b>- </b>Notify the public in case the ambient concentration of one or more air pollutants exceeds pre-determined thresholds;<br />
+                <b>- </b>Collect air pollution data suitable for short- and long-term air quality assessments;<br />
+                <b>- </b>Provide up-to-date community air quality data;<br />
+                <b>- </b>Promote awareness of the potential impact of refinery emissions on air quality through public education;<br />
+                <b>- </b>Track progress in improving community air quality.
+                <br />
+            </div>
+        </li>
+        <li>
+            <a class="accordion-header" style="cursor: pointer;">
+                <div class="title">
+                    <i class="fa fa-question-circle"></i>
+                    <span>Instructions</span>
+                </div>
+            </a>
+            <div class="accordion-content hidden" style="height:44.7vh">
+                <span class="text-justify pr10">
+                    To see current air quality conditions in your community click on the blue dot closest to your area of interest and then on the link to the data.
+                    By clicking on any refinery icon you will be able to access the corresponding fenceline air monitoring website and data.
+                    Clicking on the South Coast AQMD logo in the upper left corner will allow you to return to the main map.
+                    <br />
+                </span>
+            </div>
+        </li>
+        <li>
+            <a class="accordion-header" style="cursor: pointer;">
+                <div class="title">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span>Disclaimer</span>
+                </div>
+            </a>
+            <div class="accordion-content hidden">
+                <span class="text-justify pr10">
+                    Data directly reported through the automatic South Coast AQMD real time monitors have not been validated extensively, and is therefore subject to
+                    change. The results from these monitors alone cannot be used to infer health effects, but they do provide a general sense of how much of the
+                    measured pollutants are in the community at a given time. Use of South Coast AQMD’s air quality monitoring data is at the user’s discretion
+                    and should be done with caution.
+                    <br /><br />
+                    Data, information, and maps from this community air monitoring network only provide air quality information at the time of the measurements
+                    and may not adequately represent air quality conditions experienced over longer time periods. Measurements from continuous instruments may
+                    be disrupted for periodic maintenance and quality checks, as well as unforeseen power failures and instrument malfunctions. Local environmental
+                    conditions (e.g. meteorology) can vary widely across the region and may also have a substantial impact on the air quality measurements.
+                    <br /><br />
+                    South Coast AQMD provides no guarantee, either expressed or implied, as to the accuracy, reliability or completeness of data furnished
+                    via the website. Further, South Coast AQMD shall not be liable under any circumstances for any direct, special, incidental or consequential
+                    damages with respect to any claim by any user or third party as a result of, or arising from, the use of this data.
+                    <br />
+                </span>
+            </div>
+        </li>
+    </ul>
+</div>
+
+            </div>
+            <div id="community-ajax-main-container">
+                <div id="collapseRightHandSidePanel" data-toggle="tooltip" title="collapse side panel" data-placement="left"><i class="fa fa-chevron-right"></i></div>
+                <div id="community-ajax-container"></div>
+            </div>
+            <!-- Footer -->
+            <div class="footer-row row">
+    <div class="col-md-12">
+        <div class="footer-logo-container">
+            <img alt="Logo" src="/Rule1180CommunityAirMonitoring/Content/Images/AQMD_Brand.png" class="img-responsive">
+            <div class="footer-text">
+                <p style=""> South Coast Air Quality Management District </p>
+                <p> 21865 Copley Dr, Diamond Bar, CA 91765 </p>
+                <p> 909-396-2000 </p>
+            </div>
+            <div class="footer-text-links">
+                <a href="http://www.aqmd.gov/nav/about/initiatives/community-efforts/environmental-justice/ab617-134/ab-617-community-air-monitoring/disclaimer" target="_blank">Disclaimer</a>
+                <a href="http://www.aqmd.gov/home/rules-compliance/rules/support-documents/rule-1180-refinery-fenceline-monitoring-plans/faqs" target="_blank">FAQs</a>
+                <a href="http://www.aqmd.gov/home/rules-compliance/rules/support-documents/rule-1180-refinery-fenceline-monitoring-plans/contact" target="_blank">Contact</a>
+            </div>
+        </div>
+        <div class="footer-second-container">
+            <span> © 2019 South Coast AQMD</span>
+            <p>
+                <a href="mailto:webinquiry@aqmd.gov">Questions/Need Info?</a>
+                <span class="pl5 pr5">|</span>
+                <a href="mailto:webeditor@aqmd.gov">Report Website Problem</a>
+            </p>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+    <div class="rule1180-inner-container map-fixed">
+        <!-- Map Loader-->
+        <div id="map-loader">
+            <div>Loading Map</div>
+            <img src="/Rule1180CommunityAirMonitoring/Content/Images/ajax-loader.gif" />
+        </div>
+        <!-- Map -->
+        <div id="map-container">
+            <div id="viewDiv"></div>
+        </div>
+        <!-- Chart-->
+        <div id="chart-ajax-container">
+            <div id="chart-container" class="hidden">
+                <div id="chart-loader" class="hidden">
+                    <div>Drawing Chart</div>
+                    <img src="/Rule1180CommunityAirMonitoring/Content/Images/ajax-loader.gif" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Bootstrap -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/fastclick.js"></script>
+    <!-- iCheck -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/iCheck/icheck.min.js"></script>
+    <!-- DateJS -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/date.js"></script>
+    <!-- bootstrap-datetimepicker -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/moment.min.js"></script>
+    <script src="/Rule1180CommunityAirMonitoring/vendors/bootstrap-datetimepicker.min.js"></script>
+    <!-- Select2 -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/select2.full.min.js"></script>
+    <!-- PNotify -->
+    <script src="/Rule1180CommunityAirMonitoring/vendors/pnotify.custom.min.js"></script>
+    <!-- Moments -->
+    <script src="/Rule1180CommunityAirMonitoring/Vendors/moment.min.js"></script>
+    <!-- ECharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts.min.js"></script>
+    <!-- jQuery Knob -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="/Rule1180CommunityAirMonitoring/Scripts/rule1180.layout.js"></script>
+    <script src="/Rule1180CommunityAirMonitoring/Scripts/rule1180.global.js"></script>
+    <script src="/Rule1180CommunityAirMonitoring/Scripts/rule1180.chart.themes.js"></script>
+    <script src="/Rule1180CommunityAirMonitoring/Scripts/rule1180.site.js"></script>
+    <input id="baseUrl" name="baseUrl" type="hidden" value="{ id = baseUrl }" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#baseUrl").val("/Rule1180CommunityAirMonitoring/");
+        });
+    </script>
+    
+    <!-- ESRI-->
+    <script src="https://js.arcgis.com/4.11/"></script>
+    <script src="https://js.arcgis.com/4.12/"></script>
+    <script src="/Rule1180CommunityAirMonitoring/Scripts/rule1180.index.js"></script>
+
+</body>
+</html>

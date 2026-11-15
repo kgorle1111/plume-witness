@@ -1,0 +1,114 @@
+[
+ {
+  "file": "region_los_angeles/1hr_q1_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q1/1hr_q1_2020.zip?sfvrsn=ca54b661_2",
+  "params": null,
+  "bytes": 17340,
+  "sha256": "2eb767632ef2f005620833a046920705f81c36e36ed690d6b610cc6f215afa22",
+  "fetched_at": "2026-11-15T16:50:02+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q1_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q1/1hr_q1_2021.zip?sfvrsn=4d55b661_2",
+  "params": null,
+  "bytes": 398953,
+  "sha256": "e6c16ed6bae48ffabb9406ee986ea490a63faf34959c626fa27c641ef71efe7f",
+  "fetched_at": "2026-11-15T16:50:12+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q1_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q1/1hr_q1_2022.zip?sfvrsn=ce55b661_2",
+  "params": null,
+  "bytes": 576794,
+  "sha256": "c25c251b678046dc6effe492a7405e957c94005aba32fd482db66d34d9683bce",
+  "fetched_at": "2026-11-15T16:50:22+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q2/1hr_q2_2020.zip?sfvrsn=2055b661_2",
+  "params": null,
+  "bytes": 250120,
+  "sha256": "030b0441ef5a64b18fca6bad1766e5430ce912dd3ab01cc5c7df8687a52d41fe",
+  "fetched_at": "2026-11-15T16:50:04+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q2/1hr_q2_2021.zip?sfvrsn=9d55b661_2",
+  "params": null,
+  "bytes": 390238,
+  "sha256": "054de606c9f41a3afe7697f0a5b0273a16dfd22bf92908ada4705cd3bd7f532b",
+  "fetched_at": "2026-11-15T16:50:14+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q2_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q2/1hr_q2_2022.zip?sfvrsn=7f52b661_2",
+  "params": null,
+  "bytes": 481488,
+  "sha256": "d6333eb6c570916935fcfdc5f67f1b255744d3111b2a62a84fe6c11d1d9ca70d",
+  "fetched_at": "2026-11-15T16:50:24+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q3/1hr_q3_2020.zip?sfvrsn=e55b661_2",
+  "params": null,
+  "bytes": 277764,
+  "sha256": "4f1831552607d5092309acff7b0791817f1e974e6e76d9942607c8b20cbda351",
+  "fetched_at": "2026-11-15T16:50:07+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q3/1hr_q3_2021.zip?sfvrsn=8a55b661_2",
+  "params": null,
+  "bytes": 492251,
+  "sha256": "3a40604f986e5badefe947539dcf7113f6250a2b2fe612e9a981c65310fc162e",
+  "fetched_at": "2026-11-15T16:50:17+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q3_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q3/1hr_q3_2022.zip?sfvrsn=5952b661_2",
+  "params": null,
+  "bytes": 535087,
+  "sha256": "dc7e45ba75922150c3010bf4d04d6a419e20175833efc376c1aac868af178664",
+  "fetched_at": "2026-11-15T16:50:27+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2020.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2020/q4/1hr_q4_2020.zip?sfvrsn=6c55b661_2",
+  "params": null,
+  "bytes": 405626,
+  "sha256": "41654497e99e03ad9872ce8dcaef8c6d03c85166e7512a6d7ebe53aa806be513",
+  "fetched_at": "2026-11-15T16:50:09+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2021.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2021/q4/1hr_q4_2021.zip?sfvrsn=e855b661_2",
+  "params": null,
+  "bytes": 578937,
+  "sha256": "2d8734baed0b40793b43b9263a05846dffdd69169c28c21eba367205dc32d325",
+  "fetched_at": "2026-11-15T16:50:19+00:00"
+ },
+ {
+  "file": "region_los_angeles/1hr_q4_2022.zip",
+  "url": "https://www.aqmd.gov/docs/default-source/compliance/rule-1180/generated-on-july-27-2023---files-for-data-download/2022/q4/1hr_q4_2022.zip?sfvrsn=bf52b661_2",
+  "params": null,
+  "bytes": 603926,
+  "sha256": "57536537a42abd3960f0d73a0b5bfbb5e2a68141f6065bf609729619e16a9839",
+  "fetched_at": "2026-11-15T16:49:36+00:00"
+ },
+ {
+  "file": "region_los_angeles/r1180_bulk_download.html",
+  "url": "https://www.aqmd.gov/home/rules-compliance/rules/support-documents/rule-1180-refinery-fenceline-monitoring-plans/rule-1180-community-air-monitoring/rule-1180-historical-data-bulk-download",
+  "params": null,
+  "bytes": 141370,
+  "sha256": "0a270bb3a851aa8b19a638dda8825e3773b6c7039c00ebcad300f3c7210a732f",
+  "fetched_at": "2026-11-15T16:49:21+00:00"
+ },
+ {
+  "file": "region_los_angeles/r1180_portal.html",
+  "url": "https://xappprod.aqmd.gov/Rule1180CommunityAirMonitoring/",
+  "params": null,
+  "bytes": 62502,
+  "sha256": "d85ee6a4fb3f36b9f79c468a4b0098d648a33f38d2b4a88bcccc38194756e1d5",
+  "fetched_at": "2026-11-15T16:52:54+00:00"
+ }
+]

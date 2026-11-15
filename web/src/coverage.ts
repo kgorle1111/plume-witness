@@ -1,7 +1,8 @@
 // Pure helpers for the statewide coverage page (Coverage.tsx). Self-contained, with .ts imports, so
 // `node --test test/coverage.test.ts` can load it without a bundler.
 //
-// coverage.json lists every state hourly benzene monitor (TCEQ AutoGC) and what each recorded in the years covered.
+// coverage.json lists every state hourly benzene monitor in Texas (TCEQ AutoGC) and the Los Angeles Rule 1180
+// community stations (South Coast AQMD AutoGC), and what each recorded in the years covered.
 // A spike count is how many times a monitor crossed the trigger; it is a question to check, never a finding, and a 0
 // only means no hour crossed the trigger (not that the air was clean).
 import { loadJson } from './facilities.ts'
@@ -9,6 +10,13 @@ import { REGIONS, regionQuery, type Regions } from './region.ts'
 
 export const WIND_SOURCES = ['met', 'autogc', 'borrowed'] as const
 export type WindSource = (typeof WIND_SOURCES)[number]
+
+/** Where a monitor is: Texas (the TCEQ list) or another monitored area. A file without the field is all Texas. */
+export const AREAS = {
+  texas: { en: 'Texas', es: 'Texas' },
+  los_angeles: { en: 'Los Angeles', es: 'Los Ángeles' },
+} as const
+export type Area = keyof typeof AREAS
 
 export interface CoverageSite {
   site_id: string
@@ -26,6 +34,7 @@ export interface CoverageSite {
   max_butadiene_ppb: number | null
   spikes: number
   by_status: Record<string, number>
+  area: Area
 }
 
 export interface Coverage {
@@ -35,7 +44,8 @@ export interface Coverage {
 }
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
-const SITE_ID = /^\d{2}_\d{3}_\d{4}$/
+// A TCEQ AQS id (48_201_0069), or a Rule 1180 station's file code (r1180_HDSN).
+const SITE_ID = /^(\d{2}_\d{3}_\d{4}|r1180_[A-Z]{4})$/
 const REGION_KEY = /^[a-z][a-z0-9_]*$/
 
 function str(o: Record<string, unknown>, k: string, where: string): string {
@@ -78,6 +88,8 @@ function parseSite(raw: unknown, i: number): CoverageSite {
     return y
   })
   const spikes = count(raw.spikes, `${at}: spikes`)
+  const area = raw.area === undefined ? 'texas' : raw.area
+  if (typeof area !== 'string' || !Object.hasOwn(AREAS, area)) throw new Error(`${at}: area must be one of ${Object.keys(AREAS).join(', ')}`)
   if (!isObj(raw.by_status)) throw new Error(`${at}: by_status must be an object`)
   const by_status: Record<string, number> = {}
   for (const [k, v] of Object.entries(raw.by_status)) by_status[k] = count(v, `${at}: by_status.${k}`)
@@ -86,7 +98,7 @@ function parseSite(raw: unknown, i: number): CoverageSite {
   const site: CoverageSite = {
     site_id, name: str(raw, 'name', at), county: str(raw, 'county', at), region_key,
     lat: num(raw, 'lat', at, -90, 90), lon: num(raw, 'lon', at, -180, 180), has_data: raw.has_data,
-    wind_source: wind as WindSource | null, years, spikes, by_status,
+    wind_source: wind as WindSource | null, years, spikes, by_status, area: area as Area,
     max_benzene_ppb: maxPpb(raw, 'max_benzene_ppb', at), max_butadiene_ppb: maxPpb(raw, 'max_butadiene_ppb', at),
   }
   // A monitor with no readings cannot have crossed the trigger or have a highest value; one that says so is a pipeline bug.
@@ -138,6 +150,8 @@ export interface CoverageSummary {
   crossedNotReplayed: number
   /** Replayable region keys with at least one monitor in the file, in registry order. */
   regions: string[]
+  /** Monitored areas other than Texas with at least one monitor in the file, in AREAS order. */
+  areas: Area[]
   /** First and last year any monitor covers, or null when none lists a year. */
   years: [number, number] | null
 }
@@ -154,6 +168,7 @@ export function coverageSummary(c: Coverage, regions: Regions = REGIONS): Covera
     spikes: c.sites.reduce((a, s) => a + s.spikes, 0),
     crossedNotReplayed: crossed.filter((s) => !replayable(s.region_key, regions)).length,
     regions: Object.keys(regions).filter((k) => inFile.has(k)),
+    areas: (Object.keys(AREAS) as Area[]).filter((a) => a !== 'texas' && c.sites.some((s) => s.area === a)),
     years: allYears.length ? [Math.min(...allYears), Math.max(...allYears)] : null,
   }
 }
@@ -239,11 +254,11 @@ export type Bounds = [[west: number, south: number], [east: number, north: numbe
 export const TEXAS: Bounds = [[-106.7, 25.8], [-93.5, 36.55]]
 
 /**
- * What the map frames: all of Texas (key null; widened if a monitor sits outside it), or one region's monitors with
- * room around them. A key no monitor has frames Texas.
+ * What the map frames: all of Texas (key null: the Texas monitors, widened if one sits outside the frame), or one
+ * region's or one area's monitors with room around them. A key no monitor has frames Texas.
  */
 export function viewBounds(sites: readonly CoverageSite[], key: string | null, pad = 0.08): Bounds {
-  const pick = key === null ? sites : sites.filter((s) => s.region_key === key)
+  const pick = key === null ? sites.filter((s) => s.area === 'texas') : sites.filter((s) => s.region_key === key || s.area === key)
   if (key !== null && !pick.length) return viewBounds(sites, null)
   const [[w0, s0], [e0, n0]] = key === null ? TEXAS : [[Infinity, Infinity], [-Infinity, -Infinity]]
   let w = w0, s = s0, e = e0, n = n0

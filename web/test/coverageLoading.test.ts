@@ -16,6 +16,6 @@ test('the loading state is the page column with the same header the loaded page 
   const html = renderToStaticMarkup(createElement(mod.default))
   assert.match(html, /^<main class="cv-page" aria-busy="true"><header class="cv-head">/)
   assert.match(html, /<h1>[^<]+<\/h1><p class="cv-sub">[^<]+<\/p><\/header>/)
-  assert.match(html, /Loading the statewide monitor list/)
+  assert.match(html, /Loading the monitor list/)
   assert.ok(!html.includes('state-msg'), html)
 })
