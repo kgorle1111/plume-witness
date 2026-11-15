@@ -192,7 +192,7 @@ def _travel(p: dict, inc: dict, det_local: datetime, speed_mph: float | None) ->
 def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
                  search_complete: bool, param: str, ongoing: list[dict] | None = None,
                  earlier_complete: bool = False, earlier_note: str = "", calm_note: str = "",
-                 speed_mph: float | None = None) -> dict:
+                 speed_mph: float | None = None, county: str = "Harris") -> dict:
     """Did ANY facility in the corridor file a matching emissions-event report? Checked at T+24h and T+14d.
 
     A report matches if it was running at any time in [spike - 6 h, spike + 2 h]; it may have started on an
@@ -209,7 +209,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         return datetime.fromisoformat(inc["start_local"]) <= hi and datetime.fromisoformat(inc["end_local"]) >= lo
 
     still_open = [p for p in ongoing or [] if overlaps(p)]
-    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
+    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in {county} County "
              f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
     scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
     if calm_note:
@@ -261,7 +261,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
 
 
 def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict,
-                    day: str = EVENT["day"], param: str = EVENT["param"]) -> dict:
+                    day: str = EVENT["day"], param: str = EVENT["param"], county: str = "Harris") -> dict:
     """Deterministic EN/ES draft built only from event fields (Gemini drafting is a later, guarded stretch)."""
     name_en, name_es = COMPOUNDS[param]
     trig = next(m for m in monitors if m["site_id"] == det["site_id"])
@@ -298,9 +298,9 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   "explica estas lecturas.")
     elif rc["status"] == "no_report_after_deadline":
         rec_en = (" No matching report found in a complete search of that day's emissions-event records for "
-                  "Harris County. That does not show who or what caused the reading.")
+                  f"{county} County. That does not show who or what caused the reading.")
         rec_es = (" No se encontró un informe correspondiente en una búsqueda completa de los registros de eventos "
-                  "de emisiones de ese día en el condado de Harris. Eso no indica quién o qué causó la lectura.")
+                  f"de emisiones de ese día en el condado de {county}. Eso no indica quién o qué causó la lectura.")
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
@@ -355,7 +355,8 @@ def load_wind(site: str, year: str, day: str, raw: Path = RAW) -> dict:
 
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
           details: dict[str, dict], complete: bool, det_day: date, param: str,
-          earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "") -> dict:
+          earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "",
+          county: str = "Harris") -> dict:
     """Detect -> corridor -> place the day's reports -> record check. The one code path build and backtest share.
 
     wind_site None means: use the triggering monitor's own wind. Returns detection None when nothing triggered,
@@ -391,7 +392,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     speed = speeds[1] if speeds[1] is not None else speeds[0]
     rc = record_check(placed, details | earlier, det_day, h, search_complete=complete, param=param, ongoing=ongoing,
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
-                      speed_mph=speed)
+                      speed_mph=speed, county=county)
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
             "facilities": facilities, "record_check": rc}
 
@@ -409,26 +410,36 @@ CANNOT_SAY = [
 
 
 def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, event_id: str,
-                   provenance: list[dict]) -> dict:
+                   provenance: list[dict], region=None) -> dict:
     """One event.json from a finished trace(). build() and pipeline.nights both call this, so a replayed night
-    is the same document the demo night is."""
+    is the same document the demo night is. region None is Houston, the backtested region, unchanged; any other
+    pipeline.regions.Region renames the place and county and labels the event as not backtested."""
     det, wind, trig, window, facilities, rc = (t[k] for k in ("detection", "wind", "trig", "window", "facilities",
                                                                "record_check"))
     name_en = COMPOUNDS[param][0]
     tz = "CDT, CST+1" if steers_tz_offset_h(det_day) else "CST"
     return {
         "schema": SCHEMA, "label": "real", "event_id": event_id,
-        "title": f"{name_en.capitalize()} spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
+        "title": f"{name_en.capitalize()} spike {region.place if region else 'on the Houston Ship Channel'}",
+        "date_local": det_day.isoformat(),
         "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
                      "TCEQ labels AutoGC data provisional and subject to change.",
         "compound": {"name": name_en, "aqs_param": param, "units": "ppb-v"},
         "monitors": monitors, "wind": wind, "detection": det, "facilities": facilities, "record_check": rc,
         "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
                      "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
-        "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param),
-        "cannot_say": list(CANNOT_SAY),
+        "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param,
+                                  region.county_title if region else "Harris"),
+        "cannot_say": list(CANNOT_SAY) if region is None else _region_cannot_say(region),
         "provenance": provenance,
-    }
+    } | ({} if region is None else {"region": {"key": region.key, "label": region.label, "backtested": region.backtested,
+                                               "note": region.note}})
+
+
+def _region_cannot_say(region) -> list[str]:
+    """Houston's list minus its Houston-only monitor-network line, with the not-backtested label first."""
+    return [region.note, *(c for c in CANNOT_SAY if "Houston" not in c),
+            "Only regulator-grade monitors whose data the state publishes are used, never low-cost sensors."]
 
 
 def build(cfg: dict = EVENT) -> dict:
