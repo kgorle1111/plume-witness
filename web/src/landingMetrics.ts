@@ -14,4 +14,8 @@ export const LANDING_METRICS = {
   auditMissed: 0,
   /** docs/audit-no-report.json → n. */
   auditNights: 10,
+  /** docs/audit-no-report.json → counts["can't tell"]: nights that public data could not settle either way. */
+  auditUnclear: 2,
+  /** docs/audit-no-report.json → missed_or_doubtful.wilson_95[1], as a whole percent: how high the true miss rate could be. */
+  auditUpperPct: 28,
 } as const

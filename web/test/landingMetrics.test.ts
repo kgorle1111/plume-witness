@@ -15,7 +15,7 @@ test('spike, monitor and year counts match spikes.json', () => {
   assert.equal(LANDING_METRICS.years, spikes.years.length)
 })
 
-test('the "questions for the state" count matches the no-matching-report rows in spikes.json', () => {
+test('the "no matching report" count matches the no-matching-report rows in spikes.json', () => {
   const open = spikes.rows.filter((r: { status: string }) => r.status === 'no_report_after_deadline').length
   assert.equal(LANDING_METRICS.noReport, open)
   assert.equal(LANDING_METRICS.noReport, spikes.summary.by_status.no_report_after_deadline)
@@ -24,4 +24,8 @@ test('the "questions for the state" count matches the no-matching-report rows in
 test('the hand-audit numbers match audit-no-report.json', () => {
   assert.equal(LANDING_METRICS.auditNights, audit.n)
   assert.equal(LANDING_METRICS.auditMissed, audit.counts['likely missed by us'])
+  assert.equal(LANDING_METRICS.auditUnclear, audit.counts["can't tell"])
+  // The quoted upper bound is for "missed or doubtful", the same nights the landing's {k} counts as missed.
+  assert.equal(LANDING_METRICS.auditMissed, audit.missed_or_doubtful.k)
+  assert.equal(LANDING_METRICS.auditUpperPct, Math.round(audit.missed_or_doubtful.wilson_95[1] * 100))
 })

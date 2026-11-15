@@ -1,11 +1,8 @@
 import { useEffect, useRef } from 'react'
 // Natural Earth public-domain coastlines, via world-atlas 2.0.2 (land-110m.json).
 import topology from './atlas-land.json'
+import { HOUSTON, project, swayCenter, unproject } from './globeView'
 
-const radians = Math.PI / 180
-const centerLat = 23 * radians
-const sinLat = Math.sin(centerLat)
-const cosLat = Math.cos(centerLat)
 const mapWidth = 1440
 const mapHeight = 720
 
@@ -82,8 +79,7 @@ function prepareGlobe(canvas: HTMLCanvasElement) {
       const rho = Math.hypot(x, y)
       if (rho > 1) continue
       const z = Math.sqrt(1 - rho * rho)
-      const lat = Math.asin(y * cosLat + z * sinLat) / radians
-      const lon = Math.atan2(x, z * cosLat - y * sinLat) / radians
+      const { lat, lon } = unproject(x, y)
       const index = (py * size + px) * 4
       pixels[count] = index
       longitude[count] = Math.floor((lon + 180) * 4) % mapWidth
@@ -94,6 +90,7 @@ function prepareGlobe(canvas: HTMLCanvasElement) {
       count++
     }
   }
+  // `angle` is the longitude at the disc's centre.
   return (angle: number) => {
     const shift = (Math.floor(angle * 4) % mapWidth + mapWidth) % mapWidth
     for (let i = 0; i < count; i++) {
@@ -108,6 +105,16 @@ function prepareGlobe(canvas: HTMLCanvasElement) {
       data[index + 2] = 241 - 10 * shade - 68 * green - ink * 0.72
     }
     ctx.putImageData(image, 0, 0)
+    // Houston, so the globe says where this is about (the sway keeps it on the near side).
+    const houston = project(HOUSTON.lat, HOUSTON.lon, angle)
+    if (!houston.visible) return
+    ctx.beginPath()
+    ctx.arc(center + houston.x * radius, center - houston.y * radius, 13, 0, 2 * Math.PI)
+    ctx.fillStyle = '#be1e2d'
+    ctx.fill()
+    ctx.lineWidth = 5
+    ctx.strokeStyle = '#fff'
+    ctx.stroke()
   }
 }
 
@@ -115,15 +122,19 @@ function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
   const draw = prepareGlobe(canvas)
   if (!draw) return null
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-  let angle = -63
+  // A per-pixel CPU redraw: about 40 fps on desktop, 20 fps on touch screens, where it measured ~12% of a 4x-slowed main thread.
+  const interval = window.matchMedia('(pointer: coarse)').matches ? 50 : 24
+  let seconds = 0
   let frameId = 0
   let last = 0
+  // Off screen (scrolled past, or behind the replay) the globe stops drawing.
+  let onScreen = true
 
   const frame = (now: number) => {
     if (!last) last = now
-    if (now - last >= 24) {
-      angle = (angle + Math.min(75, now - last) * 0.008) % 360
-      draw(angle)
+    if (now - last >= interval) {
+      seconds += Math.min(75, now - last) / 1000
+      draw(swayCenter(seconds))
       last = now
     }
     frameId = requestAnimationFrame(frame)
@@ -131,22 +142,28 @@ function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
   const syncMotion = () => {
     cancelAnimationFrame(frameId)
     last = 0
-    if (!reducedMotion.matches && !isPaused()) frameId = requestAnimationFrame(frame)
+    if (onScreen && !reducedMotion.matches && !isPaused()) frameId = requestAnimationFrame(frame)
   }
+  const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
+    onScreen = entry.isIntersecting
+    syncMotion()
+  })
 
-  draw(angle)
+  draw(swayCenter(seconds))
   syncMotion()
+  observer?.observe(canvas)
   reducedMotion.addEventListener('change', syncMotion)
   return {
     sync: syncMotion,
     stop: () => {
       cancelAnimationFrame(frameId)
+      observer?.disconnect()
       reducedMotion.removeEventListener('change', syncMotion)
     },
   }
 }
 
-/** `paused` is the landing page's pause control (WCAG 2.2.2): the spin runs for as long as the page is open. */
+/** `paused` is the landing page's pause control (WCAG 2.2.2): the sway runs for as long as the globe is on screen. */
 export default function AtlasGlobe({ paused }: { paused: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const pausedRef = useRef(paused)
@@ -161,5 +178,5 @@ export default function AtlasGlobe({ paused }: { paused: boolean }) {
     pausedRef.current = paused
     spin.current?.sync()
   }, [paused])
-  return <canvas ref={canvas} width={504} height={504} />
+  return <canvas ref={canvas} width={504} height={504} aria-hidden="true" />
 }
