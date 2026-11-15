@@ -13,12 +13,13 @@ export const isEmbed = (search: string): boolean => new URLSearchParams(search).
 
 export const stepFromHash = (hash: string): EmbedStep => EMBED_STEPS.find((s) => `#${s.id}` === hash)?.id ?? 'detect'
 
-/** The night's own page: the embed URL's query without `embed`, so "Open in Plume Witness" lands on the full replay. */
+/** The night's own page: the embed URL's query without `embed`, so "Open in Plume Witness" lands on the full replay.
+ *  A bare URL opens the landing page (routes.ts), so the demo night keeps `intro=0` to stay on the replay. */
 export function fullUrl(origin: string, pathname: string, search: string): string {
   const q = new URLSearchParams(search)
   q.delete('embed')
-  const s = q.toString()
-  return `${origin}${pathname}${s ? `?${s}` : ''}`
+  if (!q.toString()) q.set('intro', '0')
+  return `${origin}${pathname}?${q.toString()}`
 }
 
 /** The chrome-free URL for the same night, as an iframe would load it. */

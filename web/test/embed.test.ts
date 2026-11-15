@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { embedUrl, fullUrl, iframeHtml, isEmbed, stepFromHash, stepLine, EMBED_STEPS } from '../src/embed.ts'
 import type { PlumeEvent } from '../src/types.ts'
+import { pageFromLocation } from '../src/routes.ts'
 
 const ev = JSON.parse(readFileSync(new URL('../public/event.json', import.meta.url), 'utf8')) as PlumeEvent
 const BANNED = /\b(illegal|violations?|unreported|caught|polluters?|proves?)\b/i
@@ -18,7 +19,10 @@ test('embed and open-in-app URLs round-trip the night', () => {
   const e = embedUrl('https://x.org', '/plume-witness/', '?night=2024-06-21_45201_48_201_0069')
   assert.equal(e, 'https://x.org/plume-witness/?night=2024-06-21_45201_48_201_0069&embed=1')
   assert.equal(fullUrl('https://x.org', '/plume-witness/', new URL(e).search), 'https://x.org/plume-witness/?night=2024-06-21_45201_48_201_0069')
-  assert.equal(fullUrl('https://x.org', '/', '?embed=1'), 'https://x.org/')
+  // The demo night's embed must not open the atlas landing page.
+  const demo = new URL(fullUrl('https://x.org', '/', '?embed=1'))
+  assert.equal(demo.href, 'https://x.org/?intro=0')
+  assert.equal(pageFromLocation(demo), 'replay')
 })
 
 test('iframe HTML escapes attributes, so a crafted URL cannot break out of src', () => {
