@@ -1,0 +1,24 @@
+[
+ {
+  "key": "houston",
+  "label": "Houston Ship Channel",
+  "label_es": "Houston Ship Channel",
+  "place": "on the Houston Ship Channel",
+  "place_es": "en el Canal de Navegación de Houston",
+  "dir": "",
+  "backtested": true,
+  "n_sites": 8,
+  "county": "HARRIS"
+ },
+ {
+  "key": "beaumont",
+  "label": "Beaumont-Port Arthur",
+  "label_es": "Beaumont-Port Arthur",
+  "place": "in Beaumont-Port Arthur",
+  "place_es": "en Beaumont-Port Arthur",
+  "dir": "regions/beaumont/",
+  "backtested": false,
+  "n_sites": 2,
+  "county": "JEFFERSON"
+ }
+]

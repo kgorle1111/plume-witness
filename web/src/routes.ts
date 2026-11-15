@@ -1,4 +1,4 @@
-import { regionFrom, regionQuery } from './region.ts'
+import { REGIONS, regionFrom, regionQuery, type Regions } from './region.ts'
 
 export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities' | 'timeline'
 
@@ -18,13 +18,13 @@ export const NAV_ITEMS = ['spikes', 'timeline', 'facilities', 'brief'] as const
 export type NavView = (typeof NAV_ITEMS)[number]
 
 /** Region-carrying page link: a Beaumont reader who opens Timeline and comes back to Past spikes is still in Beaumont. */
-export function navHref(base: string, view: NavView, search: string): string {
-  return `${base}${regionQuery(regionFrom(search), { view })}`
+export function navHref(base: string, view: NavView, search: string, regions: Regions = REGIONS): string {
+  return `${base}${regionQuery(regionFrom(search, regions), { view })}`
 }
 
-/** The replay for the reader's region: Houston keeps the demo-night link; Beaumont opens its own first night. */
-export function replayHref(base: string, search: string): string {
-  return `${base}${regionQuery(regionFrom(search), { intro: '0' })}#detect`
+/** The replay for the reader's region: Houston keeps the demo-night link; any other region opens its own first night. */
+export function replayHref(base: string, search: string, regions: Regions = REGIONS): string {
+  return `${base}${regionQuery(regionFrom(search, regions), { intro: '0' })}#detect`
 }
 
 export const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/

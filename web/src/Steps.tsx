@@ -405,7 +405,7 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
 const localTime = (stamp: string | undefined, t: Translate) => (stamp ? stamp.replace('T', ' ') : t('chk.notGiven'))
 
 const LANG_NAME: Record<Lang, StringKey> = { en: 'lang.nameEn', es: 'lang.nameEs' }
-// kn: one regulator (both regions are in Texas); per-region link when a night outside Texas lands.
+// kn: one regulator (every region in pipeline/regions.py is in Texas); per-region link when a night outside Texas lands.
 const COMPLAINT_URL = 'https://www.tceq.texas.gov/compliance/complaints'
 // Shown as the contact number on pcs.harriscountytx.gov (checked 2026-11-14).
 const PCS_PHONE = '(713) 920-2831'

@@ -3,6 +3,7 @@
 import hashlib
 import json
 import re
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -40,6 +41,36 @@ def test_houston_spikes_json_is_byte_identical():
 
 
 # test_nights.test_committed_files_are_current already compares every Houston night file byte for byte.
+
+
+# --- Web registry: the web's region list is generated from REGIONS, never hand-edited ---
+
+def test_committed_web_registry_matches_regions_py():
+    assert regions.WEB_REGISTRY.read_text(encoding="utf-8") == regions.web_registry_text(), (
+        "web/src/regions.generated.json is stale: run `uv run python -m pipeline.regions --write-web`")
+    rows = json.loads(regions.WEB_REGISTRY.read_text(encoding="utf-8"))
+    assert [r["key"] for r in rows] == list(regions.REGIONS)
+    assert rows[0] == {"key": "houston", "label": "Houston Ship Channel", "label_es": "Houston Ship Channel",
+                       "place": "on the Houston Ship Channel", "place_es": "en el Canal de Navegación de Houston",
+                       "dir": "", "backtested": True, "n_sites": 8, "county": "HARRIS"}
+    assert rows[1]["dir"] == "regions/beaumont/" and rows[1]["backtested"] is False
+
+
+def test_registry_rejects_a_region_the_web_could_not_load():
+    fake = replace(BMT, key="corpus_christi", spikes_out=BMT.spikes_out.parent.parent / "corpus_christi" / "spikes.json",
+                   nights_out=BMT.spikes_out.parent.parent / "corpus_christi" / "nights")
+    assert regions.web_registry({"houston": regions.HOUSTON, "corpus_christi": fake})[1]["dir"] == "regions/corpus_christi/"
+    bad = {
+        "key": replace(fake, key="Corpus Christi"),
+        "nights elsewhere": replace(fake, nights_out=fake.spikes_out.parent / "n"),
+        "outputs in another region's folder": replace(BMT, key="corpus_christi"),
+    }
+    for why, r in bad.items():
+        with pytest.raises(ValueError):
+            regions.web_registry({"houston": regions.HOUSTON, r.key: r})
+            pytest.fail(why)
+    with pytest.raises(ValueError, match="Houston must be the first"):
+        regions.web_registry({"beaumont": BMT, "houston": regions.HOUSTON})
 
 
 # --- Beaumont ---

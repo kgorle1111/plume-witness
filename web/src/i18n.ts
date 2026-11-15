@@ -189,13 +189,12 @@ const EN = {
   'app.linkTimeline': 'Timeline',
   'app.linkBrief': 'Brief',
   // Replay h1 and eyebrow (region.ts eventTitle): the pipeline's English title, rebuilt from these so Spanish can follow.
+  // {where} is the region's place / place_es from pipeline/regions.py (regions.generated.json).
   'app.title.benzene': 'Benzene spike {where}',
   'app.title.butadiene': '1,3-butadiene spike {where}',
-  'app.where.houston': 'on the Houston Ship Channel',
-  'app.where.beaumont': 'in Beaumont-Port Arthur',
   'app.cmp.benzene': 'benzene',
   'app.cmp.butadiene': '1,3-butadiene',
-  'shell.houstonOnly': 'This page covers the Houston Ship Channel only. Beaumont-Port Arthur has its own spike log and night replays.',
+  'shell.houstonOnly': 'This page covers the Houston Ship Channel only. {region} has its own spike log and night replays.',
 
   // Replay map (EventMap) and its legend
   'map.title': 'Interactive map: arrow keys pan, plus and minus zoom',
@@ -313,7 +312,7 @@ const EN = {
   'status.note.no_report_after_deadline': 'We found no matching company report. That is a question to ask, not a finding.',
   'status.note.search_incomplete': 'The record check could not finish (the row says why), so the tool says nothing either way.',
   'region.nav': 'Region',
-  'region.beaumont': 'Beaumont-Port Arthur (new, not backtested)',
+  'region.newLabel': '{label} (new, not backtested)',
   'region.notBacktested': 'New region: no backtest yet; statuses use the same rules; no claims are made from it.',
   'region.unknown': 'Unknown region; showing Houston Ship Channel',
   'spikes.filterLabel': 'Filter and download',
@@ -740,11 +739,9 @@ const ES: Record<StringKey, string> = {
   'app.linkBrief': 'Resumen',
   'app.title.benzene': 'Pico de benceno {where}',
   'app.title.butadiene': 'Pico de 1,3-butadieno {where}',
-  'app.where.houston': 'en el Canal de Navegación de Houston',
-  'app.where.beaumont': 'en Beaumont-Port Arthur',
   'app.cmp.benzene': 'benceno',
   'app.cmp.butadiene': '1,3-butadieno',
-  'shell.houstonOnly': 'Esta página cubre solo el Canal de Navegación de Houston. Beaumont-Port Arthur tiene su propio registro de picos y repeticiones de noches.',
+  'shell.houstonOnly': 'Esta página cubre solo el Canal de Navegación de Houston. {region} tiene su propio registro de picos y repeticiones de noches.',
 
   // Mapa de la repetición (EventMap) y su leyenda
   'map.title': 'Mapa interactivo: las flechas mueven el mapa; más y menos acercan o alejan',
@@ -856,7 +853,7 @@ const ES: Record<StringKey, string> = {
   'status.note.no_report_after_deadline': 'No encontramos ningún reporte de empresa que coincida. Es una pregunta que hacer, no una conclusión.',
   'status.note.search_incomplete': 'La verificación del registro no pudo terminar (la fila dice por qué), así que la herramienta no dice nada en ningún sentido.',
   'region.nav': 'Región',
-  'region.beaumont': 'Beaumont-Port Arthur (nueva, sin prueba retrospectiva)',
+  'region.newLabel': '{label} (nueva, sin prueba retrospectiva)',
   'region.notBacktested': 'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella.',
   'region.unknown': 'Región desconocida; se muestra el Canal de Navegación de Houston',
   'spikes.filterLabel': 'Filtrar y descargar',
