@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import './SpikeLog.css'
 import './motion.css'
+import './dark.css'
 import Site from './Site'
 import { registerServiceWorker } from './pwa'
+import { initTheme } from './theme'
+
+initTheme()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

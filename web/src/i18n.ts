@@ -60,6 +60,7 @@ const EN = {
   'foot.docs': 'Open data docs',
   'foot.offline': 'Works offline after first visit (map tiles may be blank).',
   'foot.install': 'Install app',
+  'theme.dark': 'Dark',
 
   // Landing page
   'landing.title': 'Trace air pollution',
@@ -348,6 +349,7 @@ const ES: Record<StringKey, string> = {
   'foot.docs': 'Documentación de datos abiertos (en inglés)',
   'foot.offline': 'Funciona sin conexión después de la primera visita (los mosaicos del mapa pueden verse en blanco).',
   'foot.install': 'Instalar la app',
+  'theme.dark': 'Oscuro',
 
   'landing.title': 'Rastree la contaminación del aire',
   'landing.pause': 'Pausar el globo',

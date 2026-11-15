@@ -1,4 +1,5 @@
 import { InstallHint } from './InstallHint'
+import { ThemeToggle } from './ThemeToggle'
 import { useT } from './useT'
 
 const BASE = import.meta.env.BASE_URL
@@ -13,6 +14,7 @@ export function SiteFooter() {
       <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
       <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
       <InstallHint />
+      <ThemeToggle />
     </footer>
   )
 }
