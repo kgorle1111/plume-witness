@@ -1,11 +1,9 @@
 .atlas-landing {
   color-scheme: light;
   --paper: #f5f9fa;
-  --ink: #214349;
   --teal: #4d787f;
   --line: #a9c6bd;
   --coral: #de7f6b;
-  --peach: #f2c9b7;
   --mono: 'Cascadia Mono', Consolas, monospace;
   color: var(--ink);
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -86,7 +84,7 @@
   cursor: pointer;
 }
 .atlas-pause:hover { border-color: var(--teal); }
-.atlas-pause:focus-visible { outline: 2px solid #995241; outline-offset: 3px; }
+.atlas-pause:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
 .atlas-purpose { width: min(100%, 525px); margin: 5px 0 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.5; color: #395960; text-wrap: pretty; }
 .atlas-enter {
@@ -97,17 +95,17 @@
   min-height: 49px;
   margin-top: 21px;
   padding: 10px 17px 10px 19px;
-  background: var(--peach);
-  color: #442e29;
-  border: 1px solid #be7463;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-ink);
+  border: 1px solid var(--btn-primary-line);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   border-radius: 3px;
   transition: background-color .18s, box-shadow .18s;
 }
-.atlas-enter:hover { background: #ebae98; box-shadow: 0 3px 0 #de7f6b65; }
-.atlas-enter:focus-visible { outline: 2px solid #995241; outline-offset: 4px; }
+.atlas-enter:hover { background: var(--btn-primary-bg-hover); box-shadow: 0 3px 0 #de7f6b65; }
+.atlas-enter:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 
 .atlas-leaving {
   position: fixed;
