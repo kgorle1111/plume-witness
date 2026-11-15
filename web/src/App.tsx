@@ -199,17 +199,26 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
         {t('nav.skip')}
       </a>
       <header className="top">
-        <p className="brand">
-          <BrandMark />
-          <span className="brand-name">Plume Witness</span>
-          <span className="event-meta">
-            <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
-          </span>
+        {/* Brand row, then the eyebrow (date · compound · data tag), then the title on its own line. */}
+        <div className="brand-row">
+          <p className="brand">
+            <BrandMark />
+            <span className="brand-name">Plume Witness</span>
+          </p>
+          <nav className="top-links" aria-label={t('app.siteLinks')}>
+            <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>{t('common.pastSpikes')}</a>
+            {/* Phones keep only Past spikes up here; the footer carries Facilities and Past spikes too. */}
+            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('app.linkTimeline')}</a>
+            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=facilities`}>{t('common.facilities')}</a>
+            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=brief`}>{t('app.linkBrief')}</a>
+          </nav>
+        </div>
+        <p className="eyebrow">
+          <span>{ev.date_local}</span> <span aria-hidden="true">·</span> <span>{ev.compound.name}</span> <span aria-hidden="true">·</span>{' '}
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? t('app.dataReal') : t('app.dataFixture')}</span>
-          <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>{t('common.pastSpikes')}</a>
         </p>
         <h1 className="event-title">{ev.title}</h1>
-        {!phone && tools}
+        {!phone && <div className="top-tools">{tools}</div>}
         <LangSwitch note={false} />
       </header>
       {ev.label === 'fixture' && (
