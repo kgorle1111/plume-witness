@@ -26,13 +26,16 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
       # Project site is served under /plume-witness/; npm appends the flag to the
       # final `vite build` of the build script, so tsc -b still type-checks.
       - run: npm run build -- --base /plume-witness/
+      # Deploys run on every push to main without waiting for CI, so the web tests gate the publish here too
+      # (after the build: the PWA test reads dist/precache.json).
+      - run: npm test
       - uses: actions/upload-pages-artifact@v5
         with:
           path: web/dist
