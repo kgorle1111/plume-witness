@@ -3,6 +3,7 @@ import { type AiDraft, type DayIncident, type Facility, type Monitor, type Plume
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
+import { Rose } from './Rose'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
   const common = { width: 18, height: 18, viewBox: '0 0 20 20', 'aria-hidden': true, focusable: false } as const
@@ -121,6 +122,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
         <p className="muted small">Also flagged that day: {others.map((o) => `${o.name} (highest ${o.peak.value} ${u} at ${hourLabel(o.peak.hour_cst)})`).join('; ')}.</p>
       )}
       <p className="muted small">{ev.time_note}</p>
+      <Rose siteId={m.site_id} param={ev.compound.aqs_param} />
     </>
   )
 }

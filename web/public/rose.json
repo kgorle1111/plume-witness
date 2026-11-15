@@ -1,0 +1,2136 @@
+{
+ "method": {
+  "name": "conditional probability function (CPF)",
+  "years": [
+   "2024",
+   "2025"
+  ],
+  "time": "hourly, CST",
+  "min_speed_mph": 3.0,
+  "sector_deg": 30,
+  "percentiles": [
+   90,
+   99
+  ],
+  "min_sector_hours": 30,
+  "threshold_population": "the site's own analysed hours (reading, direction and speed >= 3 mph)",
+  "direction": "degrees the wind blows from; sector i covers [30i, 30i + 30)",
+  "high": "value >= threshold",
+  "units": "ppb-v",
+  "trigger_floor_ppb": 10.0,
+  "source": "TCEQ AutoGC and met hourly summaries (data/raw/backtest)"
+ },
+ "caveat": "This shows the direction chronic high readings arrive from. It does not name a source.",
+ "sites": {
+  "48_201_0069": {
+   "name": "Houston Milby Park",
+   "compounds": {
+    "45201": {
+     "name": "benzene",
+     "n_hours": 10913,
+     "thresholds_ppb": {
+      "p90": 0.45,
+      "p99": 1.939
+     },
+     "high_hours": {
+      "p90": 1104,
+      "p99": 110
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 423,
+       "share_of_hours": 0.0388,
+       "sparse": false,
+       "p90": {
+        "high_hours": 142,
+        "high_days": 69,
+        "cpf": 0.3357,
+        "share_of_high": 0.1286
+       },
+       "p99": {
+        "high_hours": 15,
+        "high_days": 12,
+        "cpf": 0.0355,
+        "share_of_high": 0.1364
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 842,
+       "share_of_hours": 0.0772,
+       "sparse": false,
+       "p90": {
+        "high_hours": 443,
+        "high_days": 142,
+        "cpf": 0.5261,
+        "share_of_high": 0.4013
+       },
+       "p99": {
+        "high_hours": 70,
+        "high_days": 47,
+        "cpf": 0.0831,
+        "share_of_high": 0.6364
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 534,
+       "share_of_hours": 0.0489,
+       "sparse": false,
+       "p90": {
+        "high_hours": 193,
+        "high_days": 111,
+        "cpf": 0.3614,
+        "share_of_high": 0.1748
+       },
+       "p99": {
+        "high_hours": 11,
+        "high_days": 10,
+        "cpf": 0.0206,
+        "share_of_high": 0.1
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 489,
+       "share_of_hours": 0.0448,
+       "sparse": false,
+       "p90": {
+        "high_hours": 85,
+        "high_days": 73,
+        "cpf": 0.1738,
+        "share_of_high": 0.077
+       },
+       "p99": {
+        "high_hours": 5,
+        "high_days": 5,
+        "cpf": 0.0102,
+        "share_of_high": 0.0455
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 1506,
+       "share_of_hours": 0.138,
+       "sparse": false,
+       "p90": {
+        "high_hours": 52,
+        "high_days": 41,
+        "cpf": 0.0345,
+        "share_of_high": 0.0471
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.002,
+        "share_of_high": 0.0273
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 2654,
+       "share_of_hours": 0.2432,
+       "sparse": false,
+       "p90": {
+        "high_hours": 45,
+        "high_days": 39,
+        "cpf": 0.017,
+        "share_of_high": 0.0408
+       },
+       "p99": {
+        "high_hours": 5,
+        "high_days": 3,
+        "cpf": 0.0019,
+        "share_of_high": 0.0455
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1943,
+       "share_of_hours": 0.178,
+       "sparse": false,
+       "p90": {
+        "high_hours": 44,
+        "high_days": 41,
+        "cpf": 0.0226,
+        "share_of_high": 0.0399
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0005,
+        "share_of_high": 0.0091
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 688,
+       "share_of_hours": 0.063,
+       "sparse": false,
+       "p90": {
+        "high_hours": 23,
+        "high_days": 21,
+        "cpf": 0.0334,
+        "share_of_high": 0.0208
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 375,
+       "share_of_hours": 0.0344,
+       "sparse": false,
+       "p90": {
+        "high_hours": 12,
+        "high_days": 12,
+        "cpf": 0.032,
+        "share_of_high": 0.0109
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 407,
+       "share_of_hours": 0.0373,
+       "sparse": false,
+       "p90": {
+        "high_hours": 19,
+        "high_days": 17,
+        "cpf": 0.0467,
+        "share_of_high": 0.0172
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 593,
+       "share_of_hours": 0.0543,
+       "sparse": false,
+       "p90": {
+        "high_hours": 24,
+        "high_days": 17,
+        "cpf": 0.0405,
+        "share_of_high": 0.0217
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 459,
+       "share_of_hours": 0.0421,
+       "sparse": false,
+       "p90": {
+        "high_hours": 22,
+        "high_days": 18,
+        "cpf": 0.0479,
+        "share_of_high": 0.0199
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 4697,
+      "no_wind": 191,
+      "calm": 1743
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 30,
+      "to_deg": 60,
+      "share_of_high": 0.6364,
+      "cpf": 0.0831,
+      "share_of_hours": 0.0772,
+      "high_hours": 70,
+      "high_days": 47,
+      "threshold_ppb": 1.939
+     }
+    },
+    "43218": {
+     "name": "1,3-butadiene",
+     "n_hours": 10913,
+     "thresholds_ppb": {
+      "p90": 3.59,
+      "p99": 18.813
+     },
+     "high_hours": {
+      "p90": 1095,
+      "p99": 110
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 423,
+       "share_of_hours": 0.0388,
+       "sparse": false,
+       "p90": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0024,
+        "share_of_high": 0.0009
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 842,
+       "share_of_hours": 0.0772,
+       "sparse": false,
+       "p90": {
+        "high_hours": 5,
+        "high_days": 4,
+        "cpf": 0.0059,
+        "share_of_high": 0.0046
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0012,
+        "share_of_high": 0.0091
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 534,
+       "share_of_hours": 0.0489,
+       "sparse": false,
+       "p90": {
+        "high_hours": 14,
+        "high_days": 10,
+        "cpf": 0.0262,
+        "share_of_high": 0.0128
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 489,
+       "share_of_hours": 0.0448,
+       "sparse": false,
+       "p90": {
+        "high_hours": 110,
+        "high_days": 59,
+        "cpf": 0.2249,
+        "share_of_high": 0.1005
+       },
+       "p99": {
+        "high_hours": 23,
+        "high_days": 14,
+        "cpf": 0.047,
+        "share_of_high": 0.2091
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 1506,
+       "share_of_hours": 0.138,
+       "sparse": false,
+       "p90": {
+        "high_hours": 719,
+        "high_days": 201,
+        "cpf": 0.4774,
+        "share_of_high": 0.6566
+       },
+       "p99": {
+        "high_hours": 74,
+        "high_days": 41,
+        "cpf": 0.0491,
+        "share_of_high": 0.6727
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 2654,
+       "share_of_hours": 0.2432,
+       "sparse": false,
+       "p90": {
+        "high_hours": 225,
+        "high_days": 133,
+        "cpf": 0.0848,
+        "share_of_high": 0.2055
+       },
+       "p99": {
+        "high_hours": 7,
+        "high_days": 7,
+        "cpf": 0.0026,
+        "share_of_high": 0.0636
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1943,
+       "share_of_hours": 0.178,
+       "sparse": false,
+       "p90": {
+        "high_hours": 13,
+        "high_days": 13,
+        "cpf": 0.0067,
+        "share_of_high": 0.0119
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0015,
+        "share_of_high": 0.0273
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 688,
+       "share_of_hours": 0.063,
+       "sparse": false,
+       "p90": {
+        "high_hours": 5,
+        "high_days": 5,
+        "cpf": 0.0073,
+        "share_of_high": 0.0046
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0029,
+        "share_of_high": 0.0182
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 375,
+       "share_of_hours": 0.0344,
+       "sparse": false,
+       "p90": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0027,
+        "share_of_high": 0.0009
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 407,
+       "share_of_hours": 0.0373,
+       "sparse": false,
+       "p90": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0025,
+        "share_of_high": 0.0009
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 593,
+       "share_of_hours": 0.0543,
+       "sparse": false,
+       "p90": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0017,
+        "share_of_high": 0.0009
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 459,
+       "share_of_hours": 0.0421,
+       "sparse": false,
+       "p90": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 4697,
+      "no_wind": 191,
+      "calm": 1743
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 120,
+      "to_deg": 150,
+      "share_of_high": 0.6727,
+      "cpf": 0.0491,
+      "share_of_hours": 0.138,
+      "high_hours": 74,
+      "high_days": 41,
+      "threshold_ppb": 18.813
+     }
+    }
+   },
+   "skipped_compounds": {}
+  },
+  "48_201_0307": {
+   "name": "Manchester East Ave N",
+   "compounds": {
+    "45201": {
+     "name": "benzene",
+     "n_hours": 10484,
+     "thresholds_ppb": {
+      "p90": 0.577,
+      "p99": 1.92
+     },
+     "high_hours": {
+      "p90": 1049,
+      "p99": 106
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 250,
+       "share_of_hours": 0.0238,
+       "sparse": false,
+       "p90": {
+        "high_hours": 11,
+        "high_days": 9,
+        "cpf": 0.044,
+        "share_of_high": 0.0105
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.008,
+        "share_of_high": 0.0189
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 735,
+       "share_of_hours": 0.0701,
+       "sparse": false,
+       "p90": {
+        "high_hours": 49,
+        "high_days": 28,
+        "cpf": 0.0667,
+        "share_of_high": 0.0467
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0041,
+        "share_of_high": 0.0283
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 478,
+       "share_of_hours": 0.0456,
+       "sparse": false,
+       "p90": {
+        "high_hours": 171,
+        "high_days": 79,
+        "cpf": 0.3577,
+        "share_of_high": 0.163
+       },
+       "p99": {
+        "high_hours": 16,
+        "high_days": 13,
+        "cpf": 0.0335,
+        "share_of_high": 0.1509
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 758,
+       "share_of_hours": 0.0723,
+       "sparse": false,
+       "p90": {
+        "high_hours": 406,
+        "high_days": 146,
+        "cpf": 0.5356,
+        "share_of_high": 0.387
+       },
+       "p99": {
+        "high_hours": 58,
+        "high_days": 39,
+        "cpf": 0.0765,
+        "share_of_high": 0.5472
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 1781,
+       "share_of_hours": 0.1699,
+       "sparse": false,
+       "p90": {
+        "high_hours": 209,
+        "high_days": 134,
+        "cpf": 0.1173,
+        "share_of_high": 0.1992
+       },
+       "p99": {
+        "high_hours": 21,
+        "high_days": 18,
+        "cpf": 0.0118,
+        "share_of_high": 0.1981
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 2204,
+       "share_of_hours": 0.2102,
+       "sparse": false,
+       "p90": {
+        "high_hours": 69,
+        "high_days": 54,
+        "cpf": 0.0313,
+        "share_of_high": 0.0658
+       },
+       "p99": {
+        "high_hours": 5,
+        "high_days": 5,
+        "cpf": 0.0023,
+        "share_of_high": 0.0472
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1869,
+       "share_of_hours": 0.1783,
+       "sparse": false,
+       "p90": {
+        "high_hours": 35,
+        "high_days": 30,
+        "cpf": 0.0187,
+        "share_of_high": 0.0334
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 500,
+       "share_of_hours": 0.0477,
+       "sparse": false,
+       "p90": {
+        "high_hours": 11,
+        "high_days": 10,
+        "cpf": 0.022,
+        "share_of_high": 0.0105
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 318,
+       "share_of_hours": 0.0303,
+       "sparse": false,
+       "p90": {
+        "high_hours": 11,
+        "high_days": 10,
+        "cpf": 0.0346,
+        "share_of_high": 0.0105
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 298,
+       "share_of_hours": 0.0284,
+       "sparse": false,
+       "p90": {
+        "high_hours": 20,
+        "high_days": 15,
+        "cpf": 0.0671,
+        "share_of_high": 0.0191
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0034,
+        "share_of_high": 0.0094
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 655,
+       "share_of_hours": 0.0625,
+       "sparse": false,
+       "p90": {
+        "high_hours": 39,
+        "high_days": 25,
+        "cpf": 0.0595,
+        "share_of_high": 0.0372
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 638,
+       "share_of_hours": 0.0609,
+       "sparse": false,
+       "p90": {
+        "high_hours": 18,
+        "high_days": 16,
+        "cpf": 0.0282,
+        "share_of_high": 0.0172
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 3042,
+      "no_wind": 2859,
+      "calm": 1159
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 90,
+      "to_deg": 120,
+      "share_of_high": 0.5472,
+      "cpf": 0.0765,
+      "share_of_hours": 0.0723,
+      "high_hours": 58,
+      "high_days": 39,
+      "threshold_ppb": 1.92
+     }
+    },
+    "43218": {
+     "name": "1,3-butadiene",
+     "n_hours": 10484,
+     "thresholds_ppb": {
+      "p90": 0.7,
+      "p99": 2.872
+     },
+     "high_hours": {
+      "p90": 1050,
+      "p99": 105
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 250,
+       "share_of_hours": 0.0238,
+       "sparse": false,
+       "p90": {
+        "high_hours": 24,
+        "high_days": 16,
+        "cpf": 0.096,
+        "share_of_high": 0.0229
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 735,
+       "share_of_hours": 0.0701,
+       "sparse": false,
+       "p90": {
+        "high_hours": 86,
+        "high_days": 50,
+        "cpf": 0.117,
+        "share_of_high": 0.0819
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0041,
+        "share_of_high": 0.0286
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 478,
+       "share_of_hours": 0.0456,
+       "sparse": false,
+       "p90": {
+        "high_hours": 41,
+        "high_days": 33,
+        "cpf": 0.0858,
+        "share_of_high": 0.039
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0021,
+        "share_of_high": 0.0095
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 758,
+       "share_of_hours": 0.0723,
+       "sparse": false,
+       "p90": {
+        "high_hours": 71,
+        "high_days": 41,
+        "cpf": 0.0937,
+        "share_of_high": 0.0676
+       },
+       "p99": {
+        "high_hours": 7,
+        "high_days": 6,
+        "cpf": 0.0092,
+        "share_of_high": 0.0667
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 1781,
+       "share_of_hours": 0.1699,
+       "sparse": false,
+       "p90": {
+        "high_hours": 34,
+        "high_days": 30,
+        "cpf": 0.0191,
+        "share_of_high": 0.0324
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 1,
+        "cpf": 0.0011,
+        "share_of_high": 0.019
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 2204,
+       "share_of_hours": 0.2102,
+       "sparse": false,
+       "p90": {
+        "high_hours": 520,
+        "high_days": 173,
+        "cpf": 0.2359,
+        "share_of_high": 0.4952
+       },
+       "p99": {
+        "high_hours": 66,
+        "high_days": 40,
+        "cpf": 0.0299,
+        "share_of_high": 0.6286
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1869,
+       "share_of_hours": 0.1783,
+       "sparse": false,
+       "p90": {
+        "high_hours": 252,
+        "high_days": 123,
+        "cpf": 0.1348,
+        "share_of_high": 0.24
+       },
+       "p99": {
+        "high_hours": 22,
+        "high_days": 17,
+        "cpf": 0.0118,
+        "share_of_high": 0.2095
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 500,
+       "share_of_hours": 0.0477,
+       "sparse": false,
+       "p90": {
+        "high_hours": 5,
+        "high_days": 4,
+        "cpf": 0.01,
+        "share_of_high": 0.0048
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.004,
+        "share_of_high": 0.019
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 318,
+       "share_of_hours": 0.0303,
+       "sparse": false,
+       "p90": {
+        "high_hours": 4,
+        "high_days": 4,
+        "cpf": 0.0126,
+        "share_of_high": 0.0038
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 298,
+       "share_of_hours": 0.0284,
+       "sparse": false,
+       "p90": {
+        "high_hours": 5,
+        "high_days": 4,
+        "cpf": 0.0168,
+        "share_of_high": 0.0048
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0034,
+        "share_of_high": 0.0095
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 655,
+       "share_of_hours": 0.0625,
+       "sparse": false,
+       "p90": {
+        "high_hours": 6,
+        "high_days": 6,
+        "cpf": 0.0092,
+        "share_of_high": 0.0057
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0015,
+        "share_of_high": 0.0095
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 638,
+       "share_of_hours": 0.0609,
+       "sparse": false,
+       "p90": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0031,
+        "share_of_high": 0.0019
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 3042,
+      "no_wind": 2859,
+      "calm": 1159
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 150,
+      "to_deg": 180,
+      "share_of_high": 0.6286,
+      "cpf": 0.0299,
+      "share_of_hours": 0.2102,
+      "high_hours": 66,
+      "high_days": 40,
+      "threshold_ppb": 2.872
+     }
+    }
+   },
+   "skipped_compounds": {}
+  },
+  "48_201_1015": {
+   "name": "Lynchburg Ferry",
+   "compounds": {
+    "45201": {
+     "name": "benzene",
+     "n_hours": 11411,
+     "thresholds_ppb": {
+      "p90": 1.04,
+      "p99": 5.237
+     },
+     "high_hours": {
+      "p90": 1155,
+      "p99": 115
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 812,
+       "share_of_hours": 0.0712,
+       "sparse": false,
+       "p90": {
+        "high_hours": 143,
+        "high_days": 65,
+        "cpf": 0.1761,
+        "share_of_high": 0.1238
+       },
+       "p99": {
+        "high_hours": 9,
+        "high_days": 7,
+        "cpf": 0.0111,
+        "share_of_high": 0.0783
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 1247,
+       "share_of_hours": 0.1093,
+       "sparse": false,
+       "p90": {
+        "high_hours": 114,
+        "high_days": 79,
+        "cpf": 0.0914,
+        "share_of_high": 0.0987
+       },
+       "p99": {
+        "high_hours": 6,
+        "high_days": 6,
+        "cpf": 0.0048,
+        "share_of_high": 0.0522
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 964,
+       "share_of_hours": 0.0845,
+       "sparse": false,
+       "p90": {
+        "high_hours": 85,
+        "high_days": 60,
+        "cpf": 0.0882,
+        "share_of_high": 0.0736
+       },
+       "p99": {
+        "high_hours": 5,
+        "high_days": 4,
+        "cpf": 0.0052,
+        "share_of_high": 0.0435
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 740,
+       "share_of_hours": 0.0648,
+       "sparse": false,
+       "p90": {
+        "high_hours": 44,
+        "high_days": 41,
+        "cpf": 0.0595,
+        "share_of_high": 0.0381
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0041,
+        "share_of_high": 0.0261
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 2793,
+       "share_of_hours": 0.2448,
+       "sparse": false,
+       "p90": {
+        "high_hours": 57,
+        "high_days": 42,
+        "cpf": 0.0204,
+        "share_of_high": 0.0494
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0007,
+        "share_of_high": 0.0174
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 1763,
+       "share_of_hours": 0.1545,
+       "sparse": false,
+       "p90": {
+        "high_hours": 45,
+        "high_days": 37,
+        "cpf": 0.0255,
+        "share_of_high": 0.039
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0017,
+        "share_of_high": 0.0261
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1363,
+       "share_of_hours": 0.1194,
+       "sparse": false,
+       "p90": {
+        "high_hours": 297,
+        "high_days": 135,
+        "cpf": 0.2179,
+        "share_of_high": 0.2571
+       },
+       "p99": {
+        "high_hours": 36,
+        "high_days": 25,
+        "cpf": 0.0264,
+        "share_of_high": 0.313
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 393,
+       "share_of_hours": 0.0344,
+       "sparse": false,
+       "p90": {
+        "high_hours": 195,
+        "high_days": 102,
+        "cpf": 0.4962,
+        "share_of_high": 0.1688
+       },
+       "p99": {
+        "high_hours": 38,
+        "high_days": 29,
+        "cpf": 0.0967,
+        "share_of_high": 0.3304
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 284,
+       "share_of_hours": 0.0249,
+       "sparse": false,
+       "p90": {
+        "high_hours": 33,
+        "high_days": 27,
+        "cpf": 0.1162,
+        "share_of_high": 0.0286
+       },
+       "p99": {
+        "high_hours": 4,
+        "high_days": 3,
+        "cpf": 0.0141,
+        "share_of_high": 0.0348
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 265,
+       "share_of_hours": 0.0232,
+       "sparse": false,
+       "p90": {
+        "high_hours": 59,
+        "high_days": 42,
+        "cpf": 0.2226,
+        "share_of_high": 0.0511
+       },
+       "p99": {
+        "high_hours": 5,
+        "high_days": 4,
+        "cpf": 0.0189,
+        "share_of_high": 0.0435
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 495,
+       "share_of_hours": 0.0434,
+       "sparse": false,
+       "p90": {
+        "high_hours": 58,
+        "high_days": 37,
+        "cpf": 0.1172,
+        "share_of_high": 0.0502
+       },
+       "p99": {
+        "high_hours": 4,
+        "high_days": 4,
+        "cpf": 0.0081,
+        "share_of_high": 0.0348
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 292,
+       "share_of_hours": 0.0256,
+       "sparse": false,
+       "p90": {
+        "high_hours": 25,
+        "high_days": 14,
+        "cpf": 0.0856,
+        "share_of_high": 0.0216
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 5290,
+      "no_wind": 31,
+      "calm": 812
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 210,
+      "to_deg": 240,
+      "share_of_high": 0.3304,
+      "cpf": 0.0967,
+      "share_of_hours": 0.0344,
+      "high_hours": 38,
+      "high_days": 29,
+      "threshold_ppb": 5.237
+     }
+    },
+    "43218": {
+     "name": "1,3-butadiene",
+     "n_hours": 11559,
+     "thresholds_ppb": {
+      "p90": 0.17,
+      "p99": 2.518
+     },
+     "high_hours": {
+      "p90": 1212,
+      "p99": 116
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 820,
+       "share_of_hours": 0.0709,
+       "sparse": false,
+       "p90": {
+        "high_hours": 186,
+        "high_days": 95,
+        "cpf": 0.2268,
+        "share_of_high": 0.1535
+       },
+       "p99": {
+        "high_hours": 37,
+        "high_days": 24,
+        "cpf": 0.0451,
+        "share_of_high": 0.319
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 1249,
+       "share_of_hours": 0.1081,
+       "sparse": false,
+       "p90": {
+        "high_hours": 165,
+        "high_days": 98,
+        "cpf": 0.1321,
+        "share_of_high": 0.1361
+       },
+       "p99": {
+        "high_hours": 27,
+        "high_days": 19,
+        "cpf": 0.0216,
+        "share_of_high": 0.2328
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 974,
+       "share_of_hours": 0.0843,
+       "sparse": false,
+       "p90": {
+        "high_hours": 75,
+        "high_days": 55,
+        "cpf": 0.077,
+        "share_of_high": 0.0619
+       },
+       "p99": {
+        "high_hours": 3,
+        "high_days": 3,
+        "cpf": 0.0031,
+        "share_of_high": 0.0259
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 747,
+       "share_of_hours": 0.0646,
+       "sparse": false,
+       "p90": {
+        "high_hours": 34,
+        "high_days": 31,
+        "cpf": 0.0455,
+        "share_of_high": 0.0281
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0013,
+        "share_of_high": 0.0086
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 2824,
+       "share_of_hours": 0.2443,
+       "sparse": false,
+       "p90": {
+        "high_hours": 39,
+        "high_days": 35,
+        "cpf": 0.0138,
+        "share_of_high": 0.0322
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0007,
+        "share_of_high": 0.0172
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 1775,
+       "share_of_hours": 0.1536,
+       "sparse": false,
+       "p90": {
+        "high_hours": 46,
+        "high_days": 35,
+        "cpf": 0.0259,
+        "share_of_high": 0.038
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0011,
+        "share_of_high": 0.0172
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1399,
+       "share_of_hours": 0.121,
+       "sparse": false,
+       "p90": {
+        "high_hours": 237,
+        "high_days": 119,
+        "cpf": 0.1694,
+        "share_of_high": 0.1955
+       },
+       "p99": {
+        "high_hours": 13,
+        "high_days": 12,
+        "cpf": 0.0093,
+        "share_of_high": 0.1121
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 415,
+       "share_of_hours": 0.0359,
+       "sparse": false,
+       "p90": {
+        "high_hours": 183,
+        "high_days": 99,
+        "cpf": 0.441,
+        "share_of_high": 0.151
+       },
+       "p99": {
+        "high_hours": 25,
+        "high_days": 21,
+        "cpf": 0.0602,
+        "share_of_high": 0.2155
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 287,
+       "share_of_hours": 0.0248,
+       "sparse": false,
+       "p90": {
+        "high_hours": 43,
+        "high_days": 38,
+        "cpf": 0.1498,
+        "share_of_high": 0.0355
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0035,
+        "share_of_high": 0.0086
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 270,
+       "share_of_hours": 0.0234,
+       "sparse": false,
+       "p90": {
+        "high_hours": 47,
+        "high_days": 35,
+        "cpf": 0.1741,
+        "share_of_high": 0.0388
+       },
+       "p99": {
+        "high_hours": 4,
+        "high_days": 4,
+        "cpf": 0.0148,
+        "share_of_high": 0.0345
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 496,
+       "share_of_hours": 0.0429,
+       "sparse": false,
+       "p90": {
+        "high_hours": 54,
+        "high_days": 42,
+        "cpf": 0.1089,
+        "share_of_high": 0.0446
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.002,
+        "share_of_high": 0.0086
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 303,
+       "share_of_hours": 0.0262,
+       "sparse": false,
+       "p90": {
+        "high_hours": 103,
+        "high_days": 36,
+        "cpf": 0.3399,
+        "share_of_high": 0.085
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 5134,
+      "no_wind": 31,
+      "calm": 820
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 0,
+      "to_deg": 30,
+      "share_of_high": 0.319,
+      "cpf": 0.0451,
+      "share_of_hours": 0.0709,
+      "high_hours": 37,
+      "high_days": 24,
+      "threshold_ppb": 2.518
+     }
+    }
+   },
+   "skipped_compounds": {}
+  },
+  "48_201_0026": {
+   "name": "Channelview",
+   "compounds": {
+    "45201": {
+     "name": "benzene",
+     "n_hours": 12194,
+     "thresholds_ppb": {
+      "p90": 0.76,
+      "p99": 2.761
+     },
+     "high_hours": {
+      "p90": 1230,
+      "p99": 122
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 447,
+       "share_of_hours": 0.0367,
+       "sparse": false,
+       "p90": {
+        "high_hours": 8,
+        "high_days": 6,
+        "cpf": 0.0179,
+        "share_of_high": 0.0065
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 647,
+       "share_of_hours": 0.0531,
+       "sparse": false,
+       "p90": {
+        "high_hours": 142,
+        "high_days": 71,
+        "cpf": 0.2195,
+        "share_of_high": 0.1154
+       },
+       "p99": {
+        "high_hours": 14,
+        "high_days": 9,
+        "cpf": 0.0216,
+        "share_of_high": 0.1148
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 1089,
+       "share_of_hours": 0.0893,
+       "sparse": false,
+       "p90": {
+        "high_hours": 251,
+        "high_days": 125,
+        "cpf": 0.2305,
+        "share_of_high": 0.2041
+       },
+       "p99": {
+        "high_hours": 32,
+        "high_days": 28,
+        "cpf": 0.0294,
+        "share_of_high": 0.2623
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 1272,
+       "share_of_hours": 0.1043,
+       "sparse": false,
+       "p90": {
+        "high_hours": 97,
+        "high_days": 79,
+        "cpf": 0.0763,
+        "share_of_high": 0.0789
+       },
+       "p99": {
+        "high_hours": 10,
+        "high_days": 9,
+        "cpf": 0.0079,
+        "share_of_high": 0.082
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 3251,
+       "share_of_hours": 0.2666,
+       "sparse": false,
+       "p90": {
+        "high_hours": 337,
+        "high_days": 192,
+        "cpf": 0.1037,
+        "share_of_high": 0.274
+       },
+       "p99": {
+        "high_hours": 30,
+        "high_days": 24,
+        "cpf": 0.0092,
+        "share_of_high": 0.2459
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 1676,
+       "share_of_hours": 0.1374,
+       "sparse": false,
+       "p90": {
+        "high_hours": 205,
+        "high_days": 147,
+        "cpf": 0.1223,
+        "share_of_high": 0.1667
+       },
+       "p99": {
+        "high_hours": 20,
+        "high_days": 18,
+        "cpf": 0.0119,
+        "share_of_high": 0.1639
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1372,
+       "share_of_hours": 0.1125,
+       "sparse": false,
+       "p90": {
+        "high_hours": 97,
+        "high_days": 65,
+        "cpf": 0.0707,
+        "share_of_high": 0.0789
+       },
+       "p99": {
+        "high_hours": 8,
+        "high_days": 7,
+        "cpf": 0.0058,
+        "share_of_high": 0.0656
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 599,
+       "share_of_hours": 0.0491,
+       "sparse": false,
+       "p90": {
+        "high_hours": 60,
+        "high_days": 46,
+        "cpf": 0.1002,
+        "share_of_high": 0.0488
+       },
+       "p99": {
+        "high_hours": 6,
+        "high_days": 5,
+        "cpf": 0.01,
+        "share_of_high": 0.0492
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 364,
+       "share_of_hours": 0.0299,
+       "sparse": false,
+       "p90": {
+        "high_hours": 15,
+        "high_days": 12,
+        "cpf": 0.0412,
+        "share_of_high": 0.0122
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0027,
+        "share_of_high": 0.0082
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 438,
+       "share_of_hours": 0.0359,
+       "sparse": false,
+       "p90": {
+        "high_hours": 9,
+        "high_days": 8,
+        "cpf": 0.0205,
+        "share_of_high": 0.0073
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0023,
+        "share_of_high": 0.0082
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 623,
+       "share_of_hours": 0.0511,
+       "sparse": false,
+       "p90": {
+        "high_hours": 8,
+        "high_days": 7,
+        "cpf": 0.0128,
+        "share_of_high": 0.0065
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 416,
+       "share_of_hours": 0.0341,
+       "sparse": false,
+       "p90": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0024,
+        "share_of_high": 0.0008
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 3518,
+      "no_wind": 55,
+      "calm": 1777
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 60,
+      "to_deg": 90,
+      "share_of_high": 0.2623,
+      "cpf": 0.0294,
+      "share_of_hours": 0.0893,
+      "high_hours": 32,
+      "high_days": 28,
+      "threshold_ppb": 2.761
+     }
+    },
+    "43218": {
+     "name": "1,3-butadiene",
+     "n_hours": 12101,
+     "thresholds_ppb": {
+      "p90": 0.27,
+      "p99": 5.97
+     },
+     "high_hours": {
+      "p90": 1218,
+      "p99": 122
+     },
+     "sectors": [
+      {
+       "from_deg": 0,
+       "to_deg": 30,
+       "hours": 408,
+       "share_of_hours": 0.0337,
+       "sparse": false,
+       "p90": {
+        "high_hours": 283,
+        "high_days": 87,
+        "cpf": 0.6936,
+        "share_of_high": 0.2323
+       },
+       "p99": {
+        "high_hours": 64,
+        "high_days": 32,
+        "cpf": 0.1569,
+        "share_of_high": 0.5246
+       }
+      },
+      {
+       "from_deg": 30,
+       "to_deg": 60,
+       "hours": 613,
+       "share_of_hours": 0.0507,
+       "sparse": false,
+       "p90": {
+        "high_hours": 129,
+        "high_days": 79,
+        "cpf": 0.2104,
+        "share_of_high": 0.1059
+       },
+       "p99": {
+        "high_hours": 16,
+        "high_days": 14,
+        "cpf": 0.0261,
+        "share_of_high": 0.1311
+       }
+      },
+      {
+       "from_deg": 60,
+       "to_deg": 90,
+       "hours": 1085,
+       "share_of_hours": 0.0897,
+       "sparse": false,
+       "p90": {
+        "high_hours": 71,
+        "high_days": 57,
+        "cpf": 0.0654,
+        "share_of_high": 0.0583
+       },
+       "p99": {
+        "high_hours": 4,
+        "high_days": 4,
+        "cpf": 0.0037,
+        "share_of_high": 0.0328
+       }
+      },
+      {
+       "from_deg": 90,
+       "to_deg": 120,
+       "hours": 1275,
+       "share_of_hours": 0.1054,
+       "sparse": false,
+       "p90": {
+        "high_hours": 190,
+        "high_days": 112,
+        "cpf": 0.149,
+        "share_of_high": 0.156
+       },
+       "p99": {
+        "high_hours": 18,
+        "high_days": 16,
+        "cpf": 0.0141,
+        "share_of_high": 0.1475
+       }
+      },
+      {
+       "from_deg": 120,
+       "to_deg": 150,
+       "hours": 3299,
+       "share_of_hours": 0.2726,
+       "sparse": false,
+       "p90": {
+        "high_hours": 157,
+        "high_days": 117,
+        "cpf": 0.0476,
+        "share_of_high": 0.1289
+       },
+       "p99": {
+        "high_hours": 9,
+        "high_days": 9,
+        "cpf": 0.0027,
+        "share_of_high": 0.0738
+       }
+      },
+      {
+       "from_deg": 150,
+       "to_deg": 180,
+       "hours": 1672,
+       "share_of_hours": 0.1382,
+       "sparse": false,
+       "p90": {
+        "high_hours": 175,
+        "high_days": 121,
+        "cpf": 0.1047,
+        "share_of_high": 0.1437
+       },
+       "p99": {
+        "high_hours": 6,
+        "high_days": 5,
+        "cpf": 0.0036,
+        "share_of_high": 0.0492
+       }
+      },
+      {
+       "from_deg": 180,
+       "to_deg": 210,
+       "hours": 1384,
+       "share_of_hours": 0.1144,
+       "sparse": false,
+       "p90": {
+        "high_hours": 102,
+        "high_days": 69,
+        "cpf": 0.0737,
+        "share_of_high": 0.0837
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0014,
+        "share_of_high": 0.0164
+       }
+      },
+      {
+       "from_deg": 210,
+       "to_deg": 240,
+       "hours": 597,
+       "share_of_hours": 0.0493,
+       "sparse": false,
+       "p90": {
+        "high_hours": 27,
+        "high_days": 23,
+        "cpf": 0.0452,
+        "share_of_high": 0.0222
+       },
+       "p99": {
+        "high_hours": 2,
+        "high_days": 2,
+        "cpf": 0.0034,
+        "share_of_high": 0.0164
+       }
+      },
+      {
+       "from_deg": 240,
+       "to_deg": 270,
+       "hours": 352,
+       "share_of_hours": 0.0291,
+       "sparse": false,
+       "p90": {
+        "high_hours": 33,
+        "high_days": 28,
+        "cpf": 0.0938,
+        "share_of_high": 0.0271
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 270,
+       "to_deg": 300,
+       "hours": 431,
+       "share_of_hours": 0.0356,
+       "sparse": false,
+       "p90": {
+        "high_hours": 21,
+        "high_days": 17,
+        "cpf": 0.0487,
+        "share_of_high": 0.0172
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      },
+      {
+       "from_deg": 300,
+       "to_deg": 330,
+       "hours": 600,
+       "share_of_hours": 0.0496,
+       "sparse": false,
+       "p90": {
+        "high_hours": 25,
+        "high_days": 25,
+        "cpf": 0.0417,
+        "share_of_high": 0.0205
+       },
+       "p99": {
+        "high_hours": 1,
+        "high_days": 1,
+        "cpf": 0.0017,
+        "share_of_high": 0.0082
+       }
+      },
+      {
+       "from_deg": 330,
+       "to_deg": 360,
+       "hours": 385,
+       "share_of_hours": 0.0318,
+       "sparse": false,
+       "p90": {
+        "high_hours": 5,
+        "high_days": 3,
+        "cpf": 0.013,
+        "share_of_high": 0.0041
+       },
+       "p99": {
+        "high_hours": 0,
+        "high_days": 0,
+        "cpf": 0.0,
+        "share_of_high": 0.0
+       }
+      }
+     ],
+     "dropped_hours": {
+      "no_reading": 3639,
+      "no_wind": 56,
+      "calm": 1748
+     },
+     "headline": {
+      "percentile": 99,
+      "from_deg": 0,
+      "to_deg": 30,
+      "share_of_high": 0.5246,
+      "cpf": 0.1569,
+      "share_of_hours": 0.0337,
+      "high_hours": 64,
+      "high_days": 32,
+      "threshold_ppb": 5.97
+     }
+    }
+   },
+   "skipped_compounds": {}
+  }
+ },
+ "skipped_sites": [
+  {
+   "site_id": "48_201_0057",
+   "name": "Galena Park",
+   "reason": "no wind measured at this site (missing met_2024_48_201_0057_61102.html, met_2024_48_201_0057_61101.html, met_2025_48_201_0057_61102.html, met_2025_48_201_0057_61101.html)"
+  },
+  {
+   "site_id": "48_201_1614",
+   "name": "HRM-16 Deer Park",
+   "reason": "no wind measured at this site (missing met_2024_48_201_1614_61102.html, met_2024_48_201_1614_61101.html, met_2025_48_201_1614_61102.html, met_2025_48_201_1614_61101.html)"
+  },
+  {
+   "site_id": "48_201_1035",
+   "name": "Clinton",
+   "reason": "no wind measured at this site (missing met_2024_48_201_1035_61102.html, met_2024_48_201_1035_61101.html, met_2025_48_201_1035_61102.html, met_2025_48_201_1035_61101.html)"
+  },
+  {
+   "site_id": "48_201_0803",
+   "name": "HRM-3 Haden Road",
+   "reason": "no wind measured at this site (missing met_2024_48_201_0803_61102.html, met_2024_48_201_0803_61101.html, met_2025_48_201_0803_61102.html, met_2025_48_201_0803_61101.html)"
+  }
+ ]
+}
