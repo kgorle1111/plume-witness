@@ -7,7 +7,7 @@ Candidates (ground truth comes from the self-reports, never from the pipeline):
 Per candidate, the unchanged pipeline (build.trace) runs on the event's start day:
   monitors = AutoGC sites within 15 km of the facility (a farther monitor's corridor can never reach it);
   compound = benzene if the event reported benzene, else 1,3-butadiene;
-  wind = the triggering monitor's own wind (nearest site with wind if it has none; recorded);
+  wind = the triggering monitor's own wind (nearest site with wind within BORROW_MAX_KM if it has none; recorded);
   day reports = every STEERS row that started that day (from the week searches; same query, wider window),
   plus every earlier-started row still open within 6 h of that day (its own Ended column);
   absence also needs the build.LOOKBACK_DAYS before the day covered by complete week searches.
@@ -31,7 +31,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from pipeline import build, nrc, regions
-from pipeline.parse import _text, lbs_by_param, steers_incident, steers_search
+from pipeline.parse import _text, lbs_by_param, lists_param, lumped_by_param, steers_incident, steers_search
 from pipeline.regions import ALL_SITE_NAMES, HOUSTON_SITES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -81,6 +81,13 @@ def compound_pounds(path: Path) -> dict[str, float]:
     return lbs_by_param(_text(path))
 
 
+def listed_params(path: Path) -> tuple[list[str], dict[str, float], dict[str, list[dict]]]:
+    """(monitored compounds the report lists, pounds named on their own rows, lumped rows naming one)."""
+    text = _text(path)
+    inc = {"lbs_by_param": lbs_by_param(text), "lumped_by_param": lumped_by_param(text)}
+    return [q for q in ("45201", "43218") if lists_param(inc, q)], inc["lbs_by_param"], inc["lumped_by_param"]
+
+
 def event_meta(path: Path) -> dict:
     t = re.sub(r"\s+", " ", _text(path))
     typ = re.search(r"Event/Activity Type: (.+?) Date and Time", t)
@@ -115,11 +122,17 @@ def load_echo(raw: Path = BT) -> tuple[dict[str, dict], list[dict]]:
     return per_site, rows
 
 
+# A site with no wind of its own borrows the nearest site's only within this distance; farther, it has no wind and
+# the spike is not traced. Measured on 2024-25 hourly winds (both sites >= 3 mph): pairs of sites within 10 km agree
+# within 22.5 deg in 73-89% of hours (Houston, Baytown, Beaumont, Dallas-Fort Worth), close to one site's met vs
+# AutoGC forms (87-91%); farther pairs fall to 45-66% (San Antonio 25.8 km: 45%). Without a cap San Antonio borrowed
+# across 58 km and Midland-Odessa across 37 km. 10 km is also inside the 15 km corridor the wind is drawn over.
+BORROW_MAX_KM = 10.0
+
+
 def load_winds(year: str, day: str, sites: dict[str, tuple[float, float]], raw: Path = BT) -> dict[str, dict]:
     """Each site's own wind (met form, else AutoGC form: build.own_wind); a site with neither that day borrows the
-    nearest site that has its own (site_id says which)."""
-    # kn: no distance cap on a borrowed wind; the farthest borrowed in 2024-25 is 1.8 km. Cap it before a sparser
-    # region borrows across a bay.
+    nearest site that has its own, if it is within BORROW_MAX_KM (site_id says which), else has none."""
     own = {s: w for s in sites if (w := build.own_wind(s, year, day, raw, _table))}
     out = {}
     for s, p in sites.items():
@@ -127,7 +140,8 @@ def load_winds(year: str, day: str, sites: dict[str, tuple[float, float]], raw: 
             out[s] = own[s]
         elif own:
             near = min(own, key=lambda o: build.haversine_km(p, sites[o]))
-            out[s] = own[near]
+            if build.haversine_km(p, sites[near]) <= BORROW_MAX_KM:
+                out[s] = own[near]
     return out
 
 
@@ -307,6 +321,8 @@ def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[
                "value": det["value"], "baseline": det["baseline"], "search_complete": complete,
                "earlier_search_complete": earlier_ok, "day_reports": len(rows_by_day.get(day, [])),
                "wind_source": wind_source(t.get("wind"), det["site_id"])}
+        if det["hour_cst"] == 0 and t.get("wind"):  # whether "the hour before" could be read (build.wind_pair)
+            row["previous_day_wind"] = t["wind"].get("prev_hour") is not None
         if "record_check" not in t:
             rows.append(row | {"status": "no_wind", "matched_incident": None, "candidate_reports_in_corridor": 0})
             continue
@@ -418,8 +434,8 @@ def select_candidates(universe: list[dict], echo_rows: list[dict], sites: dict, 
         if meta["type"] != "EMISSIONS EVENT":
             funnel["not_emissions_event"] += 1
             continue
-        lbs = compound_pounds(p)
-        if not (lbs["45201"] or lbs["43218"]):
+        listed, lbs, lumped = listed_params(p)
+        if not listed:
             funnel["no_benzene_or_butadiene"] += 1
             continue
         if r["began"][6:10] not in YEARS:
@@ -437,8 +453,11 @@ def select_candidates(universe: list[dict], echo_rows: list[dict], sites: dict, 
             continue
         funnel["candidates"] += 1
         candidates.append({"incident": r["incident"], "entity": r["entity"], "rn": r["rn"], "day": r["began"][:10],
-                           "began_local": r["began"], "ended_local": r.get("ended"), "param": "45201" if lbs["45201"] else "43218",
+                           "began_local": r["began"], "ended_local": r.get("ended"), "param": listed[0],
                            "benzene_lbs": lbs["45201"], "butadiene_lbs": lbs["43218"],
+                           # the mixture's pounds where the compound is named only inside a lumped row
+                           **({"lumped_lbs": sum(x["pounds"] for x in lumped[listed[0]])}
+                              if not lbs[listed[0]] and listed[0] in lumped else {}),
                            "fac_registry_id": fac["RegistryID"], "fac_latlon": ll, "located_by": how,
                            "nearest_site_km": round(dmin, 1)})
     return candidates, funnel, unlocated
@@ -473,6 +492,8 @@ def run(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> di
                                                  and r["search_complete"] and not r["earlier_search_complete"]),
         "matched_an_ongoing_report": sum(1 for r in spikes if r.get("matched_ongoing")),
         "wind_source": _count(r["wind_source"] for r in spikes),
+        "hour0_spikes": sum(1 for r in spikes if r["hour_cst"] == 0),
+        "hour0_without_previous_day_wind": sum(1 for r in spikes if r.get("previous_day_wind") is False),
     }
     summary = {
         "candidates": len(results), "detected": len(det),
@@ -498,7 +519,8 @@ def run(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> di
                       "corridor": f"+/-{build.CORRIDOR_HALF_ANGLE} deg of upwind, <= {build.CORRIDOR_RADIUS_KM} km",
                       "match": "record_check picks this incident: in corridor, report [start, end] overlaps -6h..+2h of "
                                "detection (it may have started on an earlier day)",
-                      "calm_mph": build.CALM_MPH, "lookback_days": build.LOOKBACK_DAYS},
+                      "calm_mph": build.CALM_MPH, "lookback_days": build.LOOKBACK_DAYS,
+                      "borrow_max_km": BORROW_MAX_KM},
             "summary": summary, "spike_summary": spike_summary, "funnel": funnel, "incomplete_week_searches": incomplete_weeks,
             "unlocated": unlocated, "events": results, "spikes": spikes}
 
@@ -610,7 +632,10 @@ Week searches whose page did not list every record: {len(res["incomplete_week_se
   corridor can never reach it). A monitor without data or baseline for the day is dropped and recorded.
 - **Detection (unchanged pipeline):** {res["rules"]["trigger"]}.
 - **Corridor (unchanged pipeline):** {res["rules"]["corridor"]}, from the wind at the triggering monitor in the
-  detection hour and the hour before; a monitor with no wind uses the nearest site that has it (recorded per event).
+  detection hour and the hour before (for a spike in hour 0, the previous day's 23:00; {sp["hour0_spikes"]} spikes
+  were in hour 0, and {sp["hour0_without_previous_day_wind"]} of them had no cached previous day, so they read hour 0
+  alone); a monitor with no wind uses the nearest site that has it, only within {BORROW_MAX_KM:g} km (recorded per
+  event; farther, the spike has no wind and is not traced).
   The TCEQ met form returned no hourly wind for {", ".join(site_names[x] for x in no_wind) or "none"}; each uses its
   own AutoGC-form resultant wind (61104/61103) instead, and borrows only on a day that has neither. Wind source of
   the {sp["spikes"]} spikes: {", ".join(f"{k} {v}" for k, v in sp["wind_source"].items())}.

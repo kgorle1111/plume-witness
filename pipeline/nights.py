@@ -49,6 +49,9 @@ def provenance_for(sp: dict, wind: dict, rows_by_day: dict, prov: dict[str, dict
     files = [f"agc_{year}_{m['site_id']}_{param}.html" for m in sp["monitors"]]
     files += [f"tamis_{m['site_id']}.html" for m in sp["monitors"]]
     files += build.wind_files(wind["site_id"], year, wind.get("source", "met"))
+    prev = wind.get("prev_hour") if sp["det"]["hour_cst"] == 0 else None
+    if prev and prev["date"][:4] != year:  # a 1 January spike reads 31 December's 23:00 from last year's file
+        files += build.wind_files(wind["site_id"], prev["date"][:4], wind.get("source", "met"))
     own = f"echo_{sp['det']['site_id']}_10mi.json"
     files.append(own)
     rc = sp["trace"].get("record_check", {})

@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 
 from pipeline.contract import SCHEMA, validate
 from pipeline.names import display_name
-from pipeline.parse import hourly_flags, hourly_table, steers_incident, steers_search
+from pipeline.parse import hourly_flags, hourly_table, lists_param, steers_incident, steers_search
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW, OUT = ROOT / "data" / "raw", ROOT / "data" / "build"
@@ -204,11 +204,11 @@ def final_check(inc: dict) -> tuple[str, str]:
     """T+14d from the report's own fields: a FINAL report dated within 14 days of the event's end.
 
     A FINAL report dated later is 'reported_late', never 'not_yet_reported': the record exists, so "not yet" would
-    be false. 'not_yet_reported' is kept for a report whose cached page has no final date.
-    kn: that also covers a matched report with only an initial notice on file, where "not yet reported" overstates it
-    (0 published nights); it needs its own status ("final report pending") in the contract and the web."""
+    be false. 'not_yet_reported' is kept for the final report of a page that has none on file (only the initial
+    notice, or no final date): that check only, since the notice itself is on the record (record_check)."""
     if inc.get("report_type") != "FINAL" or not inc.get("report_date"):
-        return "not_yet_reported", f"report type {inc.get('report_type') or 'not stated'}; no final report date"
+        return "not_yet_reported", (f"final report pending: the cached report is type "
+                                    f"{inc.get('report_type') or 'not stated'}, with no final report date")
     days = (date.fromisoformat(inc["report_date"]) - datetime.fromisoformat(inc["end_local"]).date()).days
     status = "reported" if days <= FINAL_DEADLINE_DAYS else "reported_late"
     return status, f"final report dated {inc['report_date']}, {days} days after the event ended"
@@ -292,7 +292,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
     base = {"day_incidents": placed, "ongoing_incidents": still_open, "search_scope": scope}
     in_time = [] if calm_note else [p for p in placed + still_open if p["in_corridor"] and overlaps(p)]
     # A report only matches if it lists the compound the monitor saw; otherwise it is reported_mismatch.
-    hits = [p for p in in_time if details[p["incident"]].get("lbs_by_param", {}).get(param, 0) > 0]
+    hits = [p for p in in_time if lists_param(details[p["incident"]], param)]
     mismatch = not hits and bool(in_time)
     hits = hits or in_time
     if hits:
@@ -304,14 +304,20 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         notice_h = (datetime.fromisoformat(inc["notified_local"]) - start).total_seconds() / 3600
         t24 = "reported" if notice_h <= 24 else "reported_late"  # the notice is on file, dated after 24 h
         t14, t14_note = final_check(inc)
-        status = "reported_mismatch" if mismatch else t14
+        # No final report on file yet: the initial notice is, so the report's status is the notice's (T+24h), never
+        # "not yet reported" for a report that is on the record (review L9); the T+14d check says the final is pending.
+        status = "reported_mismatch" if mismatch else t24 if t14 == "not_yet_reported" else t14
         basis = ("started near the spike" if start.date() >= det_day
                  else f"ongoing (started {start.date().isoformat()})")
         # On a match, the compound and pounds are the monitored compound's, summed over the report's emission points;
         # the report's first contaminant line can be another compound (CO before benzene). A mismatch keeps that
-        # first line: it is what the report does list.
+        # first line: it is what the report does list. A report that names the compound only inside a lumped row
+        # ("BTEX - benzene, ...") gives that row and the mixture's pounds, never those pounds as the compound's.
+        lumped = [] if mismatch or inc["lbs_by_param"][param] > 0 else inc.get("lumped_by_param", {}).get(param, [])
         compound, pounds = ((inc["compound"], inc["pounds"]) if mismatch
-                            else (COMPOUNDS[param][0], inc.get("lbs_exact", inc["lbs_by_param"])[param]))
+                            else (COMPOUNDS[param][0], inc["lbs_by_param"][param]) if not lumped
+                            else ("; ".join(r["cell"] for r in lumped),
+                                  float(sum(Decimal(repr(r["pounds"])) for r in lumped))))
         return base | {
             "status": status, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
             "source_url": STEERS_URL.format(inc["incident"]),
@@ -324,6 +330,7 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
                          "start_local": inc["start_local"], "end_local": inc["end_local"],
                          "tz": f"local ({'CDT' if steers_tz_offset_h(det_day) else 'CST'})",
                          "cause": inc["cause"], "match_basis": basis}
+                        | ({"lumped": True} if lumped else {})
                         | ({"revisions": inc["revisions"]} if inc.get("revisions") else {})
                         | _travel(p, inc, det_local, speed_mph),
         }
@@ -405,19 +412,24 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         r = rc["reported"]
         lbs = _exact(r["pounds"], grouped=True)
         when_en, when_es, same_day = _release_when(r, det_iso)
+        # A lumped row's pounds are the mixture's: say so, never "N pounds of benzene".
+        what_en = (f"a mixture the report lists as \"{r['compound']}\", which includes {name_en}" if r.get("lumped")
+                   else name_en)
+        what_es = (f"una mezcla que el reporte indica como «{r['compound']}», que incluye {name_es}" if r.get("lumped")
+                   else name_es)
         if same_day:
             rec_en = (f" One of them, {r['facility']}, filed emissions-event report {rc['incident']} for {lbs} "
-                      f"pounds of {name_en} {when_en.removeprefix('a release ')}. The reported release window and the "
+                      f"pounds of {what_en} {when_en.removeprefix('a release ')}. The reported release window and the "
                       "wind line up with these readings; other sources may also contribute.")
             rec_es = (f" Una de ellas, {r['facility']}, presentó el reporte de evento de emisiones {rc['incident']} por "
-                      f"{lbs} libras de {name_es} {when_es.removeprefix('una emisión ')}. El horario de la emisión "
+                      f"{lbs} libras de {what_es} {when_es.removeprefix('una emisión ')}. El horario de la emisión "
                       "reportada y el viento coinciden con estas lecturas; otras fuentes también pueden contribuir.")
         else:  # a report that ran across days: its pounds are the whole release's, not these hours'
             rec_en = (f" One of them, {r['facility']}, filed emissions-event report {rc['incident']} for {when_en}, "
-                      f"listing {lbs} pounds of {name_en} for the whole release, not for these hours. The reported "
+                      f"listing {lbs} pounds of {what_en} for the whole release, not for these hours. The reported "
                       "release window reaches the hours around these readings; other sources may also contribute.")
             rec_es = (f" Una de ellas, {r['facility']}, presentó el reporte de evento de emisiones {rc['incident']} por "
-                      f"{when_es}, con {lbs} libras de {name_es} para toda la emisión, no solo para estas horas. El "
+                      f"{when_es}, con {lbs} libras de {what_es} para toda la emisión, no solo para estas horas. El "
                       "horario de la emisión reportada llega a las horas de estas lecturas; otras fuentes también "
                       "pueden contribuir.")
         ask_en = (" Requested follow-up: confirm whether nearby residents were notified, and whether the reported "
@@ -531,24 +543,61 @@ def wind_files(site: str, year: str, source: str = "met") -> list[str]:
     return [f"{prefix}_{year}_{site}_{s}.html", f"{prefix}_{year}_{site}_{d}.html"]
 
 
+def _wind_row(site: str, year: str, day: str, source: str, raw: Path, table) -> tuple[list, list] | None:
+    """(speed, direction) hourly lists for one day from one source's two files, or None (file or row missing)."""
+    paths = [raw / f for f in wind_files(site, year, source)]
+    if not all(p.exists() for p in paths):
+        return None
+    try:
+        wspd, wdir = ((table or hourly_table)(p).get(day) for p in paths)
+    except ValueError:
+        return None
+    return (wspd, wdir) if wspd and wdir else None
+
+
+def previous_hour(site: str, day: str, source: str, raw: Path = RAW, table=None) -> tuple[dict | None, str]:
+    """The previous day's 23:00 CST reading at the site from the same source, for a spike in hour 0, and a note.
+
+    On 1 January that day is in the previous year's file. Missing file or row: (None, why); the caller then reads
+    hour 0 alone (the fallback: one hour of wind, not the hour before twice)."""
+    prev = datetime.strptime(day, "%m/%d/%Y") - timedelta(days=1)
+    pday, pyear = prev.strftime("%m/%d/%Y"), str(prev.year)
+    row = _wind_row(site, pyear, pday, source, raw, table)
+    if row is None:
+        return None, (f"no cached {WIND_FORM[source]} wind for {prev.date().isoformat()} 23:00 CST "
+                      f"({', '.join(wind_files(site, pyear, source))}), so hour 0's wind is used alone")
+    wspd, wdir = row
+    return ({"date": prev.date().isoformat(), "hour_cst": 23, "from_deg": wdir[23], "speed_mph": wspd[23]},
+            f"the hour before is {prev.date().isoformat()} 23:00 CST")
+
+
 def own_wind(site: str, year: str, day: str, raw: Path = RAW, table=None) -> dict | None:
     """The site's own wind for the day from the first source in WIND_SOURCES that has a direction that day, else None.
 
     A met-form wind keeps the original shape {site_id, hourly}; an AutoGC one adds source "autogc". `table` is a
-    path -> hourly table function (a cache); a missing file or a page with no hourly rows counts as no wind."""
+    path -> hourly table function (a cache); a missing file or a page with no hourly rows counts as no wind.
+    `prev_hour` is the previous day's 23:00 from the same source (None when not cached; `prev_hour_note` says why),
+    read only by a spike in hour 0 (wind_pair) and kept in event.json only for one (wind_block)."""
     for source in WIND_SOURCES:
-        paths = [raw / f for f in wind_files(site, year, source)]
-        if not all(p.exists() for p in paths):
+        row = _wind_row(site, year, day, source, raw, table)
+        if row is None or all(v is None for v in row[1]):
             continue
-        try:
-            wspd, wdir = ((table or hourly_table)(p).get(day) for p in paths)
-        except ValueError:
-            continue
-        if not (wdir and wspd) or all(v is None for v in wdir):
-            continue
+        wspd, wdir = row
         w = {"site_id": site, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]} for h in range(24)]}
-        return w if source == "met" else w | {"source": source}
+        prev, note = previous_hour(site, day, source, raw, table)
+        return (w if source == "met" else w | {"source": source}) | {"prev_hour": prev, "prev_hour_note": note}
     return None
+
+
+def wind_pair(wind: dict, h: int) -> list[dict]:
+    """The wind readings for the hour before the detection hour and the hour itself (the corridor window).
+
+    At hour 0 the hour before is the previous day's 23:00 (`prev_hour`); without it, hour 0 alone. Reading hour 0
+    twice drew the window from one bearing and checked calm on one hour while saying two (review L8)."""
+    if h:
+        return [wind["hourly"][h - 1], wind["hourly"][h]]
+    prev = wind.get("prev_hour")
+    return [prev, wind["hourly"][0]] if prev else [wind["hourly"][0]]
 
 
 def name_filer(facilities: list[dict], rc: dict, echo_rows: list[dict]) -> None:
@@ -609,13 +658,11 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     trig = next(m for m in monitors if m["site_id"] == det["site_id"])
     wind = winds.get(wind_site or trig["site_id"])
     h = det["hour_cst"]
-    wdir = [x["from_deg"] for x in wind["hourly"]] if wind else [None] * 24
-    window = [wdir[max(0, h - 1)], wdir[h]]  # air arriving at hour h left the source up to ~1h earlier at ~7 mph
-    # kn: at h=0 the hour before is the previous day's 23:00, which this day's table lacks, so 54 of the 468 spikes
-    # use hour 0's wind twice (a narrower window, and its calm check reads one hour). Pass the previous day's wind in.
+    pair = wind_pair(wind, h) if wind else []
+    window = [x["from_deg"] for x in pair]  # air arriving at hour h left the source up to ~1h earlier at ~7 mph
     if all(w is None for w in window):
         return {"detection": det, "wind": wind, "window": [], "trig": trig}
-    speeds = [x["speed_mph"] for x in (wind["hourly"][max(0, h - 1)], wind["hourly"][h])]
+    speeds = [x["speed_mph"] for x in pair]
     known = [v for v in speeds if v is not None]
     # kn: an hour with direction but no speed is not treated as calm; abstain on unknown speed if those nights matter.
     calm = min(known) if known and min(known) < CALM_MPH else None
@@ -628,7 +675,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     if calm_note:
         for r in placed + ongoing:
             r |= {"in_corridor": None, "resolution": f"not traced: {calm_note}"}
-    speed = speeds[1] if speeds[1] is not None else speeds[0]
+    speed = speeds[-1] if speeds[-1] is not None else speeds[0]
     nrc_cands: list[dict] = []
     if nrc_reports is not None and not calm_note:
         from pipeline import nrc  # imported here: nrc builds on this module's geometry and locate
@@ -661,9 +708,12 @@ BORROWED_WIND_CAVEAT = ("The wind used here was measured at a nearby monitor, no
                         "spike, so the upwind direction there may differ.")
 
 
-def wind_block(wind: dict | None, trig: dict, monitors: list[dict]) -> dict | None:
+def wind_block(wind: dict | None, trig: dict, monitors: list[dict], hour_cst: int | None = None) -> dict | None:
     """event.json's wind: as loaded when it is the flagged monitor's own met-form wind (the original shape, so those
-    files do not change); otherwise it also says where it came from (source, source_note)."""
+    files do not change); otherwise it also says where it came from (source, source_note). The previous day's 23:00
+    (prev_hour, prev_hour_note) is kept only for a spike in hour 0, the one night that reads it."""
+    if wind and hour_cst != 0 and "prev_hour_note" in wind:
+        wind = {k: v for k, v in wind.items() if k not in ("prev_hour", "prev_hour_note")}
     if not wind or (wind["site_id"] == trig["site_id"] and "source" not in wind):
         return wind
     own = wind["site_id"] == trig["site_id"]
@@ -694,7 +744,7 @@ def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, eve
         "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
                      "TCEQ labels AutoGC data provisional and subject to change.",
         "compound": {"name": name_en, "aqs_param": param, "units": "ppb-v"},
-        "monitors": monitors, "wind": wind_block(wind, trig, monitors), "detection": det, "facilities": facilities, "record_check": rc,
+        "monitors": monitors, "wind": wind_block(wind, trig, monitors, det["hour_cst"]), "detection": det, "facilities": facilities, "record_check": rc,
         "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
                      "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
         "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param,
