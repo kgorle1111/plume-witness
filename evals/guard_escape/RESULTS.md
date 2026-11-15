@@ -11,8 +11,8 @@ against `claude_demo_facts.json`, the facts it was generated from), the demo tem
 record-check status). Mutants are synthetic and deterministic (seeded, no network, no model calls). The
 `real` row is every real draft in the repo, unmodified: 1 Claude draft and 415 template drafts.
 
-Not measured: drafts written by a model trying to slip past the guard (the pick-2 plan's Haiku
-paraphrase attacks need an API call). Every catch rate below is on hand-built mutants.
+Not measured: drafts written by a model trying to slip past the guard (model-written paraphrase
+attacks need an API call). Every catch rate below is on hand-built mutants.
 
 ## BEFORE (baseline, guard unchanged from main): 2026-11-15, guard at 02f3646 (rebased; was 0516311)
 
@@ -236,7 +236,8 @@ Findings outside the guard (not fixed here):
   facilities; the event was regenerated with 47 in 18f8abd, and the published draft still says 40. Both
   the old and the fixed guard reject it against the current `event.json` (number 40), yet the web app
   shows it with `guard.passed: true`. The eval scores it against `claude_demo_facts.json`, the facts it
-  was made from, where it passes.
+  was made from, where it passes. (Resolved in da3f919: the draft was regenerated against the 47-facility
+  event, and it passes against the current `event.json`; see the last entry below.)
 - The deterministic template rounds reported pounds: "8,470" for 8469.74 (2 nights), "67" for 66.6,
   and "0 pounds" for a 0.07 lb report. The guard demands the exact figure, so these 4 of 416 real drafts
   are rejected. The old guard let "0 pounds" through only because a 0 appeared elsewhere in the facts.
