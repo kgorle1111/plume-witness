@@ -125,6 +125,7 @@ export function resolutionText(res: string, lang: Lang): { text: string; lang: L
 const NOTE_NOTICE = /^initial notice filed (\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}) local, (-?[\d.]+) h after the reported discovery \S+$/
 const NOTE_FINAL = /^final report dated (\d{4}-\d{2}-\d{2}), (\d+) days? after the event ended$/
 const NOTE_CALM = /^wind too light to trace \(([\d.]+) mph\)$/
+const NOTE_PENDING = /^final report pending: the cached report is type (.+), with no final report date$/
 
 export interface CheckNote { text: string; lang: Lang; filed: boolean }
 
@@ -138,6 +139,8 @@ export function checkNoteText(note: string | undefined, lang: Lang): CheckNote |
   if (m) return { text: translate(lang, m[2] === '1' ? 'chk.noteFinalOne' : 'chk.noteFinal', { date: dateLabel(m[1], lang), n: m[2] }), lang, filed: true }
   m = NOTE_CALM.exec(s)
   if (m) return { text: translate(lang, 'chk.noteCalm', { mph: m[1] }), lang, filed: false }
+  m = NOTE_PENDING.exec(s)
+  if (m) return { text: translate(lang, 'chk.noteFinalPending', { type: m[1] }), lang, filed: false }
   return { text: s, lang: 'en', filed: false }
 }
 
@@ -152,7 +155,9 @@ export function calmMph(rc: RecordCheck): number | null {
 // record_check.search_scope is a run of fixed sentences (pipeline/build.py, backtest.py). Each must match one known form
 // exactly (anchored patterns); if any sentence is unknown the whole paragraph stays as published (marked English)
 // rather than half-translated.
-const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (.+) County \((\d+) found; search (complete|incomplete)\)\.$/
+// The county phrase is pipeline/build.py county_en: "Harris County", or "Ector and Midland counties" / "Bexar, Comal and
+// Wilson counties" for a region searched in several.
+const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (?:([^,()]+) County|((?:[^,()]+, )*[^,()]+) and ([^,()]+) counties) \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_EARLIER = /^Also searched reports that started in the (\d+) days before and were still running \((\d+) open that day; earlier search (complete|incomplete)\)\.$/
 const SCOPE_MIDNIGHT = /^The match window runs past midnight, so reports that started (\d{2})\/(\d{2})\/(\d{4}) by (\d{2}:\d{2}) local were also searched \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_CALM = /^Wind too light to trace \(([\d.]+) mph\): no corridor drawn, so the search is incomplete\.$/
@@ -160,6 +165,8 @@ const SCOPE_FIXED = {
   'Events that started on earlier days were not searched.': 'scope.notEarlier',
   'No matching report found in a complete search.': 'scope.none',
   'A report open at that time could not be located, so the search is incomplete.': 'scope.unlocated',
+  // kn: quotes pipeline/nrc.py SCOPE_SENTENCE; change both together.
+  'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.': 'scope.nrc',
 } as const
 
 function scopeSentence(s: string, lang: Lang): string | null {
@@ -168,8 +175,9 @@ function scopeSentence(s: string, lang: Lang): string | null {
   if (fixed) return translate(lang, fixed)
   let m = SCOPE_DAY.exec(s)
   if (m) {
-    const key = m[5] === '1' ? 'scope.dayOne' : 'scope.day'
-    return translate(lang, key, { date: dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), county: m[4], n: m[5], state: state(m[6]) })
+    const key = m[7] === '1' ? 'scope.dayOne' : 'scope.day'
+    const place = m[4] ? translate(lang, 'scope.countyOne', { county: m[4] }) : translate(lang, 'scope.countyMany', { rest: m[5], last: m[6] })
+    return translate(lang, key, { date: dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), place, n: m[7], state: state(m[8]) })
   }
   m = SCOPE_EARLIER.exec(s)
   if (m) {

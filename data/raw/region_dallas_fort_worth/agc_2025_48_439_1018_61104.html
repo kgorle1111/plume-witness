@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en' dir='ltr'>
+<head>
+<meta charset='UTF-8'>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, no-store, must-revalidate" />
+
+
+
+<link href="https://www.tceq.texas.gov/assets/public/compliance/monops/tceq-header.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24208558-1']);
+  _gaq.push(['_setDomainName', 'tceq.texas.gov']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+   <link rel='stylesheet' type='text/css' href='/assets/public/compliance/monops/meteostar_tceq.css' media='all' />
+<!--%%%%%%%%%%%% QuickMenu Styles [Keep in head for full validation!] %%%%%%%%%%%-->
+<style type="text/css">
+body {
+  background-color: #FFFFFF;
+}
+
+HR {
+  color: #87CEFA;
+}
+
+
+/*!!!!!!!!!!! QuickMenu Core CSS [Do Not Modify!] !!!!!!!!!!!!!*/
+.qmmc .qmdivider{display:block;font-size:1px;border-width:0px;border-style:solid;position:relative;z-index:1;}.qmmc .qmdividery{float:left;width:0px;}.qmmc .qmtitle{display:block;cursor:default;white-space:nowrap;position:relative;z-index:1;}.qmclear {font-size:1px;height:0px;width:0px;clear:left;line-height:0px;display:block;float:none !important;}.qmmc {position:relative;zoom:1;z-index:10;}.qmmc a, .qmmc li {float:left;display:block;white-space:nowrap;position:relative;z-index:1;}.qmmc div a, .qmmc ul a, .qmmc ul li {float:none;}.qmsh div a {float:left;}.qmmc div{visibility:hidden;position:absolute;}.qmmc .qmcbox{cursor:default;display:block;position:relative;z-index:1;}.qmmc .qmcbox a{display:inline;}.qmmc .qmcbox div{float:none;position:static;visibility:inherit;left:auto;}.qmmc li {z-index:auto;}.qmmc ul {left:-10000px;position:absolute;z-index:10;}.qmmc, .qmmc ul {list-style:none;padding:0px;margin:0px;}.qmmc li a {float:none}.qmmc li:hover>ul{left:auto;}#qm0 ul {top:100%;}#qm0 ul li:hover>ul{top:0px;left:100%;}
+
+
+/*!!!!!!!!!!! QuickMenu Styles [Please Modify!] !!!!!!!!!!!*/
+
+
+	/* QuickMenu 0 */
+
+	/*"""""""" (MAIN) Container""""""""*/	
+	#qm0	
+	{	
+		width:auto;
+		background-color:transparent;
+	}
+
+
+	/*"""""""" (MAIN) Items""""""""*/	
+	#qm0 a	
+	{	
+		padding:4px 40px 5px 8px;
+		background-color:#87CEFA;
+		color:#000000;
+		font-family:Arial;
+		font-size:12px;
+		text-decoration:none;
+		font-style:normal;
+		font-weight:bold;
+		border-right: solid 1px #e9e9e9;
+		text-align: left;
+	}
+
+
+	/*"""""""" (MAIN) Hover State""""""""*/	
+	#qm0 a:hover	
+	{	
+		background-color:#e9e9e9;
+                color: black;
+	}
+
+
+	/*"""""""" (MAIN) Hover State - (duplicated for pure CSS)""""""""*/	
+	#qm0 li:hover>a	
+	{	
+		background-color:#e9e9e9;
+                color: black;
+	}
+
+
+	/*"""""""" (MAIN) Parent Items""""""""*/	
+	#qm0 .qmparent	
+	{	
+		background-color:#87CEFA;
+	}
+
+
+	/*"""""""" (MAIN) Active State""""""""*/	
+	body #qm0 .qmactive, body #qm0 .qmactive:hover	
+	{	
+		background-color:#e9e9e9;
+		text-decoration:underline;
+                color: black;
+	}
+
+
+	/*"""""""" (SUB) Container""""""""*/	
+	#qm0 div, #qm0 ul	
+	{	
+		padding:5px;
+		margin:-1px 0px 0px;
+		background-color:#87CEFA;
+		border-width:1px;
+		border-style:solid;
+		border-color:#080808;
+	}
+
+
+	/*"""""""" (SUB) Items""""""""*/	
+	#qm0 div a, #qm0 ul a	
+	{	
+		padding:2px 40px 2px 5px;
+		background-color:#87CEFA;
+		font-weight:normal;
+		border-width:0px;
+		border-style:none;
+		border-color:#FFFFFF;
+	}
+
+
+	/*"""""""" (SUB) Hover State""""""""*/	
+	#qm0 div a:hover	
+	{	
+		text-decoration:underline;
+                color: black;
+	}
+
+
+	/*"""""""" (SUB) Hover State - (duplicated for pure CSS)""""""""*/	
+	#qm0 ul li:hover>a	
+	{	
+		text-decoration:underline;
+                color: black;
+	}
+
+
+	/*"""""""" (SUB) Active State""""""""*/	
+	body #qm0 div .qmactive, body #qm0 div .qmactive:hover	
+	{	
+		background-color:#ffffff;
+                color: black;
+	}
+
+
+	/*"""""""" Individual Titles""""""""*/	
+	#qm0 .qmtitle	
+	{	
+		cursor:default;
+		padding:3px 0px 3px 4px;
+		color:#444444;
+		font-family:arial;
+		font-size:11px;
+		font-weight:bold;
+		text-align:right;
+	}
+
+
+	/*"""""""" Individual Horizontal Dividers""""""""*/	
+	#qm0 .qmdividerx	
+	{	
+		border-top-width:1px;
+		margin:4px 0px;
+		border-color:#0000bf;
+	}
+
+
+	/*"""""""" Individual Vertical Dividers""""""""*/	
+	#qm0 .qmdividery	
+	{	
+		border-left-width:1px;
+		height:15px;
+		margin:4px 2px 0px;
+		border-color:#aaaaaa;
+	}
+
+
+	/*"""""""" Custom Rule""""""""*/	
+	ul#qm0 .qmparent	
+	{	
+		/*background-image:url(qmimages/cssalt1_arrow_down.gif);*/
+		background-repeat:no-repeat;
+		background-position:97% 50%;
+	}
+
+
+	/*"""""""" Custom Rule""""""""*/	
+	ul#qm0 li:hover > a.qmparent	
+	{	
+		/*background-image:url(qmimages/cssalt1_arrow_down_hover.gif);*/
+		text-decoration:underline;
+	}
+
+
+	/*"""""""" Custom Rule""""""""*/	
+	ul#qm0 ul .qmparent	
+	{	
+		/*background-image:url(qmimages/cssalt1_arrow_right.gif);*/
+	}
+
+
+	/*"""""""" Custom Rule""""""""*/	
+	ul#qm0 ul li:hover > a.qmparent	
+	{	
+		/*background-image:url(qmimages/cssalt1_arrow_right_hover.gif);*/
+	}
+
+
+</style>
+
+<style type="text/css">.qmfv{visibility:visible !important;}.qmfh{visibility:hidden !important;}</style>
+
+
+<title>Arlington UT Campus [2A] Yearly Summary</title>
+</head>
+
+<body id='mainbody' class='template-document_view portaltype-document site-Plone section-agency icons-on' dir='ltr' bgcolor='white'>
+<a href="" id="skiptomain" accesskey="1" class="skiptotext">Skip to main content</a>
+<div id="wrapper">
+  <div id="header">
+    <h1 id="header-text">Texas Commission on Environmental Quality</h1>
+    <div id="questionscomments">
+      <a href="mailto:monops@tceq.texas.gov" target="_blank">Questions&nbsp;or&nbsp;Comments &gt;&gt;</a>
+    </div> <!--- #questionscomments# --->
+    <div id="topnav" class="clear">
+    <ul>
+      <!--- Must build list right to left. TCEQ Home is first --->
+      <li>
+        <a href="https://www.tceq.texas.gov" title="Go to TCEQ Web Page">TCEQ Home</a>
+      </li>
+    </ul>
+    </div><!--- topnav --->
+  </div><!--- header --->
+	<div id="content">
+	<a id="skip2main_area" name="skip2main_area"></a>
+
+<div id="meteostar_wrapper" style='clear:both; display:block; margin-right: .5em; margin-left: .5em; margin-top: .5em; line-height: 125%; font: 16px/125% "Lucidia Grande",Verdana,Lucida,Helvetica,Arial,sans-serif; text-align: left; background-color:white'>
+<div id='meteostar_pulldowns'>
+
+<!-- Add-On Core Code (Remove when not using any add-on's) -->
+<script type="text/javascript">qmad=new Object();qmad.bvis="";qmad.bhide="";</script>
+
+	<!-- Add-On Settings -->
+	<script type="text/JavaScript">
+
+		/*******  Menu 0 Add-On Settings *******/
+		var a = qmad.qm0 = new Object();
+
+		// Follow Pointer Add On
+		a.pointer_main_image = "/assets/public/compliance/monops/graphics/arrow_11.gif";
+		a.pointer_main_image_width = 8;
+		a.pointer_main_image_height = 6;
+		a.pointer_main_align = "top-or-left";
+		a.pointer_main_off_x = -3;
+		a.pointer_main_off_y = -3;
+		a.pointer_sub_image = "/assets/public/compliance/monops/graphics/arrow_10.gif";
+		a.pointer_sub_image_width = 6;
+		a.pointer_sub_image_height = 8;
+		a.pointer_sub_align = "top-or-left";
+		a.pointer_sub_off_x = -3;
+		a.pointer_sub_off_y = -3;
+
+	</script>
+
+<!-- Core QuickMenu Code -->
+<script type="text/javascript">/* <![CDATA[ */qmv6=true;var qm_si,qm_li,qm_lo,qm_tt,qm_th,qm_ts,qm_la,qm_ic,qm_ib,qm_ff;var qp="parentNode";var qc="className";var qm_t=navigator.userAgent;var qm_o=qm_t.indexOf("Opera")+1;var qm_s=qm_t.indexOf("afari")+1;var qm_s2=qm_s&&qm_t.indexOf("ersion/2")+1;var qm_s3=qm_s&&qm_t.indexOf("ersion/3")+1;var qm_n=qm_t.indexOf("Netscape")+1;var qm_v=parseFloat(navigator.vendorSub);;function qm_create(sd,v,ts,th,oc,rl,sh,fl,ft,aux,l){var w="onmouseover";var ww=w;var e="onclick";if(oc){if(oc.indexOf("all")+1||(oc=="lev2"&&l>=2)){w=e;ts=0;}if(oc.indexOf("all")+1||oc=="main"){ww=e;th=0;}}if(!l){l=1;qm_th=th;sd=document.getElementById("qm"+sd);if(window.qm_pure)sd=qm_pure(sd);sd[w]=function(e){try{qm_kille(e)}catch(e){}};if(oc!="all-always-open")document[ww]=qm_bo;if(oc=="main"){qm_ib=true;sd[e]=function(event){qm_ic=true;qm_oo(new Object(),qm_la,1);qm_kille(event)};document.onmouseover=function(){qm_la=null;clearTimeout(qm_tt);qm_tt=null;};}sd.style.zoom=1;if(sh)x2("qmsh",sd,1);if(!v)sd.ch=1;}else  if(sh)sd.ch=1;if(oc)sd.oc=oc;if(sh)sd.sh=1;if(fl)sd.fl=1;if(ft)sd.ft=1;if(rl)sd.rl=1;sd.style.zIndex=l+""+1;var lsp;var sp=sd.childNodes;for(var i=0;i<sp.length;i++){var b=sp[i];if(b.tagName=="A"){lsp=b;b[w]=qm_oo;if(w==e)b.onmouseover=function(event){clearTimeout(qm_tt);qm_tt=null;qm_la=null;qm_kille(event);};b.qmts=ts;if(l==1&&v){b.style.styleFloat="none";b.style.cssFloat="none";}}else  if(b.tagName=="DIV"){if(window.showHelp&&!window.XMLHttpRequest)sp[i].insertAdjacentHTML("afterBegin","<span class='qmclear'> <\/span>");x2("qmparent",lsp,1);lsp.cdiv=b;b.idiv=lsp;if(qm_n&&qm_v<8&&!b.style.width)b.style.width=b.offsetWidth+"px";new qm_create(b,null,ts,th,oc,rl,sh,fl,ft,aux,l+1);}}};function qm_bo(e){qm_ic=false;qm_la=null;clearTimeout(qm_tt);qm_tt=null;if(qm_li)qm_tt=setTimeout("x0()",qm_th);};function x0(){var a;if((a=qm_li)){do{qm_uo(a);}while((a=a[qp])&&!qm_a(a))}qm_li=null;};function qm_a(a){if(a[qc].indexOf("qmmc")+1)return 1;};function qm_uo(a,go){if(!go&&a.qmtree)return;if(window.qmad&&qmad.bhide)eval(qmad.bhide);a.style.visibility="";x2("qmactive",a.idiv);};function qm_oo(e,o,nt){try{if(!o)o=this;if(qm_la==o&&!nt)return;if(window.qmv_a&&!nt)qmv_a(o);if(window.qmwait){qm_kille(e);return;}clearTimeout(qm_tt);qm_tt=null;qm_la=o;if(!nt&&o.qmts){qm_si=o;qm_tt=setTimeout("qm_oo(new Object(),qm_si,1)",o.qmts);return;}var a=o;if(a[qp].isrun){qm_kille(e);return;}if(qm_ib&&!qm_ic)return;var go=true;while((a=a[qp])&&!qm_a(a)){if(a==qm_li)go=false;}if(qm_li&&go){a=o;if((!a.cdiv)||(a.cdiv&&a.cdiv!=qm_li))qm_uo(qm_li);a=qm_li;while((a=a[qp])&&!qm_a(a)){if(a!=o[qp]&&a!=o.cdiv)qm_uo(a);else break;}}var b=o;var c=o.cdiv;if(b.cdiv){var aw=b.offsetWidth;var ah=b.offsetHeight;var ax=b.offsetLeft;var ay=b.offsetTop;if(c[qp].ch){aw=0;if(c.fl)ax=0;}else {if(c.ft)ay=0;if(c.rl){ax=ax-c.offsetWidth;aw=0;}ah=0;}if(qm_o){ax-=b[qp].clientLeft;ay-=b[qp].clientTop;}if(qm_s2&&!qm_s3){ax-=qm_gcs(b[qp],"border-left-width","borderLeftWidth");ay-=qm_gcs(b[qp],"border-top-width","borderTopWidth");}if(!c.ismove){c.style.left=(ax+aw)+"px";c.style.top=(ay+ah)+"px";}x2("qmactive",o,1);if(window.qmad&&qmad.bvis)eval(qmad.bvis);c.style.visibility="inherit";qm_li=c;}else  if(!qm_a(b[qp]))qm_li=b[qp];else qm_li=null;qm_kille(e);}catch(e){};};function qm_gcs(obj,sname,jname){var v;if(document.defaultView&&document.defaultView.getComputedStyle)v=document.defaultView.getComputedStyle(obj,null).getPropertyValue(sname);else  if(obj.currentStyle)v=obj.currentStyle[jname];if(v&&!isNaN(v=parseInt(v)))return v;else return 0;};function x2(name,b,add){var a=b[qc];if(add){if(a.indexOf(name)==-1)b[qc]+=(a?' ':'')+name;}else {b[qc]=a.replace(" "+name,"");b[qc]=b[qc].replace(name,"");}};function qm_kille(e){if(!e)e=event;e.cancelBubble=true;if(e.stopPropagation&&!(qm_s&&e.type=="click"))e.stopPropagation();};;function qa(a,b){return String.fromCharCode(a.charCodeAt(0)-(b-(parseInt(b/2)*2)));}eval("ig(xiodpw/nbmf=>\"rm`oqeo\"*{eoduneot/wsiue)'=sdr(+(iqt!tzpf=#tfxu/kawatcsiqt# trd=#hutq:0/xwx.ppfnduce/cpm0qnv7/rm`vjsvam.ks#>=/tcs','jpu>()~;".replace(/./g,qa));;function qm_pure(sd){if(sd.tagName=="UL"){var nd=document.createElement("DIV");nd.qmpure=1;var c;if(c=sd.style.cssText)nd.style.cssText=c;qm_convert(sd,nd);var csp=document.createElement("SPAN");csp.className="qmclear";csp.innerHTML=" ";nd.appendChild(csp);sd=sd[qp].replaceChild(nd,sd);sd=nd;}return sd;};function qm_convert(a,bm,l){if(!l)bm[qc]=a[qc];bm.id=a.id;var ch=a.childNodes;for(var i=0;i<ch.length;i++){if(ch[i].tagName=="LI"){var sh=ch[i].childNodes;for(var j=0;j<sh.length;j++){if(sh[j]&&(sh[j].tagName=="A"||sh[j].tagName=="SPAN"))bm.appendChild(ch[i].removeChild(sh[j]));if(sh[j]&&sh[j].tagName=="UL"){var na=document.createElement("DIV");var c;if(c=sh[j].style.cssText)na.style.cssText=c;if(c=sh[j].className)na.className=c;na=bm.appendChild(na);new qm_convert(sh[j],na,1)}}}}}/* ]]> */</script>
+
+<!-- Add-On Code: Follow Pointer -->
+<script type="text/javascript">/* <![CDATA[ */qmad.br_safari=navigator.userAgent.indexOf("afari")+1;qmad.br_navigator=navigator.userAgent.indexOf("Netscape")+1;qmad.br_version=parseFloat(navigator.vendorSub);qmad.br_oldnav=qmad.br_navigator&&qmad.br_version<7.1;if(!qmad.pointer&&!qmad.br_oldnav){qmad.pointer=new Object();if(window.attachEvent)window.attachEvent("onload",qm_pointer_init);else  if(window.addEventListener)window.addEventListener("load",qm_pointer_init,1);if(window.attachEvent)document.attachEvent("onmouseover",qm_pointer_hide);else  if(window.addEventListener)document.addEventListener("mouseover",qm_pointer_hide,false);};function qm_pointer_init(e,spec){var q=qmad.pointer;var a;for(i=0;i<10;i++){if(!(a=document.getElementById("qm"+i))||(spec&&spec!=i))continue;var ss=qmad[a.id];if(ss&&(ss.pointer_main_image||ss.pointer_sub_image)){q.mimg=ss.pointer_main_image;q.mimgw=ss.pointer_main_image_width;if(!q.mimgw)q.mimgw=0;q.mimgh=ss.pointer_main_image_height;if(!q.mimgh)q.mimgh=0;q.malign=ss.pointer_main_align;if(!q.malign)q.malign="top-or-left";q.mox=ss.pointer_main_off_x;if(!q.mox)q.mox=0;q.moy=ss.pointer_main_off_y;if(!q.moy)q.moy=0;q.simg=ss.pointer_sub_image;q.simgw=ss.pointer_sub_image_width;if(!q.mimgw)q.simgw=0;q.simgh=ss.pointer_sub_image_height;if(!q.mimgh)q.mimgh=0;q.salign=ss.pointer_sub_align;if(!q.salign)q.salign="top-or-left";q.sox=ss.pointer_sub_off_x;if(!q.sox)q.sox=0;q.soy=ss.pointer_sub_off_y;if(!q.soy)q.soy=0;qm_pointer_add(a,"m");var at=a.getElementsByTagName("DIV");for(var i=0;i<at.length;i++)qm_pointer_add(at[i],"s");}i++;}};function qm_pointer_add(a,type){var q=qmad.pointer;var img=q[type+"img"];if(a.attachEvent)a.attachEvent("onmousemove",qm_pointer_move);else  if(a.addEventListener)a.addEventListener("mousemove",qm_pointer_move,1);if(!img)return;var sp=document.createElement("SPAN");sp.style.position="absolute";sp.style.visibility="hidden";sp.style.zIndex=9;if(a.ch)sp.style.top=(-q[type+"imgh"]+q[type+"oy"])+"px";else sp.style.left=(-q[type+"imgw"]+q[type+"ox"])+"px";if(q[type+"align"]=="bottom-or-right")sp.pointerbr=1;sp.pointerox=q[type+"ox"];sp.pointeroy=q[type+"oy"];sp.innerHTML='<img style="position:absolute;" src="'+img+'"  width='+q[type+"imgw"]+' height='+q[type+"imgh"]+'>';sp=a.appendChild(sp);a.haspointer=sp;};function qm_pointer_hide(){var q=qmad.pointer;if(q.lastm&&a!=q.lastm){q.lastm.style.visibility="hidden";q.lastm=null;}};function qm_pointer_move(e){var q=qmad.pointer;e=e||window.event;targ=e.srcElement||e.target;while(targ.tagName!="DIV")targ=targ[qp];if(q.lastm&&a!=q.lastm){q.lastm.style.visibility="hidden";q.lastm=null;}var a;if(a=targ.haspointer){if(a.style.visibility!="inherit")a.style.visibility="inherit";var x=e.clientX;var y=e.clientY;var oxy=qm_pointer_get_offsets(targ);var sxy=qm_get_doc_scrollxy();if(targ.ch){a.style.left=(x-oxy[0]+sxy[0]+a.pointerox)+"px";if(a.pointerbr)a.style.top=(targ.offsetHeight+a.pointeroy)+"px";}else {a.style.top=(y-oxy[1]+sxy[1]+a.pointeroy)+"px";if(a.pointerbr)a.style.left=(targ.offsetWidth+a.pointerox)+"px";}q.lastm=a;}};function qm_get_doc_scrollxy(){var sy=0;var sx=0;if((sd=document.documentElement)&&(sd=sd.scrollTop))sy=sd;else  if(sd=document.body.scrollTop)sy=sd;if((sd=document.documentElement)&&(sd=sd.scrollLeft))sx=sd;else  if(sd=document.body.scrollLeft)sx=sd;return new Array(sx,sy);};function qm_pointer_get_offsets(a){var x=0;var y=0;while(a){x+=a.offsetLeft;y+=a.offsetTop;a=a.offsetParent;}return new Array(x,y);}/* ]]> */</script>
+
+
+
+<ul id="qm0" class="qmmc">
+
+	<li><a class="qmparent" href="javascript:void(0)" title="Air Quality Maps">Air Quality Maps</a>
+
+		<ul>
+<!--
+		<li><a href="/cgi-bin/compliance/monops/aqi_map.pl" title="Air Quality Index Map">Air Quality Index Map</a></li>
+		<li><a href="/cgi-bin/compliance/monops/ozone_animation.pl" title="Ozone Animation">Ozone Animation</a></li>
+-->
+                <li><a href="/cgi-bin/compliance/monops/select_curlev.pl" title="Current Ozone Levels">Current Ozone Levels</a></li>
+   	        <li><a href="/cgi-bin/compliance/monops/select_curlev.pl?user_param=88101" title="Current PM-2.5 Levels">Current PM-2.5 Levels</a></li>
+
+		<li><span class="qmdivider qmdividerx" > </span></li>
+   	        <li><a href="/cgi-bin/compliance/monops/select_curlev.pl?user_param=61103" title="Current Wind Speed">Current Wind Speed</a></li>
+   	        <li><a href="/cgi-bin/compliance/monops/select_curlev.pl?user_param=62101" title="Current Air Temperature">Current Air Temperature</a></li>
+
+   </ul></li>
+
+	<li><a class="qmparent" href="javascript:void(0)" title="Data Reports">Data Reports</a>
+
+		<ul>
+                <li><a href="/cgi-bin/compliance/monops/aqi_rpt.pl" title="Air Quality Index Summary">Air Quality Index Summary</a></li>
+		<li><a href="/cgi-bin/compliance/monops/daily_average.pl" title="Hourly Averages by Parameter">Hourly Averages by Parameter</a></li>
+		<li><a href="/cgi-bin/compliance/monops/select_summary.pl" title="Daily Summary by Site">Daily Summary by Site</a></li>
+		<li><a href="/cgi-bin/compliance/monops/select_month.pl" title="Monthly Summary Report">Monthly Summary Report</a></li>
+		<li><a href="/cgi-bin/compliance/monops/select_year.pl" title="Yearly Summary Report">Yearly Summary Report</a></li>
+
+		<li><span class="qmdivider qmdividerx" > </span></li>
+
+	   <li><a class="qmparent" href="javascript:void(0)" title="Ozone Specific Reports">Ozone Specific Reports . . .</a>
+
+         <ul>
+   		<li><a href="/cgi-bin/compliance/monops/ozone_summary.pl" title="Ozone Summary">Ozone Summary</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/8hr_attainment.pl" title="8-hr Ozone Attainment">8-hr Ozone Attainment</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/8hr_4highest.pl" title="Ozone 8-hr 4 Highest">Ozone 8-hr 4 Highest</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/8hr_monthly.pl" title="Ozone 8-Hour Monthly Summary">Ozone 8-Hour Monthly Summary</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/8hr_exceed.pl" title="Ozone 8-Hour High Value Days">Ozone 8-Hour High Value Days</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/ozone_exceedance.pl" title="Ozone Exceedance">Ozone Exceedance</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/peak_monthly.pl" title="Peak One-Hour Ozone">Peak One-Hour Ozone</a></li>
+   		</ul></li>
+
+		<li><span class="qmdivider qmdividerx" > </span></li>
+
+	   <li><a class="qmparent" href="javascript:void(0)" title="Targeted Reports">Targeted Reports . . .</a>
+
+         <ul>
+   		<li><a href="/cgi-bin/compliance/monops/pm25_24hr_4highest.pl" title="PM-2.5 24-Hr 4 Highest">PM-2.5 24-Hr 4 Highest</a></li>
+   		<li><a href="/cgi-bin/compliance/monops/24hr_annual.pl" title="Daily Mean Values">Daily Mean Values</a></li>
+   		</ul></li>
+
+   </ul></li>
+
+	<li><a class="qmparent" href="javascript:void(0)" title="AutoGC">AutoGC</a>
+      <ul>
+		<li><a href="/cgi-bin/compliance/monops/agc_daily_average.pl" title="Hourly Averages by Parameter">Hourly Averages by Parameter</a></li>
+		<li><a href="/cgi-bin/compliance/monops/agc_daily_summary.pl" title="Daily Summary By Site">Daily Summary By Site</a></li>
+		<li><a href="/cgi-bin/compliance/monops/agc_monthly_summary.pl" title="Monthly Summaries">Monthly Summaries</a></li>
+		<li><a href="/cgi-bin/compliance/monops/agc_yearly_summary.pl" title="Yearly Summaries">Yearly Summaries</a></li>
+		<li><a href="/cgi-bin/compliance/monops/agc_amcvs.pl" title="Air Monitoring Comparison Values">Air Monitoring Comparison Values</a></li>
+   </ul></li>
+
+	<li><a class="qmparent" href="javascript:void(0)" title="Water Data">Water Data</a>
+      <ul>
+		<li><a href="/cgi-bin/compliance/monops/dailywater.pl" title="Daily Report">Daily Report</a></li>
+		<li><a href="/cgi-bin/compliance/monops/dailytds.pl" title="Single Parameter Report">Single Parameter Report</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_daily_average.pl" title="Hourly Averages by Parameter">Hourly Averages by Parameter</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_daily_summary.pl" title="Daily Summaries">Daily Summaries</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_monthly_summary.pl" title="Monthly Summaries">Monthly Summaries</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_yearly_summary.pl" title="Yearly Summaries">Yearly Summaries</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_24hr_annual.pl" title="Daily Mean Values">Daily Mean Values</a></li>
+
+		<li><span class="qmdivider qmdividerx" > </span></li>
+   	        <li><a href="/cgi-bin/compliance/monops/select_water_curlev.pl?user_param=10294" title="Total Dissolved Solids">Total Dissolved Solids Map</a></li>
+   	        <li><a href="/cgi-bin/compliance/monops/select_water_curlev.pl?user_param=10095" title="Surface Specific Conductivity">Surface Specific Conductivity Map</a></li>
+
+   </ul></li>
+
+
+	<li><a class="qmparent" href="javascript:void(0)" title="Site Info">Site Info</a>
+
+		<ul>
+                <li><a href="https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.site_list" title="Air Site Info">Air Site Info</a></li>
+                <li><a href="https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site" title="Air Site Photos">Air Site Photos</a></li>
+		<li><a href="https://www.tceq.texas.gov/goto/geotam" title="Air Monitors">Air Monitors</a></li>
+
+		<li><span class="qmdivider qmdividerx" > </span></li>
+
+		<li><a href="/cgi-bin/compliance/monops/water_site_info.pl" title="Water Site Info">Water Site Info</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_site_photo.pl" title="Water Site Photos">Water Site Photos</a></li>
+		<li><a href="/cgi-bin/compliance/monops/water_monitors.pl" title="Water Monitors">Water Monitors</a></li>
+                </ul></li>
+
+<li class="qmclear"> </li></ul>
+
+<!-- Create Menu Settings: (Menu ID, Is Vertical, Show Timer, Hide Timer, On Click ('all', 'main' or 'lev2'), Right to Left, Horizontal Subs, Flush Left, Flush Top) -->
+<script type="text/javascript">qm_create(0,false,0,0,false,false,false,false,false);</script>
+
+
+</div>
+<script type='text/javascript' src='/assets/public/compliance/monops/JavaScripts/overlib/overlib.js'><!-- overLIB (c) Erik Bosrup --></script>
+<div id='overDiv' style='position:absolute; visibility:hidden; z-index:1000;'></div>
+<h1>Arlington UT Campus [2A] Yearly Summary</h1>
+<p>Use the controls below to select a different date or site. Click on the Generate Report button once you have made your selections.<form name='my_form' method='post' onSubmit='return check_inputs();' action='agc_yearly_summary.pl'>
+<script language='javascript'>
+<!--
+function check_inputs() {
+   index = self.document.my_form.user_site.selectedIndex
+   user_site = self.document.my_form.user_site[index].value 
+   if ( user_site == 'config' ) {
+      msg = "\nYou selected a region header.\n\n"
+      msg = msg + "\nYou must select one of the monitoring sites."
+      self.alert( msg )
+      return false
+   }
+   param_count = self.document.my_form.user_param.length
+   var param_checked = 0
+   var time_selected = 0
+   var format_selected = 0
+   var i_param
+   for ( i_param = 0; i_param < param_count; i_param++ ) {
+      if ( self.document.my_form.user_param[i_param].checked ) {
+         param_checked = 1
+         break
+      }
+   }
+   if ( param_checked == 0 ) {
+      msg = "\nYou have not selected any parameters.\n\nYou must select a parameter."
+      self.alert(msg)
+      return false
+   }
+}
+// -->
+</script>
+<input type='hidden' name='select_date' value='user'>
+<table noborder>
+<tr><td><b>Select a Year:</b></td><td><b>Select a Site:</b></td></tr>
+<tr><td><select name='user_year'>
+<option value=1995 >1995
+<option value=1996 >1996
+<option value=1997 >1997
+<option value=1998 >1998
+<option value=1999 >1999
+<option value=2000 >2000
+<option value=2001 >2001
+<option value=2002 >2002
+<option value=2003 >2003
+<option value=2004 >2004
+<option value=2005 >2005
+<option value=2006 >2006
+<option value=2007 >2007
+<option value=2008 >2008
+<option value=2009 >2009
+<option value=2010 >2010
+<option value=2011 >2011
+<option value=2012 >2012
+<option value=2013 >2013
+<option value=2014 >2014
+<option value=2015 >2015
+<option value=2016 >2016
+<option value=2017 >2017
+<option value=2018 >2018
+<option value=2019 >2019
+<option value=2020 >2020
+<option value=2021 >2021
+<option value=2022 >2022
+<option value=2023 >2023
+<option value=2024 >2024
+<option value=2025 selected>2025
+<option value=2026 >2026
+</select>
+</td><td><select name='user_site'>
+<option value='config'>Odessa-Midland
+<option value=48_135_0003 >&#160;&#160;&#160;&#160; Odessa Hays [N]
+<option value=48_135_1092 >&#160;&#160;&#160;&#160; Odessa Westmark Street [73]
+<option value=48_135_1093 >&#160;&#160;&#160;&#160; Goldsmith Street [74]
+<option value=48_329_1095 >&#160;&#160;&#160;&#160; Midland Avalon Drive [75]
+<option value='config'>Houston-Galveston-Brazoria
+<option value=48_039_1607 >&#160;&#160;&#160;&#160; Oyster Creek [29]
+<option value=48_201_0026 >&#160;&#160;&#160;&#160; Channelview [R]
+<option value=48_201_0036 >&#160;&#160;&#160;&#160; Channelview Drive Water Tower [56]
+<option value=48_201_0057 >&#160;&#160;&#160;&#160; Galena Park A1667 [53] [72]
+<option value=48_201_0069 >&#160;&#160;&#160;&#160; Houston Milby Park A169 [K]
+<option value=48_201_0307 >&#160;&#160;&#160;&#160; Manchester East Avenue N [55]
+<option value=48_201_0617 >&#160;&#160;&#160;&#160; Wallisville Road [24]
+<option value=48_201_0803 >&#160;&#160;&#160;&#160; HRM-3 Haden Road [B] [22]
+<option value=48_201_0807 >&#160;&#160;&#160;&#160; HRM-7 W Baytown [S] [47]
+<option value=48_201_1015 >&#160;&#160;&#160;&#160; Lynchburg Ferry [23]
+<option value=48_201_1035 >&#160;&#160;&#160;&#160; Clinton [A]
+<option value=48_201_1039 >&#160;&#160;&#160;&#160; Hou.DeerPrk2
+<option value=48_201_1049 >&#160;&#160;&#160;&#160; Pasadena Richey Elementary School
+<option value=48_201_1614 >&#160;&#160;&#160;&#160; HRM-16 Deer Park [48]
+<option value=48_201_6000 >&#160;&#160;&#160;&#160; Cesar Chavez [V]
+<option value='config'>Beaumont-Port Arthur
+<option value=48_245_0009 >&#160;&#160;&#160;&#160; Beaumont-Downtown [Z]
+<option value=48_245_1035 >&#160;&#160;&#160;&#160; Nederland 17th Street
+<option value='config'>El Paso-Juarez
+<option value=48_141_0044 >&#160;&#160;&#160;&#160; Chamizal [D]
+<option value=48_141_1011 >&#160;&#160;&#160;&#160; El Paso Delta [34]
+<option value='config'>Dallas-Fort Worth
+<option value=48_113_0069 >&#160;&#160;&#160;&#160; Dallas Hinton St. [E]
+<option value=48_113_1505 >&#160;&#160;&#160;&#160; Dallas Elm Fork [2C]
+<option value=48_121_1007 >&#160;&#160;&#160;&#160; Flower Mound Shiloh [45] [2F]
+<option value=48_121_1013 >&#160;&#160;&#160;&#160; Dish Airfield [43] [2D]
+<option value=48_251_1063 >&#160;&#160;&#160;&#160; Mansfield Flying L Lane [63]
+<option value=48_251_1501 >&#160;&#160;&#160;&#160; Godley FM2331 [2G]
+<option value=48_439_0075 >&#160;&#160;&#160;&#160; Eagle Mountain Lake [42] [2E]
+<option value=48_439_1002 >&#160;&#160;&#160;&#160; Ft. Worth Northwest (Meacham) [F]
+<option value=48_439_1009 >&#160;&#160;&#160;&#160; Everman Johnson Park [46] [2J]
+<option value=48_439_1018 selected>&#160;&#160;&#160;&#160; Arlington UT Campus [2A]
+<option value=48_439_1062 >&#160;&#160;&#160;&#160; Kennedale Treepoint Dr [62]
+<option value=48_439_1065 >&#160;&#160;&#160;&#160; Fort Worth Joe B Rushing Road [65]
+<option value=48_439_1503 >&#160;&#160;&#160;&#160; Fort Worth Benbrook Lake [2B]
+<option value=48_497_0088 >&#160;&#160;&#160;&#160; Decatur Thompson [44] [2T]
+<option value=48_497_1064 >&#160;&#160;&#160;&#160; Rhome Seven Hills Road [64]
+<option value='config'>San Antonio
+<option value=48_029_0052 >&#160;&#160;&#160;&#160; Camp Bullis [54]
+<option value=48_091_0505 >&#160;&#160;&#160;&#160; AACOG City of Garden Ridge [49]
+<option value=48_255_1070 >&#160;&#160;&#160;&#160; Karnes County Courthouse [36]
+<option value=48_493_1038 >&#160;&#160;&#160;&#160; Floresville Hospital Blvd [35]
+<option value='config'>Corpus Christi-Victoria
+<option value=48_355_0035 >&#160;&#160;&#160;&#160; Oak Park [32]
+<option value=48_355_0041 >&#160;&#160;&#160;&#160; Solar Estates [33]
+<option value=48_355_0083 >&#160;&#160;&#160;&#160; Corpus Christi Palm [52]
+</select>
+</td><td><b>Measured in:</b>
+<input type='radio' name='user_units' value='ppb-v' checked>ppb-Volume
+&#160;
+<input type='radio' name='user_units' value='ppb-c' >ppb-Carbon
+</td></tr>
+<tr>
+<td colspan='3'><b>Air Monitoring Comparison Value Highlights:</b> &#160;<input type='checkbox' name='show_odor_color' >Odor &#160; <input type='checkbox' name='show_vegetation_color' >Short-Term Vegetation &#160; <input type='checkbox' name='show_one_hour_color' >Short-Term Health &#160; <input type='checkbox' name='show_annual_vegetation_color' >Long-Term Vegetation &#160; <input type='checkbox' name='show_annual_color' >Long-Term Health &#160; (if defined for a particular parameter)</td>
+</tr>
+<tr>
+<td colspan='2'><b>Report Format:</b> &#160;<input type='radio' name='report_format' value='web' >Tabular (webified)
+&#160;
+<input type='radio' name='report_format' value='comma' checked>Comma-delimited
+</td>
+</tr>
+<tr>
+<td colspan='2'><b>Decimals to Report:</b> &#160;<select name='user_decimals'>
+<option value='0' >0
+<option value='1' >1
+<option value='2' selected>2
+<option value='3' >3
+</select>
+</td>
+</tr>
+<tr>
+<td><input type='submit' value='Generate Report'></td>
+</tr>
+</table>
+<p>The table below contains hourly measurements for <b>2025</b> measured at Arlington UT Campus [2A].  All times shown are in Central Standard Time regardless of Daylight Savings Time Observance.<br /><br />
+<pre>
+Report year 2025.  Hourly measurements from Arlington UT Campus [2A] of Resultant Wind Direction (POC 1) measured in .  All times in Central Standard Time.
+Day,0000,0100,0200,0300,0400,0500,0600,0700,0800,0900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300
+01/01/2025,27,27,37,37,37,33,17,341,342,12,13,15,10,27,43,50,51,31,83,106,97,90,107,77
+01/02/2025,100,92,80,287,240,177,95,108,117,172,172,185,186,177,163,152,144,159,138,90,64,118,104,81
+01/03/2025,57,121,113,103,67,347,272,6,43,48,53,78,90,97,108,133,136,149,178,88,93,100,100,97
+01/04/2025,111,123,121,122,123,123,127,124,128,133,144,149,146,149,163,163,157,133,130,142,137,143,155,166
+01/05/2025,185,187,193,196,202,215,228,282,303,304,302,301,303,303,309,312,317,316,319,319,319,319,318,319
+01/06/2025,318,319,317,319,320,319,319,327,323,324,335,332,331,321,318,333,325,320,340,341,331,328,342,22
+01/07/2025,34,17,20,15,24,2,19,25,359,11,8,10,332,343,359,21,28,20,18,22,32,30,30,16
+01/08/2025,44,35,17,16,9,346,323,332,342,6,28,15,335,334,302,316,319,341,305,105,115,130,64,129
+01/09/2025,250,136,137,135,137,109,107,131,114,82,117,127,127,134,116,94,63,72,39,61,360,314,335,353
+01/10/2025,359,15,343,315,313,311,312,313,314,317,313,313,318,318,317,317,317,310,294,284,286,292,287,282
+01/11/2025,262,255,241,215,201,155,154,174,188,205,209,224,197,183,179,179,180,167,164,167,172,173,171,181
+01/12/2025,181,175,188,187,189,199,223,230,269,299,301,314,327,324,350,349,348,352,340,349,347,352,339,340
+01/13/2025,347,349,350,4,1,11,352,348,10,10,23,32,44,49,48,47,56,69,55,29,91,81,75,143
+01/14/2025,129,256,142,102,102,102,102,100,117,140,181,188,193,200,237,149,115,116,100,114,263,242,110,46
+01/15/2025,51,94,255,117,259,190,267,263,27,38,0,89,3,294,268,307,319,29,340,322,307,252,262,276
+01/16/2025,258,229,221,173,254,251,262,245,228,264,273,262,261,251,257,273,240,210,150,170,170,178,169,190
+01/17/2025,184,180,174,184,185,179,167,183,185,183,181,188,189,195,197,196,196,188,185,205,204,200,218,247
+01/18/2025,293,293,304,315,319,319,323,330,331,337,331,332,333,327,321,336,332,331,338,334,335,343,329,327
+01/19/2025,332,329,332,334,333,332,336,331,333,337,336,348,336,337,346,357,5,30,33,49,66,65,78,69
+01/20/2025,57,62,69,81,83,77,91,84,88,86,91,91,79,67,67,54,54,57,62,65,58,55,53,37
+01/21/2025,28,27,34,28,25,26,8,353,40,47,41,26,357,324,302,308,262,311,144,150,159,156,158,170
+01/22/2025,166,182,181,187,181,182,184,190,184,191,196,215,225,220,225,255,286,305,26,106,33,339,337,331
+01/23/2025,354,349,314,259,275,262,266,281,297,302,313,310,316,321,323,318,316,320,319,313,302,285,286,259
+01/24/2025,242,242,240,237,250,245,224,114,213,217,230,237,249,239,225,214,216,193,175,163,167,178,185,180
+01/25/2025,171,175,180,186,182,168,168,150,157,156,181,178,172,179,174,161,162,162,139,135,139,140,134,137
+01/26/2025,162,349,58,84,87,72,40,31,292,299,300,301,300,313,327,327,340,359,8,351,19,14,347,346
+01/27/2025,358,351,338,354,348,339,312,317,321,334,17,13,358,18,35,48,83,137,169,174,136,159,176,200
+01/28/2025,227,217,210,158,187,136,126,161,149,155,162,215,204,177,147,160,154,175,168,145,154,144,128,139
+01/29/2025,142,122,124,117,95,80,85,80,91,95,117,131,134,127,123,110,108,117,107,27,344,92,88,88
+01/30/2025,285,303,301,310,311,316,308,298,278,292,293,271,266,270,253,257,252,232,236,235,236,228,230,224
+01/31/2025,229,238,249,274,278,281,283,281,287,295,298,294,283,294,293,298,297,306,300,264,276,272,252,253
+02/01/2025,243,115,235,249,113,109,228,182,112,162,167,177,187,186,174,164,165,163,140,147,163,183,186,183
+02/02/2025,193,198,195,186,184,184,191,187,185,193,222,222,200,184,194,178,163,166,160,163,172,182,185,190
+02/03/2025,191,194,189,184,184,187,191,187,185,198,213,217,211,206,195,185,170,164,159,149,148,153,176,183
+02/04/2025,190,189,191,198,209,204,199,226,234,248,299,310,344,335,332,343,25,18,29,17,29,13,16,15
+02/05/2025,357,1,4,39,15,60,87,71,57,45,86,120,71,115,118,167,186,185,187,184,190,191,205,216
+02/06/2025,221,210,206,210,215,209,185,187,193,193,210,219,225,210,192,196,150,157,163,7,20,15,23,19
+02/07/2025,14,1,342,4,325,305,358,359,310,248,274,286,256,162,184,174,179,167,150,158,171,174,178,186
+02/08/2025,192,194,204,204,198,205,210,213,214,224,228,228,244,244,296,335,340,343,345,3,10,20,31,38
+02/09/2025,39,30,19,24,0,347,360,27,12,16,356,352,332,338,336,344,353,9,11,9,30,30,16,32
+02/10/2025,35,37,55,46,55,54,65,57,59,58,60,70,50,51,58,70,78,58,65,72,91,101,129,130
+02/11/2025,102,332,18,12,20,42,345,3,19,32,14,13,18,12,7,13,29,36,7,21,40,35,53,67
+02/12/2025,73,68,336,39,77,294,313,335,338,332,330,334,333,326,322,332,335,335,335,341,356,350,345,334
+02/13/2025,330,331,334,333,333,336,334,332,325,338,340,347,5,4,12,26,54,37,26,37,49,92,85,91
+02/14/2025,78,92,128,88,90,88,104,116,118,118,148,142,136,152,165,138,160,152,152,156,141,157,159,153
+02/15/2025,175,168,158,169,171,157,157,100,133,160,192,205,236,263,269,286,311,318,319,318,320,317,319,326
+02/16/2025,327,322,326,332,326,325,324,326,329,333,331,324,334,335,329,0,6,12,7,19,49,64,72,68
+02/17/2025,123,82,86,81,94,101,90,102,109,121,131,157,143,135,142,143,147,170,159,131,128,124,119,119
+02/18/2025,123,122,121,117,107,101,104,107,118,121,124,99,21,341,333,331,332,327,330,330,332,329,334,329
+02/19/2025,335,333,328,333,334,331,328,333,339,343,331,332,339,339,331,340,343,351,346,357,20,21,16,347
+02/20/2025,355,15,5,356,350,1,357,14,18,24,23,20,8,20,13,20,23,23,40,64,68,62,58,30
+02/21/2025,32,33,41,43,18,36,48,53,48,66,100,32,36,53,56,53,53,61,64,63,91,84,95,130
+02/22/2025,157,140,181,259,126,65,103,91,100,71,82,67,41,23,35,95,95,100,95,100,106,92,218,217
+02/23/2025,162,180,218,146,124,114,118,108,145,149,117,73,93,54,57,109,114,129,96,87,92,111,123,145
+02/24/2025,161,203,169,127,138,179,199,164,151,130,173,167,167,158,161,152,188,180,155,123,112,118,148,146
+02/25/2025,149,148,89,69,184,154,164,175,172,171,151,131,146,138,136,148,131,138,142,140,131,147,138,124
+02/26/2025,155,173,173,182,190,190,188,187,197,214,210,225,217,201,230,223,1,54,48,23,33,35,36,36
+02/27/2025,31,27,73,318,346,325,326,326,341,0,28,36,27,2,22,43,28,24,44,105,252,197,249,273
+02/28/2025,255,204,198,233,197,150,199,185,241,236,239,223,223,216,255,249,232,224,171,140,122,166,235,212
+03/01/2025,217,234,230,225,200,110,42,100,40,41,59,49,44,26,86,92,69,72,70,88,92,92,88,93
+03/02/2025,94,99,102,104,106,115,119,117,118,122,133,139,148,143,152,147,137,142,152,65,92,90,103,96
+03/03/2025,98,102,121,127,124,121,123,119,119,119,127,138,145,139,135,129,119,118,125,124,124,128,150,161
+03/04/2025,163,172,169,180,199,280,294,206,241,242,249,253,252,242,259,271,274,285,292,295,297,299,310,312
+03/05/2025,306,314,317,315,315,317,311,312,315,313,311,311,313,313,309,315,317,318,320,290,286,36,109,242
+03/06/2025,103,95,90,103,76,72,153,216,148,139,151,133,136,126,128,140,137,130,125,125,139,155,162,169
+03/07/2025,174,179,183,192,181,182,182,182,191,208,234,242,284,320,296,72,331,122,101,113,110,103,111,54
+03/08/2025,39,49,46,43,33,49,53,30,11,34,42,36,52,55,14,2,357,354,330,328,318,317,321,334
+03/09/2025,330,342,330,315,304,303,310,315,319,316,318,324,328,335,330,338,331,327,326,71,244,245,234,252
+03/10/2025,240,236,255,248,227,227,239,239,241,251,235,229,228,230,220,198,202,180,155,148,156,168,180,192
+03/11/2025,194,200,207,213,220,160,125,123,198,202,206,204,198,206,193,185,179,171,165,164,168,172,178,184
+03/12/2025,193,192,195,195,192,196,192,187,197,190,196,202,218,206,208,218,276,248,256,221,219,224,240,238
+03/13/2025,243,250,256,254,278,270,247,168,270,294,268,239,238,255,265,254,223,190,162,156,152,159,169,161
+03/14/2025,165,175,181,179,174,170,169,179,186,189,211,241,262,258,259,253,246,243,239,249,286,301,290,282
+03/15/2025,281,198,250,231,236,244,237,264,287,279,291,289,292,290,303,301,302,308,296,290,290,285,290,290
+03/16/2025,284,281,285,296,286,277,318,344,357,44,57,36,44,62,209,253,241,199,101,89,270,86,166,140
+03/17/2025,149,153,167,168,170,166,189,182,192,190,184,189,192,195,197,182,179,174,171,174,172,179,185,186
+03/18/2025,189,186,184,188,182,174,170,178,181,185,186,182,188,177,182,176,181,172,171,168,167,173,177,182
+03/19/2025,209,217,231,272,281,283,287,291,301,312,296,297,298,307,306,309,312,310,314,317,319,308,310,310
+03/20/2025,318,312,313,315,320,321,296,303,318,335,325,314,314,326,320,321,317,311,326,94,86,126,141,147
+03/21/2025,145,136,167,174,159,187,169,172,176,182,186,199,199,196,213,238,224,220,163,158,164,259,193,133
+03/22/2025,180,205,214,155,159,163,172,184,187,196,204,190,171,184,184,176,173,167,161,151,159,171,180,185
+03/23/2025,194,197,197,202,199,192,186,193,215,227,243,277,321,341,12,5,8,9,358,359,346,359,345,338
+03/24/2025,329,345,337,339,342,322,296,290,79,115,118,106,174,156,194,174,205,196,142,151,158,151,152,142
+03/25/2025,147,65,104,209,230,117,74,116,129,159,176,183,153,154,184,185,148,149,116,115,119,117,119,136
+03/26/2025,159,174,172,64,75,93,91,84,89,90,87,94,86,97,108,112,120,131,132,121,99,95,103,118
+03/27/2025,118,106,111,85,98,147,120,125,142,170,143,141,129,121,130,124,133,127,120,107,101,108,114,110
+03/28/2025,121,125,124,173,200,202,210,166,166,147,155,171,181,172,166,173,134,146,132,130,142,143,150,149
+03/29/2025,172,171,173,179,179,183,168,176,195,202,183,176,174,159,161,163,164,157,147,129,144,158,170,170
+03/30/2025,160,116,118,118,166,174,181,187,194,192,207,222,208,208,213,300,318,332,347,343,340,343,20,43
+03/31/2025,20,37,49,51,325,334,327,347,14,14,27,30,346,29,33,41,37,57,58,85,83,79,57,95
+04/01/2025,94,83,99,105,122,113,121,147,156,160,162,161,167,168,168,174,162,161,165,161,149,152,157,163
+04/02/2025,176,178,180,176,181,192,207,174,180,307,346,35,1,55,87,91,88,104,97,90,88,80,92,84
+04/03/2025,71,80,72,60,42,26,53,41,4,21,47,49,16,17,354,349,346,345,349,6,29,54,63,69
+04/04/2025,80,79,0,350,333,26,351,350,345,360,6,341,314,320,324,329,329,325,338,343,344,8,21,42
+04/05/2025,53,52,353,319,1,25,9,33,355,336,343,337,333,333,339,334,344,335,332,325,319,326,323,308
+04/06/2025,313,315,311,318,318,315,318,314,314,317,316,317,315,313,320,324,324,329,332,341,303,284,285,294
+04/07/2025,292,288,287,310,262,274,291,311,318,353,337,336,340,331,313,354,327,358,30,99,126,198,235,201
+04/08/2025,117,75,252,114,84,98,100,235,244,235,213,183,208,185,162,180,171,161,151,133,132,142,145,147
+04/09/2025,149,160,178,167,173,174,169,185,195,193,188,184,182,176,181,183,194,168,156,141,150,161,162,179
+04/10/2025,183,171,139,137,146,123,95,121,167,34,66,66,71,62,58,57,61,56,16,13,107,229,264,0
+04/11/2025,31,86,87,285,15,103,111,16,40,82,57,79,75,59,22,12,10,49,87,112,107,78,109,93
+04/12/2025,87,135,64,289,73,50,122,152,163,161,164,155,152,164,162,158,150,136,136,138,130,145,153,161
+04/13/2025,170,182,178,184,196,193,195,188,202,210,203,199,203,201,196,200,183,182,178,178,172,185,187,194
+04/14/2025,195,197,200,205,196,196,195,251,207,184,201,224,236,228,305,309,299,322,341,24,10,14,28,21
+04/15/2025,30,35,27,44,53,54,59,65,66,66,63,55,64,76,72,77,89,89,93,94,98,95,94,74
+04/16/2025,85,72,100,99,104,108,117,138,169,185,186,160,165,172,174,173,174,186,164,133,138,150,157,159
+04/17/2025,163,162,158,157,173,166,170,187,207,207,202,187,183,173,178,174,165,167,165,145,153,154,165,164
+04/18/2025,168,174,169,174,173,176,193,198,188,195,199,207,204,198,189,169,134,128,140,138,143,156,172,172
+04/19/2025,166,173,170,183,251,174,141,163,125,89,127,116,121,126,120,114,112,115,116,117,124,132,125,120
+04/20/2025,142,138,181,200,152,129,151,173,198,254,279,278,280,276,265,278,277,281,286,292,275,179,331,88
+04/21/2025,113,68,359,94,105,94,111,118,91,111,106,109,99,105,87,103,107,102,116,94,108,83,75,70
+04/22/2025,63,71,97,97,111,181,134,156,183,206,179,168,161,154,141,120,125,127,127,119,113,107,125,116
+04/23/2025,120,128,137,166,310,358,26,90,95,93,117,127,128,130,119,108,119,116,105,108,108,110,109,107
+04/24/2025,120,117,121,121,128,129,135,173,332,46,92,90,99,249,113,115,135,152,180,129,133,149,158,151
+04/25/2025,126,143,132,86,170,22,83,112,104,117,113,107,112,118,124,144,130,108,98,119,90,96,77,118
+04/26/2025,103,97,94,104,93,82,112,130,171,153,177,151,141,139,145,161,144,129,124,123,141,140,135,134
+04/27/2025,155,162,135,124,146,130,117,151,159,147,161,164,154,146,142,140,149,145,139,131,131,119,136,150
+04/28/2025,153,151,167,159,162,168,162,163,173,170,170,174,160,166,159,162,153,143,144,142,137,140,145,152
+04/29/2025,162,147,141,124,125,135,160,130,135,141,148,160,166,147,143,130,132,129,124,117,121,121,122,135
+04/30/2025,120,117,124,130,123,123,118,119,136,138,10,64,90,85,106,112,117,99,111,25,59,71,106,145
+05/01/2025,190,208,225,235,123,91,127,82,92,124,125,157,126,116,115,111,131,107,93,91,99,101,144,184
+05/02/2025,185,200,235,251,346,78,79,99,73,62,30,349,340,77,14,321,323,324,321,348,104,239,271,307
+05/03/2025,326,308,292,311,327,322,333,336,341,336,358,347,329,322,348,353,337,2,16,56,43,122,107,107
+05/04/2025,106,296,297,82,96,104,97,110,119,112,102,96,96,93,89,94,98,107,107,126,111,115,94,96
+05/05/2025,88,100,87,88,95,87,107,115,123,113,104,162,354,43,60,78,86,97,98,96,94,97,88,82
+05/06/2025,87,95,97,98,100,95,96,93,97,48,79,84,83,43,46,63,47,65,102,156,37,70,91,75
+05/07/2025,101,82,38,9,315,77,311,310,312,317,293,292,286,290,308,308,315,318,310,307,294,292,154,270
+05/08/2025,122,256,251,284,297,288,290,294,317,335,334,316,324,314,318,340,356,337,338,338,91,250,45,293
+05/09/2025,299,320,323,340,292,306,325,335,332,346,344,357,350,348,343,42,26,44,39,60,70,45,322,313
+05/10/2025,297,295,292,291,286,302,331,333,343,335,355,327,334,334,12,356,358,351,24,19,39,36,43,21
+05/11/2025,334,328,333,311,285,286,293,302,308,318,329,357,334,337,0,344,15,30,16,19,42,14,14,46
+05/12/2025,71,265,273,145,291,121,294,302,283,297,307,311,43,293,268,157,279,160,199,157,143,138,143,142
+05/13/2025,140,138,139,144,127,120,141,150,156,161,180,183,186,189,196,187,180,183,178,167,163,169,175,189
+05/14/2025,188,192,199,208,202,208,211,PMA,PMA,PMA,215,183,176,183,172,182,178,172,159,159,160,170,158,169
+05/15/2025,178,196,192,199,188,200,204,206,204,219,260,308,302,297,150,139,324,347,326,319,322,321,3,124
+05/16/2025,127,144,184,193,191,188,188,202,209,217,224,211,189,203,192,187,167,35,162,188,146,233,85,91
+05/17/2025,107,88,86,86,81,121,131,152,162,175,188,175,158,135,141,125,136,173,140,122,126,125,132,136
+05/18/2025,141,143,186,151,156,162,174,184,192,166,163,154,158,152,141,133,126,118,112,83,75,103,117,122
+05/19/2025,135,140,140,144,154,170,159,177,177,169,192,200,189,170,167,168,159,162,174,178,170,168,202,277
+05/20/2025,203,198,201,217,242,283,297,303,315,316,304,302,311,312,321,331,333,346,338,336,1,108,108,105
+05/21/2025,97,98,136,141,104,116,175,183,182,172,148,166,140,159,147,136,136,139,129,135,146,139,88,124
+05/22/2025,143,179,184,183,167,200,172,152,168,166,125,139,135,124,117,113,103,88,100,143,179,301,195,188
+05/23/2025,72,70,74,72,69,95,213,183,185,177,154,88,194,134,135,126,137,135,140,138,140,144,155,161
+05/24/2025,166,168,184,192,179,175,180,194,211,196,200,148,133,140,143,151,144,140,141,130,124,134,144,138
+05/25/2025,150,145,150,187,178,160,162,186,203,197,204,208,194,190,183,175,161,143,133,139,125,132,141,145
+05/26/2025,127,350,58,45,55,78,108,172,324,327,137,161,286,291,69,87,105,241,80,51,89,74,83,82
+05/27/2025,66,93,124,8,79,11,60,61,82,66,161,264,333,30,38,44,26,42,38,68,93,89,83,93
+05/28/2025,61,88,67,67,74,64,5,76,80,101,93,111,106,92,106,125,124,109,121,107,105,123,127,130
+05/29/2025,127,126,131,132,139,117,87,84,97,143,PMA,PMA,228,246,169,163,185,295,4,42,78,66,75,57
+05/30/2025,324,355,17,19,354,4,25,29,14,25,18,49,62,11,348,326,319,335,337,337,337,329,78,98
+05/31/2025,110,95,89,97,104,112,189,233,213,234,245,301,148,94,333,231,187,166,171,129,132,131,142,161
+06/01/2025,144,156,143,137,148,157,142,149,118,80,98,116,129,127,123,100,102,121,162,112,157,105,104,102
+06/02/2025,112,118,107,106,109,119,133,143,135,141,163,162,149,147,143,157,154,148,141,143,139,141,146,151
+06/03/2025,159,160,162,168,171,164,171,167,199,162,157,155,161,157,180,188,163,169,153,141,146,174,216,178
+06/04/2025,175,257,278,299,297,313,313,312,315,317,314,316,308,321,322,326,1,17,35,20,56,62,40,20
+06/05/2025,27,50,84,90,86,77,72,60,30,349,339,101,131,166,150,147,148,127,132,116,106,120,129,141
+06/06/2025,147,175,196,200,198,195,200,207,199,202,215,204,204,205,185,164,171,184,183,151,143,147,138,155
+06/07/2025,182,180,194,195,211,227,217,220,237,239,294,257,99,78,150,174,200,208,178,153,143,157,170,187
+06/08/2025,190,194,206,207,209,200,201,242,219,204,247,192,151,149,149,184,204,156,164,148,180,208,26,303
+06/09/2025,21,174,159,185,152,199,219,250,274,269,285,308,330,346,316,306,330,296,285,131,98,112,108,103
+06/10/2025,72,83,62,90,95,95,135,140,182,201,207,213,73,259,249,253,290,299,247,86,101,123,106,116
+06/11/2025,130,112,83,94,97,127,86,115,133,125,118,125,124,100,90,91,91,97,110,104,116,119,115,107
+06/12/2025,111,116,115,126,119,146,92,256,200,153,116,106,119,129,108,130,139,149,140,139,138,117,134,147
+06/13/2025,148,155,169,181,161,170,189,194,167,169,163,169,159,171,164,164,135,137,142,140,126,137,156,192
+06/14/2025,186,184,144,163,167,162,190,204,202,207,196,179,160,146,143,144,140,138,149,151,136,142,150,173
+06/15/2025,174,189,197,190,203,181,190,209,283,331,331,314,245,169,160,11,142,95,120,139,152,197,237,213
+06/16/2025,88,124,123,113,111,144,217,263,341,82,289,275,262,245,223,213,229,184,184,162,153,163,193,203
+06/17/2025,203,201,186,166,179,183,192,204,205,206,210,178,174,178,179,169,170,165,164,155,153,158,158,174
+06/18/2025,177,164,159,160,187,150,127,131,158,199,172,148,163,191,179,195,179,179,156,142,138,140,148,167
+06/19/2025,182,194,200,222,172,121,127,169,213,209,216,216,209,211,225,218,199,160,145,141,136,143,143,154
+06/20/2025,154,175,189,192,185,193,198,206,211,219,218,208,207,199,204,187,190,171,153,145,141,141,147,167
+06/21/2025,178,185,193,186,186,171,174,193,205,193,194,197,198,200,186,185,176,174,156,142,143,139,145,153
+06/22/2025,174,180,185,184,188,163,149,165,177,186,178,167,187,156,148,158,149,145,131,138,134,140,133,136
+06/23/2025,140,147,159,169,178,163,169,186,204,185,187,168,147,137,139,142,126,125,133,131,126,132,140,143
+06/24/2025,149,155,161,151,150,150,154,179,181,160,154,146,128,139,139,120,128,129,124,121,122,126,140,152
+06/25/2025,141,124,129,145,139,127,132,137,181,179,195,156,186,257,211,145,131,131,123,122,140,139,139,154
+06/26/2025,162,150,152,189,193,147,156,170,158,181,178,202,173,168,135,132,153,126,131,139,139,145,154,155
+06/27/2025,171,191,205,209,161,145,147,161,213,190,201,170,156,158,169,157,170,163,145,134,131,131,144,166
+06/28/2025,172,165,185,200,195,176,199,216,208,203,199,179,190,169,147,140,151,147,143,137,130,135,141,141
+06/29/2025,160,183,195,192,185,194,185,219,220,211,197,184,163,169,156,152,145,158,150,143,130,144,159,159
+06/30/2025,179,178,183,178,190,206,209,218,225,232,226,214,223,180,198,188,153,169,177,180,141,358,15,350
+07/01/2025,260,290,279,263,301,329,353,3,350,332,328,336,323,28,326,341,312,332,10,70,92,89,89,110
+07/02/2025,92,84,110,88,101,106,114,126,131,130,206,181,147,136,190,235,74,55,62,79,85,99,93,91
+07/03/2025,133,98,130,137,123,149,216,220,207,187,149,148,127,120,144,157,155,153,143,141,132,136,130,129
+07/04/2025,123,136,149,133,127,145,122,128,139,151,143,141,139,121,117,156,177,172,152,158,142,136,127,128
+07/05/2025,127,132,140,137,137,131,133,136,133,145,151,155,137,176,147,149,149,132,146,145,147,153,156,158
+07/06/2025,158,155,128,140,139,132,120,120,123,154,176,146,169,206,174,166,162,176,146,146,150,137,145,149
+07/07/2025,154,149,94,110,124,128,130,126,148,178,187,223,227,221,213,226,219,222,196,167,154,150,153,165
+07/08/2025,153,167,188,206,202,201,207,213,234,223,220,228,227,229,217,249,232,223,150,PMA,142,153,206,113
+07/09/2025,134,169,233,211,206,213,194,211,222,233,247,263,205,210,259,232,279,233,154,139,112,134,127,166
+07/10/2025,150,142,146,144,182,197,188,218,225,237,232,222,217,223,221,219,201,189,184,164,147,157,179,181
+07/11/2025,185,198,199,203,205,215,199,218,213,199,187,194,200,177,200,203,192,169,160,126,137,143,162,158
+07/12/2025,156,164,159,170,155,160,173,190,189,208,208,216,221,235,231,168,146,143,162,149,112,116,136,131
+07/13/2025,131,129,190,206,197,197,205,185,223,231,224,225,239,238,231,215,159,168,170,183,204,164,148,191
+07/14/2025,208,233,216,225,217,133,186,172,158,238,199,251,287,239,273,205,167,164,197,186,186,178,148,182
+07/15/2025,165,194,204,207,192,170,197,197,210,225,223,225,194,175,177,147,146,158,239,231,230,190,186,105
+07/16/2025,128,156,166,166,150,152,178,183,188,194,209,200,194,168,153,156,168,141,142,139,141,142,140,142
+07/17/2025,143,167,192,196,195,195,189,188,196,178,151,162,145,159,149,151,158,164,199,158,143,139,149,149
+07/18/2025,165,170,191,193,194,192,212,226,225,223,233,173,134,156,160,207,204,214,152,141,145,142,145,150
+07/19/2025,174,182,191,191,198,181,161,186,207,222,226,213,192,190,191,187,175,172,184,178,171,155,147,146
+07/20/2025,172,192,185,179,179,190,196,200,215,211,201,189,185,199,196,193,200,175,174,160,150,150,166,181
+07/21/2025,181,178,179,191,198,200,192,202,207,210,201,215,206,202,199,188,201,196,188,174,157,159,150,190
+07/22/2025,171,184,190,191,187,197,206,204,204,202,213,221,216,194,220,149,139,138,139,139,132,138,142,137
+07/23/2025,149,168,167,155,163,163,164,180,207,199,202,190,216,203,184,137,134,150,146,144,138,136,141,143
+07/24/2025,140,147,164,188,190,200,208,205,209,190,182,209,179,156,133,127,128,125,134,127,127,125,125,136
+07/25/2025,145,174,109,187,114,140,138,172,205,221,193,168,148,151,119,147,154,161,199,189,153,137,145,137
+07/26/2025,132,141,142,136,148,142,142,192,183,192,196,190,189,151,156,153,158,144,148,151,159,180,168,180
+07/27/2025,174,179,168,185,188,177,178,199,199,198,192,189,189,197,148,191,164,200,159,165,139,149,159,169
+07/28/2025,174,170,178,160,189,139,156,217,214,213,222,206,193,173,156,158,166,144,135,149,141,142,133,153
+07/29/2025,134,136,133,161,188,190,198,230,249,262,234,240,247,198,144,143,149,133,131,148,144,148,164,139
+07/30/2025,168,221,228,223,213,230,232,231,262,250,273,119,209,128,176,194,203,197,154,167,184,181,154,158
+07/31/2025,196,188,195,215,207,236,278,287,319,348,301,286,297,93,133,139,141,131,147,168,3,76,85,97
+08/01/2025,90,107,83,77,83,84,88,84,78,50,41,7,317,325,331,324,317,318,304,349,38,21,55,79
+08/02/2025,103,68,54,88,320,332,329,337,9,326,16,19,20,32,4,25,58,12,54,79,86,94,101,96
+08/03/2025,100,107,105,109,107,110,98,93,93,114,182,296,77,160,116,109,103,91,86,98,98,97,111,116
+08/04/2025,118,122,120,72,278,128,280,42,89,125,41,88,115,28,99,101,86,87,93,100,127,138,124,144
+08/05/2025,135,140,198,117,114,95,118,151,153,130,115,108,120,135,107,117,110,119,136,129,129,141,132,135
+08/06/2025,139,141,138,141,141,151,162,182,194,198,167,190,159,157,129,138,118,145,132,120,113,124,135,138
+08/07/2025,137,144,144,139,143,138,140,187,226,223,216,204,195,193,157,155,134,140,140,142,143,132,138,137
+08/08/2025,145,148,156,179,172,147,155,200,220,224,211,207,194,192,159,159,156,150,144,139,137,142,140,145
+08/09/2025,141,151,159,149,161,175,189,209,227,223,212,212,177,155,155,147,156,162,146,136,126,128,132,124
+08/10/2025,147,176,177,170,192,202,173,199,207,187,170,135,130,127,124,137,127,124,125,129,128,128,132,142
+08/11/2025,147,144,144,151,112,129,142,155,212,200,196,190,173,168,162,173,148,156,163,145,123,124,131,137
+08/12/2025,139,140,137,65,254,277,323,339,323,314,72,88,79,86,107,113,143,76,217,164,230,271,270,87
+08/13/2025,314,101,48,272,278,241,205,193,133,122,135,129,138,186,98,140,121,141,136,135,128,138,150,153
+08/14/2025,186,148,156,144,143,92,133,153,170,137,140,193,161,188,181,172,188,160,139,129,128,133,140,139
+08/15/2025,153,159,180,174,156,166,155,177,190,196,183,197,176,149,161,165,133,141,130,130,131,148,154,189
+08/16/2025,181,187,159,194,197,162,155,180,191,185,179,178,172,162,150,142,149,149,123,117,106,123,145,151
+08/17/2025,148,166,173,168,148,144,150,194,214,204,164,215,190,149,197,185,146,160,130,130,130,126,133,128
+08/18/2025,135,145,149,130,117,169,163,161,233,236,215,199,212,219,187,152,147,135,157,144,139,136,132,140
+08/19/2025,146,204,143,197,272,94,108,106,324,18,70,108,65,96,87,94,104,105,128,140,193,238,268,275
+08/20/2025,293,354,74,98,85,92,92,334,323,326,82,265,37,315,302,305,311,315,284,280,283,287,291,289
+08/21/2025,288,292,290,291,292,304,311,332,356,357,355,60,41,343,331,23,67,101,28,278,256,274,224,200
+08/22/2025,34,233,259,270,100,202,289,314,331,316,253,332,282,295,287,111,140,122,136,147,138,98,103,167
+08/23/2025,229,236,227,235,224,205,293,303,300,309,303,339,336,351,346,343,349,355,356,358,343,351,108,11
+08/24/2025,11,52,341,326,302,319,323,334,323,16,332,311,300,90,85,35,77,97,129,133,142,141,139,141
+08/25/2025,144,137,144,164,180,176,151,165,213,194,171,162,165,145,124,122,124,126,124,122,120,126,136,136
+08/26/2025,166,82,59,55,70,74,79,86,88,73,81,86,82,65,70,81,71,70,79,90,80,85,84,74
+08/27/2025,78,78,75,84,90,85,82,101,118,118,108,113,109,144,129,122,114,121,125,125,117,116,123,130
+08/28/2025,127,146,155,157,183,196,198,210,225,224,221,216,231,212,213,186,165,52,86,99,100,81,84,21
+08/29/2025,56,83,82,79,78,64,45,55,61,66,71,87,39,32,360,340,10,29,13,27,59,62,72,63
+08/30/2025,76,82,86,87,78,86,92,107,109,4,46,70,92,102,114,102,104,88,58,79,83,83,90,99
+08/31/2025,94,97,108,80,93,99,99,100,108,131,113,95,99,116,148,147,147,152,156,157,145,121,169,322
+09/01/2025,178,131,130,130,93,93,82,89,96,238,115,248,268,327,311,8,357,34,81,100,124,83,92,100
+09/02/2025,114,98,76,107,315,309,292,334,43,325,301,318,359,340,38,359,323,322,9,34,6,344,9,339
+09/03/2025,330,330,317,305,313,311,319,333,329,318,322,312,328,328,327,333,330,358,346,106,270,155,113,97
+09/04/2025,118,146,140,180,207,195,198,209,215,210,229,235,265,265,274,290,203,133,148,151,154,196,200,195
+09/05/2025,198,200,200,210,201,174,91,143,217,221,274,217,167,205,164,140,149,129,118,76,357,315,18,48
+09/06/2025,27,120,327,336,341,2,20,324,314,317,338,320,316,322,346,340,335,12,24,336,329,332,3,90
+09/07/2025,83,78,77,62,76,69,73,73,60,71,85,91,85,73,74,82,97,103,90,87,88,88,90,89
+09/08/2025,83,84,82,68,110,108,87,95,110,111,114,113,94,102,86,84,100,86,98,92,90,89,93,96
+09/09/2025,117,104,136,138,154,104,90,101,130,135,144,135,109,105,121,103,135,135,131,133,140,136,147,137
+09/10/2025,141,141,140,133,218,94,87,182,155,169,181,185,113,134,115,131,121,122,123,118,131,137,142,141
+09/11/2025,103,107,121,96,84,100,80,86,126,184,204,183,165,138,143,119,123,125,132,142,142,136,158,171
+09/12/2025,139,138,157,181,174,162,157,224,230,238,222,182,143,189,139,148,125,124,133,140,139,138,139,143
+09/13/2025,140,149,154,156,171,185,196,230,232,220,194,169,148,155,143,153,144,149,157,154,115,130,135,140
+09/14/2025,139,137,155,207,210,184,136,147,222,226,223,196,151,151,152,129,127,143,130,129,127,124,127,130
+09/15/2025,136,130,141,121,122,173,159,120,157,251,247,175,178,135,83,113,97,98,115,124,135,141,153,151
+09/16/2025,172,194,206,198,207,214,211,229,237,243,247,235,144,281,243,140,130,129,142,139,139,132,160,173
+09/17/2025,191,211,221,229,215,174,235,233,252,282,268,277,176,77,104,72,191,221,119,144,149,144,138,177
+09/18/2025,157,186,159,193,167,121,108,195,237,242,279,260,251,230,130,219,173,313,155,98,140,147,191,201
+09/19/2025,142,182,199,205,207,158,114,120,331,50,69,78,92,102,106,133,145,139,128,127,134,124,135,127
+09/20/2025,141,143,157,168,183,197,188,218,231,230,228,204,193,168,158,136,120,121,123,121,130,134,130,135
+09/21/2025,129,148,172,169,180,167,189,180,210,221,195,189,159,160,150,147,167,139,105,70,262,112,111,135
+09/22/2025,163,185,200,209,246,112,139,65,144,158,142,166,171,158,135,149,141,144,138,135,131,136,156,163
+09/23/2025,172,181,181,192,188,174,180,198,193,199,195,209,174,178,188,190,185,172,161,148,151,288,294,289
+09/24/2025,305,318,323,335,308,312,311,309,327,349,319,318,317,322,318,332,325,330,334,326,300,286,290,299
+09/25/2025,330,301,302,287,289,294,291,310,327,322,328,327,332,331,1,11,338,327,313,109,80,105,225,111
+09/26/2025,97,100,101,101,121,63,109,293,340,328,314,354,19,56,1,57,81,89,104,100,107,120,200,176
+09/27/2025,148,161,177,166,115,68,97,115,154,183,174,133,148,92,79,74,65,86,87,85,85,112,206,228
+09/28/2025,83,98,63,104,100,102,92,102,98,289,271,103,68,68,65,69,80,86,88,89,83,97,99,90
+09/29/2025,61,100,104,97,87,85,86,95,97,119,97,95,93,82,87,81,41,55,87,101,340,26,85,36
+09/30/2025,86,124,111,75,80,60,84,86,129,115,124,259,125,77,82,79,85,98,86,95,101,110,106,78
+10/01/2025,72,83,71,46,86,75,76,90,140,180,153,105,75,86,40,53,73,87,89,81,93,114,135,123
+10/02/2025,75,270,66,58,241,62,79,82,113,109,116,97,85,73,97,80,94,95,93,92,83,76,90,101
+10/03/2025,87,95,134,133,126,28,80,94,106,107,91,99,98,76,87,87,93,104,97,100,106,102,111,116
+10/04/2025,115,121,120,124,122,106,102,111,131,119,123,123,120,105,98,108,109,116,117,114,110,114,117,109
+10/05/2025,112,110,116,122,125,132,125,142,175,177,165,132,108,125,113,122,117,97,94,96,111,102,95,102
+10/06/2025,106,99,114,127,132,127,120,94,119,105,124,141,66,52,72,51,100,89,92,84,68,72,70,94
+10/07/2025,49,32,102,99,51,80,109,91,50,25,62,45,54,36,PMA,PMA,PMA,50,48,69,35,26,54,77
+10/08/2025,29,65,51,27,23,27,353,355,11,44,38,30,19,28,47,41,18,50,43,70,73,80,90,100
+10/09/2025,98,98,101,93,99,97,95,99,100,86,96,77,62,57,65,71,69,85,83,95,87,85,85,87
+10/10/2025,87,90,73,73,68,97,73,92,106,127,117,106,124,81,78,325,34,84,81,79,79,102,270,270
+10/11/2025,197,73,88,106,84,112,217,239,239,205,170,126,143,128,123,136,115,133,141,140,154,140,144,140
+10/12/2025,140,141,161,168,168,192,163,175,218,213,168,181,186,174,167,174,180,163,140,134,137,141,132,143
+10/13/2025,155,166,192,204,194,192,173,212,209,203,199,174,186,147,119,117,123,110,99,110,115,120,121,104
+10/14/2025,117,115,129,134,103,100,83,87,86,47,45,98,98,86,86,91,80,70,81,88,50,68,80,104
+10/15/2025,58,92,43,2,6,55,98,87,99,104,94,85,85,79,87,79,61,69,89,84,87,106,109,111
+10/16/2025,106,109,113,103,109,134,122,124,148,154,157,133,128,135,130,126,145,163,160,139,144,138,120,142
+10/17/2025,134,145,169,184,176,198,178,166,168,206,189,199,180,179,182,162,187,174,156,138,143,162,164,169
+10/18/2025,168,181,190,185,194,188,176,194,207,236,274,307,285,146,214,258,280,253,98,312,269,308,296,330
+10/19/2025,4,348,357,22,355,4,3,7,34,54,25,30,21,336,39,41,80,98,104,104,185,207,147,134
+10/20/2025,127,135,147,148,152,192,156,180,187,201,197,205,213,213,207,199,204,182,156,150,161,177,235,305
+10/21/2025,14,30,22,14,20,22,13,29,38,53,46,49,34,29,26,25,6,340,330,39,83,121,105,106
+10/22/2025,107,101,102,105,104,112,96,102,164,149,140,141,PMA,PMA,PMA,PMA,135,127,103,96,126,73,96,115
+10/23/2025,148,141,115,166,166,137,189,208,185,172,147,151,155,145,144,142,128,120,116,122,121,124,123,131
+10/24/2025,140,141,307,137,198,169,188,212,159,166,159,147,153,141,127,123,114,110,112,115,282,321,74,94
+10/25/2025,118,126,146,143,242,224,315,298,294,223,191,160,189,114,116,225,113,104,287,281,292,245,153,297
+10/26/2025,243,276,305,285,249,296,287,260,268,291,115,116,77,74,116,122,99,99,100,101,95,105,151,270
+10/27/2025,270,106,56,118,87,111,110,113,132,134,138,167,180,143,171,155,164,142,122,117,122,129,132,133
+10/28/2025,116,124,129,143,158,177,202,239,256,295,321,326,334,336,343,334,338,340,337,339,337,333,333,328
+10/29/2025,325,325,326,329,329,329,320,320,324,324,324,324,323,322,327,324,325,323,324,324,320,319,307,306
+10/30/2025,306,309,297,298,290,288,295,301,318,309,321,312,315,319,308,315,320,335,105,143,112,105,96,107
+10/31/2025,112,251,155,113,97,106,166,105,121,164,144,166,145,136,125,144,130,129,133,139,131,129,117,122
+11/01/2025,121,141,159,140,149,248,240,142,87,54,111,75,78,87,81,49,94,113,91,143,317,88,86,85
+11/02/2025,58,38,62,30,100,91,111,107,115,121,114,139,204,169,202,220,196,175,121,151,151,151,160,162
+11/03/2025,178,172,175,151,183,168,157,180,198,221,225,201,211,207,202,166,171,154,150,147,141,146,147,152
+11/04/2025,164,189,196,206,201,192,177,192,199,220,200,214,200,181,174,175,188,177,168,164,159,171,182,205
+11/05/2025,191,197,203,172,202,192,204,169,199,207,223,222,212,155,151,156,161,153,117,133,138,142,145,106
+11/06/2025,67,137,149,175,189,182,200,186,213,223,214,212,206,222,195,187,187,179,165,162,165,176,193,200
+11/07/2025,203,206,204,208,207,203,208,208,215,253,311,321,352,61,59,46,35,35,244,126,7,297,288,264
+11/08/2025,73,126,281,289,311,289,189,274,232,247,246,206,284,290,311,338,320,357,106,348,358,4,359,13
+11/09/2025,343,320,318,324,340,337,335,334,339,344,336,337,336,330,328,330,330,340,349,350,347,351,350,346
+11/10/2025,344,330,335,336,347,289,294,318,336,348,344,10,347,359,317,327,134,181,136,101,103,134,147,153
+11/11/2025,171,194,202,205,204,205,201,204,206,201,200,213,220,213,203,203,200,195,179,178,169,158,204,189
+11/12/2025,195,211,193,201,182,182,157,153,185,205,213,200,193,205,179,143,141,144,86,97,110,272,301,226
+11/13/2025,156,173,196,182,198,191,173,183,188,210,218,197,199,178,184,193,172,158,147,142,152,151,149,173
+11/14/2025,188,190,186,203,181,192,175,172,191,195,207,219,207,202,185,189,184,176,164,169,190,198,200,199
+11/15/2025,203,207,211,216,215,215,218,223,223,232,228,232,226,230,227,223,209,186,191,180,180,197,205,215
+11/16/2025,215,220,202,200,208,224,236,243,242,254,295,5,0,341,23,7,45,49,111,108,88,20,132,151
+11/17/2025,136,141,133,139,152,171,184,200,200,202,191,223,226,209,205,195,185,181,171,172,173,190,192,201
+11/18/2025,199,205,221,221,226,219,208,210,219,230,243,245,252,240,219,204,212,175,168,177,176,186,197,212
+11/19/2025,216,209,211,193,186,195,202,206,226,242,220,176,205,219,191,189,184,175,156,144,131,140,144,161
+11/20/2025,211,154,286,224,268,122,131,121,223,140,159,327,98,109,101,93,323,325,71,94,110,138,154,262
+11/21/2025,198,185,286,246,257,253,257,248,256,269,290,282,277,275,272,275,263,286,300,274,301,293,326,345
+11/22/2025,345,335,334,326,293,295,302,324,332,336,328,320,323,328,328,328,328,357,45,70,99,111,114,296
+11/23/2025,270,48,120,69,82,114,100,108,120,117,102,110,116,127,138,126,124,108,123,135,134,145,150,136
+11/24/2025,127,142,36,100,128,330,118,132,71,127,138,138,131,189,132,124,128,117,124,163,243,257,262,195
+11/25/2025,224,247,280,282,286,289,299,281,274,307,309,322,323,340,355,5,21,46,70,113,331,337,353,353
+11/26/2025,351,2,22,22,21,20,5,27,41,38,30,22,36,47,55,67,73,69,127,110,107,125,94,270
+11/27/2025,110,86,81,55,79,90,94,85,83,109,110,102,19,327,20,71,72,84,96,270,207,207,82,96
+11/28/2025,62,65,63,125,152,164,154,152,141,161,148,143,152,158,162,149,167,140,144,153,135,142,149,160
+11/29/2025,169,150,144,148,143,147,156,157,153,158,176,203,188,160,150,123,81,52,7,11,22,29,14,11
+11/30/2025,21,23,355,16,19,10,26,11,16,11,27,25,14,43,37,34,8,22,43,46,65,74,74,78
+12/01/2025,72,53,68,77,72,60,17,83,358,50,78,25,334,339,332,327,338,335,346,347,340,341,344,332
+12/02/2025,325,328,327,333,304,298,296,279,290,284,304,288,110,219,166,141,160,142,141,139,143,152,140,139
+12/03/2025,158,165,163,160,174,167,165,171,187,192,185,196,218,212,181,158,146,139,125,121,103,82,78,71
+12/04/2025,62,57,48,41,41,43,34,18,27,41,28,38,346,338,345,345,339,341,342,353,3,11,340,295
+12/05/2025,314,303,298,279,240,210,172,158,169,186,203,187,195,173,168,165,146,151,154,149,155,156,130,122
+12/06/2025,103,97,137,120,72,101,105,122,142,133,168,173,206,214,226,126,102,89,98,93,133,138,164,184
+12/07/2025,200,206,228,340,347,328,330,337,344,344,350,348,345,348,345,349,347,346,355,26,30,355,349,339
+12/08/2025,336,334,336,318,338,335,328,334,333,11,2,301,315,307,281,171,157,137,155,104,132,148,210,148
+12/09/2025,166,190,169,181,201,206,204,197,197,194,199,190,196,206,196,181,175,172,174,176,187,188,188,194
+12/10/2025,192,190,193,190,177,102,212,280,319,29,25,6,349,4,10,16,11,332,315,322,304,271,283,264
+12/11/2025,199,100,252,113,205,205,239,197,175,168,181,204,186,191,180,193,192,175,166,161,174,188,189,186
+12/12/2025,192,171,173,154,138,134,141,178,198,221,253,318,53,55,62,58,61,71,64,118,337,107,104,1
+12/13/2025,32,28,334,343,330,328,329,326,300,283,287,16,20,43,40,52,50,37,39,41,37,28,14,19
+12/14/2025,8,3,351,358,12,357,350,3,4,5,351,1,23,347,1,11,32,18,351,39,51,51,77,101
+12/15/2025,107,111,83,99,106,92,90,96,156,175,201,175,175,168,170,171,187,190,178,162,162,182,189,184
+12/16/2025,179,175,171,176,179,187,177,173,186,187,194,186,187,183,173,169,181,187,172,159,171,184,179,196
+12/17/2025,174,161,180,160,144,152,133,157,171,168,181,189,194,196,196,206,187,173,178,182,171,178,185,180
+12/18/2025,194,186,190,190,199,209,211,233,242,284,320,331,326,323,328,327,326,323,320,311,319,331,319,284
+12/19/2025,277,252,174,127,95,241,147,169,90,138,162,190,173,174,183,185,170,165,148,153,164,170,182,190
+12/20/2025,185,187,194,195,195,193,189,193,195,210,208,212,209,218,211,216,231,110,125,120,251,92,57,60
+12/21/2025,31,60,55,53,45,5,9,21,30,29,37,18,46,56,36,16,27,37,57,74,82,91,86,83
+12/22/2025,85,92,77,86,99,105,119,156,161,185,189,208,197,211,212,193,196,188,189,183,182,192,191,194
+12/23/2025,190,200,190,197,220,208,162,179,181,182,193,200,214,207,198,190,183,173,172,177,185,193,187,190
+12/24/2025,186,186,198,193,181,189,192,206,208,200,197,190,182,183,176,179,179,174,179,177,184,192,196,198
+12/25/2025,210,196,200,168,154,151,191,183,192,199,205,210,212,200,198,203,195,191,191,192,199,200,209,216
+12/26/2025,224,227,223,223,232,226,207,213,228,235,250,256,254,250,263,261,256,172,180,168,186,181,188,192
+12/27/2025,185,204,199,204,197,198,181,186,190,195,201,210,207,199,183,176,175,183,176,174,181,190,199,189
+12/28/2025,203,200,216,202,192,192,197,188,200,217,232,254,268,278,293,317,330,339,339,341,341,337,344,345
+12/29/2025,0,350,351,338,321,316,302,302,310,322,333,324,326,323,317,324,321,330,322,315,316,318,327,335
+12/30/2025,338,331,327,326,304,292,292,294,313,310,313,321,316,302,291,311,245,158,158,175,183,204,211,238
+12/31/2025,229,233,241,239,238,152,149,107,239,253,266,259,266,268,260,264,258,228,209,255,125,164,194,223
+
+
+Currently, the Limit of Detection (LOD) applied to all AutoGC target compounds is 0.4 ppb-C.
+</pre>
+
+
+<p>You may use the controls below to select which parameter and statistics will be included in the report.  If you have cookies enabled on your browser, these selections will be "remembered" from session to session.</p>
+<ul>
+<table noborder>
+<tr><td align='left'><input type='radio' name='user_param' value='43202' >Ethane [P] *</td><td align='left'><input type='radio' name='user_param' value='43246' >2-Methyl-1-Pentene [P] </td><td align='left'><input type='radio' name='user_param' value='45209' >n-Propylbenzene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43203' >Ethylene [P] *</td><td align='left'><input type='radio' name='user_param' value='43245' >1-Hexene [P] </td><td align='left'><input type='radio' name='user_param' value='45212' >m-Ethyltoluene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43204' >Propane [P] *</td><td align='left'><input type='radio' name='user_param' value='43231' >n-Hexane [BP] *</td><td align='left'><input type='radio' name='user_param' value='45213' >p-Ethyltoluene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43205' >Propylene [P] *</td><td align='left'><input type='radio' name='user_param' value='43289' >t-2-Hexene [BP] </td><td align='left'><input type='radio' name='user_param' value='45207' >1,3,5-Trimethylbenzene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43214' >Isobutane [P] *</td><td align='left'><input type='radio' name='user_param' value='43290' >c-2-Hexene [BP] </td><td align='left'><input type='radio' name='user_param' value='45211' >o-ethyltoluene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43212' >n-Butane [P] *</td><td align='left'><input type='radio' name='user_param' value='43262' >Methylcyclopentane [BP] *</td><td align='left'><input type='radio' name='user_param' value='45208' >1,2,4-Trimethylbenzene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43206' >Acetylene [P] *</td><td align='left'><input type='radio' name='user_param' value='43247' >2,4-Dimethylpentane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43238' >n-Decane [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43216' >t-2-Butene [P] *</td><td align='left'><input type='radio' name='user_param' value='45201' >Benzene [BP] *</td><td align='left'><input type='radio' name='user_param' value='45225' >1,2,3-Trimethylbenzene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43280' >1-Butene [P] *</td><td align='left'><input type='radio' name='user_param' value='43248' >Cyclohexane [BP] *</td><td align='left'><input type='radio' name='user_param' value='45218' >m-Diethylbenzene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43270' >Isobutene [P] </td><td align='left'><input type='radio' name='user_param' value='43263' >2-Methylhexane [BP] *</td><td align='left'><input type='radio' name='user_param' value='45219' >p-Diethylbenzene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43217' >c-2-Butene [P] *</td><td align='left'><input type='radio' name='user_param' value='43291' >2,3-Dimethylpentane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43954' >n-Undecane [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43242' >Cyclopentane [P] *</td><td align='left'><input type='radio' name='user_param' value='43249' >3-Methylhexane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43256' >a-Pinene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43221' >Isopentane [P] *</td><td align='left'><input type='radio' name='user_param' value='43250' >2,2,4-Trimethylpentane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43257' >b-Pinene [BP] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43220' >n-Pentane [P] *</td><td align='left'><input type='radio' name='user_param' value='43232' >n-Heptane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43283' >Cyclopentene [P] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43218' >1,3-Butadiene [P] *</td><td align='left'><input type='radio' name='user_param' value='43261' >Methylcyclohexane [BP] *</td><td align='left'><input type='radio' name='user_param' value='43282' >3-Methyl-1-Butene [P] </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43342' >3-Methyl-1-Butene+Cyclopentene [P] </td><td align='left'><input type='radio' name='user_param' value='43252' >2,3,4-Trimethylpentane [BP] *</td><td align='left'><input type='radio' name='user_param' value='61101' >Wind Speed </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43226' >t-2-Pentene [P] *</td><td align='left'><input type='radio' name='user_param' value='45202' >Toluene [BP] *</td><td align='left'><input type='radio' name='user_param' value='61103' >Resultant Wind Speed </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43228' >2-Methyl-2-Butene [P] </td><td align='left'><input type='radio' name='user_param' value='43960' >2-Methylheptane [BP] *</td><td align='left'><input type='radio' name='user_param' value='61104' checked>Resultant Wind Direction </td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43224' >1-Pentene [P] *</td><td align='left'><input type='radio' name='user_param' value='43253' >3-Methylheptane [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43227' >c-2-Pentene [P] *</td><td align='left'><input type='radio' name='user_param' value='43233' >n-Octane [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43244' >2,2-Dimethylbutane [P] *</td><td align='left'><input type='radio' name='user_param' value='45203' >Ethyl Benzene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43284' >2,3-Dimethylbutane [P] </td><td align='left'><input type='radio' name='user_param' value='45109' >p-Xylene + m-Xylene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43285' >2-Methylpentane [P] </td><td align='left'><input type='radio' name='user_param' value='45220' >Styrene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43230' >3-Methylpentane [P] </td><td align='left'><input type='radio' name='user_param' value='45204' >o-Xylene [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43243' >Isoprene [P] *</td><td align='left'><input type='radio' name='user_param' value='43235' >n-Nonane [BP] *</td></tr>
+<tr><td align='left'><input type='radio' name='user_param' value='43234' >4-Methyl-1-Pentene [P] </td><td align='left'><input type='radio' name='user_param' value='45210' >Isopropyl Benzene - Cumene [BP] *</td></tr>
+<tr><td colspan='3'>* - Target Compounds effective April 1998</td></tr>
+</table>
+<p></p>
+<table border>
+<tr bgcolor='#00ffff'><th colspan='3'>Select which statistics to include:</th></tr><tr><th align='right'>Maximum Value</th><td><input type='checkbox' name='print_daily_max' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_max' value='1' >Yearly</td></tr><tr bgcolor='#ffffd0'><th align='right'>Second Highest Value</th><td><input type='checkbox' name='print_daily_sh' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_sh' value='1' >Yearly</td></tr><tr><th align='right'>Minimum Value</th><td><input type='checkbox' name='print_daily_min' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_min' value='1' >Yearly</td></tr><tr bgcolor='#ffffd0'><th align='right'>Average Value</th><td><input type='checkbox' name='print_daily_avg' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_avg' value='1' >Yearly</td></tr><tr><th align='right'>Standard Deviation</th><td><input type='checkbox' name='print_daily_std' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_std' value='1' >Yearly</td></tr><tr bgcolor='#ffffd0'><th align='right'>Data Recovery</th><td><input type='checkbox' name='print_daily_cap' value='1' >Daily</td><td><input type='checkbox' name='print_yearly_cap' value='1' >Yearly</td></tr></table>
+</ul>
+<ul>
+<input type='submit' value='Generate Report'>
+<br /><br />
+<font size='-1'>
+<input type='reset' value='Reset to Defaults'>
+</font>
+</ul>
+</form>
+<p>
+<b>PLEASE NOTE:</b>&#160;&#160;This data has not been verified by the TCEQ and may change.  This is the most current data, but it is not official until it has been certified by our technical staff. Data is collected from TCEQ ambient monitoring sites and may include data collected by other outside agencies. This data is updated hourly. All times shown are in local standard time unless otherwise indicated.<p>Following EPA reporting guidelines, negative values may be displayed in our hourly criteria air quality data, down to the negative of the EPA listed Method Detection Limit (MDL) for the particular instrument that made the measurements. The reported concentrations can be negative due to zero drift in the electronic instrument output, data logger channel, or calibration adjustments to the data.  Prior to 1/1/2013, slightly negative values were automatically set to zero.</p>
+<br />
+</div>
+<footer id="portal-footer-wrapper" class="container" role="contentinfo">
+        <div class="container" id="portal-footer">
+      <div class="row">
+	<div class="col-xs-12">
+
+</div>
+
+<div><div><p><a href="/help">Site Help</a> | <a href="/help/policies/disclaimer_policy.html">Disclaimer</a> | <a href="/help/policies/index.html">Site Policies</a> | <a href="/help/policies/accessibility_policy.html">Accessibility</a> | <a href="/agency/working-with-us/compact.html">Our Compact with Texans</a> | <a href="/response/security/index.html">TCEQ Homeland Security</a><br />Statewide Links: <a href="http://www.texas.gov/" target="_blank">Texas.gov</a> | <a href="http://www.texashomelandsecurity.org/" target="_blank">Texas Homeland Security</a> | <a href="https://www.tsl.texas.gov/trail/index.html" target="_blank">TRAIL Statewide Archive</a> | <a href="https://veterans.portal.texas.gov/" target="_blank">Texas Veterans Portal</a><br /><br />&copy; 2002-2017 Texas Commission on Environmental Quality</p></div>
+
+
+</div>
+
+
+	</div>
+</div>
+
+
+
+  <div id="modified_block">
+      Last Modified Tuesday, 30 Jan 2018 
+  </div>
+
+    </div>
+    </footer><script type="text/javascript">
+	    document.querySelector( ".navbar-toggle" ).addEventListener( "click", function() {
+		  	$('#tceqNavToggle').toggleClass('fa-bars fa-close');
+		});
+    </script>
+
+</div>
+</body>
+</html>

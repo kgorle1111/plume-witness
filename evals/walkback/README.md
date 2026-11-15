@@ -52,8 +52,8 @@ Agreeing with a baseline does not make a reading correct.
 ## Baselines (no labels needed)
 
 - **Parser** (`parse.steers_revisions`): reads 1 of 317 pages, `steers_425347`, the INEOS demo page.
-- **Regex flagger** (`walkback.regex_read`): flags 43 of 317 using change, walk-back and UPDATE wording. An
-  earlier pattern counted 39. It flags known noise as well: "piping was revised", "operator incorrectly
+- **Regex flagger** (`walkback.regex_read`): flags 43 of 317 using change, walk-back and UPDATE wording. It
+  flags known noise as well: "piping was revised", "operator incorrectly
   assumed".
 
 ## Optional: the labeled eval (the only real accuracy number)
@@ -70,7 +70,7 @@ Nothing depends on this. Skip it unless you want precision and recall.
 3. Run `uv run python -m evals.walkback.score`. It prints precision and recall (Wilson 95% CI), exact (old, new)
    pairs, verbatim-quote rate and changes claimed on unflagged pages, for the parser, the regex and each tier's
    newest run. The pass bar is P ≥ 0.90, R ≥ 0.90, ≥ 95% exact pairs, 100% verbatim, and 0 hallucinated changes
-   on unflagged pages. Ship the smallest tier that passes.
+   on unflagged pages. The smallest tier that passes is the one to use.
 
 With roughly 15 positives, 14/15 is a Wilson 95% CI of about 70-99%. Treat any pass on 73 pages as provisional
 until it holds on a held-out set.

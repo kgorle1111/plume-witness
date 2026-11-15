@@ -3,8 +3,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import {
-  NO_FILTER, PAGE_SIZE, cleanFilters, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
-  reasonKey, selectRows, spikeKey, toCsv,
+  NO_FILTER, PAGE_SIZE, cleanFilters, countKey, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
+  reasonKey, selectRows, spikeKey, toCsv, yearSpan,
 } from '../src/spikes.ts'
 import { NEIGHBORHOODS } from '../src/neighborhoods.ts'
 import { STRINGS } from '../src/i18n.ts'
@@ -127,9 +127,11 @@ test('option counts follow the other filters: Channelview has no "Reported" spik
 })
 
 test('every reason code in the published file has a translated label, read from the code, not the stand-in sentence', () => {
+  // Since review L3 no published Houston row stops at an incomplete week search, so that code is checked from the table.
+  const all = ['calm_wind', 'day_search_incomplete', 'earlier_search_incomplete', 'no_wind', 'report_not_placed']
   const codes = new Set(data.rows.map((r) => r.reason_code).filter((c) => c !== undefined))
-  assert.deepEqual([...codes].sort(), ['calm_wind', 'day_search_incomplete', 'earlier_search_incomplete', 'no_wind', 'report_not_placed'])
-  for (const c of codes) {
+  assert.ok([...codes].every((c) => all.includes(c!)) && codes.size >= 4, [...codes].join())
+  for (const c of all) {
     const k = reasonKey({ reason_code: c })
     assert.ok(k, `no key for ${c}`)
     for (const key of [k, `${k}Long` as const]) assert.ok(STRINGS.en[key] && STRINGS.es[key] && STRINGS.es[key] !== STRINGS.en[key], key)
@@ -138,9 +140,10 @@ test('every reason code in the published file has a translated label, read from 
   const incomplete = data.rows.filter((r) => r.status === 'search_incomplete')
   assert.ok(incomplete.length > 0 && incomplete.every((r) => r.reason_code))
   assert.ok(incomplete.every((r) => reasonKey(r) !== 'spikes.reason.check'))
-  // Calm-wind rows carry the pipeline's "could not be placed" stand-in sentence; the label must say calm wind.
+  // A calm-wind row's own sentence says calm wind (no "could not be placed" stand-in), and so does its label.
   const calm = data.rows.find((r) => r.reason_code === 'calm_wind')!
-  assert.match(calm.reason ?? '', /could not be placed/)
+  assert.match(calm.reason ?? '', /too light/)
+  assert.ok(data.rows.every((r) => r.reason_code === 'report_not_placed' || !/could not be placed/.test(r.reason ?? '')))
   assert.equal(reasonKey(calm), 'spikes.reason.calm')
   assert.equal(reasonKey(data.rows.find((r) => r.night_id === null)!), 'spikes.reason.noWind')
   const n = (k: string) => incomplete.filter((r) => reasonKey(r) === k).length
@@ -188,4 +191,24 @@ test('a saved list position is used only for the same URL and only when well for
   assert.equal(parseSpot(null, '?view=spikes'), null)
   assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 'all', y: 3 }), '?view=spikes'), null)
   assert.equal(parseSpot(JSON.stringify({ search: '?view=spikes', limit: 1e9, y: -5 }), '?view=spikes')?.limit, 10_000)
+})
+
+test('a region with no spikes at all gets its own empty state, not the filter-empty line', () => {
+  const none = parseSpikes(JSON.parse(readFileSync(new URL('../public/regions/brazoria/spikes.json', import.meta.url), 'utf8')))
+  assert.equal(none.rows.length, 0)
+  assert.equal(countKey(none.rows.length, 0, false), 'spikes.none')
+  assert.equal(countKey(none.rows.length, 0, true), 'spikes.none')
+  assert.equal(yearSpan(none.years), '2024–2025')
+  assert.equal(yearSpan(['2025']), '2025')
+  // Houston has spikes: a filter that matches nothing is a filter result; otherwise the showing lines.
+  assert.equal(countKey(data.rows.length, 0, true), 'spikes.empty')
+  assert.equal(countKey(data.rows.length, 5, true), 'spikes.showingFiltered')
+  assert.equal(countKey(data.rows.length, data.rows.length, false), 'spikes.showing')
+  assert.equal(STRINGS.en['spikes.none'].replace('{years}', yearSpan(none.years)), 'No hour at these monitors crossed the trigger in 2024–2025.')
+  assert.equal(STRINGS.es['spikes.none'].replace('{years}', yearSpan(none.years)), 'Ninguna hora en estos monitores cruzó el umbral en 2024–2025.')
+  for (const lang of ['en', 'es'] as const) {
+    assert.match(STRINGS[lang]['spikes.noneCoverage'], /\{link\}/)
+    assert.doesNotMatch(STRINGS[lang]['spikes.none'], /filter|filtro/i)
+  }
+  assert.throws(() => parseSpikes({ ...none, years: undefined }), /Re-run/)
 })

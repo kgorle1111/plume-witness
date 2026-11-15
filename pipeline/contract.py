@@ -8,8 +8,12 @@ from typing import Any
 
 SCHEMA = "plume-witness.event/v1"
 # reported_late: the notice or final report is on the record, dated after its check's window (24 h / 14 d).
+# reported_nrc: no STEERS report in the corridor and window, but a National Response Center report there lists the
+# compound (pipeline/nrc.py); the STEERS checks keep their own statuses.
 STATUSES = ("reported", "reported_late", "not_yet_reported", "no_report_after_deadline", "reported_mismatch",
-            "search_incomplete")
+            "search_incomplete", "reported_nrc")
+NRC_KEYS = ("report", "source_url", "company", "incident_local", "compound", "material", "amount", "unit",
+            "located_by")
 LABELS = ("real", "fixture")
 
 REQUIRED_TOP = ("schema", "label", "event_id", "title", "date_local", "time_note", "compound", "monitors",
@@ -52,6 +56,12 @@ def validate(ev: dict[str, Any]) -> list[str]:
     for c in rc.get("checks", []):
         if c.get("status") not in STATUSES:
             errors.append(f"record_check.checks status '{c.get('status')}' not allowed")
+    if (rc.get("status") == "reported_nrc") != ("nrc" in rc):
+        errors.append("record_check: status reported_nrc and an nrc block come together")
+    if "nrc" in rc:
+        _need(rc["nrc"], NRC_KEYS, "record_check.nrc", errors)
+        if rc.get("incident"):
+            errors.append("record_check: an NRC match never carries a STEERS incident (a STEERS match wins)")
     banned = ("illegal", "violation", "unreported", "polluter", "caught", "proves")
     shown = [ev["packet"].get("draft_en", ""), ev["packet"].get("draft_es", ""), ev["title"], *ev["cannot_say"],
              rc.get("search_scope", ""), *(c.get("note", "") for c in rc.get("checks", []))]

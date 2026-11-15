@@ -139,7 +139,12 @@ def test_incomplete_reason_matches_the_night_it_links_to(out):
         rc = json.loads((nights / f"{r['night_id']}.json").read_text())["record_check"]
         calm = rc["checks"][0]["note"].startswith("wind too light")
         assert (code == "calm_wind") == (calm and "found; search incomplete)" not in rc["search_scope"]), r["night_id"]
+        # The night's own sentence agrees with the code: "could not be located" only where a report really was
+        # not placed (review M2: 136 calm nights said it because calm marks every report untraced).
         if code == "report_not_placed":
             assert "could not be located" in rc["search_scope"], r["night_id"]
-        assert r["reason"] == spikes.WEB_REASON.get(code, spikes.WEB_REASON_CHECK)
+        if code == "calm_wind":
+            assert "could not be located" not in rc["search_scope"], r["night_id"]
+        # The published sentence is the code's own (review L2: 199 rows carried the "could not be placed" stand-in).
+        assert r["reason"] == spikes.REASONS[code], r["night_id"]
     assert {"calm_wind", "report_not_placed"} <= seen

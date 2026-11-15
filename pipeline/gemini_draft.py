@@ -223,6 +223,39 @@ _BANNED_RE = re.compile(
     r"|\bprueban que\b|\bculpables?\b|\batrapad[oa]s?\b|\bno\s+(?:\w+\s+){0,2}reportad[oa]s?\b"
     r"|\bno\s+report(?:ó|aron)\b")
 
+# Cause, blame and failure-to-report claims (review M3: "INEOS caused this reading", "INEOS failed to report the
+# release" and "INEOS fue responsable de la emisión" all passed). The data can show a report and a wind direction,
+# never who caused a reading, so these words are allowed only in a question or a stated limit within the same
+# clause: "confirm what caused", "does not show who or what caused", "no muestra que una sola instalación causó".
+# A bare negation is still a verdict ("INEOS did not cause it" clears a company the data cannot clear), so it is
+# rejected like the ban list's negated forms.
+_CAUSAL_RE = re.compile(
+    r"\bcaus(?:ed|ing)\b|\b(?:did|does|do|may|might|could|would|can|will)(?:\s+not|n[’']t)?\s+(?:have\s+)?cause\b"
+    r"|\bresponsib(?:le|ility)\b|\bblam(?:e|ed|es|ing)\b|\bculprits?\b"
+    r"|\bfail(?:ed|s|ing)?\s+to\s+(?:report|file|notify|disclose)\b|\bneglect(?:ed|s)?\s+to\s+(?:report|file|notify)\b"
+    r"|\b(?:did\s+not|didn[’']t|never)\s+(?:report|file|notify)(?:ed)?\b"
+    r"|\bcaus(?:ó|aron|ad[oa]s?|ando|antes?)\b|\bprovoc(?:ó|aron|ad[oa]s?)\b|\bocasion(?:ó|aron|ad[oa]s?)\b"
+    r"|\bresponsab(?:les?|ilidad)\b|\bculpa\b"
+    r"|\bno\s+(?:inform|notific)(?:ó|aron)\b|\bomiti(?:ó|eron)\s+(?:reportar|informar|notificar)\b"
+    r"|\bdej(?:ó|aron)\s+de\s+(?:reportar|informar|notificar)\b")
+# What makes such a word a question or a limit, when it comes earlier in the same clause.
+_CAUSAL_OK = re.compile(
+    r"\b(?:what|who|whether|qué|quién|quiénes|cuál|si)\b"
+    r"|(?:\bnot|n[’']t|\bnever|\bcannot)\s+(?:\w+\s+)?(?:show|prove|tell|mean|establish|say)s?\b"
+    r"|\bno\s+(?:\w+\s+)?(?:muestra|indica|prueba|significa|dice|permite)n?\b")
+_CLAUSE_START = re.compile(r"[.!?;:¿¡]\s|\bbut\b|\bpero\b")
+
+
+def causal_claims(low: str) -> list[str]:
+    """Cause, blame or failure-to-report words in casefolded text that no question or stated limit covers."""
+    bad = []
+    for m in _CAUSAL_RE.finditer(low):
+        starts = [c.end() for c in _CLAUSE_START.finditer(low, 0, m.start())]
+        if not _CAUSAL_OK.search(low, starts[-1] if starts else 0, m.start()):
+            bad.append(m[0])
+    return bad
+
+
 # --- spelled-out numbers: rewritten to digits so the number, unit and hour checks see them ---
 _EN_NUM = {w: i for i, w in enumerate((
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
@@ -483,6 +516,8 @@ def guard(drafts: dict[str, Any], facts: dict[str, Any]) -> list[str]:
                 rejected.append(f"{field}: banned word '{stem}'")
         for m in _BANNED_RE.finditer(low):
             rejected.append(f"{field}: banned word '{m[0]}'")
+        for word in causal_claims(low):
+            rejected.append(f"{field}: '{word}' states a cause or a failure to report, which the data cannot show")
         text = normalize_numbers(text, lang)
         for h, m, marker in _CLOCK_AMPM.findall(text):
             if (_to24(int(h), marker), m) not in times24:

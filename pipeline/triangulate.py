@@ -75,7 +75,7 @@ def _own_window(wind: dict | None, site: str, h: int) -> tuple[list[float], str 
     """(upwind bearings, reason excluded) from a monitor's own wind in the detection hour and the hour before."""
     if not wind or wind.get("site_id") != site:
         return [], "no wind reading of its own"
-    hours = [wind["hourly"][max(0, h - 1)], wind["hourly"][h]]
+    hours = build.wind_pair(wind, h)
     window = [x["from_deg"] for x in hours if x["from_deg"] is not None]
     if not window:
         return [], "no wind direction for the detection hours"
@@ -146,9 +146,17 @@ def triangulate(t: dict, monitors: list[dict]) -> dict:
 def wind_files(block: dict, year: str, trace_wind_site: str | None, winds: dict[str, dict] | None = None) -> list[str]:
     """Cached wind files behind the extra wedges (the flagged monitor's wind is already in the provenance); each
     monitor's own source (met form, or AutoGC form) as `winds` loaded it."""
-    winds = winds or {}
-    return [f for u in block["monitors"][1:] if u["site_id"] != trace_wind_site
-            for f in build.wind_files(u["site_id"], year, (winds.get(u["site_id"]) or {}).get("source", "met"))]
+    winds, out = winds or {}, []
+    hour0 = block["monitors"][0].get("trigger_hour_cst") == 0
+    for u in block["monitors"][1:]:
+        if u["site_id"] == trace_wind_site:
+            continue
+        w = winds.get(u["site_id"]) or {}
+        out += build.wind_files(u["site_id"], year, w.get("source", "met"))
+        prev = w.get("prev_hour") if hour0 else None
+        if prev and prev["date"][:4] != year:  # hour 0 on 1 January reads last year's file for 23:00
+            out += build.wind_files(u["site_id"], prev["date"][:4], w.get("source", "met"))
+    return out
 
 
 def stats(evs: list[dict], skipped: int) -> dict:

@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 
 from pipeline import backtest, build, tri
-from pipeline.parse import _text, lbs_by_param
+from pipeline.parse import _text, lbs_by_param, lumped_by_param
 
 ROOT = Path(__file__).resolve().parent.parent
 BT = backtest.BT
@@ -104,6 +104,11 @@ def report_summary(path: Path) -> dict:
     }
     if withheld:
         out["cause_withheld"] = True
+    # Benzene named only inside a lumped row ("BTEX - benzene, ..."): the row and the mixture's pounds, so the page
+    # does not say "not listed" for a report that lists it.
+    lumped = [r for r in lumped_by_param(_text(path)).get("45201", []) if r["pounds"] > 0]
+    if lumped and not out["benzene_lbs"]:
+        out["benzene_lumped"] = lumped
     return out
 
 

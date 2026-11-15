@@ -61,12 +61,37 @@ def test_every_sampled_spike_has_a_hand_verdict():
     assert all(v["verdict"] in valid and v["rule"] and v["evidence"] for v in audit.VERDICTS.values())
 
 
+# Sampled nights today's code no longer reproduces on the audit's 8 monitors: HRM-16 Deer Park's own AutoGC-form
+# wind (2.1 mph) now makes 2025-10-31 abstain (docs/audit-no-report.md, "Rebuild").
+NOT_REPRODUCED_TODAY = {"2025-10-31_45201_48_201_1614"}
+
+
 def test_published_json_matches_sample_and_verdicts():
     pub = json.loads(PUBLISHED.read_text())
     assert pub["seed"] == audit.SEED and [r["id"] for r in pub["rows"]] == SAMPLE_IDS
-    assert all(r["reproduced"] for r in pub["rows"])
+    assert {r["id"] for r in pub["rows"] if not r["reproduced"]} == NOT_REPRODUCED_TODAY
     for r in pub["rows"]:
         assert (r["verdict"], r["evidence"]) == (audit.VERDICTS[r["id"]]["verdict"], audit.VERDICTS[r["id"]]["evidence"])
+
+
+def test_write_runs_and_rebuilds_the_published_rows(spikes, tmp_path, monkeypatch):
+    """`--write` crashed on main (the frozen population rows have no hour or value). It rebuilds each sampled night on
+    the audit's 8 monitors and publishes the rebuilt reading; a night with no wind for its detection hours
+    (2025-07-26 at Galena Park) is "no_wind", not a crash. The sweep runs on the 10 sampled nights plus that one."""
+    picked = audit.sample(spikes)
+    no_wind = next(s for s in spikes if audit.spike_id(s) == "2025-07-26_45201_48_201_0057")
+    monkeypatch.setattr(audit, "load_population", lambda: picked + [no_wind])
+    monkeypatch.setattr(audit, "sample", lambda _: picked)
+    monkeypatch.setattr(audit, "OUT", tmp_path / "audit.json")
+    monkeypatch.setattr(audit, "ROOT", tmp_path)
+    monkeypatch.setattr("sys.argv", ["audit_no_report", "--write"])
+    audit.main()
+    out, pub = json.loads((tmp_path / "audit.json").read_text()), json.loads(PUBLISHED.read_text())
+    assert out["rows"] == pub["rows"] and out["counts"] == pub["counts"]
+    assert out["population_sweep"]["spikes"] == 11
+    assert out["population_sweep"]["reproduced"] == 10 - len(NOT_REPRODUCED_TODAY)
+    assert audit.evidence(no_wind, audit.nights.load_context(site_ids=audit.POPULATION_SITES))["rebuilt"]["status"] \
+        == "no_wind"
 
 
 def _kept_rows() -> list[str]:

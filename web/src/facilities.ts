@@ -31,6 +31,8 @@ export interface StateReport {
   end_local: string
   benzene_lbs: number
   butadiene_lbs: number
+  /** Benzene named only inside a lumped row ("BTEX - benzene, ..."): the row as filed and the mixture's pounds. */
+  benzene_lumped?: { cell: string; pounds: number }[]
   cause_excerpt: string
   cause_withheld?: boolean
   url: string
@@ -118,12 +120,12 @@ export const localTime = (s: string): string => s.replace('T', ' ')
 // EPA registers names in capitals. Display only: the registered name stays on the facility page and in citations.
 // kn: acronym and brand lists cover the 2024-25 index; a new acronym renders title-cased until it is added here.
 const KEEP_UPPER = new Set([
-  'LLC', 'LP', 'LTD', 'USA', 'US', 'TX', 'II', 'III', 'IV', 'ACCP', 'AES', 'ASU', 'BASF', 'EGU', 'EO', 'EPOLP', 'FC', 'GCL',
+  'LLC', 'LP', 'LTD', 'USA', 'US', 'TX', 'II', 'III', 'IV', 'ACCP', 'AES', 'ASU', 'BASF', 'EGU', 'EO', 'EPOLP', 'FC', 'GC', 'GCL',
   'GE', 'HRM', 'KMCC', 'LBC', 'LCY', 'MB', 'MCA', 'NGL', 'PCI', 'PVA', 'PVC', 'PWE', 'RST', 'SI', 'SJRR', 'SMR', 'TECO', 'TM',
   'VCM', 'WWTP',
 ])
 const SMALL = new Set(['AND', 'OF', 'THE', 'AT', 'FOR', 'IN', 'ON'])
-const BRANDS: Record<string, string> = { EXXONMOBIL: 'ExxonMobil', LYONDELLBASELL: 'LyondellBasell', TOTALENERGIES: 'TotalEnergies', INEOS: 'INEOS' }
+const BRANDS: Record<string, string> = { EXXONMOBIL: 'ExxonMobil', LYONDELLBASELL: 'LyondellBasell', TOTALENERGIES: 'TotalEnergies', INEOS: 'INEOS', INVISTA: 'INVISTA' }
 const cap = (w: string): string => w.charAt(0) + w.slice(1).toLowerCase()
 
 function word(w: string, first: boolean): string {

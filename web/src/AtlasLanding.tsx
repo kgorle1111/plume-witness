@@ -39,7 +39,8 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
       inert={leaving}
       onAnimationEnd={(event) => { if (leaving && event.target === event.currentTarget) onExit() }}
     >
-      <SiteHeader className="atlas-masthead" />
+      {/* The skip link goes to the title, as on every other page (the first Tab used to land on the brand). */}
+      <SiteHeader className="atlas-masthead" skipTo="atlas-title" />
 
       <section className="atlas-hero" aria-labelledby="atlas-title">
         <h1 id="atlas-title">{t('landing.title')}</h1>
@@ -90,6 +91,9 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </li>
         </ul>
         <nav className="atlas-links" aria-label={t('landing.more')}>
+          {/* A way in by place, not by monitor name: Past spikes has its neighborhood chips right under the intro. No
+              #fragment to them: that page draws after load, so the browser never scrolls to it (measured). */}
+          <a href={`${BASE}?view=spikes`}>{t('landing.nb')}</a>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
           <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
           <a href={`${BASE}?view=coverage`}>{t('nav.coverage')}</a>

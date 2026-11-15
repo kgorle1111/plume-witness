@@ -1,8 +1,8 @@
-// Run: npm test. Region switch: URL -> dataset folder (from regions.generated.json), and not-backtested regions say so.
+// Run: npm test. Region switch: URL -> dataset folder (from regions.generated.json); labels are the place name only.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { NOT_BACKTESTED_NOTE, REGIONS, buildRegions, compoundLabel, eventTitle, regionByKey, regionFrom, regionLabel, regionQuery, regionUnknown, type RegionRow } from '../src/region.ts'
+import { REGIONS, buildRegions, compoundLabel, eventTitle, regionByKey, regionFrom, regionLabel, regionQuery, regionUnknown, type RegionRow } from '../src/region.ts'
 import { translate } from '../src/i18n.ts'
 import { navHref, replayHref } from '../src/routes.ts'
 import { parseSpikes } from '../src/spikes.ts'
@@ -19,18 +19,18 @@ test('beaumont reads its own folder and keeps the region in links', () => {
   const r = regionFrom('?view=spikes&region=beaumont')
   assert.equal(r.key, 'beaumont')
   assert.equal(r.dir, 'regions/beaumont/')
-  assert.equal(r.backtested, false)
-  assert.match(r.label, /not backtested/)
+  assert.equal(r.backtested, true)
+  assert.equal(r.label, 'Beaumont-Port Arthur')
   assert.equal(new URLSearchParams(regionQuery(r, { night: 'x' })).get('region'), 'beaumont')
 })
 
-test('the published Beaumont spike log parses and carries the not-backtested note', () => {
+test('the published Beaumont spike log parses and carries its backtest line and ground truth', () => {
   const raw = JSON.parse(readFileSync(new URL('../public/regions/beaumont/spikes.json', import.meta.url), 'utf8'))
   const f = parseSpikes(raw)
   assert.equal(f.region?.key, 'beaumont')
-  assert.equal(f.region?.backtested, false)
-  assert.equal(f.region?.note, NOT_BACKTESTED_NOTE)
-  assert.equal(f.summary.known_missed_reports, null)
+  assert.equal(f.region?.backtested, true)
+  assert.match(f.region?.note ?? '', /^Backtested against company-reported releases \(n = \d+, 2024-2025\)$/)
+  assert.equal(typeof f.summary.known_missed_reports, 'number')
   assert.equal(f.rows.length, f.summary.spikes)
   assert.ok(f.rows.every((r) => r.site_id.startsWith('48_245_')))
 })
@@ -68,12 +68,12 @@ test('the region list is the generated registry, and every registered region has
   }
 })
 
-test('Houston and Beaumont labels are exactly what the switch, banner and titles showed before the registry', () => {
+test('Houston and Beaumont labels are the place name only, in both languages', () => {
   assert.equal(regionLabel('en', REGIONS.houston), 'Houston Ship Channel')
   assert.equal(regionLabel('es', REGIONS.houston), 'Houston Ship Channel')
-  assert.equal(regionLabel('en', REGIONS.beaumont), 'Beaumont-Port Arthur (new, not backtested)')
-  assert.equal(regionLabel('es', REGIONS.beaumont), 'Beaumont-Port Arthur (nueva, sin prueba retrospectiva)')
-  assert.equal(REGIONS.beaumont.label, 'Beaumont-Port Arthur (new, not backtested)')
+  assert.equal(regionLabel('en', REGIONS.beaumont), 'Beaumont-Port Arthur')
+  assert.equal(regionLabel('es', REGIONS.beaumont), 'Beaumont-Port Arthur')
+  assert.equal(REGIONS.beaumont.label, 'Beaumont-Port Arthur')
   assert.equal(REGIONS.houston.place, 'Houston Ship Channel')
   assert.equal(REGIONS.beaumont.place, 'Beaumont-Port Arthur')
   assert.equal(translate('en', 'shell.houstonOnly', { region: REGIONS.beaumont.name.en }),
@@ -82,30 +82,31 @@ test('Houston and Beaumont labels are exactly what the switch, banner and titles
     'Esta página cubre solo el Canal de Navegación de Houston. Beaumont-Port Arthur tiene su propio registro de picos y repeticiones de noches.')
 })
 
-// Test-only third region: nothing in src names it, so it routes and labels only through the registry.
+// Test-only extra region (Victoria County has no AutoGC monitor): nothing in src names it, so it routes and labels only through the registry.
 const FAKE: RegionRow = {
-  key: 'corpus_christi', label: 'Corpus Christi', label_es: 'Corpus Christi (es)', place: 'in Corpus Christi',
-  place_es: 'en Corpus Christi', dir: 'regions/corpus_christi/', backtested: false, n_sites: 3, county: 'NUECES',
+  key: 'victoria', label: 'Victoria', label_es: 'Victoria (es)', place: 'in Victoria',
+  place_es: 'en Victoria', dir: 'regions/victoria/', backtested: false, n_sites: 3, county: 'VICTORIA',
 }
 const rows = JSON.parse(readFileSync(new URL('../src/regions.generated.json', import.meta.url), 'utf8')) as RegionRow[]
 const WITH_FAKE = buildRegions([...rows, FAKE])
 
 test('a third region in the registry routes, labels and titles with no code change', () => {
-  const r = regionFrom('?view=spikes&region=corpus_christi', WITH_FAKE)
-  assert.equal(r.key, 'corpus_christi')
-  assert.equal(r.dir, 'regions/corpus_christi/')
+  const r = regionFrom('?view=spikes&region=victoria', WITH_FAKE)
+  assert.equal(r.key, 'victoria')
+  assert.equal(r.dir, 'regions/victoria/')
   assert.equal(r.backtested, false)
-  assert.equal(regionUnknown('?region=corpus_christi', WITH_FAKE), false)
-  assert.equal(regionUnknown('?region=corpus_christi'), true, 'not in the committed registry, so the real app says unknown')
-  assert.equal(regionLabel('en', r), 'Corpus Christi (new, not backtested)')
-  assert.equal(regionLabel('es', r), 'Corpus Christi (es) (nueva, sin prueba retrospectiva)')
-  assert.equal(new URLSearchParams(regionQuery(r, { night: 'x' })).get('region'), 'corpus_christi')
-  const nav = new URL(navHref('/plume-witness/', 'timeline', '?region=corpus_christi&night=x', WITH_FAKE), 'https://x.test')
-  assert.equal(nav.searchParams.get('region'), 'corpus_christi')
+  assert.equal(regionUnknown('?region=victoria', WITH_FAKE), false)
+  assert.equal(regionUnknown('?region=victoria'), true, 'not in the committed registry, so the real app says unknown')
+  // No work-in-progress suffix even for a region with no backtest: the label is the place name.
+  assert.equal(regionLabel('en', r), 'Victoria')
+  assert.equal(regionLabel('es', r), 'Victoria (es)')
+  assert.equal(new URLSearchParams(regionQuery(r, { night: 'x' })).get('region'), 'victoria')
+  const nav = new URL(navHref('/plume-witness/', 'timeline', '?region=victoria&night=x', WITH_FAKE), 'https://x.test')
+  assert.equal(nav.searchParams.get('region'), 'victoria')
   assert.equal(nav.searchParams.get('view'), 'timeline')
-  assert.equal(new URL(replayHref('/', '?view=spikes&region=corpus_christi', WITH_FAKE), 'https://x.test').searchParams.get('region'), 'corpus_christi')
-  assert.deepEqual(eventTitle('es', 'Benzene spike in Corpus Christi', 'benzene', 'corpus_christi', WITH_FAKE),
-    { text: 'Pico de benceno en Corpus Christi', lang: 'es' })
+  assert.equal(new URL(replayHref('/', '?view=spikes&region=victoria', WITH_FAKE), 'https://x.test').searchParams.get('region'), 'victoria')
+  assert.deepEqual(eventTitle('es', 'Benzene spike in Victoria', 'benzene', 'victoria', WITH_FAKE),
+    { text: 'Pico de benceno en Victoria', lang: 'es' })
   // Houston and Beaumont are untouched by the extra row.
   assert.equal(regionFrom('', WITH_FAKE).key, 'houston')
   assert.equal(regionFrom('?region=beaumont', WITH_FAKE).dir, 'regions/beaumont/')

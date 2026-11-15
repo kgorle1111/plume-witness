@@ -96,7 +96,9 @@ test('search scope: every published form reads in Spanish; an unknown sentence k
   const { BANNED_WORDS } = await import('../src/i18n.ts')
   const pub = new URL('../public/', import.meta.url)
   const nights = (dir: string) => readdirSync(new URL(dir, pub)).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => `${dir}${f}`)
-  for (const f of ['event.json', ...nights('nights/'), ...nights('regions/beaumont/nights/')]) {
+  const regions = readdirSync(new URL('regions/', pub)).flatMap((r) => nights(`regions/${r}/nights/`))
+  assert.ok(regions.some((f) => f.startsWith('regions/midland_odessa/')), 'multi-county region nights are covered')
+  for (const f of ['event.json', ...nights('nights/'), ...regions]) {
     const scope = (JSON.parse(readFileSync(new URL(f, pub), 'utf8')) as PlumeEvent).record_check.search_scope
     const es = searchScopeText(scope, 'es')
     assert.equal(es.lang, 'es', `${f} stayed English: ${scope}`)
@@ -117,6 +119,13 @@ test('search scope: every published form reads in Spanish; an unknown sentence k
   })
   assert.equal(searchScopeText(s, 'en').text.split('. ')[0],
     'Searched every emissions event in STEERS (the state’s emissions-event reporting system) starting Jul 9, 2025 in Harris County (1 found; search complete)')
+  // pipeline/build.py county_en for a region searched in several counties.
+  const two = 'Searched every STEERS emissions event starting 10/03/2024 in Ector and Midland counties (0 found; search complete).'
+  assert.match(searchScopeText(two, 'es').text, /que empezaron el 3 oct 2024 en los condados de Ector y Midland \(0 encontrados; búsqueda completa\)\.$/)
+  assert.match(searchScopeText(two, 'en').text, / starting Oct 3, 2024 in Ector and Midland counties \(0 found; search complete\)\.$/)
+  const three = 'Searched every STEERS emissions event starting 10/03/2024 in Bexar, Comal and Wilson counties (1 found; search incomplete).'
+  assert.match(searchScopeText(three, 'es').text, / en los condados de Bexar, Comal y Wilson \(1 encontrado; búsqueda incompleta\)\.$/)
+  assert.equal(searchScopeText(three.replace(' counties', ' County'), 'es').lang, 'en')
   const reworded = `${s} Some new sentence from the pipeline.`
   assert.deepEqual(searchScopeText(reworded, 'en'), { text: reworded, lang: 'en' })
   assert.deepEqual(searchScopeText(reworded, 'es'), { text: reworded, lang: 'en' })
@@ -131,6 +140,9 @@ test('check notes: a filing date marks the record as filed; calm wind and unknow
   assert.ok(fin.filed && fin.lang === 'es' && fin.text.startsWith('Reporte final con fecha') && fin.text.includes('133 días'), fin.text)
   assert.equal(checkNoteText('final report dated 2024-05-21, 1 day after the event ended', 'en')!.text, 'Final report dated May 21, 2024, 1 day after the event ended.')
   assert.deepEqual(checkNoteText('wind too light to trace (0.7 mph)', 'es'), { text: 'Viento demasiado débil para rastrear (0.7 mph).', lang: 'es', filed: false })
+  // A matched report with only its initial notice on file (pipeline/build.py final_check): no filing date, so not "late".
+  assert.deepEqual(checkNoteText('final report pending: the cached report is type INITIAL, with no final report date', 'es'),
+    { text: 'Reporte final pendiente: el reporte en el registro es de tipo INITIAL, sin fecha de reporte final.', lang: 'es', filed: false })
   assert.deepEqual(checkNoteText('something new', 'es'), { text: 'something new', lang: 'en', filed: false })
   assert.equal(checkNoteText('', 'en'), null)
   assert.equal(calmMph(base({ checks: [{ at: 'T+24h', status: 'search_incomplete', note: 'wind too light to trace (0.7 mph)' } as never] })), 0.7)
@@ -156,4 +168,14 @@ test('calm-wind and unplaced day-report resolutions read in Spanish', () => {
   assert.equal(resolutionText('unresolved: facility not located', 'es').lang, 'es')
   assert.deepEqual(resolutionText('unresolved: ambiguous, 2 ECHO sites at the address', 'es'),
     { text: 'sin resolver: ambiguo, 2 sitios de ECHO en la dirección', lang: 'es' })
+})
+
+test('search scope: the NRC second-source sentence (pipeline/nrc.py SCOPE_SENTENCE) reads in Spanish', async () => {
+  const { searchScopeText } = await import('../src/reportWindow.ts')
+  const s = 'Searched every STEERS emissions event starting 07/09/2025 in Harris County (1 found; search complete). '
+    + 'No matching report found in a complete search. '
+    + 'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.'
+  const es = searchScopeText(s, 'es')
+  assert.equal(es.lang, 'es', es.text)
+  assert.ok(es.text.endsWith('uno del corredor viento arriba, en la ventana de coincidencia, menciona el compuesto.'), es.text)
 })

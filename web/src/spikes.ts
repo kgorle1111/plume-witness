@@ -23,7 +23,7 @@ export interface SpikeRow {
   ratio: number | null
   status: string
   reports_that_day: number
-  /** The pipeline's English sentence. For three of the five codes it is a stand-in, so the UI reads reason_code. */
+  /** The pipeline's English sentence for reason_code (pipeline/spikes.py REASONS); the UI shows the code's label. */
   reason?: string
   /** Why a search_incomplete row stopped short (pipeline/spikes.py REASONS); absent on other rows and older files. */
   reason_code?: string
@@ -36,6 +36,8 @@ export interface SpikeFile {
   region?: { key: string; label: string; county: string; backtested: boolean; note: string | null }
   trigger: string
   corridor: string | null
+  /** The calendar years the scan covered, e.g. ['2024', '2025']. */
+  years: string[]
   tceq_search_page: string
   summary: { spikes: number; spike_days: number; by_status: Record<string, number>; known_missed_reports: number | null }
   rows: SpikeRow[]
@@ -47,7 +49,7 @@ const isStr = (v: unknown): v is string => typeof v === 'string'
 /** spikes.json is pipeline output read over the network: check its shape once, fail with a fix. */
 export function parseSpikes(raw: unknown): SpikeFile {
   const f = raw as Partial<SpikeFile> & { schema?: unknown }
-  if (!f || f.schema !== SCHEMA || !Array.isArray(f.rows)) {
+  if (!f || f.schema !== SCHEMA || !Array.isArray(f.rows) || !Array.isArray(f.years) || !f.years.every((y) => /^\d{4}$/.test(y))) {
     throw new Error(`spikes.json is not ${SCHEMA}. Re-run \`uv run python -m pipeline.spikes\`.`)
   }
   f.rows.forEach((r, i) => {
@@ -131,6 +133,21 @@ export function selectRows(all: SpikeRow[], f: Filters, sort: SortKey, dir: Dir)
 
 /** Rows drawn per page of the log: the table and the cards build every row as DOM, so 415 at once made the page
  *  33,000 px tall on a laptop and 99,000 px on a phone. */
+/** The spike log's count line. A region with no spikes at all gets its own empty state ('spikes.none'): the
+ *  filter-empty line would read as if a filter had hidden spikes that never existed. */
+export type CountKey = 'spikes.none' | 'spikes.empty' | 'spikes.showingFiltered' | 'spikes.showing'
+export function countKey(total: number, matching: number, filtered: boolean): CountKey {
+  if (total === 0) return 'spikes.none'
+  if (matching === 0) return 'spikes.empty'
+  return filtered ? 'spikes.showingFiltered' : 'spikes.showing'
+}
+
+/** The scanned years as one span: ['2024', '2025'] -> "2024–2025". */
+export function yearSpan(years: readonly string[]): string {
+  const ys = [...years].sort()
+  return ys.length > 1 ? `${ys[0]}–${ys[ys.length - 1]}` : (ys[0] ?? '')
+}
+
 export const PAGE_SIZE = 50
 
 export interface LogView {
@@ -176,9 +193,9 @@ export function optionCounts(all: SpikeRow[], f: Filters, k: keyof Filters): Map
 
 /** Why a "search incomplete" row stopped short, as a string-table key; null for a reason this table does not know
  *  (shown as the pipeline wrote it, marked English). reason_code is the real cause (pipeline/spikes.py REASONS). The
- *  `reason` sentence is only a fallback for a file without codes (an older cached spikes.json): the pipeline writes
- *  "could not be placed on the map" there for calm-wind and earlier-search rows too, so that sentence maps to
- *  "see the replay's Check step", never to a cause it may not be. */
+ *  `reason` sentence is only a fallback for a file without codes (an older cached spikes.json, which wrote "could not
+ *  be placed on the map" for calm-wind and earlier-search rows too), so that sentence maps to "see the replay's Check
+ *  step", never to a cause it may not be. */
 export type ReasonKey =
   | 'spikes.reason.calm' | 'spikes.reason.placed' | 'spikes.reason.earlier' | 'spikes.reason.week' | 'spikes.reason.noWind'
   | 'spikes.reason.check'

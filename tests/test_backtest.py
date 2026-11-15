@@ -193,6 +193,53 @@ def test_real_steers_pages_count_only_the_benzene_row():
     assert steers_incident(raw / "steers_442288.html")["lbs_by_param"]["45201"] == 41.0
 
 
+def test_bare_butadiene_is_13_butadiene_on_the_real_pages():
+    """Review L7: 419486 and 444761 list "Butadiene" (the trade name for 1,3-butadiene), which read as "does not
+    list". 1,2-butadiene and isoprene stay other compounds."""
+    from pipeline.parse import cell_param, steers_incident
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw"
+    assert steers_incident(raw / "backtest" / "steers_419486.html")["lbs_by_param"]["43218"] == 30.52
+    beaumont = steers_incident(raw / "region_beaumont" / "steers_444761.html")["lbs_by_param"]
+    assert beaumont == {"45201": 0.253, "43218": 2.162}
+    for name in ("Butadiene", "1,3-BUTADIENE", "1,3 Butadiene", "Butadiene, 1-3", "Butadiene, 1,3-", "buta-1,3-diene"):
+        assert cell_param(name) == ("43218", "named"), name
+    for name in ("1,2-butadiene", "1,2 Butadiene", "2-Methyl-1,3 butadiene", "Isoprene 1,3-butadiene", "Polybutadiene"):
+        assert cell_param(name) is None, name
+
+
+def test_a_lumped_row_that_names_benzene_lists_it_but_prefixed_names_do_not():
+    """Review L7: 426454's "BTEX - benzene, toluene, ethylbenzene, xylene" lists benzene. The whole-cell rule (#80)
+    still holds for one compound's name: "Ethyl benzene" or "Benzene, (2-methylpropyl)-" is not benzene."""
+    from pipeline.parse import cell_param, lists_param, steers_incident
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw" / "backtest"
+    inc = steers_incident(raw / "steers_426454.html")
+    assert inc["lbs_by_param"]["45201"] == 0.0  # the mixture's pounds are never benzene's
+    assert inc["lumped_by_param"] == {"45201": [{"cell": "BTEX - benzene, toluene, ethylbenzene, xylene",
+                                                 "pounds": 21.03}]}
+    assert lists_param(inc, "45201") and not lists_param(inc, "43218")
+    for name in ("BTEX - benzene, toluene, ethylbenzene, xylene", "Benzene/Toluene", "benzene and toluene",
+                 "VOC (benzene, toluene)"):
+        assert cell_param(name) == ("45201", "lumped"), name
+    for name in ("Ethyl benzene", "Ethylbenzene", "Tetramethyl benzene", "Benzene, (2-methylpropyl)-",
+                 "C5+ (not including benzene)", "C6 (not including benzene)", "BTEX", "toluene, xylene",
+                 "1,2,4 Trimethylbenzene, benzene", "Benzene, excluding toluene"):
+        assert cell_param(name) is None, name
+
+
+def test_a_reported_release_counts_however_small():
+    """Review: rounding to 3 decimals read 0.00001-0.0001 lb as none, so 415589, 415700, 446527 and 446678 were not
+    candidates and would read "does not list". The exact printed amount counts; a listed 0 is not a release."""
+    from pipeline.parse import lists_param, steers_incident
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw"
+    for inc_id, param, lbs in (("415589", "43218", 0.00001), ("415700", "45201", 0.0001),
+                               ("446527", "43218", 0.00006), ("446678", "43218", 0.00002)):
+        inc = steers_incident(raw / "backtest" / f"steers_{inc_id}.html")
+        assert inc["lbs_by_param"][param] == lbs and lists_param(inc, param), inc_id
+        assert param in backtest.listed_params(raw / "backtest" / f"steers_{inc_id}.html")[0]
+    zero = steers_incident(raw / "region_beaumont" / "steers_424231.html")  # "1,3-BUTADIENE 0.0 POUNDS"
+    assert zero["lbs_by_param"]["43218"] == 0.0 and not lists_param(zero, "43218")
+
+
 def _week(raw: Path, beg: str, end: str) -> None:
     """An empty week as TCEQ serves it: the results header and the echoed search criteria, with no rows."""
     b, e = (f"{d[4:6]}/{d[6:]}/{d[:4]}" for d in (beg, end))
@@ -228,6 +275,20 @@ def test_late_spike_window_also_searches_the_next_day(tmp_path):
     assert backtest.window_reports("06/23/2024", 21, {}, [], one)[1] is False  # 22:00 CDT + 2 h crosses midnight
     assert backtest.window_reports("06/23/2024", 21, {}, [], both)[1] is True
     assert backtest.window_reports("06/23/2024", 20, {}, [], one)[1] is True  # window ends at midnight's edge
+
+
+def test_next_day_reports_outside_the_window_do_not_block_absence():
+    """Review L3: 2024-07-11 23:00 CST at HRM-16 read "week search incomplete" because next-day report 426228
+    (began 18:59, long after the window's 02:00 end) has no cached detail page. Only reports that began inside the
+    window can match, so only theirs must be readable; the night's real cause is calm wind."""
+    universe, incomplete = backtest.load_universe()
+    rows_by_day: dict[str, list[dict]] = {}
+    for r in universe:
+        rows_by_day.setdefault(r["began"][:10], []).append(r)
+    late = next(r for r in rows_by_day["07/12/2024"] if r["incident"] == "426228")
+    assert late["began"].endswith("06:59 PM") and not (backtest.BT / "steers_426228.html").exists()
+    details, complete, unreadable, _ = backtest.window_reports("07/11/2024", 23, rows_by_day, incomplete)
+    assert complete is True and "426228" not in details and unreadable == []
 
 
 def test_any_unreadable_report_blocks_a_complete_day(tmp_path, monkeypatch):
@@ -272,7 +333,7 @@ def _wind_pages(raw, site: str, source: str, deg: float, mph: float, day: str = 
 
 def test_wind_source_order_is_own_met_then_own_autogc_then_borrowed(tmp_path):
     day = "06/21/2024"
-    sites = {"A": (29.70, -95.26), "B": (29.71, -95.26), "C": (29.90, -95.26)}
+    sites = {"A": (29.70, -95.26), "B": (29.71, -95.26), "C": (29.75, -95.26)}  # C is 4.4 km from B
     raw = tmp_path / "all"
     _wind_pages(raw, "A", "met", 90, 5)
     _wind_pages(raw, "A", "autogc", 180, 6)  # A has both: the met form must win
@@ -292,6 +353,67 @@ def test_wind_source_order_is_own_met_then_own_autogc_then_borrowed(tmp_path):
     assert w["C"]["site_id"] == "B" and "source" not in w["C"]
 
 
+def test_borrowed_wind_has_a_distance_cap(tmp_path):
+    """Review L8: a site with no wind borrowed the nearest site's at any distance (San Antonio across 58 km). Within
+    BORROW_MAX_KM it still borrows; farther it has no wind, so its spike is not traced."""
+    day = "06/21/2024"
+    _wind_pages(tmp_path, "A", "met", 90, 5)
+    km_per_deg = build.haversine_km((29.70, -95.26), (30.70, -95.26))
+    near = 29.70 + (backtest.BORROW_MAX_KM - 0.1) / km_per_deg
+    far = 29.70 + (backtest.BORROW_MAX_KM + 0.1) / km_per_deg
+    w = backtest.load_winds("2024", day, {"A": (29.70, -95.26), "N": (near, -95.26), "F": (far, -95.26)}, tmp_path)
+    assert w["N"]["site_id"] == "A" and "F" not in w
+    mons = [_mon("F", far, [12.0] + [0.1] * 23)]
+    t = build.trace(mons, w, None, {"Results": {"Facilities": []}}, [], {}, True, date(2024, 6, 21), "45201",
+                    {}, True, "")
+    assert t["wind"] is None and "record_check" not in t  # not traced: the spike is no_wind
+
+
+def _mon(site: str, lat: float, values: list[float]) -> dict:
+    return {"site_id": site, "name": site, "lat": lat, "lon": -95.26, "baseline": 0.5, "triggered": False,
+            "hourly": [{"hour_cst": h, "value": v} for h, v in enumerate(values)]}
+
+
+def _wind_days(raw: Path, site: str, rows: dict[str, tuple[list, list]], source: str = "met") -> None:
+    """One met-form (speed, direction) file pair per year, a row per day: {day: (24 speeds, 24 directions)}."""
+    raw.mkdir(exist_ok=True)
+    for year in sorted({d[-4:] for d in rows}):
+        speed, direction = build.wind_files(site, year, source)
+        days = {d: v for d, v in rows.items() if d.endswith(year)}
+        for name, i in ((speed, 0), (direction, 1)):
+            (raw / name).write_text("".join(f"{d}," + ",".join(str(x) for x in v[i]) + "\n" for d, v in days.items()))
+
+
+def test_a_spike_at_hour_0_reads_the_previous_days_2300_wind(tmp_path):
+    """Review L8: at hour 0 "this hour and the hour before" read hour 0 twice. The hour before is the previous day's
+    23:00, in the previous year's file on 1 January; its direction widens the window and its speed is checked for
+    calm. With no cached previous day, hour 0 is read alone (once) and the wind says why."""
+    prev = ([5] * 23 + [2], [0] * 23 + [300])  # 23:00 the day before: from 300 deg at 2 mph
+    today = ([6] * 24, [90] * 24)
+    _wind_days(tmp_path, "A", {"12/31/2024": prev, "01/01/2025": today})
+    w = backtest.load_winds("2025", "01/01/2025", {"A": (29.70, -95.26)}, tmp_path)["A"]
+    assert w["prev_hour"] == {"date": "2024-12-31", "hour_cst": 23, "from_deg": 300.0, "speed_mph": 2.0}
+    assert [x["from_deg"] for x in build.wind_pair(w, 0)] == [300.0, 90.0]
+    assert [x["from_deg"] for x in build.wind_pair(w, 5)] == [90.0, 90.0]  # any other hour: the same day's
+    mons = [_mon("A", 29.70, [12.0] + [0.1] * 23)]
+    t = build.trace(mons, {"A": w}, None, {"Results": {"Facilities": []}}, [], {}, True, date(2025, 1, 1), "45201",
+                    {}, True, "")
+    assert t["window"] == [300.0, 90.0] and t["calm_mph"] == 2.0  # 23:00's 2 mph is under the calm line
+
+    # 1 January 2024: the 2023 file is not cached, so hour 0 alone, and the wind records the missing file.
+    _wind_days(tmp_path, "B", {"01/01/2024": today})
+    w = backtest.load_winds("2024", "01/01/2024", {"B": (29.70, -95.26)}, tmp_path)["B"]
+    assert w["prev_hour"] is None and "met_2023_B_61101.html" in w["prev_hour_note"]
+    assert [x["from_deg"] for x in build.wind_pair(w, 0)] == [90.0]
+    t = build.trace([_mon("B", 29.70, [12.0] + [0.1] * 23)], {"B": w}, None, {"Results": {"Facilities": []}},
+                    [], {}, True, date(2024, 1, 1), "45201", {}, True, "")
+    assert t["window"] == [90.0] and t["calm_mph"] is None
+    # event.json keeps the previous hour only on a night that read it.
+    trig = {"site_id": "B", "name": "B", "lat": 29.70, "lon": -95.26}
+    assert "prev_hour_note" in build.wind_block(w, trig, [trig], 0)
+    assert "prev_hour_note" not in build.wind_block(w, trig, [trig], 5)
+
+
 def test_event_says_where_a_borrowed_or_autogc_wind_came_from():
     trig = {"site_id": "A", "name": "Alpha", "lat": 29.70, "lon": -95.26}
     mons = [trig, {"site_id": "B", "name": "Bravo", "lat": 29.71, "lon": -95.26}]
@@ -301,3 +423,76 @@ def test_event_says_where_a_borrowed_or_autogc_wind_came_from():
     assert agc["source"] == "own_autogc" and "own monitor" in agc["source_note"]
     lent = build.wind_block({"site_id": "B", "hourly": []}, trig, mons)
     assert lent["source"] == "borrowed_met" and "Bravo" in lent["source_note"] and "1.1 km" in lent["source_note"]
+
+
+# --- Per-region backtest (pipeline.backtest --region) ---
+
+SMOKE_WEEK = "steers_search_jefferson_20240115_20240121.html"
+
+
+@pytest.fixture(scope="module")
+def smoke(tmp_path_factory) -> tuple:
+    """A small region raw dir: Beaumont's two monitors (2024 files only) and one STEERS week with its detail pages."""
+    import shutil
+    from dataclasses import replace
+
+    from pipeline import parse, regions
+
+    src, raw = regions.BEAUMONT.raw, tmp_path_factory.mktemp("region_smoke")
+    for pat in ("tamis_*.html", "echo_*_10mi.json", "agc_2024_*.html", "met_2024_*.html", SMOKE_WEEK):
+        for p in src.glob(pat):
+            shutil.copy(p, raw / p.name)
+    for r in parse.steers_search(src / SMOKE_WEEK)["rows"]:
+        if (src / f"steers_{r['incident']}.html").exists():
+            shutil.copy(src / f"steers_{r['incident']}.html", raw)
+    region = replace(regions.BEAUMONT, key="smoke", raw=raw, backtested=False, n_backtest=None)
+    return region, backtest.run(region=region)
+
+
+def test_region_smoke_runs_the_same_method_on_its_own_files(smoke):
+    region, res = smoke
+    s, f = res["summary"], res["funnel"]
+    assert res["region"] == "smoke" and res["generated_by"] == "uv run python -m pipeline.backtest --region smoke"
+    assert res["rules"]["candidate_radius_km"] == backtest.CANDIDATE_RADIUS_KM == 15.0
+    assert res["rules"]["trigger"].startswith(f"value >= max({build.TRIGGER_RATIO:g} x ")
+    assert f["steers_rows"] == 9 and s["candidates"] == f["candidates"] == len(res["events"]) == 5
+    for e in res["events"]:
+        assert e["day"].endswith("2024") and set(e["monitors"]) <= set(region.sites)
+    assert s["spike_near_start"] <= s["candidates"] and s["detected_and_matched"] <= s["detected"]
+    assert {r["site_id"] for r in res["spikes"]} <= set(region.sites)
+
+
+def test_region_smoke_doc_states_n_its_county_and_the_small_n_caveat(smoke):
+    region, res = smoke
+    md = backtest.render_md(res, region)
+    assert "Of **5** real 2024-2025" in md and "Jefferson\nCounty" in md and "Harris" not in md
+    assert f"`{region.raw.as_posix()}/`" in md
+    assert "**Only 5 releases.**" in md and "95% intervals" in md  # n < SMALL_N says so plainly
+    assert "## Other regions" not in md
+    for e in res["events"]:
+        if not e["matched"]:
+            assert e["entity"] not in md
+
+
+def test_small_n_note_only_below_the_threshold():
+    assert backtest.small_n_note(backtest.SMALL_N) == ""
+    assert "Only 3 releases" in backtest.small_n_note(3)
+
+
+# --- Houston is unchanged by the per-region generalization ---
+
+def test_houston_headline_numbers_are_unchanged(result):
+    """Fails if the method (candidates, trigger, corridor, match, near-start window) changes Houston's results.
+    82 since exact pounds (415589, 415700, 446527, 446678) and bare "Butadiene" (419486) count; 77 before."""
+    s = result["summary"]
+    assert (s["candidates"], s["detected"], s["detected_and_in_corridor"], s["detected_and_matched"],
+            s["spike_near_start"], s["spike_near_start_and_matched"]) == (82, 18, 3, 1, 5, 1)
+    assert result["spike_summary"]["spikes"] == 468 and "region" not in result
+    assert result["generated_by"] == "uv run python -m pipeline.backtest"
+
+
+def test_houston_doc_is_the_committed_doc(result):
+    md = backtest.render_md(result)
+    assert md == (ROOT / "docs" / "backtest.md").read_text()
+    assert md.endswith(backtest.REGIONS_SECTION)
+    assert backtest.render_md(result, backtest.regions.HOUSTON) == md

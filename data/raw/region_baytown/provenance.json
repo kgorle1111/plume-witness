@@ -1,0 +1,2175 @@
+[
+ {
+  "file": "region_baytown/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T10:24:59+00:00"
+ },
+ {
+  "file": "region_baytown/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T10:25:02+00:00"
+ },
+ {
+  "file": "region_baytown/tamis_48_201_0807.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482010807",
+  "params": null,
+  "bytes": 90626,
+  "sha256": "b0c18bd60bff2b4d9c724f06a2fc24da6514c486cc45b140aa7437f59dc128b4",
+  "fetched_at": "2026-11-15T10:25:04+00:00"
+ },
+ {
+  "file": "region_baytown/tamis_48_201_0617.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482010617",
+  "params": null,
+  "bytes": 90629,
+  "sha256": "b7993158afc74830b2c763be947ed9b45dac158f37caf5d578395a3f0b8a911b",
+  "fetched_at": "2026-11-15T10:25:07+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0807_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0807",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 127653,
+  "sha256": "ded2b01b08964376af800efbb20d041b5fde73cfd20643922ec83e0f9d618173",
+  "fetched_at": "2026-11-15T10:25:17+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0807_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0807",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 127728,
+  "sha256": "24358b3f9246959b3ec0bbe2f5f4fa46e835fc1f140acdcf1ad82d3a5ac1626b",
+  "fetched_at": "2026-11-15T10:25:26+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0807_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0807",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88379,
+  "sha256": "e7c04aa45bf53b4ee12208ee37a85734f47eb2053e030e92ee6f4349644e369c",
+  "fetched_at": "2026-11-15T10:25:33+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0807_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0807",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88362,
+  "sha256": "2b94a3032d8fdbb8dabdab5036c9fe1bd31b2dabd586f9638d85fb222cf6ec6a",
+  "fetched_at": "2026-11-15T10:25:39+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0617_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0617",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88387,
+  "sha256": "96ac44a62e5fb53e10be6fb19a2f4833ddd038daa4a857b616a1d5d132165182",
+  "fetched_at": "2026-11-15T10:25:46+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0617_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0617",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88397,
+  "sha256": "a9946e4ca347458d88a16191737ee618b00db982118f4798714187831365db9b",
+  "fetched_at": "2026-11-15T10:25:51+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0617_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0617",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88199,
+  "sha256": "ebf20f71e6948ecd29bff06cf982b14819f2c5d99cda4180c8b9125e7b86baaf",
+  "fetched_at": "2026-11-15T10:25:58+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0617_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0617",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88126,
+  "sha256": "0592ea10830b531132959c86f5b1ff3f8de0ccd54f8b5c89ba895dacab79d04c",
+  "fetched_at": "2026-11-15T10:26:04+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0807_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0807",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 77737,
+  "sha256": "74a5c248b8f1da2f4fad8f363dfbc525af8230a5edde56944259888d83529776",
+  "fetched_at": "2026-11-15T10:26:59+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0807_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0807",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83593,
+  "sha256": "ba6265ffad7b7d79c9edf19b3403648438340dfefc706bf1559c1e06c21f1829",
+  "fetched_at": "2026-11-15T10:27:05+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0807_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0807",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 77914,
+  "sha256": "3574832e997ef3a0c237e81545361621acf665b14eb44f78b3e66a85a9f8e1e9",
+  "fetched_at": "2026-11-15T10:27:08+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0807_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0807",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 83762,
+  "sha256": "3cfcc4747439337286e6320cd3768452dd50add1de9ea63622ea2e37ab135669",
+  "fetched_at": "2026-11-15T10:27:14+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0617_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0617",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78256,
+  "sha256": "e3d292ab2ef64b8c84c02d9842976414c6a79bb48415e66b488f8131e2f51c0a",
+  "fetched_at": "2026-11-15T10:27:17+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2024_48_201_0617_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_201_0617",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82223,
+  "sha256": "481e8849bad438af8228204a743cb5e1d64a3543ae924ab69e2a9fb9c5e4e921",
+  "fetched_at": "2026-11-15T10:27:23+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0617_61104.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0617",
+   "user_param": "61104",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 78394,
+  "sha256": "91e9d5eb8a76a1012427b68e88888a8cc83668fa82f5bf3ac70a279baaa67e4b",
+  "fetched_at": "2026-11-15T10:27:26+00:00"
+ },
+ {
+  "file": "region_baytown/agc_2025_48_201_0617_61103.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_201_0617",
+   "user_param": "61103",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 82208,
+  "sha256": "640989dd1941995293d498e8d008df21b13a67813fbfeefb78ccd65ddd39cd02",
+  "fetched_at": "2026-11-15T10:27:32+00:00"
+ },
+ {
+  "file": "region_baytown/echo_48_201_0807_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.7693",
+   "p_long": "-95.0175",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "660",
+   "pageno": "1"
+  },
+  "bytes": 397055,
+  "sha256": "745057b61f8952347a8b296b67711ff2ed423707a342ff4c0745ef8c90aa5737",
+  "fetched_at": "2026-11-15T10:27:38+00:00"
+ },
+ {
+  "file": "region_baytown/echo_48_201_0617_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.8214",
+   "p_long": "-94.9900",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "674",
+   "pageno": "1"
+  },
+  "bytes": 296419,
+  "sha256": "9f3d09ef69c71b3b3d570d241387e1175c5d8326cb69ef32f58417eed431c524",
+  "fetched_at": "2026-11-15T10:27:44+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "bba6799f085a8ad91105d0eb6846819d0238252fc103779e281c07334dba4c67",
+  "fetched_at": "2026-11-15T00:21:59+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10702,
+  "sha256": "2e53e483715689c3b49f1c607f375f9c65b130acd69da1c15cca80ad449806b4",
+  "fetched_at": "2026-11-15T00:16:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 17519,
+  "sha256": "49233b8f7c2768cbd165a232931c0215d6a3d5fd9aa52a4241d7fe1660ef9770",
+  "fetched_at": "2026-11-15T00:16:24+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10114,
+  "sha256": "e7afb0fbed67e5451dda31267a308eb8704390bd985caddd85c51e75d537a1ed",
+  "fetched_at": "2026-11-15T00:16:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10095,
+  "sha256": "fdc2a3ff3fef7af2f2e931ff424303eb1180ba510139657e471dbd47cbd7fed6",
+  "fetched_at": "2026-11-15T00:16:29+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8471,
+  "sha256": "9ed76cfad7b1d32419ac1b28578e110d629a8e8f02c3b87b2f6fd78bd2bab2c1",
+  "fetched_at": "2026-11-15T00:16:32+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9598,
+  "sha256": "7e1294fa6d2b53b2cbd226478785726fb8297cdc358222a89015a3528f4f8cb1",
+  "fetched_at": "2026-11-15T00:16:34+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8421,
+  "sha256": "e07aac348bf9f77e1e3a2efcfa46ece27da664a664efb22ddd5fa165debe9c8c",
+  "fetched_at": "2026-11-15T00:16:37+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9509,
+  "sha256": "5fea390671563b5633d2e9ee384d5e6e7f7e972f3db2ac5fd958998ea9433f39",
+  "fetched_at": "2026-11-15T00:16:39+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8973,
+  "sha256": "77f7d96ed526da507c67234c044cc81f517893daf79a25d05e78e916e885aaeb",
+  "fetched_at": "2026-11-15T00:16:42+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11255,
+  "sha256": "4d4d932f6de0023b85db80caf494b71ceb243147da8263dd8edad55364a3548c",
+  "fetched_at": "2026-11-15T00:16:45+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11268,
+  "sha256": "90224ee2fa38d7d9c188a97ce16b811dee40a2ac9433549389cb32e70897d5c9",
+  "fetched_at": "2026-11-15T00:16:48+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8999,
+  "sha256": "e22271c21d94881b61ad48324542e384d264f806fcf18aafda2e34ef374cd540",
+  "fetched_at": "2026-11-15T00:16:50+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9060,
+  "sha256": "e4fe6e38571c33f9f37d44cdf7de76925c166b2fc777ecfaa9a2a78253321218",
+  "fetched_at": "2026-11-15T00:16:52+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "e476b396e74e3e260c70d0bafb3e2afeaf56fad85e0e7dc95804909367d8e0e1",
+  "fetched_at": "2026-11-15T00:22:01+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8423,
+  "sha256": "c3b7d0b675180473507c6c2619ca213a8cadc5e73c885dbb17b1e8bfbb05642a",
+  "fetched_at": "2026-11-15T00:17:03+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "d6776befb2f977e9234e4060a8d149dab37dce91d1092c192c3bbbfd77716981",
+  "fetched_at": "2026-11-15T00:22:04+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10112,
+  "sha256": "2858d8e8e9224cee167288aa56e44f3da868ed1a4935187989aed7ec39fd5314",
+  "fetched_at": "2026-11-15T00:17:13+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9575,
+  "sha256": "4f13ae1fe31de31430d83726d1e9116621e770364c79b5c83e9b81afd59a10b3",
+  "fetched_at": "2026-11-15T00:17:16+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 12377,
+  "sha256": "bd656a02a3b1508726600ea619f4ac48248e4f5aad91a1b363a22bb0eea89161",
+  "fetched_at": "2026-11-15T00:17:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8969,
+  "sha256": "093d47cb65d6ee74e6cb177fe8ad97efcaf294e650ac4c033f4c425be500d1b5",
+  "fetched_at": "2026-11-15T00:17:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9033,
+  "sha256": "1637b7cf72e79bcd250b8567e7a9f40fde4cba280d272a10a7d3708abe52f75c",
+  "fetched_at": "2026-11-15T00:17:23+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10772,
+  "sha256": "870cbb3707a80e56ff3934e97314a30dc1acb3f6746bc12894dd44c4d8464af4",
+  "fetched_at": "2026-11-15T00:17:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10673,
+  "sha256": "b613db24d2f22f0fd914937bd953bccdfd913fa5ace3ca2063d9a49848c0545f",
+  "fetched_at": "2026-11-15T00:17:28+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10094,
+  "sha256": "0e2c64f43f625c35395e5a1bb3641b7abe838545a3bf6244a55605655c7783d5",
+  "fetched_at": "2026-11-15T00:17:31+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11912,
+  "sha256": "de4cd9aa44d2eeb81a7353151f9a5d964bd42a4207042c0c6d4b4da7179523e8",
+  "fetched_at": "2026-11-15T00:17:33+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9563,
+  "sha256": "9cbf7bd1d0c65047378c5aeb7e75c12259b1ba47111282ce906e0f564d2305a0",
+  "fetched_at": "2026-11-15T00:17:36+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9545,
+  "sha256": "2da120d546f792537d0a2355b7af00b7cc9a899ba2b0adf4d033c20d775c5e0a",
+  "fetched_at": "2026-11-15T00:17:39+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10154,
+  "sha256": "34778455799a7227b094a74ad9654aacdedc078553478863caf1967a3b10f6a6",
+  "fetched_at": "2026-11-15T00:17:41+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8471,
+  "sha256": "5819c8aa2d613d4d284f062651d89b148d36f666c35379fee632bfa26d874639",
+  "fetched_at": "2026-11-15T00:17:44+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8423,
+  "sha256": "a1b4c54ae5dbdf30cc0cad0d300020175a89321e2aa190a7699756b11ca987ce",
+  "fetched_at": "2026-11-15T00:17:47+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8986,
+  "sha256": "0cac3a7d79c6b5dfb2907f06098981aab8b809021cd044753436a2f3e6859f35",
+  "fetched_at": "2026-11-15T00:17:49+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8455,
+  "sha256": "53137a6b2c2d5a93ba878b711b57510e48dca48106ae59f1638ac81b816cec33",
+  "fetched_at": "2026-11-15T00:17:52+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9559,
+  "sha256": "d7aa9377667ed1deabd143db703b61cbc9e4f638fc3157685628177e467b1795",
+  "fetched_at": "2026-11-15T00:17:54+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10685,
+  "sha256": "1887e0cbe244e6f3277bcb9d6b22a6738b429e4e41e35357a1ae5873c14e4c61",
+  "fetched_at": "2026-11-15T00:17:57+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9577,
+  "sha256": "acfc3af10319b73108e85aa77588045bb5fac9348df60a098b27bac8be8f12ba",
+  "fetched_at": "2026-11-15T00:18:00+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9568,
+  "sha256": "a0ccdd87110c431779bde7087aa511995da686afee4fcd01e4104bd9594f9352",
+  "fetched_at": "2026-11-15T00:18:02+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10138,
+  "sha256": "5f1f42c389300ee5c06bcb93b9b4ead785c9c4f4681a1f42b2e93c49922c6088",
+  "fetched_at": "2026-11-15T00:18:05+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10743,
+  "sha256": "4607ccd73a0f02cb7b580adba7acb16f3ab872aff6be021e1963148d210aaeec",
+  "fetched_at": "2026-11-15T00:18:07+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9594,
+  "sha256": "19820ca4c5ca6fada356dd898a8da2ecc0c1d2d0e19ead2b0374d884a342d136",
+  "fetched_at": "2026-11-15T00:18:10+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9568,
+  "sha256": "f4d792adaf637ffcf421e6350807414b961bb5f18ca858b2347f63bfe2dcdca5",
+  "fetched_at": "2026-11-15T00:18:13+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "50267b21356e3dc49c77356ff06293f8df0a6eb8d0004d39c76ca74d6fb5d703",
+  "fetched_at": "2026-11-15T00:22:06+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10145,
+  "sha256": "d83070ce2fe2de7610e22f52c1392e217f4ade4912c4d4ac727c101a0faa3b53",
+  "fetched_at": "2026-11-15T00:18:23+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9014,
+  "sha256": "a63c31a63411c3332e67aa9e6f000a51710be49b2b3ab82ab31d0de0ea23e1eb",
+  "fetched_at": "2026-11-15T00:18:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "4ab1fc91a9987d4863d3452826ad557bea62163106b536ed2a0790ec09cae2ba",
+  "fetched_at": "2026-11-15T00:22:09+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9580,
+  "sha256": "6bcd4d3d4551ed2d30c71997427e641551df94888c57b7467d2e764a07ecb1fb",
+  "fetched_at": "2026-11-15T00:18:36+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8999,
+  "sha256": "a1297667896cba7af9b7bfb85811731d1513ceb90470ba96cb0d30989309957e",
+  "fetched_at": "2026-11-15T00:18:38+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10732,
+  "sha256": "d03fbc44d320b0398c42251012ad72cf1ead906798f0810b995fc7784915232a",
+  "fetched_at": "2026-11-15T00:18:41+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9573,
+  "sha256": "44da279613e77ff7ad894b1274ac44c26518c63b6791212bf2d55efb391eb094",
+  "fetched_at": "2026-11-15T00:18:44+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9602,
+  "sha256": "c893b4e19d3cc659808b4defca930b5f3d95d8cd939f22c70957844887e64244",
+  "fetched_at": "2026-11-15T00:18:46+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9035,
+  "sha256": "16eac425338a722ddabca16cde59708a8db6d65aa2f07ac658caa7f4f601eeb6",
+  "fetched_at": "2026-11-15T00:18:49+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8437,
+  "sha256": "f7ad1caa9ce5c4e84078e4c86947d3184ef11c490d905890ba6652c81910c012",
+  "fetched_at": "2026-11-15T00:18:51+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8471,
+  "sha256": "056bd84a7d92e8b42e989445531de020f422580a5ac7b228f9b322536874dee4",
+  "fetched_at": "2026-11-15T00:18:54+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10232,
+  "sha256": "4483443910e522868de89a43c833b3653943ef0fdeef86a764edc729d524ca41",
+  "fetched_at": "2026-11-15T00:18:57+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "3bc125d577b2d90c46e056d4f842521fcb8a4c7d73e8646bc2f26513ead9a665",
+  "fetched_at": "2026-11-15T00:22:11+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9012,
+  "sha256": "cfecfc1b28d507df7950368a8812c03b11f3ca1d3edf3dd9efa79e0181a61a90",
+  "fetched_at": "2026-11-15T00:19:07+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "3f670ef83f8650d221f24c88d8875cb05f7ebe992e327a8308866506b125e5cf",
+  "fetched_at": "2026-11-15T00:22:14+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9636,
+  "sha256": "b38723b5560de86c11f5873dab3804658275a39d212574a9ddc7c46603c19702",
+  "fetched_at": "2026-11-15T00:19:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8975,
+  "sha256": "83b8d3652673d0b45096e3b64c6f58c6cb57fb5cf771333023e888bfc04e13c4",
+  "fetched_at": "2026-11-15T00:19:20+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11237,
+  "sha256": "58bece7ed5176b5aad06c5aebc3327cf0251cbf4ba5c98210df7f159c2dee250",
+  "fetched_at": "2026-11-15T00:19:23+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8984,
+  "sha256": "e911d412f1bc304ac8912d945608e1147a6fd0faadb289c81c92f18a44c3a58d",
+  "fetched_at": "2026-11-15T00:19:25+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10154,
+  "sha256": "ece550e8bdd72607cd215d9ad7189abbdf03f32fb68a4391b680874fc9c0a163",
+  "fetched_at": "2026-11-15T00:19:28+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8454,
+  "sha256": "283cd3bcbf95ec609bd26265f92c06c2cc6aa9760c01c4ed3ff7898eb09fa169",
+  "fetched_at": "2026-11-15T00:19:30+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8994,
+  "sha256": "b04378d1a3dda738203be172d7e90ee75d566fae3b742acdc6c40032f120f9b6",
+  "fetched_at": "2026-11-15T00:19:33+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10158,
+  "sha256": "219852fbce4d570d0d3bbe32caa7c182a4b15185620387013b659be40036888d",
+  "fetched_at": "2026-11-15T00:19:36+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8980,
+  "sha256": "4ba565c04b56852462f7907bfe32cf21073b7e712f3b89869abd26fc7cc85c05",
+  "fetched_at": "2026-11-15T00:19:38+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 5255,
+  "sha256": "cc5c526cf9827cb7299c553ae668279841112d1b8f2c873a5e3f1f22355c2a4c",
+  "fetched_at": "2026-11-15T00:22:16+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8457,
+  "sha256": "70558efe7fdb5d7b4ef11aff6a21c8da9441db076d2b6ed86e8b5395b2fea04b",
+  "fetched_at": "2026-11-15T00:19:49+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8986,
+  "sha256": "29bb8226891699080ce94b9782164d614f2de9f12f4ff611f359bed5fedd7cf6",
+  "fetched_at": "2026-11-15T00:19:51+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9015,
+  "sha256": "e34907ef3077bf478e1faf5488b39d97b75ac2449e0dbb4a5f9095a2fba52c44",
+  "fetched_at": "2026-11-15T00:19:54+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9622,
+  "sha256": "e3b3fe6ea25c45cbc8aa594693db10951c8300858d5bea54c74524728a83ae35",
+  "fetched_at": "2026-11-15T00:19:57+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8455,
+  "sha256": "f9c855ee2d21a946798b5c50cfa69d78399214c9078be47c8161b74dd127f6e2",
+  "fetched_at": "2026-11-15T00:19:59+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10725,
+  "sha256": "f079d3f5c9535c30d6cd22ed6a8547f011c67428091d2718aa6a758d88fc3ad3",
+  "fetched_at": "2026-11-15T00:20:02+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10150,
+  "sha256": "2fe8f243c92248c92fd59d38752579e95728b2395d1c3dbcf5681fd479a6ca11",
+  "fetched_at": "2026-11-15T00:20:05+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9631,
+  "sha256": "0b807489e0eeac80c419881952d0ec5345550f4ba1dce5edc20a51c7af5f2e73",
+  "fetched_at": "2026-11-15T00:20:07+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9592,
+  "sha256": "a458f7fd104b108f1ebac361b13969614696419fe58df2ac38645c43a2436689",
+  "fetched_at": "2026-11-15T00:20:10+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10107,
+  "sha256": "16caf64c249e41e9a42d3b715a8d0fbc471e74e26821ca4165e33cd5d8ccf7ff",
+  "fetched_at": "2026-11-15T00:20:13+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8438,
+  "sha256": "fab4aed773544ffbdfb0a5cab858db99b334a4e712dc9f32cda01bcb2e36b0b1",
+  "fetched_at": "2026-11-15T00:20:15+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8982,
+  "sha256": "fdc4726eb0a7e86b3dc4458cc494fb107201390f05f0ea0ed1c1bc87d551a9e1",
+  "fetched_at": "2026-11-15T00:20:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8993,
+  "sha256": "7e335e43da8bacdee92135b1f3ec30e2a9ca8655f39497d8c0e860a5f8b79ce4",
+  "fetched_at": "2026-11-15T00:20:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11347,
+  "sha256": "5f061ad93e39aa7acc5c8d4cf65f6490dec1ea45911ec05a5fc584b580642dff",
+  "fetched_at": "2026-11-15T00:20:23+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11901,
+  "sha256": "90377694d60efd057c23acf1bd8eae0681e6d25f73e6fb1bf2677ef5f6253828",
+  "fetched_at": "2026-11-15T00:20:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9019,
+  "sha256": "1a00e24fbaba1b664c21f216262d6f9b89199cc1db7825057e205383f1ef396d",
+  "fetched_at": "2026-11-15T00:20:28+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10124,
+  "sha256": "e1c99cbe3adf9b795c3cf80ae2c0cd96161fa142b404c2deb99da1280437b362",
+  "fetched_at": "2026-11-15T00:20:31+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10118,
+  "sha256": "cdc11d2d6d0deed0567f0bdf5363b9fe5c89674b86e549637f5fe65710560ca1",
+  "fetched_at": "2026-11-15T00:20:34+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10121,
+  "sha256": "9249a66ede2fe1fed2b247b94f1f7ebb18ad979b4ddb87d77303883d3aa4af98",
+  "fetched_at": "2026-11-15T00:20:36+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11252,
+  "sha256": "d9716a9e8d62a1f5f00c0284a08450fc2f61a381b15f35bcee48e09b36479907",
+  "fetched_at": "2026-11-15T00:20:39+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9612,
+  "sha256": "3aa2044967f341ded33e30e57f483917b9be1a13fdbbdee89db629d5e2ecac1f",
+  "fetched_at": "2026-11-15T00:20:42+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10192,
+  "sha256": "17432818fae7653b6aa78d7764175011f666d9ae2f074351a0f98832d54baa62",
+  "fetched_at": "2026-11-15T00:20:44+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10709,
+  "sha256": "bfec0ae2784b47f06ec89d35e41436acd65b212e646271c97a2f3a27f8348f7d",
+  "fetched_at": "2026-11-15T00:20:47+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 12357,
+  "sha256": "24f86f53cbf2bacc3ca72b78a1b4a4b98cca5e1fce41c706cb9211a64e399c2b",
+  "fetched_at": "2026-11-15T00:20:49+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8471,
+  "sha256": "dc54500859b391a242a693b8ad9572a32171c27daa6828ddbf71f316984c765e",
+  "fetched_at": "2026-11-15T00:20:52+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9045,
+  "sha256": "c5a8e2074d4833900ead5208c65d698e949de642be74c79d4681fd2baf35b14c",
+  "fetched_at": "2026-11-15T00:20:55+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9530,
+  "sha256": "35dcc41c1cd48a82fece46140b74b4befee01b78ed1fd5665732e0dc3297ab5d",
+  "fetched_at": "2026-11-15T00:20:57+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9563,
+  "sha256": "307b0da75bd9075251b8ec6b57c7ed67ee3562ade590c4302a37e226aa44859c",
+  "fetched_at": "2026-11-15T00:21:00+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9034,
+  "sha256": "6e29281b62627c9a48a9c5b826a6a4462e2702576db4f5e1c0c81bbe6cd7e84e",
+  "fetched_at": "2026-11-15T00:21:02+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8970,
+  "sha256": "dcfbd67bb60b95184344f67faf7326e1ad6ae5b996249eaf24d18eb9297a0466",
+  "fetched_at": "2026-11-15T00:21:05+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10729,
+  "sha256": "992ba622f99f2690ad59e663cb268c1a2adce95cd7399c85d818b3e745e146a0",
+  "fetched_at": "2026-11-15T00:21:08+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 12337,
+  "sha256": "d8f23ee81e46e6d2422073d8ec66128fe8b425d1eb00411b8af9a3c22a622810",
+  "fetched_at": "2026-11-15T00:21:10+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 8497,
+  "sha256": "ace90b7d888448f9fbd069cf5f35c83907df4d7fa4b262940f068948a24fa065",
+  "fetched_at": "2026-11-15T00:21:13+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11268,
+  "sha256": "8e75bddf9f5976852bfb866339f3bbf5e8a19c7df8c42a87cfa87d914da28aaa",
+  "fetched_at": "2026-11-15T00:21:16+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9599,
+  "sha256": "d386ab8e3a42e31709db744df506a56a11626f09fcca25481405c16224f4dda8",
+  "fetched_at": "2026-11-15T00:21:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 11814,
+  "sha256": "438de5afa2519384c7704d8e08483e5eba6b1754c2ac4989b87e8304c8b1822f",
+  "fetched_at": "2026-11-15T00:21:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 10141,
+  "sha256": "71b681b6f590d95a83d8be5f8e2d10f561ab4bb42f26275074791039822388f7",
+  "fetched_at": "2026-11-15T00:21:23+00:00"
+ },
+ {
+  "file": "region_baytown/steers_search_harris_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "HARRIS"
+  },
+  "bytes": 9557,
+  "sha256": "b222ddfa08aec0fcf34187784c1b246352eb5f37c97a35cff20d462d9c293bc7",
+  "fetched_at": "2026-11-15T00:21:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415997.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415997",
+  "params": null,
+  "bytes": 20025,
+  "sha256": "0e4520153582f3a9f2346019f416022be3160be63829dad50fdb34f43d8af27b",
+  "fetched_at": "2026-11-15T00:22:24+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415988.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415988",
+  "params": null,
+  "bytes": 10192,
+  "sha256": "94848f795cec68c0a09d8492f2bd238c4986e61b6e2735656d1b878c49a0c250",
+  "fetched_at": "2026-11-15T00:22:30+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415987.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415987",
+  "params": null,
+  "bytes": 10648,
+  "sha256": "81cdb0522084ea30efa8846ef223b6a1ea49d15b6f5e9d58f51001608a676d2c",
+  "fetched_at": "2026-11-15T00:22:32+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415961.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415961",
+  "params": null,
+  "bytes": 10987,
+  "sha256": "f1e41e130c6d38d0553ffa5c3891308bc0f4c10df6a2329d19624facb2fbbd75",
+  "fetched_at": "2026-11-15T00:22:35+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415700.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415700",
+  "params": null,
+  "bytes": 11543,
+  "sha256": "8559c7055a6aea483bba9a8fdc3607fc86240cdd8632d4d0838f753b1867e558",
+  "fetched_at": "2026-11-15T00:22:45+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416532.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416532",
+  "params": null,
+  "bytes": 12835,
+  "sha256": "625e7454f36f4020c7830ea0b527578b8fbff5899898023b044f08e23e56d089",
+  "fetched_at": "2026-11-15T00:23:06+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416369.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416369",
+  "params": null,
+  "bytes": 16189,
+  "sha256": "fb1ed819291e679fc40d89b99db69ef6221947808bf492f3224a7a08056b21e7",
+  "fetched_at": "2026-11-15T00:23:09+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416302",
+  "params": null,
+  "bytes": 24006,
+  "sha256": "978197ef4bb95e80c34fd04f17b72254519a5b81e4ff90be72a3f7fb9a4ad630",
+  "fetched_at": "2026-11-15T00:23:11+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416727",
+  "params": null,
+  "bytes": 11497,
+  "sha256": "0e8b22aa62c3384f547efab5f28878c7f371c07e3e07b5908298c2f5e1a83352",
+  "fetched_at": "2026-11-15T00:23:15+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416726.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416726",
+  "params": null,
+  "bytes": 16866,
+  "sha256": "7df14a912f947b0986c3577679e0352000b32aa34ef53a35bcb494cec5872870",
+  "fetched_at": "2026-11-15T00:23:17+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416722.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416722",
+  "params": null,
+  "bytes": 17791,
+  "sha256": "24c2644c575d53c0a13b62707d182579e100eb4a38292db6a4781e688ad274b0",
+  "fetched_at": "2026-11-15T00:23:20+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416688.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416688",
+  "params": null,
+  "bytes": 10395,
+  "sha256": "796e11d92a207590106aa4f633ae220b9a2b2fc0fac55ca8650dc117132b199b",
+  "fetched_at": "2026-11-15T00:23:22+00:00"
+ },
+ {
+  "file": "region_baytown/steers_416951.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=416951",
+  "params": null,
+  "bytes": 17075,
+  "sha256": "1bba12f6189f1856833ced23cd74c4dc6cf704b315c71c77c66316b2e1d76b88",
+  "fetched_at": "2026-11-15T00:23:25+00:00"
+ },
+ {
+  "file": "region_baytown/steers_417193.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=417193",
+  "params": null,
+  "bytes": 17074,
+  "sha256": "d28e68ac828e9d1a1cae63d0282c1e007dac1db3f6c7c6d124d4fc0043dcab0e",
+  "fetched_at": "2026-11-15T00:23:30+00:00"
+ },
+ {
+  "file": "region_baytown/steers_418348.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418348",
+  "params": null,
+  "bytes": 11860,
+  "sha256": "055020bf0e01d21118657ef84ba3cad5f0ab8f2c7fcd03c1cbf102b02e140331",
+  "fetched_at": "2026-11-15T00:23:38+00:00"
+ },
+ {
+  "file": "region_baytown/steers_418344.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418344",
+  "params": null,
+  "bytes": 11079,
+  "sha256": "40290d0c86814edc370dcb269540ad88c2f9accce41eeb71ec7a49662176bb58",
+  "fetched_at": "2026-11-15T00:23:41+00:00"
+ },
+ {
+  "file": "region_baytown/steers_420550.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=420550",
+  "params": null,
+  "bytes": 10869,
+  "sha256": "afe71aab4a751d849631b87630e07e2dc5a6022cd27b3af02275f8f389d0077a",
+  "fetched_at": "2026-11-15T00:24:07+00:00"
+ },
+ {
+  "file": "region_baytown/steers_419169.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419169",
+  "params": null,
+  "bytes": 17437,
+  "sha256": "aa6fe8a3630389b201c0e27843f4b4ddc1d0861f165d5dafab446eff8f43b4e4",
+  "fetched_at": "2026-11-15T00:24:15+00:00"
+ },
+ {
+  "file": "region_baytown/steers_419064.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419064",
+  "params": null,
+  "bytes": 10571,
+  "sha256": "fd632716a7cbf8f5a5a1ebb90cc7bc52e0ae90c975cbc017fd3c307b28fad6e2",
+  "fetched_at": "2026-11-15T00:24:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_420878.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=420878",
+  "params": null,
+  "bytes": 17696,
+  "sha256": "b3d88906b9aa3804f2d38e3602f307689133058f2d1c6ccb8f50ae443188ed71",
+  "fetched_at": "2026-11-15T00:24:31+00:00"
+ },
+ {
+  "file": "region_baytown/steers_424847.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424847",
+  "params": null,
+  "bytes": 13631,
+  "sha256": "25ffff40167804cda749bcb19c185f7d477cd311e98ec7e8425219f859c03644",
+  "fetched_at": "2026-11-15T00:24:52+00:00"
+ },
+ {
+  "file": "region_baytown/steers_423780.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=423780",
+  "params": null,
+  "bytes": 10399,
+  "sha256": "f14a52c34b53d940877e807294574f1969b26ac00a02adf6b63dd498778f118f",
+  "fetched_at": "2026-11-15T00:25:13+00:00"
+ },
+ {
+  "file": "region_baytown/steers_426282.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426282",
+  "params": null,
+  "bytes": 47227,
+  "sha256": "6923684b7b7895b8aab4364fa321946a1d1f9afdbaf5b94ba8605b449bcf24c3",
+  "fetched_at": "2026-11-15T00:26:18+00:00"
+ },
+ {
+  "file": "region_baytown/steers_426062.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426062",
+  "params": null,
+  "bytes": 12535,
+  "sha256": "73bd86f789537350c9bbf97474177120b44589c2cfce5ed5e063bb73f8a568a3",
+  "fetched_at": "2026-11-15T00:26:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_427174.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=427174",
+  "params": null,
+  "bytes": 14006,
+  "sha256": "77c6cf313b1455b43240d4839f144f905a42d5e338ea5b641ae1a6d8bdcd2689",
+  "fetched_at": "2026-11-15T00:26:32+00:00"
+ },
+ {
+  "file": "region_baytown/steers_427760.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=427760",
+  "params": null,
+  "bytes": 12498,
+  "sha256": "87560a6ce48a198059fd582dc09b4b4fa35c06998c5f2572c3d472e74251c3ce",
+  "fetched_at": "2026-11-15T00:26:37+00:00"
+ },
+ {
+  "file": "region_baytown/steers_430364.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430364",
+  "params": null,
+  "bytes": 11968,
+  "sha256": "3f8f5a42229a7286cf0a128073198843cbf60d5efed43efd9b12383d5e2258c2",
+  "fetched_at": "2026-11-15T00:27:27+00:00"
+ },
+ {
+  "file": "region_baytown/steers_430839.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430839",
+  "params": null,
+  "bytes": 14219,
+  "sha256": "b0345bc5f83fe66c2709424db4a39a3a7c804050724192d8a4a9ec21848f2cec",
+  "fetched_at": "2026-11-15T00:27:51+00:00"
+ },
+ {
+  "file": "region_baytown/steers_432346.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=432346",
+  "params": null,
+  "bytes": 10558,
+  "sha256": "93461663f3714c36d28b891a0c2d195cad8c6a6dfcfaea9ee30d8dd8c68fbbe6",
+  "fetched_at": "2026-11-15T00:28:10+00:00"
+ },
+ {
+  "file": "region_baytown/steers_432718.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=432718",
+  "params": null,
+  "bytes": 26719,
+  "sha256": "db4c5e7682e8c77748504d7f45c183f16d5e1cfaf4587361e41b529c458b31c9",
+  "fetched_at": "2026-11-15T00:28:31+00:00"
+ },
+ {
+  "file": "region_baytown/steers_435592.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=435592",
+  "params": null,
+  "bytes": 10070,
+  "sha256": "a3e4c793c3a4a821f9e0de5726a56c9130a1977f416bd47299bb64de31dc5168",
+  "fetched_at": "2026-11-15T00:29:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_436323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=436323",
+  "params": null,
+  "bytes": 10236,
+  "sha256": "f0b39eafc698cb22ce946dbb9bdc9cc1163c698da081958c05d497ed895476cb",
+  "fetched_at": "2026-11-15T00:29:30+00:00"
+ },
+ {
+  "file": "region_baytown/steers_439486.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439486",
+  "params": null,
+  "bytes": 83823,
+  "sha256": "31effb0baff133383ca1dbd5ca16089095832fb23d4ab80a632a1399475bd5fb",
+  "fetched_at": "2026-11-15T00:30:30+00:00"
+ },
+ {
+  "file": "region_baytown/steers_441937.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441937",
+  "params": null,
+  "bytes": 12296,
+  "sha256": "83b7decfef5c49e5c9a3029103fa31b65b00ae91ed8b476cf7ca5e55363e0776",
+  "fetched_at": "2026-11-15T00:31:22+00:00"
+ },
+ {
+  "file": "region_baytown/steers_443905.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443905",
+  "params": null,
+  "bytes": 17314,
+  "sha256": "b3f41fa2f886aa6b18b7d3baf1d112da97e8fc5a1469aea11594aa201a28ca4e",
+  "fetched_at": "2026-11-15T00:32:08+00:00"
+ },
+ {
+  "file": "region_baytown/steers_443886.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443886",
+  "params": null,
+  "bytes": 14087,
+  "sha256": "627c31c5aa888e0c60a5c304d9d7a3df241bab3617cbd3176dab7906f43a5764",
+  "fetched_at": "2026-11-15T00:32:11+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444471.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444471",
+  "params": null,
+  "bytes": 12527,
+  "sha256": "79478cd99025440c7686c502cd5bb11f83f75bb891ed8df2374ef16d5b69447e",
+  "fetched_at": "2026-11-15T00:32:26+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444356.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444356",
+  "params": null,
+  "bytes": 10696,
+  "sha256": "fbc4dcdb88373b17545627effe54dda67820622f2614bd2b188f73b124779a8f",
+  "fetched_at": "2026-11-15T00:32:29+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444334.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444334",
+  "params": null,
+  "bytes": 18445,
+  "sha256": "8236cc9448cdfe7e34145c98abb63a3cdf8068b01a1bcbb896215cd9f6926bae",
+  "fetched_at": "2026-11-15T00:32:32+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444317",
+  "params": null,
+  "bytes": 13745,
+  "sha256": "ff07d78e84cddc1cd7668c50263f20c215b5da3356e3c8de07f59dcbf326ecac",
+  "fetched_at": "2026-11-15T00:32:34+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444758.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444758",
+  "params": null,
+  "bytes": 12886,
+  "sha256": "79b0154e83fba360ec0a86936f460ef36aeb18e1f5e807e8dc09ae7d99957a19",
+  "fetched_at": "2026-11-15T00:32:39+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444720",
+  "params": null,
+  "bytes": 10279,
+  "sha256": "a136b917e78f0d03b19996b43ee87bdf6e3be0b3a8eea94b0a71d6c344a59b0c",
+  "fetched_at": "2026-11-15T00:32:42+00:00"
+ },
+ {
+  "file": "region_baytown/steers_445241.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445241",
+  "params": null,
+  "bytes": 11783,
+  "sha256": "d8369aa24322a73b6fc17d836c00f5872948d8d727a57f57b041868fe4fd6cf8",
+  "fetched_at": "2026-11-15T00:32:47+00:00"
+ },
+ {
+  "file": "region_baytown/steers_445519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445519",
+  "params": null,
+  "bytes": 15917,
+  "sha256": "3ded8dd7e8c192968977c6ae4565e28ee4c48fb9b83137098bac2df9a21b4d4e",
+  "fetched_at": "2026-11-15T00:32:59+00:00"
+ },
+ {
+  "file": "region_baytown/steers_445516.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445516",
+  "params": null,
+  "bytes": 15055,
+  "sha256": "285ce8b7d39ab9fecf4da4f343429805ebf874f0aee44522986b3b5528d4b251",
+  "fetched_at": "2026-11-15T00:33:01+00:00"
+ },
+ {
+  "file": "region_baytown/steers_445841.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445841",
+  "params": null,
+  "bytes": 13477,
+  "sha256": "1e5daaacf30ee83248e3aec674592077ac38452a6a31c67a055f011fe80afe97",
+  "fetched_at": "2026-11-15T00:33:17+00:00"
+ },
+ {
+  "file": "region_baytown/steers_446522.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446522",
+  "params": null,
+  "bytes": 23275,
+  "sha256": "5a0d7012e1e6cb44e0b36b72e0d0003d5d36465a38c6b96404c0a183f2be2992",
+  "fetched_at": "2026-11-15T00:33:22+00:00"
+ },
+ {
+  "file": "region_baytown/steers_446487.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446487",
+  "params": null,
+  "bytes": 23763,
+  "sha256": "da65d2a7799ccf7d7b506e7db7a133cfc68eb864756b949cb11b6eca70ee5b97",
+  "fetched_at": "2026-11-15T00:33:25+00:00"
+ },
+ {
+  "file": "region_baytown/steers_446420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446420",
+  "params": null,
+  "bytes": 20856,
+  "sha256": "7b57cdc6a3dc73e146c60ef29fe3274e85a47bd70f4dc534af42b1055072f4bb",
+  "fetched_at": "2026-11-15T00:33:28+00:00"
+ },
+ {
+  "file": "region_baytown/steers_447913.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=447913",
+  "params": null,
+  "bytes": 13182,
+  "sha256": "05676c7435b2ef414447e8ed36a788cf816264b32e3c7e69c6dbdac83d3e5d47",
+  "fetched_at": "2026-11-15T00:34:10+00:00"
+ },
+ {
+  "file": "region_baytown/steers_448630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448630",
+  "params": null,
+  "bytes": 10390,
+  "sha256": "f9c72d2515ef539dc23e031c4b68934749c2006a5aa0505489af3728981234cc",
+  "fetched_at": "2026-11-15T00:34:21+00:00"
+ },
+ {
+  "file": "region_baytown/steers_448784.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448784",
+  "params": null,
+  "bytes": 13379,
+  "sha256": "b8a6e63ce65d5e25b158e4f9805b352e71b2610d06d95c3f93c852d9412275ae",
+  "fetched_at": "2026-11-15T00:34:29+00:00"
+ },
+ {
+  "file": "region_baytown/steers_448781.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448781",
+  "params": null,
+  "bytes": 16484,
+  "sha256": "3e3bb6bcad283e4063247786d3e39d6186cf13ea83e6bb6fc3a5c3b722a9276c",
+  "fetched_at": "2026-11-15T00:34:34+00:00"
+ },
+ {
+  "file": "region_baytown/steers_450787.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=450787",
+  "params": null,
+  "bytes": 13179,
+  "sha256": "415c81c948d92beafb101617ae1b71b07edae8c596d07f156a6eb1b0b4759f74",
+  "fetched_at": "2026-11-15T00:34:37+00:00"
+ },
+ {
+  "file": "region_baytown/steers_415694.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415694",
+  "params": null,
+  "bytes": 17025,
+  "sha256": "fb0e5ea2f38b72d98c5634d28542614bd451a815e56a3daf2fc0239ba46ea5c7",
+  "fetched_at": "2026-11-15T00:35:47+00:00"
+ },
+ {
+  "file": "region_baytown/steers_426228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426228",
+  "params": null,
+  "bytes": 9945,
+  "sha256": "4eed3c2cb10a56d0df921129dc37831e7f158f4a76d1b7d584b417ed90c54bd8",
+  "fetched_at": "2026-11-15T11:04:34+00:00"
+ },
+ {
+  "file": "region_baytown/steers_430265.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430265",
+  "params": null,
+  "bytes": 11628,
+  "sha256": "0335ae2be30ee3c673a358804923f40e9980d5e9864ff0bcc21c1b7611b95e27",
+  "fetched_at": "2026-11-15T00:35:55+00:00"
+ },
+ {
+  "file": "region_baytown/steers_432227.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=432227",
+  "params": null,
+  "bytes": 10328,
+  "sha256": "47ae454184e5cae8e753aa0e576065994cf8233aedafe809959f26770ae5e9a1",
+  "fetched_at": "2026-11-15T00:35:58+00:00"
+ },
+ {
+  "file": "region_baytown/steers_444564.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444564",
+  "params": null,
+  "bytes": 10951,
+  "sha256": "6af303230adfb49e8fafe01c25a26eb32dee15a479da6a28bec917d6545b7111",
+  "fetched_at": "2026-11-15T11:04:36+00:00"
+ },
+ {
+  "file": "region_baytown/steers_445465.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445465",
+  "params": null,
+  "bytes": 11463,
+  "sha256": "ca80a1541e912248daf2efff3ebcf3d5c86c1126685225373be0ad02568f02a5",
+  "fetched_at": "2026-11-15T00:36:01+00:00"
+ },
+ {
+  "file": "region_baytown/steers_447643.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=447643",
+  "params": null,
+  "bytes": 13693,
+  "sha256": "36c57faef46897a21c6cb6e11ef3a498f4f9294f8ee34e2e884b7251b5c92059",
+  "fetched_at": "2026-11-15T00:36:06+00:00"
+ },
+ {
+  "file": "region_baytown/steers_449314.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449314",
+  "params": null,
+  "bytes": 10993,
+  "sha256": "d0fe3fcfe166c631f6db9cc3a8a6ceeff5aca463f54e09bf2dbbc1aa0443e38a",
+  "fetched_at": "2026-11-15T11:04:39+00:00"
+ },
+ {
+  "file": "region_baytown/steers_449259.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449259",
+  "params": null,
+  "bytes": 14126,
+  "sha256": "58ddde0278f6c1abcc0180fd96edac113a3986e1b3ba0dd005d42e190ffb45da",
+  "fetched_at": "2026-11-15T11:04:41+00:00"
+ }
+]

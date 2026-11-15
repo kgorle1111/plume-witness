@@ -34,7 +34,7 @@ test('the brief renders every section it promises, with one title', () => {
 
 test('the brief keeps its headline numbers with their denominators', () => {
   const t = allText(blocks)
-  for (const s of ['60 of 77', '5 of 77', '26 of 410', '95% CI 68-86%', '95% CI 3-14%', '95% CI 4-9%']) assert.ok(t.includes(s), s)
+  for (const s of ['64 of 82', '5 of 82', '27 of 429', '95% CI 68-86%', '95% CI 3-14%', '95% CI 4-9%']) assert.ok(t.includes(s), s)
 })
 
 test('the brief avoids words that assert wrongdoing or proof', () => {
@@ -63,7 +63,6 @@ test('a bracketed citation link keeps its brackets outside the link text', () =>
 
 /** Every number in a text, in order ("95% CI 61-81%" gives 95, 61, 81). */
 const numbersIn = (s: string): string[] => s.match(/\d+(?:\.\d+)?/g) ?? []
-const EN_REF = 'https://github.com/kgorle1111/plume-witness/blob/main/docs/brief.md'
 const walkInline = (v: Inline[], f: (i: Inline) => void): void =>
   v.forEach((i) => { f(i); if (i.t === 'strong' || i.t === 'em' || i.t === 'link') walkInline(i.v, f) })
 const inlinesOf = (b: Block): Inline[][] => ('items' in b ? b.items : [b.v])
@@ -86,16 +85,10 @@ const sections = (bs: Block[]) => {
   }
   return out
 }
-// The Spanish file adds one paragraph the English lacks: the translation note under the lede, linking the English.
-const noteAt = blocksEs.findIndex((b) => b.t === 'p' && hrefs([b]).includes(EN_REF))
-const es = blocksEs.filter((_, i) => i !== noteAt)
+const es = blocksEs
 
-test('the Spanish brief opens with the translation note, right under the lede, pointing to the English', () => {
-  assert.equal(noteAt, 2, 'note is not the paragraph after the title and lede')
-  const note = inlineText((blocksEs[noteAt] as { v: Inline[] }).v)
-  assert.match(note, /asistida por computadora/)
-  assert.match(note, /no revisada por un lector de la comunidad/)
-  assert.deepEqual(numbersIn(note), [], 'the note must not add a number')
+test('the Spanish brief carries no translation-status note', () => {
+  assert.ok(!/lector de la comunidad|asistida por computadora|traducción/i.test(srcEs), 'a translation-status note is back in docs/brief.es.md')
 })
 
 test('the Spanish brief has the English structure: same headings, blocks, list lengths', () => {
@@ -120,7 +113,7 @@ test('the Spanish brief cites the same links and code, in the same order', () =>
   assert.deepEqual(codes(es), codes(blocks))
   // Raw source too, so a link md.ts would drop (non-https) cannot slip past the parsed comparison.
   const targets = [...srcEs.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1])
-  assert.deepEqual(targets.filter((t) => t !== EN_REF), [...src.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1]))
+  assert.deepEqual(targets, [...src.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1]))
 })
 
 test('the Spanish brief carries no banned verdict word', () => {

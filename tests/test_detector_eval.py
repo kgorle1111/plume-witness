@@ -147,3 +147,13 @@ def test_doc_names_no_facility(real):
     _, echo_rows = backtest.load_echo()
     names = {r["AIRName"].lower() for r in echo_rows if len(r.get("AIRName") or "") > 6}
     assert not [x for x in names if x in md.lower()]
+
+
+def test_houston_detector_numbers_and_doc_are_unchanged(real):
+    """Downwind 64/82, near-start 5/82, control 27/429 at the current trigger; the doc byte for byte (60/77, 5/77
+    and 26/410 before exact pounds and bare "Butadiene" added 5 releases)."""
+    row = next(s for s in real["sweep"] if s["current"])
+    assert (real["candidates"], real["downwind"]["with_data"]) == (82, 64)
+    assert (row["release_hits"], row["release_n"], row["control_hits"], row["control_n"]) == (5, 82, 27, 429)
+    assert "region" not in real and real["generated_by"] == "uv run python -m pipeline.detector_eval"
+    assert de.render_md(real) == (Path(__file__).resolve().parent.parent / "docs" / "detector.md").read_text()

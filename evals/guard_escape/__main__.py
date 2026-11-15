@@ -9,7 +9,7 @@ import argparse
 import datetime as dt
 import subprocess
 
-from evals.guard_escape.harness import HERE, ROOT, Row, run, stale_ai_packet
+from evals.guard_escape.harness import CLASSES, HERE, ROOT, Row, run, stale_ai_packet
 
 
 def _git(*args: str) -> str:
@@ -32,7 +32,7 @@ def table(rows: dict[str, Row], real: Row, n_bases: int) -> str:
         out.append(f"| {r.key} | {r.label} | {r.total} | {r.rejected} | {r.rate:.0%} |")
     out.append(f"| real | {real.label} | {real.total} | {real.rejected} | {real.rate:.1%} |")
     out.append("")
-    out.append(f"Mutants are built on {n_bases} real faithful bases x EN/ES. For a-i the rate is the catch "
+    out.append(f"Mutants are built on {n_bases} real faithful bases x EN/ES. For a-{list(CLASSES)[-1]} the rate is the catch "
                "rate (higher is better); for the benign and real rows it is the false-reject rate (lower is "
                "better).")
     return "\n".join(out)

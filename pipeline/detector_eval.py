@@ -14,13 +14,15 @@ more often than these ordinary days, the trigger cannot tell a release from back
 
 Usage: uv run python -m pipeline.detector_eval   (reads data/raw/backtest, writes data/build/detector_eval.json
        and docs/detector.md)
+       uv run python -m pipeline.backtest --region <key>   runs this for any region (pipeline.regions), with its
+       backtest, into data/build/detector_eval-<key>.json and docs/detector-<key>.md
 """
 
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from pipeline import backtest, build
+from pipeline import backtest, build, regions
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "build" / "detector_eval.json"
@@ -32,6 +34,13 @@ CALM_MPH = 3.0
 CONTROL_OFFSETS_D = (-21, -14, -7, 7, 14, 21)  # multiples of 7 keep the weekday (traffic, shifts) the same
 POUND_BINS = ((0.0, 10.0, "under 10 lb"), (10.0, 100.0, "10-100 lb"), (100.0, 1000.0, "100-1,000 lb"),
               (1000.0, float("inf"), "1,000 lb or more"))
+
+
+def out_paths(region: regions.Region = regions.HOUSTON) -> tuple[Path, Path]:
+    """(json, doc) for a region; Houston keeps its original file names."""
+    if region is regions.HOUSTON:
+        return OUT, DOCS
+    return ROOT / "data" / "build" / f"detector_eval-{region.key}.json", ROOT / "docs" / f"detector-{region.key}.md"
 
 
 def setting_key(ratio: float, floor: float) -> str:
@@ -60,7 +69,8 @@ def downwind_hours(fac: tuple[float, float], site: tuple[float, float], wind_hou
 
 
 def winds_for(day: str, sites: dict[str, tuple[float, float]], raw: Path = backtest.BT) -> dict[str, dict]:
-    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's; cached tables)."""
+    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's within
+    backtest.BORROW_MAX_KM; cached tables)."""
     return backtest.load_winds(day[-4:], day, sites, raw)
 
 
@@ -91,6 +101,10 @@ def control_days(day: str, exclude: set[str]) -> list[str]:
     d0 = datetime.strptime(day, "%m/%d/%Y")
     days = [(d0 + timedelta(days=k)).strftime("%m/%d/%Y") for k in CONTROL_OFFSETS_D]
     return [d for d in days if d[-4:] in backtest.YEARS and d not in exclude]
+
+
+# A release whose compound is named only inside a lumped row ("BTEX - benzene, ...") has no pounds of its own.
+LUMPED_BIN = "named only in a lumped row"
 
 
 def pound_bin(lbs: float) -> str:
@@ -149,7 +163,9 @@ def summarize(release: list[dict], control: list[dict], alerts: dict) -> dict:
                 "alerts": alerts["alerts"][k], "alerts_per_week": round(alerts["alerts"][k] / weeks, 1)})
     cur = setting_key(*CURRENT)
     by_lbs = []
-    for _, _, label in POUND_BINS:
+    labels = [label for *_, label in POUND_BINS] + ([LUMPED_BIN] if any(u["lbs_bin"] == LUMPED_BIN
+                                                                         for u in release) else [])
+    for label in labels:
         units = [u for u in release if u["lbs_bin"] == label]
         dw = [u for u in units if u["downwind_with_data"]]
         by_lbs.append({"bin": label, "n": len(units), "downwind": sum(u["downwind"] for u in units),
@@ -165,8 +181,9 @@ def separable(k1: int, n1: int, k0: int, n0: int) -> bool:
     return n1 > 0 and n0 > 0 and backtest.wilson(k1, n1)[0] > backtest.wilson(k0, n0)[1]
 
 
-def run(raw: Path = backtest.BT) -> dict:
-    sites = {s: backtest.site_coords(s, raw) for s in backtest.SITE_NAMES}
+def run(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> dict:
+    raw = raw or region.raw
+    sites = {s: backtest.site_coords(s, raw) for s in region.sites}
     universe, _ = backtest.load_universe(raw)
     _, echo_rows = backtest.load_echo(raw)
     candidates, funnel, _ = backtest.select_candidates(universe, echo_rows, sites, raw)
@@ -177,13 +194,16 @@ def run(raw: Path = backtest.BT) -> dict:
         lbs = c["benzene_lbs"] if c["param"] == "45201" else c["butadiene_lbs"]
         u = evaluate_unit(c["fac_latlon"], c["day"], c["param"], start, sites, raw)
         release.append({"incident": c["incident"], "day": c["day"], "param": c["param"], "start_hour_cst": start,
-                        "lbs": lbs, "lbs_bin": pound_bin(lbs)} | u)
+                        "lbs": lbs, "lbs_bin": LUMPED_BIN if "lumped_lbs" in c else pound_bin(lbs)} | u)
         for d in control_days(c["day"], cand_days):
             control.append({"incident": c["incident"], "day": d} | evaluate_unit(c["fac_latlon"], d, c["param"],
                                                                                   start, sites, raw))
     alerts = alert_scan(sites, raw)
     s = summarize(release, control, alerts)
-    return {"schema": "plume-witness.detector_eval/v1", "generated_by": "uv run python -m pipeline.detector_eval",
+    head = {} if region is regions.HOUSTON else {"region": region.key}
+    generated_by = ("uv run python -m pipeline.detector_eval" if region is regions.HOUSTON
+                    else backtest.command(region))
+    return {"schema": "plume-witness.detector_eval/v1", **head, "generated_by": generated_by,
             "candidates": len(candidates), "funnel_candidates": funnel["candidates"],
             "rules": {"near_start_h": list(backtest.NEAR_START_H), "candidate_radius_km": backtest.CANDIDATE_RADIUS_KM,
                       "wedge": f"+/-{build.CORRIDOR_HALF_ANGLE} deg of the wind-from direction, "
@@ -207,10 +227,23 @@ def _pct(k: int, n: int) -> str:
     return f"{k} / {n} ({100 * k / n:.0f}%; 95% CI {100 * lo:.0f}-{100 * hi:.0f}%)"
 
 
-def render_md(res: dict) -> str:
+def render_md(res: dict, region: regions.Region = regions.HOUSTON) -> str:
     n, dwn, cur = res["candidates"], res["downwind"], res["rules"]["current"]
+    site_names, raw = region.sites, region.raw
+    raw_rel, json_rel, bt_doc = backtest.rel(raw), backtest.rel(out_paths(region)[0]), backtest.rel(
+        backtest.out_paths(region)[1])
+    # The geometry sentence is a claim; it is made only when the interval supports it (Houston: 68-86%).
+    most = ' "Most releases never reach a state monitor" is not supported by this geometry.' if (
+        n and backtest.wilson(dwn["with_data"], n)[0] > 0.5) else ""
+    no_met = [site_names[s] for s in site_names if not any(raw.glob(f"met_*_{s}_61102.html"))]
+    wind_src = (f"{', '.join(no_met)} have no met-form wind and use their own AutoGC-form resultant\n  wind; a site "
+                f"with neither on a day uses the nearest site's within {backtest.BORROW_MAX_KM:g} km." if no_met else
+                "Every site has met-form wind; a site with none on a day uses the nearest site's within "
+                f"{backtest.BORROW_MAX_KM:g} km.")
     row = next(s for s in res["sweep"] if s["current"])
-    gaps = [100 * (s["release_hits"] / s["release_n"] - s["control_hits"] / s["control_n"]) for s in res["sweep"]]
+    # whole points; "+ 0" turns a rounded -0 into 0, so a gap of -0.3 points reads "+0", never "-0"
+    gaps = [round(100 * (s["release_hits"] / s["release_n"] - s["control_hits"] / s["control_n"])) + 0
+            for s in res["sweep"]]
     lo1 = next(s for s in res["sweep"] if s["setting"] == "3x/1ppb")
     any_sep = [s for s in res["sweep"] if s["separable"]]
     calm = res["calm"]
@@ -229,27 +262,30 @@ def render_md(res: dict) -> str:
         verdict = ("At no setting in the sweep is the release-day rate clearly above the control rate (the 95% "
                    "intervals overlap at every setting), so **hourly monitors at these triggers cannot tell these "
                    "releases apart from ordinary days at the same hours.**")
+    extra = dwn["geometry_any_monitor"] - dwn["with_data"]
+    any_note = (f"{dwn['geometry_any_monitor']} of {n} counting monitors without data that day" if extra
+                else "monitors without data that day add none")
     return f"""# Detector: what the monitors can and cannot see
 
-Generated by `uv run python -m pipeline.detector_eval` from `data/raw/backtest/`; full output in
-`data/build/detector_eval.json`. Do not edit numbers by hand; rerun the command. Denominator: the **{n}**
-candidate releases of `docs/backtest.md` (as computed on this branch's `pipeline/backtest.py`).
+Generated by `{res["generated_by"]}` from `{raw_rel}/`; full output in
+`{json_rel}`. Do not edit numbers by hand; rerun the command. Denominator: the **{n}**
+candidate releases of `{bt_doc}` (computed by `pipeline/backtest.py`).
+{backtest.small_n_note(n)}
+## Key results (each with its denominator)
 
-## Sentences a pitch can use (each with its denominator)
-
-1. **Downwind:** in {_pct(dwn["with_data"], n)} of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start ({dwn["geometry_any_monitor"]} of {n} counting monitors without data that day). "Most releases never reach a state monitor" is not supported by this geometry.
+1. **Downwind:** in {_pct(dwn["with_data"], n)} of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start ({any_note}).{most}
 2. **Recall at the current trigger ({cur}):** {_pct(row["release_hits"], n)} releases had a trigger hit near the reported start; of the {row["release_downwind_n"]} with a downwind monitor, {row["release_downwind_hits"]} hit at a monitor that was downwind that hour or the hour before.
 3. **Control:** on ordinary days (same monitors, same hours, same weekday, 7/14/21 days either side, no candidate that day), the same trigger hits in {_pct(row["control_hits"], row["control_n"])} of windows. {verdict}
-4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits {lo1["release_hits"]} of {n} releases and {lo1["control_hits"]} of {lo1["control_n"]} control windows, at {lo1["alerts_per_week"]} alerts a week across the {len(backtest.SITE_NAMES)} monitors (current: {row["alerts_per_week"]} a week). Across all {len(gaps)} settings, the release-day rate minus the control rate runs from {min(gaps):+.0f} to {max(gaps):+.0f} percentage points: a lower trigger fires more often on release days and on ordinary days alike.
+4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits {lo1["release_hits"]} of {n} releases and {lo1["control_hits"]} of {lo1["control_n"]} control windows, at {lo1["alerts_per_week"]} alerts a week across the {len(site_names)} monitors (current: {row["alerts_per_week"]} a week). Across all {len(gaps)} settings, the release-day rate minus the control rate runs from {min(gaps):+.0f} to {max(gaps):+.0f} percentage points: a lower trigger fires more often on release days and on ordinary days alike.
 5. **Small releases:** {under10["n"]} of {n} releases reported under 10 lb of the monitored compound.
-6. **Calm wind:** {_pct(calm["calm"], calm["with_speed"])} current-trigger alerts with a wind speed reading ({calm["detections"]} alerts in all) came in wind under {calm["calm_mph"]:g} mph at the detecting monitor, where the upwind direction is unreliable.
+6. **Calm wind:** {_pct(calm["calm"], calm["with_speed"])} current-trigger alerts with a wind speed reading ({calm["detections"]} alerts in all) came in wind under {calm["calm_mph"]:g} mph at the detecting monitor in the detection hour, where the upwind direction is unreliable. The record check's calm rule also looks at the hour before (the lower of the two), so it abstains on more spikes than this count; `{bt_doc}` gives that number.
 
 ## Threshold sweep
 
 Near-start = a trigger hit at any monitor within 15 km of the facility, {res["rules"]["near_start_h"][0]:+d} h to
 +{res["rules"]["near_start_h"][1]} h of the reported start (CST, start day only). "Downwind" columns: only units
 where a monitor with data was downwind in that window, and only hits at that monitor in a downwind hour (or the
-hour after). Alerts = (day, compound) pairs with a hit at any of the {len(backtest.SITE_NAMES)} monitors, over {res["alert_days"]} days
+hour after). Alerts = (day, compound) pairs with a hit at any of the {len(site_names)} monitors, over {res["alert_days"]} days
 ({res["weeks"]} weeks; {res["alert_days_with_data"]} days had data at some monitor).
 
 | Ratio | Floor (ppb) | Releases with a near-start hit | Control windows with a hit | Downwind releases hit | Downwind control hit | Alerts 2024-25 | Alerts / week |
@@ -283,22 +319,25 @@ compound that day; hit columns count only the "with data" releases.
   start moves the window.
 - **ECHO coordinates.** Facility positions are EPA ECHO points, which can sit hundreds of meters from the
   emission point; the wedge test uses them as given.
-- **Wind source.** {", ".join(backtest.SITE_NAMES[s] for s in backtest.SITE_NAMES if not any(
-        backtest.BT.glob(f"met_*_{s}_61102.html")))} have no met-form wind and use their own AutoGC-form resultant
-  wind; a site with neither on a day uses the nearest site's.
-- **Geometry, not dispersion.** "Downwind" is the build.py wedge (+/-22.5 deg, 15 km), not a plume model; a
+- **Wind source.** {wind_src}
+- **Geometry, not dispersion.** "Downwind" is the corridor's wedge (+/-22.5 deg, 15 km), not a plume model; a
   downwind monitor can still miss a narrow or lofted plume.
 - **Alerts per week is a false-alarm proxy, not a false-alarm rate:** nobody knows the true cause of each alert.
-- Candidate count depends on `backtest.select_candidates` on this branch; a parser fix that adds candidates
+- The candidate count comes from `backtest.select_candidates`; a change to the report parser that adds candidates
   changes every denominator. AutoGC data are provisional.
 """
 
 
+def write(res: dict, region: regions.Region = regions.HOUSTON) -> None:
+    out, docs = out_paths(region)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(res, indent=1))
+    docs.write_text(render_md(res, region))
+
+
 if __name__ == "__main__":
     res = run()
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(res, indent=1))
-    DOCS.write_text(render_md(res))
+    write(res)
     print(json.dumps({k: res[k] for k in ("candidates", "downwind", "calm", "weeks")}, indent=1))
     for s in res["sweep"]:
         print(s["setting"], s["release_hits"], s["release_n"], s["control_hits"], s["control_n"],
