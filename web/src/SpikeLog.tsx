@@ -177,7 +177,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         </p>
         <Follow siteId={filters.site || undefined} />
         <p><a href={`${import.meta.env.BASE_URL}?view=timeline`}>Watch two years</a> of spikes arrive on the map, in time order.</p>
-        <p><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
+        <p className="sl-brief-link"><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
       </header>
 
       <section className="sl-explain" aria-label="How to read this log">
@@ -265,7 +265,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                     {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">TCEQ report {r.matched_incident}</a>}
                   </td>
                   <td>
-                    <a className="nowrap" href={nightHref(region, r.night_id)} aria-label={`Replay ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
+                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={`Replay ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
                   </td>
                 </tr>
               )

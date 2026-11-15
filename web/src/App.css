@@ -289,6 +289,12 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .hourly-table { margin-top: 6px; font-size: 0.85rem; }
 .hourly-table summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
 .record-link { display: inline-flex; align-items: center; min-height: 44px; }
+/* Touch: 44px-tall hit areas without growing the replay header or the hour scrubber (project bar; WCAG 2.5.5). */
+@media (pointer: coarse) {
+  /* position: relative lifts the padding above the next line, which would otherwise take the tap. */
+  .spikes-link, .fl-name { position: relative; display: inline-block; padding-block: 14px; margin-block: -14px; }
+  .tl-all summary { padding-block: 13px; }
+}
 .hourly-table table { border-collapse: collapse; width: 100%; max-width: 320px; }
 .hourly-table th, .hourly-table td { text-align: left; padding: 2px 8px 2px 0; border-bottom: 1px solid var(--line); }
 

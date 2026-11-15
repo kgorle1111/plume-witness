@@ -134,7 +134,7 @@ function FacilityPage({ id }: { id: string }) {
             <ul className="fx-list">
               {f.matched_nights.map((m) => (
                 <li key={m.night_id} className="fx-card">
-                  <p><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{m.date}: replay this night</a></p>
+                  <p className="fx-night-link"><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{m.date}: replay this night</a></p>
                   <p className="small">{m.compound} at {m.monitor}, {hourLabel(m.hour_cst)}, {m.value_ppb} ppb. The facility was {m.distance_km} km away in the upwind corridor, and its report <IncidentLink f={f} incident={m.incident} /> matched.</p>
                 </li>
               ))}
