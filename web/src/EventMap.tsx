@@ -10,6 +10,7 @@ import { placeReadout } from './geo'
 import type { Place } from './PlaceSearch'
 import { hit, layoutLabels, numberedDots, type Box, type LabelAsk, type Placed } from './labelLayout'
 import { LANDING_METRICS } from './landingMetrics'
+import { introOnLoad as introRule } from './mapIntro'
 import { REGIONS } from './region'
 import { useT, type Translate } from './useT'
 
@@ -56,15 +57,13 @@ const introPinLabel = (ev: PlumeEvent, t: Translate) => (ev.region ? t('map.intr
 const introCaption = (ev: PlumeEvent, t: Translate) =>
   ev.region ? t('map.introCaptionNew') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-// `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
-const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
 // 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
 // screens (the same 1024px breakpoint as the side-by-side layout); phones open flat and keep "Show globe".
-// Browsers in Data Saver mode don't get it on load either.
+// mapIntro.ts has the rest of the rule (night links, embeds, ?intro=0, Data Saver).
 const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
 const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
-const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOptedOut() && !saveData()
+const introOnLoad = () => introRule(window.location.search, { wide: wideScreen(), reducedMotion: prefersReducedMotion(), saveData: saveData() })
 
 // With dozens of facilities, only these get a standing label on wide maps; the rest show their name on hover,
 // tap, or focus in the Trace list (which stays the full text equivalent). Narrow maps label only the filed-report
