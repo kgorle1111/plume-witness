@@ -160,6 +160,11 @@
 @media (min-width: 1024px) {
   .sl-head h1 { font-size: 1.9rem; }
 }
+/* 1600px+: rems grow 12.5% (index.css) but --page-wide stays 1280px. At 1920 the one-line headers kept the Spanish
+   table 9px past its box even with the short "Ver →" link (39px before it). Headers may wrap there; below, they fit. */
+@media (min-width: 1600px) {
+  .sl-table thead th { white-space: normal; }
+}
 
 /* Calendar heatmap: one strip per monitor per year, one column per day. The year keeps at least 900 px (2.5 px a day)
    and scrolls sideways inside its own box on narrow screens: fitted to a phone it was 0.8 px a day, and 251 of 401
