@@ -19,3 +19,21 @@ export const LANDING_METRICS = {
   /** docs/audit-no-report.json → missed_or_doubtful.wilson_95[1], as a whole percent: how high the true miss rate could be. */
   auditUpperPct: 28,
 } as const
+
+/** What one hand check involves, counted over the night files of the spikes with no matching report
+ *  (web/public/nights/*.json, record_check.status 'no_report_after_deadline'). A count of the work, not a timing:
+ *  test/landingMetrics.test.ts recomputes each number. */
+export const HAND_CHECK = {
+  /** Spikes counted: the "no matching report" spikes that have a night file. */
+  nights: 167,
+  /** record_check.search_scope: reports that started this many days before the spike and were still running. */
+  priorDays: 30,
+  /** record_check.day_incidents + ongoing_incidents: reports a person has to open and read. */
+  reportsMedian: 1,
+  reportsMax: 4,
+  reportsTotal: 136,
+  /** facilities[] with in_corridor: facilities a person has to place against the wind. */
+  facilitiesMedian: 9,
+  facilitiesMax: 51,
+  facilitiesTotal: 2519,
+} as const
