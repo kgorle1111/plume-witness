@@ -15,6 +15,13 @@ County, facility within 15 km of a Ship Channel AutoGC monitor):
 | ...and the reporting facility inside the upwind corridor | 3 / 13 (23%; 95% CI 8-50%) | detected |
 | ...and the pipeline matched that exact report | 1 / 13 (8%; 95% CI 1-33%) | detected |
 | End to end: detected and matched | 1 / 66 (2%; 95% CI 0-8%) | all candidates |
+| Monitor spike within -1 h to +6 h of the company's reported start | 2 / 66 (3%; 95% CI 1-10%) | all candidates |
+
+"Detected" above means a trigger hit at any hour of the start day, and the pipeline takes the earliest one, which
+is often hours from the release. Requiring the hit near the reported start (CST, daylight saving removed) leaves
+2 of 66; 1 of those 2 matched.
+So the day-level count overstates how often a release reached a monitor, and the (b) cross-check below compares
+day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
 
 Of the 1 matches, 1 came from a day search the pipeline could call complete.
 On 0 detected events the pipeline matched a different report filed that
