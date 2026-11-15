@@ -251,6 +251,7 @@ function DayIncidents({ items }: { items: DayIncident[] }) {
 const localTime = (t?: string) => (t ? t.replace('T', ' ') : 'not given')
 
 type Lang = 'en' | 'es'
+const LANG_NAME: Record<Lang, string> = { en: 'English', es: 'Spanish' }
 const SPEECH_LANG: Record<Lang, string> = { en: 'en-US', es: 'es-US' }
 
 export function Packet({ ev }: { ev: PlumeEvent }) {
@@ -270,8 +271,12 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
     setSpeaking(false)
   }
 
+  // Product rule: a person approves the exact text they file, so approval belongs to one language's draft.
   const switchLang = (l: Lang) => {
+    if (l === lang) return
     stopSpeech()
+    if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
+    setApproved(false)
     setLang(l)
   }
 
@@ -305,7 +310,7 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
         <button type="button" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>English</button>
         <button type="button" aria-pressed={lang === 'es'} onClick={() => switchLang('es')} lang="es">Español</button>
       </div>
-      <label className="draft-label" htmlFor="draft">Draft ({lang === 'en' ? 'English' : 'Spanish'}){approved ? ' · approved' : ''}</label>
+      <label className="draft-label" htmlFor="draft">Draft ({LANG_NAME[lang]}){approved ? ' · approved' : ''}</label>
       <textarea
         id="draft"
         className="draft"
@@ -352,6 +357,7 @@ export function Packet({ ev }: { ev: PlumeEvent }) {
 
       <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title">
         <h2 id="dlg-title">You file this yourself</h2>
+        <p>You approved the <strong>{LANG_NAME[lang]}</strong> draft. That is the text to file.</p>
         <p>Plume Witness does not send anything to the regulator or anyone else.</p>
         <p>To file, copy the approved draft and submit it yourself through the state regulator's own complaint process, with the record link from the Check step.</p>
         <form method="dialog"><button className="btn btn-primary" autoFocus>Got it</button></form>
