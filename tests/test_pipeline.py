@@ -243,3 +243,25 @@ def test_revision_parser_skips_unquoted_updates_and_bad_dates():
 def test_revision_reaches_the_event_only_when_the_page_has_one():
     ev = json.loads((ROOT / "web" / "public" / "event.json").read_text())
     assert ev["record_check"]["reported"]["revisions"][0]["date"] == "2024-12-11"
+
+
+def test_mismatch_sentence_follows_the_match_basis():
+    # A report that started weeks earlier must not be described as starting near the spike hour.
+    night = json.loads((ROOT / "web" / "public" / "nights" / "2024-04-30_43218_48_201_0069.json").read_text())
+    rc = night["record_check"]
+    assert rc["status"] == "reported_mismatch" and rc["reported"]["match_basis"].startswith("ongoing")
+
+    def drafts(rc: dict) -> tuple[str, str]:
+        p = build.template_packet(night["detection"], night["monitors"], night["wind"], night["facilities"], rc,
+                                  "04/30/2024", "43218")
+        return p["draft_en"], p["draft_es"]
+
+    en, es = drafts(rc)
+    assert "starting near that hour" not in en and "cerca de esa hora" not in es
+    assert "started 2024-04-04" in en and "per the report, ran until 2024-04-30 07:00 local time" in en
+    assert "empezó el 2024-04-04" in es and "hasta el 2024-04-30 07:00, hora local" in es
+    same_day = rc | {"reported": rc["reported"] | {"start_local": "2024-04-30T05:10", "end_local": "2024-04-30T09:00",
+                                                   "match_basis": "started near the spike"}}
+    en, es = drafts(same_day)
+    assert "from 05:10 to 09:00 local time that day" in en and "started 2024" not in en
+    assert "de 05:10 a 09:00, hora local, ese día" in es
