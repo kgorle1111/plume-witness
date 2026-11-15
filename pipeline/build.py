@@ -156,49 +156,104 @@ def final_check(inc: dict) -> tuple[str, str]:
     return status, f"final report dated {inc['report_date']}, {days} days after the event ended"
 
 
+MATCH_WINDOW_H = (-6, 2)  # a report matches if its [start, end] overlaps [spike - 6 h, spike + 2 h] (local time)
+# kn: absence needs this many earlier days searched; p99 STEERS event length in 2024-25 is 26 d (3 of 335 ran
+# longer), so a still-running event that started more than 30 days earlier can be missed. Widen if that matters.
+LOOKBACK_DAYS = 30
+CALM_MPH = 3.0  # below this, one monitor's wind direction is too unsteady to draw an upwind corridor
+KMH_PER_MPH = 1.609
+
+
+def _local(det_day: date, det_hour_cst: int) -> datetime:
+    """The detection hour's start in STEERS local time (CST or CDT, from the detection day)."""
+    return datetime.combine(det_day, datetime.min.time()) + timedelta(
+        hours=det_hour_cst + steers_tz_offset_h(det_day))
+
+
+def _gap(inc: dict, t: datetime) -> timedelta:
+    """How far t lies outside the report's [start, end]; zero when the report was running at t."""
+    s, e = datetime.fromisoformat(inc["start_local"]), datetime.fromisoformat(inc["end_local"])
+    return max(s - t, t - e, timedelta(0))
+
+
+def _travel(p: dict, inc: dict, det_local: datetime, speed_mph: float | None) -> dict:
+    """Informational timing: how long air takes from the facility to the monitor at the detection-hour wind."""
+    if not speed_mph or p.get("distance_km") is None:
+        return {"travel_h": None, "travel_speed_mph": speed_mph, "start_to_spike_h": None}
+    travel_h = p["distance_km"] / (speed_mph * KMH_PER_MPH)
+    start = datetime.fromisoformat(inc["start_local"])
+    return {"travel_h": round(travel_h, 2), "travel_speed_mph": speed_mph, "travel_distance_km": p["distance_km"],
+            "start_to_spike_h": round((det_local - start).total_seconds() / 3600, 2),
+            "arrival_local": (start + timedelta(hours=travel_h)).isoformat(timespec="minutes"),
+            "spike_hour_local": [det_local.isoformat(timespec="minutes"),
+                                 (det_local + timedelta(hours=1)).isoformat(timespec="minutes")]}
+
+
 def record_check(placed: list[dict], details: dict[str, dict], det_day: date, det_hour_cst: int,
-                 search_complete: bool, param: str) -> dict:
+                 search_complete: bool, param: str, ongoing: list[dict] | None = None,
+                 earlier_complete: bool = False, earlier_note: str = "", calm_note: str = "",
+                 speed_mph: float | None = None) -> dict:
     """Did ANY facility in the corridor file a matching emissions-event report? Checked at T+24h and T+14d.
 
-    Absence ('no report after deadline') needs a complete search AND every incident of the day located.
-    Otherwise the status is search_incomplete; a named facility is never called unreported on partial data.
+    A report matches if it was running at any time in [spike - 6 h, spike + 2 h]; it may have started on an
+    earlier day (`ongoing`: reports that started before the detection day, placed like `placed`).
+    Absence ('no report after deadline') needs the day's search complete, the LOOKBACK_DAYS before it searched
+    (`earlier_complete`), traceable wind, and every report of the day and every overlapping earlier report located.
+    Otherwise the status is search_incomplete; a named facility is never called out on partial data.
     """
-    det_local = datetime.combine(det_day, datetime.min.time()) + timedelta(
-        hours=det_hour_cst + steers_tz_offset_h(det_day))
-    lo, hi = det_local - timedelta(hours=6), det_local + timedelta(hours=2)
-    in_time = [p for p in placed if p["in_corridor"] and lo <= datetime.fromisoformat(p["start_local"]) <= hi]
+    det_local = _local(det_day, det_hour_cst)
+    lo, hi = det_local + timedelta(hours=MATCH_WINDOW_H[0]), det_local + timedelta(hours=MATCH_WINDOW_H[1])
+
+    def overlaps(p: dict) -> bool:
+        inc = details[p["incident"]]
+        return datetime.fromisoformat(inc["start_local"]) <= hi and datetime.fromisoformat(inc["end_local"]) >= lo
+
+    still_open = [p for p in ongoing or [] if overlaps(p)]
+    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
+             f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
+    scope += f" {earlier_note}" if earlier_note else " Events that started on earlier days were not searched."
+    if calm_note:
+        scope += f" {calm_note}: no corridor drawn and no absence claimed."
+    base = {"day_incidents": placed, "ongoing_incidents": still_open, "search_scope": scope}
+    in_time = [] if calm_note else [p for p in placed + still_open if p["in_corridor"] and overlaps(p)]
     # A report only matches if it lists the compound the monitor saw; otherwise it is reported_mismatch.
     hits = [p for p in in_time if details[p["incident"]].get("lbs_by_param", {}).get(param, 0) > 0]
     mismatch = not hits and bool(in_time)
     hits = hits or in_time
-    scope = (f"Searched every STEERS emissions event starting {det_day.strftime('%m/%d/%Y')} in Harris County "
-             f"({len(placed)} found; search {'complete' if search_complete else 'incomplete'}).")
     if hits:
-        p = min(hits, key=lambda x: abs(datetime.fromisoformat(x["start_local"]) - det_local))
+        p = min(hits, key=lambda x: (_gap(details[x["incident"]], det_local),
+                                     abs(datetime.fromisoformat(x["start_local"]) - det_local)))
         inc = details[p["incident"]]
-        t24 = "reported" if datetime.fromisoformat(inc["notified_local"]) <= det_local + timedelta(hours=24) \
-            else "not_yet_reported"
+        start = datetime.fromisoformat(inc["start_local"])
+        # 30 TAC 101.201(a)(1): the initial notice is due within 24 h of discovery, not of the monitor spike.
+        notice_h = (datetime.fromisoformat(inc["notified_local"]) - start).total_seconds() / 3600
+        t24 = "reported" if notice_h <= 24 else "not_yet_reported"
         t14, t14_note = final_check(inc)
         status = "reported_mismatch" if mismatch else t14
-        return {
+        basis = ("started near the spike" if start.date() == det_day
+                 else f"ongoing (started {start.date().isoformat()})")
+        return base | {
             "status": status, "incident": inc["incident"], "matched_facility_id": p["facility_id"],
             "source_url": STEERS_URL.format(inc["incident"]),
-            "checks": [{"at": "T+24h", "status": t24, "note": f"initial notice filed {inc['notified_local']} local"},
+            "checks": [{"at": "T+24h", "status": t24,
+                        "note": f"initial notice filed {inc['notified_local']} local, {notice_h:.1f} h after the "
+                                f"reported discovery {inc['start_local']}"},
                        {"at": "T+14d", "status": t14, "note": t14_note}],
             "compound_match": not mismatch,
             "reported": {"facility": p["entity"], "compound": inc["compound"], "pounds": inc["pounds"],
                          "start_local": inc["start_local"], "end_local": inc["end_local"],
                          "tz": f"local ({'CDT' if steers_tz_offset_h(det_day) else 'CST'})",
-                         "cause": inc["cause"]},
-            "day_incidents": placed, "search_scope": scope,
+                         "cause": inc["cause"], "match_basis": basis} | _travel(p, inc, det_local, speed_mph),
         }
-    can_claim_absence = search_complete and all(p["in_corridor"] is not None for p in placed)
+    located = all(p["in_corridor"] is not None for p in placed + still_open)
+    can_claim_absence = search_complete and earlier_complete and located and not calm_note
     none = "no_report_after_deadline" if can_claim_absence else "search_incomplete"
     if can_claim_absence:
-        scope += " No matching report found in a complete search."
-    return {"status": none, "incident": None, "matched_facility_id": None, "source_url": STEERS_SEARCH,
-            "checks": [{"at": "T+24h", "status": none, "note": ""}, {"at": "T+14d", "status": none, "note": ""}],
-            "reported": None, "day_incidents": placed, "search_scope": scope}
+        base["search_scope"] += " No matching report found in a complete search."
+    return base | {"status": none, "incident": None, "matched_facility_id": None, "source_url": STEERS_SEARCH,
+                   "checks": [{"at": "T+24h", "status": none, "note": calm_note},
+                              {"at": "T+14d", "status": none, "note": calm_note}],
+                   "reported": None}
 
 
 def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: list[dict], rc: dict,
@@ -292,11 +347,13 @@ def load_wind(site: str, year: str, day: str, raw: Path = RAW) -> dict:
 
 
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
-          details: dict[str, dict], complete: bool, det_day: date, param: str) -> dict:
+          details: dict[str, dict], complete: bool, det_day: date, param: str,
+          earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "") -> dict:
     """Detect -> corridor -> place the day's reports -> record check. The one code path build and backtest share.
 
     wind_site None means: use the triggering monitor's own wind. Returns detection None when nothing triggered,
-    and wind None when the chosen site has no wind for the detection hours.
+    and wind None when the chosen site has no wind for the detection hours. `earlier` holds reports that started
+    before the day and may still have been running; record_check keeps the ones that overlap the spike.
     """
     det = detect(monitors)
     if det is None:
@@ -311,18 +368,31 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     window = [wdir[max(0, h - 1)], wdir[h]]  # air arriving at hour h left the source up to ~1h earlier at ~7 mph
     if all(w is None for w in window):
         return {"detection": det, "wind": wind, "window": [], "trig": trig}
-    facilities = corridor(echo, (trig["lat"], trig["lon"]), window)
-    placed = place_incidents(list(details.values()), facilities, echo_rows, (trig["lat"], trig["lon"]),
-                             [w for w in window if w is not None])
-    rc = record_check(placed, details, det_day, h, search_complete=complete, param=param)
-    return {"detection": det, "wind": wind, "window": [w for w in window if w is not None], "trig": trig,
+    speeds = [x["speed_mph"] for x in (wind["hourly"][max(0, h - 1)], wind["hourly"][h])]
+    known = [v for v in speeds if v is not None]
+    # kn: an hour with direction but no speed is not treated as calm; abstain on unknown speed if those nights matter.
+    calm = min(known) if known and min(known) < CALM_MPH else None
+    calm_note = f"wind too light to trace ({calm:g} mph)" if calm is not None else ""
+    origin, winds_ok = (trig["lat"], trig["lon"]), [w for w in window if w is not None]
+    facilities = [] if calm_note else corridor(echo, origin, window)
+    earlier = earlier or {}
+    placed = place_incidents(list(details.values()), facilities, echo_rows, origin, winds_ok)
+    ongoing = place_incidents(list(earlier.values()), facilities, echo_rows, origin, winds_ok)
+    if calm_note:
+        for r in placed + ongoing:
+            r |= {"in_corridor": None, "resolution": f"not traced: {calm_note}"}
+    speed = speeds[1] if speeds[1] is not None else speeds[0]
+    rc = record_check(placed, details | earlier, det_day, h, search_complete=complete, param=param, ongoing=ongoing,
+                      earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
+                      speed_mph=speed)
+    return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
             "facilities": facilities, "record_check": rc}
 
 
 CANNOT_SAY = [
     "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
-    ("'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, "
-     "and air readings cannot measure how much was released (30 TAC 101.201)."),
+    ("'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a "
+     "reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201)."),
     ("The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion "
      "model; it cannot tell facilities along the same bearing apart."),
     "Facility coordinates are as published by EPA ECHO and may be approximate.",

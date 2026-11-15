@@ -40,6 +40,9 @@ def provenance_for(sp: dict, wind_site: str, rows_by_day: dict, prov: dict[str, 
     files.append(f"echo_{sp['det']['site_id']}_10mi.json")
     files += sorted({r["search_file"] for r in rows_by_day.get(day, [])})
     files += [f"steers_{i}.html" for i in sorted(sp["details"])]
+    open_ids = {d["incident"] for d in sp["trace"].get("record_check", {}).get("ongoing_incidents", [])}
+    files += sorted({r["search_file"] for rs in rows_by_day.values() for r in rs if r["incident"] in open_ids})
+    files += [f"steers_{i}.html" for i in sorted(open_ids)]
     missing = [f for f in files if f"backtest/{f}" not in prov]
     if missing:
         raise ValueError(f"{day} {param}: no provenance entry for {missing}; re-fetch or fix provenance.json")
