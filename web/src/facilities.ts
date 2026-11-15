@@ -109,3 +109,30 @@ export const lbs = (n: number | null | undefined): string =>
 
 /** "2024-06-06T06:30" -> "2024-06-06 06:30" (local time at the facility, as TCEQ publishes it). */
 export const localTime = (s: string): string => s.replace('T', ' ')
+
+// EPA registers names in capitals. Display only: the registered name stays on the facility page and in citations.
+// kn: acronym and brand lists cover the 2024-25 index; a new acronym renders title-cased until it is added here.
+const KEEP_UPPER = new Set([
+  'LLC', 'LP', 'LTD', 'USA', 'US', 'TX', 'II', 'III', 'IV', 'ACCP', 'AES', 'ASU', 'BASF', 'EGU', 'EO', 'EPOLP', 'FC', 'GCL',
+  'GE', 'HRM', 'KMCC', 'LBC', 'LCY', 'MB', 'MCA', 'NGL', 'PCI', 'PVA', 'PVC', 'PWE', 'RST', 'SI', 'SJRR', 'SMR', 'TECO', 'TM',
+  'VCM', 'WWTP',
+])
+const SMALL = new Set(['AND', 'OF', 'THE', 'AT', 'FOR', 'IN', 'ON'])
+const BRANDS: Record<string, string> = { EXXONMOBIL: 'ExxonMobil', LYONDELLBASELL: 'LyondellBasell', TOTALENERGIES: 'TotalEnergies', INEOS: 'INEOS' }
+const cap = (w: string): string => w.charAt(0) + w.slice(1).toLowerCase()
+
+function word(w: string, first: boolean): string {
+  if (BRANDS[w]) return BRANDS[w]
+  if (KEEP_UPPER.has(w) || w.length === 1) return w
+  if (!first && SMALL.has(w)) return w.toLowerCase()
+  if (/^\d+(ST|ND|RD|TH)$/.test(w)) return w.toLowerCase()
+  if (/\d/.test(w) || !/[A-Z]/.test(w)) return w
+  if (/^MC[A-Z]{2,}$/.test(w)) return 'Mc' + cap(w.slice(2))
+  return cap(w)
+}
+
+/** "INEOS AMERICAS PASADENA SITE" -> "INEOS Americas Pasadena Site". Names that are not all capitals pass through. */
+export function displayName(name: string): string {
+  if (/[a-z]/.test(name)) return name
+  return name.split(' ').map((w, i) => w.split('-').map((part) => word(part, i === 0)).join('-')).join(' ')
+}
