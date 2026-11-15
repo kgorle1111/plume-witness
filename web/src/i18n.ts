@@ -271,6 +271,8 @@ const EN = {
   'map.filedReport': 'State report #{id}',
   'map.corridor': 'Upwind corridor (wind direction only)',
   'map.introCaption': '{spikes} spikes at {monitors} air monitors, 2024–2025. This is one of those nights.',
+  // kn: introCaptionNew and region.notBacktested stay only while EventMap.tsx / App.tsx read them; both now say the
+  // same as every region. Delete them with those usages.
   'map.introCaptionNew': 'One of its nights, replayed.',
   'map.introCaptionRegion': 'One of its nights, replayed.',
   'map.skipIntro': 'Skip intro',
