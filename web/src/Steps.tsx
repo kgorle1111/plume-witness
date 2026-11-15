@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
-import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
+import { type AiDraft, type DayIncident, type Facility, type Monitor, type NrcReport, type PlumeEvent, type RecordCheck } from './types'
 import { compass, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
@@ -429,10 +429,34 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
           </dl>
         </>
       )}
+      {rc.nrc && <NrcBlock n={rc.nrc} lang={lang} />}
+      {(rc.unplaced_other_reports?.length ?? 0) > 0 && (
+        <p className="muted small">{t('chk.nrcUnplaced', { ids: (rc.unplaced_other_reports ?? []).map((id) => `#${id}`).join(', ') })}</p>
+      )}
       {others.length > 0 && <DayIncidents items={others} lang={lang} />}
       {url
         ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">{t(recordLabel)}<span className="sr-only">{t('chk.newTab')}</span></a></p>
         : <p className="muted">{t('chk.noLink')}</p>}
+    </>
+  )
+}
+
+/** The federal NRC report behind a reported_nrc status; its fields are shown as NRC published them (English). */
+function NrcBlock({ n, lang }: { n: NrcReport; lang: Lang }) {
+  const t = useT()
+  const url = safeHttpUrl(n.source_url)
+  return (
+    <>
+      <h3 className="list-heading">{t('chk.nrcHeading')}</h3>
+      <p className="is-matched-note"><strong>{t('chk.nrcReport', { id: n.report })}</strong>{n.company ? <> · <span lang="en">{n.company}</span></> : null}</p>
+      <dl className="facts">
+        <div><dt>{t('chk.nrcStart')}</dt><dd>{localTime(n.incident_local, t)}</dd></div>
+        <div><dt>{t('chk.nrcMaterial')}</dt><dd lang="en">{n.material}</dd></div>
+        <div><dt>{t('chk.nrcAmount')}</dt><dd>{n.amount == null ? t('chk.nrcAmountUnknown') : n.unit === 'POUND(S)' ? poundsText(n.amount, lang) : <span lang="en">{`${n.amount} ${n.unit.toLowerCase()}`}</span>}</dd></div>
+        <div><dt>{t('chk.nrcLocated')}</dt><dd lang="en">{n.located_by}</dd></div>
+      </dl>
+      <p className="muted small">{t('chk.nrcNote')}</p>
+      {url && <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">{t('chk.nrcOpen')}<span className="sr-only">{t('chk.newTab')}</span></a></p>}
     </>
   )
 }
@@ -443,6 +467,7 @@ const MEANING: Record<string, StringKey> = {
   reported_mismatch: 'chk.meaning.reported_mismatch',
   no_report_after_deadline: 'chk.meaning.no_report_after_deadline',
   search_incomplete: 'chk.meaning.search_incomplete',
+  reported_nrc: 'chk.meaning.reported_nrc',
 }
 
 /** The hashchange listener (App) switches the step; focusing the new tab brings the stepper into view on a phone.

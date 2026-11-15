@@ -2,9 +2,9 @@ import type { Status } from './types'
 import { translate, type Lang } from './i18n.ts'
 
 // Status words are fixed by the contract's STATUSES; never add a verdict word here (in either language).
-// kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
+// kn: the Spanish has had no community reader's review; the UI names English as the reference next to it.
 // `full` is the label where space allows ("a question" is the product's rule: a missing match is not a finding).
-export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late'
+export type StatusIconKind = 'check' | 'clock' | 'alert' | 'mismatch' | 'question' | 'partial' | 'late' | 'second'
 type StatusLabel = { en: string; es: string; icon: StatusIconKind; full?: { en: string; es: string } }
 export const STATUS_TEXT: Record<Status, StatusLabel> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
@@ -16,6 +16,7 @@ export const STATUS_TEXT: Record<Status, StatusLabel> = {
   },
   reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
   search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'partial' },
+  reported_nrc: { en: 'Reported to NRC', es: 'Reportado al NRC', icon: 'second' },
 }
 
 // Status colours. Text on white needs 4.5:1 and marks 3:1 (test/statusColour.test.ts checks both). The open-question
@@ -28,6 +29,7 @@ export const STATUS_FILL: Record<string, string> = {
   not_yet_reported: '#3d5a80',
   reported_late: '#2f6f73',
   reported: '#1f7a45',
+  reported_nrc: '#1d5fa8',
 }
 
 /** The label to show where there is room for it (falls back to the short chip text). */
@@ -61,8 +63,8 @@ const CANNOT_SAY_ES: Record<string, string> = {
   'The wind used here was measured at a nearby monitor, not at the monitor that flagged the spike, so the upwind direction there may differ':
     'El viento usado aquí se midió en un monitor cercano, no en el monitor que marcó el pico, así que la dirección viento arriba allí puede ser distinta',
   // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
-  'New region: no backtest yet; statuses use the same rules; no claims are made from it':
-    'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella',
+  'Outside the backtest: statuses use the same rules, but how well they work in this region is not measured':
+    'Fuera de la prueba retrospectiva: los estados usan las mismas reglas, pero no se ha medido qué tan bien funcionan en esta región',
   // pipeline/regions.py BACKTESTED_NOTE; the "(n = 81, 2024-2025)" part is carried over as written.
   'Backtested against company-reported releases':
     'Probado retrospectivamente con liberaciones reportadas por las empresas',

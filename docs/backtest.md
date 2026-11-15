@@ -23,12 +23,12 @@ is often hours from the release. Requiring the hit near the reported start (CST,
 So the day-level count overstates how often a release reached a monitor, and the (b) cross-check below compares
 day-level spikes that are mostly not the release itself, so it does not measure a false "no report" rate.
 
-Of the 1 matches, 1 came from a day search the pipeline could call complete.
-On 1 detected events the pipeline matched a different report filed that
-day instead of the candidate. Compound used: benzene for 52 events, 1,3-butadiene for
+Matches that came from a day search the pipeline could call complete: 1 of 1.
+Detected events where the pipeline matched a different report filed that day instead of the candidate: 1.
+Compound used: benzene for 52 events, 1,3-butadiene for
 25 (events that reported no benzene).
 
-## The three numbers for the slide
+## Three summary numbers
 
 | Question | Answer | Denominator |
 |---|---|---|

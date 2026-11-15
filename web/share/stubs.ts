@@ -37,6 +37,7 @@ const STATUS_WORDS: Record<string, string> = {
   no_report_after_deadline: 'No matching report (a question)',
   reported_mismatch: "Reported, but doesn't match",
   search_incomplete: 'Search incomplete',
+  reported_nrc: 'Reported to NRC',
 }
 export const statusWords = (s: string): string =>
   Object.hasOwn(STATUS_WORDS, s) ? STATUS_WORDS[s] : `Unknown status (${s})`

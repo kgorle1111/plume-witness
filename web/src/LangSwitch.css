@@ -1,9 +1,7 @@
 /* Language switch shared by every page; the stepper's own copy of the switch keeps its App.css rules. */
 .lang-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
 .lang-switch .seg { width: max-content; }
-.lang-switch .es-note { margin: 0; flex: 1 1 14rem; }
 
-/* Landing masthead: logo left, switch right, the review note on its own line under both. */
+/* Landing masthead: logo left, switch right. */
 .atlas-masthead { flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; padding-block: 8px; }
 .atlas-masthead .lang-switch { margin-left: auto; justify-content: flex-end; text-transform: none; letter-spacing: 0; }
-.atlas-masthead .es-note { flex-basis: 100%; text-align: right; font: 400 11px/1.4 var(--mono); }

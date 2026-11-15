@@ -31,7 +31,7 @@ export function SiteHeader({ current, className = '', lang, skipTo, children }: 
   /** The page in the nav this view is, or belongs to (one facility's page belongs to Facilities). */
   current?: NavView | 'facility'
   className?: string
-  /** Replaces the default language switch (the replay hides the review note here; its panel shows it). */
+  /** Replaces the default language switch. */
   lang?: ReactNode
   /** Id of the element that wraps the page's main content. */
   skipTo?: string

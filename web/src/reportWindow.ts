@@ -160,6 +160,8 @@ const SCOPE_FIXED = {
   'Events that started on earlier days were not searched.': 'scope.notEarlier',
   'No matching report found in a complete search.': 'scope.none',
   'A report open at that time could not be located, so the search is incomplete.': 'scope.unlocated',
+  // kn: quotes pipeline/nrc.py SCOPE_SENTENCE; change both together.
+  'Also searched National Response Center (NRC) reports for the county: one in the upwind corridor, in the match window, lists the compound.': 'scope.nrc',
 } as const
 
 function scopeSentence(s: string, lang: Lang): string | null {

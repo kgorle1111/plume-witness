@@ -25,24 +25,17 @@ state, not a finding."
 GUIDs are `plume-witness:<night_id>`, so a reader will not show the same spike twice when a feed is rebuilt.
 Feed output depends only on `spikes.json` (no clock), so rebuilding unchanged data changes no bytes.
 
-## Refresh status (read this before relying on it)
+## Coverage and freshness (read this before relying on it)
 
-- **There is no scheduled job yet.** Feeds are rebuilt by hand with `uv run python -m pipeline.feeds`. A
-  manual rebuild workflow is proposed separately and has not run.
-- **Nothing fetches new data yet.** The feeds cover the 2024-2025 backtest (468 spikes). A feed reader will show
-  new items only after someone refreshes `spikes.json` from newer TCEQ data and merges.
-- **Data lag is unknown.** We have not measured how long after an hour TCEQ publishes AutoGC values, or how
-  long a company has to file a STEERS report, as the pipeline sees them. A recent spike may show a result that
-  changes later.
-- What remains to automate a real daily refresh: (1) make `pipeline/fetch_backtest.py` take a date range instead
-  of the fixed 2024-2025 years and the weekly STEERS windows; (2) fetch AutoGC, wind and STEERS (session cookie,
-  50-row cap, polite delays) for the latest days; (3) keep the backtest's lookback rule, which needs complete
-  week searches before a day can claim absence, so very recent days will abstain; (4) re-run `pipeline.backtest`,
-  `pipeline.spikes`, `pipeline.feeds`; (5) add a scheduled workflow and watch the first runs.
+- **Fixed period.** The feeds cover 2024-2025 (468 spikes). They are rebuilt with
+  `uv run python -m pipeline.feeds` when `spikes.json` is regenerated; no scheduled job fetches newer TCEQ data,
+  so a feed reader shows new items only after a rebuild.
+- **Data lag is not measured.** How long after an hour TCEQ publishes AutoGC values, and how long after a
+  release a STEERS report appears, are not measured here. A recent spike may show a result that changes later.
 
 ## False-alarm caveat
 
-A spike is a monitor reading at or above 10 times its own 7-day median and at least 10 ppb. We have not measured
-how many are instrument faults or come from non-industrial sources (traffic, ships), and TCEQ marks these hourly
+A spike is a monitor reading at or above 10 times its own 7-day median and at least 10 ppb. How many spikes are
+instrument faults or come from non-industrial sources (traffic, ships) is not measured, and TCEQ marks these hourly
 values provisional. "No matching report" is a question to ask the state, not a conclusion. A hand audit of a random
 sample of the "no report" results is in [`audit-no-report.md`](audit-no-report.md).

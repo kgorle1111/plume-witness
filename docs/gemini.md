@@ -1,9 +1,8 @@
 # Gemini packet drafter
 
-> **Status: untested against the live API.** Every test uses a fake client, and one smoke run used the
-> real `google-genai` client against a local stub server. That run checked the request path, the
-> key-in-header behavior and the config serialization. No call has reached Google yet. Remove this
-> label only after someone runs the command below with a real key and pastes the output into the PR.
+> **Not run against Google's live API.** Tests use a fake client; one run of the real `google-genai`
+> client against a local stub server checked the request path, the key-in-header behavior and the config
+> serialization. The site does not use this drafter.
 
 `pipeline/gemini_draft.py` turns the event facts into a plain-language EN/ES packet draft with **one**
 structured Gemini call. A deterministic guard then checks the draft, and a person always reviews it.
@@ -26,8 +25,8 @@ GEMINI_API_KEY=... uv run python -m pipeline.gemini_draft \
 - Exit codes: `0` means the Gemini draft passed the guard. `1` means the file was written, but it holds
   the template fallback and lists the rejected items. `2` means a missing key or an invalid event, and
   nothing was written.
-- `data/build/` is gitignored. This module does not write into `event.json`. Wiring it into
-  `pipeline/build.py` is a separate integration step.
+- `data/build/` is gitignored. This module does not write into `event.json`, and `pipeline/build.py` does
+  not call it.
 
 ## What the model sees
 
@@ -72,7 +71,7 @@ Pricing source: <https://aistudio.google.com/docs/pricing>, checked 2026-11-14. 
 input $0.75 and output (including thinking) $3.75 through 2026-12-31, then $1.50 and $7.50 from
 2027-01-01. A free tier exists.
 
-These are estimates, not measured. The prompt is about 4,000 characters, roughly 1,000 to 1,300 input
+These are estimates, not measurements. The prompt is about 4,000 characters, roughly 1,000 to 1,300 input
 tokens. Output is two drafts of about 700 characters plus low thinking, roughly 600 to 1,500 tokens.
 
 | Per call | Through 2026-12-31 | From 2027-01-01 |
@@ -80,20 +79,11 @@ tokens. Output is two drafts of about 700 characters plus low thinking, roughly 
 | Typical (1.3k in, 1.5k out) | ~$0.007 | ~$0.013 |
 | Worst case (1.3k in, 4,096-token output cap, retried once) | ~$0.033 | ~$0.066 |
 
-One call per built event, so a 5-night demo costs well under $0.50. Replace these estimates with
-`usage_metadata` from the first live run.
+One call per built event, so 5 events cost well under $0.50.
 
-Cheaper option to evaluate: `gemini-3.5-flash-lite` ($0.30 / $2.50). Switch only after comparing
-guard-pass rates on real events.
-
-## Needs a key to verify
-
-1. A live call succeeds and `response.text` is the JSON object (no fences or extra keys).
-2. The API accepts `thinkingConfig.thinking_level` as the SDK serializes it (snake_case inside a
-   camelCase body).
-3. The real draft passes the guard on `web/public/event.json`, including that Spanish numbers keep `.`
-   decimals.
-4. Real token counts and latency, recorded here in place of the estimates above.
+Not verified without a live call: that `response.text` is the bare JSON object, that the API accepts
+`thinkingConfig.thinking_level` as the SDK serializes it, that a real draft passes the guard on
+`web/public/event.json`, and real token counts and latency.
 
 ## Claude drafter (same guard)
 
@@ -105,4 +95,4 @@ uv run python -m pipeline.claude_draft --event web/public/event.json --out data/
 
 - The key is read **only** from `ANTHROPIC_API_KEY`; set it in your own shell (`read -s ANTHROPIC_API_KEY && export ANTHROPIC_API_KEY`). It is scrubbed from any error text and never logged.
 - Exit codes match the Gemini drafter: `0` passed the guard, `1` template fallback written, `2` missing key or invalid event.
-- Cost: roughly 2k input and under 1k output tokens per call, about $0.02-0.03 at $4 / $20 per million tokens, plus thinking tokens. **Untested against the live API** until someone runs the command above.
+- Cost (estimated): roughly 2k input and under 1k output tokens per call, about $0.02-0.03 at $4 / $20 per million tokens, plus thinking tokens.

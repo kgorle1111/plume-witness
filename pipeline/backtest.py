@@ -30,7 +30,7 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from pipeline import build, regions
+from pipeline import build, nrc, regions
 from pipeline.parse import _text, lbs_by_param, steers_incident, steers_search
 from pipeline.regions import ALL_SITE_NAMES, HOUSTON_SITES
 
@@ -274,13 +274,15 @@ def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: li
     """Run build.trace on every detected spike; yields the spike with its trace and the day's search state.
 
     The one loop behind both the backtest's spike scan and pipeline.nights (the replayable night files)."""
+    nrc_reports = nrc.load(county)
     for day, param, mons, det in spike_days(sites, raw, full):
         det_day = datetime.strptime(day, "%m/%d/%Y").date()
         details, complete, _, next_note = window_reports(day, det["hour_cst"], rows_by_day, incomplete_weeks, raw)
         earlier, earlier_ok, note = earlier_reports(day, rows_by_day, incomplete_weeks, raw)
         note = f"{note} {next_note}".strip()
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                        details, complete, det_day, param, earlier, earlier_ok, note, county=county)
+                        details, complete, det_day, param, earlier, earlier_ok, note, county=county,
+                        nrc_reports=nrc_reports)
         yield {"day": day, "param": param, "det_day": det_day, "monitors": mons, "det": det, "details": details,
                "complete": complete, "earlier": earlier, "earlier_complete": earlier_ok, "trace": t}
 
@@ -367,7 +369,8 @@ def run_candidate(c: dict, sites: dict, rows_by_day: dict, echo_site: dict, echo
             "search_complete": complete, "earlier_search_complete": earlier_ok, "unreadable_day_reports": unreadable}
     # the corridor is drawn from ECHO around the triggering monitor (10 mi = 16 km > the 15 km corridor)
     t = build.trace(monitors, load_winds(year, day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
-                    details, complete, det_day, param, earlier, earlier_ok, note, county=county)
+                    details, complete, det_day, param, earlier, earlier_ok, note, county=county,
+                    nrc_reports=nrc.load(county))
     if "record_check" not in t:
         return out | {"reason": "no wind for the detection hours"}
     if t["calm_mph"] is not None:
@@ -540,12 +543,12 @@ is often hours from the release. Requiring the hit near the reported start (CST,
 {s["spike_near_start"]} of {n}; {s["spike_near_start_and_matched"]} of those {s["spike_near_start"]} matched.
 {day_level_note(d, s["spike_near_start"])}
 
-Of the {m} matches, {s["matched_on_complete_search"]} came from a day search the pipeline could call complete.
-On {s["detected_but_other_incident_matched"]} detected events the pipeline matched a different report filed that
-day instead of the candidate. Compound used: benzene for {by_param["45201"]} events, 1,3-butadiene for
+Matches that came from a day search the pipeline could call complete: {s["matched_on_complete_search"]} of {m}.
+Detected events where the pipeline matched a different report filed that day instead of the candidate: {s["detected_but_other_incident_matched"]}.
+Compound used: benzene for {by_param["45201"]} events, 1,3-butadiene for
 {by_param["43218"]} (events that reported no benzene).
 
-## The three numbers for the slide
+## Three summary numbers
 
 | Question | Answer | Denominator |
 |---|---|---|

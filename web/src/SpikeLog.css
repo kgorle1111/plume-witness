@@ -129,6 +129,7 @@
 .sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
+.sl-status-reported_nrc { color: #164a83; background: #e6f0fa; }
 .sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 34ch; }
 .sl-report { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8rem; }
 /* Stand-alone links in the rows get a 44px-tall hit area on every pointer, not only touch (project bar). */

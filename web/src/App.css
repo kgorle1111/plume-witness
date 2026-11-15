@@ -256,7 +256,6 @@
 /* The limits panel has the row to itself: the page language switch lives in the header (one switch per site). */
 .limits-bar { margin: 12px 16px 0; }
 .seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
-.es-note { margin: 6px 16px 0; }
 .cannot-say {
   border: 1px solid var(--peach-line);
   border-radius: var(--radius);
@@ -425,6 +424,7 @@ code { font-family: var(--mono); font-size: 0.8rem; background: var(--bg-2); bor
 .status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }
+.status-reported_nrc { color: #164a83; background: #e6f0fa; }
 .is-matched-note { padding: 8px 12px; border: 1px solid var(--sage); border-left: 3px solid var(--matched); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
 .checks { list-style: none; padding: 0; display: grid; border: 1px solid var(--line); border-radius: var(--radius); }
 /* Label above its pill: side by side, both wrapped ("Notice within 24 / hours" beside a 3-line pill at 320px) and the
