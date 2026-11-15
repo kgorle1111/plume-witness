@@ -8,3 +8,7 @@ dist/
 .DS_Store
 .firebase/
 data/build/
+
+# Internal build notes (planning spec, dated QA log): kept on disk, not published.
+/SPEC.md
+/docs/a11y-audit.md
