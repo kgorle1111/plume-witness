@@ -84,13 +84,16 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>
           <li><b>{M.years}</b> {t('landing.m.years')}</li>
           <li className="atlas-own-line"><b>{M.noReport}</b> {t('landing.m.questions')} <span className="atlas-m-sub">({t('landing.m.questionsSub')})</span></li>
-          <li className="atlas-audit"><b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b> {t('landing.m.audit')}</li>
+          <li className="atlas-audit">
+            {t('landing.m.auditLead')} <b>{t('landing.m.auditValue', { k: M.auditMissed, n: M.auditNights })}</b>{' '}
+            {t('landing.m.audit', { upper: M.auditUpperPct, u: M.auditUnclear, n: M.auditNights })}
+          </li>
         </ul>
         <nav className="atlas-links" aria-label={t('landing.more')}>
           <a href={`${BASE}?view=spikes`}>{t('common.pastSpikes')}</a>
-          <a href={`${BASE}?view=timeline`}>{t('landing.timeline')}</a>
+          <a href={`${BASE}?view=timeline`}>{t('app.linkTimeline')}</a>
           <a href={`${BASE}?view=facilities`}>{t('common.facilities')}</a>
-          <a href={`${BASE}?view=brief`}>{t('landing.brief')}</a>
+          <a href={`${BASE}?view=brief`}>{t('app.linkBrief')}</a>
         </nav>
       </section>
     </main>

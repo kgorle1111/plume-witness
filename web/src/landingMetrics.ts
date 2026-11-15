@@ -8,10 +8,14 @@ export const LANDING_METRICS = {
   monitors: 8,
   /** web/public/spikes.json → years.length (2024, 2025). */
   years: 2,
-  /** web/public/spikes.json → rows[] with status 'no_report_after_deadline': a question for the state, not a finding. */
+  /** web/public/spikes.json → rows[] with status 'no_report_after_deadline': no matching report, a question for the state. */
   noReport: 170,
   /** docs/audit-no-report.json → counts['likely missed by us'] of n hand-checked "no matching report" nights. */
   auditMissed: 0,
   /** docs/audit-no-report.json → n. */
   auditNights: 10,
+  /** docs/audit-no-report.json → counts["can't tell"]: nights that public data could not settle either way. */
+  auditUnclear: 2,
+  /** docs/audit-no-report.json → missed_or_doubtful.wilson_95[1], as a whole percent: how high the true miss rate could be. */
+  auditUpperPct: 28,
 } as const
