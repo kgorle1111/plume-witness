@@ -8,7 +8,7 @@ import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from '.
 import { cannotSayEs } from './format'
 import { LangSwitch } from './LangSwitch'
 import { useLang, useT } from './useT'
-import type { StringKey } from './i18n'
+import { translate, type StringKey } from './i18n'
 import type { Place } from './PlaceSearch'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
@@ -56,13 +56,15 @@ function CannotSay({ items, lang }: { items: string[]; lang: Lang }) {
   const t = useT()
   return (
     <details className="cannot-say">
-      <summary lang={lang}>{t('cannot.title')} ({items.length})</summary>
+      <summary lang={lang}>{t('cannot.title')} ({items.length + 1})</summary>
       <ul>
         {items.map((t) => {
           // Lines without a Spanish match stay in English and say so through lang.
           const es = lang === 'es' ? cannotSayEs(t) : null
           return <li key={t} lang={es ? 'es' : 'en'}>{es ?? t}</li>
         })}
+        {/* Every night's record search has the same reach, so the line lives here, not in each event.json. */}
+        <li lang={lang}>{translate(lang, 'cannot.searchScope')}</li>
       </ul>
     </details>
   )

@@ -41,6 +41,9 @@ const EN = {
   'lang.nameEs': 'Spanish',
   'lang.switched': 'Switched to {lang}. Approve that draft before filing.',
   'cannot.title': 'What this can’t say',
+  // The record search's reach, per pipeline/build.py record_check + trace, backtest.py window_reports/earlier_reports and
+  // nrc.py candidates (match window [spike - 6 h, spike + 2 h], LOOKBACK_DAYS = 30). Shown with every night's limits.
+  'cannot.searchScope': 'The record search looks only at reports for the county or counties named in the Check step: emissions events that started on the spike’s day, National Response Center reports from the hours around it, and, where the Check step says so, emissions events that started just after midnight or in the 30 days before and were still running.',
 
   // Step panels (Steps.tsx). Data from event.json (names, causes, search scope, quotes) stays as published.
   'spark.summary': '24 hourly readings at {name}. Highest {peak} {unit} at {hour}; baseline {base} {unit}.',
@@ -472,6 +475,7 @@ const EN = {
   'spikes.hReplay': 'Replay',
   'spikes.tceqReport': 'TCEQ report {id}',
   'spikes.replayLink': 'Replay this spike',
+  'spikes.replayShort': 'Replay →',
   'spikes.replayAria': 'Replay this spike: {date}, {compound} at {site}',
   'spikes.noReplay': 'No replay (no wind data)',
   'spikes.sortBy': 'Sort by',
@@ -831,6 +835,7 @@ const ES: Record<StringKey, string> = {
   'lang.nameEs': 'español',
   'lang.switched': 'Cambió a {lang}. Apruebe ese borrador antes de presentarlo.',
   'cannot.title': 'Lo que esto no puede decir',
+  'cannot.searchScope': 'La búsqueda de registros solo revisa reportes del condado o los condados que nombra el paso Verificar: eventos de emisiones que empezaron el día del pico, reportes del National Response Center de las horas cercanas y, donde el paso Verificar lo indica, eventos de emisiones que empezaron justo después de la medianoche o en los 30 días anteriores y seguían en curso.',
 
   'spark.summary': '24 lecturas por hora en {name}. Máximo de {peak} {unit} a las {hour}; línea base de {base} {unit}.',
   'spark.missingHours': ' {n} horas no tienen valor.',
@@ -1250,6 +1255,7 @@ const ES: Record<StringKey, string> = {
   'spikes.hReplay': 'Recorrido',
   'spikes.tceqReport': 'Reporte de TCEQ {id}',
   'spikes.replayLink': 'Ver este pico',
+  'spikes.replayShort': 'Ver →',
   'spikes.replayAria': 'Ver este pico: {date}, {compound} en {site}',
   'spikes.noReplay': 'Sin recorrido (sin datos de viento)',
   'spikes.sortBy': 'Ordenar por',

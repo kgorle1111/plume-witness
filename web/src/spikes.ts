@@ -106,6 +106,14 @@ export function toCsv(rows: SpikeRow[]): string {
 
 export type SortKey = 'date' | 'value' | 'ratio'
 export type Dir = 'asc' | 'desc'
+
+/** The log opens on its biggest spikes ("× baseline", highest first): newest-first led with a screen of grey "Can't
+ *  say: wind too light" rows. The default is left out of the URL; any other sort is written, so a choice survives. */
+export const DEFAULT_SORT: SortKey = 'ratio'
+const SORT_KEYS: readonly SortKey[] = ['date', 'value', 'ratio']
+export const sortFromParam = (v: string | null): SortKey => SORT_KEYS.find((k) => k === v) ?? DEFAULT_SORT
+export const sortParam = (sort: SortKey): string => (sort === DEFAULT_SORT ? '' : sort)
+
 export interface Filters { site: string; compound: string; status: string; year: string }
 export const NO_FILTER: Filters = { site: '', compound: '', status: '', year: '' }
 

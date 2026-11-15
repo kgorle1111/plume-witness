@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
 import {
-  NO_FILTER, PAGE_SIZE, cleanFilters, countKey, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
+  DEFAULT_SORT, NO_FILTER, PAGE_SIZE, sortFromParam, sortParam, cleanFilters, countKey, csvCell, dateText, logView, nearestSite, optionCounts, parseSpikes, parseSpot,
   reasonKey, selectRows, spikeKey, toCsv, yearSpan,
 } from '../src/spikes.ts'
 import { NEIGHBORHOODS } from '../src/neighborhoods.ts'
@@ -211,4 +211,23 @@ test('a region with no spikes at all gets its own empty state, not the filter-em
     assert.doesNotMatch(STRINGS[lang]['spikes.none'], /filter|filtro/i)
   }
   assert.throws(() => parseSpikes({ ...none, years: undefined }), /Re-run/)
+})
+
+test('the log opens on its biggest spikes, and a chosen sort round-trips through the URL', () => {
+  assert.equal(sortFromParam(null), 'ratio')
+  assert.equal(sortParam(DEFAULT_SORT), '', 'the default stays out of the URL')
+  for (const k of ['date', 'value', 'ratio'] as const) assert.equal(sortFromParam(sortParam(k) || null), k)
+  assert.equal(sortFromParam('bogus'), DEFAULT_SORT)
+  // Newest first, 9 of the first 10 rows were grey "Can't say"; the default order must lead with open questions.
+  const first = selectRows(data.rows, NO_FILTER, sortFromParam(null), 'desc').slice(0, 10)
+  for (let i = 1; i < first.length; i++) assert.ok((first[i - 1].ratio ?? -1) >= (first[i].ratio ?? -1))
+  assert.ok(first.filter((r) => r.status === 'no_report_after_deadline').length >= 3, first.map((r) => r.status).join())
+})
+
+test('the table\'s replay link is short, with the full words as its accessible name', () => {
+  for (const l of ['en', 'es'] as const) {
+    assert.ok(STRINGS[l]['spikes.replayShort'].length <= 8, `${l}: ${STRINGS[l]['spikes.replayShort']}`)
+    const word = STRINGS[l]['spikes.replayShort'].replace(/\s*→$/, '')
+    assert.ok(STRINGS[l]['spikes.replayAria'].startsWith(word), `${l}: the accessible name contains the visible text`)
+  }
 })
