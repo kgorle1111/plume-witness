@@ -19,5 +19,5 @@ module.exports = async (page) => {
   await hold(page, 1500);
   await page.getByRole('button', { name: 'File with regulator (you submit)' }).click();
   await page.getByRole('heading', { name: 'You file this yourself' }).waitFor({ timeout: 5000 });
-  await hold(page, 3200); // end on the dialog
+  await hold(page, 4500); // end on the dialog; long enough for the last narration line to finish over it
 };
