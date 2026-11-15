@@ -345,6 +345,14 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
       viewState: camera(),
       controller: false,
       layers: buildLayers(isNarrow()),
+      // deck's input manager makes its canvas a tab stop (tabIndex 0, no focus ring) even with no controller.
+      // It does nothing for keyboard users, and the Trace list is the map's text equivalent, so take it out.
+      onLoad: () => {
+        const c = deckHost.querySelector('canvas')
+        if (!c) return
+        c.tabIndex = -1
+        c.setAttribute('aria-hidden', 'true')
+      },
     })
     let narrow = isNarrow()
     const redraw = () => deck.setProps({ layers: buildLayers(narrow) })
