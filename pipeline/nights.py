@@ -40,7 +40,8 @@ def provenance_for(sp: dict, wind_site: str, rows_by_day: dict, prov: dict[str, 
     files += [f"tamis_{m['site_id']}.html" for m in sp["monitors"]]
     files += [f"met_{year}_{wind_site}_{p}.html" for p in ("61101", "61102")]
     files.append(f"echo_{sp['det']['site_id']}_10mi.json")
-    files += sorted({r["search_file"] for r in rows_by_day.get(day, [])})
+    files += sorted({r["search_file"] for r in rows_by_day.get(day, [])} | {
+        r["search_file"] for rs in rows_by_day.values() for r in rs if r["incident"] in sp["details"]})
     files += [f"steers_{i}.html" for i in sorted(sp["details"])]
     open_ids = {d["incident"] for d in sp["trace"].get("record_check", {}).get("ongoing_incidents", [])}
     files += sorted({r["search_file"] for rs in rows_by_day.values() for r in rs if r["incident"] in open_ids})

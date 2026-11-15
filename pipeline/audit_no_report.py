@@ -102,8 +102,10 @@ def evidence(s: dict, ctx: dict, raw: Path = backtest.BT) -> dict:
     det_day = datetime.strptime(day, "%m/%d/%Y").date()
     mons = backtest.scan_monitors(day, param, sites, raw, full=True)
     det = build.detect(mons)
-    details, complete, _ = backtest.day_reports(day, ctx["rows_by_day"], ctx["incomplete"], raw)
+    details, complete, _, next_note = backtest.window_reports(day, det["hour_cst"], ctx["rows_by_day"],
+                                                             ctx["incomplete"], raw)
     earlier, earlier_ok, note = backtest.earlier_reports(day, ctx["rows_by_day"], ctx["incomplete"], raw)
+    note = f"{note} {next_note}".strip()
     t = build.trace(mons, backtest.load_winds(day[-4:], day, sites, raw), None, ctx["echo_site"][det["site_id"]],
                     ctx["echo_rows"], details, complete, det_day, param, earlier, earlier_ok, note)
     rebuilt = {"site_id": det["site_id"], "hour_cst": det["hour_cst"], "value": det["value"],

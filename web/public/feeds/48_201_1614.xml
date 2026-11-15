@@ -681,7 +681,7 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <pubDate>Thu, 11 Jul 2024 23:00:00 -0600</pubDate>
       <description>Benzene read 10.57 ppb against a baseline of 0.165 ppb (64.1 times baseline) at HRM-16 Deer Park on 2024-07-11 in the hour starting 11:00 p.m. CST.
 Record check: The record check could not finish, so this feed says nothing either way.
-Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
+Why: TCEQ's search for that week did not return every report, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-07-11_45201_48_201_1614
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1614
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>
