@@ -20,7 +20,7 @@ export function EmbedReplay({ ev }: { ev: PlumeEvent }) {
   }
   const openUrl = fullUrl(window.location.origin, window.location.pathname, window.location.search)
   return (
-    <div className="embed">
+    <main className="embed">
       <h1 className="sr-only">{ev.title}, {ev.date_local}</h1>
       <section className="embed-map" aria-label="Map of the monitor, wind and facilities">
         <MapSlot ev={ev} corridor={corridor} highlightId={null} hour={ev.detection.hour_cst} place={null} />
@@ -37,7 +37,7 @@ export function EmbedReplay({ ev }: { ev: PlumeEvent }) {
           <a href={openUrl} target="_blank" rel="noopener">Open in Plume Witness</a>
         </p>
       </section>
-    </div>
+    </main>
   )
 }
 
