@@ -666,6 +666,11 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
 @media (max-width: 640px), (max-width: 1023px) and (max-height: 500px) {
   .stage .map-wrap { height: 32vh; height: 32svh; }
 }
+/* Short phones (320x568): header 162px + map 182px + play block 178px put the step tabs at 522-591px, below the
+   568px fold. 26svh (148px there) brings them to 488-557px. Landscape keeps 32svh: its fold is below the play block. */
+@media (max-width: 640px) and (max-height: 600px) {
+  .map-wrap, .stage .map-wrap { height: 26vh; height: 26svh; min-height: 140px; }
+}
 /* "Key" (EventMap) folds the legend away below 1440px wide: at 1280x720 the legend wrapped to two rows (48px) over a
    406px map. Wider screens keep the one-row legend always on. Colours are the theme tokens, so the button reads in
    both themes (closed: ink on surface; open: the reverse). */
@@ -737,6 +742,12 @@ button.prov-badge:hover, button.prov-badge[aria-expanded='true'] { background: v
 
 /* index.css keeps the phone replay footer on one line; an open disclosure needs a line of its own. */
 .app .site-foot:has(.site-about[open]) { flex-wrap: wrap; }
+/* 1024-1279px: on one row the links left the licence line a 110px column, and in Spanish the footer grew to 279px of
+   a 768px screen. Here the licence takes its own line above the links. 1280px and up keep the one-row footer. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .app .site-foot { flex-wrap: wrap; row-gap: 0; padding-block: 4px; }
+  .app .site-foot > span { flex: 1 0 100%; }
+}
 
 /* Projector and laptop: 16px for the step panel's reading text (68 of 77 replay text elements were 10-15px at 1280);
    captions and tags 14px (.small is index.css's, shared with every page). */
