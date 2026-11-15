@@ -153,16 +153,34 @@
 }
 
 /* Calendar heatmap: one strip per monitor per year, one column per day. Scrolls sideways on phones. */
-.sl-cal { display: grid; gap: 8px; margin: 0; }
+.sl-cal { display: grid; gap: 8px; margin: 0; position: relative; }
 .sl-cal figcaption { font-size: 0.85rem; color: var(--ink-2); max-width: 72ch; }
 .sl-cal-scroll { overflow-x: auto; max-width: 100%; }
-.sl-cal-year { display: grid; gap: 2px; min-width: 720px; padding-bottom: 10px; }
+.sl-cal-year { display: grid; gap: 2px; min-width: 900px; padding-bottom: 10px; }
 .sl-cal-row { display: grid; grid-template-columns: 10.5rem 1fr; align-items: center; gap: 8px; }
 .sl-cal-name { font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sl-cal-axis .sl-cal-name { font-weight: 700; color: var(--ink); font-size: 0.8rem; }
 .sl-cal-months { position: relative; height: 1rem; font-size: 0.7rem; color: var(--ink-2); }
 .sl-cal-months span { position: absolute; top: 0; }
-.sl-cal-strip { display: block; width: 100%; height: 14px; background: var(--bg-2); border-radius: 2px; }
+/* Marks are 4 px wide buttons centred on their day. With 2.5 to 2.7 px per day neighbouring days overlap a little
+   rather than shrinking below 4 px. The ::before widens the hit area to 10 px without changing what is drawn. */
+.sl-cal-strip { position: relative; width: 100%; height: 18px; background: var(--bg-2); border-radius: 2px; }
+.sl-cal-mark {
+  position: absolute; top: 0; width: 4px; height: 100%; padding: 0; border: 0; border-radius: 1px; cursor: pointer;
+  forced-color-adjust: none; background: transparent;
+}
+.sl-cal-mark svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+.sl-cal-mark::before { content: ''; position: absolute; inset: -3px -3px; }
+.sl-cal-mark:focus-visible { z-index: 2; outline-offset: 3px; border-radius: 1px; }
+.sl-cal-mark:hover { z-index: 1; outline: 2px solid var(--ink); outline-offset: 1px; }
+.sl-cal-tip {
+  --tip-half: min(160px, 46%);
+  position: absolute; z-index: 5; transform: translateX(-50%); display: grid; gap: 4px; max-width: min(320px, 92vw);
+  padding: 8px 10px; border: 1px solid var(--ink-2); border-radius: 8px; background: var(--bg); color: var(--ink);
+  box-shadow: var(--shadow-1); font-size: 0.8rem; pointer-events: none;
+}
+.sl-cal-tip-row { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: center; font-variant-numeric: tabular-nums; }
+.sl-cal-tip-hint { color: var(--ink-2); }
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 14px; flex: none; background: var(--bg-2); border-radius: 2px; }

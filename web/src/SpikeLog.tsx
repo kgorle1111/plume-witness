@@ -260,6 +260,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         rows={rows}
         monitors={filters.site ? options.monitors.filter(([v]) => v === filters.site) : options.monitors}
         years={filters.year ? [filters.year] : options.years}
+        onOpen={(id) => window.location.assign(nightHref(region, id))}
       />
 
       {phone ? (
