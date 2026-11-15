@@ -19,6 +19,13 @@ def test_units_and_numbers_en():
                    "7,634 pounds, 9:38 to 10:42, 77 degrees")
 
 
+def test_brand_in_capitals_is_spoken_as_a_word():
+    # S57 made the filer "INEOS Americas Pasadena Site"; Kokoro's EN G2P read the capitals as letters.
+    assert voice.speech_text("One of them, INEOS Americas Pasadena Site, filed", "en") == (
+        "One of them, Ineos Americas Pasadena Site, filed")
+    assert "INEOS" in voice.speech_text("Una de ellas, INEOS Americas Pasadena Site", "es")
+
+
 def test_units_and_numbers_es():
     out = voice.speech_text("51.75 ppb a 6.8 mph, 9:00 a. m. CST, 7,634 libras, 09:38", "es")
     assert out == ("51 coma 75 partes por mil millones a 6 coma 8 millas por hora, 9 de la mañana hora estándar "

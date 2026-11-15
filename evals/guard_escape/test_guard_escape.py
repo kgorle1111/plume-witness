@@ -13,9 +13,9 @@ from pipeline.gemini_draft import guard
 MAX_ESCAPES = {"a": (148, 0), "b": (200, 78), "c": (126, 0), "d": (149, 0), "e": (64, 7),
                "f": (168, 2), "g": (30, 0), "h": (53, 52), "i": (111, 2)}
 MAX_BENIGN_REJECTS = 0  # of 304 benign rewrites
-# The template rounds reported pounds (8,470 for 8469.74 twice; 67 for 66.6; "0 pounds" for 0.07). The guard
-# demands the exact figure, so these four real template drafts are rejected; see RESULTS.md.
-MAX_REAL_REJECTS = 4
+# The template used to round reported pounds (8,470 for 8469.74 twice; 67 for 66.6; "0 pounds" for 0.07) and the guard
+# rejected those drafts. It prints the reported figure since 2026-11-15, so no real draft may be rejected; see RESULTS.md.
+MAX_REAL_REJECTS = 0
 
 
 @pytest.fixture(scope="module")

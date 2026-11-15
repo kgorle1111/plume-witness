@@ -47,7 +47,7 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 ## Stack
 
-- `pipeline/`: Python 3.12, uv, pytest. Pulls public data, detects, lists the upwind corridor, checks the record, writes `web/public/event.json`.
+- `pipeline/`: Python 3.12, uv, pytest. Pulls public data, detects, lists the upwind corridor, checks the record, writes `web/public/nights/` and the demo night as `web/public/event.json` (`uv run python -m pipeline.nights`).
 - `web/`: Vite + React + MapLibre GL + deck.gl. A replay of one real night, mobile-first.
 - The packet draft comes from a deterministic EN/ES template built only from event fields. An optional Gemini drafter (`pipeline/gemini_draft.py`, see `docs/gemini.md`) sits behind a guard that rejects any number or ID not present in the input; it has not yet run successfully against Google's live API. A Claude drafter (`pipeline/claude_draft.py`) behind the same guard ran once on the demo night; its draft is published as `web/public/packet.ai.json` only because the guard passed, and the Packet step offers it beside the template. No API key ships in the web app.
 

@@ -101,7 +101,12 @@ def test_demo_night_still_matches_the_ineos_report():
     ev = build.build()
     assert ev["record_check"]["status"] == "reported" and ev["record_check"]["incident"] == "425347"
     assert ev["record_check"]["matched_facility_id"] == INEOS_REGISTRY_ID
-    assert ev == __import__("json").loads((ROOT / "web" / "public" / "event.json").read_text())
+    # The published demo is the same night from the full nights run (12 monitors, earlier-day search; S51); the
+    # hand-configured build must still agree with it on the headline facts.
+    pub = __import__("json").loads((ROOT / "web" / "public" / "event.json").read_text())
+    assert pub["detection"] == ev["detection"] and pub["facilities"] == ev["facilities"]
+    assert pub["record_check"]["checks"] == ev["record_check"]["checks"]
+    assert pub["record_check"]["reported"] == ev["record_check"]["reported"]
 
 
 def test_steers_offset_follows_daylight_saving():
