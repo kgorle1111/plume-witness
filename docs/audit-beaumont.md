@@ -1,6 +1,6 @@
 # Audit: the Beaumont "no matching report" spike
 
-The Beaumont-Port Arthur region (not backtested; two AutoGC sites) has two detected spikes in 2024-2025. One is
+The Beaumont-Port Arthur region (two AutoGC sites; backtest in `docs/backtest-beaumont.md`) has two detected spikes in 2024-2025. One is
 labelled `no_report_after_deadline`: **2025-08-25, benzene, Beaumont-Downtown (48_245_0009)**. This is a hand check
 of that one night with the same four checks as the Houston audit (`docs/audit-no-report.md`), run on the cached
 pages in `data/raw/region_beaumont/`. Evidence: `uv run python -m pipeline.audit_no_report --region beaumont`

@@ -6,7 +6,8 @@ company. Re-run after the backtest changes:
 
     uv run python -m pipeline.backtest && uv run python -m pipeline.spikes
 
-Another region has no backtest, so its spike scan runs here directly (same backtest.spike_scan, no candidates):
+Another region reads its own backtest (data/build/backtest-<key>.json, from `pipeline.backtest --region <key>`);
+one not backtested yet runs its spike scan here directly (same backtest.spike_scan, no candidates):
 
     uv run python -m pipeline.spikes --region beaumont   (writes web/public/regions/beaumont/spikes.json)
 """
@@ -198,16 +199,26 @@ def region_scan(region: regions.Region) -> tuple[dict, dict[str, tuple[float, fl
     return bt, coords
 
 
-def main(region: regions.Region = regions.HOUSTON) -> None:
-    if region is regions.HOUSTON:
+def source(region: regions.Region = regions.HOUSTON) -> tuple[dict, dict[str, tuple[float, float]]]:
+    """(backtest.json-shaped dict, site coords): the region's own backtest if it has one, else a fresh spike scan."""
+    if region.backtested:
+        src = backtest.out_paths(region)[0]
         try:
-            bt = json.loads(SRC.read_text())
+            bt = json.loads(src.read_text())
         except FileNotFoundError as e:
-            raise SystemExit(f"{SRC} not found; run `uv run python -m pipeline.backtest` first") from e
-        coords = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+            raise SystemExit(f"{src} not found; run `{backtest.command(region)}` first") from e
+        if region is not regions.HOUSTON:
+            if bt.get("region") != region.key:
+                raise SystemExit(f"{src} is not {region.key}'s backtest; rerun `{backtest.command(region)}`")
+            bt["source"] = src.relative_to(ROOT).as_posix()
+        coords = {s: backtest.site_coords(s, region.raw) for s in region.sites}
     else:
         bt, coords = region_scan(region)
-    out = export(bt, coords, region)
+    return bt, coords
+
+
+def main(region: regions.Region = regions.HOUSTON) -> None:
+    out = export(*source(region), region)
     text = dumps(out)
     size = len(text.encode())
     if size > MAX_BYTES:

@@ -2955,5 +2955,13 @@
   "bytes": 18279,
   "sha256": "358e817eb859366d4bb9bd1f5c4b63d716d7ffc485cb70d8cb9d0d341627b938",
   "fetched_at": "2026-11-15T03:53:58+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_445242.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445242",
+  "params": null,
+  "bytes": 11403,
+  "sha256": "09481730ecd3558d8813fbb7f4008f05fa21081d70d29890fd2701c1cec3c6d6",
+  "fetched_at": "2026-11-15T10:53:11+00:00"
  }
 ]
