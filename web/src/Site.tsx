@@ -11,6 +11,7 @@ import { DEFAULT_REGION, regionFrom, regionUnknown } from './region'
 import { UpdateNotice } from './UpdateNotice'
 import { useLang, useT } from './useT'
 import type { StringKey } from './i18n'
+import { STORY_COPY } from './storyCopy'
 
 // Each page's code (and the replay's) loads only when that page opens; the landing and Past spikes no longer
 // download and run the replay. The landing fetches it while idle so "Enter the replay" still crossfades at once.
@@ -22,15 +23,17 @@ const Brief = lazy(() => import('./Brief'))
 const FacilityViews = lazy(() => import('./FacilityViews'))
 // Explicit extension: on a case-insensitive disk './Coverage' resolves to coverage.ts (the page's pure helpers).
 const Coverage = lazy(() => import('./Coverage.tsx'))
+// Story mode (?view=story): the guided four-screen demo, drawn with its own header strip.
+const Story = lazy(() => import('./Story'))
 
 const LOADING = {
   spikes: 'spikes.loading', timeline: 'rn.loading', brief: 'brief.loading', facility: 'fx.loadingOne', facilities: 'fx.loadingList', coverage: 'cv.loading',
-} as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, StringKey>
+} as const satisfies Record<Exclude<Page, 'landing' | 'replay' | 'story'>, StringKey>
 // The wait is drawn in the page's own column (index.css): a full-width box put the text 24px from the edge, then the
 // page drew 320-530px further in at 1920 (Coverage's own data wait does the same, #120).
 const COLUMN = {
   spikes: 'wide', coverage: 'wide', timeline: 'full', brief: 'read', facility: 'read', facilities: 'read',
-} as const satisfies Record<Exclude<Page, 'landing' | 'replay'>, 'wide' | 'read' | 'full'>
+} as const satisfies Record<Exclude<Page, 'landing' | 'replay' | 'story'>, 'wide' | 'read' | 'full'>
 
 export default function Site() {
   const t = useT()
@@ -97,6 +100,20 @@ export default function Site() {
     focusAfterEntry.current = true
     setLeaving(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
     setPage('replay')
+  }
+
+  if (page === 'story') {
+    return (
+      <>
+        <LoadBoundary key="story" shell="header">
+          <Suspense fallback={<main className="state-msg" aria-busy="true"><p>{STORY_COPY[lang].loading}</p></main>}>
+            <Story />
+          </Suspense>
+        </LoadBoundary>
+        <SiteFooter />
+        <UpdateNotice />
+      </>
+    )
   }
 
   if (page !== 'replay' && page !== 'landing') {

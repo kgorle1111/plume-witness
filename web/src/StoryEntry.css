@@ -1,0 +1,27 @@
+/* The home page's Story mode button, beside "See one real spike" (AtlasLanding.tsx). An outline, so the replay button
+   stays the filled one; the landing pins its tokens in both themes, so dark mode draws the same pair. */
+.atlas-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0 12px; }
+.atlas-story {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  margin-top: 21px;
+  padding: 8px 20px;
+  background: rgb(255 255 255 / 0.7);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.atlas-story:hover { background: #fff; box-shadow: 0 3px 0 var(--coral); }
+.atlas-story:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+@media (max-width: 640px) {
+  .atlas-actions { gap: 0 8px; }
+  .atlas-story { min-height: 48px; margin-top: 10px; padding-inline: 16px; font-size: 1rem; }
+}
+@media (min-width: 641px) and (max-height: 800px) { .atlas-story { margin-top: 12px; } }
+@media (min-width: 641px) and (max-height: 500px) { .atlas-story { margin-top: 8px; } }

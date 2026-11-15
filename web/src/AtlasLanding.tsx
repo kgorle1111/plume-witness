@@ -3,7 +3,10 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { LANDING_METRICS as M } from './landingMetrics'
 import { SiteHeader } from './SiteHeader'
 import { useLang, useT } from './useT'
+import { STORY_HREF } from './storyHref'
+import { STORY_COPY } from './storyCopy'
 import './AtlasLanding.css'
+import './StoryEntry.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))
 const REPO = 'https://github.com/kgorle1111/plume-witness'
@@ -57,12 +60,21 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </div>
         </div>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
-        <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
-          {t('landing.enter')}
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
+        <div className="atlas-actions">
+          <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
+            {t('landing.enter')}
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          {/* Story mode: the same night told in four guided screens (Story.tsx). */}
+          <a className="atlas-story" href={STORY_HREF} title={STORY_COPY[lang].enterSub}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            </svg>
+            {STORY_COPY[lang].enter}
+          </a>
+        </div>
         {/* After the button, not before it: above it, this line pushed the button below the fold at 320x568. */}
         <p className="atlas-reframe">{t('landing.reframe', { spikes: M.spikes, noReport: M.noReport })}</p>
         <ul className="atlas-metrics" aria-label={t('landing.metrics')}>
