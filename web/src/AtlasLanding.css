@@ -86,6 +86,8 @@
 .atlas-planet canvas { display: block; width: 100%; height: 100%; border-radius: inherit; }
 
 .atlas-purpose { width: min(100%, 33rem); margin: 10px 0 0; font-size: clamp(1rem, 1.4vw, 1.1875rem); line-height: 1.5; color: #395960; text-wrap: pretty; }
+/* What the tool is for, said plainly under the button (paper stays light in both themes, so #24474d is 8.4:1 or more on the landing wash). */
+.atlas-reframe { width: min(100%, 33rem); margin: 16px 0 0; font-size: 0.9375rem; font-weight: 500; line-height: 1.5; color: #24474d; text-wrap: pretty; }
 /* The page's one action: a solid ink fill (the peach fill was 1.32:1 against the gradient, so only its thin border
    read). White on ink is 10.7:1, and the fill is 7.0-10.1:1 against the gradient; the landing pins these tokens in
    both themes, so dark mode draws the same button. */
@@ -131,6 +133,7 @@
   .atlas-survey { width: 134%; }
   .atlas-planet { width: min(66vw, 20.5rem, calc(100cqh - 16px)); }
   .atlas-purpose { max-width: 350px; margin-top: 6px; }
+  .atlas-reframe { max-width: 350px; font-size: 0.875rem; }
   .atlas-enter { margin-top: 14px; padding-inline: 18px 16px; font-size: 1rem; }
   .atlas-hero .atlas-metrics { margin-top: 12px; }
 }

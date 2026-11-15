@@ -3,7 +3,7 @@
 import { Fragment, useEffect, type ReactNode } from 'react'
 import srcEn from '../../docs/brief.md?raw'
 import srcEs from '../../docs/brief.es.md?raw'
-import { LANDING_METRICS as M } from './landingMetrics'
+import { HAND_CHECK, LANDING_METRICS as M } from './landingMetrics'
 import { parseMarkdown, type Block, type Inline } from './md.ts'
 import type { Lang } from './i18n'
 import { useLang, useT } from './useT'
@@ -42,6 +42,8 @@ function block(b: Block, k: number): ReactNode {
 export default function Brief() {
   const t = useT()
   const lang = useLang()
+  // Same locale convention as format.ts: es-US for Spanish.
+  const num = (n: number) => n.toLocaleString(lang === 'es' ? 'es-US' : 'en-US')
   const blocks = BLOCKS[lang]
   const LEDE = lede(blocks)
   useEffect(() => { document.title = t('brief.docTitle') }, [t])
@@ -61,7 +63,7 @@ export default function Brief() {
         <p>{t('brief.impact.theory')}</p>
         <ul>
           {IMPACT.map((k) => (
-            <li key={k}><strong>{t(`brief.impact.${k}.h`)}</strong> {t(`brief.impact.${k}`, { k: M.auditMissed, n: M.auditNights })}</li>
+            <li key={k}><strong>{t(`brief.impact.${k}.h`)}</strong> {t(`brief.impact.${k}`, { k: M.auditMissed, n: M.auditNights, spikes: M.spikes, noReport: M.noReport, ...HAND_CHECK, facilitiesTotal: num(HAND_CHECK.facilitiesTotal) })}</li>
           ))}
         </ul>
       </section>

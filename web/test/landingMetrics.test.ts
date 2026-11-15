@@ -1,8 +1,8 @@
 // Run: npm test. The landing's key numbers must match the published data they quote.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { LANDING_METRICS } from '../src/landingMetrics.ts'
+import { readdirSync, readFileSync } from 'node:fs'
+import { HAND_CHECK, LANDING_METRICS } from '../src/landingMetrics.ts'
 
 const read = (rel: string) => JSON.parse(readFileSync(new URL(rel, import.meta.url), 'utf8'))
 const spikes = read('../public/spikes.json')
@@ -19,6 +19,29 @@ test('the "no matching report" count matches the no-matching-report rows in spik
   const open = spikes.rows.filter((r: { status: string }) => r.status === 'no_report_after_deadline').length
   assert.equal(LANDING_METRICS.noReport, open)
   assert.equal(LANDING_METRICS.noReport, spikes.summary.by_status.no_report_after_deadline)
+})
+
+test('the hand-check workload matches the no-matching-report night files', () => {
+  const dir = new URL('../public/nights/', import.meta.url)
+  const nights = readdirSync(dir).filter((f) => /^\d{4}-\d{2}-\d{2}_.*\.json$/.test(f))
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')))
+    .filter((n) => n.record_check.status === 'no_report_after_deadline')
+  const median = (v: number[]) => {
+    const s = [...v].sort((a, b) => a - b)
+    const m = s.length >> 1
+    return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2
+  }
+  const reports = nights.map((n) => (n.record_check.day_incidents?.length ?? 0) + (n.record_check.ongoing_incidents?.length ?? 0))
+  const facilities = nights.map((n) => n.facilities.filter((f: { in_corridor: boolean }) => f.in_corridor).length)
+  assert.equal(HAND_CHECK.nights, nights.length)
+  assert.equal(HAND_CHECK.nights, LANDING_METRICS.noReport)
+  assert.ok(nights.every((n) => n.record_check.search_scope.includes(`${HAND_CHECK.priorDays} days before`)))
+  assert.equal(HAND_CHECK.reportsMedian, median(reports))
+  assert.equal(HAND_CHECK.reportsMax, Math.max(...reports))
+  assert.equal(HAND_CHECK.reportsTotal, reports.reduce((a, b) => a + b, 0))
+  assert.equal(HAND_CHECK.facilitiesMedian, median(facilities))
+  assert.equal(HAND_CHECK.facilitiesMax, Math.max(...facilities))
+  assert.equal(HAND_CHECK.facilitiesTotal, facilities.reduce((a, b) => a + b, 0))
 })
 
 test('the hand-audit numbers match audit-no-report.json', () => {

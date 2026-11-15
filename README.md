@@ -28,12 +28,15 @@ Every record check ends in one status label, the same on every page: **Reported*
 
 ## Results
 
+**What the tool is for.** Hourly state monitors are a coarse instrument, so we don't claim to detect releases (the backtest below shows why). We turn 468 spikes into 167 specific questions for the state that no report in the state's or federal records answers. <!-- source: web/src/landingMetrics.ts, recomputed from web/public/spikes.json by web/test/landingMetrics.test.ts -->
+
 Measured on public data, for the Houston Ship Channel unless the row says otherwise.
 
 | What we measured | Result | What it means |
 |---|---|---|
 | Spikes checked against the record, 12 monitors | Across all 468 spikes in the Past spikes log, 167 ended as No matching report after a complete search, and 284 ended with the search incomplete, labeled Can't say with the cause named <!-- CL-011 --> | Each No matching report is a question for the state, never a finding; the site counts these spikes and names no facility. |
 | Second report source | Every spike is checked against the state's STEERS reports and, where STEERS has no match, the federal National Response Center's; the NRC's 1,508 reports for Harris and Jefferson counties added 0 matches <!-- CL-036 --> | The second source is checked only where STEERS has no corridor match. |
+| Work a hand check takes | For each of the 167 No matching report spikes, checking by hand means searching the state's reports from the spike day and the 30 days before, reading a median of 1 report (up to 4), placing a median of 9 corridor facilities (up to 51) against the wind, and repeating at 14 days: 2,519 facility checks and 136 report reads in all <!-- source: HAND_CHECK in web/src/landingMetrics.ts, recomputed from web/public/nights/ by web/test/landingMetrics.test.ts --> | A count of the work, not a timing. The app runs this check for every spike, and each result is one click away in the Past spikes log. |
 | Hand check of No matching report spikes | Of 10 picked at random, the gap held in 8 of 10, 2 of 10 could not be settled from public data, and 0 of 10 was a report the pipeline missed <!-- CL-032 --> | With 10 spikes the true miss rate could be as high as 28% (Wilson 95%). [docs/audit-no-report.md](docs/audit-no-report.md) |
 | Backtest on releases companies reported | Of 82 reported releases, only 5 of 82 showed a spike at a state monitor from 1 hour before to 6 hours after the reported start, and the pipeline matched 1 of 82 end to end <!-- CL-023 --> | A spike near the start is consistent with the release, not proof it caused the reading. [docs/backtest.md](docs/backtest.md) |
 | What hourly monitors can see | In 64 of 82 a state monitor within 9.3 mi (15 km) was downwind near the start, yet ordinary days at the same monitors and hours spiked in 27 of 429 windows <!-- CL-029 --> | The 95% intervals overlap at every setting tested, so these monitors cannot tell these releases apart from ordinary days at the same hours. [docs/detector.md](docs/detector.md) |
@@ -113,7 +116,7 @@ Exact versions are pinned in [pyproject.toml](pyproject.toml), [uv.lock](uv.lock
 - A labeled eval for the report-revision ("walk-back") reader, then ship it.
 - One statewide list of open questions across all 10 regions.
 - AI drafts for every replayable spike, behind the same guard.
-- Beyond Texas, Los Angeles first: join the South Coast AQMD's Rule 1180 refinery-fenceline monitors (hourly benzene) to California's Cal OES spill reports. Their public monitor files end in 2022, so it starts as a 2020-2022 backtest. <!-- CL-038 -->
+- Los Angeles: the South Coast AQMD's Rule 1180 refinery-fenceline community stations are on the site now, with 6 spikes from March 2020 to December 2022 that replay on airport wind and are checked against the NRC's and Cal OES's reports, which name neither compound then, so each reads Can't say. Next: a complete report list for Los Angeles. <!-- CL-040 -->
 - The National Response Center's reports cover every state, so the spike-plus-federal-report check can run wherever hourly benzene monitors exist. <!-- CL-039 -->
 
 ## Method and limits
