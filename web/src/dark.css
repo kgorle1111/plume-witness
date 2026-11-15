@@ -47,7 +47,6 @@
 /* Amber notes */
 [data-theme='dark'] .data-tag.is-fixture,
 [data-theme='dark'] .fixture-banner,
-[data-theme='dark'] .sl-region-note,
 [data-theme='dark'] .ps-error { background: var(--dk-amber-bg); color: var(--dk-amber-ink); }
 [data-theme='dark'] .fixture-banner { border-bottom-color: var(--amber-line); }
 
