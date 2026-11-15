@@ -159,10 +159,11 @@
   .sl-head h1 { font-size: 1.9rem; }
 }
 
-/* Calendar heatmap: one strip per monitor per year, one column per day. Scrolls sideways on phones. */
+/* Calendar heatmap: one strip per monitor per year, one column per day. Below 640 px each year fits the width
+   (names above the strips) instead of scrolling sideways, so a phone sees Jan-Dec at once. */
 .sl-cal { display: grid; gap: 8px; margin: 0; position: relative; }
 .sl-cal figcaption { font-size: 0.85rem; color: var(--ink-2); max-width: 72ch; }
-.sl-cal-scroll { overflow-x: auto; max-width: 100%; }
+.sl-cal-scroll { overflow-x: auto; max-width: 100%; padding-inline-end: 6px; }
 .sl-cal-year { display: grid; gap: 2px; min-width: 900px; padding-bottom: 10px; }
 .sl-cal-row { display: grid; grid-template-columns: 10.5rem 1fr; align-items: center; gap: 8px; }
 .sl-cal-name { font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -191,6 +192,12 @@
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 14px; flex: none; background: var(--bg-2); border-radius: 2px; }
+/* About 0.94 px per day at 375 px: marks stay 4 px wide (hit area 10 px via ::before) and overlap more than on a
+   laptop (206 of 385 neighbouring pairs touch, against 151 in the old 904 px scroller); a first tap still shows which day it hit. */
+@media (max-width: 639.98px) {
+  .sl-cal-year { min-width: 0; }
+  .sl-cal-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
 /* Forced colors drop the swatch backgrounds but keep the SVG fills, so the legend no longer matched the strips. */
 @media (forced-colors: active) { .sl-cal-swatch { forced-color-adjust: none; } }
 
