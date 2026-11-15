@@ -1,8 +1,9 @@
-// ?view=coverage: every state hourly benzene monitor in Texas (coverage.json), what each recorded, and which ones this
-// site replays. Site.tsx wraps it in the site header and footer. The table is the full alternative to the map.
+// ?view=coverage: every state hourly benzene monitor in Texas and the Los Angeles Rule 1180 stations (coverage.json),
+// what each recorded, and which ones this site replays. Site.tsx wraps it in the site header and footer. The table is
+// the full alternative to the map.
 import { Component, Suspense, lazy, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import {
-  SORT_KEYS, coverageSummary, firstDir, loadCoverage, markerGeometry, markerKind, regionSpikesHref, replayable,
+  AREAS, SORT_KEYS, coverageSummary, firstDir, loadCoverage, markerGeometry, markerKind, regionSpikesHref, replayable,
   sortSites, viewBounds, type Coverage as CoverageData, type CoverageSite, type MarkerKind, type SortDir, type SortKey,
 } from './coverage.ts'
 import { isLoadError, type LoadError } from './facilities'
@@ -136,18 +137,20 @@ function MapSection({ data }: { data: CoverageData }) {
   const [failed, setFailed] = useState(false)
   const [basemapFailed, setBasemapFailed] = useState(false)
   const bounds = useMemo(() => viewBounds(data.sites, view), [data.sites, view])
-  const regions = useMemo(() => coverageSummary(data).regions, [data])
+  const { regions, areas } = useMemo(() => coverageSummary(data), [data])
+  const views: (string | null)[] = [null, ...regions, ...areas]
+  const viewName = (k: string) => (Object.hasOwn(AREAS, k) ? AREAS[k as keyof typeof AREAS][lang] : REGIONS[k].name[lang])
   const tipFor = useCallback((s: CoverageSite) => tipText(t, s), [t])
   const retry = () => { LazyMap = lazy(loadMap); setFailed(false); setAttempt((a) => a + 1) }
   const label = t('cv.mapLabel', { n: data.sites.length })
   return (
     <section className="cv-map-section" aria-labelledby="cv-map-h">
       <h2 id="cv-map-h">{t('cv.mapTitle')}</h2>
-      {regions.length > 0 && (
+      {views.length > 1 && (
         <div className="cv-views seg" role="group" aria-label={t('cv.zoomGroup')}>
-          {[null, ...regions].map((k) => (
+          {views.map((k) => (
             <button key={k ?? 'texas'} type="button" aria-pressed={view === k} onClick={() => setView(k)}>
-              {k === null ? t('cv.zoomTexas') : REGIONS[k].name[lang]}
+              {k === null ? t('cv.zoomTexas') : viewName(k)}
             </button>
           ))}
         </div>
@@ -290,6 +293,8 @@ function Caveats({ trigger }: { trigger: string }) {
         <li>{t('cv.cvZero')}</li>
         <li>{t('cv.cvNoData')}</li>
         <li>{t('cv.cvProvisional')}</li>
+        <li>{t('cv.cvLa')}</li>
+        <li>{t('cv.cvLaCheckGas')}</li>
         <li>{t('cv.cvQuestion')}</li>
         <li>{t('cv.cvWind')}</li>
         <li>{t('cv.cvNotAlert')}</li>

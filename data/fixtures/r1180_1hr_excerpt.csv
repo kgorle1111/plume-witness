@@ -1,0 +1,25 @@
+﻿SiteName,ParameterName,LST,Value,Unit,QCCode
+HDSN,Acrolein_gc,2022-01-21 14:00:00,0.00000,ppb,0
+HDSN,Acrolein_gc,2022-01-21 13:00:00,0.50000,ppb,0
+HDSN,13-Butadiene_gc,2022-01-21 14:00:00,0.00000,ppb,0
+HDSN,13-Butadiene_gc,2022-01-21 13:00:00,28.61000,ppb,0
+HDSN,Styrene_gc,2022-01-21 14:00:00,0.05000,ppb,0
+HDSN,Styrene_gc,2022-01-21 13:00:00,1.08000,ppb,0
+HDSN,Benzene_gc,2022-01-21 14:00:00,0.81000,ppb,0
+HDSN,Benzene_gc,2022-01-21 13:00:00,22.91000,ppb,0
+HDSN,Toluene_gc,2022-01-21 14:00:00,1.14000,ppb,0
+HDSN,Toluene_gc,2022-01-21 13:00:00,35.90000,ppb,0
+HDSN,Ethylbenzene_gc,2022-01-21 14:00:00,0.18000,ppb,0
+HDSN,Ethylbenzene_gc,2022-01-21 13:00:00,3.28000,ppb,0
+HDSN,o-Xylene_gc,2022-01-21 14:00:00,0.10000,ppb,0
+HDSN,o-Xylene_gc,2022-01-21 13:00:00,3.36000,ppb,0
+HDSN,mp-Xylenes_gc,2022-01-21 14:00:00,0.33000,ppb,0
+HDSN,mp-Xylenes_gc,2022-01-21 13:00:00,10.78000,ppb,0
+MHAN,Acrolein_gc,2021-09-18 13:00:00,2.71000,ppb,0
+MHAN,13-Butadiene_gc,2021-09-18 13:00:00,13.46000,ppb,0
+MHAN,Styrene_gc,2021-09-18 13:00:00,11.41000,ppb,0
+MHAN,Benzene_gc,2021-09-18 13:00:00,13.02000,ppb,0
+MHAN,Toluene_gc,2021-09-18 13:00:00,10.67000,ppb,0
+MHAN,Ethylbenzene_gc,2021-09-18 13:00:00,12.02000,ppb,0
+MHAN,o-Xylene_gc,2021-09-18 13:00:00,10.05000,ppb,0
+MHAN,mp-Xylenes_gc,2021-09-18 13:00:00,19.92000,ppb,0

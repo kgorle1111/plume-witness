@@ -35,7 +35,7 @@ curl -s https://kgorle1111.github.io/plume-witness/spikes.json \
 | `people.json` | Census population within 3 km of each monitor | 23 KB |
 | `tri.json` | EPA TRI yearly benzene and 1,3-butadiene air totals per facility | 138 KB |
 | `facilities/index.json`, `facilities/<registry_id>.json` | Facility history (194 facilities) | 410 KB total |
-| `coverage.json` | Every Texas AutoGC monitor on TCEQ's form (45): data, wind source, highest readings, spikes per monitor | 18 KB |
+| `coverage.json` | Every Texas AutoGC monitor on TCEQ's form (45) and 10 Los Angeles Rule 1180 stations: data, wind source, highest readings, spikes per monitor | 22 KB |
 | `regions/<key>/spikes.json`, `regions/<key>/nights/` | The same spike log and replays for each other region (keys in `web/src/regions.generated.json`) | small |
 | `packet.ai.json` | One model-drafted evidence packet for the demo spike (published only because its number-and-id guard passed; see the README) | 2 KB |
 
@@ -96,7 +96,16 @@ Written by [`pipeline/coverage.py`](../pipeline/coverage.py) from TCEQ's AutoGC 
 wind; `borrowed`: the nearest monitor's in its region, within 10 km; null with no data), `years` with hourly values,
 `max_benzene_ppb`, `max_butadiene_ppb` (highest hourly values, 2024-2025, null with no data), `spikes` and
 `by_status` (that monitor's rows in its region's spike log). A monitor with readings but `spikes: 0` never crossed the
-trigger in 2024-2025.
+trigger in 2024-2025. `area` is `texas` for those rows.
+
+After them come the Los Angeles rows (`area: "los_angeles"`), written by
+[`pipeline/la1180.py`](../pipeline/la1180.py) from South Coast AQMD's Rule 1180 community-station hourly files
+(`data/raw/region_los_angeles/`, quarters 2020 Q1 to 2022 Q4, with `provenance.json`). `site_id` is `r1180_` plus the
+station's code in those files (`r1180_HDSN`); coordinates are the South Coast AQMD data portal's. `region_key` and
+`wind_source` are null (no replay, and the files carry no wind), `years` are 2020-2022, and `spikes` counts the rows
+the unchanged trigger (`build.detect`) finds over all the stations together; `by_status` is empty because those spikes
+are not checked against reports. Hours when all seven reported compounds read 5 ppb or more at once (the analyzer's
+check gas) are dropped before the counts and the highest values.
 
 ### `rose.json`
 
