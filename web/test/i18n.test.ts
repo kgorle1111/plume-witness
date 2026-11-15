@@ -53,3 +53,12 @@ test('month summary is written in the chosen language, and English is unchanged'
   assert.equal(monthSummary(spikes, 0, 'es'), 'enero de 2024: 2 picos en 2 monitores. 2 reportado.')
   assert.equal(monthSummary(spikes, 5, 'es'), 'junio de 2024: sin picos.')
 })
+
+test('status labels carry no banned verdict word in either language', async () => {
+  const { STATUS_TEXT } = await import('../src/format.ts')
+  for (const [k, v] of Object.entries(STATUS_TEXT)) {
+    for (const text of [v.en, v.es]) {
+      for (const re of BANNED_WORDS) assert.ok(!re.test(text), `${k} contains a banned word (${re}): ${text}`)
+    }
+  }
+})

@@ -4,7 +4,7 @@ import type { Status } from './types'
 // kn: Spanish is a first pass, not yet reviewed by a community reader; the UI says so next to it.
 export const STATUS_TEXT: Record<Status, { en: string; es: string; icon: 'check' | 'clock' | 'alert' | 'mismatch' | 'question' }> = {
   reported: { en: 'Reported', es: 'Reportado', icon: 'check' },
-  not_yet_reported: { en: 'Not yet reported', es: 'Aún no reportado', icon: 'clock' },
+  not_yet_reported: { en: 'Not yet reported', es: 'Todavía sin reporte', icon: 'clock' },
   no_report_after_deadline: { en: 'No report after the deadline', es: 'Sin reporte después del plazo', icon: 'alert' },
   reported_mismatch: { en: "Reported, but doesn't match", es: 'Reportado, pero no coincide', icon: 'mismatch' },
   search_incomplete: { en: 'Search incomplete', es: 'Búsqueda incompleta', icon: 'question' },
