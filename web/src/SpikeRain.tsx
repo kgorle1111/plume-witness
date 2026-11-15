@@ -8,7 +8,7 @@ import {
 } from './rain'
 import type { RainMapApi } from './RainMap'
 import { DEMO_REPLAY_HREF } from './demoHref'
-import { LangSwitch, T } from './LangSwitch'
+import { T } from './LangSwitch'
 import { useLang, useT } from './useT'
 import { dateLabel, monthShort, monthYearLabel, type Lang } from './i18n'
 import './SpikeRain.css'
@@ -207,9 +207,8 @@ export default function SpikeRain() {
   const onScrub = (v: number) => commit(reduced ? monthStartDay(v) : v)
   const onPick = useCallback((id: string) => window.location.assign(nightHref(id)), [])
 
-  const back = <a className="rn-back" href={`${import.meta.env.BASE_URL}?view=spikes`}>{t('rn.back')}</a>
   if (error) return <main className="rn-page state-msg" role="alert"><h1>{t('rn.errTitle')}</h1><p>{error}</p><a href={DEMO_REPLAY_HREF}>{t('rn.openReplay')}</a></main>
-  if (!spikes) return <main className="rn-page state-msg"><p>{t('rn.loading')}</p></main>
+  if (!spikes) return <main className="rn-page state-msg" aria-busy="true"><p>{t('rn.loading')}</p></main>
 
   const month = monthOfDay(day)
   const counts = prefix[reduced ? 0 : n] ?? {}
@@ -227,9 +226,7 @@ export default function SpikeRain() {
 
   return (
     <main className="rn-page">
-      {back}
       <header className="rn-head">
-        <LangSwitch />
         <p className="rn-kicker">{t('rn.kicker')}</p>
         <h1>{t('rn.title')}</h1>
         <p className="rn-sub">{t('rn.sub', { n: spikes.length })}</p>

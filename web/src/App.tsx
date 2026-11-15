@@ -13,7 +13,9 @@ import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
 import { EmbedButton, EmbedReplay } from './EmbedView'
 import { isEmbed } from './embed'
-import { REGIONS, regionFrom, regionQuery } from './region'
+import { NOT_BACKTESTED_NOTE, compoundLabel, eventTitle, regionFrom, regionQuery } from './region'
+import { NIGHT_ID, regionStartNight } from './routes'
+import { SiteHeader } from './SiteHeader'
 import './App.css'
 
 const STEPS = [
@@ -36,16 +38,6 @@ function useCorridor(ev: PlumeEvent) {
     const byDistance = [...ev.facilities].sort((a, b) => a.distance_km - b.distance_km)
     return { corridor: byDistance.filter((f) => f.in_corridor), outside: byDistance.filter((f) => !f.in_corridor) }
   }, [ev])
-}
-
-/** Monitor dot with the upwind wedge it reads from; the same shapes the map uses. */
-function BrandMark() {
-  return (
-    <svg className="brand-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(190 30 45 / 0.16)" stroke="#be1e2d" strokeWidth="1.4" strokeLinejoin="round" />
-      <circle cx="6" cy="18" r="4.2" fill="#be1e2d" stroke="#fff" strokeWidth="1.6" />
-    </svg>
-  )
 }
 
 function CannotSay({ items, lang }: { items: string[]; lang: Lang }) {
@@ -173,6 +165,9 @@ const usePhone = () => useSyncExternalStore(subscribePhone, isPhone, isPhone)
 
 function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   const t = useT()
+  const lang = useLang()
+  const regionKey = ev.region?.key === 'beaumont' ? 'beaumont' : 'houston'
+  const title = eventTitle(lang, ev.title, ev.compound.name, regionKey)
   const phone = usePhone()
   // The phone map hides its legend behind a "Key" toggle; the legend is visual only (aria-hidden in EventMap).
   const [keyOpen, setKeyOpen] = useState(false)
@@ -198,34 +193,22 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       >
         {t('nav.skip')}
       </a>
-      <header className="top">
-        {/* Brand row, then the eyebrow (date · compound · data tag), then the title on its own line. */}
-        <div className="brand-row">
-          <p className="brand">
-            <BrandMark />
-            <span className="brand-name">Plume Witness</span>
-          </p>
-          <nav className="top-links" aria-label={t('app.siteLinks')}>
-            <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>{t('common.pastSpikes')}</a>
-            {/* Phones keep only Past spikes up here; the footer carries Facilities and Past spikes too. */}
-            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('app.linkTimeline')}</a>
-            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=facilities`}>{t('common.facilities')}</a>
-            <a className="top-link-more" href={`${import.meta.env.BASE_URL}?view=brief`}>{t('app.linkBrief')}</a>
-          </nav>
-        </div>
+      {/* The shared site header (brand row; phones keep only Past spikes), then the eyebrow (date · compound · data
+          tag) and the title on its own line. */}
+      <SiteHeader className="top" lang={<LangSwitch note={false} />}>
         <p className="eyebrow">
-          <span>{ev.date_local}</span> <span aria-hidden="true">·</span> <span>{ev.compound.name}</span> <span aria-hidden="true">·</span>{' '}
+          <span>{ev.date_local}</span> <span aria-hidden="true">·</span> <span>{compoundLabel(lang, ev.compound.name)}</span> <span aria-hidden="true">·</span>{' '}
+          {ev.region && <><span>{ev.region.label}</span> <span aria-hidden="true">·</span>{' '}</>}
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? t('app.dataReal') : t('app.dataFixture')}</span>
         </p>
-        <h1 className="event-title">{ev.title}</h1>
+        <h1 className="event-title" lang={title.lang === lang ? undefined : title.lang}>{title.text}</h1>
         {!phone && <div className="top-tools">{tools}</div>}
-        <LangSwitch note={false} />
-      </header>
+      </SiteHeader>
       {ev.label === 'fixture' && (
         <p className="fixture-banner" role="note"><strong>{t('app.fixtureLead')}</strong> {t('app.fixtureBody')}</p>
       )}
       {ev.region && !ev.region.backtested && (
-        <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note}</strong></p>
+        <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note === NOT_BACKTESTED_NOTE ? t('region.notBacktested') : ev.region.note}</strong></p>
       )}
       <main className="layout">
         <div className="stage">
@@ -257,7 +240,6 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
 
 // ?night=<id> replays one of the generated spike nights (web/public/nights/<id>.json); no param is the demo night.
 // ?region=beaumont&night=<id> reads web/public/regions/beaumont/nights/<id>.json instead.
-const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
 const nightParam = (): string | null => new URLSearchParams(window.location.search).get('night')
 
 interface NightRow { id: string; date: string; site_name: string; compound: string; value: number; status: string }
@@ -301,13 +283,39 @@ export default function App() {
   const t = useT()
   const [ev, setEv] = useState<PlumeEvent | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const night = nightParam()
+  const region = regionFrom(window.location.search)
+  // event.json is Houston's demo night, so a region with no ?night= first looks up its own first night.
+  const [night, setNight] = useState(nightParam)
+  const needsStart = night === null && !region.backtested
   const invalid = night !== null && !NIGHT_ID.test(night)
 
   useEffect(() => {
+    if (!needsStart) return
     const ctrl = new AbortController()
-    if (invalid) return
-    const file = night ? `${regionFrom(window.location.search).dir}nights/${night}.json` : 'event.json'
+    fetch(`${import.meta.env.BASE_URL}${region.dir}nights/index.json`, { signal: ctrl.signal, cache: 'no-cache' })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Could not load ${region.dir}nights/index.json (HTTP ${r.status}).`)
+        return r.json()
+      })
+      .then((rows: unknown) => {
+        const id = regionStartNight(rows)
+        if (!id) throw new Error(`${region.place} has no nights to replay yet.`)
+        // The URL names the night it shows, so a shared link keeps opening the same one.
+        const url = new URL(window.location.href)
+        url.searchParams.set('night', id)
+        history.replaceState(history.state, '', url)
+        setNight(id)
+      })
+      .catch((e: unknown) => {
+        if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
+      })
+    return () => ctrl.abort()
+  }, [needsStart, region.dir, region.place])
+
+  useEffect(() => {
+    const ctrl = new AbortController()
+    if (invalid || needsStart) return
+    const file = night ? `${region.dir}nights/${night}.json` : 'event.json'
     fetch(`${import.meta.env.BASE_URL}${file}`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => {
         if (!r.ok) throw new Error(`Could not load ${file} (HTTP ${r.status}).`)
@@ -318,9 +326,12 @@ export default function App() {
         if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
       })
     return () => ctrl.abort()
-  }, [night, invalid])
+  }, [night, invalid, needsStart, region.dir])
   // Every view shared "Plume Witness" as its title (WCAG 2.4.2); name the night being replayed.
-  useEffect(() => { if (ev) document.title = `${ev.title} · Plume Witness` }, [ev])
+  const lang = useLang()
+  useEffect(() => {
+    if (ev) document.title = `${eventTitle(lang, ev.title, ev.compound.name, ev.region?.key === 'beaumont' ? 'beaumont' : 'houston').text} · Plume Witness`
+  }, [ev, lang])
 
   const shown = invalid ? t('app.notNight', { night: night ?? '' }) : error
   if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={DEMO_REPLAY_HREF}>{t('app.backDemo')}</a></p></main>

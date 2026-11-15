@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
 import { StatusIcon } from './StatusIcon'
-import { DEMO_REPLAY_HREF } from './demoHref'
 import { NO_FILTER, PAGE_SIZE, logView, parseSpikes, spikeKey, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
 import { REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
-import { LangSwitch, T } from './LangSwitch'
+import { T } from './LangSwitch'
+import { navHref, replayHref } from './routes'
 import { useLang, useT } from './useT'
 import { dateLabel, type Lang } from './i18n'
 import './SpikeLog.css'
@@ -199,9 +199,9 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const set = (k: keyof Filters) => (v: string) => setFilters((f) => ({ ...f, [k]: v }))
   const filtered = Object.values(filters).some(Boolean)
 
-  const back = <a className="sl-back" href={DEMO_REPLAY_HREF}>{t('common.backReplay')}</a>
+  const back = <a className="sl-back" href={replayHref(import.meta.env.BASE_URL, window.location.search)}>{t('common.backReplay')}</a>
   if (error) return <main className="sl-page state-msg" role="alert"><h1>{t('common.pastSpikes')}</h1><p>{error}</p>{back}</main>
-  if (!data) return <main className="sl-page state-msg"><p>{t('spikes.loading')}</p></main>
+  if (!data) return <main className="sl-page state-msg" aria-busy="true"><p>{t('spikes.loading')}</p></main>
 
   const s = data.summary
   const reported = s.by_status.reported ?? 0
@@ -211,9 +211,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const orderText = t(sort === 'date' ? (dir === 'asc' ? 'order.oldest' : 'order.newest') : (dir === 'asc' ? 'order.lowest' : 'order.highest'))
   return (
     <main className="sl-page">
-      {back}
       <header className="sl-head">
-        <LangSwitch />
         <RegionSwitch current={region} />
         <p className="sl-kicker">{t('spikes.kicker', { place: region.place })}</p>
         <h1>{t('spikes.title')}</h1>
@@ -224,8 +222,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           <T k="spikes.summary" v={{ spikes: s.spikes, days: s.spike_days, reported }} />
         </p>
         <Follow siteId={filters.site || undefined} />
-        <p><T k="spikes.watch" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('spikes.watchLink')}</a> }} /></p>
-        <p className="sl-brief-link"><T k="spikes.brief" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=brief`}>{t('spikes.briefLink')}</a> }} /></p>
+        <p><T k="spikes.watch" v={{ link: <a href={navHref(import.meta.env.BASE_URL, 'timeline', window.location.search)}>{t('spikes.watchLink')}</a> }} /></p>
+        <p className="sl-brief-link"><T k="spikes.brief" v={{ link: <a href={navHref(import.meta.env.BASE_URL, 'brief', window.location.search)}>{t('spikes.briefLink')}</a> }} /></p>
       </header>
 
       <details className="sl-explain">

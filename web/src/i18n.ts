@@ -184,6 +184,14 @@ const EN = {
   'app.siteLinks': 'Site',
   'app.linkTimeline': 'Timeline',
   'app.linkBrief': 'Brief',
+  // Replay h1 and eyebrow (region.ts eventTitle): the pipeline's English title, rebuilt from these so Spanish can follow.
+  'app.title.benzene': 'Benzene spike {where}',
+  'app.title.butadiene': '1,3-butadiene spike {where}',
+  'app.where.houston': 'on the Houston Ship Channel',
+  'app.where.beaumont': 'in Beaumont-Port Arthur',
+  'app.cmp.benzene': 'benzene',
+  'app.cmp.butadiene': '1,3-butadiene',
+  'shell.houstonOnly': 'This page covers the Houston Ship Channel only. Beaumont-Port Arthur has its own spike log and night replays.',
 
   // Night picker
   'night.label': 'Replay another night',
@@ -621,6 +629,13 @@ const ES: Record<StringKey, string> = {
   'app.siteLinks': 'Sitio',
   'app.linkTimeline': 'Cronología',
   'app.linkBrief': 'Resumen',
+  'app.title.benzene': 'Pico de benceno {where}',
+  'app.title.butadiene': 'Pico de 1,3-butadieno {where}',
+  'app.where.houston': 'en el Canal de Navegación de Houston',
+  'app.where.beaumont': 'en Beaumont-Port Arthur',
+  'app.cmp.benzene': 'benceno',
+  'app.cmp.butadiene': '1,3-butadieno',
+  'shell.houstonOnly': 'Esta página cubre solo el Canal de Navegación de Houston. Beaumont-Port Arthur tiene su propio registro de picos y repeticiones de noches.',
 
   'night.label': 'Ver otra noche',
   'night.open': 'Abrir',
