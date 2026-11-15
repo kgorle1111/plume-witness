@@ -1,0 +1,58 @@
+name: Watch feeds (UNVERIFIED, manual only)
+
+# Rebuilds the RSS feeds from the committed web/public/spikes.json and opens or updates a PR on watch/auto.
+# It does NOT fetch new TCEQ data yet: pipeline/fetch_backtest.py is pinned to 2024-2025 and the backtest needs
+# week-complete STEERS searches plus a lookback window, so a daily "latest day" fetch is not safe to automate
+# unattended. What remains is listed in docs/watch.md. There is deliberately no `schedule:` until that exists:
+# a cron that only re-emits identical feeds would look alive while adding nothing.
+# This workflow has never run. Needs repo setting: Settings > Actions > General > "Allow GitHub Actions to
+# create and approve pull requests". A PR opened with GITHUB_TOKEN does not trigger CI; a human runs it
+# (push an empty commit or close/reopen) before merging.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: watch-auto
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Rebuild feeds
+        run: uv run python -m pipeline.feeds
+      - name: Test feeds
+        run: uv run pytest -q tests/test_feeds.py tests/test_spikes.py
+      - name: Commit to watch/auto and open or update the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- web/public/feeds; then
+            echo "Feeds unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C watch/auto
+          git add web/public/feeds
+          git commit -m "chore(feeds): rebuild watch feeds"
+          # watch/auto is a bot-owned branch rebuilt from main each run, so it is replaced, never merged into.
+          git push --force-with-lease origin watch/auto
+          if [ "$(gh pr list --head watch/auto --base main --state open --json number --jq length)" = "0" ]; then
+            gh pr create --base main --head watch/auto \
+              --title "chore(feeds): rebuild watch feeds" \
+              --body "Automated rebuild of web/public/feeds. A human reviews and merges; nothing is pushed to main directly."
+          fi

@@ -27,8 +27,9 @@ Feed output depends only on `spikes.json` (no clock), so rebuilding unchanged da
 
 ## Refresh status (read this before relying on it)
 
-- **There is no scheduled job yet.** Feeds are rebuilt by hand with `uv run python -m pipeline.feeds`. A
-  manual rebuild workflow is proposed separately and has not run.
+- **The daily job has not run unattended yet.** `.github/workflows/watch.yml` is manual (`workflow_dispatch`)
+  only and has never been run. It rebuilds the feeds from the committed `spikes.json` and opens or updates a PR on
+  `watch/auto`; a human merges.
 - **Nothing fetches new data yet.** The feeds cover the 2024-2025 backtest (415 spikes). A feed reader will show
   new items only after someone refreshes `spikes.json` from newer TCEQ data and merges.
 - **Data lag is unknown.** We have not measured how long after an hour TCEQ publishes AutoGC values, or how
@@ -38,7 +39,7 @@ Feed output depends only on `spikes.json` (no clock), so rebuilding unchanged da
   of the fixed 2024-2025 years and the weekly STEERS windows; (2) fetch AutoGC, wind and STEERS (session cookie,
   50-row cap, polite delays) for the latest days; (3) keep the backtest's lookback rule, which needs complete
   week searches before a day can claim absence, so very recent days will abstain; (4) re-run `pipeline.backtest`,
-  `pipeline.spikes`, `pipeline.feeds`; (5) add a scheduled workflow and watch the first runs.
+  `pipeline.spikes`, `pipeline.feeds`; (5) add the `schedule:` trigger and watch the first runs.
 
 ## False-alarm caveat
 
