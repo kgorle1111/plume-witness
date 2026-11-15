@@ -74,13 +74,14 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
           </div>
         </div>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
-        <p className="atlas-reframe">{t('landing.reframe', { spikes: M.spikes, noReport: M.noReport })}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
           {t('landing.enter')}
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
+        {/* After the button, not before it: above it, this line pushed the button below the fold at 320x568. */}
+        <p className="atlas-reframe">{t('landing.reframe', { spikes: M.spikes, noReport: M.noReport })}</p>
         <ul className="atlas-metrics" aria-label={t('landing.metrics')}>
           <li><b>{M.spikes}</b> {t('landing.m.spikes')}</li>
           <li><b>{M.monitors}</b> {t('landing.m.monitors')}</li>

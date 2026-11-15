@@ -112,7 +112,7 @@
 
 .atlas-purpose { width: min(100%, 33rem); margin: 10px 0 0; font-size: clamp(1rem, 1.4vw, 1.1875rem); line-height: 1.5; color: #395960; text-wrap: pretty; }
 /* What the tool is for, said plainly under the purpose line (paper stays light in both themes, so #24474d is 8.4:1 or more on the landing wash). */
-.atlas-reframe { width: min(100%, 33rem); margin: 8px 0 0; font-size: 0.9375rem; font-weight: 500; line-height: 1.5; color: #24474d; text-wrap: pretty; }
+.atlas-reframe { width: min(100%, 33rem); margin: 16px 0 0; font-size: 0.9375rem; font-weight: 500; line-height: 1.5; color: #24474d; text-wrap: pretty; }
 .atlas-enter {
   display: inline-flex;
   align-items: center;
