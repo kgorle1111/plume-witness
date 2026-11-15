@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
@@ -12,6 +12,7 @@ import { Rose } from './Rose'
 import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
 import { useLang, useT, type Translate } from './useT'
 import { checkAt, ruleParts } from './plainWords'
+import { shortlist } from './traceList'
 import { useRecordedClip } from './recorded'
 
 function InfoIcon() {
@@ -156,6 +157,20 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   )
 }
 
+// Phones and tablets have no hover, so the Trace hint talks about taps there and about hover and Tab elsewhere.
+const NO_HOVER = '(hover: none)'
+const hasMatchMedia = () => typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+const subscribeHover = (fn: () => void) => {
+  if (!hasMatchMedia()) return () => {}
+  const mq = window.matchMedia(NO_HOVER)
+  mq.addEventListener('change', fn)
+  return () => mq.removeEventListener('change', fn)
+}
+const useNoHover = () => useSyncExternalStore(subscribeHover, () => hasMatchMedia() && window.matchMedia(NO_HOVER).matches, () => false)
+
+/** Facilities shown before "Show all": the nearest few keep "Next" within reach on a phone. */
+const NEAREST = 5
+
 interface TraceProps {
   ev: PlumeEvent
   corridor: Facility[]
@@ -172,23 +187,45 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
   const t = useT()
   const lang = useLang()
+  const noHover = useNoHover()
   // One tab stop for the whole list (roving tabindex): 40 facilities were 40 Tab presses before "Next".
   const [current, setCurrent] = useState(0)
   const items = useRef<(HTMLElement | null)[]>([])
+  // 47 cards put "Next" about ten phone screens down; the filed-report facility stays in the short list.
+  const [expanded, setExpanded] = useState(false)
+  const short = shortlist(corridor.map((f) => f.id), matched, NEAREST)
+  const folds = short.length < corridor.length
+  const shown = expanded || !folds ? corridor.map((_, i) => i) : short
+  const toggle = useRef<HTMLButtonElement>(null)
+  // Set by the button only, so the first render neither moves focus nor scrolls.
+  const afterToggle = useRef<'focus-new' | 'keep-button' | null>(null)
+  useEffect(() => {
+    const was = afterToggle.current
+    afterToggle.current = null
+    // Expanding moves focus to the first card that was hidden, so a keyboard or screen reader user lands on new content;
+    // folding keeps focus on the button, which moved up with the shorter list.
+    if (was === 'focus-new') items.current[corridor.findIndex((_, i) => !short.includes(i))]?.focus()
+    if (was === 'keep-button') toggle.current?.scrollIntoView({ block: 'nearest' })
+  })
+  const onToggle = () => {
+    afterToggle.current = expanded ? 'keep-button' : 'focus-new'
+    setExpanded(!expanded)
+  }
   // Facility history pages exist for the Houston list only; a link from another region's night would 404.
   const linked = !ev.region
+  const stop = shown.includes(current) ? current : shown[0]
   // The roving stop is the link when there is one, so each facility is one Tab stop, not two.
   const roving = (i: number) => ({
-    tabIndex: i === Math.min(current, corridor.length - 1) ? 0 : -1,
+    tabIndex: i === stop ? 0 : -1,
     ref: (el: HTMLElement | null) => { items.current[i] = el },
   })
   const onListKey = (e: KeyboardEvent<HTMLOListElement>) => {
-    const last = corridor.length - 1
-    const moves: Record<string, number> = { ArrowDown: current + 1, ArrowUp: current - 1, Home: 0, End: last }
+    const at = shown.indexOf(stop), last = shown.length - 1
+    const moves: Record<string, number> = { ArrowDown: at + 1, ArrowUp: at - 1, Home: 0, End: last }
     const next = moves[e.key]
     if (next === undefined) return
     e.preventDefault()
-    items.current[Math.max(0, Math.min(last, next))]?.focus()
+    items.current[shown[Math.max(0, Math.min(last, next))]]?.focus()
   }
   return (
     <>
@@ -199,15 +236,19 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
       </p>
       <p className="caveat"><InfoIcon />{t('trc.caveat')}</p>
       <TriangulationNote ev={ev} />
-      <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
       <h3 className="list-heading">{t('trc.heading', { n: corridor.length })}</h3>
-      <p className="muted small">{t('trc.hintPointer')}</p>
+      <p className="muted small">{t(noHover ? (linked ? 'trc.hintTouchLinked' : 'trc.hintTouch') : 'trc.hintPointer')}</p>
       {corridor.length === 0 ? <p>{t('trc.empty')}</p> : (
-        <ol className="facility-list" onKeyDown={onListKey}>
-          {corridor.map((f, i) => (
+        <ol className="facility-list" id="facility-list" onKeyDown={onListKey}>
+          {shown.map((i) => {
+            const f = corridor[i]
+            return (
             // Key on id + rank: the pipeline can emit the same facility id twice.
+            // value and counter-set keep each card's number equal to its map marker when cards are skipped.
             <li
               key={`${f.id}-${f.rank}`}
+              value={i + 1}
+              style={{ counterSet: `fac ${i + 1}` }}
               className={f.id === matched ? 'is-matched' : undefined}
               {...(linked ? {} : roving(i))}
               onMouseEnter={() => onHighlight(f.id)}
@@ -227,9 +268,18 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
               </span>
               <span className="muted small">{t('trc.source', { source: f.source })}</span>
             </li>
-          ))}
+            )
+          })}
         </ol>
       )}
+      {folds && (
+        <p>
+          <button type="button" className="btn" ref={toggle} aria-controls="facility-list" onClick={onToggle}>
+            {expanded ? t('trc.showFewer') : t('trc.showAll', { n: corridor.length })}
+          </button>
+        </p>
+      )}
+      <PlaceSearch ev={ev} place={place} onPlace={onPlace} />
       {outside.length > 0 && (
         <details className="outside">
           <summary>{t('trc.outside', { n: outside.length })}</summary>
