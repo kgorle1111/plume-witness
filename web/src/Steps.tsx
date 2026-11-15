@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type Se
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 import { incidentNote } from './note'
+import { facilityHref } from './facilities'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -178,7 +179,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
               onFocus={() => { setCurrent(i); onHighlight(f.id) }}
               onBlur={() => onHighlight(null)}
             >
-              <span className="fl-name">{f.name}</span>
+              <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)}>{f.name}</a>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
               <span className="fl-align">

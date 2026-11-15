@@ -57,3 +57,12 @@ a { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
+
+/* One-line footer on every page (SiteFooter.tsx). */
+.site-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 16px; border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.78rem; color: var(--ink-2); }
+.site-foot a { padding-block: 6px; }
+/* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links. */
+@media (max-width: 1023px) {
+  .app .site-foot { padding: 0 16px; flex-wrap: nowrap; }
+  .app .site-foot span, .app .site-foot a:last-child { display: none; }
+}
