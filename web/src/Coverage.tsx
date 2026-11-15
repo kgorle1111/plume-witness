@@ -296,7 +296,16 @@ export default function Coverage() {
   const { data, error, retry } = useCoverage()
   useEffect(() => { document.title = t('cv.docTitle') }, [t])
   if (error) return <Failed error={error} retry={retry} />
-  if (!data) return <main className="state-msg" aria-busy="true"><p>{t('cv.loading')}</p></main>
+  // The wait is drawn in the page's own column, with the same header: a full-width loading box that React then
+  // restyles into the 1040px column moved the whole page sideways (CLS 0.21 at 1920px).
+  if (!data) {
+    return (
+      <main className="cv-page" aria-busy="true">
+        <Head><p className="cv-sub">{t('cv.sub')}</p></Head>
+        <p>{t('cv.loading')}</p>
+      </main>
+    )
+  }
   return (
     <main className="cv-page">
       <Head><p className="cv-sub">{t('cv.sub')}</p></Head>
