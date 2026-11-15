@@ -177,13 +177,14 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
         ))}
       </div>
 
-      <div className="limits-bar">
-        <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
-      </div>
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section ref={panel} role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2 key={step}>{t(STEPS[active].title)}</h2>
+        {/* The step's own title comes first; its limits follow it, at the rank of a note rather than above the title. */}
+        <div className="limits-bar">
+          <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
+        </div>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
         {step === 'check' && <Check ev={ev} lang={packetReview.lang} />}
