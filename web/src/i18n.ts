@@ -1037,7 +1037,7 @@ const ES: Record<StringKey, string> = {
   'app.mapKey': 'Leyenda',
   'app.siteLinks': 'Sitio',
   'app.linkTimeline': 'Cronología',
-  'app.linkBrief': 'Resumen',
+  'app.linkBrief': 'Resumen del método',
   'app.title.benzene': 'Pico de benceno {where}',
   'app.title.butadiene': 'Pico de 1,3-butadieno {where}',
   'app.cmp.benzene': 'benceno',
