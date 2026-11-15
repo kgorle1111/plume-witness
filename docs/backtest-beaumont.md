@@ -46,7 +46,8 @@ The spike scan runs the unchanged trigger on every day of 2024-2025 for both com
 spike's record check: search_incomplete 1, no_report_after_deadline 1. The pipeline abstains rather than
 claim absence when the day's search or the 30 days before it are not completely searched, or
 the wind is too light to trace (1 spikes; 1 of them
-under 3 mph, 0 because earlier days were not searched).
+under 3 mph in the detection hour or the hour before, 0 because
+earlier days were not searched).
 0 spikes matched a report that started on an earlier day and was still running.
 "No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
