@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { PlumeEvent } from './types'
 import { kmText, placeReadout, type LatLon } from './geo'
 import { Follow } from './Follow'
+import { useT } from './useT'
+import type { StringKey, Vars } from './i18n'
 
 export interface Place extends LatLon {
   label: string
@@ -29,7 +31,9 @@ const TIMEOUT_MS = 10000
 const MAX_QUERY = 200
 let lastRequestAt = 0
 
-type Lookup = { ok: true; place: Place } | { ok: false; message: string }
+// A failure carries a string-table key, so the message follows the language when it changes.
+type Failure = { key: StringKey; vars?: Vars }
+type Lookup = { ok: true; place: Place } | ({ ok: false } & Failure)
 
 /** Trust boundary: the response is third-party JSON. Only finite in-range coordinates and a bounded string pass. */
 async function geocode(q: string, signal: AbortSignal): Promise<Lookup> {
@@ -41,16 +45,16 @@ async function geocode(q: string, signal: AbortSignal): Promise<Lookup> {
   try {
     res = await fetch(`${NOMINATIM}?${params}`, { signal, referrerPolicy: 'strict-origin-when-cross-origin' })
   } catch {
-    if (signal.aborted) return { ok: false, message: 'The search took too long. Try again, or pick a neighborhood below.' }
-    return { ok: false, message: "Couldn't reach OpenStreetMap search. Pick a neighborhood below; those work offline." }
+    if (signal.aborted) return { ok: false, key: 'ps.errTimeout' }
+    return { ok: false, key: 'ps.errNetwork' }
   }
-  if (res.status === 429) return { ok: false, message: 'OpenStreetMap search is busy. Wait a minute and try again, or pick a neighborhood below.' }
-  if (!res.ok) return { ok: false, message: `OpenStreetMap search failed (HTTP ${res.status}). Pick a neighborhood below instead.` }
+  if (res.status === 429) return { ok: false, key: 'ps.errBusy' }
+  if (!res.ok) return { ok: false, key: 'ps.errHttp', vars: { status: res.status } }
   const data: unknown = await res.json().catch(() => null)
   const hit = Array.isArray(data) ? (data[0] as Record<string, unknown> | undefined) : undefined
   const lat = Number(hit?.lat), lon = Number(hit?.lon)
   if (!hit || !Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
-    return { ok: false, message: 'No match found. Try a street address with the city, or pick a neighborhood below.' }
+    return { ok: false, key: 'ps.errNoMatch' }
   }
   const name = typeof hit.display_name === 'string' ? hit.display_name : q
   // "Street, Neighborhood, City, County, State, ZIP, Country": the first three parts are enough to recognize it.
@@ -65,9 +69,10 @@ interface Props {
 }
 
 export function PlaceSearch({ ev, place, onPlace }: Props) {
+  const t = useT()
   const [query, setQuery] = useState('')
   const [pending, setPending] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<Failure | null>(null)
   const ctrl = useRef<AbortController | null>(null)
   const input = useRef<HTMLInputElement>(null)
   useEffect(() => () => ctrl.current?.abort(), [])
@@ -77,7 +82,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
     const q = query.trim().slice(0, MAX_QUERY)
     if (!q || pending) return
     setPending(true)
-    setError('')
+    setError(null)
     const c = new AbortController()
     ctrl.current = c
     const timer = window.setTimeout(() => c.abort(), TIMEOUT_MS)
@@ -86,7 +91,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
     if (ctrl.current !== c) return
     setPending(false)
     if (r.ok) onPlace(r.place)
-    else setError(r.message)
+    else setError({ key: r.key, vars: r.vars })
   }
 
   const pick = (p: Place) => {
@@ -94,16 +99,16 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
     ctrl.current?.abort()
     ctrl.current = null
     setPending(false)
-    setError('')
+    setError(null)
     onPlace(p)
   }
 
   const r = place && placeReadout(ev, place)
   return (
     <section className="place-search" aria-labelledby="ps-heading">
-      <h3 id="ps-heading" className="list-heading">Check a place against this night</h3>
+      <h3 id="ps-heading" className="list-heading">{t('ps.heading')}</h3>
       <form className="ps-form" role="search" onSubmit={submit}>
-        <label htmlFor="ps-q" className="ps-label">Search an address or neighborhood</label>
+        <label htmlFor="ps-q" className="ps-label">{t('ps.label')}</label>
         <div className="ps-row">
           <input
             id="ps-q"
@@ -118,13 +123,13 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
             onChange={(e) => setQuery(e.target.value)}
           />
           <button type="submit" className="btn" disabled={pending || !query.trim()}>
-            {pending ? 'Searching…' : 'Search'}
+            {pending ? t('ps.searching') : t('ps.search')}
           </button>
         </div>
-        <p id="ps-note" className="muted small">Searches are sent to OpenStreetMap.</p>
+        <p id="ps-note" className="muted small">{t('ps.sent')}</p>
       </form>
       {!ev.region && <div className="ps-picks">
-        <p className="muted small" id="ps-picks-label">Or pick a Ship Channel neighborhood (nothing is sent):</p>
+        <p className="muted small" id="ps-picks-label">{t('ps.picks')}</p>
         <div className="chips" role="group" aria-labelledby="ps-picks-label">
           {PICKS.map((p) => (
             <button key={p.label} type="button" className="chip" aria-pressed={place === p}
@@ -138,37 +143,37 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
           (an empty region that appears with its first message is often skipped by screen readers), and atomic
           so switching places reads the whole readout, not just the numbers that changed. */}
       <div className="ps-result" role="status" aria-atomic="true">
-        {error && <p className="ps-error">{error}</p>}
+        {error && <p className="ps-error">{t(error.key, error.vars)}</p>}
         {place && r && (
           r.kind === 'far' ? (
-            <p className="ps-far"><strong>{place.label}</strong>: {ev.region ? `this replay covers ${ev.region.label} monitors only` : 'Plume Witness only has Houston Ship Channel data so far'} (this replay: one night, {ev.date_local}).</p>
+            <p className="ps-far"><strong>{place.label}</strong>: {ev.region ? t('ps.farRegion', { label: ev.region.label }) : t('ps.farHouston')} {t('ps.farTail', { date: ev.date_local })}</p>
           ) : (
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
               <dl className="facts">
-                <div><dt>Nearest monitor in this replay</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
+                <div><dt>{t('ps.nearest')}</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
                 <div>
-                  <dt>Upwind corridor</dt>
+                  <dt>{t('ps.corridor')}</dt>
                   <dd>
-                    {r.corridor === 'inside' && "Inside this night's upwind corridor (wind direction only)"}
-                    {r.corridor === 'outside' && "Outside this night's upwind corridor"}
-                    {r.corridor === 'none' && 'This file has no corridor'}
+                    {r.corridor === 'inside' && t('ps.inside')}
+                    {r.corridor === 'outside' && t('ps.outside')}
+                    {r.corridor === 'none' && t('ps.none')}
                   </dd>
                 </div>
-                {r.facility && <div><dt>Nearest listed facility</dt><dd>{r.facility.name}, {kmText(r.facility.km)}</dd></div>}
+                {r.facility && <div><dt>{t('ps.facility')}</dt><dd>{r.facility.name}, {kmText(r.facility.km)}</dd></div>}
               </dl>
-              <p className="muted small">Straight-line distances to points in this replay's data. The corridor is the direction the monitor's air came from around the detection hour; it doesn't say what the air at this place contained.</p>
+              <p className="muted small">{t('ps.caveat')}</p>
             </div>
           )
         )}
       </div>
       {place && (
         <button type="button" className="btn ps-clear" onClick={() => {
-          setError('')
+          setError(null)
           onPlace(null)
           // The button removes itself; without this, focus would drop to <body>.
           input.current?.focus()
-        }}>Clear place</button>
+        }}>{t('ps.clear')}</button>
       )}
     </section>
   )

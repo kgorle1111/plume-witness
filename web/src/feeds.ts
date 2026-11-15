@@ -14,5 +14,3 @@ export function feedUrl(base: string, origin: string, siteId?: string): string |
   const p = feedPath(siteId)
   return p && new URL(`${base}${p}`, origin).href
 }
-
-export const FOLLOW_HELP = 'Paste this link into any feed reader (e.g. Feedly, NetNewsWire) to get new spikes.'

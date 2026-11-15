@@ -1,10 +1,12 @@
 import { STATUS_FILL as FILL, statusInfo } from './format'
-import { dateText, type SpikeRow } from './spikes'
+import type { SpikeRow } from './spikes'
+import { T } from './LangSwitch'
+import { useLang } from './useT'
+import { dateLabel, monthShort } from './i18n'
 
 // A cell with two spikes (one per compound) shows the result that leaves the most open: no report first.
 const RANK = ['no_report_after_deadline', 'reported_mismatch', 'not_yet_reported', 'search_incomplete', 'reported']
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-const MONTHS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
 
 function dayOfYear(iso: string): number {
   const [y, m, d] = iso.split('-').map(Number)
@@ -21,6 +23,8 @@ interface Props {
 /** Two years at a glance: one strip per monitor, one mark per day with a spike. The table is the accessible
  *  version of the same rows, so the drawing itself is hidden from screen readers. */
 export function SpikeCalendar({ rows, monitors, years }: Props) {
+  const lang = useLang()
+  const MONTHS = Array.from({ length: 12 }, (_, i) => monthShort(i, lang).slice(0, 1).toUpperCase())
   const cells = new Map<string, SpikeRow[]>()
   for (const r of rows) {
     const k = `${r.site_id}|${r.date}`
@@ -30,8 +34,7 @@ export function SpikeCalendar({ rows, monitors, years }: Props) {
   return (
     <figure className="sl-cal">
       <figcaption>
-        <strong>Calendar.</strong> Each mark is a day with a spike at that monitor, coloured by the record check. It
-        follows the filters above; the table below lists every row.
+        <T k="cal.caption" />
       </figcaption>
       <div className="sl-cal-scroll" aria-hidden="true">
         {years.map((year) => {
@@ -54,7 +57,7 @@ export function SpikeCalendar({ rows, monitors, years }: Props) {
                       const top = [...rs].sort((a, b) => RANK.indexOf(a.status) - RANK.indexOf(b.status))[0]
                       return (
                         <rect key={k} x={dayOfYear(top.date)} y={0} width={1} height={1} fill={FILL[top.status] ?? '#16161a'}>
-                          <title>{`${dateText(top.date)} · ${name}\n${rs.map((r) => `${r.compound} ${r.value_ppb} ppb: ${statusInfo(r.status).en}`).join('\n')}`}</title>
+                          <title>{`${dateLabel(top.date, lang)} · ${name}\n${rs.map((r) => `${r.compound} ${r.value_ppb} ppb: ${statusInfo(r.status)[lang]}`).join('\n')}`}</title>
                         </rect>
                       )
                     })}
@@ -67,7 +70,7 @@ export function SpikeCalendar({ rows, monitors, years }: Props) {
       </div>
       <ul className="sl-cal-legend">
         {RANK.filter((s) => shown.has(s)).map((s) => (
-          <li key={s}><span className="sl-cal-swatch" style={{ background: FILL[s] }} aria-hidden="true" />{statusInfo(s).en}</li>
+          <li key={s}><span className="sl-cal-swatch" style={{ background: FILL[s] }} aria-hidden="true" /><span lang={lang}>{statusInfo(s)[lang]}</span></li>
         ))}
       </ul>
     </figure>

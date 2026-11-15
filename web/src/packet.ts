@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { parseAiDraft, type AiDraft, type PlumeEvent } from './types'
 
-export type Lang = 'en' | 'es'
+import { getLang, type Lang } from './i18n'
+
+export type { Lang }
 
 export type Source = 'template' | 'ai'
 
@@ -15,7 +17,7 @@ export interface PacketReview {
 }
 
 export const initialPacketReview = (ev: PlumeEvent): PacketReview => ({
-  lang: 'en',
+  lang: getLang(),
   source: 'template',
   drafts: { en: ev.packet.draft_en, es: ev.packet.draft_es },
   approved: false,
