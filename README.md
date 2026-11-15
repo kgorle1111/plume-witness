@@ -11,6 +11,13 @@
 
 Built at GDG on Campus UCSC DevFest for the Best Social Impact track.
 
+## Watch
+
+| Narrated demo | Short launch cut |
+|---|---|
+| [![The narrated Plume Witness demo: one real benzene spike traced upwind and checked against the state record](docs/media/demo-2min.jpg)](docs/media/demo-2min.mp4) | [![The short Plume Witness launch video](docs/media/launch-20s.jpg)](docs/media/launch-20s.mp4) |
+| [Play the demo (MP4, 1:59)](docs/media/demo-2min.mp4) | [Play the launch cut (MP4, 0:24)](docs/media/launch-20s.mp4) |
+
 ## What it does
 
 Industrial facilities in Texas report their own unplanned releases ("emissions events") to the state. The Environmental Integrity Project counted 21,769 such events from FY2017 to FY2022, and the state designated 119 events (0.55%) excessive. <!-- CL-014 --> Advocates and reporters check these self-reports against what the air showed, by hand. Plume Witness does that check from public data, in four steps, on a real spike you can replay:
