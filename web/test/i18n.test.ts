@@ -62,3 +62,40 @@ test('status labels carry no banned verdict word in either language', async () =
     }
   }
 })
+
+test('typography: curly quotes and apostrophes, no straight ones; Spanish percent signs take no space', () => {
+  for (const l of ['en', 'es'] as const) {
+    for (const [k, v] of Object.entries(STRINGS[l])) assert.ok(!/['"]/.test(v), `${l}:${k} has a straight quote: ${v}`)
+  }
+  for (const [k, v] of Object.entries(STRINGS.es)) assert.ok(!/\d\s%/.test(v), `es:${k} spaces its percent sign: ${v}`)
+})
+
+test('Spanish names the place in Spanish', () => {
+  for (const [k, v] of Object.entries(STRINGS.es)) assert.ok(!/Ship Channel/.test(v), `es:${k} says Ship Channel: ${v}`)
+})
+
+test('one state record, one label, on the replay, the map and the facility page', () => {
+  for (const l of ['en', 'es'] as const) {
+    const s = STRINGS[l]
+    assert.equal(s['trc.filed'], s['fx.record'], l)
+    assert.equal(s['map.filedReport'], s['fx.record'], l)
+  }
+})
+
+test('the brief has one name in English: the nav says what the page kicker says', () => {
+  assert.equal(STRINGS.en['app.linkBrief'], STRINGS.en['brief.kicker'])
+})
+
+test('agency and system acronyms are spelled out where the spike log and the landing first show them', () => {
+  const full = {
+    en: [/Texas Commission on Environmental Quality \(TCEQ\)/, /Environmental Protection Agency \(EPA\)/],
+    es: [/Comisión de Calidad Ambiental de Texas \(TCEQ\)/, /Agencia de Protección Ambiental de EE\. UU\. \(EPA\)/],
+  }
+  for (const l of ['en', 'es'] as const) {
+    // The footer is the only place the landing names an agency.
+    for (const re of full[l]) assert.match(STRINGS[l]['foot.license'], re, l)
+    assert.match(STRINGS[l]['spikes.summary'], full[l][0], l)
+    assert.match(STRINGS[l]['spikes.source'], /\(AutoGC\)/, l)
+    assert.match(STRINGS[l]['spikes.source'], /STEERS[ ,(]+(State of Texas|el sistema)/, l)
+  }
+})

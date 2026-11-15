@@ -167,9 +167,18 @@ export function unitShort(units: string): string {
   return PPB.test(units.trim()) ? 'ppb' : units
 }
 
-/** First-mention form, e.g. "parts per billion (ppb)"; a unit that isn't ppb is shown as given. */
+/** The unit spelled out: "parts per billion", or "parts per billion by volume" when the data says "ppb-v", so the
+ *  "-v" is explained in the text and not only in a tooltip a touch screen cannot open. Null for any other unit. */
+export function unitLong(units: string, lang: Lang = 'en'): string | null {
+  const m = PPB.exec(units.trim())
+  if (!m) return null
+  return translate(lang, m[1] ? 'unit.ppbvLong' : 'unit.ppbLong')
+}
+
+/** First-mention form, e.g. "parts per billion by volume (ppb)"; a unit that isn't ppb is shown as given. */
 export function unitFirst(units: string, lang: Lang = 'en'): string {
-  return PPB.test(units.trim()) ? `${translate(lang, 'unit.ppbLong')} (ppb)` : units
+  const long = unitLong(units, lang)
+  return long ? `${long} (ppb)` : units
 }
 
 /** Tooltip for a ppb unit: what the "-v" means when the data says "ppb-v"; null for any other unit. */

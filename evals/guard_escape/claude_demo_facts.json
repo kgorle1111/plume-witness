@@ -1,5 +1,5 @@
 {
- "source": "facts_for(web/public/event.json, 47 corridor facilities), the event the committed packet.ai.json Claude draft was regenerated and guarded against on 2026-11-15 (fix/packet-ai-refresh)",
+ "source": "facts_for(web/public/event.json, 12-monitor demo night with display forms), the event the committed packet.ai.json Claude draft was regenerated and guarded against on 2026-11-15 (fix/template-wording)",
  "facts": {
   "title": "Benzene spike on the Houston Ship Channel",
   "date_local": "2024-06-21",
@@ -55,7 +55,7 @@
    },
    {
     "id": "110000462785",
-    "name": "Aes Deepwater Cogeneration Plant",
+    "name": "AES Deepwater Cogeneration Plant",
     "distance_km": 3.4,
     "rank": 4
    },
@@ -83,7 +83,7 @@
     }
    ],
    "reported": {
-    "facility": "Ineos Americas Pasadena Site",
+    "facility": "INEOS Americas Pasadena Site",
     "compound": "Benzene",
     "pounds": 7634.0,
     "start_local": "2024-06-21T09:38",
@@ -97,6 +97,12 @@
    "The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart.",
    "Facility coordinates are as published by EPA ECHO and may be approximate.",
    "Only regulator-grade monitors whose data the state publishes are used (including two industry-funded Houston Regional Monitoring sites), never low-cost sensors."
-  ]
+  ],
+  "display": {
+   "detection_time_cst_en": "9:00 a.m. CST",
+   "detection_time_cst_es": "9:00 a. m. CST",
+   "wind_from_degrees": 77,
+   "reported_pounds": 7634
+  }
  }
 }

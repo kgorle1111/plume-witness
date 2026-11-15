@@ -63,7 +63,8 @@ before anything is filed. Use ONLY the facts in the JSON below. Do not add any n
 time, or cause that is not in the facts.
 
 Rules:
-1. Hedge. Say readings are "consistent with" a release; never say a facility caused anything.
+1. Hedge. Say the reported release and the wind "line up with these readings" and that "other sources
+   may also contribute"; never say a facility caused anything, and do not write "consistent with".
 2. Never use these words or their forms: illegal, violation, unreported, caught, catches, proves,
    polluter. In Spanish never use: ilegal, violación, infracción, no reportado, contaminador, demuestra.
 3. Plain language a 6th grader can follow. Short sentences. 90 to 180 words each.
@@ -75,6 +76,11 @@ Rules:
    and the reported pounds and times. End with one requested follow-up question.
 6. Respect everything listed under cannot_say. Do not claim more than the facts show.
 7. draft_en is English. draft_es is the same content in Spanish.
+8. Write the detection time as the clock time in display (never "hour 9" / "hora 9"), the wind
+   direction and the reported pounds exactly as given in display (77 degrees, 7,634 pounds; not 77.0
+   or 7,634.0).
+9. In Spanish say "corredor viento arriba" (not "contra el viento"), "reporte", "instalaciones", and
+   use usted.
 
 Facts:
 """
@@ -116,7 +122,29 @@ def facts_for(event: dict[str, Any]) -> dict[str, Any]:
                          if k in ("facility", "compound", "pounds", "start_local", "end_local", "tz")},
         },
         "cannot_say": event["cannot_say"],
+        # How a person would say the two values models otherwise copy raw ("hour 9", "77.0 degrees");
+        # both are the same facts, so the guard still accepts them.
+        "display": {
+            "detection_time_cst_en": f"{_clock12(h)} CST",
+            "detection_time_cst_es": f"{_clock12(h, es=True)} CST",
+            "wind_from_degrees": _whole(event["wind"]["hourly"][h].get("from_deg")),
+            "reported_pounds": _whole((rc.get("reported") or {}).get("pounds")),
+        },
     }
+
+
+def _clock12(h: int, es: bool = False) -> str:
+    """9 -> '9:00 a.m.' (EN) / '9:00 a. m.' (ES); 0 -> '12:00 a.m.'; 13 -> '1:00 p.m.'."""
+    hh = h % 12 or 12
+    am = h < 12
+    if es:
+        return f"{hh}:00 {'a. m.' if am else 'p. m.'}"
+    return f"{hh}:00 {'a.m.' if am else 'p.m.'}"
+
+
+def _whole(v: Any) -> Any:
+    """77.0 -> 77; 77.5 stays 77.5; None stays None."""
+    return int(v) if isinstance(v, float) and v.is_integer() else v
 
 
 def build_prompt(facts: dict[str, Any]) -> str:
@@ -429,10 +457,13 @@ def guard(drafts: dict[str, Any], facts: dict[str, Any]) -> list[str]:
     """Return the reasons to reject; empty means the drafts pass."""
     rejected: list[str] = []
     nums, strings = allowed_tokens(facts)
-    times = allowed_times(facts, strings)
+    # Clock times come from the raw facts only: the display block repeats the detection hour as a 12-hour
+    # string ("5:00 p.m."), and reading that as 5:00 would let an a.m./p.m. flip through.
+    _, time_strings = allowed_tokens({k: v for k, v in facts.items() if k != "display"})
+    times = allowed_times(facts, time_strings)
     ids = {tok for s in strings for tok in _ID.findall(s)}
     quantities = allowed_quantities(facts, strings)
-    times24 = {(int(h), m) for s in strings for h, m in _TIME.findall(s)}
+    times24 = {(int(h), m) for s in time_strings for h, m in _TIME.findall(s)}
     times24 |= {(facts["detection"]["hour_cst"], "00")}
     hours24 = {h for h, _ in times24}
     fact_dates = {(y, mo, d) for s in strings for _, y, mo, d in _dates(s) if y}

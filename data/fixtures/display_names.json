@@ -1,0 +1,1085 @@
+{
+"note": "Raw EPA/TCEQ names and their display form. pipeline/names.py display_name and web/src/facilities.ts displayName must both produce the second column (tests/test_names.py, web/test/facilities.test.ts). Corpus: every Major Emissions AIRName in data/raw ECHO files, every facilities/index.json name, and the hand cases.",
+"cases": [
+[
+"ACCP HOUSTON FACILITY",
+"ACCP Houston Facility"
+],
+[
+"ACME CO INC",
+"Acme Co Inc"
+],
+[
+"ACME HOLDINGS LLC",
+"Acme Holdings LLC"
+],
+[
+"AES DEEPWATER COGENERATION PLANT",
+"AES Deepwater Cogeneration Plant"
+],
+[
+"AFTON LUBE AND FUEL ADDITIVES PLANT",
+"Afton Lube and Fuel Additives Plant"
+],
+[
+"AIR LIQUIDE LA PORTE ASU AND SMR",
+"Air Liquide La Porte ASU and SMR"
+],
+[
+"AIR LIQUIDE LARGE INDUSTRIES US",
+"Air Liquide Large Industries US"
+],
+[
+"AIR PRODUCTS BAYTOWN PLANT",
+"Air Products Baytown Plant"
+],
+[
+"AIR PRODUCTS PORT ARTHUR PLANT",
+"Air Products Port Arthur Plant"
+],
+[
+"AIRGAS CARBONIC DEER PARK PLANT",
+"Airgas Carbonic Deer Park Plant"
+],
+[
+"AIRGAS CARBONIC DEER PARK PLANT / DEER PARK OIL REFINERY / DEER PARK VCM PLANT / SHELL CHEMICAL / WESTLAKE EPOXY DEER PARK",
+"Airgas Carbonic Deer Park Plant / Deer Park Oil Refinery / Deer Park VCM Plant / Shell Chemical / Westlake Epoxy Deer Park"
+],
+[
+"ALMEDA LPG FACILITY",
+"Almeda Lpg Facility"
+],
+[
+"ALTIVIA OXIDE CHEMICALS",
+"Altivia Oxide Chemicals"
+],
+[
+"AMERICAN ACRYL PASADENA",
+"American Acryl Pasadena"
+],
+[
+"ANHEUSER-BUSCH HOUSTON BREWERY",
+"Anheuser-Busch Houston Brewery"
+],
+[
+"ARKEMA BEAUMONT PLANT",
+"Arkema Beaumont Plant"
+],
+[
+"ARKEMA CLEAR LAKE",
+"Arkema Clear Lake"
+],
+[
+"ARKEMA CLEAR LAKE / CLARIANT CLEAR LAKE PLANT / PRAXAIR CLEAR LAKE PLANT",
+"Arkema Clear Lake / Clariant Clear Lake Plant / Praxair Clear Lake Plant"
+],
+[
+"ARKEMA HOUSTON PLANT",
+"Arkema Houston Plant"
+],
+[
+"ATLANTIC COFFEE INDUSTRIAL SOLUTIONS",
+"Atlantic Coffee Industrial Solutions"
+],
+[
+"Already Mixed Case",
+"Already Mixed Case"
+],
+[
+"BARGE CLEANING FACILITY",
+"Barge Cleaning Facility"
+],
+[
+"BASF PASADENA",
+"BASF Pasadena"
+],
+[
+"BASF TOTAL FINA NAFTA REGION OLEFINS COMPLEX",
+"BASF Total Fina Nafta Region Olefins Complex"
+],
+[
+"BATTLEGROUND OIL SPECIALTY TERMINAL",
+"Battleground Oil Specialty Terminal"
+],
+[
+"BAYER HOUSTON PLANT",
+"Bayer Houston Plant"
+],
+[
+"BAYLOR COLLEGE OF MEDICINE",
+"Baylor College of Medicine"
+],
+[
+"BAYPORT CHEMICAL PLANT",
+"Bayport Chemical Plant"
+],
+[
+"BAYPORT EO PLANT",
+"Bayport EO Plant"
+],
+[
+"BAYPORT FACILITY",
+"Bayport Facility"
+],
+[
+"BAYPORT POLYETHYLENE PLANT",
+"Bayport Polyethylene Plant"
+],
+[
+"BAYPORT POLYMERS",
+"Bayport Polymers"
+],
+[
+"BAYTOWN TERMINAL",
+"Baytown Terminal"
+],
+[
+"BEAUMONT CHEMICAL PLANT",
+"Beaumont Chemical Plant"
+],
+[
+"BEAUMONT GAS TO GASOLINE PLANT",
+"Beaumont Gas To Gasoline Plant"
+],
+[
+"BEAUMONT PLANT",
+"Beaumont Plant"
+],
+[
+"BEAUMONT TERMINAL",
+"Beaumont Terminal"
+],
+[
+"BLUESCOPE COATED PRODUCTS",
+"Bluescope Coated Products"
+],
+[
+"BRASKEM AMERICA",
+"Braskem America"
+],
+[
+"BROOKS COUNTY COMPRESSOR STATION",
+"Brooks County Compressor Station"
+],
+[
+"CEDAR BAYOU ELECTRIC GENERATING STATION",
+"Cedar Bayou Electric Generating Station"
+],
+[
+"CHANNEL ENERGY CENTER",
+"Channel Energy Center"
+],
+[
+"CHANNELVIEW ASPHALT PLANT",
+"Channelview Asphalt Plant"
+],
+[
+"CHANNELVIEW COGENERATION FACILITY",
+"Channelview Cogeneration Facility"
+],
+[
+"CHANNELVIEW COGENERATION FACILITY / EQUISTAR CHEMICALS CHANNELVIEW COMPLEX",
+"Channelview Cogeneration Facility / Equistar Chemicals Channelview Complex"
+],
+[
+"CHANNELVIEW PEAKING FACILITY",
+"Channelview Peaking Facility"
+],
+[
+"CHEMOURS BEAUMONT ANILINE FACILITY",
+"Chemours Beaumont Aniline Facility"
+],
+[
+"CHEMOURS FC",
+"Chemours FC"
+],
+[
+"CHEMTRADE REFINERY SERVICES",
+"Chemtrade Refinery Services"
+],
+[
+"CHEVRON CHEMICAL COMPANY",
+"Chevron Chemical Company"
+],
+[
+"CHEVRON PHILLIPS CHEMICAL PORT ARTHUR FACILITY",
+"Chevron Phillips Chemical Port Arthur Facility"
+],
+[
+"CITY OF BEAUMONT LANDFILL",
+"City of Beaumont Landfill"
+],
+[
+"CITY OF PORT ARTHUR LANDFILL",
+"City of Port Arthur Landfill"
+],
+[
+"CLARIANT CLEAR LAKE PLANT",
+"Clariant Clear Lake Plant"
+],
+[
+"CLEAN HARBORS DEER PARK",
+"Clean Harbors Deer Park"
+],
+[
+"CLEAR LAKE PLANT",
+"Clear Lake Plant"
+],
+[
+"COLEX TERMINAL PASADENA",
+"Colex Terminal Pasadena"
+],
+[
+"COLONIAL STORAGE FACILITY",
+"Colonial Storage Facility"
+],
+[
+"CRESTCHEM BAYTOWN",
+"Crestchem Baytown"
+],
+[
+"CUSTOM BLAST SERVICES",
+"Custom Blast Services"
+],
+[
+"DEER PARK ENERGY CENTER",
+"Deer Park Energy Center"
+],
+[
+"DEER PARK OIL REFINERY",
+"Deer Park Oil Refinery"
+],
+[
+"DEER PARK PVC",
+"Deer Park PVC"
+],
+[
+"DEER PARK RAIL TERMINAL",
+"Deer Park Rail Terminal"
+],
+[
+"DEER PARK VCM PLANT",
+"Deer Park VCM Plant"
+],
+[
+"DIAMOND FIBERGLASS HOUSTON PLANT",
+"Diamond Fiberglass Houston Plant"
+],
+[
+"DIAMOND GREEN DIESEL PORT ARTHUR FACILITY",
+"Diamond Green Diesel Port Arthur Facility"
+],
+[
+"DIXIE CHEMICAL BAYPORT FACILITY",
+"Dixie Chemical Bayport Facility"
+],
+[
+"DOW BEAUMONT ANILINE",
+"Dow Beaumont Aniline"
+],
+[
+"DOW CHEMICAL LA PORTE SITE",
+"Dow Chemical La Porte Site"
+],
+[
+"DUCO PIPE MANUFACTURING FACILITY",
+"Duco Pipe Manufacturing Facility"
+],
+[
+"DUPONT PERFORMANCE ELASTOMERS",
+"Dupont Performance Elastomers"
+],
+[
+"EAGLE RAILCAR SERVICES CHANNELVIEW TX",
+"Eagle Railcar Services Channelview TX"
+],
+[
+"EAST HOUSTON TANK FARM",
+"East Houston Tank Farm"
+],
+[
+"ECO SERVICES OPERATIONS",
+"Eco Services Operations"
+],
+[
+"ELLWOOD TEXAS FORGE",
+"Ellwood Texas Forge"
+],
+[
+"ENERGY TRANSFER NEDERLAND LPG TERMINAL",
+"Energy Transfer Nederland Lpg Terminal"
+],
+[
+"ENERGY TRANSFER NEDERLAND TERMINAL",
+"Energy Transfer Nederland Terminal"
+],
+[
+"ENTERPRISE CRUDE HOUSTON STATION",
+"Enterprise Crude Houston Station"
+],
+[
+"ENTERPRISE PASADENA PLANT",
+"Enterprise Pasadena Plant"
+],
+[
+"EPOLP HOUSTON SHIP CHANNEL MARINE LOADING FACILITY",
+"EPOLP Houston Ship Channel Marine Loading Facility"
+],
+[
+"EPOLP HOUSTON SHIP CHANNEL MARINE LOADING FACILITY / HOUSTON TERMINAL / STOLTHAVEN HOUSTON TERMINAL",
+"EPOLP Houston Ship Channel Marine Loading Facility / Houston Terminal / Stolthaven Houston Terminal"
+],
+[
+"EQUISTAR CHEMICALS CHANNELVIEW COMPLEX",
+"Equistar Chemicals Channelview Complex"
+],
+[
+"EQUISTAR CHEMICALS LA PORTE COMPLEX",
+"Equistar Chemicals La Porte Complex"
+],
+[
+"EVAL BUSINESS UNIT",
+"Eval Business Unit"
+],
+[
+"EXXON MOBIL CHEMICAL BAYTOWN OLEFINS PLANT",
+"Exxon Mobil Chemical Baytown Olefins Plant"
+],
+[
+"EXXON MOBIL CHEMICAL BAYTOWN OLEFINS PLANT / EXXONMOBIL CHEMICAL BAYTOWN CHEMICAL PLANT",
+"Exxon Mobil Chemical Baytown Olefins Plant / ExxonMobil Chemical Baytown Chemical Plant"
+],
+[
+"EXXON MOBIL CORPORATION",
+"Exxon Mobil Corporation"
+],
+[
+"EXXON PIPELINE PASADENA STATION",
+"Exxon Pipeline Pasadena Station"
+],
+[
+"EXXONMOBIL BAYTOWN REFINERY",
+"ExxonMobil Baytown Refinery"
+],
+[
+"EXXONMOBIL BEAUMONT BLENDING AND PACKAGING",
+"ExxonMobil Beaumont Blending and Packaging"
+],
+[
+"EXXONMOBIL BEAUMONT REFINERY",
+"ExxonMobil Beaumont Refinery"
+],
+[
+"EXXONMOBIL CHEMICAL BAYTOWN CHEMICAL PLANT",
+"ExxonMobil Chemical Baytown Chemical Plant"
+],
+[
+"EXXONMOBIL OIL BEAUMONT CHEMICAL PLANT",
+"ExxonMobil Oil Beaumont Chemical Plant"
+],
+[
+"EXXONMOBIL OIL BEAUMONT POLYETHYLENE PLANT",
+"ExxonMobil Oil Beaumont Polyethylene Plant"
+],
+[
+"EXXONMOBIL SOUTH HOUSTON TERMINAL",
+"ExxonMobil South Houston Terminal"
+],
+[
+"FAUNA TANK FARM",
+"Fauna Tank Farm"
+],
+[
+"FLINT HILLS RESOURCES HOUSTON CHEMICAL",
+"Flint Hills Resources Houston Chemical"
+],
+[
+"FLORIDA GAS VIDOR COMPRESSOR STATION",
+"Florida Gas Vidor Compressor Station"
+],
+[
+"FORMER REED TOOL",
+"Former Reed Tool"
+],
+[
+"FULTON PLANT",
+"Fulton Plant"
+],
+[
+"GAINSBOROUGH WASTE",
+"Gainsborough Waste"
+],
+[
+"GALENA PARK TERMINAL",
+"Galena Park Terminal"
+],
+[
+"GALENA PARK WEST CHEMICAL PLANT",
+"Galena Park West Chemical Plant"
+],
+[
+"GCL SOLAR MATERIALS US IV",
+"GCL Solar Materials US IV"
+],
+[
+"GE PACKAGED POWER JPORT",
+"GE Packaged Power Jport"
+],
+[
+"GEO SPECIALTY CHEMICALS",
+"Geo Specialty Chemicals"
+],
+[
+"GLOBAL PASADENA TERMINAL",
+"Global Pasadena Terminal"
+],
+[
+"GOLDEN PASS LNG EXPORT TERMINAL",
+"Golden Pass Lng Export Terminal"
+],
+[
+"GOLDEN TRIANGLE LANDFILL",
+"Golden Triangle Landfill"
+],
+[
+"GOODYEAR HOUSTON CHEMICAL PLANT",
+"Goodyear Houston Chemical Plant"
+],
+[
+"GRACE PASADENA CATALYST SITE",
+"Grace Pasadena Catalyst Site"
+],
+[
+"GREEN BAYOU PLANT",
+"Green Bayou Plant"
+],
+[
+"GREENS BAYOU ELECTRIC GENERATING STATION",
+"Greens Bayou Electric Generating Station"
+],
+[
+"GREIF INDUSTRIAL HOUSTON SPECIALTY FACILITY",
+"Greif Industrial Houston Specialty Facility"
+],
+[
+"GT OMNIPORT MARINE DOCK",
+"Gt Omniport Marine Dock"
+],
+[
+"GULF COPPER DOCK 1",
+"Gulf Copper Dock 1"
+],
+[
+"HALDOR TOPSOE",
+"Haldor Topsoe"
+],
+[
+"HARTREE REFINERY",
+"Hartree Refinery"
+],
+[
+"HEBERT STATION",
+"Hebert Station"
+],
+[
+"HOUSTON HOUSTON TERMINAL",
+"Houston Houston Terminal"
+],
+[
+"HOUSTON PLANT",
+"Houston Plant"
+],
+[
+"HOUSTON REFINING",
+"Houston Refining"
+],
+[
+"HOUSTON TANK TERMINAL",
+"Houston Tank Terminal"
+],
+[
+"HOUSTON TERMINAL",
+"Houston Terminal"
+],
+[
+"HOUSTON YARD",
+"Houston Yard"
+],
+[
+"HYDRIL PREMIUM CONNECTIONS",
+"Hydril Premium Connections"
+],
+[
+"INEOS AMERICAS PASADENA SITE",
+"INEOS Americas Pasadena Site"
+],
+[
+"INEOS PHENOL",
+"INEOS Phenol"
+],
+[
+"INEOS POLYETHYLENE NORTH AMERICA LA PORTE PLANT",
+"INEOS Polyethylene North America La Porte Plant"
+],
+[
+"INEOS POLYETHYLENE NORTH AMERICA LA PORTE PLANT / INEOS POLYMERS",
+"INEOS Polyethylene North America La Porte Plant / INEOS Polymers"
+],
+[
+"INEOS POLYMERS",
+"INEOS Polymers"
+],
+[
+"INTERCONTINENTAL TERMINALS DEER PARK TERMINAL",
+"Intercontinental Terminals Deer Park Terminal"
+],
+[
+"INTERCONTINENTAL TERMINALS PASADENA TERMINAL",
+"Intercontinental Terminals Pasadena Terminal"
+],
+[
+"INTERNATIONAL GALVANIZERS",
+"International Galvanizers"
+],
+[
+"ISLAND PARK FABRICATION PLANT",
+"Island Park Fabrication Plant"
+],
+[
+"JEFFERSON RAILPORT TERMINAL",
+"Jefferson Railport Terminal"
+],
+[
+"JEFFERSON STREET TRUCK RACK",
+"Jefferson Street Truck Rack"
+],
+[
+"KANEKA PASADENA SITE",
+"Kaneka Pasadena Site"
+],
+[
+"KETJEN",
+"Ketjen"
+],
+[
+"KETJEN PASADENA PLANT",
+"Ketjen Pasadena Plant"
+],
+[
+"KINDER MORGAN CRUDE & CONDENSATE KMCC SPLITTER FACILITY",
+"Kinder Morgan Crude & Condensate KMCC Splitter Facility"
+],
+[
+"KURARAY LA PORTE",
+"Kuraray La Porte"
+],
+[
+"LA PORTE FACILITY",
+"La Porte Facility"
+],
+[
+"LA PORTE PLANT",
+"La Porte Plant"
+],
+[
+"LA PORTE SMALL SCALE DEMONSTRATION EGU",
+"La Porte Small Scale Demonstration EGU"
+],
+[
+"LA PORTE VCM PLANT",
+"La Porte VCM Plant"
+],
+[
+"LAPORTE GENERATING STATION",
+"Laporte Generating Station"
+],
+[
+"LAPORTE RAIL AND TERMINAL",
+"Laporte Rail and Terminal"
+],
+[
+"LBC HOUSTON BAYPORT TERMINAL",
+"LBC Houston Bayport Terminal"
+],
+[
+"LCY ELASTOMERS",
+"LCY Elastomers"
+],
+[
+"LEELAND BAKING",
+"Leeland Baking"
+],
+[
+"LION ELASTOMERS",
+"Lion Elastomers"
+],
+[
+"LONGHORN GLASS PLANT",
+"Longhorn Glass Plant"
+],
+[
+"LUBRIZOL BAYPORT PLANT",
+"Lubrizol Bayport Plant"
+],
+[
+"LUBRIZOL DEER PARK",
+"Lubrizol Deer Park"
+],
+[
+"LUCAS STATION",
+"Lucas Station"
+],
+[
+"LYCRA LA PORTE PLANT",
+"Lycra La Porte Plant"
+],
+[
+"LYNDON B JOHNSON SPACE CENTER",
+"Lyndon B Johnson Space Center"
+],
+[
+"LYONDELL CHEMICAL BAYPORT CHOATE PLANT",
+"Lyondell Chemical Bayport Choate Plant"
+],
+[
+"LYONDELL CHEMICAL CHANNELVIEW",
+"Lyondell Chemical Channelview"
+],
+[
+"LYONDELLBASELL ACETYLS",
+"LyondellBasell Acetyls"
+],
+[
+"LYONDELLBASELL BAYPORT POLYMERS",
+"LyondellBasell Bayport Polymers"
+],
+[
+"LYONDELLBASELL SYNGAS",
+"LyondellBasell Syngas"
+],
+[
+"MARATHON PIPE LINE PASADENA STATION",
+"Marathon Pipe Line Pasadena Station"
+],
+[
+"MAUSER",
+"Mauser"
+],
+[
+"MB CEDAR BAYOU TERMINAL",
+"MB Cedar Bayou Terminal"
+],
+[
+"MCA BEAUMONT SITE",
+"MCA Beaumont Site"
+],
+[
+"MCA LA PORTE SITE",
+"MCA La Porte Site"
+],
+[
+"MCCARTY ROAD LANDFILL GAS RECOVERY FACILITY",
+"McCarty Road Landfill Gas Recovery Facility"
+],
+[
+"MCCARTY ROAD LANDFILL TX",
+"McCarty Road Landfill TX"
+],
+[
+"MOBIL CHEMICAL BEAUMONT CHEMICAL PLANT B",
+"Mobil Chemical Beaumont Chemical Plant B"
+],
+[
+"MONT BELVIEU NGL FRACTIONATION AND STORAGE COMPLEX",
+"Mont Belvieu NGL Fractionation and Storage Complex"
+],
+[
+"MONUMENT CHEMICAL HOUSTON",
+"Monument Chemical Houston"
+],
+[
+"MONUMENT CHEMICAL-NOVA MOLECULAR TECHNOLOGIES",
+"Monument Chemical-Nova Molecular Technologies"
+],
+[
+"MOORE STATIONWALLISVILLE STATION",
+"Moore Stationwallisville Station"
+],
+[
+"MORGANS POINT COMPLEX",
+"Morgans Point Complex"
+],
+[
+"MOTIVA ENTERPRISES PORT ARTHUR CHEMICALS",
+"Motiva Enterprises Port Arthur Chemicals"
+],
+[
+"MULCH MATTERS",
+"Mulch Matters"
+],
+[
+"NATURAL GAS ODORIZING",
+"Natural Gas Odorizing"
+],
+[
+"NISSEKI CHEMICAL TEXAS",
+"Nisseki Chemical Texas"
+],
+[
+"NORTH CROSS FACILITY 4",
+"North Cross Facility 4"
+],
+[
+"NOURYON FUNCTIONAL CHEMICALS BATTLEGROUND",
+"Nouryon Functional Chemicals Battleground"
+],
+[
+"NOURYON FUNCTIONAL CHEMICALS BAY PARK",
+"Nouryon Functional Chemicals Bay Park"
+],
+[
+"ODFJELL TERMINALS",
+"Odfjell Terminals"
+],
+[
+"ODYSSEY ENERGY ALTURA COGEN",
+"Odyssey Energy Altura Cogen"
+],
+[
+"OWENS CORNING HOUSTON ROOFING AND MANUFACTURING FACILITY",
+"Owens Corning Houston Roofing and Manufacturing Facility"
+],
+[
+"OXITENO PASADENA PLANT",
+"Oxiteno Pasadena Plant"
+],
+[
+"PASADENA COGENERATION",
+"Pasadena Cogeneration"
+],
+[
+"PASADENA PAPER",
+"Pasadena Paper"
+],
+[
+"PASADENA PERFORMANCE PRODUCTS",
+"Pasadena Performance Products"
+],
+[
+"PASADENA PLASTICS COMPLEX",
+"Pasadena Plastics Complex"
+],
+[
+"PASADENA PRODUCT TERMINAL",
+"Pasadena Product Terminal"
+],
+[
+"PASADENA PVC",
+"Pasadena PVC"
+],
+[
+"PASADENA REFINERY",
+"Pasadena Refinery"
+],
+[
+"PASADENA TERMINAL",
+"Pasadena Terminal"
+],
+[
+"PCI NITROGEN PASADENA",
+"PCI Nitrogen Pasadena"
+],
+[
+"PD GLYCOL BEAUMONT PLANT",
+"Pd Glycol Beaumont Plant"
+],
+[
+"POLYNT COMPOSITES USA",
+"Polynt Composites USA"
+],
+[
+"PORT ARTHUR NATURAL GAS PLANT",
+"Port Arthur Natural Gas Plant"
+],
+[
+"PORT ARTHUR PRODUCTS STATION",
+"Port Arthur Products Station"
+],
+[
+"PORT ARTHUR REFINERY",
+"Port Arthur Refinery"
+],
+[
+"PORT ARTHUR STATION",
+"Port Arthur Station"
+],
+[
+"PORT NECHES OPERATIONS",
+"Port Neches Operations"
+],
+[
+"PORT NECHES TERMINAL",
+"Port Neches Terminal"
+],
+[
+"PRAXAIR",
+"Praxair"
+],
+[
+"PRAXAIR CLEAR LAKE PLANT",
+"Praxair Clear Lake Plant"
+],
+[
+"PRECOAT METALS DIVISION SEQUA",
+"Precoat Metals Division Sequa"
+],
+[
+"PVA PLANT",
+"PVA Plant"
+],
+[
+"PWE WWTP 69TH STREET",
+"PWE WWTP 69th Street"
+],
+[
+"QUALITY CONCRETE & MATERIALS",
+"Quality Concrete & Materials"
+],
+[
+"QUALITY ELECTRIC STEEL CASTINGS",
+"Quality Electric Steel Castings"
+],
+[
+"RIVIANA FOODS",
+"Riviana Foods"
+],
+[
+"ROGER W POWELL PLANT",
+"Roger W Powell Plant"
+],
+[
+"ROHM AND HAAS CHEMICALS BAYPORT PLANT",
+"Rohm and Haas Chemicals Bayport Plant"
+],
+[
+"ROHM AND HAAS TEXAS DEER PARK PLANT",
+"Rohm and Haas Texas Deer Park Plant"
+],
+[
+"RST RELOAD CENTER",
+"RST Reload Center"
+],
+[
+"SABINE PLANT",
+"Sabine Plant"
+],
+[
+"SAN JACINTO ELECTRIC GENERATING STATION",
+"San Jacinto Electric Generating Station"
+],
+[
+"SASOL CHEMICALS USA GREENS BAYOU PLANT",
+"Sasol Chemicals USA Greens Bayou Plant"
+],
+[
+"SCRAP TRADING INTERNATIONAL",
+"Scrap Trading International"
+],
+[
+"SEKISUI SPECIALTY CHEMICALS AMERICA PASADENA PLANT",
+"Sekisui Specialty Chemicals America Pasadena Plant"
+],
+[
+"SEPTON BUSINESS UNIT",
+"Septon Business Unit"
+],
+[
+"SHELL CHEMICAL",
+"Shell Chemical"
+],
+[
+"SHELL PIPELINE EL VISTA TANK FARM",
+"Shell Pipeline El Vista Tank Farm"
+],
+[
+"SI GROUP BAYTOWN OPERATIONS",
+"SI Group Baytown Operations"
+],
+[
+"SJRR POWER PEAKING FACILITY",
+"SJRR Power Peaking Facility"
+],
+[
+"SOLAR TURBINES",
+"Solar Turbines"
+],
+[
+"SOLENIS",
+"Solenis"
+],
+[
+"SOUTH MAIN PLANT",
+"South Main Plant"
+],
+[
+"SOUTHERN MFG FIBERGLASS FACILITY",
+"Southern Mfg Fiberglass Facility"
+],
+[
+"SOUTHWEST SHIPYARD",
+"Southwest Shipyard"
+],
+[
+"SPINDLETOP COMPRESSOR STATION",
+"Spindletop Compressor Station"
+],
+[
+"STANDARD ALLOYS PORT ARTHUR",
+"Standard Alloys Port Arthur"
+],
+[
+"STOLT TANK CLEANING FACILITY AND DEPOT",
+"Stolt Tank Cleaning Facility and Depot"
+],
+[
+"STOLTHAVEN HOUSTON TERMINAL",
+"Stolthaven Houston Terminal"
+],
+[
+"SUNOCO BAYPORT BPT1",
+"Sunoco Bayport BPT1"
+],
+[
+"T H WHARTON ELECTRIC GENERATING STATION",
+"T H Wharton Electric Generating Station"
+],
+[
+"TECHEMET GENOA RED BLUFF ROAD FACILITY",
+"Techemet Genoa Red Bluff Road Facility"
+],
+[
+"TEXAS PORT RECYCLING METAL RECYCLING FACILITY",
+"Texas Port Recycling Metal Recycling Facility"
+],
+[
+"TEXMARK CHEMICALS",
+"Texmark Chemicals"
+],
+[
+"THE METHODIST HOSPITAL",
+"The Methodist Hospital"
+],
+[
+"THE UNIVERSITY OF TEXAS M D ANDERSON CANCER CENTER HOUSTON",
+"The University of Texas M D Anderson Cancer Center Houston"
+],
+[
+"THERMAL ENERGY TECO",
+"Thermal Energy TECO"
+],
+[
+"TM DEER PARK SERVICES",
+"TM Deer Park Services"
+],
+[
+"TOTAL SPECIALTIES USA BAYPORT",
+"Total Specialties USA Bayport"
+],
+[
+"TOTALENERGIES PETROCHEMICALS & REFINING USA LA PORTE PLANT",
+"TotalEnergies Petrochemicals & Refining USA La Porte Plant"
+],
+[
+"TPC GROUP PORT NECHES OPERATIONS",
+"Tpc Group Port Neches Operations"
+],
+[
+"TRAK COMMERCIAL",
+"Trak Commercial"
+],
+[
+"TRANSCO RAILWAY PRODUCTS",
+"Transco Railway Products"
+],
+[
+"TRENCH BURNER",
+"Trench Burner"
+],
+[
+"TRINITY INDUSTRIES PLANT 117",
+"Trinity Industries Plant 117"
+],
+[
+"TRINITY INDUSTRIES PLANT 62",
+"Trinity Industries Plant 62"
+],
+[
+"TUBOSCOPE HIGHWAY 90 COATING FACILITY",
+"Tuboscope Highway 90 Coating Facility"
+],
+[
+"UNITED STATES GYPSUM",
+"United States Gypsum"
+],
+[
+"VALERO HOUSTON REFINERY",
+"Valero Houston Refinery"
+],
+[
+"VALERO HOUSTON REFINERY / VALERO PARTNERS HOUSTON",
+"Valero Houston Refinery / Valero Partners Houston"
+],
+[
+"VALERO PARTNERS HOUSTON",
+"Valero Partners Houston"
+],
+[
+"VALERO PARTNERS PORT ARTHUR",
+"Valero Partners Port Arthur"
+],
+[
+"VALERO PORT ARTHUR REFINERY",
+"Valero Port Arthur Refinery"
+],
+[
+"VALLOUREC STAR",
+"Vallourec Star"
+],
+[
+"VIDOR COMPRESSOR STATION",
+"Vidor Compressor Station"
+],
+[
+"VOPAK TERMINAL DEER PARK",
+"Vopak Terminal Deer Park"
+],
+[
+"W & P DEVELOPMENT",
+"W & P Development"
+],
+[
+"WASHBURN TUNNEL FACILITY",
+"Washburn Tunnel Facility"
+],
+[
+"WEST BEAUMONT GAS PLANT",
+"West Beaumont Gas Plant"
+],
+[
+"WEST CLEAR LAKE STORAGE FACILITY",
+"West Clear Lake Storage Facility"
+],
+[
+"WESTLAKE EPOXY DEER PARK",
+"Westlake Epoxy Deer Park"
+],
+[
+"WHISPERING PINES LANDFILL",
+"Whispering Pines Landfill"
+],
+[
+"WILLIAM MARSH RICE UNIVERSITY",
+"William Marsh Rice University"
+]
+]
+}

@@ -44,8 +44,13 @@ def test_demo_night_matches_the_hand_configured_build(generated):
     assert ev["corridor"] == demo["corridor"]
 
 
-def test_demo_event_json_is_still_the_build_output():
-    assert json.dumps(build.build(), indent=1) == (ROOT / "web" / "public" / "event.json").read_text()
+def test_demo_event_json_is_the_demo_night_from_the_same_run(generated):
+    # UI audit 3, S51: event.json came from build.build() (4 monitors) while its replay had every Houston monitor.
+    evs, _ = generated
+    ev = next(e for e, r in evs if r["id"] == DEMO_ID)
+    assert nights.DEMO_ID == DEMO_ID
+    assert json.dumps(ev, indent=1) == (ROOT / "web" / "public" / "event.json").read_text()
+    assert len(ev["monitors"]) == len(nights.backtest.SITE_NAMES)
 
 
 def test_incomplete_search_never_claims_absence(generated):

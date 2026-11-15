@@ -126,22 +126,43 @@ test('option counts follow the other filters: Channelview has no "Reported" spik
   assert.equal([...sites.values()].reduce((a, b) => a + b, 0), data.rows.length)
 })
 
-test('every reason in the published file has a translated key, and an unknown one does not', () => {
-  const reasons = new Set(data.rows.map((r) => r.reason).filter((r) => r !== undefined))
-  assert.ok(reasons.size >= 2)
-  for (const r of reasons) {
-    const k = reasonKey(r)
-    assert.ok(k, `no key for ${r}`)
-    assert.ok(STRINGS.en[k] && STRINGS.es[k] && STRINGS.es[k] !== STRINGS.en[k], k)
+test('every reason code in the published file has a translated label, read from the code, not the stand-in sentence', () => {
+  const codes = new Set(data.rows.map((r) => r.reason_code).filter((c) => c !== undefined))
+  assert.deepEqual([...codes].sort(), ['calm_wind', 'day_search_incomplete', 'earlier_search_incomplete', 'no_wind', 'report_not_placed'])
+  for (const c of codes) {
+    const k = reasonKey({ reason_code: c })
+    assert.ok(k, `no key for ${c}`)
+    for (const key of [k, `${k}Long` as const]) assert.ok(STRINGS.en[key] && STRINGS.es[key] && STRINGS.es[key] !== STRINGS.en[key], key)
   }
-  // The row with no replay is the no-wind one; the most common reason sends the reader to the Check step.
-  assert.equal(reasonKey(data.rows.find((r) => r.night_id === null)!.reason), 'spikes.reason.noWind')
-  const counts = new Map<string, number>()
-  for (const r of data.rows) if (r.reason) counts.set(r.reason, (counts.get(r.reason) ?? 0) + 1)
-  assert.equal(reasonKey([...counts].sort((x, y) => y[1] - x[1])[0][0]), 'spikes.reason.check')
-  assert.equal(reasonKey('A new pipeline sentence.'), null)
-  assert.equal(reasonKey(undefined), null)
-  assert.equal(reasonKey('toString'), null)
+  // Every search_incomplete row carries a code, and no coded row falls back to "see the replay's Check step".
+  const incomplete = data.rows.filter((r) => r.status === 'search_incomplete')
+  assert.ok(incomplete.length > 0 && incomplete.every((r) => r.reason_code))
+  assert.ok(incomplete.every((r) => reasonKey(r) !== 'spikes.reason.check'))
+  // Calm-wind rows carry the pipeline's "could not be placed" stand-in sentence; the label must say calm wind.
+  const calm = data.rows.find((r) => r.reason_code === 'calm_wind')!
+  assert.match(calm.reason ?? '', /could not be placed/)
+  assert.equal(reasonKey(calm), 'spikes.reason.calm')
+  assert.equal(reasonKey(data.rows.find((r) => r.night_id === null)!), 'spikes.reason.noWind')
+  const n = (k: string) => incomplete.filter((r) => reasonKey(r) === k).length
+  assert.equal(n('spikes.reason.calm') + n('spikes.reason.placed') + n('spikes.reason.earlier') + n('spikes.reason.week') + n('spikes.reason.noWind'), incomplete.length)
+})
+
+test('a file without codes falls back to the sentence; an unknown code or sentence gets no key', () => {
+  assert.equal(reasonKey({ reason: 'A report filed that day could not be placed on the map, so absence cannot be claimed.' }), 'spikes.reason.check')
+  assert.equal(reasonKey({ reason: 'No wind data for that day, so no upwind area could be drawn.' }), 'spikes.reason.noWind')
+  assert.equal(reasonKey({ reason_code: 'new_code', reason: 'A new pipeline sentence.' }), null)
+  assert.equal(reasonKey({}), null)
+  assert.equal(reasonKey({ reason_code: 'toString', reason: 'toString' }), null)
+})
+
+test('the CSV note gives the real cause for a coded row, and the code has its own column', () => {
+  const calm = data.rows.find((r) => r.reason_code === 'calm_wind')!
+  const [head, line] = toCsv([calm]).trimEnd().split('\r\n')
+  const cols = head.split(',')
+  assert.ok(cols.includes('reason_code'))
+  assert.ok(line.includes(STRINGS.en['spikes.reason.calmLong']), line)
+  assert.ok(!line.includes('could not be placed'), line)
+  assert.ok(line.includes(',calm_wind,'), line)
 })
 
 test('a neighborhood picks the closest monitor in the file', () => {

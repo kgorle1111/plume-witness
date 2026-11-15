@@ -272,6 +272,32 @@ def test_mismatch_sentence_follows_the_match_basis():
     assert "de 05:10 a 09:00, hora local, ese día" in es
 
 
+def test_matched_sentence_is_hedged_and_es_uses_the_ui_terms(real_event):
+    # UI audit 3, S60: "consistent with that release reaching the monitors" read as blaming the filer.
+    # S62: ES used "informe" and "permitidas importantes" where the UI says "reporte" and "viento arriba".
+    pkt = real_event["packet"]
+    assert ("The reported release window and the wind line up with these readings; other sources may also "
+            "contribute.") in pkt["draft_en"]
+    assert ("El horario de la emisión reportada y el viento coinciden con estas lecturas; otras fuentes también "
+            "pueden contribuir.") in pkt["draft_es"]
+    assert "reaching the monitors" not in pkt["draft_en"] and "consistentes" not in pkt["draft_es"]
+    assert "informe" not in pkt["draft_es"] and "permitidas" not in pkt["draft_es"]
+    assert "instalaciones grandes con permiso en el corredor viento arriba" in pkt["draft_es"]
+
+
+def test_wind_degrees_drop_a_whole_decimal_but_never_round(real_event):
+    def wind_sentence(deg: float) -> tuple[str, str]:
+        wind = real_event["wind"] | {"hourly": [h | {"from_deg": deg} for h in real_event["wind"]["hourly"]]}
+        p = build.template_packet(real_event["detection"], real_event["monitors"], wind, real_event["facilities"],
+                                  real_event["record_check"])
+        return p["draft_en"], p["draft_es"]
+
+    en, es = wind_sentence(77.0)
+    assert "came from 77 degrees" in en and "venía de 77 grados" in es
+    en, es = wind_sentence(77.5)  # rounding to 78 would put a number in the draft that is not in the facts
+    assert "came from 77.5 degrees" in en and "venía de 77.5 grados" in es
+
+
 def test_demo_search_completeness_comes_from_the_search_page(monkeypatch):
     real = build.steers_search
     monkeypatch.setattr(build, "steers_search", lambda p: real(p) | {"total": 60})  # a capped, partial listing
@@ -302,7 +328,7 @@ def test_report_at_a_multi_name_echo_site_is_named_as_its_filer():
     build.name_filer(facs, rc, echo["Results"]["Facilities"])
     # What the Check step prints beside "Filed report #421635" is the company that filed it.
     assert site["name"] == rc["reported"]["facility"] == "Shell Chemical"
-    assert site["echo_names"] == ["Airgas Carbonic Deer Park Plant", "Deer Park Oil Refinery", "Deer Park Vcm Plant",
+    assert site["echo_names"] == ["Airgas Carbonic Deer Park Plant", "Deer Park Oil Refinery", "Deer Park VCM Plant",
                                   "Shell Chemical", "Westlake Epoxy Deer Park"]
 
 
@@ -336,3 +362,58 @@ def test_published_checks_never_say_not_yet_once_a_record_exists():
             assert not (filed and c["status"] == "not_yet_reported"), (p.name, c)
             late += c["status"] == "reported_late"
     assert late >= 2  # 2024-01-09: notice 3029 h after discovery, final 133 days after the end
+
+
+def _published() -> list[Path]:
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    return paths + [ROOT / "web" / "public" / "event.json"]
+
+
+def test_published_names_keep_acronyms_and_brands():
+    """UI audit 3, S57: str.title() printed "Basf", "Aes", "Ineos", "Pasadena Pvc" in the corridor and the drafts."""
+    import re
+    artifacts = re.compile(r"\b(Basf|Aes|Ineos|Llc|Vcm|Pvc|Kmcc|Usa|Accp|Pci|Gcl|Epolp)\b")
+    seen = 0
+    for p in _published():
+        ev = json.loads(p.read_text())
+        names = [f["name"] for f in ev["facilities"]] + [d["entity"] for d in ev["record_check"]["day_incidents"]]
+        names += [ev["packet"]["draft_en"], ev["packet"]["draft_es"]]
+        bad = [n for n in names if artifacts.search(n)]
+        assert bad == [], (p.name, bad[:3])
+        seen += len(names)
+    assert seen > 5000
+
+
+def test_published_nights_list_each_facility_name_once():
+    """UI audit 3, S124: the demo corridor listed "Galena Park Terminal" 3 times (separate ECHO sites)."""
+    for p in _published():
+        names = [f["name"] for f in json.loads(p.read_text())["facilities"]]
+        assert len(names) == len(set(names)), (p.name, sorted({n for n in names if names.count(n) > 1}))
+
+
+def test_same_name_sites_get_a_street_then_an_epa_id(real_event):
+    galena = sorted(f["name"] for f in real_event["facilities"] if f["name"].startswith("Galena Park Terminal"))
+    # ECHO: 110032992215 lists 12510 then 12901 American Petroleum Road (the first row's street is used);
+    # 110037844376 and 110069719665 are both at 906 Clinton Dr, so only their registry ids tell them apart.
+    assert galena == ["Galena Park Terminal (12510 American Petroleum Road)",
+                      "Galena Park Terminal (906 Clinton Dr, EPA 110037844376)",
+                      "Galena Park Terminal (906 Clinton Dr, EPA 110069719665)"]
+
+
+def test_disambiguate_leaves_the_matched_filer_name_alone():
+    rows = [{"RegistryID": i, "AIRUniverse": "Major Emissions", "AIRStreet": s}
+            for i, s in (("1", "901 CLINTON DR"), ("2", "906  CLINTON DR"), ("3", ""))]
+    facs = [{"id": i, "name": n} for i, n in (("1", "Terminal"), ("2", "Terminal"), ("3", "Terminal"), ("4", "Plant"))]
+    build.disambiguate(facs, rows, keep_id="1")
+    assert [f["name"] for f in facs] == ["Terminal", "Terminal (906 Clinton Dr)", "Terminal (EPA 3)", "Plant"]
+
+
+def test_template_prints_reported_pounds_unrounded():
+    """Night 2024-04-21: the report gives 8469.74326 lb; "8,470" was a number the guard could not find in the facts."""
+    from pipeline.gemini_draft import facts_for, guard
+    night = json.loads((ROOT / "web" / "public" / "nights" / "2024-04-21_43218_48_201_0069.json").read_text())
+    p = build.template_packet(night["detection"], night["monitors"], night["wind"], night["facilities"],
+                              night["record_check"], "04/21/2024", "43218")
+    assert "for 8,469.74326 pounds" in p["draft_en"] and "por 8,469.74326 libras" in p["draft_es"]
+    assert guard(p, facts_for(night)) == []

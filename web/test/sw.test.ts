@@ -149,3 +149,18 @@ test('a first play streams the clip and keeps the whole file; the next play is s
   assert.equal(await res.text(), '2345')
   assert.equal(seen.length, 2, 'the second play went to the network')
 })
+
+// Node's Request refuses mode 'navigate' in its constructor; the worker only reads the property.
+const nav = (url: string) => Object.defineProperty(new Request(url), 'mode', { value: 'navigate' })
+
+test('a navigation to the shell refreshes the cached shell; a link-preview page or feed never replaces it', { timeout: 2000 }, async () => {
+  const sw = load(async (req) => new Response(`page:${new URL(req.url).pathname}`), { 'pw-shell-__BUILD_ID__': { [SCOPE]: 'shell' } })
+  const shell = () => sw.stores.get('pw-shell-__BUILD_ID__')!.get(SCOPE)
+  for (const p of ['s/2024-01-04_43218_48_201_0069.html', 'feeds/all.xml']) {
+    const r = await sw.fire('fetch', nav(`${SCOPE}${p}`)).responded!
+    assert.equal(await r.text(), `page:/plume-witness/${p}`, 'the page itself is served')
+    assert.equal(shell(), 'shell', `${p} overwrote the cached shell`)
+  }
+  await sw.fire('fetch', nav(`${SCOPE}?night=2024-01-04_43218_48_201_0069&intro=0`)).responded
+  assert.equal(shell(), 'page:/plume-witness/')
+})

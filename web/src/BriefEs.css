@@ -1,0 +1,11 @@
+/* Spanish brief on paper. docs/brief.es.md runs about 20% longer than docs/brief.md, and at the English print
+   settings it spilled a third A4 page (English: 2). Tighter leading and spacing plus 8.6pt type (English 9pt) keep it on
+   the English page count: A4 2 = 2, US Letter 3 = 3, measured with Playwright page.pdf.
+   kn: about 1.5 lines of A4 slack; a longer brief.md means re-measuring, or shortening the Spanish, before shrinking
+   the type further. */
+@media print {
+  :root:has(.br-doc[lang='es']) { font-size: 8.6pt; }
+  .br-page:has(.br-doc[lang='es']) .br-doc { gap: 2pt; line-height: 1.2; }
+  .br-page:has(.br-doc[lang='es']) .br-doc h2 { margin-top: 3pt; padding-top: 3pt; }
+  .br-page:has(.br-doc[lang='es']) .br-doc :is(ul, ol) { gap: 1pt; }
+}

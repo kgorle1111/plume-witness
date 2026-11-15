@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { incidentNote } from '../src/note.ts'
 import { cannotSayEs, statusInfo } from '../src/format.ts'
 import type { PlumeEvent } from '../src/types.ts'
+import { translate, type StringKey } from '../src/i18n.ts'
 
 const ev = JSON.parse(readFileSync(new URL('../public/event.json', import.meta.url), 'utf8')) as PlumeEvent
 
@@ -37,7 +38,8 @@ test('in Spanish the note is written in Spanish, with the same values', async ()
   const note = incidentNote(ev, 'https://example.test/x/#check', 'es')
   for (const v of [ev.date_local, String(ev.detection.value), String(ev.detection.baseline), ev.record_check.source_url, 'no es una conclusión', 'https://example.test/x/#check'])
     assert.ok(note.includes(v), v)
-  for (const en of ['Air monitor note', 'Reading:', 'Wind at', 'State record', "What this can't say", 'Replay:', 'Draft for review'])
+  // The English strings themselves, so a reworded or re-punctuated English line cannot slip past this check.
+  for (const en of ['note.title', 'note.cannot', 'note.draft'].map((k) => translate('en', k as StringKey).split('{')[0].trim()).concat(['Reading:', 'Wind at', 'State record', 'Replay:']))
     assert.ok(!note.includes(en), `English left: ${en}`)
   for (const line of ev.cannot_say) assert.ok(note.includes(cannotSayEs(line) ?? line), line)
   assert.match(note, /Sin reporte que coincida|Reportado/)
