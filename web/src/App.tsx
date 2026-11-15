@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
@@ -154,7 +154,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   )
 }
 
-function Replay({ ev }: { ev: PlumeEvent }) {
+function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
   const { corridor } = useCorridor(ev)
   const [highlightId, setHighlightId] = useState<string | null>(null)
   // The replay opens on the detection hour so the spike is the first thing on screen.
@@ -185,6 +185,7 @@ function Replay({ ev }: { ev: PlumeEvent }) {
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
         </p>
         <h1 className="event-title">{ev.title}</h1>
+        {picker}
       </header>
       {ev.label === 'fixture' && (
         <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
@@ -205,15 +206,50 @@ function Replay({ ev }: { ev: PlumeEvent }) {
   )
 }
 
+// ?night=<id> replays one of the generated spike nights (web/public/nights/<id>.json); no param is the demo night.
+const NIGHT_ID = /^\d{4}-\d{2}-\d{2}_\d{5}_[\d_]+$/
+const nightParam = (): string | null => new URLSearchParams(window.location.search).get('night')
+
+interface NightRow { id: string; date: string; site_name: string; compound: string; value: number; status: string }
+
+function NightPicker({ current }: { current: string | null }) {
+  const [rows, setRows] = useState<NightRow[]>([])
+  useEffect(() => {
+    const ctrl = new AbortController()
+    fetch(`${import.meta.env.BASE_URL}nights/index.json`, { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((j) => { if (Array.isArray(j)) setRows(j as NightRow[]) })
+      .catch(() => {})
+    return () => ctrl.abort()
+  }, [])
+  if (!rows.length) return null
+  const go = (id: string) => {
+    window.location.search = id ? `?night=${encodeURIComponent(id)}` : ''
+  }
+  return (
+    <label className="night-picker">
+      Replay another night{' '}
+      <select value={current ?? ''} onChange={(e) => go(e.target.value)}>
+        <option value="">Demo night</option>
+        {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
+      </select>
+    </label>
+  )
+}
+
 export default function App() {
   const [ev, setEv] = useState<PlumeEvent | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const night = nightParam()
+  const invalid = night !== null && !NIGHT_ID.test(night)
 
   useEffect(() => {
     const ctrl = new AbortController()
-    fetch(`${import.meta.env.BASE_URL}event.json`, { signal: ctrl.signal, cache: 'no-cache' })
+    if (invalid) return
+    const file = night ? `nights/${night}.json` : 'event.json'
+    fetch(`${import.meta.env.BASE_URL}${file}`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => {
-        if (!r.ok) throw new Error(`Could not load event.json (HTTP ${r.status}). Check that web/public/event.json exists.`)
+        if (!r.ok) throw new Error(`Could not load ${file} (HTTP ${r.status}).`)
         return r.json()
       })
       .then((raw) => setEv(parseEvent(raw)))
@@ -221,9 +257,10 @@ export default function App() {
         if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
       })
     return () => ctrl.abort()
-  }, [])
+  }, [night, invalid])
 
-  if (error) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{error}</p></main>
+  const shown = invalid ? `"${night}" is not a night id.` : error
+  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={import.meta.env.BASE_URL}>Back to the demo night</a></p></main>
   if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
-  return <Replay ev={ev} />
+  return <Replay ev={ev} picker={<NightPicker current={night} />} />
 }

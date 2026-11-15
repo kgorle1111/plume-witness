@@ -194,6 +194,8 @@ def record_check(placed: list[dict], details: dict[str, dict], det_day: date, de
         }
     can_claim_absence = search_complete and all(p["in_corridor"] is not None for p in placed)
     none = "no_report_after_deadline" if can_claim_absence else "search_incomplete"
+    if can_claim_absence:
+        scope += " No matching report found in a complete search."
     return {"status": none, "incident": None, "matched_facility_id": None, "source_url": STEERS_SEARCH,
             "checks": [{"at": "T+24h", "status": none, "note": ""}, {"at": "T+14d", "status": none, "note": ""}],
             "reported": None, "day_incidents": placed, "search_scope": scope}
@@ -230,6 +232,14 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
                   "amount accounts for these readings.")
         ask_es = (" Seguimiento solicitado: confirmar si se avisó a los residentes cercanos y si la cantidad reportada "
                   "explica estas lecturas.")
+    elif rc["status"] == "no_report_after_deadline":
+        rec_en = (" No matching report found in a complete search of that day's emissions-event records for "
+                  "Harris County. That does not show who or what caused the reading.")
+        rec_es = (" No se encontró un informe correspondiente en una búsqueda completa de los registros de eventos "
+                  "de emisiones de ese día en el condado de Harris. Eso no indica quién o qué causó la lectura.")
+        ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
+        ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
+                  "a esa hora.")
     else:
         rec_en = " No matching report was found in the records checked; the search is incomplete."
         rec_es = " No se encontró un informe correspondiente en los registros revisados; la búsqueda está incompleta."
@@ -309,6 +319,40 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
             "facilities": facilities, "record_check": rc}
 
 
+CANNOT_SAY = [
+    "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
+    ("'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, "
+     "and air readings cannot measure how much was released (30 TAC 101.201)."),
+    ("The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion "
+     "model; it cannot tell facilities along the same bearing apart."),
+    "Facility coordinates are as published by EPA ECHO and may be approximate.",
+    "Only regulator-grade state monitors are used; many neighborhoods have none.",
+]
+
+
+def assemble_event(t: dict, monitors: list[dict], det_day: date, param: str, event_id: str,
+                   provenance: list[dict]) -> dict:
+    """One event.json from a finished trace(). build() and pipeline.nights both call this, so a replayed night
+    is the same document the demo night is."""
+    det, wind, trig, window, facilities, rc = (t[k] for k in ("detection", "wind", "trig", "window", "facilities",
+                                                               "record_check"))
+    name_en = COMPOUNDS[param][0]
+    tz = "CDT, CST+1" if steers_tz_offset_h(det_day) else "CST"
+    return {
+        "schema": SCHEMA, "label": "real", "event_id": event_id,
+        "title": f"{name_en.capitalize()} spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
+        "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
+                     "TCEQ labels AutoGC data provisional and subject to change.",
+        "compound": {"name": name_en, "aqs_param": param, "units": "ppb-v"},
+        "monitors": monitors, "wind": wind, "detection": det, "facilities": facilities, "record_check": rc,
+        "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
+                     "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
+        "packet": template_packet(det, monitors, wind, facilities, rc, det_day.strftime("%m/%d/%Y"), param),
+        "cannot_say": list(CANNOT_SAY),
+        "provenance": provenance,
+    }
+
+
 def build(cfg: dict = EVENT) -> dict:
     day = cfg["day"]
     det_day = datetime.strptime(day, "%m/%d/%Y").date()
@@ -326,31 +370,8 @@ def build(cfg: dict = EVENT) -> dict:
         raise SystemExit("no monitor crossed the trigger rule on this day; nothing to replay")
     if "record_check" not in t:
         raise SystemExit(f"no wind at {ws} for the detection hours; cannot draw a corridor")
-    det, wind, trig, window, facilities, rc = (t[k] for k in ("detection", "wind", "trig", "window", "facilities",
-                                                               "record_check"))
-    name_en = COMPOUNDS[cfg["param"]][0]
-    tz = "CDT, CST+1" if steers_tz_offset_h(det_day) else "CST"
-    ev = {
-        "schema": SCHEMA, "label": "real", "event_id": f"steers-{cfg['incident']}",
-        "title": f"{name_en.capitalize()} spike on the Houston Ship Channel", "date_local": det_day.isoformat(),
-        "time_note": f"Monitor hours are CST as TCEQ publishes them; the company report uses local time ({tz}). "
-                     "TCEQ labels AutoGC data provisional and subject to change.",
-        "compound": {"name": name_en, "aqs_param": cfg["param"], "units": "ppb-v"},
-        "monitors": monitors, "wind": wind, "detection": det, "facilities": facilities, "record_check": rc,
-        "corridor": {"origin_site_id": trig["site_id"], "half_width_deg": CORRIDOR_HALF_ANGLE,
-                     "max_km": CORRIDOR_RADIUS_KM, "wind_from_deg": window},
-        "packet": template_packet(det, monitors, wind, facilities, rc, day, cfg["param"]),
-        "cannot_say": [
-            "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
-            ("'Not yet reported' would not mean 'illegal': Texas requires a report only above a reportable quantity, "
-            "and air readings cannot measure how much was released (30 TAC 101.201)."),
-            ("The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion "
-            "model; it cannot tell facilities along the same bearing apart."),
-            "Facility coordinates are as published by EPA ECHO and may be approximate.",
-            "Only regulator-grade state monitors are used; many neighborhoods have none.",
-        ],
-        "provenance": json.loads((RAW / "provenance.json").read_text()),
-    }
+    ev = assemble_event(t, monitors, det_day, cfg["param"], f"steers-{cfg['incident']}",
+                        json.loads((RAW / "provenance.json").read_text()))
     errs = validate(ev)
     if errs:
         raise SystemExit("event.json failed the contract:\n- " + "\n- ".join(errs))

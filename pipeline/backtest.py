@@ -172,8 +172,10 @@ def _table(path: Path) -> dict:
     return _TABLES[path]
 
 
-def scan_monitors(day: str, param: str, sites: dict, raw: Path = BT) -> list[dict]:
-    """Every site's readings for the day; a site with no data or no baseline that day is left out."""
+def scan_monitors(day: str, param: str, sites: dict, raw: Path = BT, full: bool = False) -> list[dict]:
+    """Every site's readings for the day; a site with no data or no baseline that day is left out.
+
+    full=True adds what the web app renders (hour flags, peak), for pipeline.nights; detection never reads them."""
     out = []
     for s, (lat, lon) in sites.items():
         table = _table(raw / f"agc_{day[-4:]}_{s}_{param}.html")
@@ -184,12 +186,21 @@ def scan_monitors(day: str, param: str, sites: dict, raw: Path = BT) -> list[dic
         except ValueError:
             continue
         vals = table[day]
-        out.append({"site_id": s, "name": SITE_NAMES[s], "lat": lat, "lon": lon, "baseline": base,
-                    "hourly": [{"hour_cst": h, "value": vals[h]} for h in range(24)], "triggered": False})
+        m = {"site_id": s, "name": SITE_NAMES[s], "lat": lat, "lon": lon, "baseline": base,
+             "hourly": [{"hour_cst": h, "value": vals[h]} for h in range(24)], "triggered": False}
+        if full:
+            flags = build.hourly_flags(raw / f"agc_{day[-4:]}_{s}_{param}.html", day)
+            m["hourly"] = [{"hour_cst": h, "value": vals[h], "flag": flags[h]} for h in range(24)]
+            seen = [h for h in range(24) if vals[h] is not None]
+            if not seen:
+                continue
+            peak = max(seen, key=lambda h: vals[h])
+            m["peak"] = {"hour_cst": peak, "value": vals[peak]}
+        out.append(m)
     return out
 
 
-def spike_days(sites: dict, raw: Path = BT) -> list[tuple[str, str, list[dict], dict]]:
+def spike_days(sites: dict, raw: Path = BT, full: bool = False) -> list[tuple[str, str, list[dict], dict]]:
     """Every (day, compound) in 2024-2025 where the unchanged trigger rule fires on any Ship Channel site."""
     out = []
     for year in YEARS:
@@ -197,7 +208,7 @@ def spike_days(sites: dict, raw: Path = BT) -> list[tuple[str, str, list[dict], 
         while d.year == int(year):
             day = d.strftime("%m/%d/%Y")
             for param in ("45201", "43218"):
-                mons = scan_monitors(day, param, sites, raw)
+                mons = scan_monitors(day, param, sites, raw, full)
                 det = build.detect(mons)
                 if det:
                     out.append((day, param, mons, det))
@@ -205,15 +216,26 @@ def spike_days(sites: dict, raw: Path = BT) -> list[tuple[str, str, list[dict], 
     return out
 
 
-def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict], incomplete_weeks: list[str],
-               candidates: list[dict], raw: Path = BT) -> list[dict]:
-    """Run the record check on every detected spike, report or not. Rows carry counts and ids, never names."""
-    rows = []
-    for day, param, mons, det in spike_days(sites, raw):
+def traced_spikes(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict],
+                  incomplete_weeks: list[str], raw: Path = BT, full: bool = False):
+    """Run build.trace on every detected spike; yields the spike with its trace and the day's search state.
+
+    The one loop behind both the backtest's spike scan and pipeline.nights (the replayable night files)."""
+    for day, param, mons, det in spike_days(sites, raw, full):
         det_day = datetime.strptime(day, "%m/%d/%Y").date()
         details, complete, _ = day_reports(day, rows_by_day, incomplete_weeks, raw)
         t = build.trace(mons, load_winds(day[-4:], day, sites, raw), None, echo_site[det["site_id"]], echo_rows,
                         details, complete, det_day, param)
+        yield {"day": day, "param": param, "det_day": det_day, "monitors": mons, "det": det, "details": details,
+               "complete": complete, "trace": t}
+
+
+def spike_scan(sites: dict, rows_by_day: dict, echo_site: dict, echo_rows: list[dict], incomplete_weeks: list[str],
+               candidates: list[dict], raw: Path = BT) -> list[dict]:
+    """Run the record check on every detected spike, report or not. Rows carry counts and ids, never names."""
+    rows = []
+    for sp in traced_spikes(sites, rows_by_day, echo_site, echo_rows, incomplete_weeks, raw):
+        day, param, det, t, complete = sp["day"], sp["param"], sp["det"], sp["trace"], sp["complete"]
         row = {"day": day, "param": param, "site_id": det["site_id"], "hour_cst": det["hour_cst"],
                "value": det["value"], "baseline": det["baseline"], "search_complete": complete,
                "day_reports": len(rows_by_day.get(day, []))}
