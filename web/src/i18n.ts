@@ -73,6 +73,7 @@ const EN = {
 
   // Landing page
   'landing.title': 'Trace air pollution',
+  'landing.sub': 'Houston Ship Channel · benzene and 1,3-butadiene · 2024–2025',
   'landing.pause': 'Pause the globe',
   'landing.spin': 'Spin the globe',
   'landing.purpose': 'Follow pollution spikes upwind and check them against public emissions reports to see what matches.',
@@ -376,6 +377,7 @@ const ES: Record<StringKey, string> = {
   'theme.dark': 'Oscuro',
 
   'landing.title': 'Rastree la contaminación del aire',
+  'landing.sub': 'Houston Ship Channel · benceno y 1,3-butadieno · 2024–2025',
   'landing.pause': 'Pausar el globo',
   'landing.spin': 'Girar el globo',
   'landing.purpose': 'Siga los picos de contaminación viento arriba y compárelos con los reportes públicos de emisiones para ver qué coincide.',
