@@ -38,13 +38,23 @@ def _prov_index(raw: Path = BT) -> dict[str, dict]:
 
 
 def provenance_for(sp: dict, wind: dict, rows_by_day: dict, prov: dict[str, dict],
-                   ledger_dir: str = "backtest") -> list[dict]:
-    """Provenance entries (url, sha256, fetch time) for the cached files this night was built from."""
+                   ledger_dir: str = "backtest", echo_ids: dict[str, set[str]] | None = None,
+                   multi_ids: set[str] = frozenset()) -> list[dict]:
+    """Provenance entries (url, sha256, fetch time) for the cached files this night was built from.
+
+    Besides the flagged monitor's ECHO file: every other ECHO file (`echo_ids`: file -> registry ids) that holds a
+    site a report was placed at, or a site named by several holders, since placement and names read all of them
+    (review L6: 142 reports on 120 nights were placed from files the night did not list)."""
     day, param, year = sp["day"], sp["param"], sp["day"][-4:]
     files = [f"agc_{year}_{m['site_id']}_{param}.html" for m in sp["monitors"]]
     files += [f"tamis_{m['site_id']}.html" for m in sp["monitors"]]
     files += build.wind_files(wind["site_id"], year, wind.get("source", "met"))
-    files.append(f"echo_{sp['det']['site_id']}_10mi.json")
+    own = f"echo_{sp['det']['site_id']}_10mi.json"
+    files.append(own)
+    rc = sp["trace"].get("record_check", {})
+    used = {d["facility_id"] for d in rc.get("day_incidents", []) + rc.get("ongoing_incidents", []) if d.get("facility_id")}
+    used |= {f["id"] for f in sp["trace"].get("facilities", []) if f["id"] in multi_ids}
+    files += sorted(f for f, ids in (echo_ids or {}).items() if f != own and ids & used)
     files += sorted({r["search_file"] for r in rows_by_day.get(day, [])} | {
         r["search_file"] for rs in rows_by_day.values() for r in rs if r["incident"] in sp["details"]})
     files += [f"steers_{i}.html" for i in sorted(sp["details"])]
@@ -64,8 +74,13 @@ def load_context(raw: Path = BT, site_ids=backtest.SITE_NAMES) -> dict:
     rows_by_day: dict[str, list[dict]] = {}
     for r in universe:
         rows_by_day.setdefault(r["began"][:10], []).append(r)
+    echo_ids = {f"echo_{s}_10mi.json": {r.get("RegistryID") for r in e["Results"]["Facilities"]} - {None}
+                for s, e in echo_site.items()}
+    echo_ids |= {p.name: {r.get("RegistryID") for r in json.loads(p.read_text())["Results"]["Facilities"]} - {None}
+                 for p in sorted(raw.glob("echo_name_*.json"))}
+    multi_ids = {rid for rid, names in build.site_names(echo_rows).items() if len(names) > 1}
     return {"sites": sites, "rows_by_day": rows_by_day, "echo_site": echo_site, "echo_rows": echo_rows,
-            "incomplete": incomplete, "prov": _prov_index(raw)}
+            "incomplete": incomplete, "prov": _prov_index(raw), "echo_ids": echo_ids, "multi_ids": multi_ids}
 
 
 def generate(raw: Path | None = None, region: regions.Region = regions.HOUSTON) -> tuple[list[tuple[dict, dict]], list[dict]]:
@@ -84,7 +99,8 @@ def generate(raw: Path | None = None, region: regions.Region = regions.HOUSTON) 
         if "record_check" not in t:
             skipped.append({"id": nid, "reason": "no wind for the detection hours; cannot draw a corridor"})
             continue
-        prov = provenance_for(sp, t["wind"], ctx["rows_by_day"], ctx["prov"], raw.name)
+        prov = provenance_for(sp, t["wind"], ctx["rows_by_day"], ctx["prov"], raw.name, ctx["echo_ids"],
+                              ctx["multi_ids"])
         ev = build.assemble_event(t, sp["monitors"], sp["det_day"], sp["param"], nid, prov, labeled)
         ev["triangulation"] = triangulate.triangulate(t, sp["monitors"])
         extra = triangulate.wind_files(ev["triangulation"], sp["day"][-4:], t["wind"]["site_id"], t["winds"])

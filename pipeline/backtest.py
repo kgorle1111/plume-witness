@@ -118,6 +118,8 @@ def load_echo(raw: Path = BT) -> tuple[dict[str, dict], list[dict]]:
 def load_winds(year: str, day: str, sites: dict[str, tuple[float, float]], raw: Path = BT) -> dict[str, dict]:
     """Each site's own wind (met form, else AutoGC form: build.own_wind); a site with neither that day borrows the
     nearest site that has its own (site_id says which)."""
+    # kn: no distance cap on a borrowed wind; the farthest borrowed in 2024-25 is 1.8 km. Cap it before a sparser
+    # region borrows across a bay.
     own = {s: w for s in sites if (w := build.own_wind(s, year, day, raw, _table))}
     out = {}
     for s, p in sites.items():
@@ -159,8 +161,13 @@ def window_reports(day: str, hour_cst: int, rows_by_day: dict, incomplete_weeks:
     if hi.date() == det_day:
         return details, complete, unreadable, ""
     nxt = (det_day + timedelta(days=1)).strftime("%m/%d/%Y")
-    more, more_ok, more_bad = day_reports(nxt, rows_by_day, incomplete_weeks, raw)
-    more = {i: d for i, d in more.items() if datetime.fromisoformat(d["start_local"]) <= hi}
+    # Only next-day reports that began by the window's end can match, so only theirs must be readable: an unread
+    # page for a report that began at 18:59 the next day made a 23:00 spike "search incomplete" (review L3).
+    nxt_rows = rows_by_day.get(nxt, [])
+    in_window = [r for r in nxt_rows if _stamp(r["began"]) <= hi]
+    more, more_bad = _details(in_window, raw)
+    more_ok = (searched(nxt, raw, incomplete_weeks) and not any(r["search_file"] in incomplete_weeks for r in nxt_rows)
+               and not more_bad and len(more) == len(in_window))
     note = (f"The match window runs past midnight, so reports that started {nxt} by {hi:%H:%M} local were also "
             f"searched ({len(more)} found; search {'complete' if more_ok else 'incomplete'}).")
     return details | more, complete and more_ok, unreadable + more_bad, note
@@ -566,7 +573,8 @@ The spike scan runs the unchanged trigger on every day of 2024-2025 for both com
 spike's record check: {", ".join(f"{k} {v}" for k, v in sp["by_status"].items())}. The pipeline abstains rather than
 claim absence when the day's search or the {build.LOOKBACK_DAYS} days before it are not completely searched, or
 the wind is too light to trace ({sp["abstained_search_incomplete"]} spikes; {sp["abstained_calm_wind"]} of them
-under {build.CALM_MPH:g} mph, {sp["abstained_earlier_days_unsearched"]} because earlier days were not searched).
+under {build.CALM_MPH:g} mph in the detection hour or the hour before, {sp["abstained_earlier_days_unsearched"]} because
+earlier days were not searched).
 {sp["matched_an_ongoing_report"]} spikes matched a report that started on an earlier day and was still running.
 "No matching report found" is not a finding about any facility: Texas requires a report only above a reportable
 quantity (30 TAC 101.201), other sources (traffic, ships, tank farms, permitted emissions) raise readings, and
