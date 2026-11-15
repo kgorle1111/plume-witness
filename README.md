@@ -11,7 +11,7 @@
 
 **Live site:** [kgorle1111.github.io/plume-witness](https://kgorle1111.github.io/plume-witness/), static, no login, English and Spanish · **Video:** [VIDEO_URL](VIDEO_URL) · **Devpost:** [DEVPOST_URL](DEVPOST_URL)
 
-Built at GDG on Campus UCSC DevFest 2026 for the Best Social Impact track.
+Built at GDG on Campus UCSC DevFest for the Best Social Impact track.
 
 ## What it does
 
@@ -24,18 +24,19 @@ Industrial facilities in Texas report their own unplanned releases ("emissions e
 
 **Who it's for:** reporters, watchdog analysts and environmental volunteers who check these reports by hand today. TEJAS volunteers in Houston verify, document, share and translate each incident themselves <!-- CL-028 -->, and around the Galena Park monitor 77.1% of residents age 5 and over speak Spanish at home. <!-- CL-035 -->
 
-Beyond the demo night, the site has a Past spikes log of 468 spikes at 12 monitors with a CSV download and a calendar, replays 466 of those nights, and has a place search with neighborhood shortcuts. <!-- CL-031 --> It also has a two-year spike timeline, a history page for each of 194 facilities near the monitors, RSS feeds per monitor, an embeddable replay for newsrooms, a printable 2-page method brief, documented open data files ([docs/api.md](docs/api.md)), install-as-app with offline replay, and a second region, Beaumont-Port Arthur, with 2 monitors. <!-- CL-033 -->
+Beyond the demo night, the site has a Past spikes log of 468 Houston spikes at 12 monitors with a CSV download and a calendar, replays 466 of those nights, and has a place search with neighborhood shortcuts. <!-- CL-031 --> It covers all 45 Texas AutoGC monitors in 10 regions on a Coverage page, runs the same check on every one with 2024-2025 data, and checks spikes against a second public report system, the federal National Response Center. It also has a two-year spike timeline, a history page for each of 194 facilities near the Houston monitors, RSS feeds per monitor, an embeddable replay for newsrooms, a printable 2-page method brief in English and Spanish, link previews, documented open data files ([docs/api.md](docs/api.md)), and install-as-app with offline replay. <!-- CL-033 -->
 
 ## Results
 
-Measured on public data for the Houston Ship Channel. Each row says what the number does and does not show.
+Measured on public data, for the Houston Ship Channel unless the row says otherwise. Each row says what the number does and does not show.
 
 | What we measured | Result | What it means |
 |---|---|---|
-| Spikes checked against the record, 12 monitors | The check has run on all 468 spikes; 168 ended as no report after a complete search <!-- CL-011 --> | A missing match is a question for the state, never a finding: reports are required only above a reportable quantity, and other sources raise readings too. The site counts these spikes and names no facility. How often a no-report result is wrong is estimated only from the hand check below. |
+| Spikes checked against the record, 12 monitors | The check has run on all 468 spikes; 167 ended as no report after a complete search <!-- CL-011 -->, in two public report systems: the state's STEERS reports and, where STEERS has no match, the federal National Response Center's, whose 1,508 reports for Harris and Jefferson counties added 0 matches <!-- CL-036 --> | A missing match is a question for the state, never a finding: reports are required only above a reportable quantity, and other sources raise readings too. The site counts these spikes and names no facility. How often a no-report result is wrong is estimated only from the hand check below. |
 | Hand check of no-report spikes | Of 10 picked at random, the gap held in 8 of 10, 2 of 10 could not be settled from public data, and 0 of 10 was a report the pipeline missed <!-- CL-032 --> | One reviewer; with 10 nights the true miss rate could be as high as 28% (Wilson 95%). [docs/audit-no-report.md](docs/audit-no-report.md) |
-| Backtest on releases companies reported | Of 77 reported releases, only 5 of 77 showed a spike at a state monitor from 1 hour before to 6 hours after the reported start, and the pipeline matched 1 of 77 end to end <!-- CL-023 --> | Start day only; a spike near the start is consistent with the release, not proof it caused the reading. The backtest does not measure how often a no-report result is wrong. [docs/backtest.md](docs/backtest.md) |
-| What hourly monitors can see | In 60 of 77 a state monitor within 15 km was downwind near the start, yet ordinary days at the same monitors and hours spiked in 26 of 410 windows <!-- CL-029 --> | The 95% intervals overlap at every setting tested, so these monitors cannot tell these releases apart from ordinary days at the same hours. [docs/detector.md](docs/detector.md) |
+| Backtest on releases companies reported | Of 82 reported releases, only 5 of 82 showed a spike at a state monitor from 1 hour before to 6 hours after the reported start, and the pipeline matched 1 of 82 end to end <!-- CL-023 --> | Start day only; a spike near the start is consistent with the release, not proof it caused the reading. The backtest does not measure how often a no-report result is wrong. [docs/backtest.md](docs/backtest.md) |
+| What hourly monitors can see | In 64 of 82 a state monitor within 15 km was downwind near the start, yet ordinary days at the same monitors and hours spiked in 27 of 429 windows <!-- CL-029 --> | The 95% intervals overlap at every setting tested, so these monitors cannot tell these releases apart from ordinary days at the same hours. [docs/detector.md](docs/detector.md) |
+| Beaumont-Port Arthur, same backtest | Of 81 releases companies reported in Jefferson County, a monitor with data was downwind of 37 of 81 near the reported start, yet 0 of 81 had a trigger hit then and 0 of 81 matched end to end; ordinary-day control windows hit 0 of 413 <!-- CL-037 --> | Start day only. Readings above 10 ppb are rare at these 2 monitors, so this mostly shows the trigger does not fire there. [docs/backtest-beaumont.md](docs/backtest-beaumont.md), [docs/detector-beaumont.md](docs/detector-beaumont.md) |
 | A night with no answer | On March 29, 2024 at 23:00 CST Galena Park read 15.84 ppb of benzene against a usual 0.27 ppb; 12 facilities sit upwind, and a hand check by one reviewer found no report of any type running within 12 hours <!-- CL-034 --> | TCEQ labels the reading provisional. The gap is a question for the state, not a finding that a release went unreported. |
 
 ## Architecture
@@ -46,6 +47,7 @@ flowchart LR
     S1["TCEQ AutoGC<br/>hourly readings"]
     S2["TCEQ met wind"]
     S3["TCEQ STEERS<br/>event reports"]
+    S6["US NRC<br/>incident reports"]
     S4["EPA ECHO / TRI"]
     S5["Census ACS"]
   end
@@ -78,7 +80,7 @@ The pipeline is deterministic and runs from cached public files: every value com
 | Layer | What we use |
 |---|---|
 | Pipeline | Python 3.12, [uv](https://docs.astral.sh/uv/), pytest, Ruff (`pipeline/`, `tests/`, `evals/`) |
-| Data sources | TCEQ AutoGC hourly VOCs and site meteorology, TCEQ STEERS emissions-event reports, EPA ECHO facility locations and TRI totals, U.S. Census Bureau ACS (tract level) |
+| Data sources | TCEQ AutoGC hourly VOCs and site meteorology, TCEQ STEERS emissions-event reports, US Coast Guard National Response Center (NRC) incident reports, EPA ECHO facility locations and TRI totals, U.S. Census Bureau ACS (tract level) |
 | Web | Vite, React 19, TypeScript, MapLibre GL, deck.gl, OpenFreeMap tiles, service worker and web manifest (installable PWA, offline replay), English and Spanish UI (`web/src/i18n.ts`), oxlint, `node --test` |
 | AI | Anthropic Python SDK: Claude Opus 5.5 (`claude-opus-5-5`) writes the optional packet draft (`pipeline/claude_draft.py`); Claude Sonnet 5.5 (`claude-sonnet-5-5`) reads companies' report revisions (`pipeline/walkback.py`). Model output passes a deterministic number guard, which has its own guard-escape eval ([evals/guard_escape](evals/guard_escape/RESULTS.md)). |
 | Voice | Kokoro text-to-speech, voices `af_heart` (English) and `ef_dora` (Spanish), pre-generated for read-aloud (`pipeline/voice.py`) |
@@ -98,21 +100,18 @@ Exact versions are pinned in [pyproject.toml](pyproject.toml), [uv.lock](uv.lock
 
 ## Roadmap
 
-- Place the reports the pipeline cannot yet locate, using a reviewed lookup table of TCEQ regulated-entity numbers.
-- Ship the report-revision ("walk-back") reader once it has a labeled eval.
-- More monitors, starting where the wind data is solved.
-- A statewide list of open questions across every TCEQ AutoGC site.
+- Place every report on the map with a reviewed lookup table of TCEQ regulated-entity numbers.
+- A labeled eval for the report-revision ("walk-back") reader, then ship it.
+- One statewide list of open questions across all 10 regions.
 - AI drafts for every replayable night, behind the same guard.
-- A second report source to cross-check STEERS.
-- Redesign follow-ups across the remaining pages.
 
 ## Method and limits
 
 Plume Witness checks records; it does not assign blame. The limits that change what a reader should conclude:
 
 - **The corridor is geometry, not a plume model.** Wind at one monitor cannot tell facilities on the same bearing apart, so the app lists them and checks the record instead of naming a source.
-- **A missing report is a question, not a finding.** Texas requires an initial notice within 24 hours and a final record within 14 days only for an emissions event at or above a reportable quantity (30 TAC 101.201) <!-- CL-013 -->, and air readings cannot measure how much was released. A matching report is not proof the facility caused every reading either.
-- **Hourly state monitors are a coarse instrument.** For the releases we backtested, they cannot confirm or contradict a company's report (see Results). The backtest covers the 12 Houston Ship Channel monitors.
+- **A missing report is a question, not a finding.** Texas requires an initial notice within 24 hours and a final record within 14 days only for an emissions event at or above a reportable quantity (30 TAC 101.201 in the Texas Administrative Code) <!-- CL-013 -->, and air readings cannot measure how much was released. A matching report is not proof the facility caused every reading either.
+- **Hourly state monitors are a coarse instrument.** For the releases we backtested, they cannot confirm or contradict a company's report (see Results). The backtests cover the 12 Houston Ship Channel monitors and the 2 Beaumont-Port Arthur monitors.
 - **Only regulator-grade monitors.** It sees what TCEQ's AutoGC monitors see, and many neighborhoods have none. TCEQ labels AutoGC data provisional.
 - **A person files.** Every packet is reviewed, edited and filed by a person.
 
@@ -148,6 +147,7 @@ Use `?intro=0#detect` to open the demo night directly, or a step hash such as `#
 |---|---|---|
 | [TCEQ](https://www.tceq.texas.gov/) AutoGC hourly readings and site meteorology | Detect, Trace | Public government data; cite TCEQ |
 | TCEQ STEERS Air Emission Event Report Database | Check | Public government records; cite TCEQ |
+| [US Coast Guard National Response Center](https://nrc.uscg.mil/) incident reports | Check (second report source) | U.S. federal data, public domain; NRC marks them initial and not validated |
 | [EPA ECHO](https://echo.epa.gov/) and [TRI](https://www.epa.gov/toxics-release-inventory-tri-program) | Facility locations and yearly totals | U.S. federal data, public domain |
 | [U.S. Census Bureau ACS](https://www.census.gov/programs-surveys/acs) | Who lives near each monitor ([docs/people.md](docs/people.md)) | U.S. federal data, public domain |
 | [OpenStreetMap](https://www.openstreetmap.org/copyright) via [OpenFreeMap](https://openfreemap.org/) | Base map | Map data © OpenStreetMap contributors (ODbL) |
