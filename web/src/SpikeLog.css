@@ -144,6 +144,8 @@
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 12px; border-radius: 2px; }
+/* Forced colors drop the swatch backgrounds but keep the SVG fills, so the legend no longer matched the strips. */
+@media (forced-colors: active) { .sl-cal-swatch { forced-color-adjust: none; } }
 
 .follow { margin-top: 4px; }
 .follow-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.9rem; }
