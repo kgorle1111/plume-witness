@@ -6,7 +6,8 @@ build's provenance block is unchanged. Files already on disk are skipped: rerunn
 Phases (all public, no login):
 1. TCEQ site coordinates (TAMIS site pages) for the Ship Channel AutoGC sites
 2. AutoGC hourly benzene and 1,3-butadiene, 2024-2025, every site
-3. Site wind direction and speed, 2024-2025 (the CAMS id that carries wind is found by trying each listed one)
+3. Site wind direction and speed, 2024-2025 (the CAMS id that carries wind is found by trying each listed one),
+   plus the AutoGC form's resultant wind (61104/61103), the fallback for sites or days without met-form wind
 4. STEERS searches, Harris County, all event types, week by week 2024-2025 (split when a page hits the 50 cap)
 5. STEERS detail page for every emissions event found, plus every other row on a candidate day
 6. EPA ECHO air facilities within 10 mi of each site
@@ -48,6 +49,7 @@ BT = Path(__file__).resolve().parent.parent / "data" / "raw" / "backtest"
 LEDGER = BT / "provenance.json"
 MAX_FILE_BYTES = 2_000_000  # kn: per-file guard; the whole set is budgeted at ~30 MB
 BENZENE, BUTADIENE = "45201", "43218"
+AGC_WIND_DIR, AGC_WIND_SPEED = "61104", "61103"  # resultant wind on the AutoGC form
 YEARS = ("2024", "2025")
 TAMIS_SITE = "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS={}"
 
@@ -143,6 +145,26 @@ def fetch_met() -> None:
             else:
                 _skipped.append(f"met {site} {year}: no listed CAMS id returned hourly wind")
                 log(f"NO WIND {site} {year}")
+
+
+def fetch_agc_wind() -> None:
+    """The AutoGC form's resultant wind (61104 direction, 61103 speed): the fallback when a site has no met-form wind
+    that day (build.own_wind tries met first). A page with no hourly rows is not saved, and the gap is reported."""
+    for site in SITES:
+        for year in YEARS:
+            for param in (AGC_WIND_DIR, AGC_WIND_SPEED):
+                name = f"agc_{year}_{site}_{param}.html"
+                if (BT / name).exists():
+                    continue
+                params = {"user_year": year, "user_site": site, "user_param": param, "user_units": "ppb-v",
+                          "report_format": "comma", "user_decimals": "2"}
+                content = _polite_get(AGC_URL, params)
+                if not _has_hourly_rows(content):
+                    _skipped.append(f"agc wind {name}: no hourly rows on the AutoGC form")
+                    log(f"NO AGC WIND {name}")
+                    continue
+                _save(name, AGC_URL, params, content)
+                log(f"agc wind {name}")
 
 
 def _steers_opener() -> urllib.request.OpenerDirector:
@@ -286,12 +308,12 @@ if __name__ == "__main__":
         region, args = regions.get(args[1]), args[2:]
         use_region(region)
     # daydetails reads the backtest's candidate set, which only a backtested region has
-    default = ["sites", "echo", "agc", "met", "weeks", "details"] + (["daydetails"] if region.backtested else
+    default = ["sites", "echo", "agc", "met", "agcwind", "weeks", "details"] + (["daydetails"] if region.backtested else
                                                                       ["forms"]) + ["spikedetails"]
     for ph in args or default:
         {"sites": fetch_sites, "agc": fetch_agc, "met": fetch_met, "weeks": fetch_steers_weeks,
          "details": fetch_steers_details, "echo": fetch_echo, "daydetails": fetch_candidate_day_details,
-         "spikedetails": fetch_spike_day_details, "forms": fetch_forms}[ph]()
+         "spikedetails": fetch_spike_day_details, "forms": fetch_forms, "agcwind": fetch_agc_wind}[ph]()
     total = sum(p.stat().st_size for p in BT.iterdir())
     log(f"done: {len(_ledger)} files in ledger, {total / 1e6:.1f} MB on disk")
     for s in _skipped:
