@@ -60,25 +60,8 @@ def downwind_hours(fac: tuple[float, float], site: tuple[float, float], wind_hou
 
 
 def winds_for(day: str, sites: dict[str, tuple[float, float]], raw: Path = backtest.BT) -> dict[str, dict]:
-    """Same rule as backtest.load_winds (own wind, else the nearest site that has it), on cached tables.
-
-    kn: re-implemented only to reuse backtest._table's cache; load_winds re-parses two yearly pages per site per
-    call, which is minutes over ~500 days. A test pins this to load_winds on a real day.
-    """
-    year, own = day[-4:], {}
-    for s in sites:
-        wdir = backtest._table(raw / f"met_{year}_{s}_61102.html").get(day)
-        wspd = backtest._table(raw / f"met_{year}_{s}_61101.html").get(day)
-        if wdir and wspd and any(v is not None for v in wdir):
-            own[s] = {"site_id": s, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]}
-                                               for h in range(24)]}
-    out = {}
-    for s, p in sites.items():
-        if s in own:
-            out[s] = own[s]
-        elif own:
-            out[s] = own[min(own, key=lambda o: build.haversine_km(p, sites[o]))]
-    return out
+    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's; cached tables)."""
+    return backtest.load_winds(day[-4:], day, sites, raw)
 
 
 def evaluate_unit(fac: tuple[float, float], day: str, param: str, start_hour_cst: int,
@@ -300,8 +283,9 @@ compound that day; hit columns count only the "with data" releases.
   start moves the window.
 - **ECHO coordinates.** Facility positions are EPA ECHO points, which can sit hundreds of meters from the
   emission point; the wedge test uses them as given.
-- **Borrowed wind.** {", ".join(backtest.SITE_NAMES[s] for s in backtest.SITE_NAMES if not any(
-        backtest.BT.glob(f"met_*_{s}_61102.html")))} have no wind of their own and use the nearest site's.
+- **Wind source.** {", ".join(backtest.SITE_NAMES[s] for s in backtest.SITE_NAMES if not any(
+        backtest.BT.glob(f"met_*_{s}_61102.html")))} have no met-form wind and use their own AutoGC-form resultant
+  wind; a site with neither on a day uses the nearest site's.
 - **Geometry, not dispersion.** "Downwind" is the build.py wedge (+/-22.5 deg, 15 km), not a plume model; a
   downwind monitor can still miss a narrow or lofted plume.
 - **Alerts per week is a false-alarm proxy, not a false-alarm rate:** nobody knows the true cause of each alert.

@@ -238,6 +238,13 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
           ? t('trc.leadWind', { hour: hourLabel(wind.hour_cst), site: windSite, dir: compass(wind.from_deg, lang), deg: wind.from_deg, mph: wind.speed_mph })
           : t('trc.leadNoWind', { hour: hourLabel(ev.detection.hour_cst) })}
       </p>
+      {ev.wind.source && (
+        <p className="muted small">
+          {ev.wind.source === 'own_autogc'
+            ? t('trc.windOwnAutogc')
+            : t('trc.windBorrowed', { site: windSite, trig: ev.monitors.find((m) => m.site_id === ev.detection.site_id)?.name ?? ev.detection.site_id })}
+        </p>
+      )}
       <p className="caveat"><InfoIcon />{t('trc.caveat')}</p>
       <TriangulationNote ev={ev} />
       <h3 className="list-heading">{t('trc.heading', { n: corridor.length })}</h3>

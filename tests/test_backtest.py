@@ -249,8 +249,50 @@ def test_earlier_days_unsearched_means_incomplete(tmp_path):
 
 
 def test_spike_matched_by_a_report_started_the_day_before(result):
-    # Report 421635 started 04/20/2024. (The earlier example, 06/13/2024 HRM-16 -> 424533, now abstains: since
-    # 2026-11-15 HRM-16 borrows the calmer wind of Houston Deer Park #2, 4.5 km away, instead of Lynchburg Ferry.)
-    r = next(r for r in result["spikes"] if r["day"] == "04/22/2024" and r["param"] == "43218")
+    # HRM-16 has no met-form wind; this match runs on its own AutoGC-form wind (a borrowed neighbour's lost it).
+    r = next(r for r in result["spikes"] if r["day"] == "06/13/2024" and r["param"] == "45201")
+    assert r["status"] != "no_report_after_deadline" and r["matched_incident"] == "424533"
+    assert r["matched_ongoing"] is True and r["wind_source"] == "own_autogc"
+    r = next(r for r in result["spikes"] if r["day"] == "04/22/2024" and r["param"] == "43218")  # report began 04/20
     assert r["status"] != "no_report_after_deadline" and r["matched_incident"] == "421635"
     assert r["matched_ongoing"] is True
+
+
+def _wind_pages(raw, site: str, source: str, deg: float, mph: float, day: str = "06/21/2024") -> None:
+    raw.mkdir(exist_ok=True)
+    speed, direction = build.wind_files(site, day[-4:], source)
+    for name, v in ((speed, mph), (direction, deg)):
+        (raw / name).write_text(f"{day}," + ",".join([str(v)] * 24) + "\n")
+
+
+def test_wind_source_order_is_own_met_then_own_autogc_then_borrowed(tmp_path):
+    day = "06/21/2024"
+    sites = {"A": (29.70, -95.26), "B": (29.71, -95.26), "C": (29.90, -95.26)}
+    raw = tmp_path / "all"
+    _wind_pages(raw, "A", "met", 90, 5)
+    _wind_pages(raw, "A", "autogc", 180, 6)  # A has both: the met form must win
+    _wind_pages(raw, "B", "autogc", 270, 7)  # B has only the AutoGC form
+    w = backtest.load_winds("2024", day, sites, raw)
+    assert w["A"]["site_id"] == "A" and "source" not in w["A"] and w["A"]["hourly"][9]["from_deg"] == 90
+    assert w["B"]["site_id"] == "B" and w["B"]["source"] == "autogc" and w["B"]["hourly"][9]["speed_mph"] == 7
+    # C has neither, so it borrows the nearest site with its own wind (B), never before trying its own.
+    assert w["C"]["site_id"] == "B" and backtest.wind_source(w["C"], "C") == "borrowed_autogc"
+    assert backtest.wind_source(w["A"], "A") == "own_met" and backtest.wind_source(w["B"], "B") == "own_autogc"
+
+    raw2 = tmp_path / "agc_only"
+    _wind_pages(raw2, "A", "autogc", 180, 6)
+    _wind_pages(raw2, "B", "met", 45, 4)
+    w = backtest.load_winds("2024", day, sites, raw2)
+    assert w["A"]["site_id"] == "A" and w["A"]["source"] == "autogc"  # own AutoGC beats B's (nearer) met wind
+    assert w["C"]["site_id"] == "B" and "source" not in w["C"]
+
+
+def test_event_says_where_a_borrowed_or_autogc_wind_came_from():
+    trig = {"site_id": "A", "name": "Alpha", "lat": 29.70, "lon": -95.26}
+    mons = [trig, {"site_id": "B", "name": "Bravo", "lat": 29.71, "lon": -95.26}]
+    own = {"site_id": "A", "hourly": []}
+    assert build.wind_block(own, trig, mons) is own  # own met-form wind: the original shape, untouched
+    agc = build.wind_block(own | {"source": "autogc"}, trig, mons)
+    assert agc["source"] == "own_autogc" and "own monitor" in agc["source_note"]
+    lent = build.wind_block({"site_id": "B", "hourly": []}, trig, mons)
+    assert lent["source"] == "borrowed_met" and "Bravo" in lent["source_note"] and "1.1 km" in lent["source_note"]
