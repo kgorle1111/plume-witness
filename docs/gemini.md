@@ -94,3 +94,15 @@ guard-pass rates on real events.
 3. The real draft passes the guard on `web/public/event.json`, including that Spanish numbers keep `.`
    decimals.
 4. Real token counts and latency, recorded here in place of the estimates above.
+
+## Claude drafter (same guard)
+
+`pipeline/claude_draft.py` drafts the same packet with Claude (`claude-opus-5-5`, effort `low`). It reuses this module's facts, prompt and guard unchanged, so a Claude draft faces the identical number and banned-word check and falls back to the template on any failure, refusal or cut-off answer. On a policy decline the API re-runs the request on its default fallback model (`fallbacks: "default"`, beta `server-side-fallback-2026-07-01`).
+
+```bash
+uv run python -m pipeline.claude_draft --event web/public/event.json --out data/build/packet.claude.json
+```
+
+- The key is read **only** from `ANTHROPIC_API_KEY`; set it in your own shell (`read -s ANTHROPIC_API_KEY && export ANTHROPIC_API_KEY`). It is scrubbed from any error text and never logged.
+- Exit codes match the Gemini drafter: `0` passed the guard, `1` template fallback written, `2` missing key or invalid event.
+- Cost: roughly 2k input and under 1k output tokens per call, about $0.02-0.03 at $4 / $20 per million tokens, plus thinking tokens. **Untested against the live API** until someone runs the command above.
