@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { embedUrl, fullUrl, iframeHtml, isEmbed, stepFromHash, stepLine, EMBED_STEPS } from '../src/embed.ts'
 import type { PlumeEvent } from '../src/types.ts'
 import { pageFromLocation } from '../src/routes.ts'
+import { BANNED_WORDS, translate } from '../src/i18n.ts'
 
 const ev = JSON.parse(readFileSync(new URL('../public/event.json', import.meta.url), 'utf8')) as PlumeEvent
 const BANNED = /\b(illegal|violations?|unreported|caught|polluters?|proves?)\b/i
@@ -42,4 +43,28 @@ test('every step has a line with real numbers and no banned wording', () => {
   assert.match(stepLine(ev, 'detect'), new RegExp(String(ev.detection.value)))
   assert.match(stepLine(ev, 'trace'), /cannot tell them apart/)
   assert.match(stepLine(ev, 'check'), /not a finding about any facility/)
+})
+
+test('the embed speaks the reader\'s language: Spanish step names and lines, numbers unchanged', () => {
+  assert.deepEqual(EMBED_STEPS.map((s) => translate('es', s.label)), ['Detectar', 'Rastrear', 'Verificar'])
+  const detect = stepLine(ev, 'detect', 'es')
+  assert.match(detect, /registró/)
+  assert.match(detect, new RegExp(String(ev.detection.value).replace('.', '\\.')))
+  assert.match(detect, /benceno/)
+  const trace = stepLine(ev, 'trace', 'es')
+  assert.match(trace, /viento arriba/)
+  assert.doesNotMatch(trace, /Wind came|listed facilit/)
+  const check = stepLine(ev, 'check', 'es')
+  assert.match(check, /^Registro estatal: Reportado\./)
+  assert.match(check, /ninguna instalación/)
+  for (const s of EMBED_STEPS) {
+    for (const lang of ['en', 'es'] as const) {
+      const line = stepLine(ev, s.id, lang)
+      for (const re of BANNED_WORDS) assert.ok(!re.test(line), `${lang} ${s.id}: ${line}`)
+      assert.ok(!/\{\w+\}/.test(line), `unfilled slot in ${lang} ${s.id}: ${line}`)
+    }
+  }
+  // English stays as it was (the record's own compound text included).
+  assert.equal(stepLine(ev, 'trace'), stepLine(ev, 'trace', 'en'))
+  assert.match(stepLine(ev, 'check'), /^State record: Reported\. Report #\d+ lists Benzene in the corridor\. This is not a finding/)
 })
