@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { arrivalTick, daysAfterEvent, localOffsetH, localToCstMinutes, reportBand } from '../src/reportWindow.ts'
+import { arrivalTick, daysAfterEvent, localOffsetH, localToCstMinutes, reportBand, resolutionText, timeNote } from '../src/reportWindow.ts'
 import type { PlumeEvent, RecordCheck } from '../src/types.ts'
 
 const ev = JSON.parse(readFileSync(new URL('../public/event.json', import.meta.url), 'utf8')) as PlumeEvent
@@ -57,4 +57,24 @@ test('revision lands 173 days after the demo event and is carried in the event f
   const rev = ev.record_check.reported!.revisions!
   assert.equal(rev.length, 1)
   assert.equal(daysAfterEvent(ev.record_check.reported!.start_local!, rev[0].date), 173)
+})
+
+test('Spanish: the report window and arrival marker carry no English words', () => {
+  const b = reportBand(ev.record_check, ev.date_local, 'es')!
+  assert.equal(b.localText, '9:38 a 10:42 CDT')
+  assert.equal(b.cstText, '8:38 a 9:42 CST')
+  assert.equal(arrivalTick(ev.record_check, ev.date_local, 'es')!.text, 'el aire podría llegar ~10:36 CDT (viento 6.8 mph, 10.6 km)')
+})
+
+test('the time note reads in Spanish, and an unknown note stays as published', () => {
+  assert.equal(timeNote(ev.time_note, 'en'), ev.time_note)
+  assert.match(timeNote(ev.time_note, 'es')!, /^Las horas del monitor están en CST.*\(CDT, CST\+1\)/)
+  assert.equal(timeNote('Something else.', 'es'), null)
+})
+
+test('report resolutions from build.py read in Spanish; unknown forms stay English', () => {
+  assert.deepEqual(resolutionText('in the upwind corridor', 'es'), { text: 'en el corredor viento arriba', lang: 'es' })
+  assert.deepEqual(resolutionText('outside the corridor (22.9 km, 41° off the wind)', 'es'),
+    { text: 'fuera del corredor (22.9 km, 41° fuera de la dirección del viento)', lang: 'es' })
+  assert.deepEqual(resolutionText('unresolved: no location', 'es'), { text: 'unresolved: no location', lang: 'en' })
 })

@@ -661,13 +661,12 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .more-nights summary { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
 .more-nights-body { display: grid; gap: 12px; padding: 0 14px 14px; }
 .more-nights-body .night-picker { margin-top: 0; }
-.map-key-btn { display: none; }
 @media (max-width: 640px) {
   .stage .map-wrap { height: 32vh; height: 32dvh; }
 }
 /* "Key" (EventMap) folds the legend away below 1440px wide: at 1280x720 the legend wrapped to two rows (48px) over a
    406px map. Wider screens keep the one-row legend always on. Colours are the theme tokens, so the button reads in
-   both themes (closed: ink on surface; open: the reverse). App.tsx's older phone-only .map-key-btn stays hidden. */
+   both themes (closed: ink on surface; open: the reverse). */
 .map-key { display: none; }
 @media (max-width: 1439px) {
   .map-key {

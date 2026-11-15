@@ -5,7 +5,7 @@ import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote } from './note'
 import { facilityHref } from './facilities'
-import { arrivalTick, daysAfterEvent, reportBand } from './reportWindow'
+import { arrivalTick, daysAfterEvent, reportBand, resolutionText, timeNote } from './reportWindow'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -42,8 +42,9 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
   const y = (v: number) => H - pad - (v / max) * (H - pad - 6)
   const missing = m.hourly.filter((h) => h.value === null).length
   const t = useT()
-  const band = reportBand(rc, eventDay)
-  const tick = band ? arrivalTick(rc, eventDay) : null
+  const lang = useLang()
+  const band = reportBand(rc, eventDay, lang)
+  const tick = band ? arrivalTick(rc, eventDay, lang) : null
   const bandLabel = band && t(band.matched ? 'spark.bandMatched' : 'spark.bandOther')
   const bandText = band
     ? t('spark.ariaBand', {
@@ -128,6 +129,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const others = ev.monitors.filter((x) => x.triggered && x.site_id !== d.site_id)
   const atHour = m.hourly.find((x) => x.hour_cst === hour)
   const t = useT()
+  const lang = useLang()
   const rule = ruleParts(d.rule)
   return (
     <>
@@ -151,7 +153,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
       {others.length > 0 && (
         <p className="muted small">{t('det.alsoFlagged', { list: others.map((o) => t('det.alsoItem', { name: o.name, value: o.peak.value, unit: unitShort(u), hour: hourLabel(o.peak.hour_cst) })).join('; ') })}</p>
       )}
-      <p className="muted small">{ev.time_note}</p>
+      <p className="muted small" lang={timeNote(ev.time_note, lang) ? lang : 'en'}>{timeNote(ev.time_note, lang) ?? ev.time_note}</p>
       <Rose siteId={m.site_id} param={ev.compound.aqs_param} />
     </>
   )
@@ -341,13 +343,13 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
             {(r.start_local || r.end_local) && (
               <div><dt>{t('chk.time')}</dt><dd>{t('chk.timeRange', { start: localTime(r.start_local, t), end: localTime(r.end_local, t) })}{r.tz ? ` ${r.tz}` : ''}</dd></div>
             )}
-            {r.cause && <div><dt>{t('chk.cause')}</dt><dd>{r.cause}</dd></div>}
+            {r.cause && <div><dt>{t('chk.cause')}</dt><dd lang="en">{r.cause}</dd></div>}
             {(r.revisions ?? []).map((v) => {
               const n = r.start_local ? daysAfterEvent(r.start_local, v.date) : null
               return (
                 <div key={`${v.date}-${v.text}`}>
                   <dt>{t('chk.update')}</dt>
-                  <dd>{n != null ? t(n === 1 ? 'chk.revisedOne' : 'chk.revisedMany', { n }) : t('chk.revisedOn', { date: v.date })}: <q>{v.text}</q> <span className="muted">{t('chk.updateSource', { date: v.date })}</span></dd>
+                  <dd>{n != null ? t(n === 1 ? 'chk.revisedOne' : 'chk.revisedMany', { n }) : t('chk.revisedOn', { date: v.date })}: <q lang="en">{v.text}</q> <span className="muted">{t('chk.updateSource', { date: v.date })}</span></dd>
                 </div>
               )
             })}
@@ -389,7 +391,7 @@ function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
                 .filter(Boolean)
                 .join(' · ')}
             </span>
-            <span className="muted small">{t('chk.reportLine', { id: d.incident, resolution: d.resolution })}</span>
+            <span className="muted small">{t('chk.reportLine', { id: d.incident, resolution: '' }).replace(/:\s*$/, ':')} <span lang={resolutionText(d.resolution, lang).lang}>{resolutionText(d.resolution, lang).text}</span></span>
           </li>
         ))}
       </ul>
