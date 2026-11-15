@@ -85,6 +85,16 @@ def detect(monitors: list[dict]) -> dict | None:
     return None
 
 
+def site_names(rows: list[dict]) -> dict[str, list[str]]:
+    """Every distinct name of a major ECHO air source per RegistryID, sorted. One registry id can hold several permit
+    holders at one address (5 at 5900 Highway 225, Deer Park), so no single row's name speaks for the whole site."""
+    out: dict[str, set[str]] = {}
+    for r in rows:
+        if r.get("RegistryID") and r.get("AIRName") and r.get("AIRUniverse") == "Major Emissions" and r.get("FacLat"):
+            out.setdefault(r["RegistryID"], set()).add(" ".join(r["AIRName"].split()))
+    return {k: sorted(v) for k, v in out.items()}
+
+
 def corridor(echo: dict, origin: tuple[float, float], wind_from: list[float | None]) -> list[dict]:
     """Major sources inside the upwind corridor, nearest first. Geometry only: no facility is singled out."""
     winds = [w for w in wind_from if w is not None]
@@ -437,6 +447,23 @@ def own_wind(site: str, year: str, day: str, raw: Path = RAW, table=None) -> dic
     return None
 
 
+def name_filer(facilities: list[dict], rc: dict, echo_rows: list[dict]) -> None:
+    """Name the matched site as the report names its filer.
+
+    The corridor names each ECHO site by one row's AIRName, but one registry id can carry several permit holders'
+    names (5 at 5900 Highway 225, Deer Park, Airgas first), and a report found by street address files under
+    another name. The Check step prints this name beside the report number, so it must be the company that filed;
+    every major-source name ECHO lists for the site is kept in echo_names."""
+    if not rc.get("matched_facility_id") or not rc.get("reported"):
+        return
+    f = next((x for x in facilities if x["id"] == rc["matched_facility_id"]), None)
+    filer = rc["reported"]["facility"]
+    if f is None or f["name"] == filer:
+        return
+    f["echo_names"] = [n.title() for n in site_names(echo_rows).get(f["id"], [])] or [f["name"]]
+    f["name"] = filer
+
+
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
           details: dict[str, dict], complete: bool, det_day: date, param: str,
           earlier: dict[str, dict] | None = None, earlier_complete: bool = False, earlier_note: str = "",
@@ -477,6 +504,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
     rc = record_check(placed, details | earlier, det_day, h, search_complete=complete, param=param, ongoing=ongoing,
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
                       speed_mph=speed, county=county)
+    name_filer(facilities, rc, echo["Results"]["Facilities"])
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
             "facilities": facilities, "record_check": rc, "winds": winds}
 

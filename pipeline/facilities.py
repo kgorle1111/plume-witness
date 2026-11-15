@@ -143,7 +143,8 @@ def place_reports(area_ids: set[str], echo_rows: list[dict], raw: Path = BT) -> 
             cov["not_placed"] += 1
         elif fac["RegistryID"] in area_ids:
             cov["placed_on_a_major"] += 1
-            by_fac.setdefault(fac["RegistryID"], []).append(s)
+            # One ECHO site can hold several permit holders, so each report names the entity that filed it.
+            by_fac.setdefault(fac["RegistryID"], []).append(s | {"filed_by": clean(m["entity"])})
         else:
             cov["placed_elsewhere"] += 1
     for lst in by_fac.values():
@@ -206,7 +207,7 @@ def build_files() -> tuple[dict[str, dict], dict]:
         rid, t = r["RegistryID"], tri_json["facilities"][r["RegistryID"]]
         reports = by_fac.get(rid, [])
         files[rid] = {
-            "schema": SCHEMA, "registry_id": rid, "name": clean(r["AIRName"]),
+            "schema": SCHEMA, "registry_id": rid, "name": " / ".join(clean(n) for n in r["_names"]),
             "address": ", ".join(x for x in (clean(r.get("AIRStreet") or ""), clean(r.get("AIRCity") or "")) if x),
             "lat": round(float(r["FacLat"]), 5), "lon": round(float(r["FacLong"]), 5),
             "distance_km": r["_dist_km"], "nearest_monitor": r["_near"], "echo_url": t["link"],

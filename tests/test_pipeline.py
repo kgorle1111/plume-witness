@@ -271,3 +271,49 @@ def test_demo_search_completeness_comes_from_the_search_page(monkeypatch):
     real = build.steers_search
     monkeypatch.setattr(build, "steers_search", lambda p: real(p) | {"total": 60})  # a capped, partial listing
     assert "search incomplete" in build.build()["record_check"]["search_scope"]
+
+
+def test_report_at_a_multi_name_echo_site_is_named_as_its_filer():
+    """Night 2024-04-21: Shell Chemical's report 421635 sits at ECHO registry 110031267064, which ECHO lists under
+    five permit holders' names, Airgas first. The corridor kept the first row's name, so the Check step said
+    "Airgas Carbonic Deer Park Plant · Filed report #421635" for a report Shell filed (UI audit 3, S01)."""
+    from pipeline import backtest
+    from pipeline.parse import steers_incident
+
+    bt = backtest.BT
+    echo = json.loads((bt / "echo_48_201_0069_10mi.json").read_text())
+    _, echo_rows = backtest.load_echo()
+    inc = steers_incident(bt / "steers_421635.html")
+    assert inc["entity"] == "SHELL CHEMICAL"
+    origin = backtest.site_coords("48_201_0069")
+    facs = build.corridor(echo, origin, [86.0])
+    site = next(f for f in facs if f["id"] == "110031267064")
+    assert site["name"] == "Airgas Carbonic Deer Park Plant"  # the first of the site's five ECHO rows
+    placed = build.place_incidents([inc], facs, echo_rows, origin, [86.0])
+    assert placed[0]["facility_id"] == "110031267064" and placed[0]["entity"] == "Shell Chemical"
+    rc = build.record_check([], {"421635": inc}, date(2024, 4, 21), 2, search_complete=True, param="43218",
+                            ongoing=placed, earlier_complete=True)
+    assert rc["status"] == "reported" and rc["matched_facility_id"] == "110031267064"
+    build.name_filer(facs, rc, echo["Results"]["Facilities"])
+    # What the Check step prints beside "Filed report #421635" is the company that filed it.
+    assert site["name"] == rc["reported"]["facility"] == "Shell Chemical"
+    assert site["echo_names"] == ["Airgas Carbonic Deer Park Plant", "Deer Park Oil Refinery", "Deer Park Vcm Plant",
+                                  "Shell Chemical", "Westlake Epoxy Deer Park"]
+
+
+def test_published_nights_name_the_filer_of_the_matched_report():
+    """Every published night: the facility the Check step names beside the report is the report's own filer."""
+    paths = sorted((ROOT / "web" / "public" / "nights").glob("2*.json"))
+    paths += sorted((ROOT / "web" / "public" / "regions").glob("*/nights/2*.json"))
+    paths.append(ROOT / "web" / "public" / "event.json")
+    checked = 0
+    for p in paths:
+        ev = json.loads(p.read_text())
+        rc = ev["record_check"]
+        if not rc["matched_facility_id"]:
+            continue
+        f = next(x for x in ev["facilities"] if x["id"] == rc["matched_facility_id"])
+        assert f["name"] == rc["reported"]["facility"], (p.name, f["name"], rc["reported"]["facility"])
+        checked += 1
+    assert checked >= 18
+
