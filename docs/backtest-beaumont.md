@@ -23,12 +23,12 @@ is often hours from the release. Requiring the hit near the reported start (CST,
 No candidate had a spike on its start day, so the corridor and match steps never ran on one: here the backtest
 measures only whether the trigger fired, and the (b) cross-check below has no candidate side.
 
-Of the 0 matches, 0 came from a day search the pipeline could call complete.
-On 0 detected events the pipeline matched a different report filed that
-day instead of the candidate. Compound used: benzene for 63 events, 1,3-butadiene for
+Matches that came from a day search the pipeline could call complete: 0 of 0.
+Detected events where the pipeline matched a different report filed that day instead of the candidate: 0.
+Compound used: benzene for 63 events, 1,3-butadiene for
 18 (events that reported no benzene).
 
-## The three numbers for the slide
+## Three summary numbers
 
 | Question | Answer | Denominator |
 |---|---|---|
