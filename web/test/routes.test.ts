@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { NAV_ITEMS, navHref, pageFromLocation, regionStartNight, replayHref } from '../src/routes.ts'
+import { regionFrom, regionUnknown } from '../src/region.ts'
 
 const page = (search: string, hash = '') => pageFromLocation({ search, hash })
 
@@ -57,4 +58,12 @@ test('?region=beaumont with no night opens the first Beaumont night, not the Hou
   assert.equal(regionStartNight([]), null)
   assert.equal(regionStartNight({}), null)
   assert.equal(regionStartNight([{ id: '../../etc/passwd' }, { id: '2025-08-25_45201_48_245_0009' }]), '2025-08-25_45201_48_245_0009')
+})
+
+test('?region=bogus shows Houston and says so; known regions and no region do not', () => {
+  assert.equal(page('?region=bogus'), 'replay')
+  assert.equal(regionFrom('?region=bogus').key, 'houston')
+  for (const q of ['?region=bogus', '?region=', '?region=toString', '?region=Beaumont&night=x']) assert.equal(regionUnknown(q), true, q)
+  for (const q of ['', '?night=x', '?region=beaumont', '?region=houston', '?view=spikes&region=beaumont']) assert.equal(regionUnknown(q), false, q)
+  assert.equal(regionFrom('?region=beaumont').key, 'beaumont')
 })

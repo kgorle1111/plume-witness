@@ -78,3 +78,31 @@ test('report resolutions from build.py read in Spanish; unknown forms stay Engli
     { text: 'fuera del corredor (22.9 km, 41° fuera de la dirección del viento)', lang: 'es' })
   assert.deepEqual(resolutionText('unresolved: no location', 'es'), { text: 'unresolved: no location', lang: 'en' })
 })
+
+test('search scope: every published form reads in Spanish; an unknown sentence keeps the paragraph English', async () => {
+  const { readdirSync } = await import('node:fs')
+  const { searchScopeText } = await import('../src/reportWindow.ts')
+  const { BANNED_WORDS } = await import('../src/i18n.ts')
+  const pub = new URL('../public/', import.meta.url)
+  const nights = (dir: string) => readdirSync(new URL(dir, pub)).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => `${dir}${f}`)
+  for (const f of ['event.json', ...nights('nights/'), ...nights('regions/beaumont/nights/')]) {
+    const scope = (JSON.parse(readFileSync(new URL(f, pub), 'utf8')) as PlumeEvent).record_check.search_scope
+    const es = searchScopeText(scope, 'es')
+    assert.equal(es.lang, 'es', `${f} stayed English: ${scope}`)
+    assert.doesNotMatch(es.text, /\b(Searched|search|found|reports?|Wind|County)\b/, `${f}: English left in ${es.text}`)
+    for (const re of BANNED_WORDS) assert.ok(!re.test(es.text), `banned ${re}: ${es.text}`)
+    assert.deepEqual(searchScopeText(scope, 'en'), { text: scope, lang: 'en' })
+  }
+  const s = 'Searched every STEERS emissions event starting 07/09/2025 in Harris County (1 found; search complete). '
+    + 'Also searched reports that started in the 30 days before and were still running (0 open that day; earlier search incomplete). '
+    + 'Wind too light to trace (1.1 mph): no corridor drawn, so the search is incomplete.'
+  assert.deepEqual(searchScopeText(s, 'es'), {
+    lang: 'es',
+    text: 'Se revisaron todos los eventos de emisiones de STEERS que empezaron el 9 jul 2025 en el condado de Harris (1 encontrado; búsqueda completa). '
+      + 'También se revisaron los reportes que empezaron en los 30 días anteriores y seguían en curso (0 abiertos ese día; búsqueda anterior incompleta). '
+      + 'Viento demasiado débil para rastrear (1.1 mph): no se trazó un corredor, así que la búsqueda está incompleta.',
+  })
+  const reworded = `${s} Some new sentence from the pipeline.`
+  assert.deepEqual(searchScopeText(reworded, 'es'), { text: reworded, lang: 'en' })
+  assert.deepEqual(searchScopeText('Searched every STEERS emissions event starting 2025-07-09 in Harris County (1 found; search complete).', 'es').lang, 'en')
+})

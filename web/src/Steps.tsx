@@ -5,13 +5,14 @@ import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote } from './note'
 import { facilityHref } from './facilities'
-import { arrivalTick, daysAfterEvent, reportBand, resolutionText, timeNote } from './reportWindow'
+import { arrivalTick, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
 import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
 import { useLang, useT, type Translate } from './useT'
 import { checkAt, ruleParts } from './plainWords'
+import { compoundLabel } from './region'
 import { shortlist } from './traceList'
 import { useRecordedClip } from './recorded'
 
@@ -133,7 +134,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const rule = ruleParts(d.rule)
   return (
     <>
-      <p className="lead">{t('det.lead', { compound: ev.compound.name })}</p>
+      <p className="lead">{t('det.lead', { compound: compoundLabel(lang, ev.compound.name) })}</p>
       <dl className="facts">
         <div><dt>{t('det.monitor')}</dt><dd>{m.name} <span className="muted">({m.site_id})</span></dd></div>
         <div className="fact-key">
@@ -316,12 +317,13 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   const matched = ev.facilities.find((f) => f.id === rc.matched_facility_id)
   const r = rc.reported
   const t = useT()
+  const scope = searchScopeText(rc.search_scope, lang)
   return (
     <>
       <h3 className="question">{t('chk.question')}</h3>
       <div className="status-block">
         <StatusBadge status={rc.status} lang={lang} />
-        <p className="muted small">{rc.search_scope}</p>
+        <p className="muted small" lang={scope.lang}>{scope.text}</p>
       </div>
       {matched && (
         <p className="is-matched-note">

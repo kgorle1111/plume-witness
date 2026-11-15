@@ -6,18 +6,23 @@ const TILES = 'pw-tiles-v1' // survives deploys; bounded below
 const TILE_HOST = 'tiles.openfreemap.org'
 const TILE_MAX = 150
 const NAV_TIMEOUT_MS = 4000
+const JSON_TIMEOUT_MS = 3000
+const TIMED_OUT = Symbol('timeout')
 
 const scope = new URL(self.registration.scope)
 const INDEX = scope.href
 
 self.addEventListener('install', (event) => {
-  // No skipWaiting: a page already open keeps the worker (and cache) whose hashed chunks it was built against.
+  // Take over at once: phones keep tabs open for days, so a waiting worker would leave the old build (and old fetch
+  // rules) in place. kn: a page left open across a deploy that then lazy-loads a chunk can 404 (old chunk gone from
+  // cache and server); a reload fixes it. Reload-on-controllerchange if that bites.
   event.waitUntil((async () => {
     const res = await fetch(new URL('precache.json', scope), { cache: 'reload' })
     if (!res.ok) throw new Error(`precache.json: HTTP ${res.status}`)
     const { urls } = await res.json()
     const cache = await caches.open(SHELL)
     await cache.addAll(urls.map((u) => new Request(new URL(u, scope), { cache: 'reload' })))
+    await self.skipWaiting()
   })())
 })
 
@@ -39,7 +44,7 @@ self.addEventListener('fetch', (event) => {
   const rel = url.pathname.slice(scope.pathname.length)
   if (req.mode === 'navigate') return void event.respondWith(navigation(req))
   if (req.headers.has('range')) return void event.respondWith(ranged(req))
-  if (rel.endsWith('.json')) return void event.respondWith(networkFirst(req))
+  if (rel.endsWith('.json')) return void event.respondWith(networkFirst(req, event))
   event.respondWith(cacheFirst(req)) // hashed /assets/*, audio, icons, manifest
 })
 
@@ -48,14 +53,27 @@ async function put(req, res) {
   return res
 }
 
-async function networkFirst(req) {
+// Fresh data when the network answers; on lossy venue Wi-Fi a hung request would leave the page spinning, so after
+// JSON_TIMEOUT_MS a cached copy wins (the network answer still lands in the cache for next time). With no cached
+// copy there is nothing better to show, so it keeps waiting for the network.
+async function networkFirst(req, event) {
+  const net = fetch(req).then((res) => put(req, res))
+  let timer
+  const slow = new Promise((resolve) => { timer = setTimeout(resolve, JSON_TIMEOUT_MS, TIMED_OUT) })
   try {
-    return await put(req, await fetch(req))
+    const first = await Promise.race([net, slow])
+    if (first !== TIMED_OUT) return first
   } catch (err) {
     const hit = await caches.match(req, { ignoreVary: true })
     if (hit) return hit
     throw err
+  } finally {
+    clearTimeout(timer)
   }
+  const hit = await caches.match(req, { ignoreVary: true })
+  if (!hit) return net
+  event.waitUntil(net.catch(() => {}))
+  return hit
 }
 
 async function cacheFirst(req) {

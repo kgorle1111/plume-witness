@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useRef, useState, type MouseEvent } from 're
 import App from './App'
 import { AtlasLanding } from './AtlasLanding'
 import { pageFromLocation, type Page } from './routes'
-import { regionFrom } from './region'
+import { regionFrom, regionUnknown } from './region'
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
 import { useT } from './useT'
@@ -61,6 +61,7 @@ export default function Site() {
     return (
       <div className="site-shell">
         <SiteHeader current={page} />
+        {regionUnknown(window.location.search) && <p className="site-region-note" role="note">{t('region.unknown')}</p>}
         {page !== 'spikes' && page !== 'brief' && regionFrom(window.location.search).key !== 'houston' && (
           <p className="site-region-note" role="note">{t('shell.houstonOnly')}</p>
         )}

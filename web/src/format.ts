@@ -49,9 +49,18 @@ const CANNOT_SAY_ES: Record<string, string> = {
     'El corredor viento arriba sale de la dirección del viento en un monitor (solo geometría), no de un modelo de dispersión; no puede distinguir entre instalaciones en la misma dirección',
   'Facility coordinates are as published by EPA ECHO and may be approximate':
     'Las coordenadas de las instalaciones son las que publica EPA ECHO y pueden ser aproximadas',
+  'Only regulator-grade monitors whose data the state publishes are used (including two industry-funded Houston Regional Monitoring sites), never low-cost sensors':
+    'Solo se usan monitores de grado regulatorio cuyos datos publica el estado (incluidos dos sitios de Houston Regional Monitoring financiados por la industria), nunca sensores de bajo costo',
+  'Only regulator-grade monitors whose data the state publishes are used, never low-cost sensors':
+    'Solo se usan monitores de grado regulatorio cuyos datos publica el estado, nunca sensores de bajo costo',
+  "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released":
+    '«Todavía sin reporte» no es una conclusión sobre ninguna instalación: Texas exige un reporte solo cuando se alcanza o se supera una cantidad reportable, y las lecturas del aire no pueden medir cuánto se liberó',
+  // Same sentence as region.notBacktested (i18n.ts); Beaumont nights carry it as a cannot_say line.
+  'New region: no backtest yet; statuses use the same rules; no claims are made from it':
+    'Región nueva: aún sin prueba retrospectiva; los estados usan las mismas reglas; no se saca ninguna conclusión de ella',
+  // Earlier pipeline wordings, kept so a cached older event.json still reads in Spanish.
   'Only regulator-grade state monitors are used; many neighborhoods have none':
     'Solo se usan monitores estatales de grado regulatorio; muchos vecindarios no tienen ninguno',
-  // Pending rewording of the "reportable quantity" line in the pipeline; the current wording falls back to English.
   "A missing report is not a finding about any facility: Texas requires a report only above a reportable quantity, and air readings can't measure how much was released":
     'La falta de un reporte no es una conclusión sobre ninguna instalación: Texas exige un reporte solo por encima de una cantidad reportable, y las lecturas del aire no pueden medir cuánto se liberó',
 }

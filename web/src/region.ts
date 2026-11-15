@@ -30,6 +30,12 @@ export function regionFrom(search: string): RegionInfo {
   return new URLSearchParams(search).get('region') === 'beaumont' ? REGIONS.beaumont : REGIONS.houston
 }
 
+/** True when ?region= names no known region: the page still shows Houston (regionFrom) but must say so. */
+export function regionUnknown(search: string): boolean {
+  const r = new URLSearchParams(search).get('region')
+  return r !== null && !Object.hasOwn(REGIONS, r)
+}
+
 /** Query string for a page in a region; Houston keeps its old URLs (no region param). */
 export function regionQuery(r: RegionInfo, params: Record<string, string>): string {
   const q = new URLSearchParams(params)
