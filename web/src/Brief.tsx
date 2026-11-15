@@ -49,6 +49,7 @@ export default function Brief() {
       </article>
       <section className="br-doc br-impact" aria-labelledby="br-impact-title">
         <h2 id="br-impact-title">{t('brief.impact.title')}</h2>
+        <p>{t('brief.impact.theory')}</p>
         <ul>
           {IMPACT.map((k) => (
             <li key={k}><strong>{t(`brief.impact.${k}.h`)}</strong> {t(`brief.impact.${k}`, { k: M.auditMissed, n: M.auditNights })}</li>

@@ -267,6 +267,8 @@
 .facts .fact-key { align-items: baseline; padding: 8px 0; border-block: 1px solid var(--line); }
 .reading-value { display: block; font-size: 1.75rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--trigger); }
 .reading-when { font-size: 0.85rem; color: var(--ink-2); }
+.prov-badge { display: inline-block; padding: 0 6px; border: 1px solid var(--line); border-radius: 4px; font-size: 0.75rem; color: var(--ink-2); white-space: nowrap; cursor: help; }
+.site-corrections { margin: 0; flex-basis: 100%; white-space: normal; }
 code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); padding: 1px 4px; border-radius: 4px; }
 
 .spark svg { display: block; width: 100%; max-width: 420px; height: auto; }
