@@ -206,6 +206,10 @@ def test_calm_wind_draws_no_corridor_and_claims_nothing():
     assert "Wind too light to trace (2 mph)" in rc["search_scope"]
     assert rc["checks"][0]["note"] == "wind too light to trace (2 mph)"
     assert all(d["in_corridor"] is None for d in rc["day_incidents"])
+    # UI audit 3, S56: with no corridor drawn the draft must not ask about "this corridor".
+    pkt = build.template_packet(t["detection"], monitors, t["wind"], t["facilities"], rc)
+    assert "corridor reported" not in pkt["draft_en"] and "este corredor" not in pkt["draft_es"]
+    assert "near the monitor reported a release" in pkt["draft_en"]
 
 
 def test_travel_time_on_the_golden_night(real_event):

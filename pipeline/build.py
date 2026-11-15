@@ -374,6 +374,10 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
+    if calm:  # no corridor is drawn on a calm night, so the question cannot point at "this corridor"
+        ask_en = " Requested follow-up: confirm whether any facility near the monitor reported a release that hour."
+        ask_es = (" Seguimiento solicitado: confirmar si alguna instalación cercana al monitor reportó una emisión "
+                  "a esa hora.")
     en = (f"On {det_day_str(day)}, the Texas state monitor at {trig['name']} recorded {det['value']} ppb of "
           f"{name_en} in the {h12} CST hour, against a 7-day median of {det['baseline']} ppb.{also_en}{wind_en}"
           f"{corr_en}{rec_en}{ask_en}")
