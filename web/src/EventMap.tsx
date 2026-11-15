@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
-import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } from 'maplibre-gl'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent, type StyleSpecification } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import './EventMap.css'
 import { Deck, MapView } from '@deck.gl/core'
 import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
 import type { Facility, Monitor, PlumeEvent } from './types'
 import { destination, mergeArcs, readingText, sectorRing, unitShort } from './format'
 import { placeReadout } from './geo'
 import type { Place } from './PlaceSearch'
-import { hit, layoutLabels, numberedDots, type Box, type LabelAsk, type Placed } from './labelLayout'
+import { dotsNear, hit, layoutLabels, numberedDots, type Box, type LabelAsk, type Placed } from './labelLayout'
 import { LANDING_METRICS } from './landingMetrics'
+import { introOnLoad as introRule } from './mapIntro'
 import { REGIONS } from './region'
 import { useT, type Translate } from './useT'
 
@@ -56,15 +58,35 @@ const introPinLabel = (ev: PlumeEvent, t: Translate) => (ev.region ? t('map.intr
 const introCaption = (ev: PlumeEvent, t: Translate) =>
   ev.region ? t('map.introCaptionNew') : t('map.introCaption', { spikes: LANDING_METRICS.spikes, monitors: LANDING_METRICS.monitors })
 const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-// `?intro=0` opens straight on the flat replay (scripted captures such as demo/flows, deep links into a step).
-const introOptedOut = () => new URLSearchParams(window.location.search).get('intro') === '0'
 // The fly-in pulls tiles at every zoom on the way down: measured 5.7 MB on a 375px phone and 12.4 MB at
 // 1440px, against 0.17 / 0.26 MB for the flat view alone. Decision (owner): it plays on load only on wide
 // screens (the same 1024px breakpoint as the side-by-side layout); phones open flat and keep "Show globe".
-// Browsers in Data Saver mode don't get it on load either.
+// mapIntro.ts has the rest of the rule (night links, embeds, ?intro=0, Data Saver).
 const saveData = () => (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
 const wideScreen = () => window.matchMedia?.('(min-width: 1024px)').matches ?? false
-const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOptedOut() && !saveData()
+const introOnLoad = () => introRule(window.location.search, { wide: wideScreen(), reducedMotion: prefersReducedMotion(), saveData: saveData() })
+// Phones and tablets: one finger scrolls the page, two move the map (a reader scrolling past the map got stuck panning it).
+const coarsePointer = () => window.matchMedia?.('(pointer: coarse)').matches ?? false
+// Basemap symbol layers whose filter compares `ref_length` with a number; tiles without it logged a type warning on
+// every map load. Missing becomes "too long", so those shields still don't draw.
+const SHIELD_LEN = ['<=', ['get', 'ref_length'], 6]
+const quietShieldFilters = (style: StyleSpecification, monitorNames: string[]): StyleSpecification => ({
+  ...style,
+  layers: style.layers.map((l) => {
+    let out = l
+    if ('filter' in l && JSON.stringify(l.filter).includes(JSON.stringify(SHIELD_LEN))) {
+      const swap = (x: unknown): unknown => (JSON.stringify(x) === JSON.stringify(SHIELD_LEN) ? ['<=', ['coalesce', ['get', 'ref_length'], 99], 6] : Array.isArray(x) ? x.map(swap) : x)
+      out = { ...out, filter: swap(l.filter) } as typeof l
+    }
+    // A basemap place name that repeats a monitor's own label ("Galena Park" twice) is left to the monitor label.
+    if (l.type === 'symbol' && 'source-layer' in l && l['source-layer'] === 'place' && l.layout?.['text-field'] && monitorNames.length) {
+      const name = ['coalesce', ['get', 'name_en'], ['get', 'name']]
+      const field = ['case', ['in', ['downcase', ['to-string', name]], ['literal', monitorNames]], '', l.layout['text-field']]
+      out = { ...out, layout: { ...l.layout, 'text-field': field } } as typeof l
+    }
+    return out
+  }),
+})
 
 // With dozens of facilities, only these get a standing label on wide maps; the rest show their name on hover,
 // tap, or focus in the Trace list (which stays the full text equivalent). Narrow maps label only the filed-report
@@ -72,6 +94,10 @@ const introOnLoad = () => wideScreen() && !prefersReducedMotion() && !introOpted
 const NEAREST_LABELED = 3
 // Projector-size screens get map labels 2px larger (the page text scales up at the same width in index.css).
 const bigLabels = () => window.matchMedia?.('(min-width: 1600px)').matches ?? false
+// Map text sizes in px: a 12px floor on phones, 14 on laptops (read from the back of a room), 16 on projectors.
+const textPx = (narrow: boolean) => (narrow ? 12 : bigLabels() ? 16 : 14)
+// A phone tap lists every facility dot within this many px instead of guessing the nearest.
+const TAP_CHOOSE_PX = 20
 
 interface Props {
   ev: PlumeEvent
@@ -106,6 +132,12 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
   const applyHour = useRef<(h: number) => void>(() => {})
   const placeRef = useRef(place)
   const applyPlace = useRef<(p: Place | null) => void>(() => {})
+  const applyKey = useRef<(open: boolean) => void>(() => {})
+  const reveal = useRef<(id: string | null) => void>(() => {})
+  // Shown when the basemap style or its tiles fail: the dots still draw, on white, and the Trace list has every name.
+  const [baseFailed, setBaseFailed] = useState(false)
+  // A phone tap that lands on several facility dots lists them here (nearest first) instead of guessing one.
+  const [choices, setChoices] = useState<{ id: string; label: string }[] | null>(null)
 
   useEffect(() => {
     const el = container.current
@@ -178,17 +210,64 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       : []
     const triIds = new Set(tri ? tri.intersection_ids : [])
 
+    const monitorNames = ev.monitors.map((m) => m.name.toLowerCase())
+    const coop = coarsePointer()
     const map = new MlMap({
       container: el,
       style: STYLE_URL,
+      transformStyle: (_prev, next) => quietShieldFilters(next, monitorNames),
       // The intro starts zoomed out to Earth (projection switches to globe once the style loads).
       center: phaseNow === 'flat' ? [trigger.lon, trigger.lat] : [trigger.lon - 35, trigger.lat - 8],
       zoom: phaseNow === 'flat' ? 11 : 1.4,
-      attributionControl: { compact: false, customAttribution: ATTRIBUTION },
+      // MapLibre's responsive default: full credit on wide maps; at 640px and under it starts open and folds to its
+      // (i) button once the reader moves or taps the map (two wrapped lines covered 11% of a 240px phone map).
+      attributionControl: { customAttribution: ATTRIBUTION },
+      cooperativeGestures: coop,
       // The surrounding section already names the map; this names the interactive canvas inside it.
-      locale: { 'Map.Title': tRef.current('map.title') },
+      locale: {
+        'Map.Title': tRef.current('map.title'),
+        'CooperativeGesturesHandler.MobileHelpText': tRef.current('map.twoFingers'),
+        'CooperativeGesturesHandler.WindowsHelpText': tRef.current('map.zoomKey', { key: 'Ctrl' }),
+        'CooperativeGesturesHandler.MacHelpText': tRef.current('map.zoomKey', { key: '⌘' }),
+      },
     })
+    // The credit stays hidden until the tile source adds its line: it used to show the short custom line first and
+    // then grow to two lines ~5s in, the replay's largest layout shift on a phone.
+    el.classList.add('attrib-pending')
+    const foldAttrib = () => el.querySelector('.maplibregl-ctrl-attrib.maplibregl-compact')?.classList.remove('maplibregl-compact-show')
+    // On a phone the full credit shows when the map first appears, then folds to its (i) button after a few seconds
+    // (or at the first tap), as MapLibre does on a drag; one-finger drags no longer reach the map.
+    let foldTimer = 0
+    const attribReady = () => {
+      el.classList.remove('attrib-pending')
+      window.clearTimeout(foldTimer)
+      foldTimer = window.setTimeout(foldAttrib, 5000)
+    }
+    map.once('load', attribReady)
+    // Basemap failure: the style never loads, or tiles error and nothing from the basemap is drawn.
+    let tileErrors = 0
+    const onMapError = (e: { error?: unknown; tile?: unknown; sourceId?: string }) => {
+      // A listener replaces MapLibre's own console report, so keep one.
+      console.warn('Map error:', e.error)
+      if (!map.isStyleLoaded()) {
+        attribReady()
+        setBaseFailed(true)
+      } else if (e.tile || e.sourceId) tileErrors++
+    }
+    const onIdle = () => {
+      if (!tileErrors) return setBaseFailed(false)
+      try {
+        setBaseFailed(map.queryRenderedFeatures().length === 0)
+      } catch {
+        setBaseFailed(true)
+      }
+      tileErrors = 0
+    }
+    map.on('error', onMapError)
+    map.on('idle', onIdle)
 
+    // On phones the open legend drops below the map (EventMap.css), so only a legend inside the map's box takes room.
+    const legendOver = () => !!legend.current && legend.current.offsetHeight > 0 && legend.current.offsetTop < el.clientHeight
     const bounds = new LngLatBounds()
     ev.monitors.forEach((m) => bounds.extend([m.lon, m.lat]))
     ev.facilities.forEach((f) => bounds.extend([f.lon, f.lat]))
@@ -202,7 +281,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       if (w < 40 || h < 40) return null
       const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 32) / 2))
       const side = room(isNarrow() ? 64 : 80, w)
-      const wantTop = (legend.current?.offsetHeight ?? 0) + 28, wantBottom = 48
+      const wantTop = (legendOver() ? legend.current?.offsetHeight ?? 0 : 0) + 28, wantBottom = 48
       const scale = Math.min(1, Math.max(0, h - 32) / (wantTop + wantBottom))
       return { top: wantTop * scale, bottom: wantBottom * scale, left: side, right: side }
     }
@@ -251,10 +330,10 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const lines = text.split('\n')
       return [Math.max(...lines.map((l) => l.length)) * size * 0.55 + 8, lines.length * size * 1.25 + 4]
     }
-    const labelSize = (narrow: boolean) => (narrow ? 11 : bigLabels() ? 14 : 12)
-    const monitorSize = () => (bigLabels() ? 14 : 12)
+    const labelSize = textPx
+    const monitorSize = textPx
     // The legend sits over the top of the map; a label under it is hidden, so that strip counts as off the map.
-    const visibleTop = () => (legend.current ? legend.current.offsetTop + legend.current.offsetHeight : 0)
+    const visibleTop = () => (legendOver() && legend.current ? legend.current.offsetTop + legend.current.offsetHeight : 0)
     // Buttons over the map (Key, Show globe) hide what is under them, so labels keep off them too.
     const buttonBoxes = (): Box[] => {
       const at = el.getBoundingClientRect()
@@ -272,6 +351,11 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         return 0 // style not loaded yet: no basemap names to avoid
       }
     }
+    // The flagged monitor's marker, pulse ring included: no other label may cover it (a reading sat on half of it).
+    const triggerRing = (narrow: boolean): Box => {
+      const p = map.project([trigger.lon, trigger.lat]), r = monitorRadius(trigger, narrow) + 4
+      return [p.x - r, p.y - r, p.x + r, p.y + r]
+    }
 
     // One layout pass per redraw (labelLayout.ts): the flagged monitor's reading (fixed under its circle), the other
     // monitors' readings, then facility names, then the corridor label in a clear spot or not at all. A standing name
@@ -281,7 +365,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const dots = dotBoxes(narrow)
       const monitorAsk = (m: Monitor): LabelAsk => {
         const p = map.project([m.lon, m.lat])
-        return { id: m.site_id, x: p.x, y: p.y, size: textBox(monitorText(m), monitorSize()), gap: monitorRadius(m, narrow) + 5 }
+        return { id: m.site_id, x: p.x, y: p.y, size: textBox(monitorText(m), monitorSize(narrow)), gap: monitorRadius(m, narrow) + 5 }
       }
       const standingNow = narrow ? new Set(matchedId ? [matchedId] : []) : standing
       const seen = new Set<string>()
@@ -294,7 +378,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         height: el.clientHeight,
         top: visibleTop(),
         dots,
-        reserved: buttonBoxes(),
+        reserved: [...buttonBoxes(), triggerRing(narrow)],
         trigger: monitorAsk(trigger),
         // Phones label only the flagged monitor; the timeline's "All monitors" list carries every reading.
         monitors: narrow ? [] : ev.monitors.filter((m) => m.site_id !== trigger.site_id).map(monitorAsk),
@@ -312,14 +396,20 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         }),
         new Set([...(matchedId ? [matchedId] : []), ...ev.facilities.filter(isRevealed).map((f) => f.id)]),
       )
-      return { monitorsAt: res.monitors, where: res.facilities, numberedIds, corridorAt: corridorSpot(dots, res.placed) }
+      // A dot drawn over a basemap place name hides the name a resident looks for ("Galena Park" under the dots), so
+      // those dots are drawn see-through; the matched and asked-for ones stay solid.
+      const overName = new Set(ev.facilities.filter((f) => f.id !== matchedId && !isRevealed(f)).filter((f) => {
+        const r = facilityRadius(f, narrow), p = map.project([f.lon, f.lat])
+        return placeNameCost([p.x - r, p.y - r, p.x + r, p.y + r]) > 0
+      }).map((f) => f.id))
+      return { monitorsAt: res.monitors, where: res.facilities, numberedIds, overName, corridorAt: corridorSpot(dots, res.placed, narrow) }
     }
 
     // The corridor label goes inside the wedge where it covers no dot and no other label: along the widest arc's
     // centre line first, then swung toward its edges. With no clear spot it is left off; the legend names it.
-    const corridorSpot = (dots: { box: Box }[], placed: Box[]): [number, number] | null => {
+    const corridorSpot = (dots: { box: Box }[], placed: Box[], narrow: boolean): [number, number] | null => {
       if (!cor || !origin || !widest) return null
-      const size = textBox(tRef.current('map.corridor'), monitorSize())
+      const size = textBox(tRef.current('map.corridor'), monitorSize(narrow))
       const span = widest[1] - widest[0]
       const inside = (b: Box) => b[0] >= 4 && b[2] <= el.clientWidth - 4 && b[1] >= visibleTop() && b[3] <= el.clientHeight - 4
       for (const reach of [0.85, 0.95, 0.75, 0.65, 0.55, 0.45]) {
@@ -343,11 +433,16 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
 
     const buildLayers = (narrow: boolean) => {
-      const { monitorsAt, where, numberedIds, corridorAt } = layout(narrow)
+      const { monitorsAt, where, numberedIds, overName, corridorAt } = layout(narrow)
       // Placement is recomputed on every redraw (hour, hover, camera), so the label accessors rerun every time.
       const epoch = ++labelEpoch
       const placeOf = (f: Facility) => where.get(f.id)?.where ?? 'below'
       const mPlace = (m: Monitor) => monitorsAt.get(m.site_id)?.where ?? 'below'
+      // A TextLayer with no rows builds a 0x0 glyph atlas and WebGL logs "texSubImage2D: no canvas" (night 2, where
+      // every standing facility name is dropped), so empty text layers are left out.
+      const numberRows = drawOrder.filter((f) => numbered(f, narrow) && numberedIds.has(f.id))
+      const monitorRows = ev.monitors.filter((m) => monitorsAt.has(m.site_id))
+      const facilityRows = ev.facilities.filter((f, i, all) => where.has(f.id) && all.findIndex((g) => g.id === f.id) === i)
       return [
       wedges.length > 0 &&
         new PolygonLayer<{ ring: [number, number][] }>({
@@ -425,30 +520,31 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         getPosition: (f) => [f.lon, f.lat],
         getRadius: (f) => facilityRadius(f, narrow),
         radiusUnits: 'pixels',
-        getFillColor: facilityColor,
+        getFillColor: (f) => (overName.has(f.id) ? [...facilityColor(f).slice(0, 3), 110] as RGBA : facilityColor(f)),
         stroked: true,
-        getLineColor: (f) => (isRevealed(f) ? C.focus : C.white),
+        getLineColor: (f) => (isRevealed(f) ? C.focus : overName.has(f.id) ? [255, 255, 255, 140] : C.white),
         getLineWidth: (f) => (isRevealed(f) ? 3 : 2),
         lineWidthUnits: 'pixels',
-        updateTriggers: { getRadius: [hoverId, highlight.current, narrow], getLineColor: [hoverId, highlight.current], getLineWidth: [hoverId, highlight.current] },
+        updateTriggers: { getRadius: [hoverId, highlight.current, narrow], getFillColor: epoch, getLineColor: [hoverId, highlight.current, epoch], getLineWidth: [hoverId, highlight.current] },
       }),
-      new TextLayer<Facility>({
+      numberRows.length > 0 && new TextLayer<Facility>({
         id: 'facility-numbers',
-        data: drawOrder.filter((f) => numbered(f, narrow) && numberedIds.has(f.id)),
+        data: numberRows,
         getPosition: (f) => [f.lon, f.lat],
         getText: (f) => String(order.get(f.id)),
-        getSize: bigLabels() ? 12 : 10,
+        // 12px fits two digits inside a 16px dot; phones number only the larger filed-report and tapped dots.
+        getSize: 12,
         getColor: C.white,
         fontFamily: 'system-ui, sans-serif',
         fontWeight: 700,
       }),
       // Above the facility dots: a reading is never hidden under a dot (layout keeps it off them where it can).
-      new TextLayer<Monitor>({
+      monitorRows.length > 0 && new TextLayer<Monitor>({
         id: 'monitor-labels',
-        data: ev.monitors.filter((m) => monitorsAt.has(m.site_id)),
+        data: monitorRows,
         getPosition: (m) => [m.lon, m.lat],
         getText: monitorText,
-        getSize: monitorSize(),
+        getSize: monitorSize(narrow),
         getColor: (m) => (m.site_id === trigger.site_id ? C.trigger : C.monitor),
         getTextAnchor: (m) => ANCHOR[mPlace(m)],
         getAlignmentBaseline: (m) => BASELINE[mPlace(m)],
@@ -461,9 +557,9 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         fontWeight: 600,
         characterSet: 'auto',
       }),
-      new TextLayer<Facility>({
+      facilityRows.length > 0 && new TextLayer<Facility>({
         id: 'facility-labels',
-        data: ev.facilities.filter((f, i, all) => where.has(f.id) && all.findIndex((g) => g.id === f.id) === i),
+        data: facilityRows,
         getPosition: (f) => [f.lon, f.lat],
         getText: facilityLabel,
         getColor: (f) => (f.id === matchedId ? C.matched : C.text),
@@ -485,7 +581,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           data: [{ pos: corridorAt }],
           getPosition: (d: { pos: [number, number] }) => d.pos,
           getText: () => tRef.current('map.corridor'),
-          getSize: monitorSize(),
+          getSize: monitorSize(narrow),
           updateTriggers: { getText: epoch },
           characterSet: 'auto',
           getColor: C.corridorText,
@@ -547,13 +643,58 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       redraw()
     }
     const onMove = (e: MapMouseEvent) => setHover(pickAt(e.point.x, e.point.y))
-    const onClick = (e: MapMouseEvent) => setHover(pickAt(e.point.x, e.point.y))
+    // On a phone (or any narrow map) a tap over a crowded cluster lists the dots under the finger to choose from.
+    const onClick = (e: MapMouseEvent) => {
+      foldAttrib()
+      if ((narrow || coop) && phaseNow === 'flat') {
+        const near = dotsNear(ev.facilities.map((f) => ({ id: f.id, f, ...map.project([f.lon, f.lat]) })), e.point.x, e.point.y, TAP_CHOOSE_PX)
+        if (near.length > 1) {
+          const n = (f: Facility) => order.get(f.id)
+          setChoices(near.slice(0, 8).map(({ id, f }) => ({ id, label: `${n(f) ? `${n(f)}. ` : ''}${f.name}` })))
+          return
+        }
+      }
+      setChoices(null)
+      setHover(pickAt(e.point.x, e.point.y))
+    }
+    reveal.current = (id) => {
+      setChoices(null)
+      setHover(id)
+    }
     const onOut = () => setHover(null)
     map.on('mousemove', onMove)
     map.on('click', onClick)
     map.on('mouseout', onOut)
     const onMoveEnd = () => redraw()
     map.on('moveend', onMoveEnd)
+    const closeChoices = () => setChoices(null)
+    map.on('movestart', closeChoices)
+
+    // "Key" opens the legend over the top of the map. When it would cover the flagged monitor or the filed-report
+    // facility (a 240px phone map: legend 82px tall), the camera frames those two below it; closing restores the fit.
+    let keyFramed = false
+    applyKey.current = (open) => {
+      if (phaseNow !== 'flat') return
+      if (!open) {
+        if (keyFramed) {
+          keyFramed = false
+          return fit()
+        }
+        return redraw()
+      }
+      const lg = legend.current
+      const bottom = lg && legendOver() ? lg.offsetTop + lg.offsetHeight : 0
+      const matched = ev.facilities.find((f) => f.id === matchedId)
+      const subject: [number, number][] = [[trigger.lon, trigger.lat], ...(matched ? [[matched.lon, matched.lat] as [number, number]] : [])]
+      // Each subject has a label under it (about two lines), so it needs that much room below the legend.
+      const covered = subject.some((p) => map.project(p).y < bottom + 44)
+      const padding = { top: bottom + 12, bottom: 64, left: 40, right: 40 }
+      if (!bottom || !covered || padding.top + padding.bottom > el.clientHeight - 24 || padding.left + padding.right > el.clientWidth - 24) return redraw()
+      const frame = new LngLatBounds(subject[0], subject[0])
+      subject.forEach((p) => frame.extend(p))
+      keyFramed = true
+      map.fitBounds(frame, { padding, maxZoom: map.getZoom(), duration: reduceMotion ? 0 : 400 })
+    }
     const sync = () => {
       if (narrow !== isNarrow()) {
         narrow = isNarrow()
@@ -592,6 +733,11 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     // Language switch: canvas name, pin and every label redrawn in place (the map itself is not rebuilt).
     applyLang.current = () => {
       map.getCanvas().setAttribute('aria-label', tRef.current('map.title'))
+      const coopMsg = el.querySelector('.maplibregl-mobile-message')
+      if (coopMsg) coopMsg.textContent = tRef.current('map.twoFingers')
+      const zoomMsg = el.querySelector('.maplibregl-desktop-message')
+      if (zoomMsg) zoomMsg.textContent = tRef.current('map.zoomKey', { key: navigator.userAgent.includes('Mac') ? '⌘' : 'Ctrl' })
+      setChoices(null)
       ;(pin.querySelector('.intro-label') as HTMLElement).textContent = introPinLabel(ev, tRef.current)
       redraw()
     }
@@ -669,6 +815,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     return () => {
       ro.disconnect()
       window.clearTimeout(introTimer)
+      window.clearTimeout(foldTimer)
       skipIntro.current = () => {}
       replayIntro.current = () => {}
       applyPlace.current = () => {}
@@ -681,6 +828,12 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       map.off('click', onClick)
       map.off('mouseout', onOut)
       map.off('moveend', onMoveEnd)
+      map.off('movestart', closeChoices)
+      map.off('error', onMapError)
+      map.off('idle', onIdle)
+      map.off('load', attribReady)
+      applyKey.current = () => {}
+      reveal.current = () => {}
       applyHighlight.current = () => {}
       applyHour.current = () => {}
       applyLang.current = () => {}
@@ -708,6 +861,22 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     applyPlace.current(place)
   }, [place])
 
+  useLayoutEffect(() => {
+    // Phones: the open legend sits under the map, and the map's box keeps that much room below it (EventMap.css).
+    const lg = legend.current
+    lg?.parentElement?.style.setProperty('--pw-legend-h', keyOpen && lg ? `${lg.offsetHeight}px` : '0px')
+    applyKey.current(keyOpen)
+  }, [keyOpen, t])
+
+  const chooser = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!choices) return
+    chooser.current?.querySelector('button')?.focus({ preventScroll: true })
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setChoices(null)
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [choices])
+
   const placeShown = place !== null && placeReadout(ev, place).kind === 'near'
 
   // Re-thrown during render (after every hook) so MapSlot's error boundary shows its fallback.
@@ -715,7 +884,25 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
 
   return (
     <>
+      {/* First in the DOM, as it is first on screen (top left): Key, then the map canvas and its controls. */}
+      {phase === 'flat' && (
+        <button ref={keyBtn} type="button" className="map-key" aria-expanded={keyOpen} onClick={() => setKeyOpen((o) => !o)}>
+          {t('app.mapKey')}
+        </button>
+      )}
       <div ref={container} className="map-canvas" data-phase={phase} />
+      {baseFailed && <p className="map-note" role="status">{t('map.baseFailed')}</p>}
+      {choices && (
+        <div ref={chooser} className="map-choose" role="group" aria-label={t('map.chooseTitle')}>
+          <p className="map-choose-title" aria-hidden="true">{t('map.chooseTitle')}</p>
+          <ul>
+            {choices.map((c) => (
+              <li key={c.id}><button type="button" onClick={() => reveal.current(c.id)}>{c.label}</button></li>
+            ))}
+          </ul>
+          <button type="button" className="map-choose-close" onClick={() => setChoices(null)}>{t('map.chooseClose')}</button>
+        </div>
+      )}
       {phase !== 'flat' && (
         <p className="intro-caption" role="status">
           {/* The pin is aria-hidden, so its words are repeated here for screen readers only. */}
@@ -735,12 +922,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
             </button>
           )}
       </div>
-      {/* Shown below 1440px wide (App.css); the legend is visual only, so the button just shows or hides it. */}
-      {phase === 'flat' && (
-        <button ref={keyBtn} type="button" className="map-key" aria-expanded={keyOpen} onClick={() => setKeyOpen((o) => !o)}>
-          {t('app.mapKey')}
-        </button>
-      )}
+      {/* Key (top of this fragment) is shown below 1440px wide (App.css); the legend is visual only, so the button
+          just shows or hides it. */}
       {/* Hidden (not removed) during the intro: fit() measures its height for the top padding. */}
       <ul ref={legend} className={phase !== 'flat' ? 'legend is-hidden' : keyOpen ? 'legend is-open' : 'legend'} aria-hidden="true">
         <li><span className="lg lg-pulse" /> {t('map.lgFlagged')}</li>

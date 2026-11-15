@@ -6,7 +6,7 @@ emissions events, facility within 15 km of a Ship Channel AutoGC site), start da
      +/-22.5 deg upwind wedge of that monitor's wind, build.py geometry) during start-1 h..+6 h, and of those
      releases, how many had a trigger hit near the start? Split by reported pounds of the monitored compound.
   2. Threshold sweep: ratio x floor -> near-start recall, the same rate on control days, and alerts per week
-     across all 8 monitors in 2024-2025 (the false-alarm proxy).
+     across all monitors in 2024-2025 (the false-alarm proxy).
   3. Calm share: how many alert-day detections came in wind under 3 mph, where direction means little.
 Control: the same facility, monitors, compound and hour window on the days 7, 14 and 21 days before and after the
 release (same weekday), kept only inside 2024-2025 and never on any candidate's start day. If releases trigger no
@@ -60,25 +60,8 @@ def downwind_hours(fac: tuple[float, float], site: tuple[float, float], wind_hou
 
 
 def winds_for(day: str, sites: dict[str, tuple[float, float]], raw: Path = backtest.BT) -> dict[str, dict]:
-    """Same rule as backtest.load_winds (own wind, else the nearest site that has it), on cached tables.
-
-    kn: re-implemented only to reuse backtest._table's cache; load_winds re-parses two yearly pages per site per
-    call, which is minutes over ~500 days. A test pins this to load_winds on a real day.
-    """
-    year, own = day[-4:], {}
-    for s in sites:
-        wdir = backtest._table(raw / f"met_{year}_{s}_61102.html").get(day)
-        wspd = backtest._table(raw / f"met_{year}_{s}_61101.html").get(day)
-        if wdir and wspd and any(v is not None for v in wdir):
-            own[s] = {"site_id": s, "hourly": [{"hour_cst": h, "from_deg": wdir[h], "speed_mph": wspd[h]}
-                                               for h in range(24)]}
-    out = {}
-    for s, p in sites.items():
-        if s in own:
-            out[s] = own[s]
-        elif own:
-            out[s] = own[min(own, key=lambda o: build.haversine_km(p, sites[o]))]
-    return out
+    """backtest.load_winds for one day (own met wind, else own AutoGC wind, else the nearest site's; cached tables)."""
+    return backtest.load_winds(day[-4:], day, sites, raw)
 
 
 def evaluate_unit(fac: tuple[float, float], day: str, param: str, start_hour_cst: int,
@@ -257,7 +240,7 @@ candidate releases of `docs/backtest.md` (as computed on this branch's `pipeline
 1. **Downwind:** in {_pct(dwn["with_data"], n)} of the company-reported releases, a state monitor within 15 km that had data that day was downwind of the facility at some hour from 1 h before to 6 h after the reported start ({dwn["geometry_any_monitor"]} of {n} counting monitors without data that day). "Most releases never reach a state monitor" is not supported by this geometry.
 2. **Recall at the current trigger ({cur}):** {_pct(row["release_hits"], n)} releases had a trigger hit near the reported start; of the {row["release_downwind_n"]} with a downwind monitor, {row["release_downwind_hits"]} hit at a monitor that was downwind that hour or the hour before.
 3. **Control:** on ordinary days (same monitors, same hours, same weekday, 7/14/21 days either side, no candidate that day), the same trigger hits in {_pct(row["control_hits"], row["control_n"])} of windows. {verdict}
-4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits {lo1["release_hits"]} of {n} releases and {lo1["control_hits"]} of {lo1["control_n"]} control windows, at {lo1["alerts_per_week"]} alerts a week across the 8 monitors (current: {row["alerts_per_week"]} a week). Across all {len(gaps)} settings, the release-day rate minus the control rate runs from {min(gaps):+.0f} to {max(gaps):+.0f} percentage points: a lower trigger fires more often on release days and on ordinary days alike.
+4. **Lowering the trigger:** the most sensitive setting, 3x / 1 ppb, hits {lo1["release_hits"]} of {n} releases and {lo1["control_hits"]} of {lo1["control_n"]} control windows, at {lo1["alerts_per_week"]} alerts a week across the {len(backtest.SITE_NAMES)} monitors (current: {row["alerts_per_week"]} a week). Across all {len(gaps)} settings, the release-day rate minus the control rate runs from {min(gaps):+.0f} to {max(gaps):+.0f} percentage points: a lower trigger fires more often on release days and on ordinary days alike.
 5. **Small releases:** {under10["n"]} of {n} releases reported under 10 lb of the monitored compound.
 6. **Calm wind:** {_pct(calm["calm"], calm["with_speed"])} current-trigger alerts with a wind speed reading ({calm["detections"]} alerts in all) came in wind under {calm["calm_mph"]:g} mph at the detecting monitor, where the upwind direction is unreliable.
 
@@ -266,7 +249,7 @@ candidate releases of `docs/backtest.md` (as computed on this branch's `pipeline
 Near-start = a trigger hit at any monitor within 15 km of the facility, {res["rules"]["near_start_h"][0]:+d} h to
 +{res["rules"]["near_start_h"][1]} h of the reported start (CST, start day only). "Downwind" columns: only units
 where a monitor with data was downwind in that window, and only hits at that monitor in a downwind hour (or the
-hour after). Alerts = (day, compound) pairs with a hit at any of the 8 monitors, over {res["alert_days"]} days
+hour after). Alerts = (day, compound) pairs with a hit at any of the {len(backtest.SITE_NAMES)} monitors, over {res["alert_days"]} days
 ({res["weeks"]} weeks; {res["alert_days_with_data"]} days had data at some monitor).
 
 | Ratio | Floor (ppb) | Releases with a near-start hit | Control windows with a hit | Downwind releases hit | Downwind control hit | Alerts 2024-25 | Alerts / week |
@@ -300,8 +283,9 @@ compound that day; hit columns count only the "with data" releases.
   start moves the window.
 - **ECHO coordinates.** Facility positions are EPA ECHO points, which can sit hundreds of meters from the
   emission point; the wedge test uses them as given.
-- **Borrowed wind.** {", ".join(backtest.SITE_NAMES[s] for s in backtest.SITE_NAMES if not any(
-        backtest.BT.glob(f"met_*_{s}_61102.html")))} have no wind of their own and use the nearest site's.
+- **Wind source.** {", ".join(backtest.SITE_NAMES[s] for s in backtest.SITE_NAMES if not any(
+        backtest.BT.glob(f"met_*_{s}_61102.html")))} have no met-form wind and use their own AutoGC-form resultant
+  wind; a site with neither on a day uses the nearest site's.
 - **Geometry, not dispersion.** "Downwind" is the build.py wedge (+/-22.5 deg, 15 km), not a plume model; a
   downwind monitor can still miss a narrow or lofted plume.
 - **Alerts per week is a false-alarm proxy, not a false-alarm rate:** nobody knows the true cause of each alert.

@@ -9,49 +9,56 @@
    "title": "Plume Witness: newest spikes",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/all.xml",
    "items": 100,
-   "spikes_at_source": 415
+   "spikes_at_source": 468
   },
   {
    "id": "48_201_0026",
    "title": "Plume Witness: spikes at Channelview",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0026.xml",
-   "items": 45,
-   "spikes_at_source": 45
+   "items": 43,
+   "spikes_at_source": 43
+  },
+  {
+   "id": "48_201_0036",
+   "title": "Plume Witness: spikes at Channelview Drive Water Tower",
+   "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0036.xml",
+   "items": 54,
+   "spikes_at_source": 54
   },
   {
    "id": "48_201_0057",
    "title": "Plume Witness: spikes at Galena Park",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0057.xml",
-   "items": 105,
-   "spikes_at_source": 105
+   "items": 99,
+   "spikes_at_source": 99
   },
   {
    "id": "48_201_0069",
    "title": "Plume Witness: spikes at Houston Milby Park",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0069.xml",
-   "items": 109,
-   "spikes_at_source": 109
+   "items": 106,
+   "spikes_at_source": 106
   },
   {
    "id": "48_201_0307",
    "title": "Plume Witness: spikes at Manchester East Ave N",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0307.xml",
-   "items": 13,
-   "spikes_at_source": 13
+   "items": 12,
+   "spikes_at_source": 12
   },
   {
    "id": "48_201_0803",
    "title": "Plume Witness: spikes at HRM-3 Haden Road",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_0803.xml",
-   "items": 13,
-   "spikes_at_source": 13
+   "items": 9,
+   "spikes_at_source": 9
   },
   {
    "id": "48_201_1015",
    "title": "Plume Witness: spikes at Lynchburg Ferry",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_1015.xml",
-   "items": 60,
-   "spikes_at_source": 60
+   "items": 52,
+   "spikes_at_source": 52
   },
   {
    "id": "48_201_1035",
@@ -61,11 +68,32 @@
    "spikes_at_source": 5
   },
   {
+   "id": "48_201_1039",
+   "title": "Plume Witness: spikes at Houston Deer Park #2",
+   "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_1039.xml",
+   "items": 3,
+   "spikes_at_source": 3
+  },
+  {
+   "id": "48_201_1049",
+   "title": "Plume Witness: spikes at Pasadena Richey Elementary School",
+   "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_1049.xml",
+   "items": 11,
+   "spikes_at_source": 11
+  },
+  {
    "id": "48_201_1614",
    "title": "Plume Witness: spikes at HRM-16 Deer Park",
    "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_1614.xml",
-   "items": 65,
-   "spikes_at_source": 65
+   "items": 63,
+   "spikes_at_source": 63
+  },
+  {
+   "id": "48_201_6000",
+   "title": "Plume Witness: spikes at Cesar Chavez",
+   "url": "https://kgorle1111.github.io/plume-witness/feeds/48_201_6000.xml",
+   "items": 11,
+   "spikes_at_source": 11
   }
  ]
 }

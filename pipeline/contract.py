@@ -7,7 +7,9 @@ field the demo calls "real" must trace to `provenance`. `validate` is the gate t
 from typing import Any
 
 SCHEMA = "plume-witness.event/v1"
-STATUSES = ("reported", "not_yet_reported", "no_report_after_deadline", "reported_mismatch", "search_incomplete")
+# reported_late: the notice or final report is on the record, dated after its check's window (24 h / 14 d).
+STATUSES = ("reported", "reported_late", "not_yet_reported", "no_report_after_deadline", "reported_mismatch",
+            "search_incomplete")
 LABELS = ("real", "fixture")
 
 REQUIRED_TOP = ("schema", "label", "event_id", "title", "date_local", "time_note", "compound", "monitors",

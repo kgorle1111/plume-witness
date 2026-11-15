@@ -1,14 +1,20 @@
 /* Past spikes log. The page scrolls as a document; only the table scrolls sideways, inside its own box. */
-.spikes-link { font-weight: 600; white-space: nowrap; }
+.spikes-link { white-space: nowrap; }
 
 .sl-page {
   display: grid;
   gap: 16px;
+  /* minmax(0, 1fr): a long unbreakable label (an open explainer in Spanish) cannot widen the page past the screen. */
+  grid-template-columns: minmax(0, 1fr);
   max-width: 1180px;
   margin: 0 auto;
   padding: 12px 16px 32px;
   min-width: 0;
 }
+/* Holds the footer below the fold while spikes.json loads, so it does not jump when the log arrives. */
+.sl-loading { min-height: 100vh; }
+.sl-error { display: grid; gap: 8px; justify-items: start; }
+.sl-retry { justify-self: start; }
 .sl-back { justify-self: start; font-size: 0.9rem; padding-block: 8px; }
 .sl-head { display: grid; gap: 4px; }
 .sl-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
@@ -36,7 +42,7 @@
 
 /* A closed <details>: the summary line carries the one rule that must be on the first screen. */
 .sl-explain {
-  max-width: 72ch;
+  max-width: 54ch; /* about 70 characters a line: ch is a wide digit in this font */
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius, 10px);
@@ -44,12 +50,16 @@
   font-size: 0.92rem;
 }
 .sl-explain > summary { cursor: pointer; font-weight: 600; min-height: 44px; padding-block: 11px; }
+.sl-explain > summary:hover, .sl-statuses summary:hover { text-decoration: underline; }
 .sl-explain[open] { padding-bottom: 12px; }
 .sl-explain > :not(summary) + :not(summary) { margin-top: 8px; }
 .sl-statuses summary { cursor: pointer; font-weight: 600; min-height: 44px; padding-block: 11px; }
 .sl-statuses dl { display: grid; gap: 8px; margin-top: 6px; }
 .sl-statuses dl > div { display: grid; gap: 2px; }
 .sl-statuses dd { margin: 0; color: var(--ink-2); }
+.sl-statuses dd ul { margin: 4px 0 0; padding-left: 1.2em; }
+/* The pill text wraps here: in Spanish "Sin reporte que coincida (una pregunta)" is wider than a 320 px screen. */
+.sl-statuses .sl-status, .sl-card .sl-status, .sl-cal-tip .sl-status { white-space: normal; }
 
 .sl-controls { display: grid; gap: 12px; }
 .sl-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
@@ -64,7 +74,10 @@
   background: var(--bg);
   font: inherit;
   color: inherit;
+  cursor: pointer;
 }
+.sl-field select:hover { border-color: var(--ink); }
+.sl-dropped { font-size: 0.9rem; color: var(--ink-2); }
 .sl-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .sl-count { margin-right: auto; font-variant-numeric: tabular-nums; color: var(--ink-2); }
 
@@ -77,7 +90,7 @@
 .sl-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
 .sl-table caption { caption-side: top; text-align: left; padding: 10px 12px; font-size: 0.85rem; color: var(--ink-2); }
 .sl-table th, .sl-table td { padding: 8px 12px; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
-.sl-table thead th { position: sticky; top: 0; background: var(--bg); font-size: 0.8rem; white-space: nowrap; color: var(--ink-2); }
+.sl-table thead th { position: sticky; top: 0; background: var(--bg); font-size: 0.8rem; white-space: nowrap; color: var(--ink-2); vertical-align: bottom; }
 .sl-table tbody th { font-weight: 600; }
 .sl-table tbody tr:nth-child(even) { background: #fafafb; }
 .sl-table .num { text-align: right; }
@@ -95,6 +108,7 @@
   color: var(--accent);
   cursor: pointer;
 }
+.sl-sort:hover { text-decoration: underline; }
 .sl-sort-mark { font-size: 0.75rem; }
 
 .sl-status-cell { display: grid; gap: 2px; justify-items: start; }
@@ -111,10 +125,11 @@
 }
 .sl-status-reported { color: #14532d; background: #e7f6ec; }
 .sl-status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.sl-status-reported_late { color: #1f4f53; background: #e3f1f2; }
 .sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .sl-status-search_incomplete { color: #3a3a44; background: #eeeef2; }
-.sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 28ch; }
+.sl-reason { font-size: 0.8rem; color: var(--ink-2); max-width: 34ch; }
 .sl-report { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8rem; }
 /* Stand-alone links in the rows get a 44px-tall hit area on every pointer, not only touch (project bar). */
 .sl-replay { display: inline-flex; align-items: center; min-height: 44px; }
@@ -127,9 +142,12 @@
 /* Touch: every control and stand-alone link gets a 44px-tall hit area (project bar; WCAG 2.5.5).
    Links inside sentences keep the inline exception. */
 @media (pointer: coarse) {
-  .sl-back, .sl-region a, .follow-links a, .sl-brief-link a, .sl-report, .sl-replay {
+  .sl-back, .sl-region a, .follow-links a, .sl-report, .sl-replay {
     display: inline-flex; align-items: center; min-height: 44px; padding-block: 0;
   }
+  /* Links inside a sentence stay inline (inline-flex pushed ": what these monitors…" onto its own line); the padding
+     grows the hit area to 44 px without changing the line. */
+  .sl-links a { padding-block: 13px; }
   .sl-sort { min-height: 44px; }
   .sl-statuses summary { padding-block: 12px; }
 }
@@ -142,6 +160,8 @@
 .sl-card {
   display: grid; gap: 6px; padding: 12px; min-width: 0;
   border: 1px solid var(--line); border-radius: var(--radius, 10px); background: var(--bg);
+  /* "Show all" draws 415 cards; off-screen ones skip layout and paint until scrolled near. */
+  content-visibility: auto; contain-intrinsic-size: auto 190px;
 }
 .sl-card-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 10px; }
 .sl-card-when { font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -155,12 +175,12 @@
 .sl-card .sl-reason { max-width: none; }
 
 @media (min-width: 1024px) {
-  .sl-page { padding-top: 20px; }
   .sl-head h1 { font-size: 1.9rem; }
 }
 
-/* Calendar heatmap: one strip per monitor per year, one column per day. Below 640 px each year fits the width
-   (names above the strips) instead of scrolling sideways, so a phone sees Jan-Dec at once. */
+/* Calendar heatmap: one strip per monitor per year, one column per day. The year keeps at least 900 px (2.5 px a day)
+   and scrolls sideways inside its own box on narrow screens: fitted to a phone it was 0.8 px a day, and 251 of 401
+   marks could not be hit where they are drawn. */
 .sl-cal { display: grid; gap: 8px; margin: 0; position: relative; }
 .sl-cal figcaption { font-size: 0.85rem; color: var(--ink-2); max-width: 72ch; }
 .sl-cal-scroll { overflow-x: auto; max-width: 100%; padding-inline-end: 6px; }
@@ -172,34 +192,48 @@
 .sl-cal-months span { position: absolute; top: 0; }
 /* Marks are 4 px wide buttons centred on their day. With 2.5 to 2.7 px per day neighbouring days overlap a little
    rather than shrinking below 4 px. The ::before widens the hit area to 10 px without changing what is drawn. */
-.sl-cal-strip { position: relative; width: 100%; height: 18px; background: var(--bg-2); border-radius: 2px; }
+/* A size container, so marks can be placed in cqw (1% of the strip) from inside their own buttons. */
+.sl-cal-strip { position: relative; width: 100%; height: 18px; background: var(--bg-2); border-radius: 2px; container-type: inline-size; }
+/* Each button is the mark's hit area: from halfway to the previous mark to halfway to the next (at most 5 px a side),
+   so hit areas abut and never overlap. 1 px above and below stays inside the 2 px row gap, so strips do not overlap
+   either. The drawn mark is the 4 px svg at the day's centre. */
 .sl-cal-mark {
-  position: absolute; top: 0; width: 4px; height: 100%; padding: 0; border: 0; border-radius: 1px; cursor: pointer;
+  position: absolute; top: -1px; bottom: -1px; width: calc(var(--hl) + var(--hr)); padding: 0; border: 0; cursor: pointer;
   forced-color-adjust: none; background: transparent;
 }
-.sl-cal-mark svg { display: block; width: 100%; height: 100%; pointer-events: none; }
-.sl-cal-mark::before { content: ''; position: absolute; inset: -3px -3px; }
-.sl-cal-mark:focus-visible { z-index: 2; outline-offset: 3px; border-radius: 1px; }
-.sl-cal-mark:hover { z-index: 1; outline: 2px solid var(--ink); outline-offset: 1px; }
+.sl-cal-mark svg { position: absolute; top: 1px; left: calc(var(--hl) - 2px); width: 4px; height: calc(100% - 2px); border-radius: 1px; pointer-events: none; }
+.sl-cal-mark:focus-visible { z-index: 2; outline: none; }
+.sl-cal-mark:focus-visible svg { outline: 3px solid var(--focus); outline-offset: 3px; }
+.sl-cal-mark:hover { z-index: 1; }
+.sl-cal-mark:hover svg { outline: 2px solid var(--ink); outline-offset: 1px; }
 .sl-cal-tip {
   --tip-half: min(160px, 46%);
   position: absolute; z-index: 5; transform: translateX(-50%); display: grid; gap: 4px; max-width: min(320px, 92vw);
   padding: 8px 10px; border: 1px solid var(--ink-2); border-radius: 8px; background: var(--bg); color: var(--ink);
-  box-shadow: var(--shadow-1); font-size: 0.8rem; pointer-events: none;
+  box-shadow: var(--shadow-1); font-size: 0.8rem;
 }
 .sl-cal-tip-row { display: flex; flex-wrap: wrap; gap: 2px 8px; align-items: center; font-variant-numeric: tabular-nums; }
 .sl-cal-tip-hint { color: var(--ink-2); }
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 14px; flex: none; background: var(--bg-2); border-radius: 2px; }
-/* About 0.94 px per day at 375 px: marks stay 4 px wide (hit area 10 px via ::before) and overlap more than on a
-   laptop (206 of 385 neighbouring pairs touch, against 151 in the old 904 px scroller); a first tap still shows which day it hit. */
+/* Phones: names above the strips, pinned to the left edge while the year scrolls. */
 @media (max-width: 639.98px) {
-  .sl-cal-year { min-width: 0; }
   .sl-cal-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .sl-cal-name { position: sticky; left: 0; justify-self: start; max-width: 80vw; }
 }
 /* Forced colors drop the swatch backgrounds but keep the SVG fills, so the legend no longer matched the strips. */
 @media (forced-colors: active) { .sl-cal-swatch { forced-color-adjust: none; } }
 
 .follow { margin-top: 4px; }
+
+/* Neighborhood shortcuts: set the monitor filter to the monitor nearest a place. */
+.sl-nb { display: grid; gap: 6px; }
+.sl-nb-label { font-size: 0.8rem; font-weight: 700; color: var(--ink-2); }
+.sl-nb-result { font-size: 0.9rem; max-width: 72ch; }
+/* Phones: one scrolling row of chips, so the filters stay near the first screen. */
+@media (max-width: 639.98px) {
+  .sl-nb .chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
+  .sl-nb .chip { flex: none; }
+}
 .follow-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.9rem; }
