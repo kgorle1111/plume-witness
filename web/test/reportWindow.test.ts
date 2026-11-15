@@ -26,7 +26,8 @@ test('demo night: 09:38-10:42 CDT is drawn at 08:38-09:42 CST, solid, with the a
   assert.equal(b.cstText, '08:38 to 09:42 CST')
   const t = arrivalTick(ev.record_check, ev.date_local)!
   assert.ok(Math.abs(t.hourCst - (9 + 36 / 60)) < 1e-9)
-  assert.equal(t.text, 'air could arrive ~10:36 CDT (wind 6.8 mph, 10.6 km)')
+  // Miles first, the pipeline's km in parentheses (decision #8).
+  assert.equal(t.text, 'air could arrive ~10:36 CDT, traveling 6.6 mi (10.6 km) on a 6.8 mph wind')
 })
 
 const base = (over: Partial<RecordCheck>): RecordCheck => ({ ...ev.record_check, ...over })
@@ -64,7 +65,7 @@ test('Spanish: the report window and arrival marker carry no English words', () 
   const b = reportBand(ev.record_check, ev.date_local, 'es')!
   assert.equal(b.localText, '09:38 a 10:42 CDT')
   assert.equal(b.cstText, '08:38 a 09:42 CST')
-  assert.equal(arrivalTick(ev.record_check, ev.date_local, 'es')!.text, 'el aire podría llegar ~10:36 CDT (viento 6.8 mph, 10.6 km)')
+  assert.equal(arrivalTick(ev.record_check, ev.date_local, 'es')!.text, 'el aire podría llegar ~10:36 CDT, tras viajar 6.6 mi (10.6 km) con un viento de 6.8 mph')
 })
 
 test('the time note reads in Spanish, and an unknown note stays as published', () => {
@@ -86,7 +87,9 @@ test('with no company report on the night, the time note drops the report-clock 
 test('report resolutions from build.py read in Spanish; unknown forms stay English', () => {
   assert.deepEqual(resolutionText('in the upwind corridor', 'es'), { text: 'en el corredor viento arriba', lang: 'es' })
   assert.deepEqual(resolutionText('outside the corridor (22.9 km, 41° off the wind)', 'es'),
-    { text: 'fuera del corredor (22.9 km, 41° fuera de la dirección del viento)', lang: 'es' })
+    { text: 'fuera del corredor, a 14.2 mi (22.9 km) y 41° fuera de la dirección del viento', lang: 'es' })
+  assert.deepEqual(resolutionText('outside the corridor (22.9 km, 41° off the wind)', 'en'),
+    { text: 'outside the corridor, 14.2 mi (22.9 km) away and 41° off the wind', lang: 'en' })
   assert.deepEqual(resolutionText('unresolved: no location', 'es'), { text: 'unresolved: no location', lang: 'en' })
 })
 

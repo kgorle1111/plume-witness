@@ -12,3 +12,13 @@ export function shareUrl(base: string, origin: string, nightId: string | null | 
   const hash = step && step !== 'detect' && (STUB_STEPS as readonly string[]).includes(step) ? `#${step}` : ''
   return `${origin}${base}${stubPath(nightId)}${hash}`
 }
+
+/**
+ * The link the copied incident note carries: the preview page of the night this replay shows (its `?night=`; App
+ * writes it into the URL even when a region opened its first night), on the Check step. Null on the demo night,
+ * which has no `?night=`, so the caller keeps the replay URL there.
+ */
+export function noteShareUrl(base: string, href: string): string | null {
+  const u = new URL(href)
+  return shareUrl(base, u.origin, u.searchParams.get('night'), 'check')
+}

@@ -1,7 +1,7 @@
 // Pure helpers for the past-spikes log (SpikeLog.tsx). Self-contained, with a .ts import, so
 // `node --test test/spikes.test.ts` can load it without a bundler.
-import { statusInfo } from './format.ts'
-import { translate } from './i18n.ts'
+import { statusInfo, statusLabel } from './format.ts'
+import { translate, type Lang, type StringKey } from './i18n.ts'
 import { distanceKm, type LatLon } from './geo.ts'
 
 // Mirrors pipeline/spikes.py (schema plume-witness.spikes/v1). Rows never carry a facility name.
@@ -217,6 +217,29 @@ const own = (m: Record<string, ReasonKey>, k: string | undefined): ReasonKey | n
   (k !== undefined && Object.hasOwn(m, k) ? m[k] : null)
 export const reasonKey = (row: Pick<SpikeRow, 'reason' | 'reason_code'>): ReasonKey | null =>
   own(REASON_CODES, row.reason_code) ?? own(REASONS, row.reason)
+
+// The short form of each cause, for the one-line "Can’t say: wind too light" label. The fallback (cause unknown:
+// "see the replay's Check step") has none, so that row keeps the plain "Can’t say" and its longer reason line.
+const REASON_SHORT: Partial<Record<ReasonKey, StringKey>> = {
+  'spikes.reason.calm': 'spikes.reasonShort.calm',
+  'spikes.reason.placed': 'spikes.reasonShort.placed',
+  'spikes.reason.earlier': 'spikes.reasonShort.earlier',
+  'spikes.reason.week': 'spikes.reasonShort.week',
+  'spikes.reason.noWind': 'spikes.reasonShort.noWind',
+}
+const shortReason = (row: Pick<SpikeRow, 'status' | 'reason' | 'reason_code'>): StringKey | null => {
+  const k = row.status === 'search_incomplete' ? reasonKey(row) : null
+  return (k && REASON_SHORT[k]) ?? null
+}
+/** True when rowStatusLabel already names the row's cause, so a separate reason line would only repeat it. */
+export const reasonInLabel = (row: Pick<SpikeRow, 'status' | 'reason' | 'reason_code'>): boolean => shortReason(row) !== null
+
+/** One row's record check as a label: "Can’t say: wind too light" when its check stopped short for a known cause,
+ *  otherwise the status label every page uses. */
+export function rowStatusLabel(row: Pick<SpikeRow, 'status' | 'reason' | 'reason_code'>, lang: Lang): string {
+  const k = shortReason(row)
+  return k ? translate(lang, 'status.cantSayWhy', { why: translate(lang, k) }) : statusLabel(row.status, lang)
+}
 
 /** The monitor in the file closest to a point, with its distance; null for an empty file. */
 export function nearestSite(all: SpikeRow[], p: LatLon): { site_id: string; site: string; km: number } | null {

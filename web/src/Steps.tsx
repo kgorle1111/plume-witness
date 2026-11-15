@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type Dispatch, type KeyboardEvent, type ReactNode, type SetStateAction } from 'react'
 import { type AiDraft, type DayIncident, type Facility, type Monitor, type NrcReport, type PlumeEvent, type RecordCheck } from './types'
-import { compass, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
-import { Unit } from './Unit'
+import { compass, countyList, distanceText, hourLabel, hourShort, maxFracDigits, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
+import { Num, Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
 import { incidentNote, noteUrl } from './note'
+import { noteShareUrl } from './shareLink'
 import { facilityHref } from './facilities'
 import { arrivalTick, calmMph, checkNoteText, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
 import { savePacketReview, useAiDraftFailed, type Lang, type PacketReview, type Source } from './packet'
@@ -43,6 +44,7 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
   const bw = (W - 4) / 24
   const y = (v: number) => H - pad - (v / max) * (H - pad - 6)
   const missing = m.hourly.filter((h) => h.value === null).length
+  const hourlyFrac = maxFracDigits(m.hourly.map((h) => h.value))
   const t = useT()
   const lang = useLang()
   const band = reportBand(rc, eventDay, lang)
@@ -108,12 +110,12 @@ function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m:
       <details className="hourly-table">
         <summary>{t('spark.showAll')}</summary>
         <table>
-          <thead><tr><th scope="col">{t('spark.colHour')}</th><th scope="col"><Unit units={units} /></th><th scope="col">{t('spark.colFlag')}</th></tr></thead>
+          <thead><tr><th scope="col">{t('spark.colHour')}</th><th scope="col" className="num"><Unit units={units} /></th><th scope="col">{t('spark.colFlag')}</th></tr></thead>
           <tbody>
             {m.hourly.map((h) => (
               <tr key={h.hour_cst}>
                 <td>{hourShort(h.hour_cst)}</td>
-                <td>{h.value ?? t('spark.noValue')}</td>
+                <td className="num">{h.value === null ? t('spark.noValue') : <Num value={h.value} frac={hourlyFrac} />}</td>
                 <td>{h.flag ?? ''}</td>
               </tr>
             ))}
@@ -135,7 +137,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
   const rule = ruleParts(d.rule)
   // Ten times a zero baseline is still zero: on those nights only the floor flagged the reading.
   const ruleKey = d.baseline === 0 ? 'det.ruleZero' : 'det.ruleText'
-  const county = titleCase(regionByKey(ev.region?.key).county)
+  const county = countyList(regionByKey(ev.region?.key).county, lang)
   const rc = ev.record_check
   const hasReport = Boolean(rc.reported) || (rc.day_incidents?.length ?? 0) > 0
   const note = timeNote(ev.time_note, lang, hasReport)
@@ -155,7 +157,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
           <dd>{rule ? t(ruleKey, { ...rule, unit: unitShort(rule.unit) }) : <code>{d.rule}</code>}</dd>
         </div>
       </dl>
-      <p className="small">{t('det.notAlert', { county })}</p>
+      <p className="small">{county.many ? t('det.notAlertMany', { counties: county.counties }) : t('det.notAlert', { county: county.counties })}</p>
       <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
         {t('det.replayHour', { hour: hourLabel(hour) })} <strong>{atHour ? readingText(atHour.value, atHour.flag, unitShort(u)) : t('tl.noData')}</strong>
@@ -170,7 +172,6 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
 }
 
 /** regions.generated.json writes counties in capitals ("JEFFERSON"). */
-const titleCase = (s: string) => s.toLowerCase().replace(/\b\p{L}/gu, (c) => c.toUpperCase())
 
 // Phones and tablets have no hover, so the Trace hint talks about taps there and about hover and Tab elsewhere.
 const NO_HOVER = '(hover: none)'
@@ -299,7 +300,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
                 : <span className="fl-name">{f.name}</span>}
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">{t('trc.filed', { id: ev.record_check.incident })}</span>}
               {narrowed.has(f.id) && <span className="tri-tag">{t('trc.everyWedge')}</span>}
-              <span className="fl-geo">{t('trc.geo', { km: f.distance_km, deg: f.bearing_deg, dir: compass(f.bearing_deg, lang) })}</span>
+              <span className="fl-geo">{t('trc.geo', { km: distanceText(f.distance_km), deg: f.bearing_deg, dir: compass(f.bearing_deg, lang) })}</span>
               <span className="fl-align">
                 <span className="align-label">{t('trc.align', { deg: offWindDeg(f.alignment) })}</span>
                 <span className="align-track" aria-hidden="true"><span className="align-fill" style={{ width: `${Math.max(0, Math.min(1, f.alignment)) * 100}%` }} /></span>
@@ -327,7 +328,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
       {outside.length > 0 && (
         <details className="outside">
           <summary>{t('trc.outside', { n: outside.length })}</summary>
-          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{t('trc.outsideItem', { name: f.name, km: f.distance_km, deg: f.bearing_deg })}</li>)}</ul>
+          <ul>{outside.map((f) => <li key={`${f.id}-${f.rank}`}>{t('trc.outsideItem', { name: f.name, km: distanceText(f.distance_km), deg: f.bearing_deg })}</li>)}</ul>
         </details>
       )}
     </>
@@ -667,7 +668,8 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   const copyNote = async () => {
-    const text = incidentNote(ev, replayUrl, lang)
+    // A forwarded note unfurls as this night's preview page (title, reading, status), which opens the replay on Check.
+    const text = incidentNote(ev, noteShareUrl(import.meta.env.BASE_URL, location.href) ?? replayUrl, lang)
     try {
       await navigator.clipboard.writeText(text)
       setNoteFallback(null)

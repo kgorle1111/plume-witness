@@ -4,8 +4,9 @@ import {
   localTime, monitorSpikesHref, nightHref, parseFacility, parseIndex, searchFacilities, triReasonKey,
   type FacilityFile, type FacilityIndex, type LoadError,
 } from './facilities'
-import { hourLabel, safeHttpUrl } from './format'
+import { distanceText, hourLabel, maxFracDigits, safeHttpUrl } from './format'
 import { T } from './LangSwitch'
+import { Num } from './Unit'
 import { useT, type Translate } from './useT'
 import './Facilities.css'
 
@@ -98,7 +99,6 @@ function useCompound(): (c: string) => string {
 function TriTable({ f }: { f: FacilityFile }) {
   const t = useT()
   const compound = useCompound()
-  const lb = (n: number | null) => (n === null ? t('fx.noNumber') : lbs(n))
   const years = Object.keys(f.reports_to_epa.years).sort()
   if (!years.length) {
     const key = triReasonKey(f.reports_to_epa.status)
@@ -106,6 +106,13 @@ function TriTable({ f }: { f: FacilityFile }) {
     return f.reports_to_epa.reason ? <p className="small" lang="en">{f.reports_to_epa.reason}</p> : <p className="small">{t('fx.noTri')}</p>
   }
   const rows = years.flatMap((y) => Object.entries(f.reports_to_epa.years[y]).map(([compound, v]) => ({ y, compound, v })))
+  // Pounds exactly as the form gives them, each column's decimal points in line (Unit.tsx Num).
+  const frac = {
+    stack: maxFracDigits(rows.map((r) => r.v.stack_lbs)),
+    fugitive: maxFracDigits(rows.map((r) => r.v.fugitive_lbs)),
+    total: maxFracDigits(rows.map((r) => r.v.total_lbs)),
+  }
+  const lb = (n: number | null, f: number) => (n === null ? t('fx.noNumber') : <Num value={n} frac={f} suffix=" lb" group />)
   const compounds = new Set(rows.map((r) => r.compound))
   // One compound: say it once above the table, so the four number columns fit a 343 px phone column.
   const only = compounds.size === 1 ? rows[0].compound : null
@@ -120,7 +127,7 @@ function TriTable({ f }: { f: FacilityFile }) {
             {rows.map(({ y, compound: c, v }) => (
               <tr key={`${y}-${c}`}>
                 <th scope="row">{y}</th>{!only && <td>{compound(c)}</td>}
-                <td className="num">{lb(v.stack_lbs)}</td><td className="num">{lb(v.fugitive_lbs)}</td><td className="num">{lb(v.total_lbs)}</td>
+                <td className="num">{lb(v.stack_lbs, frac.stack)}</td><td className="num">{lb(v.fugitive_lbs, frac.fugitive)}</td><td className="num">{lb(v.total_lbs, frac.total)}</td>
               </tr>
             ))}
           </tbody>
@@ -155,7 +162,7 @@ function FacilityPage({ id }: { id: string }) {
   return (
     <Shell kicker={t('fx.kicker')} title={displayName(f.name)}>
       {displayName(f.name) !== f.name && <p className="fx-registered">{t('fx.registered', { name: f.name })}</p>}
-      <p className="fx-sub"><T k="fx.sub" v={{ address: f.address, km: f.distance_km, monitor: f.nearest_monitor, link: echo ? <a href={echo} rel="noopener" target="_blank">{t('fx.echo')}</a> : '' }} /></p>
+      <p className="fx-sub"><T k="fx.sub" v={{ address: f.address, km: distanceText(f.distance_km), monitor: f.nearest_monitor, link: echo ? <a href={echo} rel="noopener" target="_blank">{t('fx.echo')}</a> : '' }} /></p>
       {spikes && <p className="fx-spikes"><a href={spikes}>{t('fx.spikesLink', { monitor: f.nearest_monitor })}</a></p>}
       <p className="fx-note" role="note">{t('fx.upwindNote')} {t('fx.pageNote')}</p>
 
@@ -182,7 +189,7 @@ function FacilityPage({ id }: { id: string }) {
               {f.matched_nights.map((m) => (
                 <li key={m.night_id} className="fx-card">
                   <p className="fx-night-link"><a href={nightHref(m.night_id, BASE)}>{t('fx.nightLink', { date: m.date })}</a></p>
-                  <p className="small"><T k="fx.nightBody" v={{ compound: compound(m.compound), monitor: m.monitor, hour: hourLabel(m.hour_cst), value: m.value_ppb, km: m.distance_km, link: <IncidentLink f={f} incident={m.incident} /> }} /></p>
+                  <p className="small"><T k="fx.nightBody" v={{ compound: compound(m.compound), monitor: m.monitor, hour: hourLabel(m.hour_cst), value: m.value_ppb, km: distanceText(m.distance_km), link: <IncidentLink f={f} incident={m.incident} /> }} /></p>
                 </li>
               ))}
             </ul>
@@ -254,7 +261,7 @@ function FacilityList() {
         {shown.map((r) => (
           <li key={r.id} className="fx-card">
             <a href={facilityHref(r.id, BASE)}>{displayName(r.name)}</a>
-            <span className="small muted">{t('fx.rowWhere', { address: r.address, km: r.distance_km, monitor: r.nearest_monitor })}</span>
+            <span className="small muted">{t('fx.rowWhere', { address: r.address, km: distanceText(r.distance_km), monitor: r.nearest_monitor })}</span>
             <span className="small">{[t(r.reports === 1 ? 'fx.reportsOne' : 'fx.reportsMany', { n: r.reports }), r.tri_years ? t(r.tri_years === 1 ? 'fx.triOne' : 'fx.triMany', { n: r.tri_years }) : t('fx.triNone'), r.matched_nights ? t(r.matched_nights === 1 ? 'fx.matchedOne' : 'fx.matchedMany', { n: r.matched_nights }) : null].filter(Boolean).join(' · ')}</span>
           </li>
         ))}

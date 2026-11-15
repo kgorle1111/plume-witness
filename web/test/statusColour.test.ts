@@ -40,7 +40,7 @@ test('no status uses the monitor-spike red, and no two statuses share a colour o
   assert.equal(new Set(fills).size, fills.length)
   const icons = Object.values(STATUS_TEXT).map((v) => v.icon)
   assert.equal(new Set(icons).size, icons.length)
-  for (const f of ['App.css', 'SpikeLog.css']) {
+  for (const f of ['index.css', 'App.css', 'SpikeLog.css']) {
     const text = readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8')
     for (const line of text.split('\n').filter((l) => /status-[a-z_]+\s*\{/.test(l))) assert.ok(!line.toLowerCase().includes(red) && !/#(8b1a1a|b42318)/i.test(line), `${f}: ${line}`)
   }

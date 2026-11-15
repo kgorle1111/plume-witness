@@ -61,10 +61,6 @@ export function buildRegions(rows: readonly RegionRow[]): Regions {
 
 export const REGIONS: Regions = buildRegions(registry as RegionRow[])
 
-// kn: App.tsx's region banner still imports this to swap a region note for its translation. No file carries a
-// note of that kind any more (pipeline/regions.py), so it matches nothing; delete it with that banner.
-export const NOT_BACKTESTED_NOTE = ''
-
 /** The region for a key, or Houston when the key is missing or unknown (own keys only: never "toString"). */
 export function regionByKey(key: string | null | undefined, regions: Regions = REGIONS): RegionInfo {
   return key != null && Object.hasOwn(regions, key) ? regions[key] : regions[DEFAULT_REGION]

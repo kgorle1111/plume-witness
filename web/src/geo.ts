@@ -87,6 +87,3 @@ export function placeReadout(ev: EventLike, p: LatLon): PlaceReadout {
     monitorAt: { lat: m.item.lat, lon: m.item.lon },
   }
 }
-
-/** One decimal under 10 km, whole km beyond: the inputs are point locations, not property lines. */
-export const kmText = (km: number) => `${km < 10 ? km.toFixed(1) : Math.round(km)} km`

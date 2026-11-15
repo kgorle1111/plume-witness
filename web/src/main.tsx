@@ -1,5 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Self-hosted variable fonts, Latin subset only (fonts.css says why).
+import './fonts.css'
 import './index.css'
 import './SpikeLog.css'
 import './motion.css'

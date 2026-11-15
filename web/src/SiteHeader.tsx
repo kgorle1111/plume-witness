@@ -11,8 +11,8 @@ const BASE = import.meta.env.BASE_URL
 export function BrandMark() {
   return (
     <svg className="brand-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(190 30 45 / 0.16)" stroke="#be1e2d" strokeWidth="1.4" strokeLinejoin="round" />
-      <circle cx="6" cy="18" r="4.2" fill="#be1e2d" stroke="#fff" strokeWidth="1.6" />
+      <path d="M6 18 L21 6.5 A16 16 0 0 1 22.5 15.5 Z" fill="rgb(224 122 104 / 0.28)" stroke="#d0604d" strokeWidth="1.4" strokeLinejoin="round" />
+      <circle cx="6" cy="18" r="4.2" fill="#d0604d" stroke="#fff" strokeWidth="1.6" />
     </svg>
   )
 }
