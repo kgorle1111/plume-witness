@@ -1,0 +1,102 @@
+{
+ "source": "facts_for(web/public/event.json at commit 0e36b84), the event the committed packet.ai.json Claude draft was generated and guarded against (40 corridor facilities; the event was regenerated with 47 in 18f8abd)",
+ "facts": {
+  "title": "Benzene spike on the Houston Ship Channel",
+  "date_local": "2024-06-21",
+  "time_note": "Monitor hours are CST as TCEQ publishes them; the company report uses local time (CDT, CST+1). TCEQ labels AutoGC data provisional and subject to change.",
+  "compound": "benzene",
+  "units": "ppb-v",
+  "detection": {
+   "site_id": "48_201_0069",
+   "hour_cst": 9,
+   "value": 51.75,
+   "baseline": 0.21,
+   "rule": "value >= max(10 x 7-day median baseline, 10 ppb)"
+  },
+  "monitors_over_trigger_that_hour": [
+   {
+    "site_id": "48_201_0069",
+    "name": "Houston Milby Park",
+    "value": 51.75,
+    "baseline": 0.21
+   },
+   {
+    "site_id": "48_201_0307",
+    "name": "Manchester East Ave N",
+    "value": 21.4,
+    "baseline": 0.22
+   }
+  ],
+  "wind_at_detection_hour": {
+   "hour_cst": 9,
+   "from_deg": 77.0,
+   "speed_mph": 6.8,
+   "site_id": "48_201_0069"
+  },
+  "upwind_corridor_facility_count": 40,
+  "nearest_upwind_facilities": [
+   {
+    "id": "110000461107",
+    "name": "Flint Hills Resources Houston Chemical",
+    "distance_km": 1.0,
+    "rank": 1
+   },
+   {
+    "id": "110058113704",
+    "name": "Houston Refining",
+    "distance_km": 2.5,
+    "rank": 2
+   },
+   {
+    "id": "110001867588",
+    "name": "United States Gypsum",
+    "distance_km": 2.5,
+    "rank": 3
+   },
+   {
+    "id": "110000462785",
+    "name": "Aes Deepwater Cogeneration Plant",
+    "distance_km": 3.4,
+    "rank": 4
+   },
+   {
+    "id": "110034690564",
+    "name": "Channel Energy Center",
+    "distance_km": 3.6,
+    "rank": 5
+   }
+  ],
+  "record_check": {
+   "status": "reported",
+   "incident": "425347",
+   "matched_facility_id": "110000462623",
+   "checks": [
+    {
+     "at": "T+24h",
+     "status": "reported",
+     "note": "initial notice filed 2024-06-21T14:38 local, 5.0 h after the reported discovery 2024-06-21T09:38"
+    },
+    {
+     "at": "T+14d",
+     "status": "reported",
+     "note": "final report dated 2024-07-03, 12 days after the event ended"
+    }
+   ],
+   "reported": {
+    "facility": "Ineos Americas Pasadena Site",
+    "compound": "Benzene",
+    "pounds": 7634.0,
+    "start_local": "2024-06-21T09:38",
+    "end_local": "2024-06-21T10:42",
+    "tz": "local (CDT)"
+   }
+  },
+  "cannot_say": [
+   "A matching report is not proof the facility caused every reading; other sources can add to a spike.",
+   "'Not yet reported' is not a finding about any facility: Texas requires a report only at or above a reportable quantity, and air readings cannot measure how much was released (30 TAC 101.201).",
+   "The upwind corridor comes from wind direction at one monitor (geometry only), not a dispersion model; it cannot tell facilities along the same bearing apart.",
+   "Facility coordinates are as published by EPA ECHO and may be approximate.",
+   "Only regulator-grade state monitors are used; many neighborhoods have none."
+  ]
+ }
+}
