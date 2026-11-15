@@ -265,7 +265,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                     {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">TCEQ report {r.matched_incident}</a>}
                   </td>
                   <td>
-                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={`Replay ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
+                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={`Replay this night: ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
                   </td>
                 </tr>
               )
