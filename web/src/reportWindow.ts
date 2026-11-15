@@ -116,6 +116,7 @@ export function resolutionText(res: string, lang: Lang): { text: string; lang: L
 // rather than half-translated.
 const SCOPE_DAY = /^Searched every STEERS emissions event starting (\d{2})\/(\d{2})\/(\d{4}) in (.+) County \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_EARLIER = /^Also searched reports that started in the (\d+) days before and were still running \((\d+) open that day; earlier search (complete|incomplete)\)\.$/
+const SCOPE_MIDNIGHT = /^The match window runs past midnight, so reports that started (\d{2})\/(\d{2})\/(\d{4}) by (\d{2}:\d{2}) local were also searched \((\d+) found; search (complete|incomplete)\)\.$/
 const SCOPE_CALM = /^Wind too light to trace \(([\d.]+) mph\): no corridor drawn, so the search is incomplete\.$/
 const SCOPE_FIXED = {
   'Events that started on earlier days were not searched.': 'scope.notEarlier',
@@ -136,6 +137,10 @@ function scopeSentence(s: string, lang: Lang): string | null {
   if (m) {
     const key = m[2] === '1' ? 'scope.earlierOne' : 'scope.earlier'
     return translate(lang, key, { days: m[1], n: m[2], state: state(m[3]) })
+  }
+  m = SCOPE_MIDNIGHT.exec(s)
+  if (m) {
+    return translate(lang, 'scope.midnight', { date: lang === 'en' ? `${m[1]}/${m[2]}/${m[3]}` : dateLabel(`${m[3]}-${m[1]}-${m[2]}`, lang), time: m[4], n: m[5], state: state(m[6]) })
   }
   m = SCOPE_CALM.exec(s)
   return m ? translate(lang, 'scope.calm', { mph: m[1] }) : null
