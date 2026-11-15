@@ -14,7 +14,7 @@ record-check status). Mutants are synthetic and deterministic (seeded, no networ
 Not measured: drafts written by a model trying to slip past the guard (the pick-2 plan's Haiku
 paraphrase attacks need an API call). Every catch rate below is on hand-built mutants.
 
-## BEFORE (baseline, guard unchanged from main): 2026-11-15, guard at 0516311
+## BEFORE (baseline, guard unchanged from main): 2026-11-15, guard at 02f3646 (rebased; was 0516311)
 
 | class | what is injected | cases | rejected | rate |
 |---|---|---:|---:|---:|
@@ -80,7 +80,7 @@ Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the cat
 
 packet.ai.json vs the current event.json: REJECTED (draft_en: number '40' is not in the event facts; draft_es: number '40' is not in the event facts)
 
-## BEFORE, re-run on the pinned bases (supersedes the table above): 2026-11-15, guard at 4c70c6f
+## BEFORE, re-run on the pinned bases (supersedes the table above): 2026-11-15, guard at d5e2a7a (rebased; was 4c70c6f)
 
 | class | what is injected | cases | rejected | rate |
 |---|---|---:|---:|---:|
@@ -146,7 +146,7 @@ Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the cat
 
 packet.ai.json vs the current event.json: REJECTED (draft_en: number '40' is not in the event facts; draft_es: number '40' is not in the event facts)
 
-## AFTER (guard fixes): 2026-11-15, guard at 689e160
+## AFTER (guard fixes): 2026-11-15, guard at e5d66af (rebased; was 689e160)
 
 | class | what is injected | cases | rejected | rate |
 |---|---|---:|---:|---:|
