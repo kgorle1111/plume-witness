@@ -41,7 +41,7 @@ def estimate_table(pages: list[dict], eval_ids: list[str]) -> str:
 def main(argv: list[str] | None = None, client=None, sleep=time.sleep, out_dir: Path = OUT) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--model", choices=sorted(wb.TIERS), default=wb.DEFAULT_TIER)
-    ap.add_argument("--pages", choices=("all", "eval"), default="all", help="all 315 pages, or the eval set only")
+    ap.add_argument("--pages", choices=("all", "eval"), default="all", help="all 317 pages, or the eval set only")
     ap.add_argument("--limit", type=int, help="first N pages of the selection (sorted by incident)")
     ap.add_argument("--max-usd", type=float, default=30.0)
     ap.add_argument("--dry-run", action="store_true", help="print the estimate and exit 0")

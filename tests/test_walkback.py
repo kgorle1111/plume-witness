@@ -242,7 +242,7 @@ def test_regex_flagger_flags_the_known_cases_and_quotes_verbatim(pages):
 
 
 def test_every_page_parses_its_fields_and_table(pages):
-    assert len(pages) == 315
+    assert len(pages) == 317  # 315 before the 2026-11-15 Harris expansion fetched 2 more detail pages
     assert all(p["fields"]["cause"] for p in pages.values())
     assert pages[INEOS]["table"] == [{"compound": "Benzene", "quantity": "7634.0", "unit": "POUNDS"}]
 

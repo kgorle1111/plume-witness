@@ -21,7 +21,7 @@ uv run python -m evals.walkback --dry-run                          # estimate on
 ANTHROPIC_API_KEY=... uv run python -m evals.walkback --model sonnet --yes
 ```
 
-- The default is `--model sonnet` (`claude-sonnet-5-5`) on all 315 pages. `--pages eval` runs only the eval set,
+- The default is `--model sonnet` (`claude-sonnet-5-5`) on all 317 pages. `--pages eval` runs only the eval set,
   and `--limit N` runs only the first N pages.
 - The estimate is printed before anything else. Without `--yes` the run stops there (exit 2). With `--yes` but
   no `ANTHROPIC_API_KEY` it also exits 2. The key comes from the environment only, never from a file.
@@ -51,8 +51,8 @@ Agreeing with a baseline does not make a reading correct.
 
 ## Baselines (no labels needed)
 
-- **Parser** (`parse.steers_revisions`): reads 1 of 315 pages, `steers_425347`, the INEOS demo page.
-- **Regex flagger** (`walkback.regex_read`): flags 43 of 315 using change, walk-back and UPDATE wording. An
+- **Parser** (`parse.steers_revisions`): reads 1 of 317 pages, `steers_425347`, the INEOS demo page.
+- **Regex flagger** (`walkback.regex_read`): flags 43 of 317 using change, walk-back and UPDATE wording. An
   earlier pattern counted 39. It flags known noise as well: "piping was revised", "operator incorrectly
   assumed".
 
