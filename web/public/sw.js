@@ -14,17 +14,44 @@ const INDEX = scope.href
 
 self.addEventListener('install', (event) => {
   // Take over at once: phones keep tabs open for days, so a waiting worker would leave the old build (and old fetch
-  // rules) in place. kn: a page left open across a deploy that then lazy-loads a chunk can 404 (old chunk gone from
-  // cache and server); a reload fixes it. Reload-on-controllerchange if that bites.
+  // rules) in place. A page left open across a deploy can then ask for a chunk the new build dropped; pwa.ts sees the
+  // new worker take control and offers a reload.
   event.waitUntil((async () => {
     const res = await fetch(new URL('precache.json', scope), { cache: 'reload' })
     if (!res.ok) throw new Error(`precache.json: HTTP ${res.status}`)
     const { urls } = await res.json()
+    const old = await previousShells()
+    // Everything is fetched before anything is stored, so a failed install leaves no half-filled cache behind.
+    const entries = await Promise.all(urls.map(async (u) => {
+      const url = new URL(u, scope)
+      if (!IMMUTABLE(u)) return [url, await precacheFetch(url, 'reload')]
+      // A hashed file never changes under its name: a returning phone keeps last build's copy instead of fetching
+      // it again, and a first visit lets the HTTP cache answer for what the page itself just loaded.
+      for (const c of old) {
+        const hit = await c.match(url)
+        if (hit) return [url, hit]
+      }
+      return [url, await precacheFetch(url, 'default')]
+    }))
     const cache = await caches.open(SHELL)
-    await cache.addAll(urls.map((u) => new Request(new URL(u, scope), { cache: 'reload' })))
+    for (const [url, r] of entries) await cache.put(url, r)
     await self.skipWaiting()
   })())
 })
+
+// Vite's hashed build output; the shell (./), JSON and icons keep their names across builds, so they are re-read.
+const IMMUTABLE = (u) => u.startsWith('assets/')
+
+async function precacheFetch(url, mode) {
+  const r = await fetch(new Request(url, { cache: mode }))
+  if (!r.ok) throw new Error(`precache ${url.pathname}: HTTP ${r.status}`)
+  return r
+}
+
+async function previousShells() {
+  const keys = (await caches.keys()).filter((k) => k.startsWith('pw-shell-') && k !== SHELL)
+  return Promise.all(keys.map((k) => caches.open(k)))
+}
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
@@ -43,7 +70,7 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return
   const rel = url.pathname.slice(scope.pathname.length)
   if (req.mode === 'navigate') return void event.respondWith(navigation(req))
-  if (req.headers.has('range')) return void event.respondWith(ranged(req))
+  if (req.headers.has('range')) return void event.respondWith(ranged(req, event))
   if (rel.endsWith('.json')) return void event.respondWith(networkFirst(req, event))
   event.respondWith(cacheFirst(req)) // hashed /assets/*, audio, icons, manifest
 })
@@ -76,8 +103,10 @@ async function networkFirst(req, event) {
   return hit
 }
 
+// ignoreVary: a module script request carries Origin and some hosts answer "Vary: Origin" (vite preview does), so the
+// precached copy, stored without one, never matched and the shell failed offline. Same-origin build files do not vary.
 async function cacheFirst(req) {
-  const hit = await caches.match(req)
+  const hit = await caches.match(req, { ignoreVary: true })
   if (hit) return hit
   return put(req, await fetch(req))
 }
@@ -97,10 +126,15 @@ async function navigation(req) {
 }
 
 // <audio> asks for byte ranges; Safari rejects a 200 answer to one, so cut the cached body into a 206.
-async function ranged(req) {
+// The narration clips are not precached (2 MB, and a visit plays at most one): the first play streams from the
+// network and the whole clip is kept in the background, so it plays offline from then on.
+async function ranged(req, event) {
   const plain = new Request(req.url)
   const hit = await caches.match(plain)
-  if (!hit) return fetch(req)
+  if (!hit) {
+    if (/^bytes=0-$/.test(req.headers.get('range') ?? '')) event.waitUntil(fetch(plain).then((res) => put(plain, res)).catch(() => {}))
+    return fetch(req)
+  }
   const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.get('range') ?? '')
   if (!m) return hit
   const buf = await hit.arrayBuffer()
