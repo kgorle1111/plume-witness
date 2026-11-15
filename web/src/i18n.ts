@@ -17,6 +17,8 @@ const EN = {
   'common.loading': 'Loading…',
   'common.langGroup': 'Language',
   'common.reviewNote': 'Spanish not yet reviewed by a community reader.',
+  // Phones fold the review note behind this button beside the switch (LangSwitch.tsx); only shown in Spanish.
+  'common.reviewToggle': 'Translation not yet reviewed',
   // Units: event.json gives readings in "ppb-v"; pages say "ppb" and spell it out once (format.ts unitFirst, Unit.tsx).
   'unit.ppbLong': 'parts per billion',
   'unit.ppbvLong': 'parts per billion by volume',
@@ -773,6 +775,7 @@ const ES: Record<StringKey, string> = {
   'common.loading': 'Cargando…',
   'common.langGroup': 'Idioma',
   'common.reviewNote': 'Traducción aún no revisada por un lector de la comunidad.',
+  'common.reviewToggle': 'Traducción sin revisar',
   'unit.ppbLong': 'partes por mil millones',
   'unit.ppbvLong': 'partes por mil millones en volumen',
   'unit.ppbvTitle': 'ppb-v: partes por mil millones en volumen (la «-v» significa en volumen), la unidad que publica el estado',
