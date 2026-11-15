@@ -3,8 +3,8 @@ import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent, t
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './EventMap.css'
-import { Deck, MapView } from '@deck.gl/core'
-import { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } from '@deck.gl/layers'
+import type { Deck, MapView } from '@deck.gl/core'
+import { afterBaseMap } from './deckGate'
 import type { Facility, Monitor, PlumeEvent } from './types'
 import { destination, mergeArcs, readingText, sectorRing, unitShort } from './format'
 import { placeReadout } from './geo'
@@ -441,7 +441,13 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       return w === 'right' ? [gap, 0] : w === 'left' ? [-gap, 0] : w === 'below' ? [dx, gap] : [dx, -gap]
     }
 
-    const buildLayers = (narrow: boolean) => {
+    // deck.gl arrives after the basemap's first render (deckGate.ts); until then there is nothing to draw into.
+    let kit: typeof import('./deckKit') | null = null
+    let deck: Deck<MapView> | null = null
+    let disposed = false
+
+    const buildLayers = (k: typeof import('./deckKit'), narrow: boolean) => {
+      const { PathLayer, PolygonLayer, ScatterplotLayer, TextLayer } = k
       const { monitorsAt, where, numberedIds, overName, corridorAt } = layout(narrow)
       // Placement is recomputed on every redraw (hour, hover, camera), so the label accessors rerun every time.
       const epoch = ++labelEpoch
@@ -625,23 +631,35 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const c = map.getCenter()
       return { longitude: c.lng, latitude: c.lat, zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() }
     }
-    const deck = new Deck({
-      parent: deckHost,
-      views: new MapView({ repeat: true }),
-      viewState: camera(),
-      controller: false,
-      layers: buildLayers(isNarrow()),
-      // deck's input manager makes its canvas a tab stop (tabIndex 0, no focus ring) even with no controller.
-      // It does nothing for keyboard users, and the Trace list is the map's text equivalent, so take it out.
-      onLoad: () => {
-        const c = deckHost.querySelector('canvas')
-        if (!c) return
-        c.tabIndex = -1
-        c.setAttribute('aria-hidden', 'true')
-      },
-    })
     let narrow = isNarrow()
-    const redraw = () => deck.setProps({ layers: buildLayers(narrow) })
+    const redraw = () => {
+      if (deck && kit) deck.setProps({ layers: buildLayers(kit, narrow) })
+    }
+    const startDeck = () => {
+      import('./deckKit').then((k) => {
+        if (disposed) return
+        kit = k
+        deck = new k.Deck({
+          parent: deckHost,
+          views: new k.MapView({ repeat: true }),
+          viewState: camera(),
+          controller: false,
+          layers: buildLayers(k, narrow),
+          // deck's input manager makes its canvas a tab stop (tabIndex 0, no focus ring) even with no controller.
+          // It does nothing for keyboard users, and the Trace list is the map's text equivalent, so take it out.
+          onLoad: () => {
+            const c = deckHost.querySelector('canvas')
+            if (!c) return
+            c.tabIndex = -1
+            c.setAttribute('aria-hidden', 'true')
+          },
+        })
+      }).catch((e: unknown) => {
+        // A failed chunk download (or no WebGL) goes to MapSlot's error boundary, as a failed map chunk does.
+        if (!disposed) setFailure(e)
+      })
+    }
+    const stopDeckGate = afterBaseMap(map, startDeck)
     applyHour.current = (h) => {
       hourRef.current = h
       sizePulse()
@@ -654,7 +672,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     }
     // Hover (mouse) and tap (touch) reveal a facility's name; picking runs on deck's own buffer.
     const pickAt = (x: number, y: number) =>
-      phaseNow !== 'flat' ? null : (deck.pickObject({ x, y, radius: narrow ? 10 : 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
+      phaseNow !== 'flat' || !deck ? null : (deck.pickObject({ x, y, radius: narrow ? 10 : 6, layerIds: ['facilities'] })?.object as Facility | undefined)?.id ?? null
     const setHover = (id: string | null) => {
       if (id === hoverId) return
       hoverId = id
@@ -720,7 +738,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         sizePulse()
         redraw()
       }
-      deck.setProps({ viewState: camera() })
+      deck?.setProps({ viewState: camera() })
       showDeck()
     }
     // kn: the standalone deck overlay only matches MapLibre's camera when flat and untilted; it is hidden on the
@@ -856,7 +874,9 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       applyHighlight.current = () => {}
       applyHour.current = () => {}
       applyLang.current = () => {}
-      deck.finalize()
+      disposed = true
+      stopDeckGate()
+      deck?.finalize()
       map.remove()
     }
   }, [ev, corridor])

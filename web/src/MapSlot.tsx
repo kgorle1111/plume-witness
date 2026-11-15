@@ -4,7 +4,8 @@ import { getLang, translate } from './i18n'
 import { chunkUrl } from './loadError'
 
 // MapLibre + deck.gl are ~90% of the JS. Loading them lazily lets the header, stepper and Detect numbers
-// (the text that carries the event) render first on a slow phone connection.
+// (the text that carries the event) render first on a slow phone connection. deck.gl comes later still, after the
+// basemap's first render (EventMap.tsx, deckGate.ts); a failure there lands in this same boundary.
 const loadMap = () => import('./EventMap').then((m) => ({ default: m.EventMap }))
 // React.lazy caches a rejected import, so a retry swaps in a fresh lazy component.
 let LazyMap = lazy(loadMap)
@@ -14,7 +15,8 @@ type MapProps = ComponentProps<typeof EventMapType>
 /** A deploy while the page was open deletes the old hashed chunk, so retrying that URL 404s every time: only a reload
  *  gets the new one. HEAD skips the service worker (it answers GET only), so this asks the host itself. Offline or
  *  any other answer keeps the in-place retry.
- *  kn: checks the chunk the import names (EventMap); a deploy that drops only the vendor chunk still loops on retry. */
+ *  kn: checks the chunk the failed import names (EventMap, or deckKit for deck.gl's own import); a deploy that drops
+ *  only the MapLibre chunk still loops on retry. */
 async function chunkGone(error: unknown): Promise<boolean> {
   const url = chunkUrl(error)
   if (!url) return false

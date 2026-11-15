@@ -55,10 +55,14 @@ export default defineConfig({
     sourcemap: true,
     rolldownOptions: {
       output: {
-        // (PR #90) The lazy map was one large chunk. MapLibre gets its own chunk so it downloads in parallel with
-        // deck.gl + the app's map code, and stays cached when only app code changes. deck.gl stays in the EventMap
-        // chunk: grouping it pulled Vite's preload helper into that group (the entry then loaded deck.gl on first
-        // paint), and opting out of dependency pulling broke deck.gl's module init order.
+        // (PR #90) The lazy map was one large chunk. MapLibre gets its own chunk so it downloads in parallel with the
+        // app's map code, and stays cached when only app code changes. deck.gl needs no group: the replay's EventMap
+        // reaches it only through import('./deckKit') after its basemap's first render (deckGate.ts), and the
+        // timeline's RainMap imports deck.gl directly (its dots are the content, and nothing there competes with
+        // them). So deck.gl core + ScatterplotLayer form one chunk both maps share, the replay's Text, Path and
+        // Polygon layers are deckKit's own, and Vite preloads both (with luma.gl's lazy parts) when that import runs.
+        // (A group for deck.gl pulled Vite's preload helper into it, so the entry loaded deck.gl on first paint;
+        // opting out of dependency pulling broke deck.gl's module init order.)
         codeSplitting: {
           groups: [{ name: 'maplibre', test: /node_modules[\\/]maplibre-gl/ }],
         },
