@@ -140,7 +140,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
         {error && <p className="ps-error">{error}</p>}
         {place && r && (
           r.kind === 'far' ? (
-            <p className="ps-far"><strong>{place.label}</strong>: Plume Witness only has Houston Ship Channel data so far (one night, {ev.date_local}).</p>
+            <p className="ps-far"><strong>{place.label}</strong>: Plume Witness only has Houston Ship Channel data so far (this replay: one night, {ev.date_local}).</p>
           ) : (
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>

@@ -235,7 +235,7 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
           </dl>
         </>
       )}
-      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} />}
+      {rc.day_incidents && rc.day_incidents.length > 0 && <DayIncidents items={rc.day_incidents} lang={lang} />}
       {url
         ? <p><a className="record-link" href={url} target="_blank" rel="noopener noreferrer">Open the state record<span className="sr-only"> (opens in a new tab)</span></a></p>
         : <p className="muted">No valid link to the state record in this file.</p>}
@@ -243,7 +243,15 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
   )
 }
 
-function DayIncidents({ items }: { items: DayIncident[] }) {
+// kn: Spanish not yet reviewed by a community reader, like the status labels.
+const CORRIDOR_TAG = {
+  in: { en: 'In the upwind corridor', es: 'En el corredor viento arriba' },
+  out: { en: 'Not in the corridor', es: 'Fuera del corredor' },
+  // A report that couldn't be placed is neither in nor out; "not in" read as a verdict on its location.
+  unknown: { en: 'Location unknown', es: 'Ubicación desconocida' },
+} as const
+
+function DayIncidents({ items, lang }: { items: DayIncident[]; lang: Lang }) {
   return (
     <>
       <h3 className="list-heading">Other reports filed that day ({items.length})</h3>
@@ -252,8 +260,8 @@ function DayIncidents({ items }: { items: DayIncident[] }) {
           <li key={d.incident} className={d.in_corridor ? 'in-corridor' : undefined}>
             <span className="di-entity">{d.entity}</span>
             {/* Corridor membership is stated in words; the border colour only repeats it. */}
-            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'}>
-              {d.in_corridor ? 'In the upwind corridor' : 'Not in the corridor'}
+            <span className={d.in_corridor ? 'di-tag di-in' : 'di-tag'} lang={lang}>
+              {CORRIDOR_TAG[d.in_corridor === true ? 'in' : d.in_corridor === false ? 'out' : 'unknown'][lang]}
             </span>
             <span className="di-facts">
               {[d.compound, d.pounds != null ? `${d.pounds.toLocaleString('en-US')} lb` : null, d.start_local ? `started ${localTime(d.start_local)}` : null]

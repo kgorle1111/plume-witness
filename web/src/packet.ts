@@ -21,10 +21,14 @@ export const initialPacketReview = (ev: PlumeEvent): PacketReview => ({
   approved: false,
 })
 
-/** The AI draft is optional: a missing or malformed file leaves the template-only packet, as before. */
+/** The AI draft is optional: a missing or malformed file leaves the template-only packet, as before.
+ *  packet.ai.json is drafted from event.json (the demo night) and carries no event id, so a `?night=` replay
+ *  never offers it: its numbers belong to another night.
+ *  kn: match on an event id in packet.ai.json once the pipeline writes one; then per-night AI drafts can show. */
 export function useAiDraft(): AiDraft | null {
   const [ai, setAi] = useState<AiDraft | null>(null)
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('night')) return
     const ctrl = new AbortController()
     fetch(`${import.meta.env.BASE_URL}packet.ai.json`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : null))
