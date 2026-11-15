@@ -1,12 +1,13 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { inlineText, parseInline, parseMarkdown, type Block } from '../src/md.ts'
-import { BRIEF_ES, numbersIn } from '../src/briefEs.ts'
+import { inlineText, parseInline, parseMarkdown, type Block, type Inline } from '../src/md.ts'
 import { BANNED_WORDS } from '../src/i18n.ts'
 
 const src = readFileSync(new URL('../../docs/brief.md', import.meta.url), 'utf8')
+const srcEs = readFileSync(new URL('../../docs/brief.es.md', import.meta.url), 'utf8')
 const blocks = parseMarkdown(src)
+const blocksEs = parseMarkdown(srcEs)
 const allText = (bs: Block[]) =>
   bs.map((b) => ('items' in b ? b.items.map(inlineText).join('\n') : inlineText(b.v))).join('\n')
 
@@ -60,20 +61,70 @@ test('a bracketed citation link keeps its brackets outside the link text', () =>
   for (const l of links) assert.ok(!/^\[|\]$/.test(l), `link text carries a bracket: ${l}`)
 })
 
-test('the Spanish summary states the same numbers as the English sections it translates', () => {
-  for (const sec of BRIEF_ES.sections) {
-    const at = blocks.findIndex((b) => b.t === 'h2' && inlineText(b.v) === sec.en)
-    assert.ok(at >= 0, `brief.md has no section "${sec.en}"`)
-    const list = blocks[at + 1]
-    assert.ok('items' in list, `"${sec.en}" is not followed by a list`)
-    assert.equal(list.items.length, sec.items.length, `${sec.en}: item count`)
-    list.items.forEach((it, i) => assert.deepEqual(numbersIn(sec.items[i]), numbersIn(inlineText(it)), `${sec.en} item ${i + 1}`))
+/** Every number in a text, in order ("95% CI 61-81%" gives 95, 61, 81). */
+const numbersIn = (s: string): string[] => s.match(/\d+(?:\.\d+)?/g) ?? []
+const EN_REF = 'https://github.com/kgorle1111/plume-witness/blob/main/docs/brief.md'
+const walkInline = (v: Inline[], f: (i: Inline) => void): void =>
+  v.forEach((i) => { f(i); if (i.t === 'strong' || i.t === 'em' || i.t === 'link') walkInline(i.v, f) })
+const inlinesOf = (b: Block): Inline[][] => ('items' in b ? b.items : [b.v])
+const hrefs = (bs: Block[]) => bs.flatMap((b) => inlinesOf(b).flatMap((v) => {
+  const out: string[] = []
+  walkInline(v, (i) => { if (i.t === 'link') out.push(i.href) })
+  return out
+}))
+const codes = (bs: Block[]) => bs.flatMap((b) => inlinesOf(b).flatMap((v) => {
+  const out: string[] = []
+  walkInline(v, (i) => { if (i.t === 'code') out.push(i.v) })
+  return out
+}))
+/** The blocks under each h2; the title and lede come first, under the heading "". */
+const sections = (bs: Block[]) => {
+  const out: { h: string; bs: Block[] }[] = [{ h: '', bs: [] }]
+  for (const b of bs) {
+    if (b.t === 'h2') out.push({ h: inlineText(b.v), bs: [] })
+    out[out.length - 1].bs.push(b)
   }
+  return out
+}
+// The Spanish file adds one paragraph the English lacks: the translation note under the lede, linking the English.
+const noteAt = blocksEs.findIndex((b) => b.t === 'p' && hrefs([b]).includes(EN_REF))
+const es = blocksEs.filter((_, i) => i !== noteAt)
+
+test('the Spanish brief opens with the translation note, right under the lede, pointing to the English', () => {
+  assert.equal(noteAt, 2, 'note is not the paragraph after the title and lede')
+  const note = inlineText((blocksEs[noteAt] as { v: Inline[] }).v)
+  assert.match(note, /asistida por computadora/)
+  assert.match(note, /no revisada por un lector de la comunidad/)
+  assert.deepEqual(numbersIn(note), [], 'the note must not add a number')
 })
 
-test('the Spanish summary carries no banned verdict word', () => {
-  for (const s of [BRIEF_ES.title, ...BRIEF_ES.sections.flatMap((x) => [x.title, ...x.items])])
-    for (const re of BANNED_WORDS) assert.ok(!re.test(s), `${re} in: ${s}`)
+test('the Spanish brief has the English structure: same headings, blocks, list lengths', () => {
+  for (const h of ['h1', 'h2', 'h3'] as const)
+    assert.equal(es.filter((b) => b.t === h).length, blocks.filter((b) => b.t === h).length, `${h} count`)
+  assert.deepEqual(es.map((b) => b.t), blocks.map((b) => b.t), 'block sequence')
+  es.forEach((b, i) => {
+    if ('items' in b) assert.equal(b.items.length, (blocks[i] as { items: unknown[] }).items.length, `list ${i} length`)
+  })
+})
+
+test('every number in the Spanish brief is the English number, in order, section by section', () => {
+  const en = sections(blocks)
+  const sp = sections(es)
+  assert.equal(sp.length, en.length)
+  en.forEach((s, i) =>
+    assert.deepEqual(numbersIn(allText(sp[i].bs)), numbersIn(allText(s.bs)), `section "${s.h || 'title'}" / "${sp[i].h || 'título'}"`))
+})
+
+test('the Spanish brief cites the same links and code, in the same order', () => {
+  assert.deepEqual(hrefs(es), hrefs(blocks))
+  assert.deepEqual(codes(es), codes(blocks))
+  // Raw source too, so a link md.ts would drop (non-https) cannot slip past the parsed comparison.
+  const targets = [...srcEs.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1])
+  assert.deepEqual(targets.filter((t) => t !== EN_REF), [...src.matchAll(/\]\(([^)\s]+)\)/g)].map((m) => m[1]))
+})
+
+test('the Spanish brief carries no banned verdict word', () => {
+  for (const re of BANNED_WORDS) assert.ok(!re.test(srcEs), `${re} in docs/brief.es.md`)
 })
 
 test('on paper only the Sources line spells out its URLs, so every other Reproducibility link shows its address', () => {
