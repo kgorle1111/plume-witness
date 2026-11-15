@@ -82,7 +82,7 @@
   max-width: calc(100% - 16px);
   padding: 4px 8px;
   list-style: none;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1.5;
   color: var(--ink);
   background: rgb(255 255 255 / 0.94);
@@ -97,6 +97,11 @@
 .lg-monitor { background: var(--monitor); width: 10px; height: 10px; }
 .lg-facility { background: var(--facility); width: 14px; height: 14px; }
 .lg-matched { background: var(--matched); width: 14px; height: 14px; }
+/* The map canvas keeps its light-theme marker colours in dark mode (the tiles stay light), so these two swatches
+   do too: they match the dots they explain, and the white numeral stays readable (13.7:1 and 6.4:1). The dark
+   tokens (#d0d6d8, #5fd694) put white at 1.5:1 and 1.8:1. */
+[data-theme='dark'] .lg-facility { background: #2d2d34; }
+[data-theme='dark'] .lg-matched { background: #006e3c; }
 .lg-tri { width: 16px; height: 10px; border-radius: 2px; border: 1.5px dashed rgb(109 40 217 / 0.8); box-shadow: none; background: transparent; }
 .lg-ring { width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid rgb(109 40 217); box-shadow: none; background: transparent; }
 .tri-note { font-size: 0.9rem; padding: 8px 12px; border-left: 3px solid rgb(109 40 217); background: var(--bg-2); }
@@ -665,7 +670,13 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .map-key-btn { display: none; }
 @media (max-width: 640px) {
   .stage .map-wrap { height: 32vh; height: 32dvh; }
-  .map-key-btn {
+}
+/* "Key" (EventMap) folds the legend away below 1440px wide: at 1280x720 the legend wrapped to two rows (48px) over a
+   406px map. Wider screens keep the one-row legend always on. Colours are the theme tokens, so the button reads in
+   both themes (closed: ink on surface; open: the reverse). App.tsx's older phone-only .map-key-btn stays hidden. */
+.map-key { display: none; }
+@media (max-width: 1439px) {
+  .map-key {
     position: absolute;
     top: 8px;
     left: 8px;
@@ -677,15 +688,17 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
     padding: 0 14px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: rgb(255 255 255 / 0.95);
+    background: var(--surface);
     color: var(--ink);
+    font: inherit;
     font-weight: 600;
     box-shadow: var(--shadow-1);
     cursor: pointer;
   }
-  .map-key-btn[aria-expanded='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
-  .map-wrap:not(.key-open) .legend { display: none; }
-  .map-wrap.key-open .legend { top: 60px; }
+  .map-key:hover { background: var(--surface-2); }
+  .map-key[aria-expanded='true'] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+  .legend:not(.is-open) { display: none; }
+  .legend.is-open { top: 60px; }
 }
 
 /* Embed is a secondary action: small text with an icon, so "Next: …" stays the one primary button on screen. */
