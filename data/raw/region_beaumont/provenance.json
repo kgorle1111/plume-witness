@@ -1,0 +1,2959 @@
+[
+ {
+  "file": "region_beaumont/agc_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": null,
+  "bytes": 41397,
+  "sha256": "baa7924f633d99fa74395ad538b3d987e6180adc6b54a1866596b7733ce9e07e",
+  "fetched_at": "2026-11-15T03:39:51+00:00"
+ },
+ {
+  "file": "region_beaumont/met_form.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": null,
+  "bytes": 114730,
+  "sha256": "5c0b896a3b9bebeb8960b3be45ee6b4101a4aea7903d859e733332b1d8cb11c2",
+  "fetched_at": "2026-11-15T03:39:53+00:00"
+ },
+ {
+  "file": "region_beaumont/tamis_48_245_0009.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482450009",
+  "params": null,
+  "bytes": 90615,
+  "sha256": "55f9eff6d9ddfce04995aad062671a6f9deda42f2cf1f3bc7c3ac290ffa4abdc",
+  "fetched_at": "2026-11-15T03:39:56+00:00"
+ },
+ {
+  "file": "region_beaumont/tamis_48_245_1035.html",
+  "url": "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS=482451035",
+  "params": null,
+  "bytes": 90609,
+  "sha256": "e49c2c1db14b037dcc01a4d93e9444738b73c6c1a29978d50dd551c938d2e475",
+  "fetched_at": "2026-11-15T03:39:59+00:00"
+ },
+ {
+  "file": "region_beaumont/echo_48_245_0009_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "30.0364",
+   "p_long": "-94.0711",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "421",
+   "pageno": "1"
+  },
+  "bytes": 135180,
+  "sha256": "573c3699d0739e388e04b0b360c1496db5e84a6aba4fbaa5cdf9e4364d9cd837",
+  "fetched_at": "2026-11-15T03:40:10+00:00"
+ },
+ {
+  "file": "region_beaumont/echo_48_245_1035_10mi.json",
+  "url": "https://echodata.epa.gov/echo/air_rest_services.get_qid",
+  "params": {
+   "output": "JSON",
+   "p_lat": "29.9799",
+   "p_long": "-94.0048",
+   "p_radius": "10",
+   "p_act": "Y",
+   "qid": "440",
+   "pageno": "1"
+  },
+  "bytes": 163187,
+  "sha256": "1e683ba3ed5c5c2c68092b1d1eacd4557fe37fb0b3a3ef0024ce7284e2bdf45f",
+  "fetched_at": "2026-11-15T03:40:17+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2024_48_245_0009_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_245_0009",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88083,
+  "sha256": "8910d3e54063714206545475bb5d5512d8c4a0f1076d5e40c84319b196f23d1c",
+  "fetched_at": "2026-11-15T03:40:24+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2024_48_245_0009_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_245_0009",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88096,
+  "sha256": "fcf11e1cd673712b8530edf31e01f0895f105c09b24eabfbc6c129e5ea58ffee",
+  "fetched_at": "2026-11-15T03:40:29+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2025_48_245_0009_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_245_0009",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88448,
+  "sha256": "65d812aa724329957d263354c5579eacc5de8fcff66794afabe6cec2fcc1efb1",
+  "fetched_at": "2026-11-15T03:40:36+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2025_48_245_0009_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_245_0009",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88309,
+  "sha256": "05a23ab7ed5a621565a19016a483266f036b48a4532581184dfc61d2c32fd68c",
+  "fetched_at": "2026-11-15T03:40:42+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2024_48_245_1035_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_245_1035",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88077,
+  "sha256": "6c8f63ef8380365026fc1ccd2db6c44bf1082350be7a0cd57c1ec647123fc701",
+  "fetched_at": "2026-11-15T03:40:48+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2024_48_245_1035_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2024",
+   "user_site": "48_245_1035",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88027,
+  "sha256": "57ac430e2101af7f2d5226b6ee0781cb11f37265e0a9a9b234862c35d7f6e7da",
+  "fetched_at": "2026-11-15T03:40:53+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2025_48_245_1035_45201.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_245_1035",
+   "user_param": "45201",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88328,
+  "sha256": "7ea296ef3d96d324d4023c7cdd4f4089bcfc1b6880aa2361e52f8beb2925ca77",
+  "fetched_at": "2026-11-15T03:41:00+00:00"
+ },
+ {
+  "file": "region_beaumont/agc_2025_48_245_1035_43218.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_yearly_summary.pl",
+  "params": {
+   "user_year": "2025",
+   "user_site": "48_245_1035",
+   "user_param": "43218",
+   "user_units": "ppb-v",
+   "report_format": "comma",
+   "user_decimals": "2"
+  },
+  "bytes": 88338,
+  "sha256": "d39d7559833f054007f95e2e8103c6ce6cf0bc9e416e4f3a6ae57d5a1e87a352",
+  "fetched_at": "2026-11-15T03:41:05+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2024_48_245_0009_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Beaumont-Downtown C2/A112/C2002 |48_245_0009|2",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68141,
+  "sha256": "f1f5e7f8b35d6cc9da133cb4684b9e936146dbd03721de94904d17fc86da0bf5",
+  "fetched_at": "2026-11-15T03:41:24+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2024_48_245_0009_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Beaumont-Downtown C2/A112/C2002 |48_245_0009|2",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72650,
+  "sha256": "67243839e7c65f783573f812ca19ef52765268ad6344ff35f729b592ed1d1708",
+  "fetched_at": "2026-11-15T03:41:24+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2025_48_245_0009_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Beaumont-Downtown C2/A112/C2002 |48_245_0009|2",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68495,
+  "sha256": "b54fc4043b8725bbffd34301f0800b2689335f977253ed3fb006ef5a58beb2eb",
+  "fetched_at": "2026-11-15T03:41:44+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2025_48_245_0009_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Beaumont-Downtown C2/A112/C2002 |48_245_0009|2",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 72650,
+  "sha256": "a5342b73485333289c722d3871abfb7ff16d9a787785c00e68af6f9524248bf4",
+  "fetched_at": "2026-11-15T03:41:44+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2024_48_245_1035_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Nederland 17th Street C1035|48_245_1035|1035",
+   "user_year": "2024",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68618,
+  "sha256": "221fb57bb0dbdc57f0143f37ac1485f24f2b7ffb474084384bb11bc443ecef08",
+  "fetched_at": "2026-11-15T03:42:05+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2024_48_245_1035_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Nederland 17th Street C1035|48_245_1035|1035",
+   "user_year": "2024",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 71324,
+  "sha256": "30c07c0170cf61d501fc496a208a90eecf33d697c9d5954da9a43bd62af64576",
+  "fetched_at": "2026-11-15T03:42:05+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2025_48_245_1035_61102.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Nederland 17th Street C1035|48_245_1035|1035",
+   "user_year": "2025",
+   "user_param": "61102",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 68981,
+  "sha256": "15f95cd0e8705bd95304bbe3b19f001ce2a68de5526695638d0e1d44bd1ade43",
+  "fetched_at": "2026-11-15T03:42:26+00:00"
+ },
+ {
+  "file": "region_beaumont/met_2025_48_245_1035_61101.html",
+  "url": "https://www.tceq.texas.gov/cgi-bin/compliance/monops/yearly_summary.pl",
+  "params": {
+   "submitted": "1",
+   "first_look": "no",
+   "select_site": "site|Nederland 17th Street C1035|48_245_1035|1035",
+   "user_year": "2025",
+   "user_param": "61101",
+   "time_format": "24hr",
+   "report_format": "comma",
+   "print_daily_avg": "1"
+  },
+  "bytes": 70982,
+  "sha256": "e442dd26eccb6a1ca4a1dcce77b36c73bd19b82eeb7a598315a3370cd9ce1ce9",
+  "fetched_at": "2026-11-15T03:42:26+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240101_20240107.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/01/2024",
+   "event_start_end_dt": "01/07/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9567,
+  "sha256": "d5c6187cfef4a87e95ec7c704c395e6e0ce0e65b068a21e9f09fbea61edb8791",
+  "fetched_at": "2026-11-15T03:42:32+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240108_20240114.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/08/2024",
+   "event_start_end_dt": "01/14/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "c240cb89881685289a20303d0ddce6d1ca25f0c415c79c708110dd2dd8c028eb",
+  "fetched_at": "2026-11-15T03:42:34+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240115_20240121.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/15/2024",
+   "event_start_end_dt": "01/21/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 12996,
+  "sha256": "54fb49df763cdfcf3e665a73eba1d5651543501f37b3aba4d7a47a45f68237bd",
+  "fetched_at": "2026-11-15T03:42:37+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240122_20240128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/22/2024",
+   "event_start_end_dt": "01/28/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "3f8a6190b470f7b1aa78e57a258983362db67edb7ad1186ec076ebefb11ab9a3",
+  "fetched_at": "2026-11-15T03:42:39+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240129_20240204.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/29/2024",
+   "event_start_end_dt": "02/04/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "f0c4ab42cca45e29dad4c14fced1a89d9136afbc10f3b5052deba27e02387fde",
+  "fetched_at": "2026-11-15T03:42:42+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240205_20240211.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/05/2024",
+   "event_start_end_dt": "02/11/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "27872873ae2fe27f8a107dc44831458967eb893bf8309a71daaf7305b8c20c04",
+  "fetched_at": "2026-11-15T03:42:44+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240212_20240218.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/12/2024",
+   "event_start_end_dt": "02/18/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9012,
+  "sha256": "19b22f5820dcc72c6d737c84e56e19586efbab70e546b5b383a93f90419a0572",
+  "fetched_at": "2026-11-15T03:42:47+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240219_20240225.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/19/2024",
+   "event_start_end_dt": "02/25/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9003,
+  "sha256": "eb915e8824c277e8531c80bc6bc3ba79cb93045bd2238f99f7173727672b9734",
+  "fetched_at": "2026-11-15T03:42:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240226_20240303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/26/2024",
+   "event_start_end_dt": "03/03/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8966,
+  "sha256": "4ed68dcf61fe97a69a4a65590ff35f1c65f951ab7427519b8fed4313a91212f0",
+  "fetched_at": "2026-11-15T03:42:52+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240304_20240310.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/04/2024",
+   "event_start_end_dt": "03/10/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9038,
+  "sha256": "22ddc635a7b0d3f4289da3638e70cfd86fa828ce14100662d4e2a318beef5446",
+  "fetched_at": "2026-11-15T03:42:55+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240311_20240317.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/11/2024",
+   "event_start_end_dt": "03/17/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8459,
+  "sha256": "bb2474adb305d721898c49827ed12e169c92f3ba1c68bc5176b9a2d4ef624cba",
+  "fetched_at": "2026-11-15T03:42:57+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240318_20240324.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/18/2024",
+   "event_start_end_dt": "03/24/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10115,
+  "sha256": "c4256f51e7812f7a42ef59333610bc6734bc43e14144b0353cfbea008eceb304",
+  "fetched_at": "2026-11-15T03:43:00+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240325_20240331.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/25/2024",
+   "event_start_end_dt": "03/31/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "ef2a87d0b3dc1e7b31be409c13d4e51f658c44d3f907f6ed8d2af84499f8e921",
+  "fetched_at": "2026-11-15T03:43:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240401_20240407.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/01/2024",
+   "event_start_end_dt": "04/07/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "009661806812071eb70fcca64ccf4f6391ebcc87e76de517f0da25efb8b766b9",
+  "fetched_at": "2026-11-15T03:43:05+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240408_20240414.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/08/2024",
+   "event_start_end_dt": "04/14/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9009,
+  "sha256": "2ab6094e673f0b5e3dfb08469be5a4165ac50a4d4663a0e66782cec8dfd8f803",
+  "fetched_at": "2026-11-15T03:43:08+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240415_20240421.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/15/2024",
+   "event_start_end_dt": "04/21/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8445,
+  "sha256": "df6e35a4918f70bc8707e7223c9325f4ce7a5d01d62c1510a831d0fb952fd96d",
+  "fetched_at": "2026-11-15T03:43:11+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240422_20240428.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/22/2024",
+   "event_start_end_dt": "04/28/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "6bd7c7d055816d553f8130387ba3402ae39e5764e1697e9adcb9c794f824c5a5",
+  "fetched_at": "2026-11-15T03:43:13+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240429_20240505.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/29/2024",
+   "event_start_end_dt": "05/05/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9053,
+  "sha256": "43df0bd40fd6fbca66b0f6f7c56c5e6fb8a6fd9b951007e601a019d012a2d189",
+  "fetched_at": "2026-11-15T03:43:16+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240506_20240512.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/06/2024",
+   "event_start_end_dt": "05/12/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9003,
+  "sha256": "135fb5a253ffc687a2703b55d253002f87776a1c9611465680c914f88d14d3c3",
+  "fetched_at": "2026-11-15T03:43:18+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240513_20240519.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/13/2024",
+   "event_start_end_dt": "05/19/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8428,
+  "sha256": "b23bf111e12894967bd647dd93868e897a271f96c5e2426f8eb9770b356300e5",
+  "fetched_at": "2026-11-15T03:43:21+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240520_20240526.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/20/2024",
+   "event_start_end_dt": "05/26/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8459,
+  "sha256": "5f9230f7e630aaef584d9ebd9ff8ff5025dbdfe6a51bfa23aae93dabc21310dc",
+  "fetched_at": "2026-11-15T03:43:23+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240527_20240602.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/27/2024",
+   "event_start_end_dt": "06/02/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8964,
+  "sha256": "e4b398c08d6cebc811f74a4fe49497a2a80f0cf106a11e3ae1fb17d5fba47259",
+  "fetched_at": "2026-11-15T03:43:26+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240603_20240609.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/03/2024",
+   "event_start_end_dt": "06/09/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "ef6e3fa07772f4cdedb442788f2162b9976faa5c598c32d7a30a78cf9022741a",
+  "fetched_at": "2026-11-15T03:43:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240610_20240616.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/10/2024",
+   "event_start_end_dt": "06/16/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9595,
+  "sha256": "fdee5bcad9e92565c12e10e49628771294c618617ea76534bf499767921c7c2b",
+  "fetched_at": "2026-11-15T03:43:31+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240617_20240623.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/17/2024",
+   "event_start_end_dt": "06/23/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "2a5687cff87ec6f71688167f85d957f9415d8748b4a0e860dcf507ecbdc4f6d8",
+  "fetched_at": "2026-11-15T03:43:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240624_20240630.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/24/2024",
+   "event_start_end_dt": "06/30/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9002,
+  "sha256": "50d69e96591a033661e33ae709be7c38418cfe79f5d0c63f7fd2f458711e3ea9",
+  "fetched_at": "2026-11-15T03:43:36+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240701_20240707.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/01/2024",
+   "event_start_end_dt": "07/07/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9034,
+  "sha256": "e2c8c5b616df5be2a0e39fe50e424c9d0de1a4cec1437a6e10c0ded44b14b5f8",
+  "fetched_at": "2026-11-15T03:43:39+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240708_20240714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/08/2024",
+   "event_start_end_dt": "07/14/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9028,
+  "sha256": "9f04e6aa3834c9aba9dc138b0a889c06bfca031f1053bfe5b64d32dd121f8bf1",
+  "fetched_at": "2026-11-15T03:43:41+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240715_20240721.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/15/2024",
+   "event_start_end_dt": "07/21/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9053,
+  "sha256": "b482ddfced69ed4da458134474e1b7897c06029f605bc124e6b8f557499a2bd5",
+  "fetched_at": "2026-11-15T03:43:44+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240722_20240728.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/22/2024",
+   "event_start_end_dt": "07/28/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8437,
+  "sha256": "3be3ff564211e5c137cbf0e48e8d8eaf5baf654a2a05251a13d70a9903cc0382",
+  "fetched_at": "2026-11-15T03:43:47+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240729_20240804.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/29/2024",
+   "event_start_end_dt": "08/04/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "9e7e5558bbc1b7d283ba6c0bd363019547b0110b69df980726dc2ecd6436ec6d",
+  "fetched_at": "2026-11-15T03:43:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240805_20240811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/05/2024",
+   "event_start_end_dt": "08/11/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9005,
+  "sha256": "64eb929838b602860a42666f0903681012715d5993d28cdc6708e0429ffc7a58",
+  "fetched_at": "2026-11-15T03:43:52+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240812_20240818.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/12/2024",
+   "event_start_end_dt": "08/18/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "f7390f4c18d48dcd0d639e6937796a93848ec90ea73eccea530bd9666018215c",
+  "fetched_at": "2026-11-15T03:43:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240819_20240825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/19/2024",
+   "event_start_end_dt": "08/25/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8459,
+  "sha256": "a2319bb532388b5001d98268e4e7ae04b8e0dc4f5ce29ff28c35a5967ee78b19",
+  "fetched_at": "2026-11-15T03:43:57+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240826_20240901.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/26/2024",
+   "event_start_end_dt": "09/01/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8995,
+  "sha256": "5df044e383ad5347371d4a18163ba5aaf3f2ca7475e3b5d36f33cd21a56dcedc",
+  "fetched_at": "2026-11-15T03:44:00+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240902_20240908.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/02/2024",
+   "event_start_end_dt": "09/08/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8481,
+  "sha256": "79aa50ad5fba1d63a56e7cd9efcfc34f40bc5d6e908ffeda853167fc27cee406",
+  "fetched_at": "2026-11-15T03:44:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240909_20240915.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/09/2024",
+   "event_start_end_dt": "09/15/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9566,
+  "sha256": "f9d1ad67efd382cf72394fe802ec094e3c9e9313dfcde1a1e9850828189ff4f7",
+  "fetched_at": "2026-11-15T03:44:05+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240916_20240922.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/16/2024",
+   "event_start_end_dt": "09/22/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9599,
+  "sha256": "d118718ee706251700037f16f1b09ccf3e6181321b80d081f77f634bd78982a5",
+  "fetched_at": "2026-11-15T03:44:08+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240923_20240929.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/23/2024",
+   "event_start_end_dt": "09/29/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8440,
+  "sha256": "1162a9a84590798ff17cb7b7c4a1dc793cd81b757cd1af27821536929bc6e5db",
+  "fetched_at": "2026-11-15T03:44:10+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20240930_20241006.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/30/2024",
+   "event_start_end_dt": "10/06/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9586,
+  "sha256": "6cad578dd208135ffbde3b1c2f50bc08d1c766237f9daf8e158a36edcf7a1996",
+  "fetched_at": "2026-11-15T03:44:13+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241007_20241013.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/07/2024",
+   "event_start_end_dt": "10/13/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8968,
+  "sha256": "ee66f1947efdcc706c734fb76bd0ab46125f4d9c9a7dfade20eb0c189fac3b63",
+  "fetched_at": "2026-11-15T03:44:15+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241014_20241020.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/14/2024",
+   "event_start_end_dt": "10/20/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9000,
+  "sha256": "fbc1afc6c4ed04a5a5c8a2d9b0ea26cf0d65cbab35d4d9bb72298e435a38df37",
+  "fetched_at": "2026-11-15T03:44:18+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241021_20241027.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/21/2024",
+   "event_start_end_dt": "10/27/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9574,
+  "sha256": "7092fc4effb6b022f3a327ada54fe7a4aee48235ab05ce2844df928d70c30bd7",
+  "fetched_at": "2026-11-15T03:44:20+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241028_20241103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/28/2024",
+   "event_start_end_dt": "11/03/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "ccb99b98e9687bc2dc94fefa95b3421ef19df21a5a8d9559956bf9e9521a0c1b",
+  "fetched_at": "2026-11-15T03:44:23+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241104_20241110.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/04/2024",
+   "event_start_end_dt": "11/10/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "19d29872895606e91a199737120824856c7331983784f01494818c96d5c2ec53",
+  "fetched_at": "2026-11-15T03:44:26+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241111_20241117.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/11/2024",
+   "event_start_end_dt": "11/17/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8449,
+  "sha256": "9b23d966ebc02cbbfc8ed7dab6ca499359a2a96b7bc1bbe97b872a0d29c6e759",
+  "fetched_at": "2026-11-15T03:44:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241118_20241124.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/18/2024",
+   "event_start_end_dt": "11/24/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8459,
+  "sha256": "9f3f12ef7cdbf068d416774eab94c53565289b69a7ca504f177b44fc879174b1",
+  "fetched_at": "2026-11-15T03:44:31+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241125_20241201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/25/2024",
+   "event_start_end_dt": "12/01/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "d1de22205e12785fb70eb495196b4d4a637fc3642a06f124d1632481ce47013e",
+  "fetched_at": "2026-11-15T03:44:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241202_20241208.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/02/2024",
+   "event_start_end_dt": "12/08/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9044,
+  "sha256": "7da4abca80a5e636d3f51e12a18c04022461f02e96cc15000f55d1b94bbdc06b",
+  "fetched_at": "2026-11-15T03:44:36+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241209_20241215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/09/2024",
+   "event_start_end_dt": "12/15/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8457,
+  "sha256": "0bf4e154bf44cda08257b49ad827e3dda33cda337ce0edaaa682ad85d439a3a0",
+  "fetched_at": "2026-11-15T03:44:38+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241216_20241222.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/16/2024",
+   "event_start_end_dt": "12/22/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9601,
+  "sha256": "c74507d9b89b1703a6dbf9f2243148de8a6e21823b38b8f71042eb64106c77ef",
+  "fetched_at": "2026-11-15T03:44:41+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241223_20241229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/23/2024",
+   "event_start_end_dt": "12/29/2024",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8446,
+  "sha256": "d6516df0bd562734dd2af2e12dc0b560bc539bbbb45847fc75bfb26066173dc8",
+  "fetched_at": "2026-11-15T03:44:43+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20241230_20250105.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/30/2024",
+   "event_start_end_dt": "01/05/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "fafc606069e2400b1abf0becdb75d957687d88dac368faf4b43243bf83333c25",
+  "fetched_at": "2026-11-15T03:44:46+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250106_20250112.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/06/2025",
+   "event_start_end_dt": "01/12/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10132,
+  "sha256": "a24311ec21a3e2f16421757b006c673b8deb66fb9bcca2448aeef02a73fc2399",
+  "fetched_at": "2026-11-15T03:44:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250113_20250119.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/13/2025",
+   "event_start_end_dt": "01/19/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "0e44eaf1498e4f8f07211a8bdab1280a70f4e4ef7291139aa27b8e882ffa4124",
+  "fetched_at": "2026-11-15T03:44:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250120_20250126.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/20/2025",
+   "event_start_end_dt": "01/26/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 11270,
+  "sha256": "e468de1792bba2231adc7186623c118a7bd0b708205f58bce09dcb571c38d5dc",
+  "fetched_at": "2026-11-15T03:44:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250127_20250202.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "01/27/2025",
+   "event_start_end_dt": "02/02/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "805ab7973b5e380477eab344d8f1befa18026f368ac980c2da0ed45f86adcc82",
+  "fetched_at": "2026-11-15T03:44:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250203_20250209.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/03/2025",
+   "event_start_end_dt": "02/09/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8449,
+  "sha256": "6cab37e4b0d06085798d122956fb33955f3659d7b2627951f6a64e80f8dd2ce2",
+  "fetched_at": "2026-11-15T03:44:59+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250210_20250216.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/10/2025",
+   "event_start_end_dt": "02/16/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9550,
+  "sha256": "5ff7d4bc2a34730248b9f976c38e2726a655be010d02e96879a95dd8fc8db765",
+  "fetched_at": "2026-11-15T03:45:01+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250217_20250223.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/17/2025",
+   "event_start_end_dt": "02/23/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8991,
+  "sha256": "f21617b7efd600e3d6ed77856a3a22509090b731b8ddd6127308aa8533f333e1",
+  "fetched_at": "2026-11-15T03:45:04+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250224_20250302.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "02/24/2025",
+   "event_start_end_dt": "03/02/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8481,
+  "sha256": "28387e1c7e354683e94be1e4fdfe74d00b8c91fd8dee614132c7e9f96cde905a",
+  "fetched_at": "2026-11-15T03:45:07+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250303_20250309.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/03/2025",
+   "event_start_end_dt": "03/09/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8449,
+  "sha256": "fcf8115e5d498208a8b407bad6c5c4681f35e22d7a1b164b4e87153673cbd29a",
+  "fetched_at": "2026-11-15T03:45:09+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250310_20250316.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/10/2025",
+   "event_start_end_dt": "03/16/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8437,
+  "sha256": "b6262fc47acd8ff16a90e00d80fe273e058881ecc049a813c51e763aeeeb45f7",
+  "fetched_at": "2026-11-15T03:45:11+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250317_20250323.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/17/2025",
+   "event_start_end_dt": "03/23/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8995,
+  "sha256": "f549a52b54a15a365c2b8fe37ca48a5918fe3aa70075bdcef0d465e17f4b1732",
+  "fetched_at": "2026-11-15T03:45:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250324_20250330.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/24/2025",
+   "event_start_end_dt": "03/30/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8457,
+  "sha256": "de33daa54ff49ea71b74dffdd9af9ecb126609afa09d1931eafe939fb65a62dc",
+  "fetched_at": "2026-11-15T03:45:17+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250331_20250406.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "03/31/2025",
+   "event_start_end_dt": "04/06/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8968,
+  "sha256": "02e08c6c44ab1490207e38e8ae6881175981b6aa5eeeec24eb62c5021433ebcc",
+  "fetched_at": "2026-11-15T03:45:19+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250407_20250413.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/07/2025",
+   "event_start_end_dt": "04/13/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9009,
+  "sha256": "81e749593e6b4b948f31424058cefc72ff8fa31182517b5ab0ae315f67997f40",
+  "fetched_at": "2026-11-15T03:45:22+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250414_20250420.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/14/2025",
+   "event_start_end_dt": "04/20/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8435,
+  "sha256": "45816571fc38fcc506626d3b858b013d9ba4d3bb97c83d62503cf4b88b12f835",
+  "fetched_at": "2026-11-15T03:45:25+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250421_20250427.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/21/2025",
+   "event_start_end_dt": "04/27/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9001,
+  "sha256": "9a239c66ce5706982923ec957425dd7ee678587e33a56efb5a366cfbe63ea78a",
+  "fetched_at": "2026-11-15T03:45:27+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250428_20250504.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "04/28/2025",
+   "event_start_end_dt": "05/04/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "1f74f037eb831605e3ebd7ab440236b81387cc71f5453e48b72fe7a04ed71346",
+  "fetched_at": "2026-11-15T03:45:30+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250505_20250511.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/05/2025",
+   "event_start_end_dt": "05/11/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9586,
+  "sha256": "0ab68ee6e7cc95cdd072e2541ca0a8232549dcbf8a4f0d46f1ddffb020a75d5b",
+  "fetched_at": "2026-11-15T03:45:32+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250512_20250518.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/12/2025",
+   "event_start_end_dt": "05/18/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10124,
+  "sha256": "da5fdbe2534415414026955ea9d2e30ce83ad1817822aebc9a031e497a983456",
+  "fetched_at": "2026-11-15T03:45:35+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250519_20250525.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/19/2025",
+   "event_start_end_dt": "05/25/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9012,
+  "sha256": "c4293e6dc0bcb9d16c93efc0cf17b9789ba8121eea202da0cb2812f2999d9b8a",
+  "fetched_at": "2026-11-15T03:45:37+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250526_20250601.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "05/26/2025",
+   "event_start_end_dt": "06/01/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10183,
+  "sha256": "fd00cc6310df39b777bcaa965002ad49efcd7181d1cd22996671cb28b3e9e669",
+  "fetched_at": "2026-11-15T03:45:40+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250602_20250608.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/02/2025",
+   "event_start_end_dt": "06/08/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8457,
+  "sha256": "7c0c25c5921bc6fc788d1bb836213b371fae8883a4355603a16a2d95998c2959",
+  "fetched_at": "2026-11-15T03:45:42+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250609_20250615.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/09/2025",
+   "event_start_end_dt": "06/15/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8457,
+  "sha256": "9dbc6c019bba0672db8b5e3057b71d6d1c11af3ee1c257145d1ecafd868760fe",
+  "fetched_at": "2026-11-15T03:45:45+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250616_20250622.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/16/2025",
+   "event_start_end_dt": "06/22/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8453,
+  "sha256": "01533e9485331768cd441dcb52435e5ecf7aa0f18fc641647222bbfef85dfbb1",
+  "fetched_at": "2026-11-15T03:45:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250623_20250629.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/23/2025",
+   "event_start_end_dt": "06/29/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10778,
+  "sha256": "e44fbcf657de4d9b6a584a300c6b11b618c2a51d9a476155f7063b7766f20eb6",
+  "fetched_at": "2026-11-15T03:45:50+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250630_20250706.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "06/30/2025",
+   "event_start_end_dt": "07/06/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8445,
+  "sha256": "b406292bdc0a65183b631f4f43905aa0b189e5a506317512020aa94e664315e9",
+  "fetched_at": "2026-11-15T03:45:53+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250707_20250713.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/07/2025",
+   "event_start_end_dt": "07/13/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8481,
+  "sha256": "2a1b7b8b68bfbbc7893cc255315b5d4aa9934582549762bc09bae801e3b02699",
+  "fetched_at": "2026-11-15T03:45:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250714_20250720.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/14/2025",
+   "event_start_end_dt": "07/20/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8460,
+  "sha256": "b35bfeb3ef42525f20a6eceeefaa412bc081388a13038d92b9cd1be34d3fa492",
+  "fetched_at": "2026-11-15T03:45:58+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250721_20250727.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/21/2025",
+   "event_start_end_dt": "07/27/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "cd2c182f821c24fbc670a771649c8e60d53e926610146cff40256d4ac6602d6e",
+  "fetched_at": "2026-11-15T03:46:01+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250728_20250803.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "07/28/2025",
+   "event_start_end_dt": "08/03/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8974,
+  "sha256": "102f92381853c165a6ed5ead01e2f666753cb1182aae14c2370c8599dc744389",
+  "fetched_at": "2026-11-15T03:46:03+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250804_20250810.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/04/2025",
+   "event_start_end_dt": "08/10/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "99afa764ea710a256d79bef65149bcf953a19d74a38b9c2e27c909f6f789a938",
+  "fetched_at": "2026-11-15T03:46:06+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250811_20250817.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/11/2025",
+   "event_start_end_dt": "08/17/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9581,
+  "sha256": "169c554e119352584e41b29a3865e0ac13f8032dcec3f903f8bbd099e8e7a866",
+  "fetched_at": "2026-11-15T03:46:09+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250818_20250824.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/18/2025",
+   "event_start_end_dt": "08/24/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9560,
+  "sha256": "d2156d7a5dcefcac3a690d5f00a2aa0ef0c524f7c2a119c1c751cb6bb80b2bae",
+  "fetched_at": "2026-11-15T03:46:11+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250825_20250831.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "08/25/2025",
+   "event_start_end_dt": "08/31/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9017,
+  "sha256": "7084a67b402fc2c7e6420d80bbc39ea40435f6e5cb98df4203cf798bd8bca862",
+  "fetched_at": "2026-11-15T03:46:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250901_20250907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/01/2025",
+   "event_start_end_dt": "09/07/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "7043ffccb12d55dc99d0923dd6592e2a98bc0890941d7597566c7607d1aaf292",
+  "fetched_at": "2026-11-15T03:46:17+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250908_20250914.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/08/2025",
+   "event_start_end_dt": "09/14/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9022,
+  "sha256": "47f24a666ba36845bd5c5c13cbddd9275b01cbad9f159a349f9ed9d3b1643081",
+  "fetched_at": "2026-11-15T03:46:19+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250915_20250921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/15/2025",
+   "event_start_end_dt": "09/21/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "d316c2f24dfd32f88b7dba89661b88d9e568a9d16b8b447a8e2a27e830d25be9",
+  "fetched_at": "2026-11-15T03:46:22+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250922_20250928.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/22/2025",
+   "event_start_end_dt": "09/28/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "1b83f7d3ff1fd2e52f6b63da4d4bc31c32ef4efb9ba3c2e0e781b054e39cb360",
+  "fetched_at": "2026-11-15T03:46:24+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20250929_20251005.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "09/29/2025",
+   "event_start_end_dt": "10/05/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "3515b0f227346f54117c7f106b73f33fd1652ca7340489707cd9b4cdff481d66",
+  "fetched_at": "2026-11-15T03:46:27+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251006_20251012.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/06/2025",
+   "event_start_end_dt": "10/12/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8449,
+  "sha256": "a204d551948d466203c9665fbeef891284a9af94eab8e1901da1b7403eb8655d",
+  "fetched_at": "2026-11-15T03:46:30+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251013_20251019.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/13/2025",
+   "event_start_end_dt": "10/19/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "ab31bd175ef239b157fa3d24326e00000e0514d827518c1abe030b20fcfb2418",
+  "fetched_at": "2026-11-15T03:46:32+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251020_20251026.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/20/2025",
+   "event_start_end_dt": "10/26/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 10150,
+  "sha256": "09410298020e5cf34343ff9f162da302494a1513dc032e816900f9af9ff1146c",
+  "fetched_at": "2026-11-15T03:46:35+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251027_20251102.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "10/27/2025",
+   "event_start_end_dt": "11/02/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9021,
+  "sha256": "5f2610aa7b87b5e99aa8f34f801ce46cc0e156c16b262045122e723a4aac7a71",
+  "fetched_at": "2026-11-15T03:46:37+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251103_20251109.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/03/2025",
+   "event_start_end_dt": "11/09/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8466,
+  "sha256": "f229d1111d180d03886b9b93282ac0ae5b3e30b5dd7ff49bbbf73e6d63026c65",
+  "fetched_at": "2026-11-15T03:46:40+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251110_20251116.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/10/2025",
+   "event_start_end_dt": "11/16/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8452,
+  "sha256": "851c814f4d069ccd9adaf422efd4d6546a4cda253ef32ba97ec28e84aa1768d3",
+  "fetched_at": "2026-11-15T03:46:43+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251117_20251123.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/17/2025",
+   "event_start_end_dt": "11/23/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8459,
+  "sha256": "cbfcf61adbb5c4ed32b7dce9176693b28b27e5a82582863576a82e89feab58d6",
+  "fetched_at": "2026-11-15T03:46:45+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251124_20251130.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "11/24/2025",
+   "event_start_end_dt": "11/30/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8980,
+  "sha256": "e2dc4083fb9afcbc08b16b7993d552410dfb99ecaaccff0758e495bbc36f9dc6",
+  "fetched_at": "2026-11-15T03:46:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251201_20251207.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/01/2025",
+   "event_start_end_dt": "12/07/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 8431,
+  "sha256": "2a22c8f59412bbe49b961fdf202fe99df6fd13245bffe5722164bb94ef0e47de",
+  "fetched_at": "2026-11-15T03:46:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251208_20251214.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/08/2025",
+   "event_start_end_dt": "12/14/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9039,
+  "sha256": "1de3ab8b30ea1eb5681eb612c394fdb75f12aa85f73b07e51e342a55cdbacfdd",
+  "fetched_at": "2026-11-15T03:46:53+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251215_20251221.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/15/2025",
+   "event_start_end_dt": "12/21/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "c74ec0c8e5245ae95dfbd2dca1f93ca10645d6a941322da0e007ab3fdef61ad5",
+  "fetched_at": "2026-11-15T03:46:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251222_20251228.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/22/2025",
+   "event_start_end_dt": "12/28/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 9579,
+  "sha256": "965a95b25f714ccaf2895c78c43085c83c5bedba03de886833c6f316c998dfce",
+  "fetched_at": "2026-11-15T03:46:58+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_search_jefferson_20251229_20251231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.searchresults",
+  "params": {
+   "newsearch": "yes",
+   "event_start_beg_dt": "12/29/2025",
+   "event_start_end_dt": "12/31/2025",
+   "ls_cnty_name": "JEFFERSON"
+  },
+  "bytes": 5258,
+  "sha256": "f0e68d5d9831488dada87f3ff7b4a5b8adff2ef7e863f928b59b99817ef30f63",
+  "fetched_at": "2026-11-15T03:47:01+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415265.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415265",
+  "params": null,
+  "bytes": 15078,
+  "sha256": "46892e1fcc84ab86b7f45ffde8fef7e21b72565fe02b1e57523a640c27e8b646",
+  "fetched_at": "2026-11-15T03:47:04+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415128",
+  "params": null,
+  "bytes": 21554,
+  "sha256": "01e12f31ed8fb61f29b8fa82fbdba6f7107b8a5acce78d0bfefc6ab466589b02",
+  "fetched_at": "2026-11-15T03:47:06+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_414907.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=414907",
+  "params": null,
+  "bytes": 24604,
+  "sha256": "31838c19ca327cd977d3063c0d551df7113f8e1215a8b8d7f8bbb01e452b2c3c",
+  "fetched_at": "2026-11-15T03:47:09+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415448.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415448",
+  "params": null,
+  "bytes": 12063,
+  "sha256": "8fee02102f797c1830649240108c00fd282d9eed61f6c7494d53e77b52bd84ad",
+  "fetched_at": "2026-11-15T03:47:12+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415952.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415952",
+  "params": null,
+  "bytes": 11845,
+  "sha256": "e050ecde82431a5ad65c1a837c1c211328c1a324e592bdb97715d34da3ec7ce9",
+  "fetched_at": "2026-11-15T03:47:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415701.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415701",
+  "params": null,
+  "bytes": 11613,
+  "sha256": "8980bf2e443d219cd790ce0cd6da6b71cda0cae9bf21b46682cf2684dd92f7f0",
+  "fetched_at": "2026-11-15T03:47:17+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415696.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415696",
+  "params": null,
+  "bytes": 17444,
+  "sha256": "19e193b7b116bb67f915b93364f032d27f658abdb9311b5102f1538ede32460d",
+  "fetched_at": "2026-11-15T03:47:20+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415695.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415695",
+  "params": null,
+  "bytes": 61689,
+  "sha256": "5dfbdaf10cfc1fd95536440e91bff94b4b5f40290a6720f71dd4cf7d6c119f2f",
+  "fetched_at": "2026-11-15T03:47:22+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415690.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415690",
+  "params": null,
+  "bytes": 16637,
+  "sha256": "75dd56ff880839adcb763d381fd72df2885f9e9550f7c759b3b58ff8cc40662c",
+  "fetched_at": "2026-11-15T03:47:25+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415688.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415688",
+  "params": null,
+  "bytes": 22362,
+  "sha256": "1708a5bb43b918a0ecdf1ef9b18471e7900c908b293d2cab112be0aeee9a58f1",
+  "fetched_at": "2026-11-15T03:47:27+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415681.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415681",
+  "params": null,
+  "bytes": 37342,
+  "sha256": "703b736450a17742dca96b06c789cb26380409fbd1fba0d324741f2dfe33555a",
+  "fetched_at": "2026-11-15T03:47:30+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_415676.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=415676",
+  "params": null,
+  "bytes": 21860,
+  "sha256": "349b19432d82ab7d56f0ce22c9e1801fa8105a549f616ac4a55bc08722048265",
+  "fetched_at": "2026-11-15T03:47:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_417494.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=417494",
+  "params": null,
+  "bytes": 97761,
+  "sha256": "48a20352afc8208266948e1a383f035054c0fd39f99616118ecb9c949e9c39a2",
+  "fetched_at": "2026-11-15T03:47:35+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_417273.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=417273",
+  "params": null,
+  "bytes": 11473,
+  "sha256": "91ffe7a8fa38511a6a9e25f49862af6bcf8dadef596b665b6c0bc11341ed6318",
+  "fetched_at": "2026-11-15T03:47:38+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_417839.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=417839",
+  "params": null,
+  "bytes": 15065,
+  "sha256": "0fff0096b86146363dc60d024d328a22785e82ae2d3d8e3df0fed7a54c0c691a",
+  "fetched_at": "2026-11-15T03:47:40+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_417646.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=417646",
+  "params": null,
+  "bytes": 105018,
+  "sha256": "78f409bd467e6e2cf81095fcb3aea15be4863397cbf8d7fb0055d8207606efc0",
+  "fetched_at": "2026-11-15T03:47:43+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_418256.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418256",
+  "params": null,
+  "bytes": 10401,
+  "sha256": "ba2ca291279b13951f2df841be683f12515b81e1cc253743b5284b80551467b6",
+  "fetched_at": "2026-11-15T03:47:46+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_418122.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418122",
+  "params": null,
+  "bytes": 15056,
+  "sha256": "9472812f3c5f899da2e184cbbfb20b3d548c26d9b47c44d66ab1e52b2fc3250c",
+  "fetched_at": "2026-11-15T03:47:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_418516.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418516",
+  "params": null,
+  "bytes": 12915,
+  "sha256": "0a0c9775809eb1bd3326dd6d0913ed3cae737f910c715f39aeff303926676555",
+  "fetched_at": "2026-11-15T03:47:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_418430.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418430",
+  "params": null,
+  "bytes": 30886,
+  "sha256": "a930cff619c91c1402523463d571729a34c7eb95ad9dbd187dc165c3981cd103",
+  "fetched_at": "2026-11-15T03:47:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_418783.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=418783",
+  "params": null,
+  "bytes": 23649,
+  "sha256": "6342b439613aea957f57248315903e9eb5af9d9d850b5ad52361269474e11273",
+  "fetched_at": "2026-11-15T03:47:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_419178.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419178",
+  "params": null,
+  "bytes": 15071,
+  "sha256": "dfd054d02c8612a28f4901119270c043af8e27ae53d66988385c0a51ef598360",
+  "fetched_at": "2026-11-15T03:47:59+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_419164.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419164",
+  "params": null,
+  "bytes": 24764,
+  "sha256": "d34fc7f21a550f14d763b08424e12447b8d55afedfc996d386bd3acfdf2b5b20",
+  "fetched_at": "2026-11-15T03:48:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_419146.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419146",
+  "params": null,
+  "bytes": 14781,
+  "sha256": "521e14a8c749bb2fa1d16595e8b1ace846b09abb936da7cc7f13072516f2ffef",
+  "fetched_at": "2026-11-15T03:48:04+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_419086.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=419086",
+  "params": null,
+  "bytes": 15074,
+  "sha256": "368528b0c53395170c67b43ea326ed5788f92016d3ebfd0ef01042f7ffe77f68",
+  "fetched_at": "2026-11-15T03:48:07+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_421252.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=421252",
+  "params": null,
+  "bytes": 95309,
+  "sha256": "6f9186f791412b535b818213e3dc216090e95b14266f935a8e0cff166028d53c",
+  "fetched_at": "2026-11-15T03:48:09+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_421183.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=421183",
+  "params": null,
+  "bytes": 16451,
+  "sha256": "e1b059e3493204566a3a1d9c29205c6c85393dfb3c06cfce01301ccadaf22857",
+  "fetched_at": "2026-11-15T03:48:12+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_421439.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=421439",
+  "params": null,
+  "bytes": 12487,
+  "sha256": "00db8ca685ba5a55b26faf99fe463489e6c408229994be4ee37ea0463f67abaa",
+  "fetched_at": "2026-11-15T03:48:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_421825.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=421825",
+  "params": null,
+  "bytes": 12030,
+  "sha256": "d164ced472881bd76342deccc682f497c0d87a6a3f9aec4b3d4976e5c7bfe5b3",
+  "fetched_at": "2026-11-15T03:48:17+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_422585.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=422585",
+  "params": null,
+  "bytes": 18084,
+  "sha256": "b797e52be7040263459ccfb0cad96797de56020a83fb852196aa5c273a76f5da",
+  "fetched_at": "2026-11-15T03:48:20+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_422138.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=422138",
+  "params": null,
+  "bytes": 18273,
+  "sha256": "6a7c070eacb818fa771c16edf1e7430deec78cacb969a70f37920231e252d205",
+  "fetched_at": "2026-11-15T03:48:22+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_422924.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=422924",
+  "params": null,
+  "bytes": 18044,
+  "sha256": "643c17e7289814c12d487349c513cfa983e88a57a554eb32f6f808029113477f",
+  "fetched_at": "2026-11-15T03:48:25+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_422753.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=422753",
+  "params": null,
+  "bytes": 12488,
+  "sha256": "e68047c076c3d46818fd672c04bf5a216cb3be3ae553f1af3795640ae12038f4",
+  "fetched_at": "2026-11-15T03:48:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_423681.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=423681",
+  "params": null,
+  "bytes": 18749,
+  "sha256": "30590513595af4e613eb07cbe22275887c97ee224075d42f4e6bca706d7d06de",
+  "fetched_at": "2026-11-15T03:48:30+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_424231.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424231",
+  "params": null,
+  "bytes": 10511,
+  "sha256": "0d368c5b84d9d63547276331c1c3a248f90bed1078929108d3ea61e00e7a6368",
+  "fetched_at": "2026-11-15T03:48:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_424076.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424076",
+  "params": null,
+  "bytes": 10478,
+  "sha256": "51fd59f8291f44789f74d7476d2e8bb3888062cd3470f71ddaf91416f850a827",
+  "fetched_at": "2026-11-15T03:48:35+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_424970.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424970",
+  "params": null,
+  "bytes": 12038,
+  "sha256": "4c0ea819c1053a15a857f8530139e61f1a0055d3c51be2463369200678f22451",
+  "fetched_at": "2026-11-15T03:48:38+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_424887.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424887",
+  "params": null,
+  "bytes": 15117,
+  "sha256": "dcfeced78a745e096d16981d483387a214cceae295105c66bfb5d635ef88a71c",
+  "fetched_at": "2026-11-15T03:48:41+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_424766.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=424766",
+  "params": null,
+  "bytes": 29745,
+  "sha256": "7dd56c1a387b16bc53a09715696c52843245a238a887b32792e56b38f7a87cd3",
+  "fetched_at": "2026-11-15T03:48:43+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_425714.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425714",
+  "params": null,
+  "bytes": 15415,
+  "sha256": "2f22d7998ab1dcc269418ebb1164aa9dcf7e60b89b54a960708ec79e8e49df0b",
+  "fetched_at": "2026-11-15T03:48:46+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_425652.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425652",
+  "params": null,
+  "bytes": 10708,
+  "sha256": "ba2f80bc6f6240b007274f7986299bb849d821372f3f952f860678f98d053bac",
+  "fetched_at": "2026-11-15T03:48:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_425979.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425979",
+  "params": null,
+  "bytes": 17900,
+  "sha256": "6355a7b3e43578704b4f2d850b2594167bbb9f8b8f0d76b472b3a247047f82dd",
+  "fetched_at": "2026-11-15T03:48:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_425977.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=425977",
+  "params": null,
+  "bytes": 85489,
+  "sha256": "5bd09a3a4e7476cfab38f2b67d65096f59fab59082336534a64d74dfa84641b1",
+  "fetched_at": "2026-11-15T03:48:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_464659.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=464659",
+  "params": null,
+  "bytes": 10874,
+  "sha256": "5fa88cb50dd3d82e4067868a4c697535fb12e1c0e1945a27fe335d5636842812",
+  "fetched_at": "2026-11-15T03:48:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_426229.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426229",
+  "params": null,
+  "bytes": 86044,
+  "sha256": "7aaa33ee1bb73eb91fcf847059517a064c2b03bf038534c1f71fa9e69918d80d",
+  "fetched_at": "2026-11-15T03:48:59+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_426522.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426522",
+  "params": null,
+  "bytes": 16168,
+  "sha256": "e22ca10f00ac0b95ff59424d4993a7c807bfab460829d52bc9959430a6a1a84a",
+  "fetched_at": "2026-11-15T03:49:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_426452.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=426452",
+  "params": null,
+  "bytes": 21900,
+  "sha256": "a66f6b20b7b87d531146f34ab4f8593c6cc465965cd9b3de220fe72560139452",
+  "fetched_at": "2026-11-15T03:49:04+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_427032.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=427032",
+  "params": null,
+  "bytes": 50701,
+  "sha256": "307a1f61dd12fe84c0fc1e5ab573fae2e2aa8bf5dd3c06e4506aca76897f8474",
+  "fetched_at": "2026-11-15T03:49:07+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_427780.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=427780",
+  "params": null,
+  "bytes": 11861,
+  "sha256": "2cb710be247cf457df1c7ca1cb923eff26891ae16ad1ab0ca61e174ca904d08b",
+  "fetched_at": "2026-11-15T03:49:10+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_428531.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=428531",
+  "params": null,
+  "bytes": 15963,
+  "sha256": "ae25b34b8df0c328bc13d21ab266a0b25462cef2ba4dcd25641e5d2804927313",
+  "fetched_at": "2026-11-15T03:49:12+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429041.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429041",
+  "params": null,
+  "bytes": 17945,
+  "sha256": "0b417a2e3d904106f1ae3fc8055809e41c3fdc311ba092a8e97e3644b95cdd97",
+  "fetched_at": "2026-11-15T03:49:15+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_428679.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=428679",
+  "params": null,
+  "bytes": 14237,
+  "sha256": "2bea530dcffa74af105f4300e960d725e2dcd9c204e2432b9debe31dea17cda3",
+  "fetched_at": "2026-11-15T03:49:17+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_430052.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430052",
+  "params": null,
+  "bytes": 16103,
+  "sha256": "69b7da0ac3a809a1d2f51614fea94c7954ba1b5eefc944eb89434a3541a1f968",
+  "fetched_at": "2026-11-15T03:49:20+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429729.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429729",
+  "params": null,
+  "bytes": 11009,
+  "sha256": "4ba55fc28372c9042e916c367771fcb6590922ae02cc476b2ae752ee28a16693",
+  "fetched_at": "2026-11-15T03:49:23+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429589.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429589",
+  "params": null,
+  "bytes": 12513,
+  "sha256": "a47291a0a923abcd1a9dcd13423b88d490ec0435027de03c7cb948f76166e807",
+  "fetched_at": "2026-11-15T03:49:25+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429433.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429433",
+  "params": null,
+  "bytes": 23941,
+  "sha256": "34bbcb10ba69db40f5565bc0add8035e3058ed75b0777929d9673c1bb1af17fe",
+  "fetched_at": "2026-11-15T03:49:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_430056.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430056",
+  "params": null,
+  "bytes": 16570,
+  "sha256": "4d2608f32e3062ac8969fe4a7cf59ae168edbdd538729b30c62f3e41b5bf3576",
+  "fetched_at": "2026-11-15T03:49:31+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429953.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429953",
+  "params": null,
+  "bytes": 13284,
+  "sha256": "12c4b1bc51238f5eefbafce16e1717040166fda9fe0188273e5159877a8eaf07",
+  "fetched_at": "2026-11-15T03:49:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_429935.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=429935",
+  "params": null,
+  "bytes": 17375,
+  "sha256": "2c7ec90fe9830e52c7b26a7f0767bc844e2d20ee4c71104e92be8c246e9e034d",
+  "fetched_at": "2026-11-15T03:49:36+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_430376.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430376",
+  "params": null,
+  "bytes": 12620,
+  "sha256": "027b1ce59bf61aa73724fc175e37ca05b22ef48a4914a9219f0f3997f2c60bbd",
+  "fetched_at": "2026-11-15T03:49:38+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_430573.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430573",
+  "params": null,
+  "bytes": 11917,
+  "sha256": "2833b8d882a06280cd3012ce1fba64c462f9dba2700099871b8bc6798f7af2fb",
+  "fetched_at": "2026-11-15T03:49:41+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431016.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431016",
+  "params": null,
+  "bytes": 15156,
+  "sha256": "7b887e4d53fda9aa0d5538cfa9fa1309775852707d9c4465117974af993d2efa",
+  "fetched_at": "2026-11-15T03:49:44+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_430913.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=430913",
+  "params": null,
+  "bytes": 15091,
+  "sha256": "dd225c05484c74889072842e8b340022d3021f745553ec6c9f2999e078c857a9",
+  "fetched_at": "2026-11-15T03:49:46+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431191.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431191",
+  "params": null,
+  "bytes": 17949,
+  "sha256": "96c9dd117fb8d0cb5bf88e50ba31a3501122248e21c7aea1561fb5108aae1b42",
+  "fetched_at": "2026-11-15T03:49:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431190.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431190",
+  "params": null,
+  "bytes": 36863,
+  "sha256": "18deb1f987c2485b68f4591027ce61162265700b3834f376a81ea1c3a6bfac3a",
+  "fetched_at": "2026-11-15T03:49:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431577.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431577",
+  "params": null,
+  "bytes": 20461,
+  "sha256": "144843086c81c38a0acc050ae1d95d7a03c7e606af2f8f87522a54267ecdd831",
+  "fetched_at": "2026-11-15T03:49:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431474.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431474",
+  "params": null,
+  "bytes": 15091,
+  "sha256": "c665fb6a70c6853d63c467bb0ec3defe753c34e84d8344d9154c135923c4e070",
+  "fetched_at": "2026-11-15T03:49:57+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_431470.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=431470",
+  "params": null,
+  "bytes": 10998,
+  "sha256": "1590976ee6b69f0f3a3213634c998da2372697c2b02979f8fa0faa4ea4774579",
+  "fetched_at": "2026-11-15T03:49:59+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_432252.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=432252",
+  "params": null,
+  "bytes": 14626,
+  "sha256": "52dc37fce9341a2f5b16a2bac358ddca296e97423f5bce1a854b9f34ca1597fa",
+  "fetched_at": "2026-11-15T03:50:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_432686.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=432686",
+  "params": null,
+  "bytes": 10083,
+  "sha256": "680d0c4ebd9826041966f66453220908a4700250297e9febd66f931411536045",
+  "fetched_at": "2026-11-15T03:50:05+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433201.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433201",
+  "params": null,
+  "bytes": 21906,
+  "sha256": "6a7fd0d590d52d819666974f71835c8e9a39582a476ded4cc4e620bb2b15ca3a",
+  "fetched_at": "2026-11-15T03:50:07+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433071.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433071",
+  "params": null,
+  "bytes": 16902,
+  "sha256": "6aa702e50a8262748ffb1d378ef49e3045d1b88809c1657de47cedabe416acee",
+  "fetched_at": "2026-11-15T03:50:10+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433743.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433743",
+  "params": null,
+  "bytes": 15112,
+  "sha256": "d07b9b7b24356b676dc62b8ea19fdd735482896d372e72865ba7e533a77bd0fa",
+  "fetched_at": "2026-11-15T03:50:12+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433665.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433665",
+  "params": null,
+  "bytes": 15204,
+  "sha256": "c6cba4f4e13ec8c69b1abda20862d9b44f61d96e86ef2d5c218ace63f0008be0",
+  "fetched_at": "2026-11-15T03:50:15+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433581.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433581",
+  "params": null,
+  "bytes": 17409,
+  "sha256": "2273f7061d8a63459eafcd367f156567436c845f7d8424ff8fb5be4dc5c2cad2",
+  "fetched_at": "2026-11-15T03:50:18+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433865.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433865",
+  "params": null,
+  "bytes": 19207,
+  "sha256": "613bbd744deb09794912f278ca33f1ad7eb5e63705bc8ad92af79b58d6b2600a",
+  "fetched_at": "2026-11-15T03:50:20+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_433991.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=433991",
+  "params": null,
+  "bytes": 16028,
+  "sha256": "9a3a3c685cd6bb20f659264af049ac82c3e4038b7d34952755acd0f391314df6",
+  "fetched_at": "2026-11-15T03:50:23+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_466734.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=466734",
+  "params": null,
+  "bytes": 12439,
+  "sha256": "c746516a7461a0e6166c8b77cece3dfcd02001659894c2095a7cfb52a4d1e731",
+  "fetched_at": "2026-11-15T03:50:26+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434491.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434491",
+  "params": null,
+  "bytes": 12390,
+  "sha256": "c333df155bc87db70415a92b3ed63b13068fdfd75b1088a003c8187a0d6d3e15",
+  "fetched_at": "2026-11-15T03:50:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434490.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434490",
+  "params": null,
+  "bytes": 15180,
+  "sha256": "02369f539f0f37e39301744e8f6bd6aa05b8ffbef04333b1489825d99d45306e",
+  "fetched_at": "2026-11-15T03:50:31+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434293.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434293",
+  "params": null,
+  "bytes": 14973,
+  "sha256": "4c0d37af177407a482d54c92658e49b19a6ffed803d106a0c2a6d37873645bbf",
+  "fetched_at": "2026-11-15T03:50:33+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434861.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434861",
+  "params": null,
+  "bytes": 12847,
+  "sha256": "33db64d5bd383d274fc2db3798e39391a4a00243b06e4c325f2ed9a7939d95de",
+  "fetched_at": "2026-11-15T03:50:36+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_435103.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=435103",
+  "params": null,
+  "bytes": 15246,
+  "sha256": "1484eb5ee0a6329f85453bb443591449cccbea30da3a166376ab0529c10091bb",
+  "fetched_at": "2026-11-15T03:50:39+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434955.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434955",
+  "params": null,
+  "bytes": 21947,
+  "sha256": "3d51cc7428387f731541f5a160b0b7baf577f7c1476d19e5185090e59d33ea86",
+  "fetched_at": "2026-11-15T03:50:41+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434934.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434934",
+  "params": null,
+  "bytes": 37649,
+  "sha256": "2adda415af42fa02603968b576482837532f14957f28452566b8cbe412d3d64b",
+  "fetched_at": "2026-11-15T03:50:44+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434921.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434921",
+  "params": null,
+  "bytes": 23813,
+  "sha256": "2dd5ae1fe6b6edaa967629b0e4990069c30ff97af5e02fde0a71465b52690d38",
+  "fetched_at": "2026-11-15T03:50:47+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434885.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434885",
+  "params": null,
+  "bytes": 16627,
+  "sha256": "d59e6da32a336e39d05f716790e4ea5f1a110f7cb2f926f163d477f2ce2d4b8a",
+  "fetched_at": "2026-11-15T03:50:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_434874.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=434874",
+  "params": null,
+  "bytes": 11177,
+  "sha256": "86f6e9b1e1439c8464d4218407d4a07e21f9adeb04f341d11d7238ce50f74d2d",
+  "fetched_at": "2026-11-15T03:50:52+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_435657.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=435657",
+  "params": null,
+  "bytes": 25612,
+  "sha256": "aa105432a2af544979f709bc86b72a3f072f7c25255eeb4e86877415ac5575e0",
+  "fetched_at": "2026-11-15T03:50:54+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_436329.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=436329",
+  "params": null,
+  "bytes": 17263,
+  "sha256": "c6e86f57d67cc0e2e0059ee6ab9b68fb2e3b7e57f8b63dae762a5739f2816bba",
+  "fetched_at": "2026-11-15T03:50:57+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_436244.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=436244",
+  "params": null,
+  "bytes": 15092,
+  "sha256": "2c350aca532719d5bf5a96a84870ffc5fe6abfa381593928e7eeb5eefed34a34",
+  "fetched_at": "2026-11-15T03:51:00+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_436155.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=436155",
+  "params": null,
+  "bytes": 10689,
+  "sha256": "e16b833c1fd90d744af86fca3cd7f8add3a855e227399e5e69aa4a3c6a25a8ae",
+  "fetched_at": "2026-11-15T03:51:02+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_436675.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=436675",
+  "params": null,
+  "bytes": 11734,
+  "sha256": "cf29e6be10b6180e0931a5a58d09ec4cf7b437b3b1882743a1d0603cfc2d0d2d",
+  "fetched_at": "2026-11-15T03:51:05+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_437022.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=437022",
+  "params": null,
+  "bytes": 20967,
+  "sha256": "11439fdc66729c2306fb8b9c3e1d88a2ab6783de1ce1d10dd45a6c998f8b8add",
+  "fetched_at": "2026-11-15T03:51:07+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_437385.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=437385",
+  "params": null,
+  "bytes": 18336,
+  "sha256": "2c846e631e4906036badd4202cfc458ea52bd810a7120180d7a4c5ab04cb0155",
+  "fetched_at": "2026-11-15T03:51:10+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_437662.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=437662",
+  "params": null,
+  "bytes": 18526,
+  "sha256": "2a64095289945e6907494577cc11b69e1de9faaac7f45fae7525f6e58b87777e",
+  "fetched_at": "2026-11-15T03:51:13+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_437927.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=437927",
+  "params": null,
+  "bytes": 11997,
+  "sha256": "dd221c08d80142282debdc99e5599b0c29a5ffdb1b142b406d501b6010301d6f",
+  "fetched_at": "2026-11-15T03:51:15+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_438347.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=438347",
+  "params": null,
+  "bytes": 11304,
+  "sha256": "96f4f113933cfc7886b4f57917131dbdc7466540badec8145ebd500fb5d7fbe6",
+  "fetched_at": "2026-11-15T03:51:18+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_438868.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=438868",
+  "params": null,
+  "bytes": 15186,
+  "sha256": "1f8160d0b4c37b12f9e963d88ae751648b8343d461eda9ef916068d06d266ea0",
+  "fetched_at": "2026-11-15T03:51:21+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_438715.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=438715",
+  "params": null,
+  "bytes": 15177,
+  "sha256": "8dba118b44de9e002826e8c64718c05b4199d633b69537e1980abe6ef27a4548",
+  "fetched_at": "2026-11-15T03:51:23+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_439215.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439215",
+  "params": null,
+  "bytes": 37486,
+  "sha256": "c10cd9ee4a680761a8b1948be5d7450bdf4a001c541e5f7b8db0623f9a1d8da0",
+  "fetched_at": "2026-11-15T03:51:26+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_439212.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439212",
+  "params": null,
+  "bytes": 18127,
+  "sha256": "8accad1d517fa61a70e18fff689169b4f23998d808f3cb5b404190d93eecb80f",
+  "fetched_at": "2026-11-15T03:51:28+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_439550.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439550",
+  "params": null,
+  "bytes": 10434,
+  "sha256": "edd24d797de7daa4d7cbf342e743b4a42f9b534a395b0569b6836b3cf76f95c1",
+  "fetched_at": "2026-11-15T03:51:31+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_439879.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439879",
+  "params": null,
+  "bytes": 10464,
+  "sha256": "8ee1e990e603809d0f09800f7b8bb2d61eb910a0eca941cb5b484b3d6c4407ac",
+  "fetched_at": "2026-11-15T03:51:34+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_439811.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=439811",
+  "params": null,
+  "bytes": 33395,
+  "sha256": "128652536e0dc3770928df4c6fc6860a6068e2f24ad501fb92d86e64b1dd7624",
+  "fetched_at": "2026-11-15T03:51:36+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440452.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440452",
+  "params": null,
+  "bytes": 15141,
+  "sha256": "022801b9e32fcd77b29e8e4eddab6b2e960ac515a01a2dc350145181b61f072c",
+  "fetched_at": "2026-11-15T03:51:39+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440320.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440320",
+  "params": null,
+  "bytes": 15070,
+  "sha256": "9d11b825cf407e92a7dbd7401fa7aa6f5819927a55305902d2a8f38bd66470f3",
+  "fetched_at": "2026-11-15T03:51:42+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440303.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440303",
+  "params": null,
+  "bytes": 16906,
+  "sha256": "e0de469b65a04bbf9adb37c70d32d481674d9ffc4f87e37e331cb7e459245f1b",
+  "fetched_at": "2026-11-15T03:51:44+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440709.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440709",
+  "params": null,
+  "bytes": 10620,
+  "sha256": "1c8209c2bd03e902c2d7fa8fbcf2b2966e5db4f32767d1e758825cd242111b2a",
+  "fetched_at": "2026-11-15T03:51:47+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440572.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440572",
+  "params": null,
+  "bytes": 16897,
+  "sha256": "2ba9f396f610ca56919401889c3c75cd3c17cec381c1b839a0830a04cf82feb9",
+  "fetched_at": "2026-11-15T03:51:49+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440541.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440541",
+  "params": null,
+  "bytes": 13824,
+  "sha256": "a3a259004cbc102af5e1c3eed0a833ade1e578927d28b046991d4ae923370e13",
+  "fetched_at": "2026-11-15T03:51:52+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440539.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440539",
+  "params": null,
+  "bytes": 13280,
+  "sha256": "54aa2f4bf3763d8ba53e4d11c8210682623b66d828e300a1bacfe6dba67e6739",
+  "fetched_at": "2026-11-15T03:51:55+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440959.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440959",
+  "params": null,
+  "bytes": 16401,
+  "sha256": "00c21291ce188dc53e473d9cc856dd73b5f1368571feec920316b5d7e9611bf8",
+  "fetched_at": "2026-11-15T03:51:57+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_440788.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=440788",
+  "params": null,
+  "bytes": 17419,
+  "sha256": "1cfc06c307cfdd24f5b4389021dc2ea380e7c7b092cec2311b86c21c2949ba72",
+  "fetched_at": "2026-11-15T03:52:00+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441395.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441395",
+  "params": null,
+  "bytes": 24182,
+  "sha256": "bfe858ca007b6f5ec8235449ee25d8d72e7a442fcc8ce2b4faf4dd9a16d5d202",
+  "fetched_at": "2026-11-15T03:52:03+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441271.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441271",
+  "params": null,
+  "bytes": 30236,
+  "sha256": "b0b5cbf39f02fccaf67855f4823760d0700430c6e11d3cde523c73318cf940bc",
+  "fetched_at": "2026-11-15T03:52:06+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441135.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441135",
+  "params": null,
+  "bytes": 16353,
+  "sha256": "5a2b974f16fcbac05ec35b0bc544209979eeda61c9d609391d27c9b24a9a3a56",
+  "fetched_at": "2026-11-15T03:52:08+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441091.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441091",
+  "params": null,
+  "bytes": 30568,
+  "sha256": "60721207ea508afdddc2afd4d65b628ea2e203a636860c21a019d24af9ca4e9b",
+  "fetched_at": "2026-11-15T03:52:11+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441482.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441482",
+  "params": null,
+  "bytes": 16373,
+  "sha256": "af07f8c566c732b5f620b80601c012af1e2b7bf576e2292e5b808e96c18f5520",
+  "fetched_at": "2026-11-15T03:52:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_441819.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=441819",
+  "params": null,
+  "bytes": 20818,
+  "sha256": "8495f26032e8b096f04a3bce7a21e8df56f591101508882cdecf854008c233ac",
+  "fetched_at": "2026-11-15T03:52:16+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442816.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442816",
+  "params": null,
+  "bytes": 15164,
+  "sha256": "1ca635c52fc253ec89f0a4193b95322b3c10920bb2a354af7acc506b797197b1",
+  "fetched_at": "2026-11-15T03:52:19+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442764.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442764",
+  "params": null,
+  "bytes": 16378,
+  "sha256": "79150e19bcb15f666ee0f8a56f715a22315b693566896d3d6f5c2e6b55452455",
+  "fetched_at": "2026-11-15T03:52:21+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442758.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442758",
+  "params": null,
+  "bytes": 16153,
+  "sha256": "98bda5fa013b62ea1a2863398e448cce8682b47970b2084ed28138d1aae79e60",
+  "fetched_at": "2026-11-15T03:52:24+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442569.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442569",
+  "params": null,
+  "bytes": 16257,
+  "sha256": "dbbf92058716b9ec44147715d375e47bda983b8a99cbdfeb24c3c5f6ba941ad2",
+  "fetched_at": "2026-11-15T03:52:27+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442479.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442479",
+  "params": null,
+  "bytes": 22976,
+  "sha256": "a323d83cbeef16ccec265f44fbe4db64a9443d0bf0d8f30dcf4dfdf5dd6efac7",
+  "fetched_at": "2026-11-15T03:52:29+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_442995.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=442995",
+  "params": null,
+  "bytes": 18516,
+  "sha256": "36ccd1e7ad45dbcbdb33f9094852e1d051c82c153f416b8fa58d26d2a8035213",
+  "fetched_at": "2026-11-15T03:52:32+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_443258.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443258",
+  "params": null,
+  "bytes": 16539,
+  "sha256": "de7232aab9738036900392907637e329b5688cbd573d836ca77f411d8f5a20b5",
+  "fetched_at": "2026-11-15T03:52:34+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_443396.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=443396",
+  "params": null,
+  "bytes": 10216,
+  "sha256": "8a1220d4aaf1fe1aad3d11824a5e8cb4957e9e1428e972979dc029e8d4cd6e0b",
+  "fetched_at": "2026-11-15T03:52:37+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_444244.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444244",
+  "params": null,
+  "bytes": 14275,
+  "sha256": "828af3ed52d7a5b676bae061feee8f13ce76a68d59cac1dbfb51cda3215631fc",
+  "fetched_at": "2026-11-15T03:52:40+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_444239.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444239",
+  "params": null,
+  "bytes": 41378,
+  "sha256": "9e7eede75fe7468793e4a87dbe79177c506efed6276b96e61fea46cc37ecaddf",
+  "fetched_at": "2026-11-15T03:52:42+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_444934.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444934",
+  "params": null,
+  "bytes": 15144,
+  "sha256": "c280be4cc945aae0e136395c32e8cd318b78591b8e282140cf48db33251557ea",
+  "fetched_at": "2026-11-15T03:52:45+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_444761.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444761",
+  "params": null,
+  "bytes": 15218,
+  "sha256": "3220609103b0126e9215d99f674bf3e8ac474044582c197f6ae9558679ec6bad",
+  "fetched_at": "2026-11-15T03:52:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_444613.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=444613",
+  "params": null,
+  "bytes": 31329,
+  "sha256": "49520571971eb9fb9ba9c2d1b7150c37166334d9b63cfd5e3442fd31bcd0193d",
+  "fetched_at": "2026-11-15T03:52:50+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_445290.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445290",
+  "params": null,
+  "bytes": 14465,
+  "sha256": "678ab77861d2be6ab57921b5aa824f94af2f7a345883ef7ba567433000dc3eeb",
+  "fetched_at": "2026-11-15T03:52:53+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_445244.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445244",
+  "params": null,
+  "bytes": 17422,
+  "sha256": "46e3a2fdb2fd0da46014ea320850ef71cbf446c194bcdb61fa64ee5acf1a6f5b",
+  "fetched_at": "2026-11-15T03:52:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_445462.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445462",
+  "params": null,
+  "bytes": 10220,
+  "sha256": "155842f33b59246976ad01a7481840852ba8bd2ae9e6bfc2ce8409accd426579",
+  "fetched_at": "2026-11-15T03:52:58+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_445459.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=445459",
+  "params": null,
+  "bytes": 12826,
+  "sha256": "fbd8366b57fbb1ccb444b86389a93e7927aa4d0a08bfbc0fa963d3dbffe46900",
+  "fetched_at": "2026-11-15T03:53:01+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_446059.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446059",
+  "params": null,
+  "bytes": 18473,
+  "sha256": "72b471dc94efd0855ab9d6a7e0a155ae87c62381cc1aca2d3ab1ceb324bff7b4",
+  "fetched_at": "2026-11-15T03:53:03+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_446017.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446017",
+  "params": null,
+  "bytes": 10112,
+  "sha256": "73132ea696873d80819f0137d9deba6023c7a57b11717cd94779dfafaf6f35de",
+  "fetched_at": "2026-11-15T03:53:06+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_446686.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=446686",
+  "params": null,
+  "bytes": 27249,
+  "sha256": "e14893a7bdcff274f0f221406f13a811758fa597bee8db3791847466476a4a6e",
+  "fetched_at": "2026-11-15T03:53:09+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_447363.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=447363",
+  "params": null,
+  "bytes": 24250,
+  "sha256": "4b176637b15035d48461556a85a63361bfe698f36d995319915b282a4c79d319",
+  "fetched_at": "2026-11-15T03:53:11+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_447759.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=447759",
+  "params": null,
+  "bytes": 22068,
+  "sha256": "bc5c20152ab9972568f837753b160c266e248f0087b146d6712e24402b1a6771",
+  "fetched_at": "2026-11-15T03:53:14+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448133.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448133",
+  "params": null,
+  "bytes": 31387,
+  "sha256": "a7d4971ffcaa6e840b54838b81c0c6cd6698eadf694a63faf61a50dd7d3a4694",
+  "fetched_at": "2026-11-15T03:53:16+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448129.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448129",
+  "params": null,
+  "bytes": 10462,
+  "sha256": "9df2f182f3d9f160dcf9c3885b7249f3b6cdd1cc93db4e9ddc25a9b282cdf344",
+  "fetched_at": "2026-11-15T03:53:19+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448128.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448128",
+  "params": null,
+  "bytes": 45869,
+  "sha256": "2b7d3c5c7362accf5c407495253a66a741b3aaa568f7e386193d5c2b36fc4a6b",
+  "fetched_at": "2026-11-15T03:53:22+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448127.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448127",
+  "params": null,
+  "bytes": 17444,
+  "sha256": "d96236cc14a991cac5dec6ea2fd2e5d93291d884bfc39dd530ab52a9d3cc1bd5",
+  "fetched_at": "2026-11-15T03:53:24+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448412.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448412",
+  "params": null,
+  "bytes": 15539,
+  "sha256": "3ef9d88962bde283541b38a34c6c6e0aa43b4d36c37a181b2292975dc4e24115",
+  "fetched_at": "2026-11-15T03:53:27+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448243.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448243",
+  "params": null,
+  "bytes": 16641,
+  "sha256": "d046283cae43d29e13c771b71e1e9b505dc90a4b7f4f9050ddf73948c54fe0f0",
+  "fetched_at": "2026-11-15T03:53:30+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448731.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448731",
+  "params": null,
+  "bytes": 23820,
+  "sha256": "0efa67e694538fd336a39e18620b7b2d34380b29a0dfc6657cae80a7b0c81b28",
+  "fetched_at": "2026-11-15T03:53:32+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_448997.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=448997",
+  "params": null,
+  "bytes": 16636,
+  "sha256": "b77a0fb1c8bbede22e5a7da9ff27b4e887eca81c1dedf069d04f0cb59aebaf78",
+  "fetched_at": "2026-11-15T03:53:35+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_449099.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449099",
+  "params": null,
+  "bytes": 18323,
+  "sha256": "db0b9597112f4da59c1a886f66d962d3a14a754f457b8f709e237abaa19ea519",
+  "fetched_at": "2026-11-15T03:53:37+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_449552.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449552",
+  "params": null,
+  "bytes": 10376,
+  "sha256": "b7df0a9222cffa28eb360fc97222b0b81539b1b8c95ccaf13190a224d69e8b15",
+  "fetched_at": "2026-11-15T03:53:40+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_449543.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449543",
+  "params": null,
+  "bytes": 15244,
+  "sha256": "3739ea26e51e5144e98f9202094ce28a3c4df4cef2c994e35d68d534a018d475",
+  "fetched_at": "2026-11-15T03:53:43+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_449647.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449647",
+  "params": null,
+  "bytes": 15211,
+  "sha256": "4e29714461de2dd2e50019b49005a3a5946776cf73d1b54095f7e0cb9ee02770",
+  "fetched_at": "2026-11-15T03:53:45+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_450074.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=450074",
+  "params": null,
+  "bytes": 22766,
+  "sha256": "54daec13a53dfa7401c6eef41e47d9b7dfa2ae7521d59043c88e2a771280c19a",
+  "fetched_at": "2026-11-15T03:53:48+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_449941.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=449941",
+  "params": null,
+  "bytes": 15355,
+  "sha256": "8b03879b2d84474ba2f7d9eabafe4d1c308d4ef10550db48ce4325732bf185a2",
+  "fetched_at": "2026-11-15T03:53:51+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_450994.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=450994",
+  "params": null,
+  "bytes": 12364,
+  "sha256": "e71ce4bc63352dcc99e4aa02b8f458513df4b929e04ab4ea274d56775f928f68",
+  "fetched_at": "2026-11-15T03:53:53+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_450991.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=450991",
+  "params": null,
+  "bytes": 10020,
+  "sha256": "c84255583b6a21dc30fa96bd203816a3ad181b0c1e87d3c6bfa60b78855a721d",
+  "fetched_at": "2026-11-15T03:53:56+00:00"
+ },
+ {
+  "file": "region_beaumont/steers_450913.html",
+  "url": "https://www2.tceq.texas.gov/oce/eer/index.cfm?fuseaction=main.getDetails&target=450913",
+  "params": null,
+  "bytes": 18279,
+  "sha256": "358e817eb859366d4bb9bd1f5c4b63d716d7ffc485cb70d8cb9d0d341627b938",
+  "fetched_at": "2026-11-15T03:53:58+00:00"
+ }
+]
