@@ -25,6 +25,34 @@ HOUSTON_SITES = {
     "48_201_0069": "Houston Milby Park", "48_201_0307": "Manchester East Ave N", "48_201_0057": "Galena Park",
     "48_201_1614": "HRM-16 Deer Park", "48_201_1035": "Clinton", "48_201_1015": "Lynchburg Ferry",
     "48_201_0803": "HRM-3 Haden Road", "48_201_0026": "Channelview",
+    # Added 2026-11-15: the other Harris County AutoGC sites whose own CAMS id carries met-form wind (names from TAMIS).
+    "48_201_0036": "Channelview Drive Water Tower", "48_201_1039": "Houston Deer Park #2",
+    "48_201_1049": "Pasadena Richey Elementary School", "48_201_6000": "Cesar Chavez",
+}
+
+# Per site, the CAMS ids the TCEQ met form lists for it; wind is on one of them (tried in order).
+# kn: 48_201_0807 HRM-7 W Baytown and 48_201_0617 Wallisville Road are left out: no met-form wind at their own
+# CAMS id. The AutoGC form's resultant wind (61103/61104) would cover them; fetch_met reads only MET_URL today.
+HOUSTON_MET_SELECTS = {
+    "48_201_0069": ["site|Houston Milby Park A169 |48_201_0069|169"],
+    "48_201_0307": ["site|Manchester East Avenue N C1029 |48_201_0307|1029"],
+    "48_201_0057": ["site|Galena Park A1667 |48_201_0057|167"],
+    "48_201_1614": ["site|HRM-16 Deer Park C1614 |48_201_1614|1614"],
+    "48_201_1035": ["site|Clinton C403/C304/AH113 |48_201_1035|403", "site|Clinton C403/C304/AH113 |48_201_1035|304",
+                    "site|Clinton C403/C304/AH113 |48_201_1035|113"],
+    "48_201_1015": ["site|Lynchburg Ferry C1015/A165 |48_201_1015|1015",
+                    "site|Lynchburg Ferry C1015/A165 |48_201_1015|165"],
+    "48_201_0803": ["site|HRM-3 Haden Road C603/A114 |48_201_0803|603",
+                    "site|HRM-3 Haden Road C603/A114 |48_201_0803|114"],
+    "48_201_0026": ["site|Channelview C15/AH115 |48_201_0026|15", "site|Channelview C15/AH115 |48_201_0026|115"],
+    "48_201_0036": ["site|Channelview Drive Water Tower C1036 |48_201_0036|1036"],
+    "48_201_1039": ["site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|35",
+                    "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|139",
+                    "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|235",
+                    "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|1001",
+                    "site|Hou.DeerPrk2 C35/235/1001/AFH139/FP239|48_201_1039|3000"],
+    "48_201_1049": ["site|Pasadena Richey Elementary School C1049|48_201_1049|1049"],
+    "48_201_6000": ["site|Cesar Chavez C1020/175 |48_201_6000|175", "site|Cesar Chavez C1020/175 |48_201_6000|1020"],
 }
 
 # Jefferson County AutoGC sites: the TCEQ AutoGC yearly-summary form lists exactly these two under Beaumont-Port
@@ -64,6 +92,7 @@ HOUSTON = Region(
     nights_out=ROOT / "web" / "public" / "nights", backtested=True, place="on the Houston Ship Channel",
     # The web switch has always shown the English name here; the Spanish title phrase is translated.
     label_es="Houston Ship Channel", place_es="en el Canal de Navegación de Houston",
+    met_selects=HOUSTON_MET_SELECTS,
 )
 
 BEAUMONT = Region(

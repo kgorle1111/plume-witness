@@ -51,20 +51,8 @@ BENZENE, BUTADIENE = "45201", "43218"
 YEARS = ("2024", "2025")
 TAMIS_SITE = "https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.view_site&siteAQS={}"
 
-# Ship Channel AutoGC sites and, per site, the CAMS ids the met form lists for it (wind is on one of them).
-SITES = {
-    "48_201_0069": ["site|Houston Milby Park A169 |48_201_0069|169"],
-    "48_201_0307": ["site|Manchester East Avenue N C1029 |48_201_0307|1029"],
-    "48_201_0057": ["site|Galena Park A1667 |48_201_0057|167"],
-    "48_201_1614": ["site|HRM-16 Deer Park C1614 |48_201_1614|1614"],
-    "48_201_1035": ["site|Clinton C403/C304/AH113 |48_201_1035|403", "site|Clinton C403/C304/AH113 |48_201_1035|304",
-                    "site|Clinton C403/C304/AH113 |48_201_1035|113"],
-    "48_201_1015": ["site|Lynchburg Ferry C1015/A165 |48_201_1015|1015",
-                    "site|Lynchburg Ferry C1015/A165 |48_201_1015|165"],
-    "48_201_0803": ["site|HRM-3 Haden Road C603/A114 |48_201_0803|603",
-                    "site|HRM-3 Haden Road C603/A114 |48_201_0803|114"],
-    "48_201_0026": ["site|Channelview C15/AH115 |48_201_0026|15", "site|Channelview C15/AH115 |48_201_0026|115"],
-}
+# Ship Channel AutoGC sites and, per site, the CAMS ids the met form lists for it (kept in pipeline.regions).
+SITES = regions.HOUSTON_MET_SELECTS
 
 COUNTY = "HARRIS"
 _ledger: list[dict] = json.loads(LEDGER.read_text()) if LEDGER.exists() else []
