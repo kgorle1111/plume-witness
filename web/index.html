@@ -5,6 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- Every map loads its style, glyphs and tiles from this host (STYLE_URL in EventMap, CoverageMap, RainMap):
+         open the connection while the app code downloads. crossorigin: maplibre fetches them in CORS mode. -->
+    <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin />
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
