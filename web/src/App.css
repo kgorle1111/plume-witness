@@ -229,7 +229,6 @@
 /* The limits panel has the row to itself: the page language switch lives in the header (one switch per site). */
 .limits-bar { margin: 12px 16px 0; }
 .seg-compact button { padding: 4px 10px; font-size: 0.85rem; }
-.es-note { margin: 6px 16px 0; }
 .cannot-say {
   border: 1px solid var(--amber-line);
   border-radius: var(--radius);

@@ -543,12 +543,12 @@ is often hours from the release. Requiring the hit near the reported start (CST,
 {s["spike_near_start"]} of {n}; {s["spike_near_start_and_matched"]} of those {s["spike_near_start"]} matched.
 {day_level_note(d, s["spike_near_start"])}
 
-Of the {m} matches, {s["matched_on_complete_search"]} came from a day search the pipeline could call complete.
-On {s["detected_but_other_incident_matched"]} detected events the pipeline matched a different report filed that
-day instead of the candidate. Compound used: benzene for {by_param["45201"]} events, 1,3-butadiene for
+Matches that came from a day search the pipeline could call complete: {s["matched_on_complete_search"]} of {m}.
+Detected events where the pipeline matched a different report filed that day instead of the candidate: {s["detected_but_other_incident_matched"]}.
+Compound used: benzene for {by_param["45201"]} events, 1,3-butadiene for
 {by_param["43218"]} (events that reported no benzene).
 
-## The three numbers for the slide
+## Three summary numbers
 
 | Question | Answer | Denominator |
 |---|---|---|
