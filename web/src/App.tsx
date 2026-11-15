@@ -158,6 +158,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
             <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
           </span>
           <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
+          <a className="spikes-link" href="?view=spikes">Past spikes</a>
         </p>
         <h1 className="event-title">{ev.title}</h1>
         {picker}
