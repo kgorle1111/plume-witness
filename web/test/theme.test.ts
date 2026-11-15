@@ -1,4 +1,4 @@
-// Run: npm test. The browser-bar colour (theme.ts, index.html, the manifest) must be the page's own background.
+// Run: npm test. The browser-bar colour (theme.ts, index.html, the manifest) must be the page's own background; the head preconnects to the map host.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
@@ -22,4 +22,14 @@ test('index.html paints the same colours before the app loads, and the manifest 
   const m = JSON.parse(read('../public/manifest.webmanifest')) as Record<string, string>
   assert.equal(m.theme_color, THEME_COLOR.light)
   assert.equal(m.background_color, THEME_COLOR.light)
+})
+
+test('index.html preconnects to the host every map loads its style and tiles from', () => {
+  const html = read('../index.html')
+  for (const f of ['EventMap.tsx', 'CoverageMap.tsx', 'RainMap.tsx']) {
+    const url = /const STYLE_URL = '([^']+)'/.exec(read(`../src/${f}`))?.[1]
+    assert.ok(url, `${f}: no STYLE_URL`)
+    const origin = new URL(url).origin
+    assert.ok(html.includes(`<link rel="preconnect" href="${origin}" crossorigin />`), `${f}: no preconnect to ${origin}`)
+  }
 })
