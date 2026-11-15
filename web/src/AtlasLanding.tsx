@@ -1,4 +1,4 @@
-import { lazy, Suspense, type MouseEventHandler } from 'react'
+import { lazy, Suspense, useEffect, useState, type MouseEventHandler } from 'react'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { LangSwitch } from './LangSwitch'
 import { useT } from './useT'
@@ -11,6 +11,9 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
   onEnter: MouseEventHandler<HTMLAnchorElement>
   onExit: () => void
 }) {
+  // The replay renames the tab after its night; coming back with the browser's Back button resets it.
+  useEffect(() => { document.title = 'Plume Witness' }, [])
+  const [paused, setPaused] = useState(false)
   const t = useT()
   return (
     <main
@@ -40,8 +43,12 @@ export function AtlasLanding({ leaving, onEnter, onExit }: {
             <path d="M325 0v29m0 404v29M94 231h29m404 0h29M168 74l13 13m288 288 13 13m0-314-13 13M181 375l-13 13" />
             <path d="M0 231h86m478 0h86" strokeDasharray="3 5" />
           </svg>
-          <div className="atlas-planet"><Suspense><AtlasGlobe /></Suspense></div>
+          <div className="atlas-planet"><Suspense><AtlasGlobe paused={paused} /></Suspense></div>
         </div>
+        {/* Outside the aria-hidden plate so it stays reachable; hidden by CSS when reduced motion already stops the spin. */}
+        <button type="button" className="atlas-pause" onClick={() => setPaused((p) => !p)}>
+          {paused ? t('landing.spin') : t('landing.pause')}
+        </button>
         <p className="atlas-purpose">{t('landing.purpose')}</p>
         <a className="atlas-enter" href={DEMO_REPLAY_HREF} onClick={onEnter}>
           {t('landing.enter')}

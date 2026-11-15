@@ -1,5 +1,70 @@
 # Accessibility and mobile audit: web replay
 
+Two passes, newest first. The second pass covers the pages added on 2026-11-14; the first pass (below it) covers the replay steps.
+
+## Pass 2: pages added on 2026-11-14 (evening)
+
+- **Scope:** landing page (bare URL, `AtlasLanding.tsx`, `AtlasGlobe.tsx`); `?view=spikes` with the calendar, region switch, Follow/RSS links and CSV; `?view=facilities` and `?view=facility&id=…`; `?view=brief` (screen and print CSS); `?embed=1`; `?region=beaumont&night=…`; and the new parts of the replay steps: report-window band on Detect, report update line on Check, pollution rose, place search, recorded read-aloud, night picker, footer. `?view=timeline` and the Trace triangulation note landed on `main` during the pass; they got the reflow, title and heading checks only.
+- **Standard:** WCAG 2.2 AA, with the same 44 px touch-target bar as pass 1.
+- **Date:** 2026-11-14, evening (PST). Audited at `9f47746`, fixes rebased onto `cb9e6df` and checked again there.
+- **Build:** production build, `npm run build -- --base /plume-witness/`, served by `vite preview` on port 4330. The live site (https://kgorle1111.github.io/plume-witness/) was checked too. It runs `main` without these fixes: it gives the same results as the "before" column and has no console errors.
+- **Viewports:** 375x812 (mobile, touch, DPR 2), 390x844, 430x932, 768x1024, 1280x800, 640x400 (1280x800 at 200%), 320x256 (400%), 812x375.
+- **Tools:** Chrome DevTools via MCP: Lighthouse accessibility (mobile, navigation mode), emulation of reduced motion, forced colors and touch. Real key events (Tab, Shift+Tab, Enter, arrows). In-page scripts measured: every tab stop (focus ring, and whether `elementFromPoint` hits the focused element or something covering it), every target's height and its effective hit area, `scrollWidth` against the viewport width, headings, landmarks and titles. Contrast ratios were computed from the CSS colors with the WCAG formula. A link crawl checked that the data file behind every internal link exists.
+
+### Findings
+
+| # | Severity | WCAG | Where | Evidence | Fix | Status |
+|---|---|---|---|---|---|---|
+| P1 | Serious | 1.4.10 Reflow | Replay on phones in portrait | At 375x812 the header (204 px: night picker, Embed button), map (292 px) and hour scrubber (157 px) left **68 px** of step text below the tabs on the demo night. On a Beaumont night the region note pushed it to **−11 px**, so no step text showed at all. 390x844: 88 px. 430x932: 145 px. | The one-column scrolling layout already used for phone landscape and 400% zoom now applies to every viewport up to 1023 px wide and 1000 px tall. The map keeps its phone height and the stepper sticks while the page scrolls. 768x1024 and desktop keep the fixed shell. | fixed `ad200a2` |
+| P2 | Serious | 2.4.11 Focus Not Obscured (AA) | Step panel, all steps | Shift+Tab from "Back: Check" on Packet put "Read aloud" (bottom 697 px) entirely under the sticky stepper (bottom 713 px). The script found the same for at least 15 controls across Detect, Trace, Check and Packet at 375 px (it listed up to 6 per view). | `scroll-padding-top: 72px` on the step panel, and on `html` in the scrolling layout. Re-run: "Read aloud" top at 731 px; 0 covered stops on every view at 375 and 1280. | fixed `66722dd` |
+| P3 | Moderate | 2.4.3 Focus Order (regression of pass-1 #3) | Trace facility list | Facility history links (`6c0ec6d`) were added inside the roving-tabindex `<li>`, so every facility was a tab stop again: the step panel had 59 stops before "Next". | The link is now the roving stop; arrows and Home/End move between links. Panel stops: 12. | fixed `a7d9b45` |
+| P4 | Moderate | broken link | Trace on Beaumont nights | Facility names linked to `?view=facility&id=110039516869` and `…110000464177`. Those pages exist only for Houston, so both links opened "Facility not found". | Names are plain text on region nights. | fixed `a7d9b45` |
+| P5 | Moderate | 2.4.4 Link Purpose | Facility pages ("Back to the replay"), brief ("← Back to the event replay") | Both pointed at the bare URL, which has opened the landing page since the atlas landing page shipped. | Both now point to `DEMO_REPLAY_HREF`. | fixed `d53201e` |
+| P6 | Moderate | broken link | `?embed=1`, "Open in Plume Witness" | For the demo night the link was the bare URL, which opens the landing page instead of the replay. | `fullUrl()` keeps `intro=0` when nothing else is left. The test now checks the route; reverting the fix makes it fail. | fixed `45e4592` |
+| P7 | Moderate | 2.2.2 Pause, Stop, Hide (A) | Landing globe | The globe spins as long as the page is open, next to the text and the only link. Reduced motion stopped it, but nothing else could. | "Pause the globe" / "Spin the globe" button, 144x44, outside the `aria-hidden` plate, hidden when reduced motion is on. Checked: canvas frames identical while paused, changing after resume. | fixed `e15b9de` |
+| P8 | Moderate | 1.4.10 Reflow | Trace at 320 px wide (400% zoom) | `scrollWidth` 346 vs 320: the place search input's ~200 px intrinsic width set the panel's minimum width. | `width: 0` on the flexing input. `scrollWidth` 320. | fixed `7f89cd3` |
+| P9 | Moderate | 3.2.2 On Input (A) | Night picker | Picking an option loaded another night at once. On Windows, arrow keys on a closed select fire `change`, so the first key press navigated. | The select only picks; an "Open" button (44 px) or Enter loads the night. Checked: a change event leaves the URL alone, and Enter on Open navigates. | fixed `420d828` |
+| P10 | Moderate | 2.5.3 Label in Name (A) | Spike log, 415 "Replay this night" links | `aria-label="Replay Dec 30, 2025, …"` did not contain the visible words, so saying "click Replay this night" in voice control matched nothing. This was Lighthouse's only failure (`label-content-name-mismatch`). | The label now starts with the visible text: "Replay this night: Dec 30, 2025, …". | fixed `4407f12` |
+| P11 | Moderate | 2.4.2 Page Titled (A) | Replay, embed, facilities list, brief, landing after Back | Five views shared the title "Plume Witness". | Each view now has its own title (the night's title for the replay and embed). | fixed `a2dfd03` |
+| P12 | Minor | 1.4.11 Non-text Contrast (forced colors) | Spike calendar legend | With `forced-colors: active` the 4 swatches turned black, but the SVG strips kept their colors. | `forced-color-adjust: none` on the swatches. | fixed `be4cc1d` |
+| P13 | Minor | 1.4.11 (forced colors) | Detect chart key, including the new report-window swatch | Same pattern as P12. | Same fix. The ▲ arrival glyph stays system text so it can still be read on a dark canvas. | fixed `94cc67d` |
+| P14 | Minor | 1.3.1 / axe `region` | `?embed=1` | No `main` landmark. | The root is now `<main>`. | fixed `50c11bd` |
+| P15 | Minor | 2.5.5 (project 44 px bar; 2.5.8 AA already met by spacing) | Spike log, facility pages, brief, embed, footer, replay header | Measured at 375 px with touch: sort buttons 32, region links 34, Follow 21, brief link 19, status summary 33, Replay links 17, TCEQ report links 19, facility list links 23, footer links 30, brief nav 21, embed link 35, "Past spikes" 17, Trace facility names 23. | On coarse pointers each target gets a 44 px hit area. In the fixed replay header and footer this is padding with a negative margin plus `position: relative`, so layout height is unchanged. Effective hit area checked with `elementFromPoint`: 44–45 px. Links inside sentences keep the inline exception. | fixed `7aa4034` |
+| P16 | Minor | robustness | Facility page, matched-night line | A matched report without a usable URL was rendered as `href="#"`. No such report exists in tonight's data. | It is now plain text. | fixed `d53201e` |
+| O1 | Moderate | broken link (data) | Spike log row 2025-10-28, benzene at Galena Park (`2025-10-28_45201_48_201_0057`) | 1 of the 415 Houston rows has no `nights/<id>.json`. Locally and live (HTTP 404), "Replay this night" shows "Could not load nights/…json (HTTP 404)". | Generate that night file in the pipeline, or have `pipeline/spikes.py` drop the replay link when the file is missing. This is a data fix, not a web-code fix, so it is not changed here. | open |
+| O2 | Minor | 2.5.5 (project bar) | `?view=timeline` (other lane) | Back link 37 px, date slider 28 px tall at 375 px with touch. | Same coarse-pointer pattern as P15. | open (out of lane) |
+| O3 | Minor | 2.1.1 (no loss) | Spike calendar `.sl-cal-scroll` | At 375 px it scrolls sideways but is `aria-hidden` and has no tab stop, so keyboard users cannot scroll it. Every value is in the table below it. | Leave it, or make it a focusable, labelled region. | open |
+| O4 | Minor | pass 1 #17 | Map labels at 375 px | Labels still overlap in the dense part of the corridor (seen on the 2024-01-07 night). | As in pass 1. | open |
+
+Pass-1 items fixed by other branches since then and confirmed here: #2 (the deck canvas has `tabIndex = -1`), #13 (the map title is "Interactive map: arrow keys pan, plus and minus zoom"), #14 (skip link), #16 (the outside-corridor dot is `rgb(120,120,130)`), #18 (fit padding is clamped).
+
+### Checked and passing
+
+- **Contrast**, computed from the CSS:
+  - Landing purpose text `#395960` on the darkest gradient stop `#b4d9cb`: 4.95. On the mid stop: 6.27.
+  - Landing h1 `#214349`: 6.99. Enter button text: 8.28 (6.62 on hover).
+  - Pause button ink: 6.99 or more. Focus ring `#995241` on the gradient: 4.78.
+  - Links `#0b57d0` on white: 6.39. On `--bg-2`: 5.81. Footer text: 8.78. `--ink-3` 6.31.
+  - Calendar marks against the strip: reported 4.87, not yet reported 4.44, search incomplete 3.11 (3:1 needed).
+  - The script found no text below 4.5:1 (3:1 for large text) on any of the 12 views.
+- **Keyboard:** every tab stop on the 10 views was focused with `focusVisible`: all of them on short pages, the first 60 on the spike log and facility list. All showed a ring, none was covered (after P2), and there were no traps. The landing link, globe toggle, night picker, embed step buttons, rose radio group, place search and print button all work from the keyboard.
+- **Headings and landmarks:** one `h1` on every view at every size, with no levels skipped. Each view has a `main`.
+- **Reduced motion:** the globe stays still and the pause button is hidden. The landing fade is 1 ms. The rose has no animation, and transitions are 0.01 ms.
+- **Reflow:** 13 views at 375x812, 1280x800, 640x400 and 320x256 show no horizontal scroll (after P8), no page errors and one `h1` each. Wide tables scroll inside their own focusable region.
+- **Live regions:** spike log row count (polite), facility search count (`status`), embed step line (polite), place search result (`status`, atomic), and read-aloud and copy notices (polite).
+- **Lighthouse accessibility (mobile):** 100 on landing, spikes (after P10), facilities, facility page, brief, embed and the Beaumont night.
+- **Console:** no errors on any view. The only messages are luma.gl debug lines and one WebGL `texSubImage2D` warning from the map.
+- **Links:** every internal link backed by a data file was crawled:
+  - 415 + 2 spike rows, 414 + 2 picker nights, 191 facility pages, 4 matched nights, the facility links on every night's Trace, and the RSS feeds. Everything resolves except O1, and P4 before its fix.
+  - The 20 sampled external links (GitHub docs, EPA ECHO, TCEQ, Cornell LII) and the live-site data files return 200.
+- **Checks:** `oxlint`, both builds, `npm test` (57/57), `ruff check`, `pytest` (202 passed). One `npm test` run right after `npm ci` reported 1 failure, but 4 reruns passed, so I could not identify the failing test.
+
+### Could not test
+
+The same limits as pass 1. There was no real screen reader (VoiceOver, NVDA or TalkBack), no real phone (Safari's `dvh` and toolbar behavior in the new scrolling layout is untested), no Windows High Contrast (only emulated) and no voice control. I did not print the brief on paper. The print CSS is unchanged.
+
+## Pass 1: replay steps
+
 - **Scope:** `web/` replay of the real event in `web/public/event.json` (2024-06-21 benzene, Houston Ship Channel): Detect, Trace, Check, Packet, the "What this can't say" panel, approve + file dialog, EN/ES toggle, read aloud.
 - **Standard:** WCAG 2.2 AA. Touch targets held to 44 x 44 CSS px on mobile, which is stricter than the AA minimum (2.5.8 asks for 24 px; 44 px is AAA 2.5.5).
 - **Date:** 2026-11-14. Audited at `01e6a75`. The fixes were rebased onto `aac7e09` (lazy-loaded map, Gemini drafter) and checked again there: Lighthouse 100/100, reflow at 320x256, Trace tab stops.

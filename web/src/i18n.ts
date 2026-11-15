@@ -51,6 +51,7 @@ const EN = {
 
   // Night picker
   'night.label': 'Replay another night',
+  'night.open': 'Open',
   'night.demo': 'Demo night',
   'night.demoHouston': 'Demo night (Houston)',
 
@@ -62,6 +63,8 @@ const EN = {
 
   // Landing page
   'landing.title': 'Trace air pollution',
+  'landing.pause': 'Pause the globe',
+  'landing.spin': 'Spin the globe',
   'landing.purpose': 'Follow pollution spikes upwind and check them against public emissions reports to see what matches.',
   'landing.enter': 'Enter the replay',
   'landing.also': 'Or watch two years of spikes',
@@ -137,7 +140,7 @@ const EN = {
   'spikes.hReplay': 'Replay',
   'spikes.tceqReport': 'TCEQ report {id}',
   'spikes.replayLink': 'Replay this night',
-  'spikes.replayAria': 'Replay {date}, {compound} at {site}',
+  'spikes.replayAria': 'Replay this night: {date}, {compound} at {site}',
   'spikes.empty': 'No spikes match these filters.',
   'spikes.srcBacktest': 'backtest',
   'spikes.srcScan': 'spike scan (this region has no backtest)',
@@ -329,6 +332,7 @@ const ES: Record<StringKey, string> = {
   'app.backDemo': 'Volver a la noche de demostración',
 
   'night.label': 'Ver otra noche',
+  'night.open': 'Abrir',
   'night.demo': 'Noche de demostración',
   'night.demoHouston': 'Noche de demostración (Houston)',
 
@@ -338,6 +342,8 @@ const ES: Record<StringKey, string> = {
   'foot.install': 'Instalar la app',
 
   'landing.title': 'Rastree la contaminación del aire',
+  'landing.pause': 'Pausar el globo',
+  'landing.spin': 'Girar el globo',
   'landing.purpose': 'Siga los picos de contaminación viento arriba y compárelos con los reportes públicos de emisiones para ver qué coincide.',
   'landing.enter': 'Entrar a la repetición',
   'landing.also': 'O vea dos años de picos',
@@ -410,7 +416,7 @@ const ES: Record<StringKey, string> = {
   'spikes.hReplay': 'Repetición',
   'spikes.tceqReport': 'Reporte de TCEQ {id}',
   'spikes.replayLink': 'Ver esta noche',
-  'spikes.replayAria': 'Ver {date}, {compound} en {site}',
+  'spikes.replayAria': 'Ver esta noche: {date}, {compound} en {site}',
   'spikes.empty': 'Ningún pico coincide con estos filtros.',
   'spikes.srcBacktest': 'prueba retrospectiva',
   'spikes.srcScan': 'escaneo de picos (esta región no tiene prueba retrospectiva)',

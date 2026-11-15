@@ -173,7 +173,14 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
   const narrowed = new Set(ev.triangulation?.verdict === 'narrows' ? ev.triangulation.intersection_ids : [])
   // One tab stop for the whole list (roving tabindex): 40 facilities were 40 Tab presses before "Next".
   const [current, setCurrent] = useState(0)
-  const items = useRef<(HTMLLIElement | null)[]>([])
+  const items = useRef<(HTMLElement | null)[]>([])
+  // Facility history pages exist for the Houston list only; a link from another region's night would 404.
+  const linked = !ev.region
+  // The roving stop is the link when there is one, so each facility is one Tab stop, not two.
+  const roving = (i: number) => ({
+    tabIndex: i === Math.min(current, corridor.length - 1) ? 0 : -1,
+    ref: (el: HTMLElement | null) => { items.current[i] = el },
+  })
   const onListKey = (e: KeyboardEvent<HTMLOListElement>) => {
     const last = corridor.length - 1
     const moves: Record<string, number> = { ArrowDown: current + 1, ArrowUp: current - 1, Home: 0, End: last }
@@ -201,14 +208,15 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
             <li
               key={`${f.id}-${f.rank}`}
               className={f.id === matched ? 'is-matched' : undefined}
-              ref={(el) => { items.current[i] = el }}
-              tabIndex={i === Math.min(current, corridor.length - 1) ? 0 : -1}
+              {...(linked ? {} : roving(i))}
               onMouseEnter={() => onHighlight(f.id)}
               onMouseLeave={() => onHighlight(null)}
               onFocus={() => { setCurrent(i); onHighlight(f.id) }}
               onBlur={() => onHighlight(null)}
             >
-              <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)}>{f.name}</a>
+              {linked
+                ? <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)} {...roving(i)}>{f.name}</a>
+                : <span className="fl-name">{f.name}</span>}
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
               {narrowed.has(f.id) && <span className="tri-tag">In every monitor's wedge</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>

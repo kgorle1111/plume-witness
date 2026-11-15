@@ -181,7 +181,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         </p>
         <Follow siteId={filters.site || undefined} />
         <p><T k="spikes.watch" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('spikes.watchLink')}</a> }} /></p>
-        <p><T k="spikes.brief" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=brief`}>{t('spikes.briefLink')}</a> }} /></p>
+        <p className="sl-brief-link"><T k="spikes.brief" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=brief`}>{t('spikes.briefLink')}</a> }} /></p>
       </header>
 
       <section className="sl-explain" aria-label={t('spikes.explain')}>
@@ -262,7 +262,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                     {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
                   </td>
                   <td>
-                    <a className="nowrap" href={nightHref(region, r.night_id)} aria-label={t('spikes.replayAria', { date: dateLabel(r.date, lang), compound: r.compound, site: r.site })}>{t('spikes.replayLink')}</a>
+                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={t('spikes.replayAria', { date: dateLabel(r.date, lang), compound: r.compound, site: r.site })}>{t('spikes.replayLink')}</a>
                   </td>
                 </tr>
               )

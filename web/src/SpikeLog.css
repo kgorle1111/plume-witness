@@ -115,6 +115,16 @@
 .sl-empty { padding: 16px 12px; color: var(--ink-2); }
 .sl-foot { font-size: 0.8rem; color: var(--ink-2); }
 
+/* Touch: every control and stand-alone link gets a 44px-tall hit area (project bar; WCAG 2.5.5).
+   Links inside sentences keep the inline exception. */
+@media (pointer: coarse) {
+  .sl-back, .sl-region a, .follow-links a, .sl-brief-link a, .sl-report, .sl-replay {
+    display: inline-flex; align-items: center; min-height: 44px; padding-block: 0;
+  }
+  .sl-sort { min-height: 44px; }
+  .sl-statuses summary { padding-block: 12px; }
+}
+
 @media (min-width: 1024px) {
   .sl-page { padding-top: 20px; }
   .sl-head h1 { font-size: 1.9rem; }
@@ -134,6 +144,8 @@
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 12px; border-radius: 2px; }
+/* Forced colors drop the swatch backgrounds but keep the SVG fills, so the legend no longer matched the strips. */
+@media (forced-colors: active) { .sl-cal-swatch { forced-color-adjust: none; } }
 
 .follow { margin-top: 4px; }
 .follow-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.9rem; }

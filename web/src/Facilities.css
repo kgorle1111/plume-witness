@@ -25,3 +25,9 @@
 .fx-search input { min-height: 44px; padding: 0 12px; border: 1px solid var(--ink-3); border-radius: 8px; width: 100%; }
 .fx-page .small { font-size: 0.88rem; }
 
+/* Touch: 44px-tall hit areas for stand-alone links (project bar; WCAG 2.5.5). Links inside sentences keep the inline exception. */
+@media (pointer: coarse) {
+  .fx-back, .fx-rows .fx-card > a, .fx-card-head a, .fx-night-link a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+  .fx-rows .fx-card > a { justify-self: start; }
+}
+

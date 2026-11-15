@@ -111,9 +111,9 @@ function prepareGlobe(canvas: HTMLCanvasElement) {
   }
 }
 
-function spinGlobe(canvas: HTMLCanvasElement) {
+function spinGlobe(canvas: HTMLCanvasElement, isPaused: () => boolean) {
   const draw = prepareGlobe(canvas)
-  if (!draw) return
+  if (!draw) return null
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   let angle = -63
   let frameId = 0
@@ -131,23 +131,35 @@ function spinGlobe(canvas: HTMLCanvasElement) {
   const syncMotion = () => {
     cancelAnimationFrame(frameId)
     last = 0
-    if (!reducedMotion.matches) frameId = requestAnimationFrame(frame)
+    if (!reducedMotion.matches && !isPaused()) frameId = requestAnimationFrame(frame)
   }
 
   draw(angle)
   syncMotion()
   reducedMotion.addEventListener('change', syncMotion)
-  return () => {
-    cancelAnimationFrame(frameId)
-    reducedMotion.removeEventListener('change', syncMotion)
+  return {
+    sync: syncMotion,
+    stop: () => {
+      cancelAnimationFrame(frameId)
+      reducedMotion.removeEventListener('change', syncMotion)
+    },
   }
 }
 
-export default function AtlasGlobe() {
+/** `paused` is the landing page's pause control (WCAG 2.2.2): the spin runs for as long as the page is open. */
+export default function AtlasGlobe({ paused }: { paused: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
+  const pausedRef = useRef(paused)
+  const spin = useRef<ReturnType<typeof spinGlobe>>(null)
   useEffect(() => {
     const element = canvas.current
-    if (element) return spinGlobe(element)
+    if (!element) return
+    spin.current = spinGlobe(element, () => pausedRef.current)
+    return () => { spin.current?.stop(); spin.current = null }
   }, [])
+  useEffect(() => {
+    pausedRef.current = paused
+    spin.current?.sync()
+  }, [paused])
   return <canvas ref={canvas} width={504} height={504} />
 }

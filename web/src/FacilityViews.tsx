@@ -5,6 +5,7 @@ import {
   type FacilityFile, type FacilityIndex,
 } from './facilities'
 import { hourLabel, safeHttpUrl } from './format'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import { LangSwitch, T } from './LangSwitch'
 import { useT, type Translate } from './useT'
 import './Facilities.css'
@@ -45,7 +46,7 @@ function Shell({ kicker, title, children }: { kicker: string; title: string; chi
   return (
     <div className="fx-shell">
       <main className="fx-page">
-        <a className="fx-back" href={BASE}>{t('common.backReplayPlain')}</a>
+        <a className="fx-back" href={DEMO_REPLAY_HREF}>{t('common.backReplayPlain')}</a>
         <LangSwitch />
         <header className="fx-head">
           <p className="fx-kicker">{kicker}</p>
@@ -108,6 +109,12 @@ function TriTable({ f }: { f: FacilityFile }) {
   )
 }
 
+/** The matched report's state record, or plain text when the file has no usable URL (a "#" link went nowhere). */
+function IncidentLink({ f, incident }: { f: FacilityFile; incident: string }) {
+  const url = safeHttpUrl(f.reports_to_state.reports.find((r) => r.incident === incident)?.url)
+  return url ? <a href={url} rel="noopener" target="_blank">{incident}</a> : <>{incident}</>
+}
+
 function FacilityPage({ id }: { id: string }) {
   const t = useT()
   const { data: f, error } = useJson(`facilities/${id}.json`, (raw) => parseFacility(raw, id))
@@ -144,8 +151,8 @@ function FacilityPage({ id }: { id: string }) {
             <ul className="fx-list">
               {f.matched_nights.map((m) => (
                 <li key={m.night_id} className="fx-card">
-                  <p><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{t('fx.nightLink', { date: m.date })}</a></p>
-                  <p className="small"><T k="fx.nightBody" v={{ compound: m.compound, monitor: m.monitor, hour: hourLabel(m.hour_cst), value: m.value_ppb, km: m.distance_km, link: <a href={safeHttpUrl(f.reports_to_state.reports.find((r) => r.incident === m.incident)?.url) ?? '#'} rel="noopener" target="_blank">{m.incident}</a> }} /></p>
+                  <p className="fx-night-link"><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{t('fx.nightLink', { date: m.date })}</a></p>
+                  <p className="small"><T k="fx.nightBody" v={{ compound: m.compound, monitor: m.monitor, hour: hourLabel(m.hour_cst), value: m.value_ppb, km: m.distance_km, link: <IncidentLink f={f} incident={m.incident} /> }} /></p>
                 </li>
               ))}
             </ul>
@@ -166,6 +173,7 @@ function FacilityList() {
   const { data, error } = useJson<FacilityIndex>('facilities/index.json', parseIndex)
   const [q, setQ] = useState(() => new URLSearchParams(window.location.search).get('q') ?? '')
   const rows = useMemo(() => (data ? searchFacilities(data.facilities, q) : []), [data, q])
+  useEffect(() => { document.title = 'Facilities · Plume Witness' }, [])
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
     if (q) p.set('q', q)

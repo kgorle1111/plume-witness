@@ -61,6 +61,11 @@ a { color: var(--accent); }
 /* One-line footer on every page (SiteFooter.tsx). */
 .site-foot { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 16px; border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.78rem; color: var(--ink-2); }
 .site-foot a { padding-block: 6px; }
+/* Touch: a 44px-tall hit area; the negative margin keeps the footer as short as before in the replay shell,
+   and position: relative paints the padding above its neighbours so the whole area takes the tap. */
+@media (pointer: coarse) {
+  .site-foot a { position: relative; padding-block: 13px; margin-block: -7px; }
+}
 /* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links. */
 @media (max-width: 1023px) {
   .app .site-foot { padding: 0 16px; flex-wrap: nowrap; }

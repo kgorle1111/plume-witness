@@ -129,6 +129,8 @@
 /* Forced colors repaint the CSS legend but not the map canvas; keep the swatches matching the canvas. */
 @media (forced-colors: active) {
   .lg { forced-color-adjust: none; }
+  /* Same for the hourly chart key: the SVG keeps its fills, so the key swatches must too (the ▲ glyph stays system text). */
+  .spark .key { forced-color-adjust: none; }
   .step-tab[aria-selected='true'] .step-num { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
 }
 
@@ -139,19 +141,24 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* The sticky stepper (~60px) hid controls that Shift+Tab scrolled to (WCAG 2.4.11): keep focus below it. */
+  scroll-padding-top: 72px;
   background: var(--bg);
   scrollbar-width: thin;
   scrollbar-color: #b9b9c2 transparent;
 }
 
-/* Short and narrow (phone landscape, 400% zoom): the fixed shell left the step panel 0-80px tall,
-   so the page scrolls as one column instead and the map gives up height (WCAG 1.4.10). */
-@media (max-width: 1023px) and (max-height: 540px) {
+/* Narrow and not tablet-tall (phones in either orientation, 400% zoom): the fixed shell left the step panel
+   0-80px tall (at 375x812 the night picker, Embed button and hour scrubber leave 68px of steps; a region
+   night, -11px), so the page scrolls as one column instead and the map gives up height (WCAG 1.4.10). */
+@media (max-width: 1023px) and (max-height: 1000px) {
   .app { height: auto; min-height: 100dvh; }
   .layout { flex: none; }
   /* Keep the 240px floor: EventMap's fitBounds padding (legend + 76px) throws on a shorter map. */
   .map-wrap, .stage .map-wrap { height: 60vh; height: 60dvh; }
   .panel { flex: none; overflow: visible; }
+  /* Here the document scrolls and the stepper sticks to the viewport instead. */
+  html { scroll-padding-top: 72px; }
 }
 
 .stepper {
@@ -289,6 +296,12 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .hourly-table { margin-top: 6px; font-size: 0.85rem; }
 .hourly-table summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
 .record-link { display: inline-flex; align-items: center; min-height: 44px; }
+/* Touch: 44px-tall hit areas without growing the replay header or the hour scrubber (project bar; WCAG 2.5.5). */
+@media (pointer: coarse) {
+  /* position: relative lifts the padding above the next line, which would otherwise take the tap. */
+  .spikes-link, .fl-name { position: relative; display: inline-block; padding-block: 14px; margin-block: -14px; }
+  .tl-all summary { padding-block: 13px; }
+}
 .hourly-table table { border-collapse: collapse; width: 100%; max-width: 320px; }
 .hourly-table th, .hourly-table td { text-align: left; padding: 2px 8px 2px 0; border-bottom: 1px solid var(--line); }
 
@@ -568,7 +581,9 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .ps-label { font-size: 0.9rem; }
 .ps-row { display: flex; gap: 8px; }
 .ps-input {
+  /* width 0: an input's default ~200px intrinsic width set the Trace panel's minimum and scrolled the page sideways at 320px (WCAG 1.4.10). */
   flex: 1 1 auto;
+  width: 0;
   min-width: 0;
   min-height: 44px;
   padding: 0 12px;
@@ -624,4 +639,6 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 
 /* A <select> sizes to its longest option; width:100% + min-width:0 keeps long night labels from widening the page. */
 .night-picker { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem; font-size: 0.85rem; min-width: 0; }
-.night-picker select { width: 100%; max-width: 32rem; min-width: 0; min-height: 44px; font: inherit; text-overflow: ellipsis; }
+.night-picker select { flex: 1 1 auto; width: 100%; max-width: 32rem; min-width: 0; min-height: 44px; font: inherit; text-overflow: ellipsis; }
+.night-picker-row { display: flex; gap: 8px; min-width: 0; }
+.night-picker-row .btn { flex: none; }
