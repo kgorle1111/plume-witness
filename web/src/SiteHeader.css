@@ -41,11 +41,9 @@
    replay (.top) keeps 12/12.8px: its nav shares a column with the night picker and already wraps at 1024-1100px. */
 .site-head:not(.top) .brand-row { font-size: clamp(0.75rem, 0.25rem + 0.78125vw, 0.875rem); }
 .site-head:not(.top) .site-nav { font-size: clamp(0.8rem, 1.25vw, 1rem); }
-/* The switch stays right-aligned on the first row; the Spanish review note takes a row of its own under the header
-   instead of pushing the switch onto a second row, aligned to nothing. */
+/* The switch stays right-aligned on the first row. */
 .site-head:not(.top) > .lang-switch { display: contents; }
 .site-head:not(.top) > .lang-switch > .seg { margin-left: auto; }
-.site-head:not(.top) > .lang-switch > .es-note { flex: 0 0 100%; margin-top: -6px; }
 /* The replay below 1024px: the switch now follows the brand row in the DOM (and on screen); clear the nav's hit area. */
 @media (max-width: 1023px) {
   .site-head.top > .lang-switch { margin-top: 10px; }

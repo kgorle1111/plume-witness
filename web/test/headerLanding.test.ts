@@ -24,18 +24,13 @@ const langSwitch = async (props: Record<string, unknown> = {}) => {
 }
 
 
-test('the Spanish review note folds behind a button that controls it; English has neither', async () => {
-  await setLang('es')
-  const es = await langSwitch()
-  const btn = /<button type="button" class="es-note-toggle" aria-expanded="false" aria-controls="([^"]+)"/.exec(es)
-  assert.ok(btn, 'no fold button in Spanish')
-  assert.match(es, new RegExp(`<p class="[^"]*es-note es-note-folded" id="${btn[1]}"`), 'the button must control the folded note')
-  assert.ok(es.indexOf('es-note-toggle') < es.indexOf('role="group"'), 'the button comes before the switch, as on screen')
-  assert.match(es, /Traducción sin revisar/)
-  // The replay passes note={false}: its panel shows the note, so the header has no button either.
-  assert.ok(!(await langSwitch({ note: false })).includes('es-note'))
-  await setLang('en')
-  assert.ok(!(await langSwitch()).includes('es-note'))
+test('the language switch carries no translation-status note in either language', async () => {
+  for (const l of ['es', 'en'] as const) {
+    await setLang(l)
+    const html = await langSwitch()
+    assert.ok(!html.includes('es-note'), `${l}: a review note is back in the switch`)
+    assert.ok(!/revis/i.test(html), `${l}: the switch mentions review`)
+  }
 })
 
 test('the landing has a skip link to its title, ahead of the brand link (A11Y-20)', async () => {
