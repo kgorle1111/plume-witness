@@ -17,6 +17,14 @@ test('every view keeps its own page', () => {
   assert.equal(page('?view=timeline&at=2024-06-15'), 'timeline')
   assert.equal(page('?view=facilities'), 'facilities')
   assert.equal(page('?view=facility&id=110000462623'), 'facility')
+  assert.equal(page('?view=coverage'), 'coverage')
+  assert.equal(page('?view=coverage&region=beaumont'), 'coverage')
+  assert.equal(strayViewSearch({ search: '?view=coverage', hash: '' }), null)
+})
+
+test('Coverage is in the header nav, between Timeline and Facilities', () => {
+  assert.deepEqual([...NAV_ITEMS], ['spikes', 'timeline', 'coverage', 'facilities', 'brief'])
+  assert.equal(navHref('/plume-witness/', 'coverage', ''), '/plume-witness/?view=coverage')
 })
 
 test('replay links never land on the landing page', () => {
