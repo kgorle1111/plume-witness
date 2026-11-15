@@ -51,7 +51,7 @@ const reasonText = (r: SpikeRow, lang: Lang): string => {
 const cellText = (c: Cell, lang: Lang) =>
   c.rows.map((r) => {
     const why = reasonText(r, lang)
-    return `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}${why ? ` (${why})` : ''}`
+    return `${compoundLabel(lang, r.compound)} ${r.value_ppb} ppb, ${hourLabel(r.hour_cst)}: ${statusLabel(r.status, lang)}${why ? ` – ${why}` : ''}`
   }).join('; ')
 
 /** Centre of a day as a percentage of its year strip. */

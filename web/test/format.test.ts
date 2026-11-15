@@ -9,8 +9,10 @@ test('ppb-v reads as ppb; other units are left as given', () => {
 })
 
 test('the first mention spells ppb out in both languages', () => {
-  assert.equal(unitFirst('ppb-v'), 'parts per billion (ppb)')
-  assert.equal(unitFirst('ppb-v', 'es'), 'partes por mil millones (ppb)')
+  // ppb-v data says "by volume" in the text itself: a touch screen cannot open the tooltip (S58).
+  assert.equal(unitFirst('ppb-v'), 'parts per billion by volume (ppb)')
+  assert.equal(unitFirst('ppb-v', 'es'), 'partes por mil millones en volumen (ppb)')
+  assert.equal(unitFirst('ppb'), 'parts per billion (ppb)')
   assert.equal(unitFirst('pounds'), 'pounds')
 })
 
