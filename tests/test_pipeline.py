@@ -221,3 +221,25 @@ def test_banned_words_rejected_in_cannot_say():
     assert any("illegal" in e for e in validate(ev))
     ev["cannot_say"] = ["This reading proves nothing about the plant."]
     assert any("proves" in e for e in validate(ev))
+
+
+def test_ineos_page_revision_is_parsed_with_its_date():
+    from pipeline.parse import steers_incident
+    inc = steers_incident(ROOT / "data" / "raw" / "steers_425347.html")
+    assert inc["revisions"] == [{"date": "2024-12-11", "text": (
+        "The Basis Used to Determine Quantities field states 24,476 lbs. of vapor emissions and that should also be "
+        "7,634 pounds.")}]
+    assert len(inc["revisions"][0]["text"]) <= 120
+
+
+def test_revision_parser_skips_unquoted_updates_and_bad_dates():
+    from pipeline.parse import steers_revisions
+    assert steers_revisions("UPDATE (5/30/2024): the flare returned to normal. Basis Used to Determine Quantities") == []
+    assert steers_revisions('UPDATE VIA EMAIL ON 13/45/2024: "x" Initial') == []
+    assert steers_revisions('A UPDATE VIA EMAIL ON 01/02/2025: "one" and UPDATE VIA EMAIL ON 01/09/2025: “two” Next') == [
+        {"date": "2025-01-02", "text": "one"}, {"date": "2025-01-09", "text": "two"}]
+
+
+def test_revision_reaches_the_event_only_when_the_page_has_one():
+    ev = json.loads((ROOT / "web" / "public" / "event.json").read_text())
+    assert ev["record_check"]["reported"]["revisions"][0]["date"] == "2024-12-11"

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { PlumeEvent } from './types'
 import { kmText, placeReadout, type LatLon } from './geo'
+import { Follow } from './Follow'
 
 export interface Place extends LatLon {
   label: string
@@ -145,7 +146,7 @@ export function PlaceSearch({ ev, place, onPlace }: Props) {
             <div className="ps-readout">
               <p className="ps-place"><PinIcon /><strong>{place.label}</strong></p>
               <dl className="facts">
-                <div><dt>Nearest monitor in this replay</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}</dd></div>
+                <div><dt>Nearest monitor in this replay</dt><dd>{r.monitor.name}, {kmText(r.monitor.km)}<Follow siteId={r.monitor.site_id} /></dd></div>
                 <div>
                   <dt>Upwind corridor</dt>
                   <dd>

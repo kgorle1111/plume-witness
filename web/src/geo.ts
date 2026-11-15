@@ -59,7 +59,7 @@ export type PlaceReadout =
   | { kind: 'far'; nearestMonitorKm: number | null }
   | {
       kind: 'near'
-      monitor: { name: string; km: number }
+      monitor: { name: string; km: number; site_id: string }
       facility: { name: string; km: number; lat: number; lon: number } | null
       /** 'none' when the file has no corridor (or its origin monitor is missing). */
       corridor: 'inside' | 'outside' | 'none'
@@ -81,7 +81,7 @@ export function placeReadout(ev: EventLike, p: LatLon): PlaceReadout {
   const origin = c && ev.monitors.find((x) => x.site_id === c.origin_site_id)
   return {
     kind: 'near',
-    monitor: { name: m.item.name, km: m.km },
+    monitor: { name: m.item.name, km: m.km, site_id: m.item.site_id },
     facility: f ? { name: f.item.name, km: f.km, lat: f.item.lat, lon: f.item.lon } : null,
     corridor: c && origin ? (inCorridor(p, origin, c) ? 'inside' : 'outside') : 'none',
     monitorAt: { lat: m.item.lat, lon: m.item.lon },
