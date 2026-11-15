@@ -5,6 +5,9 @@ import { Timeline } from './Timeline'
 import { Check, Detect, Packet, Trace } from './Steps'
 import { initialPacketReview, useAiDraft, type Lang, type PacketReview } from './packet'
 import { cannotSayEs } from './format'
+import { LangSwitch, ReviewNote } from './LangSwitch'
+import { useLang, useT } from './useT'
+import { setLang as setSiteLang, type StringKey } from './i18n'
 import type { Place } from './PlaceSearch'
 import { DEMO_REPLAY_HREF } from './demoHref'
 import { SiteFooter } from './SiteFooter'
@@ -14,11 +17,11 @@ import { REGIONS, regionFrom, regionQuery } from './region'
 import './App.css'
 
 const STEPS = [
-  { id: 'detect', label: 'Detect', title: 'Detect: what the monitor saw' },
-  { id: 'trace', label: 'Trace', title: 'Trace: in the upwind corridor' },
-  { id: 'check', label: 'Check', title: 'Check: the state record' },
-  { id: 'packet', label: 'Packet', title: 'Packet: review and file' },
-] as const
+  { id: 'detect', label: 'step.detect', title: 'step.detect.title' },
+  { id: 'trace', label: 'step.trace', title: 'step.trace.title' },
+  { id: 'check', label: 'step.check', title: 'step.check.title' },
+  { id: 'packet', label: 'step.packet', title: 'step.packet.title' },
+] as const satisfies readonly { id: string; label: StringKey; title: StringKey }[]
 type StepId = (typeof STEPS)[number]['id']
 
 // The hash doubles as a deep link (QR code on the table can open a specific step).
@@ -46,9 +49,10 @@ function BrandMark() {
 }
 
 function CannotSay({ items, lang }: { items: string[]; lang: Lang }) {
+  const t = useT()
   return (
     <details className="cannot-say">
-      <summary lang={lang}>{lang === 'es' ? 'Lo que esto no puede decir' : "What this can't say"} ({items.length})</summary>
+      <summary lang={lang}>{t('cannot.title')} ({items.length})</summary>
       <ul>
         {items.map((t) => {
           // Lines without a Spanish match stay in English and say so through lang.
@@ -69,17 +73,23 @@ interface StepperProps {
 }
 
 function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
+  const t = useT()
+  const siteLang = useLang()
   const [active, setActive] = useState(stepFromHash)
   // Keep the review when Packet unmounts so a reviewer can check the record and return (from PR #21).
   const [packetReview, setPacketReview] = useState<PacketReview>(() => initialPacketReview(ev))
   const ai = useAiDraft()
   const [langNotice, setLangNotice] = useState('')
-  // Approval covers one language's exact text, so switching here clears it, as the Packet switch does.
-  const setLang = (l: Lang) => {
-    if (l === packetReview.lang) return
-    setLangNotice(packetReview.approved ? `Switched to ${l === 'es' ? 'Spanish' : 'English'}. Approve that draft before filing.` : '')
-    setPacketReview((r) => ({ ...r, lang: l, approved: false }))
-  }
+  // One language for the whole site: every switch sets the site language, and this follows it. Approval covers
+  // one language's exact text, so a changed language clears it (the Packet switch does the same).
+  const setLang = (l: Lang) => setSiteLang(l)
+  useEffect(() => {
+    if (packetReview.lang === siteLang) return
+    if (packetReview.approved) setLangNotice(t('lang.switched', { lang: t(siteLang === 'es' ? 'lang.nameEs' : 'lang.nameEn') }))
+    setPacketReview((r) => ({ ...r, lang: siteLang, approved: false }))
+    // Runs when the site language changes; the packet state it compares is read fresh on that render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteLang])
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
 
@@ -111,7 +121,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   const step: StepId = STEPS[active].id
   return (
     <>
-      <div className="stepper" role="tablist" aria-label="Steps" onKeyDown={onKey}>
+      <div className="stepper" role="tablist" aria-label={t('nav.steps')} onKeyDown={onKey}>
         {STEPS.map((s, i) => (
           <button
             key={s.id}
@@ -126,7 +136,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
             onClick={() => go(i)}
           >
             <span className="step-num" aria-hidden="true">{i + 1}</span>
-            <span>{s.label}</span>
+            <span>{t(s.label)}</span>
           </button>
         ))}
       </div>
@@ -134,25 +144,23 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       <div className="limits-bar">
         <CannotSay items={ev.cannot_say} lang={packetReview.lang} />
         {/* Same state as the Packet language switch: one language choice for the draft, statuses and limits. */}
-        <div className="seg seg-compact" role="group" aria-label="Language for statuses, limits and the draft">
+        <div className="seg seg-compact" role="group" aria-label={t('lang.stepperGroup')}>
           <button type="button" aria-pressed={packetReview.lang === 'en'} onClick={() => setLang('en')}>English</button>
           <button type="button" aria-pressed={packetReview.lang === 'es'} onClick={() => setLang('es')} lang="es">Español</button>
         </div>
       </div>
-      {packetReview.lang === 'es' && (
-        <p className="muted small es-note">Traducción aún no revisada por un lector de la comunidad. <span lang="en">(Spanish not yet reviewed by a community reader.)</span></p>
-      )}
+      {packetReview.lang === 'es' && <ReviewNote />}
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
       <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
-        <h2>{STEPS[active].title}</h2>
+        <h2>{t(STEPS[active].title)}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
         {step === 'check' && <Check ev={ev} lang={packetReview.lang} />}
         {step === 'packet' && <Packet ev={ev} ai={ai} review={packetReview} setReview={setPacketReview} />}
-        <nav className="step-nav" aria-label="Step navigation">
-          {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>Back: {STEPS[active - 1].label}</button>}
-          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>Next: {STEPS[active + 1].label}</button>}
+        <nav className="step-nav" aria-label={t('nav.stepNav')}>
+          {active > 0 && <button type="button" className="btn" onClick={() => go(active - 1, true)}>{t('nav.back', { step: t(STEPS[active - 1].label) })}</button>}
+          {active < STEPS.length - 1 && <button type="button" className="btn btn-primary" onClick={() => go(active + 1, true)}>{t('nav.next', { step: t(STEPS[active + 1].label) })}</button>}
         </nav>
       </section>
     </>
@@ -160,6 +168,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
 }
 
 function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
+  const t = useT()
   const { corridor } = useCorridor(ev)
   const [highlightId, setHighlightId] = useState<string | null>(null)
   // The replay opens on the detection hour so the spike is the first thing on screen.
@@ -178,7 +187,7 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
           document.getElementById('steps')?.focus()
         }}
       >
-        Skip to steps
+        {t('nav.skip')}
       </a>
       <header className="top">
         <p className="brand">
@@ -187,15 +196,16 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
           <span className="event-meta">
             <span className="meta-sep" aria-hidden="true">·</span> {ev.date_local} <span aria-hidden="true">·</span> {ev.compound.name}
           </span>
-          <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? 'Real public data' : 'Fixture'}</span>
-          <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>Past spikes</a>
+          <span className={ev.label === 'real' ? 'data-tag' : 'data-tag is-fixture'}>{ev.label === 'real' ? t('app.dataReal') : t('app.dataFixture')}</span>
+          <a className="spikes-link" href={regionQuery(ev.region?.key === 'beaumont' ? REGIONS.beaumont : REGIONS.houston, { view: 'spikes' })}>{t('common.pastSpikes')}</a>
         </p>
         <h1 className="event-title">{ev.title}</h1>
         {picker}
         <EmbedButton title={ev.title} />
+        <LangSwitch note={false} />
       </header>
       {ev.label === 'fixture' && (
-        <p className="fixture-banner" role="note"><strong>Fixture data, not a real event.</strong> Every value on this page is invented for building the app.</p>
+        <p className="fixture-banner" role="note"><strong>{t('app.fixtureLead')}</strong> {t('app.fixtureBody')}</p>
       )}
       {ev.region && !ev.region.backtested && (
         <p className="region-banner" role="note"><strong>{ev.region.label}. {ev.region.note}</strong></p>
@@ -203,12 +213,12 @@ function Replay({ ev, picker }: { ev: PlumeEvent; picker: ReactNode }) {
       <main className="layout">
         <div className="stage">
         <section className="map-wrap" aria-labelledby="map-label">
-          <h2 id="map-label" className="sr-only">Map of monitors and facilities. The same facilities are listed as text in the Trace step.</h2>
+          <h2 id="map-label" className="sr-only">{t('app.mapLabel')}</h2>
           <MapSlot ev={ev} corridor={corridor} highlightId={highlightId} hour={hour} place={place} />
         </section>
         <Timeline ev={ev} hour={hour} onHour={setHour} />
         </div>
-        <aside className="panel" id="steps" tabIndex={-1} aria-label="Event steps">
+        <aside className="panel" id="steps" tabIndex={-1} aria-label={t('nav.eventSteps')}>
           <Stepper ev={ev} hour={hour} onHighlight={setHighlightId} place={place} onPlace={setPlace} />
         </aside>
       </main>
@@ -225,6 +235,7 @@ const nightParam = (): string | null => new URLSearchParams(window.location.sear
 interface NightRow { id: string; date: string; site_name: string; compound: string; value: number; status: string }
 
 function NightPicker({ current }: { current: string | null }) {
+  const t = useT()
   const [rows, setRows] = useState<NightRow[]>([])
   const [choice, setChoice] = useState(current ?? '')
   const region = regionFrom(window.location.search)
@@ -246,19 +257,20 @@ function NightPicker({ current }: { current: string | null }) {
   // used to load a new night on the first key press (WCAG 3.2.2 On Input).
   return (
     <form className="night-picker" onSubmit={(e) => { e.preventDefault(); if (choice !== (current ?? '')) go(choice) }}>
-      <label htmlFor="night-select">Replay another night</label>
+      <label htmlFor="night-select">{t('night.label')}</label>
       <div className="night-picker-row">
         <select id="night-select" value={choice} onChange={(e) => setChoice(e.target.value)}>
-          <option value="">{region.backtested ? 'Demo night' : 'Demo night (Houston)'}</option>
+          <option value="">{region.backtested ? t('night.demo') : t('night.demoHouston')}</option>
           {rows.map((r) => <option key={r.id} value={r.id}>{r.date} · {r.compound} · {r.site_name} · {r.value} ppb</option>)}
         </select>
-        <button type="submit" className="btn">Open</button>
+        <button type="submit" className="btn">{t('night.open')}</button>
       </div>
     </form>
   )
 }
 
 export default function App() {
+  const t = useT()
   const [ev, setEv] = useState<PlumeEvent | null>(null)
   const [error, setError] = useState<string | null>(null)
   const night = nightParam()
@@ -282,9 +294,9 @@ export default function App() {
   // Every view shared "Plume Witness" as its title (WCAG 2.4.2); name the night being replayed.
   useEffect(() => { if (ev) document.title = `${ev.title} · Plume Witness` }, [ev])
 
-  const shown = invalid ? `"${night}" is not a night id.` : error
-  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={DEMO_REPLAY_HREF}>Back to the demo night</a></p></main>
-  if (!ev) return <main className="state-msg"><p>Loading event…</p></main>
+  const shown = invalid ? t('app.notNight', { night: night ?? '' }) : error
+  if (shown) return <main className="state-msg" role="alert"><h1>Plume Witness</h1><p>{shown}</p><p><a href={DEMO_REPLAY_HREF}>{t('app.backDemo')}</a></p></main>
+  if (!ev) return <main className="state-msg"><p>{t('app.loadingEvent')}</p></main>
   if (isEmbed(window.location.search)) return <EmbedReplay ev={ev} />
   return <Replay ev={ev} picker={<NightPicker current={night} />} />
 }

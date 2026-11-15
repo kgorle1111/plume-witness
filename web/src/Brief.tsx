@@ -3,6 +3,8 @@ import { Fragment, useEffect, type ReactNode } from 'react'
 import src from '../../docs/brief.md?raw'
 import { parseMarkdown, type Inline } from './md.ts'
 import { DEMO_REPLAY_HREF } from './demoHref'
+import { LangSwitch } from './LangSwitch'
+import { useLang, useT } from './useT'
 import './Brief.css'
 
 function inline(v: Inline[]): ReactNode {
@@ -21,17 +23,21 @@ const blocks = parseMarkdown(src)
 
 export default function Brief() {
   useEffect(() => { document.title = 'Method brief · Plume Witness' }, [])
+  const t = useT()
+  const lang = useLang()
   return (
     <main className="br-page">
-      <nav className="br-bar" aria-label="Brief actions">
-        <a href={DEMO_REPLAY_HREF}>← Back to the event replay</a>
-        <a href={`${import.meta.env.BASE_URL}?view=spikes`}>Past spikes log</a>
+      <nav className="br-bar" aria-label={t('brief.actions')}>
+        <a href={DEMO_REPLAY_HREF}>{t('common.backReplay')}</a>
+        <a href={`${import.meta.env.BASE_URL}?view=spikes`}>{t('brief.spikesLog')}</a>
+        <LangSwitch />
         <span className="br-print">
-          <button type="button" onClick={() => window.print()}>Print or save as PDF</button>
-          <small>Download as PDF: in the print dialog, choose “Save as PDF”.</small>
+          <button type="button" onClick={() => window.print()}>{t('brief.print')}</button>
+          <small>{t('brief.pdfHelp')}</small>
         </span>
       </nav>
-      <article className="br-doc">
+      {lang === 'es' && <p className="br-en-note" role="note">{t('brief.english')}</p>}
+      <article className="br-doc" lang="en">
         {blocks.map((b, k) => {
           switch (b.t) {
             case 'h1': return <h1 key={k}>{inline(b.v)}</h1>

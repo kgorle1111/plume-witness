@@ -1,20 +1,21 @@
 import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { STATUS_FILL, hourLabel, statusInfo } from './format'
-import { dateText, parseSpikes } from './spikes'
+import { parseSpikes } from './spikes'
 import {
-  MONTHS_TOTAL, SPEEDS, TOTAL_DAYS, clampDay, countAt, dayFromParam, fadeDaysFor, isoFromDay, monthLabel, monthOfDay,
+  MONTHS_TOTAL, SPEEDS, TOTAL_DAYS, clampDay, countAt, dayFromParam, fadeDaysFor, isoFromDay, monthOfDay,
   monthStartDay, monthSummary, prefixCounts, timeSpikes, visibleAt, type SpeedKey, type Timed,
 } from './rain'
 import type { RainMapApi } from './RainMap'
 import { DEMO_REPLAY_HREF } from './demoHref'
+import { LangSwitch, T } from './LangSwitch'
+import { useLang, useT } from './useT'
+import { dateLabel, monthShort, monthYearLabel, type Lang } from './i18n'
 import './SpikeRain.css'
 
 // MapLibre + deck.gl load after the controls and text have rendered.
 const RainMap = lazy(() => import('./RainMap'))
 
 const STATUS_ORDER = ['no_report_after_deadline', 'reported_mismatch', 'search_incomplete', 'reported']
-const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const CAPTION = "Each dot is a spike at a state monitor. 'No matching report' is a question, not a finding."
 const nightHref = (id: string) => `${import.meta.env.BASE_URL}?night=${encodeURIComponent(id)}`
 
 function useReducedMotion(): boolean {
@@ -29,7 +30,7 @@ function useReducedMotion(): boolean {
   return reduced
 }
 
-function Ticks({ spikes, month }: { spikes: readonly Timed[]; month: number }) {
+function Ticks({ spikes, month, lang }: { spikes: readonly Timed[]; month: number; lang: Lang }) {
   const bars = useMemo(() => {
     const per = Array.from({ length: MONTHS_TOTAL }, () => 0)
     for (const s of spikes) per[s.month]++
@@ -48,7 +49,7 @@ function Ticks({ spikes, month }: { spikes: readonly Timed[]; month: number }) {
       <div className="rn-months">
         {Array.from({ length: MONTHS_TOTAL }, (_, m) => (
           <span key={m} className={`rn-tick${m % 12 === 0 ? ' year' : ''}`} style={{ left: `${(monthStartDay(m) / TOTAL_DAYS) * 100}%` }}>
-            {m % 12 === 0 ? <b>{2024 + m / 12}</b> : m % 3 === 0 ? MONTH_ABBR[m % 12] : null}
+            {m % 12 === 0 ? <b>{2024 + m / 12}</b> : m % 3 === 0 ? monthShort(m % 12, lang) : null}
           </span>
         ))}
       </div>
@@ -57,6 +58,8 @@ function Ticks({ spikes, month }: { spikes: readonly Timed[]; month: number }) {
 }
 
 export default function SpikeRain() {
+  const t = useT()
+  const lang = useLang()
   const [spikes, setSpikes] = useState<Timed[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [mapFailed, setMapFailed] = useState(false)
@@ -85,7 +88,6 @@ export default function SpikeRain() {
   const started = useRef(false)
 
   useEffect(() => {
-    document.title = 'Two years of spikes · Houston Ship Channel · Plume Witness'
     const ctrl = new AbortController()
     fetch(`${import.meta.env.BASE_URL}spikes.json`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => {
@@ -103,6 +105,8 @@ export default function SpikeRain() {
       })
     return () => ctrl.abort()
   }, [])
+
+  useEffect(() => { document.title = t('rn.docTitle') }, [t])
 
   const prefix = useMemo(() => (spikes ? prefixCounts(spikes) : [{}]), [spikes])
 
@@ -198,9 +202,9 @@ export default function SpikeRain() {
   const onScrub = (v: number) => commit(reduced ? monthStartDay(v) : v)
   const onPick = useCallback((id: string) => window.location.assign(nightHref(id)), [])
 
-  const back = <a className="rn-back" href={`${import.meta.env.BASE_URL}?view=spikes`}>← Back to the spike log</a>
-  if (error) return <main className="rn-page state-msg" role="alert"><h1>Two years of spikes</h1><p>{error}</p><a href={DEMO_REPLAY_HREF}>Open the event replay</a></main>
-  if (!spikes) return <main className="rn-page state-msg"><p>Loading two years of spikes…</p></main>
+  const back = <a className="rn-back" href={`${import.meta.env.BASE_URL}?view=spikes`}>{t('rn.back')}</a>
+  if (error) return <main className="rn-page state-msg" role="alert"><h1>{t('rn.errTitle')}</h1><p>{error}</p><a href={DEMO_REPLAY_HREF}>{t('rn.openReplay')}</a></main>
+  if (!spikes) return <main className="rn-page state-msg"><p>{t('rn.loading')}</p></main>
 
   const month = monthOfDay(day)
   const counts = prefix[reduced ? 0 : n] ?? {}
@@ -209,7 +213,8 @@ export default function SpikeRain() {
   const perSec = SPEEDS.find((s) => s.key === speed)!.daysPerSec
   const recent = reduced ? spikes.filter((s) => s.month === month) : spikes.slice(Math.max(0, n - 6), n).reverse()
   const listed = recent.slice(0, 12)
-  const date = dateText(isoFromDay(day))
+  const date = dateLabel(isoFromDay(day), lang)
+  const monthName = monthYearLabel(month, lang)
   const atEnd = day >= TOTAL_DAYS
   const pct = ((reduced ? month : Math.min(day, TOTAL_DAYS - 1)) / (reduced ? MONTHS_TOTAL - 1 : TOTAL_DAYS - 1)) * 100
   const sliderMax = reduced ? MONTHS_TOTAL - 1 : TOTAL_DAYS - 1
@@ -219,99 +224,100 @@ export default function SpikeRain() {
     <main className="rn-page">
       {back}
       <header className="rn-head">
-        <p className="rn-kicker">Plume Witness · Houston Ship Channel monitors</p>
-        <h1>Two years of spikes, in time order</h1>
-        <p className="rn-sub">{spikes.length} hours when a state air monitor read far above its own recent normal, January 2024 to December 2025. Press play, or drag the date.</p>
+        <LangSwitch />
+        <p className="rn-kicker">{t('rn.kicker')}</p>
+        <h1>{t('rn.title')}</h1>
+        <p className="rn-sub">{t('rn.sub', { n: spikes.length })}</p>
       </header>
 
       <div className="rn-stage">
         <div className="rn-main">
-          <div className="rn-map" role="group" aria-label="Map of spikes at state monitors, Houston Ship Channel">
-            <Suspense fallback={<p className="rn-map-msg">Loading the map…</p>}>
+          <div className="rn-map" role="group" aria-label={t('rn.mapLabel')}>
+            <Suspense fallback={<p className="rn-map-msg">{t('rn.mapLoading')}</p>}>
               {mapFailed ? null : <RainMap spikes={spikes} onApi={onApi} onPick={onPick} onError={() => setMapFailed(true)} />}
             </Suspense>
-            {mapFailed && <p className="rn-map-msg" role="status">The map couldn't load. Every spike is listed as text below.</p>}
+            {mapFailed && <p className="rn-map-msg" role="status">{t('rn.mapFailed')}</p>}
             <div className="rn-hud" aria-hidden="true">
-              <span className="rn-date">{reduced ? monthLabel(month) : date}</span>
-              <span className="rn-total">{reduced ? `${total} ${total === 1 ? 'spike' : 'spikes'} this month` : `${n} of ${spikes.length} spikes so far`}</span>
+              <span className="rn-date">{reduced ? monthName : date}</span>
+              <span className="rn-total">{reduced ? t(total === 1 ? 'rn.hudOne' : 'rn.hudMany', { n: total }) : t('rn.hudSoFar', { n, total: spikes.length })}</span>
             </div>
           </div>
-          <p className="rn-caption">{CAPTION}</p>
+          <p className="rn-caption">{t('rn.caption')}</p>
 
-          <div className="rn-controls" role="group" aria-label="Timeline controls">
+          <div className="rn-controls" role="group" aria-label={t('rn.controls')}>
             <div className="rn-buttons">
               {!reduced && (
                 <button type="button" className="btn btn-primary rn-play" onClick={toggle} disabled={!mapReady}>
-                  {playing ? 'Pause' : atEnd ? 'Replay' : 'Play'}
-                  <span className="rn-key" aria-hidden="true">space</span>
+                  {playing ? t('rn.pause') : atEnd ? t('rn.replay') : t('rn.play')}
+                  <span className="rn-key" aria-hidden="true">{t('rn.space')}</span>
                 </button>
               )}
               {!reduced && (
-                <div className="rn-speed" role="group" aria-label="Speed">
+                <div className="rn-speed" role="group" aria-label={t('rn.speed')}>
                   {SPEEDS.map((s) => (
-                    <button key={s.key} type="button" className="btn" aria-pressed={speed === s.key} onClick={() => setSpeed(s.key)}>{s.label}</button>
+                    <button key={s.key} type="button" className="btn" aria-pressed={speed === s.key} onClick={() => setSpeed(s.key)}>{t(s.key === 'week' ? 'rn.speedWeek' : 'rn.speedMonth')}</button>
                   ))}
                 </div>
               )}
-              {reduced && <p className="rn-rm">Animation is off (your device asks for reduced motion). Pick a month; its spikes show as dots.</p>}
+              {reduced && <p className="rn-rm">{t('rn.reduced')}</p>}
             </div>
             <div className="rn-scrub">
               <input
                 type="range" min={0} max={sliderMax} step={1} value={sliderValue}
-                aria-label={reduced ? 'Month' : 'Date, 1 January 2024 to 31 December 2025'}
-                aria-valuetext={reduced ? monthLabel(month) : date}
+                aria-label={reduced ? t('rn.sliderMonth') : t('rn.sliderDate')}
+                aria-valuetext={reduced ? monthName : date}
                 aria-describedby="rn-summary"
                 style={{ '--p': `${pct}%` } as React.CSSProperties}
                 onChange={(e) => onScrub(Number(e.target.value))}
               />
-              <Ticks spikes={spikes} month={month} />
+              <Ticks spikes={spikes} month={month} lang={lang} />
             </div>
-            <p className="rn-hint">Space plays or pauses. Left and right arrows step {reduced ? 'a month' : 'a week'}.</p>
+            <p className="rn-hint">{t('rn.hint', { unit: t(reduced ? 'rn.unitMonth' : 'rn.unitWeek') })}</p>
           </div>
 
           {/* Announced only when the timeline is still, so playback never talks over a screen reader. */}
-          <p id="rn-summary" className="rn-sr" aria-live="polite">{playing ? '' : monthSummary(spikes, month)}</p>
+          <p id="rn-summary" className="rn-sr" aria-live="polite">{playing ? '' : monthSummary(spikes, month, lang)}</p>
         </div>
 
         <aside className="rn-side">
-          <section aria-label={reduced ? 'Spikes this month by record check' : 'Running count by record check'}>
-            <h2>{reduced ? `${monthLabel(month)}, by record check` : 'So far, by record check'}</h2>
+          <section aria-label={reduced ? t('rn.secMonthCounts') : t('rn.secRunning')}>
+            <h2>{reduced ? t('rn.hMonthCounts', { month: monthName }) : t('rn.hRunning')}</h2>
             <ul className="rn-counts">
               {STATUS_ORDER.map((s) => (
                 <li key={s}>
                   <span className="rn-dot" style={{ background: STATUS_FILL[s] }} aria-hidden="true" />
-                  <span className="rn-count-label">{statusInfo(s).en}</span>
+                  <span className="rn-count-label" lang={lang}>{statusInfo(s)[lang]}</span>
                   <span className="rn-count-n">{monthCounts[s] ?? 0}</span>
                 </li>
               ))}
             </ul>
             <p className="rn-key-note">
-              Dot size: how many times the monitor's own 7-day median (10× to about 2,900×, log scale).
-              {!reduced && ` Dots fade over ${Math.round(fadeDaysFor(perSec))} days of timeline (2 seconds).`}
+              {t('rn.dotSize')}
+              {!reduced && t('rn.fade', { d: Math.round(fadeDaysFor(perSec)) })}
             </p>
           </section>
 
-          <section aria-label={reduced ? 'Spikes this month' : 'Latest spikes'}>
-            <h2>{reduced ? 'Spikes this month' : 'Latest spikes'}</h2>
+          <section aria-label={reduced ? t('rn.secMonthList') : t('rn.secLatest')}>
+            <h2>{reduced ? t('rn.secMonthList') : t('rn.secLatest')}</h2>
             {listed.length ? (
               <ul className="rn-list">
                 {listed.map((s) => (
                   <li key={s.row.night_id}>
                     <a href={nightHref(s.row.night_id)}>
-                      <span className="rn-li-when"><time dateTime={s.row.date}>{dateText(s.row.date)}</time> · {hourLabel(s.row.hour_cst)}</span>
-                      <span className="rn-li-what">{[s.row.site, s.row.compound, s.row.ratio === null ? null : `${s.row.ratio}× baseline`].filter(Boolean).join(' · ')}</span>
-                      <span className={`sl-status sl-status-${s.row.status}`}>{statusInfo(s.row.status).en}</span>
+                      <span className="rn-li-when"><time dateTime={s.row.date}>{dateLabel(s.row.date, lang)}</time> · {hourLabel(s.row.hour_cst)}</span>
+                      <span className="rn-li-what">{[s.row.site, s.row.compound, s.row.ratio === null ? null : t('rn.ratio', { r: s.row.ratio })].filter(Boolean).join(' · ')}</span>
+                      <span className={`sl-status sl-status-${s.row.status}`} lang={lang}>{statusInfo(s.row.status)[lang]}</span>
                     </a>
                   </li>
                 ))}
               </ul>
-            ) : <p className="rn-empty">No spikes {reduced ? 'this month' : 'yet'}.</p>}
-            {recent.length > listed.length && <p className="rn-empty">and {recent.length - listed.length} more; see the <a href={`${import.meta.env.BASE_URL}?view=spikes`}>spike log</a>.</p>}
-            <p className="rn-key-note">Each link opens that night's replay.</p>
+            ) : <p className="rn-empty">{t(reduced ? 'rn.noneMonth' : 'rn.noneYet')}</p>}
+            {recent.length > listed.length && <p className="rn-empty"><T k="rn.more" v={{ n: recent.length - listed.length, link: <a href={`${import.meta.env.BASE_URL}?view=spikes`}>{t('rn.moreLink')}</a> }} /></p>}
+            <p className="rn-key-note">{t('rn.linkNote')}</p>
           </section>
         </aside>
       </div>
-      <p className="rn-foot">Readings are TCEQ hourly AutoGC values, provisional. Hours are CST. Dots mark monitors, never facilities.</p>
+      <p className="rn-foot">{t('rn.foot')}</p>
     </main>
   )
 }

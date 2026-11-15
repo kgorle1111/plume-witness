@@ -7,6 +7,7 @@ import { arrivalTick, daysAfterEvent, reportBand } from './reportWindow'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
+import { setLang as setSiteLang } from './i18n'
 import { useRecordedClip } from './recorded'
 
 function StatusIcon({ kind }: { kind: ReturnType<typeof statusInfo>['icon'] }) {
@@ -384,6 +385,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     stopSpeech()
     if (approved) setNotice(`Switched to ${LANG_NAME[l]}. Review and approve the ${LANG_NAME[l]} draft before filing.`)
     setReview((r) => ({ ...r, lang: l, approved: false }))
+    setSiteLang(l)
   }
 
   // Same rule as switching language: approval covers the exact text read, so a new source needs a new approval.

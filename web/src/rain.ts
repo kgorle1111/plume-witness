@@ -1,6 +1,7 @@
 // Pure helpers for the spike-rain view (SpikeRain.tsx). Self-contained, with .ts imports, so
 // `node --test test/rain.test.ts` can load it without a bundler.
 import { statusInfo } from './format.ts'
+import { monthYearLabel, translate, type Lang } from './i18n.ts'
 import type { SpikeRow } from './spikes.ts'
 
 const DAY_MS = 86_400_000
@@ -109,23 +110,23 @@ export function monthStartDay(m: number): number {
   return Math.round((Date.UTC(y, m % 12, 1) - EPOCH) / DAY_MS)
 }
 
-const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-export const monthLabel = (m: number) => `${MONTH_NAMES[m % 12]} ${2024 + Math.floor(m / 12)}`
-
 export function monthOfDay(day: number): number {
   const iso = isoFromDay(day)
   return monthOfDate(iso)
 }
 
 /** Screen-reader sentence for one month: counts only, in the record-check wording the rest of the site uses. */
-export function monthSummary(spikes: readonly Timed[], m: number): string {
+export function monthSummary(spikes: readonly Timed[], m: number, lang: Lang = 'en'): string {
+  const month = monthYearLabel(m, lang)
   const rows = spikes.filter((s) => s.month === m).map((s) => s.row)
-  if (!rows.length) return `${monthLabel(m)}: no spikes.`
+  if (!rows.length) return translate(lang, 'rn.sumNone', { month })
   const by: Counts = {}
   for (const r of rows) by[r.status] = (by[r.status] ?? 0) + 1
   const monitors = new Set(rows.map((r) => r.site_id)).size
-  const parts = Object.entries(by).sort((a, b) => b[1] - a[1]).map(([s, n]) => `${n} ${statusInfo(s).en.toLowerCase()}`)
-  return `${monthLabel(m)}: ${rows.length} ${rows.length === 1 ? 'spike' : 'spikes'} at ${monitors} ${monitors === 1 ? 'monitor' : 'monitors'}. ${parts.join(', ')}.`
+  const parts = Object.entries(by).sort((a, b) => b[1] - a[1]).map(([s, n]) => `${n} ${statusInfo(s)[lang].toLowerCase()}`).join(', ')
+  return translate(lang, rows.length === 1 ? 'rn.sumOne' : 'rn.sumMany', {
+    month, n: rows.length, m: monitors, monitors: translate(lang, monitors === 1 ? 'rn.monitorOne' : 'rn.monitorMany'), parts,
+  })
 }
 
 /** Clamp a day-time to the scrubber's range. */

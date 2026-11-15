@@ -1,19 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo } from './format'
 import { DEMO_REPLAY_HREF } from './demoHref'
-import { NO_FILTER, dateText, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
+import { NO_FILTER, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
-import { NOT_BACKTESTED_NOTE, REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
+import { REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
+import { LangSwitch, T } from './LangSwitch'
+import { useLang, useT } from './useT'
+import { dateLabel, type Lang } from './i18n'
 import './SpikeLog.css'
 
 // One line per status, written for this log (every spike here is past its reporting deadline).
-const STATUS_NOTE: Record<string, string> = {
-  reported: 'A company report from the upwind area lists this compound and starts near the spike hour.',
-  reported_mismatch: 'A report exists for that day, but its compound, place or time does not line up with this spike.',
-  no_report_after_deadline: 'We found no matching company report. That is a question to ask, not a finding.',
-  search_incomplete: 'The record check could not finish (the row says why), so the tool says nothing either way.',
-}
+const STATUS_NOTES = ['reported', 'reported_mismatch', 'no_report_after_deadline', 'search_incomplete'] as const
 
 function readUrl(initialSite?: string): { filters: Filters; sort: SortKey; dir: Dir } {
   const q = new URLSearchParams(window.location.search)
@@ -39,11 +37,12 @@ const nightHref = (region: RegionInfo, id: string) => `${import.meta.env.BASE_UR
 
 /** Two links, not tabs: each region is its own URL, so a filtered view of either can be shared. */
 function RegionSwitch({ current }: { current: RegionInfo }) {
+  const t = useT()
   return (
-    <nav className="sl-region" aria-label="Region">
+    <nav className="sl-region" aria-label={t('region.nav')}>
       {Object.values(REGIONS).map((r) => (
         <a key={r.key} href={`${import.meta.env.BASE_URL}${regionQuery(r, { view: 'spikes' })}`}
-          aria-current={r.key === current.key ? 'page' : undefined}>{r.label}</a>
+          aria-current={r.key === current.key ? 'page' : undefined}>{r.key === 'beaumont' ? t('region.beaumont') : r.label}</a>
       ))}
     </nav>
   )
@@ -61,10 +60,10 @@ function downloadCsv(rows: SpikeRow[], f: Filters) {
   setTimeout(() => URL.revokeObjectURL(url), 0)
 }
 
-function StatusTag({ row }: { row: SpikeRow }) {
+function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   return (
     <span className="sl-status-cell">
-      <span className={`sl-status sl-status-${row.status}`}>{statusInfo(row.status).en}</span>
+      <span className={`sl-status sl-status-${row.status}`} lang={lang}>{statusInfo(row.status)[lang]}</span>
       {row.reason && <span className="sl-reason">{row.reason}</span>}
     </span>
   )
@@ -96,6 +95,8 @@ function Select({ id, label, value, onChange, options }: {
 }
 
 export default function SpikeLog({ initialSite }: { initialSite?: string }) {
+  const t = useT()
+  const lang = useLang()
   const [data, setData] = useState<SpikeFile | null>(null)
   const [error, setError] = useState<string | null>(null)
   const init = useMemo(() => readUrl(initialSite), [initialSite])
@@ -105,7 +106,6 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const region = useMemo(() => regionFrom(window.location.search), [])
 
   useEffect(() => {
-    document.title = `Past spikes · ${region.place} · Plume Witness`
     const ctrl = new AbortController()
     const file = `${region.dir}spikes.json`
     fetch(`${import.meta.env.BASE_URL}${file}`, { signal: ctrl.signal, cache: 'no-cache' })
@@ -119,6 +119,8 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
       })
     return () => ctrl.abort()
   }, [region])
+
+  useEffect(() => { document.title = t('spikes.docTitle', { place: region.place }) }, [t, region])
 
   useEffect(() => writeUrl(filters, sort, dir), [filters, sort, dir])
 
@@ -137,12 +139,12 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
     return {
       monitors: sites.map(([v]) => [v, names.get(v)!]) as [string, string][],
       years: years.map(([v]) => v),
-      site: [['', 'All monitors'], ...sites.map(([v, n]) => [v, `${names.get(v)} (${n})`])] as [string, string][],
-      compound: [['', 'Both compounds'], ...compounds.map(([v, n]) => [v, `${v} (${n})`])] as [string, string][],
-      status: [['', 'Any record check'], ...statuses.map(([v, n]) => [v, `${statusInfo(v).en} (${n})`])] as [string, string][],
-      year: [['', '2024 and 2025'], ...years.map(([v, n]) => [v, `${v} (${n})`])] as [string, string][],
+      site: [['', t('spikes.allMonitors')], ...sites.map(([v, n]) => [v, `${names.get(v)} (${n})`])] as [string, string][],
+      compound: [['', t('spikes.bothCompounds')], ...compounds.map(([v, n]) => [v, `${v} (${n})`])] as [string, string][],
+      status: [['', t('spikes.anyCheck')], ...statuses.map(([v, n]) => [v, `${statusInfo(v)[lang]} (${n})`])] as [string, string][],
+      year: [['', t('spikes.bothYears')], ...years.map(([v, n]) => [v, `${v} (${n})`])] as [string, string][],
     }
-  }, [data])
+  }, [data, t, lang])
 
   const rows = useMemo(() => selectRows(data?.rows ?? [], filters, sort, dir), [data, filters, sort, dir])
 
@@ -153,73 +155,68 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const set = (k: keyof Filters) => (v: string) => setFilters((f) => ({ ...f, [k]: v }))
   const filtered = Object.values(filters).some(Boolean)
 
-  const back = <a className="sl-back" href={DEMO_REPLAY_HREF}>← Back to the event replay</a>
-  if (error) return <main className="sl-page state-msg" role="alert"><h1>Past spikes</h1><p>{error}</p>{back}</main>
-  if (!data) return <main className="sl-page state-msg"><p>Loading the spike log…</p></main>
+  const back = <a className="sl-back" href={DEMO_REPLAY_HREF}>{t('common.backReplay')}</a>
+  if (error) return <main className="sl-page state-msg" role="alert"><h1>{t('common.pastSpikes')}</h1><p>{error}</p>{back}</main>
+  if (!data) return <main className="sl-page state-msg"><p>{t('spikes.loading')}</p></main>
 
   const s = data.summary
   const reported = s.by_status.reported ?? 0
   const noReport = s.by_status.no_report_after_deadline ?? 0
   const searchPage = safeHttpUrl(data.tceq_search_page)
-  const sortText = { date: 'date', value: 'peak value', ratio: 'times baseline' }[sort]
+  const sortText = t(({ date: 'sort.date', value: 'sort.value', ratio: 'sort.ratio' } as const)[sort])
+  const orderText = t(sort === 'date' ? (dir === 'asc' ? 'order.oldest' : 'order.newest') : (dir === 'asc' ? 'order.lowest' : 'order.highest'))
   return (
     <main className="sl-page">
       {back}
       <header className="sl-head">
+        <LangSwitch />
         <RegionSwitch current={region} />
-        <p className="sl-kicker">Plume Witness · {region.place} monitors</p>
-        <h1>Past spikes, 2024–2025</h1>
+        <p className="sl-kicker">{t('spikes.kicker', { place: region.place })}</p>
+        <h1>{t('spikes.title')}</h1>
         {!region.backtested && (
-          <p className="sl-region-note" role="note"><strong>{data.region?.note ?? NOT_BACKTESTED_NOTE}</strong></p>
+          <p className="sl-region-note" role="note"><strong>{data.region?.note ?? t('region.notBacktested')}</strong></p>
         )}
         <p className="sl-summary">
-          <strong>{s.spikes} spikes on {s.spike_days} days</strong>; {reported} with a matching company report.
+          <T k="spikes.summary" v={{ spikes: s.spikes, days: s.spike_days, reported }} />
         </p>
         <Follow siteId={filters.site || undefined} />
-        <p><a href={`${import.meta.env.BASE_URL}?view=timeline`}>Watch two years</a> of spikes arrive on the map, in time order.</p>
-        <p className="sl-brief-link"><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
+        <p><T k="spikes.watch" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=timeline`}>{t('spikes.watchLink')}</a> }} /></p>
+        <p className="sl-brief-link"><T k="spikes.brief" v={{ link: <a href={`${import.meta.env.BASE_URL}?view=brief`}>{t('spikes.briefLink')}</a> }} /></p>
       </header>
 
-      <section className="sl-explain" aria-label="How to read this log">
+      <section className="sl-explain" aria-label={t('spikes.explain')}>
+        <p><T k="spikes.what" /></p>
         <p>
-          <strong>What a spike is.</strong> An hour when a state air monitor read benzene or 1,3-butadiene at or above
-          10 times its own 7-day median and at least 10 ppb. There is one row per day and compound; it shows the
-          first monitor and hour (CST) that crossed the line.
+          <T k="spikes.noMatch" v={{
+            missed: s.known_missed_reports ? t('spikes.noMatchMissed', { k: s.known_missed_reports, n: noReport }) : '',
+            search: searchPage
+              ? <T k="spikes.noMatchSearch" v={{ link: <a href={searchPage} rel="noreferrer" target="_blank">{t('spikes.noMatchSearchLink')}</a> }} />
+              : '',
+          }} />
         </p>
-        <p>
-          <strong>“No matching report” is a question, not a finding.</strong> It means the tool found no company
-          emissions-event report in the state’s public record (TCEQ) that lines up with the spike and the upwind area. The
-          source may not have to report (traffic, a ship, a monitor fault), a report may sit outside our search, or the
-          tool may have missed it
-          {s.known_missed_reports ? <>: in our own check against the reports we know of, {s.known_missed_reports} of {noReport} such rows had a company report from inside the upwind area</> : null}.
-          {searchPage && <> You can search the record yourself at <a href={searchPage} rel="noreferrer" target="_blank">TCEQ’s emissions-event search</a>.</>}
-        </p>
-        <p>
-          <strong>Not measured: the false-alarm rate.</strong> We have not checked how many spikes are instrument faults or
-          non-industrial sources. TCEQ labels these hourly readings provisional; they can change.
-        </p>
+        <p><T k="spikes.falseAlarm" /></p>
         <details className="sl-statuses">
-          <summary>What each record-check result means</summary>
+          <summary>{t('spikes.statusesHelp')}</summary>
           <dl>
-            {Object.entries(STATUS_NOTE).map(([k, t]) => (
-              <div key={k}><dt><span className={`sl-status sl-status-${k}`}>{statusInfo(k).en}</span></dt><dd>{t}</dd></div>
+            {STATUS_NOTES.map((k) => (
+              <div key={k}><dt><span className={`sl-status sl-status-${k}`} lang={lang}>{statusInfo(k)[lang]}</span></dt><dd>{t(`status.note.${k}`)}</dd></div>
             ))}
           </dl>
         </details>
       </section>
 
-      <section className="sl-controls" aria-label="Filter and download">
+      <section className="sl-controls" aria-label={t('spikes.filterLabel')}>
         <div className="sl-filters">
-          <Select id="sl-site" label="Monitor" value={filters.site} onChange={set('site')} options={options.site} />
-          <Select id="sl-compound" label="Compound" value={filters.compound} onChange={set('compound')} options={options.compound} />
-          <Select id="sl-status" label="Record check" value={filters.status} onChange={set('status')} options={options.status} />
-          <Select id="sl-year" label="Year" value={filters.year} onChange={set('year')} options={options.year} />
+          <Select id="sl-site" label={t('spikes.fMonitor')} value={filters.site} onChange={set('site')} options={options.site} />
+          <Select id="sl-compound" label={t('spikes.fCompound')} value={filters.compound} onChange={set('compound')} options={options.compound} />
+          <Select id="sl-status" label={t('spikes.fCheck')} value={filters.status} onChange={set('status')} options={options.status} />
+          <Select id="sl-year" label={t('spikes.fYear')} value={filters.year} onChange={set('year')} options={options.year} />
         </div>
         <div className="sl-actions">
-          <p className="sl-count" aria-live="polite">Showing {rows.length} of {s.spikes} spikes</p>
-          {filtered && <button type="button" className="btn" onClick={() => setFilters(NO_FILTER)}>Clear filters</button>}
+          <p className="sl-count" aria-live="polite">{t('spikes.showing', { n: rows.length, total: s.spikes })}</p>
+          {filtered && <button type="button" className="btn" onClick={() => setFilters(NO_FILTER)}>{t('spikes.clear')}</button>}
           <button type="button" className="btn btn-primary" disabled={!rows.length} onClick={() => downloadCsv(rows, filters)}>
-            Download CSV ({rows.length} rows)
+            {t('spikes.csv', { n: rows.length })}
           </button>
         </div>
       </section>
@@ -233,19 +230,19 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
       <div className="sl-table-wrap" tabIndex={0} role="region" aria-labelledby="sl-caption">
         <table className="sl-table">
           <caption id="sl-caption">
-            Spikes {filtered ? 'matching the filters' : `at ${options.site.length - 1} monitors`}, sorted by {sortText}, {sort === 'date' ? (dir === 'asc' ? 'oldest' : 'newest') : (dir === 'asc' ? 'lowest' : 'highest')} first
+            {t('spikes.capSorted', { what: filtered ? t('spikes.capFiltered') : t('spikes.capMonitors', { n: options.site.length - 1 }), by: sortText, order: orderText })}
           </caption>
           <thead>
             <tr>
-              <th scope="col" aria-sort={ariaSort('date', sort, dir)}><SortButton k="date" label="Date" sort={sort} dir={dir} onSort={onSort} /></th>
-              <th scope="col">Hour</th>
-              <th scope="col">Monitor</th>
-              <th scope="col">Compound</th>
-              <th scope="col" className="num" aria-sort={ariaSort('value', sort, dir)}><SortButton k="value" label="Peak (ppb)" sort={sort} dir={dir} onSort={onSort} /></th>
-              <th scope="col" className="num">Baseline (ppb)</th>
-              <th scope="col" className="num" aria-sort={ariaSort('ratio', sort, dir)}><SortButton k="ratio" label="× baseline" sort={sort} dir={dir} onSort={onSort} /></th>
-              <th scope="col">Record check</th>
-              <th scope="col">Replay</th>
+              <th scope="col" aria-sort={ariaSort('date', sort, dir)}><SortButton k="date" label={t('spikes.hDate')} sort={sort} dir={dir} onSort={onSort} /></th>
+              <th scope="col">{t('spikes.hHour')}</th>
+              <th scope="col">{t('spikes.hMonitor')}</th>
+              <th scope="col">{t('spikes.hCompound')}</th>
+              <th scope="col" className="num" aria-sort={ariaSort('value', sort, dir)}><SortButton k="value" label={t('spikes.hPeak')} sort={sort} dir={dir} onSort={onSort} /></th>
+              <th scope="col" className="num">{t('spikes.hBase')}</th>
+              <th scope="col" className="num" aria-sort={ariaSort('ratio', sort, dir)}><SortButton k="ratio" label={t('spikes.hRatio')} sort={sort} dir={dir} onSort={onSort} /></th>
+              <th scope="col">{t('spikes.hCheck')}</th>
+              <th scope="col">{t('spikes.hReplay')}</th>
             </tr>
           </thead>
           <tbody>
@@ -253,7 +250,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
               const report = safeHttpUrl(r.report_url)
               return (
                 <tr key={r.night_id}>
-                  <th scope="row" className="nowrap"><time dateTime={r.date}>{dateText(r.date)}</time></th>
+                  <th scope="row" className="nowrap"><time dateTime={r.date}>{dateLabel(r.date, lang)}</time></th>
                   <td className="nowrap">{hourLabel(r.hour_cst)}</td>
                   <td>{r.site}</td>
                   <td className="nowrap">{r.compound}</td>
@@ -261,23 +258,21 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                   <td className="num">{r.baseline_ppb}</td>
                   <td className="num">{r.ratio === null ? '—' : `${r.ratio}×`}</td>
                   <td>
-                    <StatusTag row={r} />
-                    {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">TCEQ report {r.matched_incident}</a>}
+                    <StatusTag row={r} lang={lang} />
+                    {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
                   </td>
                   <td>
-                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={`Replay this night: ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
+                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={t('spikes.replayAria', { date: dateLabel(r.date, lang), compound: r.compound, site: r.site })}>{t('spikes.replayLink')}</a>
                   </td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-        {!rows.length && <p className="sl-empty">No spikes match these filters.</p>}
+        {!rows.length && <p className="sl-empty">{t('spikes.empty')}</p>}
       </div>
       <p className="sl-foot">
-        Source: TCEQ AutoGC hourly data and STEERS emissions-event reports, via the Plume Witness
-        {region.backtested ? ' backtest' : ' spike scan (this region has no backtest)'} (<code>pipeline/spikes.py</code>).
-        Rows list monitors, never facilities.
+        <T k="spikes.source" v={{ via: t(region.backtested ? 'spikes.srcBacktest' : 'spikes.srcScan'), code: <code>pipeline/spikes.py</code> }} />
       </p>
     </main>
   )

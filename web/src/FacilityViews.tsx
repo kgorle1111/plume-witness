@@ -6,10 +6,20 @@ import {
 } from './facilities'
 import { hourLabel, safeHttpUrl } from './format'
 import { DEMO_REPLAY_HREF } from './demoHref'
+import { LangSwitch, T } from './LangSwitch'
+import { useT, type Translate } from './useT'
 import './Facilities.css'
 
 const BASE = import.meta.env.BASE_URL
-const UPWIND_NOTE = 'Being upwind of a spike is not evidence of anything; wind at one monitor cannot tell facilities apart.'
+
+// A failed load throws this prefix plus the status, so the message can be written in the reader's language.
+const HTTP_ERROR = 'http:'
+
+function errorText(error: string, file: string, t: Translate): string {
+  if (!error.startsWith(HTTP_ERROR)) return error
+  const status = Number(error.slice(HTTP_ERROR.length))
+  return status === 404 ? t('fx.err404') : t('fx.errHttp', { file, status })
+}
 
 function useJson<T>(file: string, parse: (raw: unknown) => T): { data: T | null; error: string | null } {
   const [state, setState] = useState<{ data: T | null; error: string | null }>({ data: null, error: null })
@@ -17,7 +27,7 @@ function useJson<T>(file: string, parse: (raw: unknown) => T): { data: T | null;
     const ctrl = new AbortController()
     fetch(`${BASE}${file}`, { signal: ctrl.signal })
       .then((r) => {
-        if (!r.ok) throw new Error(r.status === 404 ? 'No history page exists for that facility id.' : `Could not load ${file} (HTTP ${r.status}).`)
+        if (!r.ok) throw new Error(`${HTTP_ERROR}${r.status}`)
         return r.json()
       })
       .then((raw) => setState({ data: parse(raw), error: null }))
@@ -32,10 +42,12 @@ function useJson<T>(file: string, parse: (raw: unknown) => T): { data: T | null;
 }
 
 function Shell({ kicker, title, children }: { kicker: string; title: string; children: React.ReactNode }) {
+  const t = useT()
   return (
     <div className="fx-shell">
       <main className="fx-page">
-        <a className="fx-back" href={DEMO_REPLAY_HREF}>Back to the replay</a>
+        <a className="fx-back" href={DEMO_REPLAY_HREF}>{t('common.backReplayPlain')}</a>
+        <LangSwitch />
         <header className="fx-head">
           <p className="fx-kicker">{kicker}</p>
           <h1>{title}</h1>
@@ -48,43 +60,47 @@ function Shell({ kicker, title, children }: { kicker: string; title: string; chi
 }
 
 function Message({ title, text }: { title: string; text: string }) {
-  return <Shell kicker="Plume Witness" title={title}><p role="alert">{text}</p><p><a href={facilitiesHref(BASE)}>Search all facilities</a></p></Shell>
+  const t = useT()
+  return <Shell kicker="Plume Witness" title={title}><p role="alert">{text}</p><p><a href={facilitiesHref(BASE)}>{t('fx.searchAll')}</a></p></Shell>
 }
 
 function Report({ r }: { r: FacilityFile['reports_to_state']['reports'][number] }) {
+  const t = useT()
   const url = safeHttpUrl(r.url)
   return (
     <li className="fx-card">
       <p className="fx-card-head">
-        {url ? <a href={url} rel="noopener" target="_blank">TCEQ record {r.incident}</a> : <span>TCEQ record {r.incident}</span>}
+        {url ? <a href={url} rel="noopener" target="_blank">{t('fx.record', { id: r.incident })}</a> : <span>{t('fx.record', { id: r.incident })}</span>}
         <span className="muted small">{r.event_type}</span>
       </p>
-      <p className="small"><time dateTime={r.start_local}>{localTime(r.start_local)}</time> to <time dateTime={r.end_local}>{localTime(r.end_local)}</time> (local time at the facility)</p>
+      <p className="small"><T k="fx.span" v={{ from: <time dateTime={r.start_local}>{localTime(r.start_local)}</time>, to: <time dateTime={r.end_local}>{localTime(r.end_local)}</time> }} /></p>
       <dl className="fx-facts">
-        <div><dt>Benzene</dt><dd>{r.benzene_lbs > 0 ? lbs(r.benzene_lbs) : 'not listed'}</dd></div>
-        <div><dt>1,3-butadiene</dt><dd>{r.butadiene_lbs > 0 ? lbs(r.butadiene_lbs) : 'not listed'}</dd></div>
+        <div><dt>{t('fx.benzene')}</dt><dd>{r.benzene_lbs > 0 ? lbs(r.benzene_lbs) : t('fx.notListed')}</dd></div>
+        <div><dt>{t('fx.butadiene')}</dt><dd>{r.butadiene_lbs > 0 ? lbs(r.butadiene_lbs) : t('fx.notListed')}</dd></div>
       </dl>
-      <p className="small"><span className="muted">Cause, as the facility wrote it: </span>{r.cause_excerpt}</p>
+      <p className="small"><span className="muted">{t('fx.cause')}</span><span lang="en">{r.cause_excerpt}</span></p>
     </li>
   )
 }
 
 function TriTable({ f }: { f: FacilityFile }) {
+  const t = useT()
+  const lb = (n: number | null) => (n === null ? t('fx.noNumber') : lbs(n))
   const years = Object.keys(f.reports_to_epa.years).sort()
   if (!years.length) {
-    return <p className="small">{f.reports_to_epa.reason ?? 'No TRI figures for benzene or 1,3-butadiene, 2020-2024.'}</p>
+    return <p className="small">{f.reports_to_epa.reason ?? t('fx.noTri')}</p>
   }
   const rows = years.flatMap((y) => Object.entries(f.reports_to_epa.years[y]).map(([compound, v]) => ({ y, compound, v })))
   return (
     <div className="fx-scroll">
       <table className="fx-table">
-        <caption className="sr-only">TRI air releases by year, in pounds</caption>
-        <thead><tr><th scope="col">Year</th><th scope="col">Compound</th><th scope="col" className="num">Stack</th><th scope="col" className="num">Fugitive</th><th scope="col" className="num">Total</th></tr></thead>
+        <caption className="sr-only">{t('fx.triCaption')}</caption>
+        <thead><tr><th scope="col">{t('fx.cYear')}</th><th scope="col">{t('fx.cCompound')}</th><th scope="col" className="num">{t('fx.cStack')}</th><th scope="col" className="num">{t('fx.cFugitive')}</th><th scope="col" className="num">{t('fx.cTotal')}</th></tr></thead>
         <tbody>
           {rows.map(({ y, compound, v }) => (
             <tr key={`${y}-${compound}`}>
               <th scope="row">{y}</th><td>{compound === 'butadiene' ? '1,3-butadiene' : compound}</td>
-              <td className="num">{lbs(v.stack_lbs)}</td><td className="num">{lbs(v.fugitive_lbs)}</td><td className="num">{lbs(v.total_lbs)}</td>
+              <td className="num">{lb(v.stack_lbs)}</td><td className="num">{lb(v.fugitive_lbs)}</td><td className="num">{lb(v.total_lbs)}</td>
             </tr>
           ))}
         </tbody>
@@ -100,42 +116,43 @@ function IncidentLink({ f, incident }: { f: FacilityFile; incident: string }) {
 }
 
 function FacilityPage({ id }: { id: string }) {
+  const t = useT()
   const { data: f, error } = useJson(`facilities/${id}.json`, (raw) => parseFacility(raw, id))
-  useEffect(() => { if (f) document.title = `${f.name}: facility history | Plume Witness` }, [f])
-  if (error) return <Message title="Facility not found" text={error} />
-  if (!f) return <main className="state-msg"><p>Loading facility…</p></main>
+  useEffect(() => { if (f) document.title = t('fx.docTitle', { name: f.name }) }, [f, t])
+  if (error) return <Message title={t('fx.notFound')} text={errorText(error, `facilities/${id}.json`, t)} />
+  if (!f) return <main className="state-msg"><p>{t('fx.loadingOne')}</p></main>
   const echo = safeHttpUrl(f.echo_url)
   const n = f.reports_to_state.count
-  const cite = `Plume Witness, facility history for ${f.name} (EPA registry ${f.registry_id}), ${window.location.origin}${window.location.pathname}?view=facility&id=${f.registry_id}. Compiled from TCEQ STEERS and EPA TRI/ECHO public records.`
+  const cite = t('fx.cite', { name: f.name, id: f.registry_id, url: `${window.location.origin}${window.location.pathname}?view=facility&id=${f.registry_id}` })
   return (
-    <Shell kicker="Facility history" title={f.name}>
-      <p className="fx-sub">{f.address} · {f.distance_km} km from the {f.nearest_monitor} monitor · {echo && <a href={echo} rel="noopener" target="_blank">EPA ECHO record</a>}</p>
-      <p className="fx-note" role="note">{UPWIND_NOTE} This page lists only what the facility reported and the nights where its own report matched.</p>
+    <Shell kicker={t('fx.kicker')} title={f.name}>
+      <p className="fx-sub"><T k="fx.sub" v={{ address: f.address, km: f.distance_km, monitor: f.nearest_monitor, link: echo ? <a href={echo} rel="noopener" target="_blank">{t('fx.echo')}</a> : '' }} /></p>
+      <p className="fx-note" role="note">{t('fx.upwindNote')} {t('fx.pageNote')}</p>
 
       <section aria-labelledby="fx-state">
-        <h2 id="fx-state">Reported to the state, 2024-2025 ({n})</h2>
+        <h2 id="fx-state">{t('fx.hState', { n })}</h2>
         {n === 0
-          ? <p className="small">No report for this facility appears in the TCEQ pages this site has cached. That is a statement about the cache, not about the facility.</p>
+          ? <p className="small">{t('fx.noState')}</p>
           : <ul className="fx-list">{f.reports_to_state.reports.map((r) => <Report key={r.incident} r={r} />)}</ul>}
-        <p className="muted small">Source: TCEQ Air Emission Event Report Database (STEERS). Amounts are the facility's own estimates, as listed on each record.</p>
+        <p className="muted small">{t('fx.stateSrc')}</p>
       </section>
 
       <section aria-labelledby="fx-epa">
-        <h2 id="fx-epa">Reports to EPA (TRI), 2020-2024</h2>
+        <h2 id="fx-epa">{t('fx.hEpa')}</h2>
         <TriTable f={f} />
-        <p className="muted small">{f.reports_to_epa.note} Annual routine-release estimates; context only.</p>
+        <p className="muted small">{f.reports_to_epa.note} {t('fx.epaTail')}</p>
       </section>
 
       <section aria-labelledby="fx-nights">
-        <h2 id="fx-nights">Replayed nights where its own report matched ({f.matched_nights.length})</h2>
+        <h2 id="fx-nights">{t('fx.hNights', { n: f.matched_nights.length })}</h2>
         {f.matched_nights.length === 0
-          ? <p className="small">None among the replayed nights.</p>
+          ? <p className="small">{t('fx.noNights')}</p>
           : (
             <ul className="fx-list">
               {f.matched_nights.map((m) => (
                 <li key={m.night_id} className="fx-card">
-                  <p className="fx-night-link"><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{m.date}: replay this night</a></p>
-                  <p className="small">{m.compound} at {m.monitor}, {hourLabel(m.hour_cst)}, {m.value_ppb} ppb. The facility was {m.distance_km} km away in the upwind corridor, and its report <IncidentLink f={f} incident={m.incident} /> matched.</p>
+                  <p className="fx-night-link"><a href={`${BASE}?night=${encodeURIComponent(m.night_id)}`}>{t('fx.nightLink', { date: m.date })}</a></p>
+                  <p className="small"><T k="fx.nightBody" v={{ compound: m.compound, monitor: m.monitor, hour: hourLabel(m.hour_cst), value: m.value_ppb, km: m.distance_km, link: <IncidentLink f={f} incident={m.incident} /> }} /></p>
                 </li>
               ))}
             </ul>
@@ -143,15 +160,16 @@ function FacilityPage({ id }: { id: string }) {
       </section>
 
       <section aria-labelledby="fx-cite">
-        <h2 id="fx-cite">Cite this page</h2>
+        <h2 id="fx-cite">{t('fx.hCite')}</h2>
         <p className="small fx-cite">{cite}</p>
-        <p className="small"><a href={`${BASE}facilities/${f.registry_id}.json`}>This page as JSON</a> · <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/api.md" rel="noopener">Field definitions</a></p>
+        <p className="small"><a href={`${BASE}facilities/${f.registry_id}.json`}>{t('fx.json')}</a> · <a href="https://github.com/kgorle1111/plume-witness/blob/main/docs/api.md" rel="noopener">{t('fx.fields')}</a></p>
       </section>
     </Shell>
   )
 }
 
 function FacilityList() {
+  const t = useT()
   const { data, error } = useJson<FacilityIndex>('facilities/index.json', parseIndex)
   const [q, setQ] = useState(() => new URLSearchParams(window.location.search).get('q') ?? '')
   const rows = useMemo(() => (data ? searchFacilities(data.facilities, q) : []), [data, q])
@@ -162,37 +180,42 @@ function FacilityList() {
     else p.delete('q')
     history.replaceState(null, '', `${window.location.pathname}?${p.toString()}`)
   }, [q])
-  if (error) return <Message title="Facilities" text={error} />
-  if (!data) return <main className="state-msg"><p>Loading facilities…</p></main>
+  if (error) return <Message title={t('common.facilities')} text={errorText(error, 'facilities/index.json', t)} />
+  if (!data) return <main className="state-msg"><p>{t('fx.loadingList')}</p></main>
   return (
-    <Shell kicker="Facilities" title="Facilities near the Ship Channel monitors">
-      <p className="fx-note" role="note">{UPWIND_NOTE}</p>
-      <p className="small">{data.facilities.length} EPA "Major Emissions" air facilities within 15 km of a state monitor. Each page lists what the facility reported to TCEQ and to EPA.</p>
+    <Shell kicker={t('common.facilities')} title={t('fx.listTitle')}>
+      <p className="fx-note" role="note">{t('fx.upwindNote')}</p>
+      <p className="small">{t('fx.listIntro', { n: data.facilities.length })}</p>
       <div className="fx-search">
-        <label htmlFor="fx-q">Search by name, address or EPA registry id</label>
+        <label htmlFor="fx-q">{t('fx.search')}</label>
         <input id="fx-q" type="search" value={q} onChange={(e) => setQ(e.target.value)} autoComplete="off" />
-        <p role="status" className="muted small">{rows.length} of {data.facilities.length} shown</p>
+        <p role="status" className="muted small">{t('fx.shown', { n: rows.length, total: data.facilities.length })}</p>
       </div>
       <ul className="fx-list fx-rows">
         {rows.map((r) => (
           <li key={r.id} className="fx-card">
             <a href={facilityHref(r.id, BASE)}>{r.name}</a>
             <span className="small muted">{r.address} · {r.distance_km} km from {r.nearest_monitor}</span>
-            <span className="small">{r.reports} report{r.reports === 1 ? '' : 's'} to the state, 2024-2025 · TRI data {r.tri_years ? `${r.tri_years} yr` : 'none'}{r.matched_nights ? ` · ${r.matched_nights} matched night${r.matched_nights === 1 ? '' : 's'}` : ''}</span>
+            <span className="small">{[t(r.reports === 1 ? 'fx.reportsOne' : 'fx.reportsMany', { n: r.reports }), r.tri_years ? t(r.tri_years === 1 ? 'fx.triOne' : 'fx.triMany', { n: r.tri_years }) : t('fx.triNone'), r.matched_nights ? t(r.matched_nights === 1 ? 'fx.matchedOne' : 'fx.matchedMany', { n: r.matched_nights }) : null].filter(Boolean).join(' · ')}</span>
           </li>
         ))}
       </ul>
-      {rows.length === 0 && <p>No facility matches "{q}".</p>}
+      {rows.length === 0 && <p>{t('fx.noMatch', { q })}</p>}
       <p className="muted small">
-        {data.coverage.not_placed} of {data.coverage.detail_pages_cached} cached TCEQ reports could not be tied to one EPA facility and appear on no page.
+        {t('fx.coverage', { a: data.coverage.not_placed, b: data.coverage.detail_pages_cached })}
       </p>
     </Shell>
   )
 }
 
+function BadId() {
+  const t = useT()
+  return <Message title={t('fx.notFound')} text={t('fx.errId')} />
+}
+
 export default function FacilityViews({ view }: { view: 'facility' | 'facilities' }) {
   if (view === 'facilities') return <FacilityList />
   const id = new URLSearchParams(window.location.search).get('id') ?? ''
-  if (!REGISTRY_ID.test(id)) return <Message title="Facility not found" text="That is not an EPA registry id (12 digits)." />
+  if (!REGISTRY_ID.test(id)) return <BadId />
   return <FacilityPage id={id} />
 }
