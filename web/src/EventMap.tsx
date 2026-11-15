@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LngLatBounds, Map as MlMap, Marker, setWorkerUrl, type MapMouseEvent } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -22,7 +22,8 @@ const C = {
   monitor: [31, 94, 160, 255] as RGBA,
   trigger: [190, 30, 45, 255] as RGBA,
   facility: [45, 45, 52, 255] as RGBA,
-  facilityOut: [140, 140, 150, 255] as RGBA,
+  // 3.9:1 on Positron land (#f2f3f0) and 3.4:1 over the corridor fill; the old 140,140,150 was 2.99:1.
+  facilityOut: [120, 120, 130, 255] as RGBA,
   matched: [0, 110, 60, 255] as RGBA,
   white: [255, 255, 255, 255] as RGBA,
   upwind: [190, 30, 45, 200] as RGBA,
@@ -44,19 +45,19 @@ const NEAREST_LABELED = 3
 interface Props {
   ev: PlumeEvent
   corridor: Facility[]
-  labelId: string
   /** Facility id highlighted from the Trace list (hover or keyboard focus). */
   highlightId: string | null
   /** Replay hour (CST) whose readings and wind the map shows. */
   hour: number
 }
 
-export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
+export function EventMap({ ev, corridor, highlightId, hour }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const legend = useRef<HTMLUListElement>(null)
   const highlight = useRef(highlightId)
   const applyHighlight = useRef<(id: string | null) => void>(() => {})
   const hourRef = useRef(hour)
+  const [failure, setFailure] = useState<unknown>(null)
   const applyHour = useRef<(h: number) => void>(() => {})
 
   useEffect(() => {
@@ -126,7 +127,8 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
       center: [trigger.lon, trigger.lat],
       zoom: 11,
       attributionControl: { compact: false, customAttribution: ATTRIBUTION },
-      locale: { 'Map.Title': 'Map of monitors and facilities. The same facilities are listed as text in the Trace step.' },
+      // The surrounding section already names the map; this names the interactive canvas inside it.
+      locale: { 'Map.Title': 'Interactive map: arrow keys pan, plus and minus zoom' },
     })
 
     const bounds = new LngLatBounds()
@@ -135,10 +137,16 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
     if (upwindEnd) bounds.extend(upwindEnd)
     wedges.forEach((w) => w.ring.forEach((p) => bounds.extend(p)))
     // Top padding clears the legend; side padding leaves room for the centred labels under each point.
+    // Padding is clamped to the container: a map shorter or narrower than its padding has no room to fit
+    // into (MapLibre warns, and older builds threw NaN coordinates). Below ~40px there's nothing to fit.
     const fit = () => {
-      const side = isNarrow() ? 64 : 80
-      const top = (legend.current?.offsetHeight ?? 0) + 28
-      map.fitBounds(bounds, { padding: { top, bottom: 48, left: side, right: side }, maxZoom: 14, duration: 0 })
+      const w = el.clientWidth, h = el.clientHeight
+      if (w < 40 || h < 40) return
+      const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 32) / 2))
+      const side = room(isNarrow() ? 64 : 80, w)
+      const wantTop = (legend.current?.offsetHeight ?? 0) + 28, wantBottom = 48
+      const scale = Math.min(1, Math.max(0, h - 32) / (wantTop + wantBottom))
+      map.fitBounds(bounds, { padding: { top: wantTop * scale, bottom: wantBottom * scale, left: side, right: side }, maxZoom: 14, duration: 0 })
     }
     fit()
 
@@ -345,6 +353,14 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
       viewState: camera(),
       controller: false,
       layers: buildLayers(isNarrow()),
+      // deck's input manager makes its canvas a tab stop (tabIndex 0, no focus ring) even with no controller.
+      // It does nothing for keyboard users, and the Trace list is the map's text equivalent, so take it out.
+      onLoad: () => {
+        const c = deckHost.querySelector('canvas')
+        if (!c) return
+        c.tabIndex = -1
+        c.setAttribute('aria-hidden', 'true')
+      },
     })
     let narrow = isNarrow()
     const redraw = () => deck.setProps({ layers: buildLayers(narrow) })
@@ -389,9 +405,14 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
     map.on('move', sync)
     map.on('resize', sync)
 
+    // ResizeObserver runs outside React, so an error here would skip the error boundary; hand it over.
     const ro = new ResizeObserver(() => {
-      map.resize()
-      fit()
+      try {
+        map.resize()
+        fit()
+      } catch (e) {
+        setFailure(e)
+      }
     })
     ro.observe(el)
 
@@ -419,9 +440,12 @@ export function EventMap({ ev, corridor, labelId, highlightId, hour }: Props) {
     applyHour.current(hour)
   }, [hour])
 
+  // Re-thrown during render (after every hook) so MapSlot's error boundary shows its fallback.
+  if (failure) throw failure
+
   return (
     <>
-      <div ref={container} className="map-canvas" aria-labelledby={labelId} />
+      <div ref={container} className="map-canvas" />
       <ul ref={legend} className="legend" aria-hidden="true">
         <li><span className="lg lg-pulse" /> Flagged monitor</li>
         <li><span className="lg lg-scale" /> Monitor (size = {ev.compound.units})</li>
