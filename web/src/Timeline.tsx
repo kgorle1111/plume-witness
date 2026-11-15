@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { Monitor, PlumeEvent } from './types'
 import { compass, hourLabel, readingText, unitShort } from './format'
 import { useLang, useT } from './useT'
+import { playWindow } from './playWindow'
 
-// Default Play window: the morning around a typical detection. Clamped to the hours the file actually has.
-const PLAY_FROM = 6
-const PLAY_TO = 12
 const STEP_MS = 600
 
 interface Props {
@@ -27,8 +25,7 @@ export function Timeline({ ev, hour, onHour }: Props) {
   const hours = trigger.hourly.map((h) => h.hour_cst)
   const first = Math.min(...hours)
   const last = Math.max(...hours)
-  const from = Math.max(first, PLAY_FROM)
-  const to = Math.min(last, PLAY_TO)
+  const { from, to } = playWindow(ev.detection.hour_cst, hours)
   const units = ev.compound.units
 
   useEffect(() => {
