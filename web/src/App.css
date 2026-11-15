@@ -354,8 +354,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
   font-size: 0.9rem;
 }
 .status-reported { color: #14532d; background: #e7f6ec; }
-.status-not_yet_reported { color: #6b4500; background: #fff4dc; }
-.status-no_report_after_deadline { color: #8b1a1a; background: #fdecea; }
+.status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
+.status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }
 .status-search_incomplete { color: #3a3a44; background: #eeeef2; }
 .is-matched-note { padding: 8px 12px; border: 1px solid rgb(0 110 60 / 0.45); border-radius: var(--radius); background: var(--matched-soft); font-size: 0.9rem; }
@@ -425,8 +425,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 }
 .btn:hover:not(:disabled) { background: var(--bg-2); }
 .btn:active:not(:disabled) { transform: translateY(1px); }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn-primary:hover:not(:disabled) { background: #0947ad; border-color: #0947ad; }
+.btn-primary { background: var(--btn-primary-bg); border-color: var(--btn-primary-line); color: var(--btn-primary-ink); }
+.btn-primary:hover:not(:disabled) { background: var(--btn-primary-bg-hover); }
 .btn-done { background: #e7f6ec; border-color: #14532d; color: #14532d; }
 .btn-done::before { content: '✓ '; }
 .btn:disabled { background: var(--bg-2); border-color: var(--line); color: #6b6b74; cursor: not-allowed; }
@@ -526,8 +526,8 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .tl-all { font-size: 0.8rem; color: var(--ink-2); }
 .tl-all summary { cursor: pointer; }
 .tl-all ul { padding-left: 1.2em; }
-.spark-selected { fill: rgb(11 87 208 / 0.14); stroke: var(--accent); stroke-width: 1; }
-.key-sel { background: rgb(11 87 208 / 0.14); border: 1px solid var(--accent); margin-left: 6px; }
+.spark-selected { fill: color-mix(in srgb, var(--accent) 14%, transparent); stroke: var(--accent); stroke-width: 1; }
+.key-sel { background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1px solid var(--accent); margin-left: 6px; }
 
 @media (min-width: 1024px) {
   .stage { flex: 1; min-width: 0; border-right: 1px solid var(--line); }

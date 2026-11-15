@@ -54,6 +54,11 @@ def hour_text(h: int) -> str:
     return f"{(h % 12) or 12}:00 {'a.m.' if h < 12 else 'p.m.'} CST"
 
 
+def row_id(r: dict) -> str:
+    """Same id as spikes.spike_id (not imported: that module pulls in the backtest). Stable when night_id is null."""
+    return f"{r['date']}_{r['param']}_{r['site_id']}"
+
+
 def night_link(night_id: str) -> str:
     return f"{SITE}?night={night_id}"
 
@@ -65,7 +70,7 @@ def monitor_link(site_id: str) -> str:
 def item_for(r: dict) -> dict:
     status = r["status"]
     if status not in STATUS_TEXT:
-        raise FeedError(f"row {r.get('night_id')!r}: status {status!r} has no feed text; add it to STATUS_TEXT")
+        raise FeedError(f"row {row_id(r)!r}: status {status!r} has no feed text; add it to STATUS_TEXT")
     ratio = f" ({r['ratio']:g} times baseline)" if r.get("ratio") is not None else ""
     title = f"{r['compound'].capitalize()} spike at {r['site']}, {r['date']} {hour_text(r['hour_cst'])}"
     reading = (f"{r['compound'].capitalize()} read {r['value_ppb']} ppb against a baseline of {r['baseline_ppb']} ppb"
@@ -73,9 +78,10 @@ def item_for(r: dict) -> dict:
     lines = [reading, f"Record check: {STATUS_TEXT[status]}"]
     if r.get("reason") and status == "search_incomplete":
         lines.append(f"Why: {r['reason']}")
-    lines += [f"Replay this night: {night_link(r['night_id'])}",
-              f"All spikes at this monitor: {monitor_link(r['site_id'])}", CAVEAT]
-    return {"guid": f"plume-witness:{r['night_id']}", "title": title, "link": night_link(r["night_id"]),
+    replay = night_link(r["night_id"]) if r.get("night_id") else None
+    lines += ([f"Replay this night: {replay}"] if replay else [])
+    lines += [f"All spikes at this monitor: {monitor_link(r['site_id'])}", CAVEAT]
+    return {"guid": f"plume-witness:{row_id(r)}", "title": title, "link": replay or monitor_link(r["site_id"]),
             "pub": pub_date(r["date"], r["hour_cst"]), "description": "\n".join(lines)}
 
 

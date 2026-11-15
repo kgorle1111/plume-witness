@@ -133,8 +133,10 @@ def test_no_report_rows_never_name_a_facility(bmt_spikes, bmt_names):
 
 def test_every_spike_row_has_a_replay_file_or_says_why(bmt_spikes, bmt_nights):
     evs, skipped = bmt_nights
-    ids = {r["id"] for _, r in evs} | {s["id"] for s in skipped}
-    assert {r["night_id"] for r in bmt_spikes["rows"]} == ids
+    ids = {r["id"] for _, r in evs}
+    assert {r["night_id"] for r in bmt_spikes["rows"] if r["night_id"]} == ids
+    unlinked = {spikes.spike_id(r) for r in bmt_spikes["rows"] if r["night_id"] is None}
+    assert unlinked <= {s["id"] for s in skipped}, "a row lost its replay link without a skipped night to explain it"
 
 
 def test_published_spike_log_is_current(bmt_spikes):

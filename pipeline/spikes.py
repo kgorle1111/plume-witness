@@ -48,6 +48,11 @@ def night_id(iso_date: str, param: str, site: str) -> str:
     return f"{iso_date}_{param}_{site}"
 
 
+def spike_id(row: dict) -> str:
+    """Stable id of a spike row, replay or not (feed guids, React keys). night_id is null where there is no replay."""
+    return night_id(row["date"], row["param"], row["site_id"])
+
+
 def _num(v: object, where: str) -> float:
     if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) or v < 0:
         raise SpikeExportError(f"{where}: expected a finite number >= 0, got {v!r}")
@@ -55,7 +60,7 @@ def _num(v: object, where: str) -> float:
 
 
 def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
-               site_names: dict[str, str] = backtest.SITE_NAMES) -> dict:
+               site_names: dict[str, str] = backtest.SITE_NAMES, nights_dir: Path | None = None) -> dict:
     where = f"spikes[{i}]"
     try:
         day = datetime.strptime(s["day"], "%m/%d/%Y").date()
@@ -81,8 +86,12 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
     if status == "reported" and not incident:
         raise SpikeExportError(f"{where}: status 'reported' needs a matched_incident")
     lat, lon = coords[site]
+    nid = night_id(day.isoformat(), param, site)
+    # A day with no wind data has no night file (pipeline.nights skips it), so the log must not link to a 404.
+    # nights_dir=None skips the check, for callers that never publish the row.
+    has_night = nights_dir is None or (nights_dir / f"{nid}.json").is_file()
     row = {
-        "night_id": night_id(day.isoformat(), param, site), "date": day.isoformat(), "hour_cst": hour,
+        "night_id": nid if has_night else None, "date": day.isoformat(), "hour_cst": hour,
         "site_id": site, "site": site_names[site],
         "lat": round(lat, 5), "lon": round(lon, 5), "param": param, "compound": COMPOUNDS[param], "value_ppb": value,
         "baseline_ppb": base, "ratio": round(value / base, 1) if base > 0 else None, "status": status,
@@ -99,8 +108,13 @@ def export(bt: dict, coords: dict[str, tuple[float, float]], region: regions.Reg
     spikes = bt.get("spikes")
     if not isinstance(spikes, list) or not spikes:
         raise SpikeExportError("backtest.json has no 'spikes' list; re-run `uv run python -m pipeline.backtest`")
-    rows = [export_row(s, i, coords, region.sites) for i, s in enumerate(spikes)]
+    rows = [export_row(s, i, coords, region.sites, region.nights_out) for i, s in enumerate(spikes)]
     rows.sort(key=lambda r: (r["date"], r["hour_cst"], r["site_id"], r["param"]))
+    # A missing night file is expected only for the no-wind abstentions; any other gap means nights were not regenerated.
+    stray = [spike_id(r) for r in rows if r["night_id"] is None and r.get("reason") != ABSTAIN["no_wind"][1]]
+    if stray:
+        raise SpikeExportError(f"no night file for {stray[:3]}; run `uv run python -m pipeline.nights"
+                               f"{'' if region is regions.HOUSTON else ' --region ' + region.key}` first")
     ss = bt.get("spike_summary") or {}
     if ss.get("spikes") not in (None, len(rows)):
         raise SpikeExportError(f"spike_summary.spikes={ss.get('spikes')} but {len(rows)} rows; backtest.json is "

@@ -2,7 +2,7 @@
 // `node --test test/rain.test.ts` can load it without a bundler.
 import { statusInfo } from './format.ts'
 import { monthYearLabel, translate, type Lang } from './i18n.ts'
-import type { SpikeRow } from './spikes.ts'
+import { spikeKey, type SpikeRow } from './spikes.ts'
 
 const DAY_MS = 86_400_000
 const EPOCH = Date.UTC(2024, 0, 1)
@@ -47,7 +47,7 @@ export function timeSpikes(rows: SpikeRow[]): Timed[] {
   return rows
     .map((row) => ({ row, at: dayIndex(row.date) + row.hour_cst / 24, month: monthOfDate(row.date) }))
     .filter((s) => s.at >= 0 && s.at < TOTAL_DAYS)
-    .sort((a, b) => a.at - b.at || a.row.night_id.localeCompare(b.row.night_id))
+    .sort((a, b) => a.at - b.at || spikeKey(a.row).localeCompare(spikeKey(b.row)))
 }
 
 export interface Visible {

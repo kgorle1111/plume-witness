@@ -1,4 +1,5 @@
 import { InstallHint } from './InstallHint'
+import { ThemeToggle } from './ThemeToggle'
 import { useT } from './useT'
 
 const BASE = import.meta.env.BASE_URL
@@ -18,6 +19,7 @@ export function SiteFooter() {
           <InstallHint />
         </div>
       </details>
+      <ThemeToggle />
     </footer>
   )
 }

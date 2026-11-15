@@ -1,8 +1,8 @@
 // Run: npm test. The spike log's CSV and filter logic, on the real published spikes.json.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { NO_FILTER, csvCell, dateText, parseSpikes, selectRows, toCsv } from '../src/spikes.ts'
+import { existsSync, readFileSync } from 'node:fs'
+import { NO_FILTER, csvCell, dateText, parseSpikes, selectRows, spikeKey, toCsv } from '../src/spikes.ts'
 
 const data = parseSpikes(JSON.parse(readFileSync(new URL('../public/spikes.json', import.meta.url), 'utf8')))
 
@@ -48,4 +48,21 @@ test('dates are formatted without a timezone shift', () => {
 test('a malformed file fails with a fix', () => {
   assert.throws(() => parseSpikes({ schema: 'x', rows: [] }), /pipeline.spikes/)
   assert.throws(() => parseSpikes({ ...data, schema: 'plume-witness.spikes/v1', rows: [{ date: 'Jan 1' }] }), /row 0/)
+})
+
+test('a row links to a replay exactly when its night file exists (Galena Park 2025-10-28 has none)', () => {
+  for (const r of data.rows) {
+    const file = new URL(`../public/nights/${spikeKey(r)}.json`, import.meta.url)
+    assert.equal(r.night_id !== null, existsSync(file), spikeKey(r))
+  }
+  const galena = data.rows.find((r) => spikeKey(r) === '2025-10-28_45201_48_201_0057')!
+  assert.equal(galena.night_id, null)
+})
+
+test('a null night_id still parses, sorts and exports to CSV', () => {
+  const rows = selectRows(data.rows, NO_FILTER, 'date', 'desc')
+  assert.equal(new Set(rows.map(spikeKey)).size, rows.length)
+  const g = data.rows.find((r) => r.night_id === null)!
+  const cols = toCsv([g]).split('\r\n')[1]
+  assert.ok(cols.endsWith(','), 'night_id column is empty, not the text "null"')
 })

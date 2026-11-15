@@ -1,5 +1,5 @@
 // Pure helpers for ?embed=1 (EmbedView.tsx). Self-contained, with .ts imports, so `npm test` can load it.
-import { compass, hourLabel, statusInfo } from './format.ts'
+import { compass, hourLabel, statusInfo, unitFirst, unitShort } from './format.ts'
 import type { PlumeEvent } from './types.ts'
 
 export const EMBED_STEPS = [
@@ -40,7 +40,7 @@ export function stepLine(ev: PlumeEvent, step: EmbedStep): string {
   const d = ev.detection
   if (step === 'detect') {
     const m = ev.monitors.find((x) => x.site_id === d.site_id)
-    return `${m?.name ?? d.site_id} recorded ${d.value} ${ev.compound.units} of ${ev.compound.name} at ${hourLabel(d.hour_cst)} on ${ev.date_local}; its usual level is ${d.baseline} ${ev.compound.units}.`
+    return `${m?.name ?? d.site_id} recorded ${d.value} ${unitFirst(ev.compound.units)} of ${ev.compound.name} at ${hourLabel(d.hour_cst)} on ${ev.date_local}; its usual level is ${d.baseline} ${unitShort(ev.compound.units)}.`
   }
   if (step === 'trace') {
     const n = ev.facilities.filter((f) => f.in_corridor).length

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
-import { hourLabel, safeHttpUrl, statusInfo } from './format'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import { hourLabel, safeHttpUrl, statusInfo, statusLabel } from './format'
+import { StatusIcon } from './StatusIcon'
 import { DEMO_REPLAY_HREF } from './demoHref'
-import { NO_FILTER, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
+import { NO_FILTER, parseSpikes, spikeKey, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
 import { Follow } from './Follow'
 import { REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
@@ -31,6 +32,20 @@ function writeUrl(f: Filters, sort: SortKey, dir: Dir) {
     else q.delete(k)
   }
   history.replaceState(null, '', `${window.location.pathname}?${q.toString()}${window.location.hash}`)
+}
+
+const PHONE = '(max-width: 639.98px)'
+/** True below 640 px: rows render as cards there, so the page never scrolls sideways. One render path at a time. */
+function usePhone(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia?.(PHONE)
+      mq?.addEventListener('change', cb)
+      return () => mq?.removeEventListener('change', cb)
+    },
+    () => window.matchMedia?.(PHONE).matches ?? false,
+    () => false,
+  )
 }
 
 const nightHref = (region: RegionInfo, id: string) => `${import.meta.env.BASE_URL}${regionQuery(region, { night: id })}`
@@ -63,9 +78,19 @@ function downloadCsv(rows: SpikeRow[], f: Filters) {
 function StatusTag({ row, lang }: { row: SpikeRow; lang: Lang }) {
   return (
     <span className="sl-status-cell">
-      <span className={`sl-status sl-status-${row.status}`} lang={lang}>{statusInfo(row.status)[lang]}</span>
+      <span className={`sl-status sl-status-${row.status}`} lang={lang}><StatusIcon kind={statusInfo(row.status).icon} size={14} />{statusInfo(row.status)[lang]}</span>
       {row.reason && <span className="sl-reason">{row.reason}</span>}
     </span>
+  )
+}
+
+/** A night with no file (no wind data) gets plain text: a link there would 404. */
+function ReplayLink({ row, region, lang }: { row: SpikeRow; region: RegionInfo; lang: Lang }) {
+  const t = useT()
+  if (!row.night_id) return <span className="sl-noreplay">{t('spikes.noReplay')}</span>
+  return (
+    <a className="nowrap sl-replay" href={nightHref(region, row.night_id)}
+      aria-label={t('spikes.replayAria', { date: dateLabel(row.date, lang), compound: row.compound, site: row.site })}>{t('spikes.replayLink')}</a>
   )
 }
 
@@ -104,6 +129,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const [sort, setSort] = useState<SortKey>(init.sort)
   const [dir, setDir] = useState<Dir>(init.dir)
   const region = useMemo(() => regionFrom(window.location.search), [])
+  const phone = usePhone()
 
   useEffect(() => {
     const ctrl = new AbortController()
@@ -199,7 +225,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           <summary>{t('spikes.statusesHelp')}</summary>
           <dl>
             {STATUS_NOTES.map((k) => (
-              <div key={k}><dt><span className={`sl-status sl-status-${k}`} lang={lang}>{statusInfo(k)[lang]}</span></dt><dd>{t(`status.note.${k}`)}</dd></div>
+              <div key={k}><dt><span className={`sl-status sl-status-${k}`} lang={lang}><StatusIcon kind={statusInfo(k).icon} size={14} />{statusLabel(k, lang)}</span></dt><dd>{t(`status.note.${k}`)}</dd></div>
             ))}
           </dl>
         </details>
@@ -212,6 +238,15 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
           <Select id="sl-status" label={t('spikes.fCheck')} value={filters.status} onChange={set('status')} options={options.status} />
           <Select id="sl-year" label={t('spikes.fYear')} value={filters.year} onChange={set('year')} options={options.year} />
         </div>
+        {phone && (
+          <div className="sl-sortbar">
+            <Select id="sl-sort" label={t('spikes.sortBy')} value={sort} onChange={(v) => { setSort(v as SortKey); setDir('desc') }}
+              options={[['date', t('spikes.hDate')], ['value', t('spikes.hPeak')], ['ratio', t('spikes.hRatio')]]} />
+            <button type="button" className="btn sl-dir" onClick={() => setDir(dir === 'asc' ? 'desc' : 'asc')}>
+              <span aria-hidden="true">{dir === 'asc' ? '▲' : '▼'}</span> {orderText}
+            </button>
+          </div>
+        )}
         <div className="sl-actions">
           <p className="sl-count" aria-live="polite">{t('spikes.showing', { n: rows.length, total: s.spikes })}</p>
           {filtered && <button type="button" className="btn" onClick={() => setFilters(NO_FILTER)}>{t('spikes.clear')}</button>}
@@ -225,8 +260,38 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         rows={rows}
         monitors={filters.site ? options.monitors.filter(([v]) => v === filters.site) : options.monitors}
         years={filters.year ? [filters.year] : options.years}
+        onOpen={(id) => window.location.assign(nightHref(region, id))}
       />
 
+      {phone ? (
+        <div className="sl-cards-wrap">
+          <p id="sl-caption" className="sl-cards-cap">
+            {t('spikes.capSorted', { what: filtered ? t('spikes.capFiltered') : t('spikes.capMonitors', { n: options.site.length - 1 }), by: sortText, order: orderText })}
+          </p>
+          <ul className="sl-cards" aria-label={t('spikes.cardsLabel')}>
+            {rows.map((r) => {
+              const report = safeHttpUrl(r.report_url)
+              return (
+                <li key={spikeKey(r)} className="sl-card">
+                  <div className="sl-card-top">
+                    <p className="sl-card-when"><time dateTime={r.date}>{dateLabel(r.date, lang)}</time> · {hourLabel(r.hour_cst)}</p>
+                    <StatusTag row={r} lang={lang} />
+                  </div>
+                  <p className="sl-card-where">{r.site} · {r.compound}</p>
+                  <dl className="sl-card-nums">
+                    <div><dt>{t('spikes.hPeak')}</dt><dd>{r.value_ppb}</dd></div>
+                    <div><dt>{t('spikes.hBase')}</dt><dd>{r.baseline_ppb}</dd></div>
+                    <div><dt>{t('spikes.hRatio')}</dt><dd>{r.ratio === null ? '—' : `${r.ratio}×`}</dd></div>
+                  </dl>
+                  {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
+                  <div className="sl-card-replay"><ReplayLink row={r} region={region} lang={lang} /></div>
+                </li>
+              )
+            })}
+          </ul>
+          {!rows.length && <p className="sl-empty">{t('spikes.empty')}</p>}
+        </div>
+      ) : (
       <div className="sl-table-wrap" tabIndex={0} role="region" aria-labelledby="sl-caption">
         <table className="sl-table">
           <caption id="sl-caption">
@@ -249,7 +314,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
             {rows.map((r) => {
               const report = safeHttpUrl(r.report_url)
               return (
-                <tr key={r.night_id}>
+                <tr key={spikeKey(r)}>
                   <th scope="row" className="nowrap"><time dateTime={r.date}>{dateLabel(r.date, lang)}</time></th>
                   <td className="nowrap">{hourLabel(r.hour_cst)}</td>
                   <td>{r.site}</td>
@@ -262,7 +327,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                     {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">{t('spikes.tceqReport', { id: r.matched_incident ?? '' })}</a>}
                   </td>
                   <td>
-                    <a className="nowrap sl-replay" href={nightHref(region, r.night_id)} aria-label={t('spikes.replayAria', { date: dateLabel(r.date, lang), compound: r.compound, site: r.site })}>{t('spikes.replayLink')}</a>
+                    <ReplayLink row={r} region={region} lang={lang} />
                   </td>
                 </tr>
               )
@@ -271,6 +336,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         </table>
         {!rows.length && <p className="sl-empty">{t('spikes.empty')}</p>}
       </div>
+      )}
       <p className="sl-foot">
         <T k="spikes.source" v={{ via: t(region.backtested ? 'spikes.srcBacktest' : 'spikes.srcScan'), code: <code>pipeline/spikes.py</code> }} />
       </p>
