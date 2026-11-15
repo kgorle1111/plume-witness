@@ -26,7 +26,7 @@ def test_houston_defaults_point_at_the_old_paths():
     assert regions.HOUSTON.raw == backtest.BT == nights.BT
     assert regions.HOUSTON.spikes_out == spikes.OUT
     assert regions.HOUSTON.nights_out == nights.OUT
-    assert backtest.SITE_NAMES == regions.HOUSTON_SITES and len(backtest.SITE_NAMES) == 8
+    assert backtest.SITE_NAMES == regions.HOUSTON_SITES and len(backtest.SITE_NAMES) == 12
 
 
 def test_houston_backtest_json_is_byte_identical():
@@ -52,7 +52,7 @@ def test_committed_web_registry_matches_regions_py():
     assert [r["key"] for r in rows] == list(regions.REGIONS)
     assert rows[0] == {"key": "houston", "label": "Houston Ship Channel", "label_es": "Houston Ship Channel",
                        "place": "on the Houston Ship Channel", "place_es": "en el Canal de Navegación de Houston",
-                       "dir": "", "backtested": True, "n_sites": 8, "county": "HARRIS"}
+                       "dir": "", "backtested": True, "n_sites": 12, "county": "HARRIS"}
     assert rows[1]["dir"] == "regions/beaumont/" and rows[1]["backtested"] is False
 
 

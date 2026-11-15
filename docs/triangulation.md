@@ -25,35 +25,42 @@ number in `docs/backtest.md`; it adds an optional `triangulation` block to each 
 
 | Question | Answer |
 |---|---|
-| Spikes in the scan | 415 (1 without wind at the flagged monitor, so no corridor) |
-| 2+ monitors met the trigger within 1 h | 18 / 415 (4%; 95% CI 3-7%) |
-| ...and 2+ of them had a usable wedge (own wind, not calm) | 4 / 415 (1%; 95% CI 0-2%) |
-| Median facilities: corridor vs intersection (those 4) | 5.0 vs 1.0 (median share kept 0.25) |
-| Verdict "narrows" (intersection <= 75% of corridor) | 1 / 4 (25%; 95% CI 5-70%) |
-| ...of which the monitors were under 22.5 degrees apart as seen from the intersection | 1 of 1 |
+| Spikes in the scan | 468 (2 without wind at the flagged monitor, so no corridor) |
+| 2+ monitors met the trigger within 1 h | 31 / 468 (7%; 95% CI 5-9%) |
+| ...and 2+ of them had a usable wedge (own wind, not calm) | 11 / 468 (2%; 95% CI 1-4%) |
+| Median facilities: corridor vs intersection (those 11) | 6 vs 2 (median share kept 0.4) |
+| Verdict "narrows" (intersection <= 75% of corridor) | 7 / 11 (64%; 95% CI 35-85%) |
+| ...of which the monitors were under 22.5 degrees apart as seen from the intersection | 6 of 7 |
 | Spikes whose record check matched a report | 17 |
-| ...with 2+ usable wedges | 1 |
-| ...matched facility inside the intersection | 1 / 1 (100%; 95% CI 21-100%) |
+| ...with 2+ usable wedges | 2 |
+| ...matched facility inside the intersection | 1 / 2 (50%; 95% CI 10-90%) |
 
-Verdicts over all nights: single 300, not_traced 98, single_wind 12, no_overlap 2, aligned 1, narrows 1. Monitors that met the trigger but were left out (on spikes with 2+
-triggering): no wind reading of its own (10), no wind reading of its own (corridor drawn from a neighbour's wind) (9), wind too light to trace (2.3 mph) (1), wind too light to trace (2.8 mph) (1).
+Verdicts over all nights: single 272, not_traced 172, single_wind 11, narrows 7, no_overlap 3, aligned 1. Monitors that met the trigger but were left out (on spikes with 2+
+triggering): wind too light to trace (0.9 mph) (3), wind too light to trace (2.9 mph) (2), wind too light to trace (2.8 mph) (2), wind too light to trace (1.2 mph) (2), wind too light to trace (0 mph) (1), wind too light to trace (2.7 mph) (1), wind too light to trace (1.5 mph) (1), wind too light to trace (1.8 mph) (1), wind too light to trace (2.3 mph) (1), no wind reading of its own (corridor drawn from a neighbour's wind) (1), wind too light to trace (0.7 mph) (1), wind too light to trace (1.9 mph) (1), wind too light to trace (2.4 mph) (1), wind too light to trace (1.7 mph) (1), wind too light to trace (1 mph) (1), wind too light to trace (2 mph) (1), wind too light to trace (1.4 mph) (1).
 
 ## Every spike with 2+ usable wedges
 
 | Night | Monitors (flagged first) | Corridor | Intersection | Separation (deg) | Verdict | Record check | Matched facility in intersection |
 |---|---|---|---|---|---|---|---|
+| 2024-01-10_45201_48_201_0036 | 48_201_0036, 48_201_1015 | 39 | 29 | 18.6 | narrows | search_incomplete | - |
+| 2024-03-12_45201_48_201_0803 | 48_201_0803, 48_201_0057 | 29 | 0 | - | no_overlap | reported_mismatch | no |
+| 2024-03-15_43218_48_201_1035 | 48_201_1035, 48_201_0307 | 5 | 3 | 1.8 | narrows | search_incomplete | - |
 | 2024-06-21_45201_48_201_0069 | 48_201_0069, 48_201_0307 | 47 | 37 | 10.5 | aligned | reported | yes |
 | 2025-03-02_43218_48_201_0069 | 48_201_0069, 48_201_0026 | 4 | 0 | - | no_overlap | no_report_after_deadline | - |
+| 2025-05-03_43218_48_201_1015 | 48_201_1015, 48_201_1614 | 2 | 1 | 6.7 | narrows | no_report_after_deadline | - |
+| 2025-05-04_43218_48_201_1015 | 48_201_1015, 48_201_1614 | 5 | 2 | 15.6 | narrows | no_report_after_deadline | - |
+| 2025-05-18_43218_48_201_1035 | 48_201_1035, 48_201_0069 | 7 | 2 | 9.0 | narrows | no_report_after_deadline | - |
 | 2025-05-28_43218_48_201_0307 | 48_201_0307, 48_201_0069 | 4 | 2 | 4.7 | narrows | no_report_after_deadline | - |
-| 2025-05-31_43218_48_201_0026 | 48_201_0026, 48_201_1015 | 6 | 0 | - | no_overlap | no_report_after_deadline | - |
+| 2025-05-31_43218_48_201_0026 | 48_201_0026, 48_201_1614, 48_201_1015 | 6 | 0 | - | no_overlap | no_report_after_deadline | - |
+| 2025-08-09_43218_48_201_1614 | 48_201_1614, 48_201_1015, 48_201_0036 | 33 | 1 | 46.0 | narrows | no_report_after_deadline | - |
 
 ## What this does and does not show
 
-- **n is tiny.** 4 of 415 spikes had two usable wedges, and
-  1 of those had a matched report, so the "matched facility inside the intersection"
+- **n is tiny.** 11 of 468 spikes had two usable wedges, and
+  2 of those had a matched report, so the "matched facility inside the intersection"
   row is an anecdote, not a rate. Its 95% interval says as much.
-- **Seen from the intersection, the monitors were nearly in line.** On 2 of the
-  2 spikes with a non-empty intersection the monitors were under 22.5 degrees apart
+- **Seen from the intersection, the monitors were nearly in line.** On 7 of the
+  8 spikes with a non-empty intersection the monitors were under 22.5 degrees apart
   as seen from it, so any narrowing there comes from two wind vanes pointing in slightly different directions,
   which is as consistent with wind-direction noise as with a smaller source area. (Monitors used were at most
   16.9 km apart.)

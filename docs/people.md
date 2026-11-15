@@ -16,6 +16,10 @@ Source: U.S. Census Bureau, ACS 2024 5-year (2020-2024), census-tract estimates 
 | Lynchburg Ferry | 0 | no tract point within 3 km (nearest 3.65 km) | - | - | - | - | - | - |
 | HRM-3 Haden Road | 6 | 27,314 | 92.0% | 85.2% | 24.5% | 33.0% | 8.0% | $53,109 |
 | Channelview | 5 | 32,185 | 69.9% | 57.9% | 17.9% | 33.4% | 9.4% | $73,113 |
+| Channelview Drive Water Tower | 3 | 14,529 | 73.0% | 61.0% | 25.2% | 29.7% | 12.3% | $48,028 |
+| Houston Deer Park #2 | 6 | 37,250 | 47.2% | 27.2% | 3.1% | 24.7% | 14.8% | $82,464 |
+| Pasadena Richey Elementary School | 11 | 43,108 | 89.6% | 72.6% | 19.1% | 28.1% | 9.3% | $55,898 |
+| Cesar Chavez | 13 | 45,279 | 78.4% | 63.9% | 24.0% | 24.8% | 12.2% | $53,051 |
 
 ## Within 5 km
 
@@ -29,6 +33,10 @@ Source: U.S. Census Bureau, ACS 2024 5-year (2020-2024), census-tract estimates 
 | Lynchburg Ferry | 3 | 8,227 | 66.0% | 51.9% | 17.3% | 27.6% | 13.1% | $70,790 |
 | HRM-3 Haden Road | 21 | 80,731 | 75.7% | 66.1% | 20.3% | 30.7% | 10.0% | $58,883 |
 | Channelview | 14 | 70,723 | 71.0% | 60.2% | 15.3% | 32.1% | 8.9% | $66,171 |
+| Channelview Drive Water Tower | 9 | 48,050 | 74.6% | 63.1% | 18.2% | 33.5% | 9.1% | $66,205 |
+| Houston Deer Park #2 | 19 | 95,077 | 51.8% | 30.2% | 4.5% | 26.4% | 15.0% | $83,775 |
+| Pasadena Richey Elementary School | 27 | 110,599 | 85.2% | 67.6% | 19.7% | 29.1% | 9.5% | $54,258 |
+| Cesar Chavez | 37 | 119,973 | 82.5% | 68.1% | 24.3% | 26.7% | 10.9% | $53,616 |
 
 ## Headline sentences (3 km)
 
@@ -42,5 +50,9 @@ Each sentence is generated from the 3 km row above. Source for all: ACS 2024 5-y
 - No census tract has its internal point within 3 km of the Lynchburg Ferry monitor (nearest is 3.65 km), so the 3 km method returns nothing here. Within 5 km: 3 tracts, about 8,200 people, 66.0% Hispanic or Latino. Do not read this as an empty area; the tracts around it are large.
 - Around the HRM-3 Haden Road monitor, about 27,300 people live in the 6 census tracts within 3 km; 92.0% are Hispanic or Latino, 85.2% of residents age 5+ speak Spanish at home, and 24.5% of households have limited English. About 9,000 are children under 18 and 2,200 are 65 or older.
 - Around the Channelview monitor, about 32,200 people live in the 5 census tracts within 3 km; 69.9% are Hispanic or Latino, 57.9% of residents age 5+ speak Spanish at home, and 17.9% of households have limited English. About 10,800 are children under 18 and 3,000 are 65 or older.
+- Around the Channelview Drive Water Tower monitor, about 14,500 people live in the 3 census tracts within 3 km; 73.0% are Hispanic or Latino, 61.0% of residents age 5+ speak Spanish at home, and 25.2% of households have limited English. About 4,300 are children under 18 and 1,800 are 65 or older.
+- Around the Houston Deer Park #2 monitor, about 37,200 people live in the 6 census tracts within 3 km; 47.2% are Hispanic or Latino, 27.2% of residents age 5+ speak Spanish at home, and 3.1% of households have limited English. About 9,200 are children under 18 and 5,500 are 65 or older.
+- Around the Pasadena Richey Elementary School monitor, about 43,100 people live in the 11 census tracts within 3 km; 89.6% are Hispanic or Latino, 72.6% of residents age 5+ speak Spanish at home, and 19.1% of households have limited English. About 12,100 are children under 18 and 4,000 are 65 or older.
+- Around the Cesar Chavez monitor, about 45,300 people live in the 13 census tracts within 3 km; 78.4% are Hispanic or Latino, 63.9% of residents age 5+ speak Spanish at home, and 24.0% of households have limited English. About 11,200 are children under 18 and 5,500 are 65 or older.
 
-Do not add the per-monitor counts for a combined figure: the 3 km areas overlap (Milby Park, Manchester, Galena Park and Clinton are within a few km of each other), so the sum (153,669) double-counts residents.
+Do not add the per-monitor counts for a combined figure: the 3 km areas overlap (Milby Park, Manchester, Galena Park and Clinton are within a few km of each other), so the sum (293,835) double-counts residents.

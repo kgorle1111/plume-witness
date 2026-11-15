@@ -58,7 +58,8 @@ Hourly readings are provisional TCEQ data and can change; a spike can also come 
       <guid isPermaLink="false">plume-witness:2024-02-02_45201_48_201_1035</guid>
       <pubDate>Fri, 02 Feb 2024 04:00:00 -0600</pubDate>
       <description>Benzene read 12.47 ppb against a baseline of 0.13 ppb (95.9 times baseline) at Clinton on 2024-02-02 in the hour starting 4:00 a.m. CST.
-Record check: No matching company report was found in a complete search. This is a question for the state, not a finding.
+Record check: The record check could not finish, so this feed says nothing either way.
+Why: A report filed that day could not be placed on the map, so absence cannot be claimed.
 Replay this night: https://kgorle1111.github.io/plume-witness/?night=2024-02-02_45201_48_201_1035
 All spikes at this monitor: https://kgorle1111.github.io/plume-witness/?view=spikes&amp;site=48_201_1035
 Hourly readings are provisional TCEQ data and can change; a spike can also come from a non-industrial source or an instrument fault.</description>

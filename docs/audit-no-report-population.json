@@ -1,0 +1,2497 @@
+{
+"schema": "plume-witness.audit-population/v1",
+"note": "Frozen: the spike scan the 10-night hand audit was drawn from (8 Ship Channel monitors, data/build/backtest.json at commit 000793c, 2026-11-15). The audit samples from these rows, not the live backtest, so adding monitors cannot redraw the hand-read nights.",
+"source_commit": "000793c",
+"spikes": [
+{
+"day": "01/04/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/06/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/07/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/08/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/09/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "reported_mismatch"
+},
+{
+"day": "01/10/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/13/2024",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "01/14/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "01/17/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "01/17/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/19/2024",
+"param": "45201",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/22/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/23/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/24/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/26/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/26/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/29/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/29/2024",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/31/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/01/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "02/02/2024",
+"param": "45201",
+"site_id": "48_201_1035",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/02/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/03/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/03/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/06/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "02/07/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "02/07/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "02/08/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "02/14/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/24/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "03/02/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "03/02/2024",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "search_incomplete"
+},
+{
+"day": "03/03/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/05/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/06/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/06/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/07/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "03/07/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/10/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/11/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/12/2024",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "reported_mismatch"
+},
+{
+"day": "03/12/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/13/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/15/2024",
+"param": "43218",
+"site_id": "48_201_1035",
+"status": "search_incomplete"
+},
+{
+"day": "03/16/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "03/17/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/19/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/20/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "03/24/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/27/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/27/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/28/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "03/29/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/30/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/02/2024",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/04/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/05/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/06/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/09/2024",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/12/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/12/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported_mismatch"
+},
+{
+"day": "04/13/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/15/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/17/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/19/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/20/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/21/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported"
+},
+{
+"day": "04/22/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported"
+},
+{
+"day": "04/23/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "04/23/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/24/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/25/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/26/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/28/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/29/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported_mismatch"
+},
+{
+"day": "04/30/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported_mismatch"
+},
+{
+"day": "05/01/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/02/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/04/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/08/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "05/09/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/10/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/11/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/12/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/15/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "05/15/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/16/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/17/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/18/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/19/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/20/2024",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/22/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/25/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/27/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/28/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "05/28/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/29/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "05/30/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/31/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/01/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/01/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/02/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/03/2024",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/03/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/04/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/05/2024",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/07/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/08/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "06/09/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/10/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/10/2024",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/12/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/13/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "reported"
+},
+{
+"day": "06/13/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/14/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/15/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/16/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/17/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/17/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/21/2024",
+"param": "45201",
+"site_id": "48_201_0069",
+"status": "reported"
+},
+{
+"day": "06/24/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/24/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "06/29/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/11/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "07/13/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "07/13/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "07/14/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/18/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "07/22/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "07/23/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/26/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/27/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "08/11/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/11/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "08/16/2024",
+"param": "45201",
+"site_id": "48_201_1035",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/22/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/23/2024",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "08/25/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/28/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "09/09/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/13/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "09/17/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "09/20/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/21/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/25/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/26/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "09/27/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "09/29/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/30/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/02/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/06/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/07/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/08/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/10/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/11/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/12/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "10/15/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/20/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/21/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/22/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/23/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/24/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "10/25/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/26/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/27/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/28/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/29/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/30/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "10/30/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "10/31/2024",
+"param": "45201",
+"site_id": "48_201_0307",
+"status": "reported_mismatch"
+},
+{
+"day": "11/02/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/06/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/08/2024",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "11/09/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/10/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/11/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/11/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/12/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/13/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/14/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/15/2024",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/15/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/18/2024",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "search_incomplete"
+},
+{
+"day": "11/19/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "11/22/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "11/24/2024",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "11/24/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "11/26/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/28/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "11/30/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/01/2024",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/11/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "12/12/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "12/15/2024",
+"param": "43218",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "12/16/2024",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "12/18/2024",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "12/19/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "12/20/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/21/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/27/2024",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "12/28/2024",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "12/28/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/29/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "12/30/2024",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "12/31/2024",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "01/02/2025",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "01/03/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "01/11/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "01/12/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "01/12/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "reported_mismatch"
+},
+{
+"day": "01/13/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "01/15/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/15/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "01/16/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/17/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "01/18/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "01/23/2025",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "reported"
+},
+{
+"day": "01/26/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "01/27/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "01/30/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "01/31/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "02/01/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "02/02/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "02/10/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "02/12/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "02/13/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "02/14/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "02/16/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "02/17/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "02/22/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "02/23/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "02/24/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "reported_mismatch"
+},
+{
+"day": "02/26/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "02/26/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "02/27/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "02/27/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "02/28/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "02/28/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "03/01/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "03/02/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/06/2025",
+"param": "45201",
+"site_id": "48_201_0307",
+"status": "reported"
+},
+{
+"day": "03/07/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/08/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "03/10/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/11/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/11/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/14/2025",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/15/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/15/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "03/16/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "03/16/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/17/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "03/18/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/21/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/22/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "03/24/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/25/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "03/25/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/26/2025",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "03/27/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/28/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/29/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "03/31/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/03/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/04/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/05/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/11/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "04/12/2025",
+"param": "45201",
+"site_id": "48_201_0307",
+"status": "search_incomplete"
+},
+{
+"day": "04/15/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "04/22/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/23/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/24/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/24/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/25/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/27/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/29/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "04/30/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/03/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/04/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/06/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/07/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/08/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/09/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/17/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/18/2025",
+"param": "43218",
+"site_id": "48_201_1035",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/22/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "05/26/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "05/28/2025",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "05/31/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/02/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/02/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/03/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/03/2025",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/04/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/05/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/08/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/09/2025",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/11/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/12/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/13/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/14/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/15/2025",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/19/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/23/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/23/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/25/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/25/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/26/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/27/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/28/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "06/29/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "06/29/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/03/2025",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "07/03/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/05/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/09/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "07/09/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "07/12/2025",
+"param": "43218",
+"site_id": "48_201_1035",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/14/2025",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/19/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "07/26/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/27/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "07/27/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "07/29/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "07/31/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/04/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/05/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "08/05/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/07/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/08/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/08/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/09/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/09/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/10/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/10/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/11/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/15/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "reported_mismatch"
+},
+{
+"day": "08/17/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/19/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/19/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/23/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "08/25/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "08/25/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/26/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "08/26/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "08/29/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "08/31/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/02/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/05/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/06/2025",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/10/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/10/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/11/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/11/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/12/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/12/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/13/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/15/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/15/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/18/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/19/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/19/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/20/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/21/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "09/22/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/22/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "09/27/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/27/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/28/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/28/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/29/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/30/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "09/30/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/04/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "search_incomplete"
+},
+{
+"day": "10/05/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/06/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "10/07/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "10/07/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "10/10/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/11/2025",
+"param": "45201",
+"site_id": "48_201_0307",
+"status": "search_incomplete"
+},
+{
+"day": "10/11/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/14/2025",
+"param": "45201",
+"site_id": "48_201_0026",
+"status": "search_incomplete"
+},
+{
+"day": "10/15/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/15/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/16/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/17/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/17/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/18/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/18/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/23/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/24/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/24/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/25/2025",
+"param": "43218",
+"site_id": "48_201_0069",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/26/2025",
+"param": "43218",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+},
+{
+"day": "10/27/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/27/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "10/28/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_wind"
+},
+{
+"day": "10/31/2025",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "no_report_after_deadline"
+},
+{
+"day": "10/31/2025",
+"param": "43218",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/01/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/03/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/04/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/05/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "no_report_after_deadline"
+},
+{
+"day": "11/06/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "11/08/2025",
+"param": "43218",
+"site_id": "48_201_1015",
+"status": "reported_mismatch"
+},
+{
+"day": "11/10/2025",
+"param": "43218",
+"site_id": "48_201_0026",
+"status": "reported_mismatch"
+},
+{
+"day": "11/18/2025",
+"param": "43218",
+"site_id": "48_201_0307",
+"status": "no_report_after_deadline"
+},
+{
+"day": "12/07/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "12/09/2025",
+"param": "43218",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "12/10/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "12/12/2025",
+"param": "45201",
+"site_id": "48_201_1015",
+"status": "search_incomplete"
+},
+{
+"day": "12/15/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "12/18/2025",
+"param": "45201",
+"site_id": "48_201_0803",
+"status": "search_incomplete"
+},
+{
+"day": "12/19/2025",
+"param": "45201",
+"site_id": "48_201_0057",
+"status": "search_incomplete"
+},
+{
+"day": "12/30/2025",
+"param": "45201",
+"site_id": "48_201_1614",
+"status": "search_incomplete"
+}
+]
+}
