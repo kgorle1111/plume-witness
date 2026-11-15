@@ -64,7 +64,8 @@ test('the embed speaks the reader\'s language: Spanish step names and lines, num
       assert.ok(!/\{\w+\}/.test(line), `unfilled slot in ${lang} ${s.id}: ${line}`)
     }
   }
-  // English stays as it was (the record's own compound text included).
+  // English stays as it was. On a match the record's compound is the monitored one, spelled as the monitor spells it
+  // (review M1: the report's first contaminant line could be another compound).
   assert.equal(stepLine(ev, 'trace'), stepLine(ev, 'trace', 'en'))
-  assert.match(stepLine(ev, 'check'), /^State record: Reported\. Report #\d+ lists Benzene in the corridor\. This is not a finding/)
+  assert.match(stepLine(ev, 'check'), /^State record: Reported\. Report #\d+ lists benzene in the corridor\. This is not a finding/)
 })
