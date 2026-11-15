@@ -25,7 +25,7 @@ export const STATUS_FILL: Record<string, string> = {
   reported_mismatch: '#7a3fb0',
   search_incomplete: '#8a8a94',
   not_yet_reported: '#3d5a80',
-  reported: '#1f7a45',
+  reported: '#2f6b57',
 }
 
 /** The label to show where there is room for it (falls back to the short chip text). */

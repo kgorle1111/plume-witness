@@ -123,7 +123,7 @@
   font-size: 0.8rem;
   white-space: nowrap;
 }
-.sl-status-reported { color: #14532d; background: #e7f6ec; }
+.sl-status-reported { color: var(--matched); background: var(--matched-soft); }
 .sl-status-not_yet_reported { color: var(--pending-fg); background: var(--pending-bg); }
 .sl-status-no_report_after_deadline { color: var(--q-fg); background: var(--q-bg); }
 .sl-status-reported_mismatch { color: #5a2a85; background: #f3e9fb; }

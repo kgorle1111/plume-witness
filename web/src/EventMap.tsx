@@ -9,6 +9,7 @@ import type { Facility, Monitor, PlumeEvent } from './types'
 import { destination, mergeArcs, readingText, sectorRing, unitShort } from './format'
 import { placeReadout } from './geo'
 import type { Place } from './PlaceSearch'
+import { tintBasemap } from './basemapTint'
 import { dotsNear, hit, layoutLabels, numberedDots, type Box, type LabelAsk, type Placed } from './labelLayout'
 import { LANDING_METRICS } from './landingMetrics'
 import { introOnLoad as introRule } from './mapIntro'
@@ -26,22 +27,29 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron'
 const ATTRIBUTION = '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'
 
 type RGBA = [number, number, number, number]
+// The teal / coral / sage palette (index.css tokens; the tiles stay light in both themes, so these do too). Marks are
+// 3:1 or more on the retinted land (#eef4f2, basemapTint.ts): coral trigger 3.45, monitor teal 7.0, facility 11.3,
+// out-of-corridor facility 4.0 (3.4 over the corridor fill and over peach industrial land), filed facility 5.6,
+// no-data ring 4.7. Label text sits on a near-opaque white plate:
+// coral ink 6.0, teal ink 7.8, sage ink 6.3, ink 15.
 const C = {
-  monitor: [31, 94, 160, 255] as RGBA,
-  trigger: [190, 30, 45, 255] as RGBA,
-  facility: [45, 45, 52, 255] as RGBA,
-  // 3.9:1 on Positron land (#f2f3f0) and 3.4:1 over the corridor fill; the old 140,140,150 was 2.99:1.
-  facilityOut: [120, 120, 130, 255] as RGBA,
-  matched: [0, 110, 60, 255] as RGBA,
+  monitor: [51, 88, 93, 255] as RGBA,
+  trigger: [208, 96, 77, 255] as RGBA,
+  triggerText: [169, 67, 47, 255] as RGBA,
+  // Soft coral disc under the flagged monitor, so the spike is the first thing the eye finds.
+  triggerHalo: [208, 96, 77, 56] as RGBA,
+  facility: [36, 54, 59, 255] as RGBA,
+  facilityOut: [110, 121, 124, 255] as RGBA,
+  matched: [47, 107, 87, 255] as RGBA,
   white: [255, 255, 255, 255] as RGBA,
-  upwind: [190, 30, 45, 200] as RGBA,
-  labelBg: [255, 255, 255, 235] as RGBA,
-  text: [20, 20, 24, 255] as RGBA,
-  focus: [11, 87, 208, 255] as RGBA,
-  noData: [110, 110, 120, 255] as RGBA,
-  corridorFill: [190, 30, 45, 22] as RGBA,
-  corridorLine: [190, 30, 45, 140] as RGBA,
-  corridorText: [140, 20, 30, 255] as RGBA,
+  upwind: [208, 96, 77, 235] as RGBA,
+  labelBg: [255, 255, 255, 240] as RGBA,
+  text: [20, 41, 46, 255] as RGBA,
+  focus: [78, 122, 128, 255] as RGBA,
+  noData: [98, 111, 114, 255] as RGBA,
+  corridorFill: [224, 122, 104, 44] as RGBA,
+  corridorLine: [208, 96, 77, 200] as RGBA,
+  corridorText: [169, 67, 47, 255] as RGBA,
   // Violet: the triangulation overlay (other monitors' wedges, facilities inside every wedge).
   triLine: [109, 40, 217, 200] as RGBA,
   triFill: [109, 40, 217, 14] as RGBA,
@@ -177,7 +185,8 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
       const v = readingAt(m)?.value
       if (v == null) return [255, 255, 255, 0]
       const t = share(v)
-      return [Math.round(120 + (190 - 120) * t), Math.round(165 + (30 - 165) * t), Math.round(215 + (45 - 215) * t), 255]
+      // Light teal (low) to coral (high), the legend's lg-scale swatch.
+      return [Math.round(157 + (208 - 157) * t), Math.round(191 + (96 - 191) * t), Math.round(195 + (77 - 195) * t), 255]
     }
     const monitorText = (m: Monitor) => {
       const h = readingAt(m)
@@ -215,7 +224,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
     const map = new MlMap({
       container: el,
       style: STYLE_URL,
-      transformStyle: (_prev, next) => quietShieldFilters(next, monitorNames),
+      transformStyle: (_prev, next) => tintBasemap(quietShieldFilters(next, monitorNames)),
       // The intro starts zoomed out to Earth (projection switches to globe once the style loads).
       center: phaseNow === 'flat' ? [trigger.lon, trigger.lat] : [trigger.lon - 35, trigger.lat - 8],
       zoom: phaseNow === 'flat' ? 11 : 1.4,
@@ -453,7 +462,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           getFillColor: C.corridorFill,
           stroked: true,
           getLineColor: C.corridorLine,
-          getLineWidth: 1.5,
+          getLineWidth: 2,
           lineWidthUnits: 'pixels',
         }),
       triWedges.length > 0 &&
@@ -487,7 +496,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           data: [upwindFor(hourRef.current)],
           getPath: (d: { path: [number, number][] }) => d.path,
           getColor: C.upwind,
-          getWidth: 4,
+          getWidth: 5,
           widthUnits: 'pixels',
           capRounded: true,
         }),
@@ -499,6 +508,16 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
           getFillColor: C.trigger,
           stroked: false,
         }),
+      new ScatterplotLayer<Monitor>({
+        id: 'trigger-halo',
+        data: [trigger],
+        getPosition: (m) => [m.lon, m.lat],
+        getRadius: (m) => monitorRadius(m, narrow) + (narrow ? 10 : 16),
+        radiusUnits: 'pixels',
+        getFillColor: C.triggerHalo,
+        updateTriggers: { getRadius: hourRef.current },
+        transitions: reduceMotion ? undefined : { getRadius: 250 },
+      }),
       new ScatterplotLayer<Monitor>({
         id: 'monitors',
         data: ev.monitors,
@@ -545,7 +564,7 @@ export function EventMap({ ev, corridor, highlightId, hour, place }: Props) {
         getPosition: (m) => [m.lon, m.lat],
         getText: monitorText,
         getSize: monitorSize(narrow),
-        getColor: (m) => (m.site_id === trigger.site_id ? C.trigger : C.monitor),
+        getColor: (m) => (m.site_id === trigger.site_id ? C.triggerText : C.monitor),
         getTextAnchor: (m) => ANCHOR[mPlace(m)],
         getAlignmentBaseline: (m) => BASELINE[mPlace(m)],
         getPixelOffset: (m) => offsetOf(monitorsAt.get(m.site_id), monitorRadius(m, narrow) + 5),

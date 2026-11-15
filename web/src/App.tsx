@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from 'react'
+import { animate } from 'motion/mini'
 import { parseEvent, type PlumeEvent } from './types'
 import { MapSlot } from './MapSlot'
 import { Timeline } from './Timeline'
@@ -83,6 +84,18 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   }, [siteLang])
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const { corridor, outside } = useCorridor(ev)
+  const panel = useRef<HTMLElement>(null)
+  const shownStep = useRef(active)
+  // Each step fades in when it opens (PR #90): opacity only, so nothing shifts. The first paint and reduced motion
+  // skip it. motion's mini animate is a Web Animation with no fill: if it never runs, the step is simply shown.
+  useLayoutEffect(() => {
+    if (shownStep.current === active) return
+    shownStep.current = active
+    const el = panel.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const fade = animate(el, { opacity: [0, 1] }, { duration: 0.2, ease: 'easeOut' })
+    return () => fade.stop()
+  }, [active])
 
   useEffect(() => {
     const onHash = () => setActive(stepFromHash())
@@ -113,6 +126,8 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
   return (
     <>
       <div className="stepper" role="tablist" aria-label={t('nav.steps')} onKeyDown={onKey}>
+        {/* Pill nav (PR #90): one pill slides behind the selected step; the tabs carry the state. */}
+        <span className="step-pill" aria-hidden="true" style={{ transform: `translateX(${active * 100}%)` }} />
         {STEPS.map((s, i) => (
           <button
             key={s.id}
@@ -138,7 +153,7 @@ function Stepper({ ev, hour, onHighlight, place, onPlace }: StepperProps) {
       {packetReview.lang === 'es' && <ReviewNote />}
       <p className="sr-only" aria-live="polite">{langNotice}</p>
 
-      <section role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
+      <section ref={panel} role="tabpanel" id={`panel-${step}`} aria-labelledby={`tab-${step}`} className="step-panel">
         <h2 key={step}>{t(STEPS[active].title)}</h2>
         {step === 'detect' && <Detect ev={ev} hour={hour} />}
         {step === 'trace' && <Trace ev={ev} corridor={corridor} outside={outside} onHighlight={onHighlight} place={place} onPlace={onPlace} />}
