@@ -248,23 +248,6 @@ def fetch_echo() -> None:
         log(f"echo {site}: {len(res.get('Facilities', []))} of {res.get('QueryRows')}")
 
 
-def fetch_echo_names(names: list[str]) -> None:
-    for name in names:
-        tag = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
-        out = f"echo_name_{tag}.json"
-        if (BT / out).exists() or (BT / f"{out}.none").exists():
-            continue
-        q = {"output": "JSON", "p_fn": name, "p_st": "TX"}
-        qid = json.loads(_polite_get(ECHO_QUERY + "?" + urllib.parse.urlencode(q)))["Results"].get("QueryID")
-        if not qid:
-            (BT / f"{out}.none").write_text("")
-            log(f"echo name {name}: none")
-            continue
-        page = {"output": "JSON", "qid": qid, "pageno": "1"}
-        _save(out, ECHO_PAGE, {**q, **page}, _polite_get(ECHO_PAGE + "?" + urllib.parse.urlencode(page)))
-        log(f"echo name {name}")
-
-
 def site_coords(site: str) -> tuple[float, float]:
     t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", (BT / f"tamis_{site}.html").read_text(encoding="latin-1")))
     lat = re.search(r"Latitude:[^(]*\((-?\d+\.\d+)", t)
