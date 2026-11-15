@@ -92,9 +92,10 @@ h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
 @media (pointer: coarse) {
   .site-foot a { position: relative; padding-block: 13px; margin-block: -7px; }
 }
-/* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links. */
+/* In the fixed-height replay shell on a phone the footer would take the step panel's room: keep the two links.
+   It still wraps: in Spanish one nowrap row was 518px wide at 375 and scrolled the whole page sideways. */
 @media (max-width: 1023px) {
-  .app .site-foot { padding: 0 16px; flex-wrap: nowrap; }
+  .app .site-foot { padding: 0 16px; column-gap: 12px; }
   .app .site-foot span, .app .site-foot a:nth-of-type(3) { display: none; }
 }
 /* Desktop replay: one short line whatever the language, so the map keeps its height and nothing jumps when Español
