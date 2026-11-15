@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { hit, layoutLabels, numberedDots, type Box, type LabelAsk } from '../src/labelLayout.ts'
+import { dotsNear, hit, layoutLabels, numberedDots, type Box, type LabelAsk } from '../src/labelLayout.ts'
 
 const base = { width: 800, height: 400, top: 0, dots: [] as { id: string; box: Box }[] }
 const ask = (id: string, x: number, y: number, w = 120, h = 30, extra: Partial<LabelAsk> = {}): LabelAsk => ({ id, x, y, size: [w, h], gap: 13, ...extra })
@@ -44,4 +44,21 @@ test('overlapping dots: the nearer keeps its number, the filed-report one always
   const shown = numberedDots(dots, new Set(['n37']))
   assert.deepEqual([...shown].sort(), ['far', 'n37'])
   assert.deepEqual([...numberedDots(dots, new Set())].sort(), ['far', 'n36'])
+})
+
+test('a reading never covers the flagged marker: reserved like a label, it drops a reading with no free side', () => {
+  // The flagged monitor's pulse ring, reserved; a second monitor right above it whose every side lands on it.
+  const ring: Box = [280, 180, 320, 220]
+  const m = ask('manchester', 300, 170, 200, 60, { gap: 4 })
+  const r = layoutLabels({ ...base, reserved: [ring], monitors: [m], facilities: [] })
+  for (const p of r.monitors.values()) assert.ok(!hit(p.box, ring), 'a placed reading covers the flagged marker')
+  // With room on one side it still shows, on that side.
+  const roomy = layoutLabels({ ...base, reserved: [ring], monitors: [ask('m2', 300, 165, 80, 20, { gap: 8 })], facilities: [] })
+  assert.equal(roomy.monitors.get('m2')?.where, 'above')
+})
+
+test('dotsNear lists the dots within the radius, nearest first, each id once', () => {
+  const dots = [{ id: 'a', x: 10, y: 0 }, { id: 'b', x: 3, y: 4 }, { id: 'c', x: 30, y: 0 }, { id: 'b', x: 1, y: 0 }]
+  assert.deepEqual(dotsNear(dots, 0, 0, 20).map((d) => [d.id, d.x]), [['b', 1], ['a', 10]])
+  assert.deepEqual(dotsNear(dots, 0, 0, 0.5), [])
 })

@@ -209,12 +209,17 @@ const EN = {
   'map.lgFlagged': 'Flagged monitor',
   'map.lgMonitor': 'Monitor (size = {unit})',
   'map.lgNoData': 'No data',
-  'map.lgFacility': 'Facility',
+  'map.lgFacility': 'Facility (1 = nearest)',
   'map.lgFiled': 'Filed report',
   'map.lgWind': 'Wind this hour',
   'map.lgTri': "Other triggering monitor's upwind wedge",
   'map.lgRing': "Inside every monitor's wedge",
   'map.lgPlace': 'Searched place',
+  'map.twoFingers': 'Use two fingers to move the map',
+  'map.zoomKey': 'Use {key} + scroll to zoom the map',
+  'map.baseFailed': 'The base map didn\'t load. Monitors and facilities still show; every facility is listed in the Trace step.',
+  'map.chooseTitle': 'Facilities here',
+  'map.chooseClose': 'Close',
 
   // "Embed this night" box and the ?embed=1 view (EmbedView)
   'embed.open': 'Embed this night',
@@ -228,11 +233,6 @@ const EN = {
   'embed.stepGroup': 'Step',
   'embed.foot': 'real public data, replayed',
   'embed.openFull': 'Open in Plume Witness',
-
-  // Night picker
-  'night.label': 'Replay another night',
-  'night.open': 'Open',
-  'night.demo': 'Demo night',
   // ?embed=1 step sentences (embed.ts stepLine). {unit} is the spelled-out unit, {short} the short one.
   'embed.lineDetect': '{site} recorded {value} {unit} of {compound} at {hour} on {date}; its usual level is {baseline} {short}.',
   'embed.lineWind': 'Wind came from the {dir} ({deg}°) at {mph} mph.',
@@ -243,6 +243,11 @@ const EN = {
   'embed.lineFiled': 'Report #{id} lists {compound} in the corridor.',
   'embed.theCompound': 'the compound',
   'embed.lineNotFinding': 'This is not a finding about any facility.',
+
+  // Night picker
+  'night.label': 'Replay another night',
+  'night.open': 'Open',
+  'night.demo': 'Demo night',
   'night.demoHouston': 'Demo night (Houston)',
 
   // Footer
@@ -766,12 +771,17 @@ const ES: Record<StringKey, string> = {
   'map.lgFlagged': 'Monitor que dio la alerta',
   'map.lgMonitor': 'Monitor (tamaño = {unit})',
   'map.lgNoData': 'Sin datos',
-  'map.lgFacility': 'Instalación',
+  'map.lgFacility': 'Instalación (1 = la más cercana)',
   'map.lgFiled': 'Reporte presentado',
   'map.lgWind': 'Viento a esta hora',
   'map.lgTri': 'Zona viento arriba de otro monitor que dio la alerta',
   'map.lgRing': 'Dentro de la zona de todos los monitores',
   'map.lgPlace': 'Lugar buscado',
+  'map.twoFingers': 'Use dos dedos para mover el mapa',
+  'map.zoomKey': 'Use {key} + la rueda del mouse para acercar o alejar el mapa',
+  'map.baseFailed': 'El mapa base no se cargó. Los monitores y las instalaciones siguen a la vista; cada instalación aparece en el paso Rastrear.',
+  'map.chooseTitle': 'Instalaciones aquí',
+  'map.chooseClose': 'Cerrar',
 
   // Cuadro «Insertar esta noche» y la vista ?embed=1 (EmbedView)
   'embed.open': 'Insertar esta noche',
@@ -785,6 +795,15 @@ const ES: Record<StringKey, string> = {
   'embed.stepGroup': 'Paso',
   'embed.foot': 'datos públicos reales, repetidos',
   'embed.openFull': 'Abrir en Plume Witness',
+  'embed.lineDetect': '{site} registró {value} {unit} de {compound} a las {hour} del {date}; su nivel habitual es {baseline} {short}.',
+  'embed.lineWind': 'El viento venía del {dir} ({deg}°) a {mph} mph.',
+  'embed.lineNoWind': 'No hay lectura de viento para esa hora.',
+  'embed.lineTrace': '{n} instalaciones de la lista están en esa dirección viento arriba. El viento en un solo monitor no puede distinguirlas.',
+  'embed.lineTraceOne': '1 instalación de la lista está en esa dirección viento arriba. El viento en un solo monitor no puede distinguirla de otras en la misma línea.',
+  'embed.lineCheck': 'Registro estatal: {status}.',
+  'embed.lineFiled': 'El reporte n.º {id} indica {compound} en el corredor.',
+  'embed.theCompound': 'el compuesto',
+  'embed.lineNotFinding': 'Esto no es una conclusión sobre ninguna instalación.',
 
   'night.label': 'Ver otra noche',
   'night.open': 'Abrir',
@@ -795,15 +814,6 @@ const ES: Record<StringKey, string> = {
   'foot.docs': 'Documentación de datos abiertos (en inglés)',
   'foot.offline': 'Funciona sin conexión después de la primera visita (los mosaicos del mapa pueden verse en blanco).',
   'foot.about': 'Acerca de este sitio',
-  'embed.lineDetect': '{site} registró {value} {unit} de {compound} a las {hour} del {date}; su nivel habitual es {baseline} {short}.',
-  'embed.lineWind': 'El viento venía del {dir} ({deg}°) a {mph} mph.',
-  'embed.lineNoWind': 'No hay lectura de viento para esa hora.',
-  'embed.lineTrace': '{n} instalaciones de la lista están en esa dirección viento arriba. El viento en un solo monitor no puede distinguirlas.',
-  'embed.lineTraceOne': '1 instalación de la lista está en esa dirección viento arriba. El viento en un solo monitor no puede distinguirla de otras en la misma línea.',
-  'embed.lineCheck': 'Registro estatal: {status}.',
-  'embed.lineFiled': 'El reporte n.º {id} indica {compound} en el corredor.',
-  'embed.theCompound': 'el compuesto',
-  'embed.lineNotFinding': 'Esto no es una conclusión sobre ninguna instalación.',
   'foot.wrong': '¿Algo aquí está mal?',
   'foot.wrongTitle': 'Corrección: {page}',
   'foot.wrongBody': 'Página: {page}\n\nQué parece estar mal:\n\nQué debería decir, y su fuente:\n',
