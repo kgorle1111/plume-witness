@@ -2,7 +2,7 @@
 
 - **Scope:** `web/` replay of the real event in `web/public/event.json` (2024-06-21 benzene, Houston Ship Channel): Detect, Trace, Check, Packet, the "What this can't say" panel, approve + file dialog, EN/ES toggle, read aloud.
 - **Standard:** WCAG 2.2 AA. Touch targets held to 44 x 44 CSS px on mobile, which is stricter than the AA minimum (2.5.8 asks for 24 px; 44 px is AAA 2.5.5).
-- **Date:** 2026-11-14, branch `lane/a11y` at `01e6a75`.
+- **Date:** 2026-11-14. Audited at `01e6a75`. The fixes were rebased onto `aac7e09` (lazy-loaded map, Gemini drafter) and checked again there: Lighthouse 100/100, reflow at 320x256, Trace tab stops.
 - **Viewports:** 375x812 (mobile, touch, DPR 2) and 1440x900. Also 812x375 (phone landscape) and 320x256 (1280x1024 at 400% zoom).
 - **Tools:** Chrome 157 DevTools (Lighthouse accessibility category, accessibility tree snapshot, emulation of reduced motion and forced colors). axe-core 4.10.2 injected from cdnjs in a DevTools snippet, run on every step. `npx @axe-core/cli` did not run: its bundled ChromeDriver supports only Chrome 152 and the fix is a browser download, which I skipped. Contrast ratios computed by script from the CSS and `EventMap.tsx` color constants. Keyboard path driven with real key events (Tab, arrows, Enter, Escape).
 
@@ -11,8 +11,9 @@
 | | 375x812 | 1440x900 |
 |---|---|---|
 | Lighthouse accessibility, before | 100 | 100 |
-| Lighthouse accessibility, after | see "After the fixes" | see "After the fixes" |
+| Lighthouse accessibility, after | 100 | 100 |
 | axe violations (all steps), before | 1 (`landmark-unique`) | 1 (`landmark-unique`) |
+| axe violations (all steps), after | 1 (`landmark-unique`, out of lane) | 1 (`landmark-unique`, out of lane) |
 
 Lighthouse in navigation mode only sees the Detect step on first load, and it found no failures. That 100 missed every Serious finding below. Two of them (the step panel shrinking to 0 px, and the focusable canvas with no focus ring) only show up through manual testing.
 
@@ -38,6 +39,7 @@ Severity is about the effect on users: **Critical** blocks the task, **Serious**
 | 14 | Minor | 2.4.1 Bypass Blocks (A, met by landmarks) | Page start | Keyboard order: map canvas, deck canvas, 4 attribution links, then the steps. There is no skip link. The landmarks technically meet 2.4.1, but sighted keyboard users don't navigate by landmark. | Add a "Skip to steps" link as the first focusable element, pointing at the `aside`. | `App.tsx` | no (out of lane) |
 | 15 | Minor | 2.5.8 Target Size (AA, inline exception applies) | Map attribution links | 12 px tall. They pass through the inline-text exception. | Leave as is, or raise `.maplibregl-ctrl-attrib` line-height on mobile. | `App.css` | no (passes AA) |
 | 16 | Minor | 1.4.11 Non-text Contrast (AA) | Map: facility dot outside the corridor `rgb(140,140,150)` | 2.99:1 against Positron land `#f2f3f0` (needs 3:1). It has a white stroke, and the Trace list carries the same data. This event has 0 outside facilities. | Darken to about `rgb(120,120,130)` (3.9:1). | `EventMap.tsx` | no (out of lane) |
+| 18 | Serious (latent) | 1.4.10 Reflow / robustness | `EventMap` `fit()` and the missing error boundary | Found while fixing #1: when the map is shorter than legend height + 76 px of `fitBounds` padding, MapLibre throws `Invalid LngLat object: (NaN, 90)`. With no error boundary, React unmounts everything and the page goes **blank**. The 240 px map floor in `App.css` avoids it today. Any layout change that shrinks the map brings it back. | Clamp the padding to the map size in `fit()` (or skip `fitBounds` when the box is negative), and add an error boundary around `EventMap` so a map failure leaves the steps usable. | `EventMap.tsx`, `App.tsx` | no (out of lane; avoided via CSS) |
 | 17 | Minor | 1.4.4 / readability | Map labels at 375 px | Standing labels and numbered dots overlap in the dense part of the corridor ("37. Ineos…" sits over dots 3 and 4). Every name is still in the Trace list, so it is not a barrier. | Add collision handling (deck `CollisionFilterExtension`) or label only the matched facility on narrow maps. | `EventMap.tsx` | no (out of lane) |
 
 ### Not an a11y finding, but flagged
@@ -78,4 +80,21 @@ Severity is about the effect on users: **Critical** blocks the task, **Serious**
 
 ## After the fixes
 
-Filled in after the fix commits on this branch.
+Fixed on this branch: #1, #3–#12. Each fix was re-checked in the browser:
+
+| Check | Before | After |
+|---|---|---|
+| Step panel height at 812x375 (phone landscape) | 83 px (23 px of content) | page scrolls; panel 4948 px, stepper sticks at top |
+| Step panel height at 320x256 (400% zoom) | 0 px | page scrolls; panel 817 px, no horizontal scroll |
+| Document overflow on Check / Packet at 375x812 | about 700 px (`scrollHeight` 1523) | 0 px |
+| Tab stops in the Trace panel | 44 (40 list items + 4) | 5; arrows/Home/End move inside the list; Shift+Tab goes back to the last facility |
+| Touch targets under 44 px inside the step panel (all steps, 375 px) | 4 (EN, ES, hourly summary, record link) | 0 |
+| Pulse ring after 4.5 s | still animating | 0 running animations; static ring at 1.6x, opacity 0.9 |
+| Legend in forced colors | 6 identical outlined circles | swatches match the map colors; selected step number filled with `Highlight` |
+| "Read aloud" while speaking, accessibility tree | `button "Stop reading" pressed` | `button "Stop reading"` |
+| Edit an approved draft | nothing announced | live region: "Draft edited. Approve it again before filing." |
+| Lighthouse accessibility (navigation, Detect step) | 100 / 100 | 100 / 100 |
+| axe-core 4.10.2, every step, both sizes | `landmark-unique` x1 | `landmark-unique` x1 (needs `EventMap.tsx`/`App.tsx`) |
+| `npm run build`, `npx oxlint` | n/a | both pass (exit 0) |
+
+Still open, and not this lane's to fix: #2 (deck canvas focus stop), #13 (duplicate map region name), #14 (skip link), #16 (outside-corridor dot contrast), #17 (map label overlap), #18 (fitBounds throws and blanks the app). Also the language-switch approval question above.
