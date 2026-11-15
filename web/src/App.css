@@ -96,11 +96,23 @@
 }
 
 .panel {
+  /* Positioned so .sr-only text stays inside this scroll box instead of stretching the document. */
+  position: relative;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--bg);
+}
+
+/* Short and narrow (phone landscape, 400% zoom): the fixed shell left the step panel 0-80px tall,
+   so the page scrolls as one column instead and the map gives up height (WCAG 1.4.10). */
+@media (max-width: 1023px) and (max-height: 540px) {
+  .app { height: auto; min-height: 100dvh; }
+  .layout { flex: none; }
+  /* Keep the 240px floor: EventMap's fitBounds padding (legend + 76px) throws on a shorter map. */
+  .map-wrap { height: 60vh; height: 60dvh; }
+  .panel { flex: none; overflow: visible; }
 }
 
 .stepper {
