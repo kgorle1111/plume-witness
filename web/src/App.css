@@ -266,6 +266,16 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .spark-bar { fill: var(--monitor); }
 .spark-peak { fill: var(--trigger); }
 .spark-baseline { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.spark-report-fill { fill: rgb(176 96 0 / 0.22); }
+.spark-report-edge { stroke: #8a4b00; stroke-width: 1.5; }
+.spark-report-cap { stroke: #8a4b00; stroke-width: 3; }
+.spark-report.is-mismatch .spark-report-fill { fill: rgb(122 63 176 / 0.12); }
+.spark-report.is-mismatch .spark-report-edge, .spark-report.is-mismatch .spark-report-cap { stroke: #5a2a85; stroke-dasharray: 4 3; }
+.spark-arrival { fill: #8a4b00; stroke: #fff; stroke-width: 1; }
+.key-report { background: rgb(176 96 0 / 0.22); border: 1.5px solid #8a4b00; margin-left: 6px; }
+.key-report.is-mismatch { background: rgb(122 63 176 / 0.12); border: 1.5px dashed #5a2a85; }
+.key-arrival { color: #8a4b00; font-size: 0.7rem; }
+.spark-note { margin: 6px 0 0; }
 .spark-axis { font-size: 9px; fill: var(--ink-2); }
 .spark-missing { font-size: 10px; fill: var(--ink-2); }
 .spark figcaption { font-size: 0.78rem; color: var(--ink-2); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
@@ -608,5 +618,6 @@ code { font-family: var(--mono); font-size: 0.82rem; background: var(--bg-2); pa
 .place-pin.label-left .place-label { left: auto; right: 30px; }
 .lg-place { width: 10px; height: 13px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--place); }
 
-.night-picker { display: block; margin-top: 0.5rem; font-size: 0.85rem; }
-.night-picker select { max-width: 100%; font: inherit; }
+/* A <select> sizes to its longest option; width:100% + min-width:0 keeps long night labels from widening the page. */
+.night-picker { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem; font-size: 0.85rem; min-width: 0; }
+.night-picker select { width: 100%; max-width: 32rem; min-width: 0; min-height: 44px; font: inherit; text-overflow: ellipsis; }

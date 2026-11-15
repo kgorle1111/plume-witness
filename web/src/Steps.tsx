@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type Dispatch, type KeyboardEvent, type SetStateAction } from 'react'
-import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent } from './types'
+import { type AiDraft, type DayIncident, type Facility, type Monitor, type PlumeEvent, type RecordCheck } from './types'
 import { compass, hourLabel, readingText, safeHttpUrl, statusInfo } from './format'
 import { incidentNote } from './note'
+import { facilityHref } from './facilities'
+import { arrivalTick, daysAfterEvent, reportBand } from './reportWindow'
 import type { Lang, PacketReview, Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
@@ -43,14 +45,21 @@ export function StatusBadge({ status, lang = 'en' }: { status: string; lang?: La
   )
 }
 
-function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; units: string; highlightHour: number; selectedHour: number }) {
+function Sparkline({ m, units, highlightHour, selectedHour, rc, eventDay }: { m: Monitor; units: string; highlightHour: number; selectedHour: number; rc: RecordCheck; eventDay: string }) {
   const W = 288, H = 96, pad = 14
   const values = m.hourly.map((h) => h.value ?? 0)
   const max = Math.max(...values, m.baseline) || 1
   const bw = (W - 4) / 24
   const y = (v: number) => H - pad - (v / max) * (H - pad - 6)
   const missing = m.hourly.filter((h) => h.value === null).length
-  const summary = `24 hourly readings at ${m.name}. Highest ${m.peak.value} ${units} at ${hourLabel(m.peak.hour_cst)}; baseline ${m.baseline} ${units}.${missing ? ` ${missing} hours have no value.` : ''}`
+  const band = reportBand(rc, eventDay)
+  const tick = band ? arrivalTick(rc, eventDay) : null
+  const bandLabel = band && (band.matched ? 'Company-reported release window (its own report)' : 'Report lists other compounds')
+  const bandText = band
+    ? ` Shaded band: ${band.matched ? 'the company-reported release window, from its own report' : 'a report that lists other compounds, drawn dashed'}, ${band.localText}${band.cstText ? ` (${band.cstText})` : ''}${band.startsBefore ? '; it began before this day' : ''}${band.endsAfter ? '; it continues past this day' : ''}.${tick ? ` Marker: ${tick.text}.` : ''}`
+    : ''
+  const summary = `24 hourly readings at ${m.name}. Highest ${m.peak.value} ${units} at ${hourLabel(m.peak.hour_cst)}; baseline ${m.baseline} ${units}.${missing ? ` ${missing} hours have no value.` : ''}${bandText}`
+  const bx = (h: number) => 2 + h * bw
   return (
     <figure className="spark">
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
@@ -58,6 +67,14 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
         {m.hourly.map((h, i) => h.hour_cst === selectedHour && (
           <rect key="sel" x={2 + i * bw - 1} y={0} width={bw + 2} height={H - pad} className="spark-selected" />
         ))}
+        {band && (
+          <g className={band.matched ? 'spark-report' : 'spark-report is-mismatch'}>
+            <rect x={bx(band.from)} y={0} width={Math.max(bx(band.to) - bx(band.from), 2)} height={H - pad} className="spark-report-fill" />
+            <line x1={bx(band.from)} x2={bx(band.to)} y1={1.5} y2={1.5} className="spark-report-cap" />
+            {!band.startsBefore && <line x1={bx(band.from)} x2={bx(band.from)} y1={0} y2={H - pad} className="spark-report-edge" />}
+            {!band.endsAfter && <line x1={bx(band.to)} x2={bx(band.to)} y1={0} y2={H - pad} className="spark-report-edge" />}
+          </g>
+        )}
         {m.hourly.map((h, i) => {
           const x = 2 + i * bw
           if (h.value === null) {
@@ -70,6 +87,9 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
           )
         })}
         <line x1="0" x2={W} y1={y(m.baseline)} y2={y(m.baseline)} className="spark-baseline" />
+        {tick && (
+          <path d={`M${bx(tick.hourCst) - 4} ${H - pad + 1}h8l-4 -7z`} className="spark-arrival" />
+        )}
         <text x="2" y={H - 2} className="spark-axis">00</text>
         <text x={W / 2} y={H - 2} className="spark-axis" textAnchor="middle">12</text>
         <text x={W - 2} y={H - 2} className="spark-axis" textAnchor="end">23 h CST</text>
@@ -79,6 +99,13 @@ function Sparkline({ m, units, highlightHour, selectedHour }: { m: Monitor; unit
         <span className="key key-base" aria-hidden="true" /> baseline{' '}
         <span className="key key-sel" aria-hidden="true" /> replay hour{missing ? ' · × no value' : ''}
       </figcaption>
+      {band && (
+        <p className="spark-note small">
+          <span className={band.matched ? 'key key-report' : 'key key-report is-mismatch'} aria-hidden="true" /> <strong>{bandLabel}:</strong> {band.localText}{band.cstText ? <> (= {band.cstText}, the clock this chart uses)</> : ''}{band.startsBefore || band.endsAfter ? '; the band covers the part inside this day' : ''}.
+          {tick && <> <span className="key-arrival" aria-hidden="true">▲</span> {tick.text[0].toUpperCase() + tick.text.slice(1)}.</>}
+        </p>
+      )}
+      {rc.status === 'no_report_after_deadline' && <p className="spark-note muted small">No matching report in a complete search.</p>}
       <details className="hourly-table">
         <summary>Show all 24 hourly values</summary>
         <table>
@@ -116,7 +143,7 @@ export function Detect({ ev, hour }: { ev: PlumeEvent; hour: number }) {
         <div><dt>Usual level (baseline)</dt><dd>{d.baseline} {u}</dd></div>
         <div><dt>Rule used</dt><dd><code>{d.rule}</code></dd></div>
       </dl>
-      <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} />
+      <Sparkline m={m} units={u} highlightHour={d.hour_cst} selectedHour={hour} rc={ev.record_check} eventDay={ev.date_local} />
       <p className="small">
         Replay hour {hourLabel(hour)}: <strong>{atHour ? readingText(atHour.value, atHour.flag, u) : 'no data'}</strong>
       </p>
@@ -178,7 +205,7 @@ export function Trace({ ev, corridor, outside, onHighlight, place, onPlace }: Tr
               onFocus={() => { setCurrent(i); onHighlight(f.id) }}
               onBlur={() => onHighlight(null)}
             >
-              <span className="fl-name">{f.name}</span>
+              <a className="fl-name" href={facilityHref(f.id, import.meta.env.BASE_URL)}>{f.name}</a>
               {f.id === matched && ev.record_check.incident && <span className="filed-tag">Filed report #{ev.record_check.incident}</span>}
               <span className="fl-geo">{f.distance_km} km away · bearing {f.bearing_deg}° ({compass(f.bearing_deg)})</span>
               <span className="fl-align">
@@ -233,6 +260,15 @@ export function Check({ ev, lang }: { ev: PlumeEvent; lang: Lang }) {
               <div><dt>Time reported</dt><dd>{localTime(r.start_local)} to {localTime(r.end_local)}{r.tz ? ` ${r.tz}` : ''}</dd></div>
             )}
             {r.cause && <div><dt>Cause given</dt><dd>{r.cause}</dd></div>}
+            {(r.revisions ?? []).map((v) => {
+              const n = r.start_local ? daysAfterEvent(r.start_local, v.date) : null
+              return (
+                <div key={`${v.date}-${v.text}`}>
+                  <dt>Report update</dt>
+                  <dd>{n != null ? `Revised ${n} day${n === 1 ? '' : 's'} after the event` : `Revised ${v.date}`}: <q>{v.text}</q> <span className="muted">(company update dated {v.date}, quoted from the state record)</span></dd>
+                </div>
+              )
+            })}
           </dl>
         </>
       )}

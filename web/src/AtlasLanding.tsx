@@ -1,5 +1,5 @@
 import { lazy, Suspense, type MouseEventHandler } from 'react'
-import { DEMO_REPLAY_HREF } from './routes'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import './AtlasLanding.css'
 
 const AtlasGlobe = lazy(() => import('./AtlasGlobe'))

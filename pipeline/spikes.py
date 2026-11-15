@@ -5,14 +5,19 @@ coordinates. Rows carry counts and ids, never a facility name: a spike with no m
 company. Re-run after the backtest changes:
 
     uv run python -m pipeline.backtest && uv run python -m pipeline.spikes
+
+Another region has no backtest, so its spike scan runs here directly (same backtest.spike_scan, no candidates):
+
+    uv run python -m pipeline.spikes --region beaumont   (writes web/public/regions/beaumont/spikes.json)
 """
 
 import json
 import math
+import sys
 from datetime import datetime
 from pathlib import Path
 
-from pipeline import backtest, build
+from pipeline import backtest, build, regions
 from pipeline.contract import STATUSES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -49,15 +54,16 @@ def _num(v: object, where: str) -> float:
     return float(v)
 
 
-def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]]) -> dict:
+def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]],
+               site_names: dict[str, str] = backtest.SITE_NAMES) -> dict:
     where = f"spikes[{i}]"
     try:
         day = datetime.strptime(s["day"], "%m/%d/%Y").date()
         site, param, hour, status = s["site_id"], s["param"], s["hour_cst"], s["status"]
     except (KeyError, TypeError, ValueError) as e:
         raise SpikeExportError(f"{where}: bad or missing day/site_id/param/hour_cst/status ({e!r})") from e
-    if site not in backtest.SITE_NAMES:
-        raise SpikeExportError(f"{where}: unknown site_id {site!r}; add it to backtest.SITE_NAMES first")
+    if site not in site_names:
+        raise SpikeExportError(f"{where}: unknown site_id {site!r}; add it to the region's sites first")
     if param not in COMPOUNDS:
         raise SpikeExportError(f"{where}: unknown param {param!r}; expected one of {sorted(COMPOUNDS)}")
     if not isinstance(hour, int) or isinstance(hour, bool) or not 0 <= hour <= 23:
@@ -77,7 +83,7 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]]) -> dict:
     lat, lon = coords[site]
     row = {
         "night_id": night_id(day.isoformat(), param, site), "date": day.isoformat(), "hour_cst": hour,
-        "site_id": site, "site": backtest.SITE_NAMES[site],
+        "site_id": site, "site": site_names[site],
         "lat": round(lat, 5), "lon": round(lon, 5), "param": param, "compound": COMPOUNDS[param], "value_ppb": value,
         "baseline_ppb": base, "ratio": round(value / base, 1) if base > 0 else None, "status": status,
         "reason": reason, "reports_that_day": int(s.get("day_reports") or 0), "matched_incident": incident,
@@ -86,14 +92,14 @@ def export_row(s: dict, i: int, coords: dict[str, tuple[float, float]]) -> dict:
     return {k: v for k, v in row.items() if k in ROW_KEYS or v is not None}
 
 
-def export(bt: dict, coords: dict[str, tuple[float, float]]) -> dict:
+def export(bt: dict, coords: dict[str, tuple[float, float]], region: regions.Region = regions.HOUSTON) -> dict:
     if bt.get("schema") != SOURCE_SCHEMA:
         raise SpikeExportError(f"backtest schema is {bt.get('schema')!r}, expected {SOURCE_SCHEMA}; "
                                "re-run `uv run python -m pipeline.backtest`")
     spikes = bt.get("spikes")
     if not isinstance(spikes, list) or not spikes:
         raise SpikeExportError("backtest.json has no 'spikes' list; re-run `uv run python -m pipeline.backtest`")
-    rows = [export_row(s, i, coords) for i, s in enumerate(spikes)]
+    rows = [export_row(s, i, coords, region.sites) for i, s in enumerate(spikes)]
     rows.sort(key=lambda r: (r["date"], r["hour_cst"], r["site_id"], r["param"]))
     ss = bt.get("spike_summary") or {}
     if ss.get("spikes") not in (None, len(rows)):
@@ -103,10 +109,14 @@ def export(bt: dict, coords: dict[str, tuple[float, float]]) -> dict:
     for r in rows:
         by_status[r["status"]] = by_status.get(r["status"], 0) + 1
     rules = bt.get("rules") or {}
+    # Houston's file keeps its exact shape; another region says up front that nothing here is backtested.
+    head = {} if region is regions.HOUSTON else {
+        "region": {"key": region.key, "label": region.label, "county": region.county_title,
+                   "backtested": region.backtested, "note": region.note}}
     return {
-        "schema": SCHEMA,
+        "schema": SCHEMA, **head,
         "generated_by": "uv run python -m pipeline.spikes",
-        "source": "data/build/backtest.json",
+        "source": bt.get("source", "data/build/backtest.json"),
         "trigger": rules.get("trigger") or f"value >= max({build.TRIGGER_RATIO:g} x 7-day median baseline, "
                                              f"{build.TRIGGER_FLOOR_PPB:g} ppb)",
         "corridor": rules.get("corridor"),
@@ -122,20 +132,50 @@ def export(bt: dict, coords: dict[str, tuple[float, float]]) -> dict:
     }
 
 
-def main() -> None:
-    try:
-        bt = json.loads(SRC.read_text())
-    except FileNotFoundError as e:
-        raise SystemExit(f"{SRC} not found; run `uv run python -m pipeline.backtest` first") from e
-    coords = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
-    out = export(bt, coords)
-    text = json.dumps(out, separators=(",", ":"), ensure_ascii=False)
+def region_scan(region: regions.Region) -> tuple[dict, dict[str, tuple[float, float]]]:
+    """A backtest.json-shaped spike scan for a region with no backtest: same trigger, corridor and record check,
+    no candidate set, so there is no ground truth (known_missed_reports stays None)."""
+    raw = region.raw
+    coords = {s: backtest.site_coords(s, raw) for s in region.sites}
+    universe, incomplete = backtest.load_universe(raw)
+    echo_site, echo_rows = backtest.load_echo(raw)
+    rows_by_day: dict[str, list[dict]] = {}
+    for r in universe:
+        rows_by_day.setdefault(r["began"][:10], []).append(r)
+    rows = backtest.spike_scan(coords, rows_by_day, echo_site, echo_rows, incomplete, [], raw, region.county_title)
+    rules = {"years": list(backtest.YEARS),
+             "trigger": f"value >= max({build.TRIGGER_RATIO:g} x {build.BASELINE_DAYS}-day median, "
+                        f"{build.TRIGGER_FLOOR_PPB:g} ppb), earliest hour of the day",
+             "corridor": f"+/-{build.CORRIDOR_HALF_ANGLE} deg of upwind, <= {build.CORRIDOR_RADIUS_KM} km"}
+    bt = {"schema": SOURCE_SCHEMA, "source": f"{raw.relative_to(ROOT)} (spike scan only; no backtest)",
+          "rules": rules, "spikes": rows, "spike_summary": {"spikes": len(rows), "false_no_report": None},
+          "incomplete_week_searches": incomplete}
+    return bt, coords
+
+
+def main(region: regions.Region = regions.HOUSTON) -> None:
+    if region is regions.HOUSTON:
+        try:
+            bt = json.loads(SRC.read_text())
+        except FileNotFoundError as e:
+            raise SystemExit(f"{SRC} not found; run `uv run python -m pipeline.backtest` first") from e
+        coords = {s: backtest.site_coords(s) for s in backtest.SITE_NAMES}
+    else:
+        bt, coords = region_scan(region)
+    out = export(bt, coords, region)
+    text = dumps(out)
     size = len(text.encode())
     if size > MAX_BYTES:
         raise SystemExit(f"spikes.json would be {size} bytes, over the {MAX_BYTES} budget; drop fields or split it")
-    OUT.write_text(text)
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(out['rows'])} rows, {size} bytes")
+    dest = region.spikes_out
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(text)
+    print(f"wrote {dest.relative_to(ROOT)}: {len(out['rows'])} rows, {size} bytes, by status {out['summary']['by_status']}")
+
+
+def dumps(out: dict) -> str:
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    main()
+    main(regions.get(sys.argv[2]) if sys.argv[1:2] == ["--region"] else regions.HOUSTON)

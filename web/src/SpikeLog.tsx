@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { hourLabel, safeHttpUrl, statusInfo } from './format'
-import { DEMO_REPLAY_HREF } from './routes'
+import { DEMO_REPLAY_HREF } from './demoHref'
 import { NO_FILTER, dateText, parseSpikes, selectRows, toCsv, type Dir, type Filters, type SortKey, type SpikeFile, type SpikeRow } from './spikes'
 import { SpikeCalendar } from './SpikeCalendar'
+import { Follow } from './Follow'
+import { NOT_BACKTESTED_NOTE, REGIONS, regionFrom, regionQuery, type RegionInfo } from './region'
 import './SpikeLog.css'
 
 // One line per status, written for this log (every spike here is past its reporting deadline).
@@ -33,7 +35,19 @@ function writeUrl(f: Filters, sort: SortKey, dir: Dir) {
   history.replaceState(null, '', `${window.location.pathname}?${q.toString()}${window.location.hash}`)
 }
 
-const nightHref = (id: string) => `${import.meta.env.BASE_URL}?night=${encodeURIComponent(id)}`
+const nightHref = (region: RegionInfo, id: string) => `${import.meta.env.BASE_URL}${regionQuery(region, { night: id })}`
+
+/** Two links, not tabs: each region is its own URL, so a filtered view of either can be shared. */
+function RegionSwitch({ current }: { current: RegionInfo }) {
+  return (
+    <nav className="sl-region" aria-label="Region">
+      {Object.values(REGIONS).map((r) => (
+        <a key={r.key} href={`${import.meta.env.BASE_URL}${regionQuery(r, { view: 'spikes' })}`}
+          aria-current={r.key === current.key ? 'page' : undefined}>{r.label}</a>
+      ))}
+    </nav>
+  )
+}
 
 function downloadCsv(rows: SpikeRow[], f: Filters) {
   const parts = ['plume-witness-spikes', f.year, f.site, f.compound && f.compound.replace(/[^a-z0-9]+/gi, ''), f.status].filter(Boolean)
@@ -88,13 +102,15 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
   const [filters, setFilters] = useState<Filters>(init.filters)
   const [sort, setSort] = useState<SortKey>(init.sort)
   const [dir, setDir] = useState<Dir>(init.dir)
+  const region = useMemo(() => regionFrom(window.location.search), [])
 
   useEffect(() => {
-    document.title = 'Past spikes · Plume Witness'
+    document.title = `Past spikes · ${region.place} · Plume Witness`
     const ctrl = new AbortController()
-    fetch(`${import.meta.env.BASE_URL}spikes.json`, { signal: ctrl.signal, cache: 'no-cache' })
+    const file = `${region.dir}spikes.json`
+    fetch(`${import.meta.env.BASE_URL}${file}`, { signal: ctrl.signal, cache: 'no-cache' })
       .then((r) => {
-        if (!r.ok) throw new Error(`Could not load spikes.json (HTTP ${r.status}). Check that web/public/spikes.json exists.`)
+        if (!r.ok) throw new Error(`Could not load ${file} (HTTP ${r.status}). Check that web/public/${file} exists.`)
         return r.json()
       })
       .then((raw) => setData(parseSpikes(raw)))
@@ -102,7 +118,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
       })
     return () => ctrl.abort()
-  }, [])
+  }, [region])
 
   useEffect(() => writeUrl(filters, sort, dir), [filters, sort, dir])
 
@@ -150,11 +166,17 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
     <main className="sl-page">
       {back}
       <header className="sl-head">
-        <p className="sl-kicker">Plume Witness · Houston Ship Channel monitors</p>
+        <RegionSwitch current={region} />
+        <p className="sl-kicker">Plume Witness · {region.place} monitors</p>
         <h1>Past spikes, 2024–2025</h1>
+        {!region.backtested && (
+          <p className="sl-region-note" role="note"><strong>{data.region?.note ?? NOT_BACKTESTED_NOTE}</strong></p>
+        )}
         <p className="sl-summary">
           <strong>{s.spikes} spikes on {s.spike_days} days</strong>; {reported} with a matching company report.
         </p>
+        <Follow siteId={filters.site || undefined} />
+        <p><a href={`${import.meta.env.BASE_URL}?view=brief`}>Read the 2-page method brief (printable)</a>: what these monitors can and cannot check.</p>
       </header>
 
       <section className="sl-explain" aria-label="How to read this log">
@@ -242,7 +264,7 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
                     {report && <a className="sl-report" href={report} rel="noreferrer" target="_blank">TCEQ report {r.matched_incident}</a>}
                   </td>
                   <td>
-                    <a className="nowrap" href={nightHref(r.night_id)} aria-label={`Replay ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
+                    <a className="nowrap" href={nightHref(region, r.night_id)} aria-label={`Replay ${dateText(r.date)}, ${r.compound} at ${r.site}`}>Replay this night</a>
                   </td>
                 </tr>
               )
@@ -252,8 +274,9 @@ export default function SpikeLog({ initialSite }: { initialSite?: string }) {
         {!rows.length && <p className="sl-empty">No spikes match these filters.</p>}
       </div>
       <p className="sl-foot">
-        Source: TCEQ AutoGC hourly data and STEERS emissions-event reports, via the Plume Witness backtest
-        (<code>pipeline/spikes.py</code>). Rows list monitors, never facilities.
+        Source: TCEQ AutoGC hourly data and STEERS emissions-event reports, via the Plume Witness
+        {region.backtested ? ' backtest' : ' spike scan (this region has no backtest)'} (<code>pipeline/spikes.py</code>).
+        Rows list monitors, never facilities.
       </p>
     </main>
   )

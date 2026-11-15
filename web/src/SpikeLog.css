@@ -15,6 +15,25 @@
 .sl-head h1 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.01em; }
 .sl-summary { font-size: 1.05rem; font-variant-numeric: tabular-nums; }
 
+/* Region switch: two links; the current one is marked by aria-current, not only by color. */
+.sl-region { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.sl-region a {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+.sl-region a[aria-current='page'] { border-color: var(--ink); font-weight: 700; background: var(--bg-2); }
+.sl-region-note, .region-banner {
+  padding: 8px 12px;
+  border-left: 4px solid var(--amber-line);
+  background: #fff3c4;
+  color: #16161a;
+  font-size: 0.9rem;
+}
+
 .sl-explain {
   display: grid;
   gap: 8px;
@@ -115,3 +134,6 @@
 .sl-cal-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; list-style: none; font-size: 0.8rem; }
 .sl-cal-legend li { display: inline-flex; align-items: center; gap: 6px; }
 .sl-cal-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+.follow { margin-top: 4px; }
+.follow-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.9rem; }

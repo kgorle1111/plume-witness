@@ -1,11 +1,13 @@
-export type Page = 'landing' | 'replay' | 'spikes'
+export type Page = 'landing' | 'replay' | 'spikes' | 'brief' | 'facility' | 'facilities'
 
-/** Existing replay links keep their original query parameters and step hashes. */
+const VIEWS = new Set<Page>(['spikes', 'brief', 'facility', 'facilities'])
+
+/** Existing replay links keep their original query parameters and step hashes; only a bare URL opens the landing page. */
 export function pageFromLocation({ search, hash }: Pick<Location, 'search' | 'hash'>): Page {
   const params = new URLSearchParams(search)
-  if (params.get('view') === 'spikes') return 'spikes'
-  if (params.get('view') === 'replay' || params.has('intro') || params.has('night') || hash) return 'replay'
+  const view = params.get('view') as Page | null
+  if (view && VIEWS.has(view)) return view
+  if (view === 'replay' || ['intro', 'night', 'region', 'embed'].some((k) => params.has(k)) || hash) return 'replay'
   return 'landing'
 }
 
-export const DEMO_REPLAY_HREF = `${import.meta.env.BASE_URL}?intro=0#detect`

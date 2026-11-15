@@ -55,6 +55,12 @@ export interface RecordCheck {
     end_local?: string
     tz?: string
     cause?: string
+    travel_h?: number | null
+    travel_speed_mph?: number | null
+    travel_distance_km?: number | null
+    arrival_local?: string
+    /** The company's own dated update lines on the report page, quoted. */
+    revisions?: { date: string; text: string }[]
   } | null
   day_incidents?: DayIncident[]
 }
@@ -102,6 +108,8 @@ export interface PlumeEvent {
     guard: { passed: boolean; rejected: string[] }
   }
   corridor?: Corridor
+  /** Present only on a night from a region other than Houston (pipeline/regions.py). */
+  region?: { key: string; label: string; backtested: boolean; note: string | null }
   cannot_say: string[]
   provenance: unknown[]
 }
