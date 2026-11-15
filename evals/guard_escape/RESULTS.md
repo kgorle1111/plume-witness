@@ -194,7 +194,7 @@ Mutants are built on 11 real faithful bases x EN/ES. For a-i the rate is the cat
 
 packet.ai.json vs the current event.json: REJECTED (draft_en: number '40' is not in the event facts; draft_en: '40' is not a facility count in the event facts; draft_es: number '40' is not in the event facts; draft_es: '40' is not a facility count in the event facts)
 
-## Summary: before -> after (pinned bases, same 1,163 mutants)
+## Summary: before -> after (pinned bases, same 1,042 mutants)
 
 | class | what is injected | before | after |
 |---|---|---:|---:|
@@ -224,8 +224,10 @@ Known leaks (left open on purpose; the floors in `test_guard_escape.py` allow ex
   one-word invented name in Spanish (single capitalized words are skipped there because translated place
   names are capitalized: "el Canal de Navegación"), and names built only from words of one real name
   ("Acme Chemical" passes because "Chemical" is in "Flint Hills Resources Houston Chemical").
-- (f) 2 and (i) 2: a date or name that is real but belongs to another part of the facts (an end date
-  stated as the event date) passes, for the same reason as (b).
+- (f) 2: a real date from elsewhere in the facts (2025-03-07, the reported release's end date) stated as the event date
+  passes, for the same reason as (b).
+- (i) 2: another night's corridor count (5) that equals this night's 5 nearest facilities, and another
+  night's "Shell Chemical" at the start of a Spanish sentence ("Chemical" is in a real fact name).
 - By design: a negated verdict ("This is not proof that...", "Esto no demuestra que...") is rejected
   22/22. The ban list cannot see negation, and loosening it would let the positive form through.
 
