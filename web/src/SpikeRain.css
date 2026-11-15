@@ -20,7 +20,7 @@
 }
 /* Scoped so it outranks .maplibregl-map { position: relative }, whose CSS loads later. */
 .rn-map .rain-canvas { position: absolute; inset: 0; }
-.rain-canvas .maplibregl-ctrl-attrib { font-size: 10px; line-height: 1.3; }
+.rain-canvas .maplibregl-ctrl-attrib { font-size: 12px; line-height: 1.3; }
 .rn-map-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; color: var(--ink-2); }
 
 /* HUD: sits above the map, never moves with it. */
@@ -39,9 +39,14 @@
 
 .rain-canvas .rain-monitor { width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 2px solid #1f5ea0; }
 .rain-monitor span {
-  position: absolute; left: 12px; top: -4px; white-space: nowrap;
-  font-size: 11px; line-height: 1; color: #23415f; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+  position: absolute; left: 12px; top: -5px; white-space: nowrap;
+  font-size: 12px; line-height: 1; color: #23415f; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
 }
+/* RainMap.tsx moves a name off its default right-hand side when it would cover another monitor. */
+.rain-monitor.rain-l span { left: auto; right: 12px; }
+.rain-monitor.rain-b span, .rain-monitor.rain-t span { left: 50%; transform: translateX(-50%); }
+.rain-monitor.rain-b span { top: 10px; }
+.rain-monitor.rain-t span { top: -20px; }
 @media (max-width: 599px) { .rain-monitor span { display: none; } }
 
 .rn-caption { font-size: 0.92rem; color: var(--ink); }
@@ -49,7 +54,9 @@
 .rn-controls { display: grid; gap: 10px; }
 .rn-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .rn-play { min-width: 112px; display: inline-flex; gap: 8px; align-items: center; justify-content: center; }
-.rn-key { font-size: 0.65rem; font-weight: 600; border: 1px solid rgb(255 255 255 / 0.6); border-radius: 4px; padding: 0 4px; opacity: 0.85; }
+/* Disabled while the map loads: the default disabled border is 1.3:1 on the page; ink-3 is 6.3:1 (dark 8.0:1). */
+.rn-play:disabled { border-color: var(--ink-3); }
+.rn-key { font-size: 0.75rem; font-weight: 600; border: 1px solid rgb(255 255 255 / 0.6); border-radius: 4px; padding: 0 4px; opacity: 0.85; }
 .rn-speed { display: flex; gap: 6px; }
 .rn-speed .btn[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
 .rn-rm { color: var(--ink-2); font-size: 0.9rem; }
@@ -79,7 +86,7 @@
 .rn-bars rect { fill: #d3d3da; }
 .rn-bars rect.on { fill: #8d8d99; }
 .rn-months { position: relative; height: 20px; border-top: 1px solid var(--line); }
-.rn-tick { position: absolute; top: 0; height: 6px; border-left: 1px solid var(--ink-3); font-size: 0.7rem; color: var(--ink-3); }
+.rn-tick { position: absolute; top: 0; height: 6px; border-left: 1px solid var(--ink-3); font-size: 0.75rem; color: var(--ink-3); }
 .rn-tick.year { height: 10px; border-left-color: var(--ink); }
 .rn-tick { padding-left: 3px; padding-top: 6px; white-space: nowrap; line-height: 1; }
 .rn-tick b { color: var(--ink); }
@@ -112,8 +119,14 @@
   .rn-page { padding-inline: 24px; }
   .rn-head h1 { font-size: 1.9rem; }
   .rn-stage { grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; }
-  /* Header, map, caption and the scrubber fit one 800px-tall laptop screen. */
-  .rn-map { height: clamp(380px, calc(100dvh - 400px), 620px); }
+  /* Header, map, caption and the scrubber fit one 720px-tall laptop or projector screen: a shorter map floor, and the
+     play buttons share the scrubber's row. */
+  .rn-map { height: clamp(300px, calc(100dvh - 400px), 620px); }
+  .rn-controls { grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; align-items: start; }
+  .rn-buttons { flex-wrap: nowrap; }
+  .rn-hint { grid-column: 1 / -1; }
+  /* Reduced motion has no buttons, only a sentence: keep it above a full-width scrubber. */
+  .rn-controls:has(.rn-rm) { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Touch devices have no space bar or arrow keys. */

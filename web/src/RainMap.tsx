@@ -97,18 +97,6 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
         bounds.extend([s.row.lon, s.row.lat])
         if (!sites.has(s.row.site_id)) sites.set(s.row.site_id, s.row)
       }
-      const fit = () => {
-        if (bounds.isEmpty() || el.clientWidth < 40 || el.clientHeight < 40) return
-        // Room for the date HUD (top-left) and, on wide maps, the monitor labels that run right of each dot.
-        const wide = el.clientWidth >= 600
-        const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 40) / 2))
-        const w = el.clientWidth, h = el.clientHeight
-        m.fitBounds(bounds, {
-          padding: { top: room(wide ? 90 : 76, h), bottom: room(30, h), left: room(36, w), right: room(wide ? 120 : 36, w) },
-          maxZoom: 11, duration: 0,
-        })
-      }
-      fit()
       // Monitors stay on the map all the time, so a quiet month still shows where the instruments are.
       for (const row of sites.values()) {
         const dot = document.createElement('div')
@@ -119,6 +107,48 @@ export default function RainMap({ spikes, onApi, onPick, onError }: Props) {
         dot.append(label)
         markers.push(new Marker({ element: dot }).setLngLat([row.lon, row.lat]).addTo(m))
       }
+      const fit = () => {
+        if (bounds.isEmpty() || el.clientWidth < 40 || el.clientHeight < 40) return
+        const w = el.clientWidth, h = el.clientHeight
+        const room = (want: number, size: number) => Math.min(want, Math.max(0, (size - 40) / 2))
+        // The date box (SpikeRain's .rn-hud) sits over the top-left corner of this map.
+        const hud = el.parentElement?.querySelector<HTMLElement>('.rn-hud')
+        const hudW = (hud?.offsetWidth ?? 220) + 16, hudH = (hud?.offsetHeight ?? 70) + 16
+        // Wide maps: room on the right for the monitor names that run right of each dot. Bottom: a spike's ring.
+        const right = w >= 600 ? 120 : 36, bottom = 40
+        // Clear the date box from above or from the left, whichever leaves the monitors drawn larger: the cluster
+        // is wider than tall, so on a wide, short map clearing it from the left spreads the monitors further apart.
+        const pads = [{ top: hudH, bottom, left: 36, right }, { top: 24, bottom, left: hudW, right }]
+          .map((p) => ({ top: room(p.top, h), bottom: room(p.bottom, h), left: room(p.left, w), right: room(p.right, w) }))
+        const zoom = (padding: (typeof pads)[number]) => m.cameraForBounds(bounds, { padding, maxZoom: 11 })?.zoom ?? -Infinity
+        m.fitBounds(bounds, { padding: zoom(pads[1]) > zoom(pads[0]) ? pads[1] : pads[0], maxZoom: 11, duration: 0 })
+        placeLabels()
+      }
+      // Each name goes right of its dot unless that covers another monitor's dot or an already placed name; then left,
+      // below or above. If no side is clear it stays right.
+      const SIDES = ['rain-r', 'rain-l', 'rain-b', 'rain-t']
+      const placeLabels = () => {
+        const box = el.getBoundingClientRect()
+        const dots = markers.map((mk) => mk.getElement().getBoundingClientRect())
+        const names: DOMRect[] = []
+        const hits = (a: DOMRect, b: DOMRect) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom
+        markers.forEach((mk, i) => {
+          const dot = mk.getElement(), label = dot.querySelector('span')
+          if (!label) return
+          const clear = (side: string) => {
+            dot.classList.remove(...SIDES)
+            dot.classList.add(side)
+            const r = label.getBoundingClientRect()
+            if (!r.width) return true // names are hidden on narrow screens
+            const inside = r.left >= box.left && r.right <= box.right && r.top >= box.top && r.bottom <= box.bottom
+            return inside && !dots.some((d, j) => j !== i && hits(r, d)) && !names.some((n) => hits(r, n))
+          }
+          if (!SIDES.some(clear)) clear(SIDES[0])
+          const placed = label.getBoundingClientRect()
+          if (placed.width) names.push(placed)
+        })
+      }
+      fit()
 
       // kn: standalone Deck synced to the MapLibre camera (same workaround as EventMap.tsx: @deck.gl/mapbox 9.4.1
       // reads map.transform, which MapLibre 6 removed). Fine because this map is flat and never pitched.
