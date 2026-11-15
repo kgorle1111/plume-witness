@@ -1,20 +1,20 @@
 """Build event.json for one real night: detect the spike, rank facilities upwind, check the self-report.
 
-Usage: uv run python -m pipeline.build            (writes data/build/event.real.json)
-       uv run python -m pipeline.build --publish  (also copies it to web/public/event.json)
+Usage: uv run python -m pipeline.build   (writes data/build/event.real.json, the hand-configured audit build)
+web/public/event.json is written by `uv run python -m pipeline.nights` (the same night from the full run).
 """
 
 import json
 import math
 import re
-import shutil
 import statistics
-import sys
 from datetime import date, datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from pipeline.contract import SCHEMA, validate
+from pipeline.names import display_name
 from pipeline.parse import hourly_flags, hourly_table, steers_incident, steers_search
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -107,7 +107,7 @@ def corridor(echo: dict, origin: tuple[float, float], wind_from: list[float | No
         off = min(abs((w - b + 180) % 360 - 180) for w in winds)
         if d > CORRIDOR_RADIUS_KM or off > CORRIDOR_HALF_ANGLE:
             continue
-        out.append({"id": f.get("RegistryID") or f["AIRName"], "name": f["AIRName"].title(), "lat": p[0], "lon": p[1],
+        out.append({"id": f.get("RegistryID") or f["AIRName"], "name": display_name(f["AIRName"]), "lat": p[0], "lon": p[1],
                     "distance_km": round(d, 1), "bearing_deg": round(b, 1), "alignment": alignment(wind_from, b),
                     "in_corridor": True, "source": "EPA ECHO (major emissions source)",
                     "coord_precision": "as published by ECHO"})
@@ -162,7 +162,7 @@ def place_incidents(incidents: list[dict], facilities: list[dict], echo_rows: li
     in_corr = {f["id"]: f for f in facilities}
     out = []
     for inc in incidents:
-        row = {"incident": inc["incident"], "entity": inc["entity"].title(), "rn": inc["rn"],
+        row = {"incident": inc["incident"], "entity": display_name(inc["entity"]), "rn": inc["rn"],
                "start_local": inc["start_local"], "compound": inc["compound"], "pounds": inc["pounds"]}
         fac, how = locate(inc["entity"], inc.get("address", ""), echo_rows)
         rid = fac.get("RegistryID") if fac else None
@@ -318,8 +318,9 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         wind_en, wind_es = " Wind there had no direction reading for that hour.", (
             " No hubo lectura de la dirección del viento en esa hora.")
     else:
-        wind_en = f" Wind there came from {w['from_deg']:.0f} degrees at {w['speed_mph']} mph."
-        wind_es = f" El viento venía de {w['from_deg']:.0f} grados a {w['speed_mph']} mph."
+        deg = _exact(w["from_deg"])
+        wind_en = f" Wind there came from {deg} degrees at {w['speed_mph']} mph."
+        wind_es = f" El viento venía de {deg} grados a {w['speed_mph']} mph."
     h12 = f"{(det['hour_cst'] % 12) or 12}:00 {'a.m.' if det['hour_cst'] < 12 else 'p.m.'}"
     also_en = "".join(f" {m['name']} recorded {m['hourly'][det['hour_cst']]['value']} ppb in the same hour." for m in others)
     also_es = "".join(f" {m['name']} registró {m['hourly'][det['hour_cst']]['value']} ppb en la misma hora." for m in others)
@@ -328,7 +329,7 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
     corr_en = (" The wind was too light to trace where the air came from, so no upwind corridor is drawn." if calm
                else f" {n} major permitted facilities lie in the upwind corridor.")
     corr_es = (" El viento era demasiado débil para saber de dónde venía el aire, así que no se traza un corredor."
-               if calm else f" Hay {n} instalaciones permitidas importantes en el corredor de donde venía el viento.")
+               if calm else f" Hay {n} instalaciones grandes con permiso en el corredor viento arriba.")
     if rc["status"] == "reported_mismatch":
         r = rc["reported"]
         start, end = r["start_local"].replace("T", " "), r["end_local"].replace("T", " ")
@@ -336,7 +337,7 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
         # running for days, and calling those "starting near that hour" would overstate the link.
         if r["match_basis"].startswith("ongoing"):
             when_en = f"a release that started {start[:10]} and, per the report, ran until {end} local time"
-            when_es = (f"una emisión que empezó el {start[:10]} y que, según el informe, siguió hasta el {end}, "
+            when_es = (f"una emisión que empezó el {start[:10]} y que, según el reporte, siguió hasta el {end}, "
                        "hora local")
         else:
             until = end[11:] if end[:10] == start[:10] else end
@@ -344,18 +345,21 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
             when_es = f"una emisión de {start[11:]} a {until}, hora local, ese día"
         rec_en = (f" One of them, {r['facility']}, filed report {rc['incident']} for {when_en}, "
                   f"but the report does not list {name_en}, so it does not match this reading.")
-        rec_es = (f" Una de ellas, {r['facility']}, presentó el informe {rc['incident']} por {when_es}, "
-                  f"pero el informe no incluye {name_es}, así que no corresponde a esta lectura.")
+        rec_es = (f" Una de ellas, {r['facility']}, presentó el reporte {rc['incident']} por {when_es}, "
+                  f"pero el reporte no incluye {name_es}, así que no corresponde a esta lectura.")
         ask_en = f" Requested follow-up: confirm what caused this {name_en} reading."
         ask_es = f" Seguimiento solicitado: confirmar qué causó esta lectura de {name_es}."
     elif rc["matched_facility_id"]:
         r = rc["reported"]
-        rec_en = (f" One of them, {r['facility']}, filed emissions-event report {rc['incident']} for {r['pounds']:,.0f} "
+        lbs = _exact(r["pounds"], grouped=True)
+        rec_en = (f" One of them, {r['facility']}, filed emissions-event report {rc['incident']} for {lbs} "
                   f"pounds of {r['compound'].lower()} from {r['start_local'][11:]} to {r['end_local'][11:]} local time "
-                  f"that day. These readings are consistent with that release reaching the monitors.")
-        rec_es = (f" Una de ellas, {r['facility']}, presentó el informe de evento de emisiones {rc['incident']} por "
-                  f"{r['pounds']:,.0f} libras de {name_es} de {r['start_local'][11:]} a {r['end_local'][11:]}, hora local, "
-                  f"ese día. Estas lecturas son consistentes con que esa emisión llegó a los monitores.")
+                  f"that day. The reported release window and the wind line up with these readings; other sources may "
+                  f"also contribute.")
+        rec_es = (f" Una de ellas, {r['facility']}, presentó el reporte de evento de emisiones {rc['incident']} por "
+                  f"{lbs} libras de {name_es} de {r['start_local'][11:]} a {r['end_local'][11:]}, hora local, "
+                  f"ese día. El horario de la emisión reportada y el viento coinciden con estas lecturas; otras fuentes "
+                  f"también pueden contribuir.")
         ask_en = (" Requested follow-up: confirm whether nearby residents were notified, and whether the reported "
                   "amount accounts for these readings.")
         ask_es = (" Seguimiento solicitado: confirmar si se avisó a los residentes cercanos y si la cantidad reportada "
@@ -363,14 +367,14 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
     elif rc["status"] == "no_report_after_deadline":
         rec_en = (" No matching report found in a complete search of that day's emissions-event records for "
                   f"{county} County. That does not show who or what caused the reading.")
-        rec_es = (" No se encontró un informe correspondiente en una búsqueda completa de los registros de eventos "
+        rec_es = (" No se encontró un reporte que coincida en una búsqueda completa de los registros de eventos "
                   f"de emisiones de ese día en el condado de {county}. Eso no indica quién o qué causó la lectura.")
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
     else:
         rec_en = " No matching report was found in the records checked; the search is incomplete."
-        rec_es = " No se encontró un informe correspondiente en los registros revisados; la búsqueda está incompleta."
+        rec_es = " No se encontró un reporte que coincida en los registros revisados; la búsqueda está incompleta."
         ask_en = " Requested follow-up: confirm whether any facility in this corridor reported a release that hour."
         ask_es = (" Seguimiento solicitado: confirmar si alguna instalación en este corredor reportó una emisión "
                   "a esa hora.")
@@ -386,6 +390,16 @@ def template_packet(det: dict, monitors: list[dict], wind: dict, facilities: lis
           f"CST, frente a una mediana de 7 días de {det['baseline']} ppb.{also_es}{wind_es}{corr_es}{rec_es}{ask_es}")
     return {"draft_en": en, "draft_es": es, "drafted_by": "template (deterministic, no AI)",
             "guard": {"passed": True, "rejected": []}}
+
+
+def _exact(x: float, grouped: bool = False) -> str:
+    """77.0 -> '77', 77.5 -> '77.5', 8469.74 -> '8,469.74' grouped: drop a whole value's '.0' but never round.
+
+    The guard wants the exact figure: rounding printed "8,470" for 8469.74 lb and "0 pounds" for 0.07 lb."""
+    d = Decimal(repr(float(x)))  # repr keeps the published digits; 'f' never falls back to '1e-05'
+    if d == d.to_integral_value():
+        d = d.to_integral_value()
+    return format(d, ",f" if grouped else "f")
 
 
 def det_day_str(day: str, es: bool = False) -> str:
@@ -467,8 +481,28 @@ def name_filer(facilities: list[dict], rc: dict, echo_rows: list[dict]) -> None:
     filer = rc["reported"]["facility"]
     if f is None or f["name"] == filer:
         return
-    f["echo_names"] = [n.title() for n in site_names(echo_rows).get(f["id"], [])] or [f["name"]]
+    f["echo_names"] = [display_name(n) for n in site_names(echo_rows).get(f["id"], [])] or [f["name"]]
     f["name"] = filer
+
+
+def disambiguate(facilities: list[dict], echo_facilities: list[dict], keep_id: str | None = None) -> None:
+    """Give corridor sites that share a display name a street, then an EPA registry id if the street is shared too.
+
+    ECHO registers 4 separate "GALENA PARK TERMINAL" sites (two at 906 Clinton Dr) and 2 "LA PORTE VCM PLANT" sites at
+    one address, so the Trace list showed the same name 2-4 times (UI audit 3, S124). ECHO has no operator field, so
+    the street is the first tie-breaker. keep_id (the matched site) keeps its name: the Check step prints it beside
+    the report number and it must stay the filer's name."""
+    street: dict[str, str] = {}
+    for r in echo_facilities:  # first major-source row per site, in file order, so the result is deterministic
+        if r.get("RegistryID") and r.get("AIRUniverse") == "Major Emissions" and (r.get("AIRStreet") or "").strip():
+            street.setdefault(r["RegistryID"], display_name(" ".join(r["AIRStreet"].split())))
+    names = [f["name"] for f in facilities]
+    clash = {n for n in names if names.count(n) > 1}
+    tagged = [f for f in facilities if f["name"] in clash and f["id"] != keep_id]
+    keys = [(f["name"], street.get(f["id"])) for f in tagged]
+    for f, (name, st) in zip(tagged, keys, strict=True):
+        label = st if st and keys.count((name, st)) == 1 else ", ".join(x for x in (st, f"EPA {f['id']}") if x)
+        f["name"] = f"{name} ({label})"
 
 
 def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, echo: dict, echo_rows: list[dict],
@@ -512,6 +546,7 @@ def trace(monitors: list[dict], winds: dict[str, dict], wind_site: str | None, e
                       earlier_complete=earlier_complete, earlier_note=earlier_note, calm_note=calm_note,
                       speed_mph=speed, county=county)
     name_filer(facilities, rc, echo["Results"]["Facilities"])
+    disambiguate(facilities, echo["Results"]["Facilities"], rc["matched_facility_id"])
     return {"detection": det, "wind": wind, "window": winds_ok, "trig": trig, "calm_mph": calm,
             "facilities": facilities, "record_check": rc, "winds": winds}
 
@@ -637,6 +672,3 @@ if __name__ == "__main__":
     print(f"detect: {d['site_id']} {d['hour_cst']:02d}:00 CST {d['value']} ppb (baseline {d['baseline']})")
     print(f"corridor: {len(ev['facilities'])} facilities; nearest {f0['name']} {f0['distance_km']} km")
     print(f"record: {rc['status']} {[c['status'] for c in rc['checks']]} matched={rc['matched_facility_id']}")
-    if "--publish" in sys.argv:
-        shutil.copy(out, ROOT / "web" / "public" / "event.json")
-        print("published to web/public/event.json")

@@ -59,6 +59,13 @@ test('display names: EPA capitals become title case; acronyms, brands and ordina
   for (const [raw, want] of cases) assert.equal(displayName(raw), want, raw)
 })
 
+// The pipeline names corridor facilities with a Python port of displayName (pipeline/names.py); both must agree.
+test('displayName matches the pipeline port on every name in the shared fixture', () => {
+  const fx = JSON.parse(readFileSync(new URL('../../data/fixtures/display_names.json', import.meta.url), 'utf8')) as { cases: [string, string][] }
+  assert.ok(fx.cases.length > 200)
+  for (const [raw, want] of fx.cases) assert.equal(displayName(raw), want, raw)
+})
+
 test('every indexed name keeps its letters when displayed (only case changes)', () => {
   for (const r of index.facilities) assert.equal(displayName(r.name).toUpperCase(), r.name.toUpperCase(), r.name)
 })
