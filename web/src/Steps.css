@@ -10,3 +10,9 @@
 
 /* Phones: "Show on map" under each corridor facility. */
 .fl-show { justify-self: start; margin-top: 4px; }
+
+.dlg-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.dlg-close { flex: none; min-width: 44px; padding: 0; font-size: 1.4rem; line-height: 1; }
+.dlg-links { display: grid; gap: 6px; font-size: 0.9rem; }
+.dlg-links dt { font-weight: 600; }
+.dlg-links dd { margin: 0; overflow-wrap: anywhere; }

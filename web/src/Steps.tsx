@@ -3,10 +3,10 @@ import { type AiDraft, type DayIncident, type Facility, type Monitor, type Plume
 import { compass, hourLabel, hourShort, normCompound, offWindDeg, poundsText, readingText, safeHttpUrl, statusInfo, statusLabel, unitShort } from './format'
 import { Unit } from './Unit'
 import { StatusIcon } from './StatusIcon'
-import { incidentNote } from './note'
+import { incidentNote, noteUrl } from './note'
 import { facilityHref } from './facilities'
 import { arrivalTick, calmMph, checkNoteText, daysAfterEvent, reportBand, resolutionText, searchScopeText, timeNote } from './reportWindow'
-import type { Lang, PacketReview, Source } from './packet'
+import { savePacketReview, useAiDraftFailed, type Lang, type PacketReview, type Source } from './packet'
 import { PlaceSearch, type Place } from './PlaceSearch'
 import { Rose } from './Rose'
 import { setLang as setSiteLang, type StringKey, type Vars } from './i18n'
@@ -535,9 +535,24 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const t = useT()
   const langName = (l: Lang) => t(LANG_NAME[l])
   const noticeText = notice ? t(notice.key, { ...notice.vars, ...(notice.langName ? { lang: langName(notice.langName) } : {}) }) : ''
+  // A live region only speaks when its text changes, so the same notice twice ("Draft copied." after a second copy)
+  // is cleared first and set again a moment later.
+  const sayTimer = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(sayTimer.current), [])
+  const say = (n: Notice | null) => {
+    window.clearTimeout(sayTimer.current)
+    setNotice(null)
+    if (n) sayTimer.current = window.setTimeout(() => setNotice(n), 60)
+  }
   const dialog = useRef<HTMLDialogElement>(null)
+  const dlgTitle = useRef<HTMLHeadingElement>(null)
   const [dlgCopy, setDlgCopy] = useState<'idle' | 'copied' | 'failed'>('idle')
   const dlgDraft = useRef<HTMLTextAreaElement>(null)
+  const draftBox = useRef<HTMLTextAreaElement>(null)
+  // The incident note exists only on the clipboard; when copying fails it is shown here to copy by hand.
+  const [noteFallback, setNoteFallback] = useState<string | null>(null)
+  const noteBox = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => { if (noteFallback !== null) noteBox.current?.select() }, [noteFallback])
   // No clipboard (insecure page, denied permission): the approved text is shown selected so it can be copied by hand.
   useEffect(() => { if (dlgCopy === 'failed') dlgDraft.current?.select() }, [dlgCopy])
   const copyApproved = async () => {
@@ -552,10 +567,27 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   const clip = useRecordedClip(source, lang, drafts[lang])
   const audio = useRef<HTMLAudioElement>(null)
   const guard = ev.packet.guard
+  const aiFailed = useAiDraftFailed()
+  const replayUrl = noteUrl(location.href)
+  const recordUrl = safeHttpUrl(ev.record_check.source_url)
 
   useEffect(() => () => { if (canSpeak) window.speechSynthesis.cancel() }, [canSpeak])
   // The text, language or source changed under a playing recording: it no longer matches what is on screen.
   useEffect(() => () => { audio.current?.pause(); setSpeaking(false) }, [clip.url])
+  // Edits survive a reload or Back in this tab; edits happen only here, so saving here covers them all.
+  useEffect(() => { savePacketReview(ev, review) }, [ev, review])
+
+  // The header switch (App) also changes the language and clears approval; say so here, where it is seen.
+  // Any older notice ("Draft copied.") was about the other language's draft.
+  const prev = useRef(review)
+  useEffect(() => {
+    const was = prev.current
+    prev.current = review
+    if (was.lang === review.lang) return
+    say(was.approved ? { key: 'pkt.switched', langName: review.lang } : null)
+    // say is recreated each render; only a language change should run this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [review])
 
   const stopSpeech = () => {
     if (canSpeak) window.speechSynthesis.cancel()
@@ -564,10 +596,10 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
   }
 
   // Product rule: a person approves the exact text they file, so approval belongs to one language's draft.
+  // The notice comes from the language effect above, for this switch and the header's alike.
   const switchLang = (l: Lang) => {
     if (l === lang) return
     stopSpeech()
-    if (approved) setNotice({ key: 'pkt.switched', langName: l })
     setReview((r) => ({ ...r, lang: l, approved: false }))
     setSiteLang(l)
   }
@@ -577,14 +609,14 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     if (s === source || (s === 'ai' && !ai)) return
     stopSpeech()
     const next = s === 'ai' && ai ? { en: ai.draft_en, es: ai.draft_es } : { en: ev.packet.draft_en, es: ev.packet.draft_es }
-    setNotice({ key: s === 'ai' ? 'pkt.showingAi' : 'pkt.showingTemplate' })
+    say({ key: s === 'ai' ? 'pkt.showingAi' : 'pkt.showingTemplate' })
     setReview((r) => ({ ...r, source: s, drafts: next, approved: false }))
   }
 
   const readAloud = () => {
     if (speaking) return stopSpeech()
     if (clip.url && audio.current) {
-      audio.current.play().then(() => setSpeaking(true), () => setNotice({ key: 'pkt.noPlay' }))
+      audio.current.play().then(() => setSpeaking(true), () => say({ key: 'pkt.noPlay' }))
       return
     }
     if (!canSpeak) return
@@ -599,30 +631,51 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
     setSpeaking(true)
   }
 
-  const copy = async (text: string, done: StringKey) => {
+  const copyDraft = async () => {
+    try {
+      await navigator.clipboard.writeText(drafts[lang])
+      say({ key: 'pkt.copiedDraft' })
+    } catch {
+      draftBox.current?.select()
+      say({ key: 'pkt.copyFailed' })
+    }
+  }
+
+  const copyNote = async () => {
+    const text = incidentNote(ev, replayUrl, lang)
     try {
       await navigator.clipboard.writeText(text)
-      setNotice({ key: done })
+      setNoteFallback(null)
+      say({ key: 'pkt.copiedNote' })
     } catch {
-      setNotice({ key: 'pkt.copyFailed' })
+      setNoteFallback(text)
+      say({ key: 'pkt.copyFailedNote' })
     }
+  }
+
+  const openDialog = () => {
+    setDlgCopy('idle')
+    dialog.current?.showModal()
+    // autoFocus does nothing on a dialog that mounts closed; without this, focus landed on the phone link.
+    dlgTitle.current?.focus()
   }
 
   return (
     <>
       <p className="lead">{t('pkt.lead')}</p>
       <div className="controls">
-        {ai && (
+        {(ai || aiFailed) && (
           <div className="control">
             <span className="control-label" id="src-label">{t('pkt.source')}</span>
             <div className="seg" role="group" aria-labelledby="src-label">
               <button type="button" aria-pressed={source === 'template'} onClick={() => switchSource('template')}>
                 {t('pkt.template')} <span className="seg-sub">{t('pkt.templateSub')}</span>
               </button>
-              <button type="button" aria-pressed={source === 'ai'} onClick={() => switchSource('ai')}>
-                {t('pkt.ai')} <span className="seg-sub">{t('pkt.aiSub', { provider: ai.provider })}</span>
+              <button type="button" aria-pressed={source === 'ai'} disabled={!ai} aria-describedby={ai ? undefined : 'ai-missing'} onClick={() => switchSource('ai')}>
+                {t('pkt.ai')} {ai && <span className="seg-sub">{t('pkt.aiSub', { provider: ai.provider })}</span>}
               </button>
             </div>
+            {!ai && <p id="ai-missing" className="muted small">{t('pkt.aiUnavailable')}</p>}
           </div>
         )}
         <div className="control">
@@ -638,6 +691,7 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
       </label>
       <textarea
         id="draft"
+        ref={draftBox}
         className="draft"
         lang={lang}
         rows={9}
@@ -646,18 +700,20 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
           const value = e.target.value
           // Approval covers the exact text a person read; any edit needs a fresh approval.
           // Said aloud too: otherwise a screen reader user typing here never learns File was disabled.
-          if (approved) setNotice({ key: 'pkt.edited' })
+          // Any other notice ("Draft copied.") is about the text before this edit.
+          if (approved) say({ key: 'pkt.edited' })
+          else if (notice) say(null)
           setReview((r) => ({ ...r, drafts: { ...r.drafts, [lang]: value }, approved: false }))
         }}
       />
       <p className="muted small provenance">
-        {source === 'ai' && ai ? (
-          t('pkt.byAi', { provider: ai.provider, model: ai.model, date: ai.generated_local, n: ai.runs_on_this_event })
+        {/* An AI draft restored after a reload names its model once packet.ai.json is back; it is never called the template. */}
+        {source === 'ai' ? (
+          ai && t('pkt.byAi', { provider: ai.provider, model: ai.model, date: ai.generated_local, runs: t(ai.runs_on_this_event === 1 ? 'pkt.runsOne' : 'pkt.runsMany', { n: ai.runs_on_this_event }) })
         ) : (
-          t('pkt.byTemplate', {
-            who: ev.packet.drafted_by ?? t('pkt.whoUnknown'),
+          withSlot(t('pkt.byTemplate', {
             result: guard.passed ? t('pkt.checkPassed') : t('pkt.checkFailed', { why: guard.rejected.join(', ') || t('pkt.noDetails') }),
-          })
+          }), 'who', draftedBy(ev.packet.drafted_by, t))
         )}
       </p>
       <div className="row">
@@ -665,8 +721,8 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
         <button type="button" className="btn" onClick={readAloud} disabled={!canSpeak && !clip.url}>
           {t(speaking ? 'pkt.stopReading' : 'pkt.readAloud')}
         </button>
-        <button type="button" className="btn" onClick={() => copy(drafts[lang], 'pkt.copiedDraft')}>{t('pkt.copyDraft')}</button>
-        <button type="button" className="btn" onClick={() => copy(incidentNote(ev, `${location.origin}${location.pathname}`), 'pkt.copiedNote')}>
+        <button type="button" className="btn" onClick={copyDraft}>{t('pkt.copyDraft')}</button>
+        <button type="button" className="btn" onClick={copyNote}>
           {t('pkt.copyNote')}
         </button>
       </div>
@@ -675,30 +731,60 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
       {!canSpeak && !clip.url && <p className="muted small">{t('pkt.noSpeech')}</p>}
       <p className="sr-only" aria-live="polite">{noticeText}</p>
       {noticeText && <p className="muted small" aria-hidden="true">{noticeText}</p>}
+      {noteFallback !== null && (
+        <>
+          <label className="draft-label" htmlFor="note-copy">{t('pkt.noteLabel')}</label>
+          <textarea id="note-copy" ref={noteBox} className="draft" lang={lang} rows={8} readOnly value={noteFallback} />
+        </>
+      )}
 
       <h3 className="list-heading">{t('pkt.reviewFile')}</h3>
       <ol className="file-steps">
         <li>
           <span className="file-step-num" aria-hidden="true">1</span>
-          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => setReview((r) => ({ ...r, approved: !r.approved }))}>
+          <button type="button" className={approved ? 'btn btn-done' : 'btn btn-primary'} onClick={() => { say(null); setReview((r) => ({ ...r, approved: !r.approved })) }}>
             {t(approved ? 'pkt.approved' : 'pkt.approve')}
           </button>
         </li>
         <li>
           <span className="file-step-num" aria-hidden="true">2</span>
-          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={() => { setDlgCopy('idle'); dialog.current?.showModal() }}>
+          <button type="button" className="btn btn-primary" disabled={!approved} aria-describedby="file-hint" onClick={openDialog}>
             {t('pkt.file')}
           </button>
           <p id="file-hint" className="muted small">{t(approved ? 'pkt.fileHint' : 'pkt.approveFirst')}</p>
         </li>
       </ol>
 
-      <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title">
-        <h2 id="dlg-title">{t('pkt.dlgTitle')}</h2>
+      {/* A tap on the backdrop closes it too: on a short phone the only other way out was below the fold. */}
+      <dialog ref={dialog} className="dialog" aria-labelledby="dlg-title" onClick={(e) => {
+        // The dialog box itself is also the click target on its own padding, so only a click outside its box closes it.
+        if (e.target !== e.currentTarget) return
+        const r = e.currentTarget.getBoundingClientRect()
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.current?.close()
+      }}>
+        <div className="dlg-head">
+          <h2 id="dlg-title" ref={dlgTitle} tabIndex={-1}>{t('pkt.dlgTitle')}</h2>
+          <form method="dialog"><button className="btn dlg-close" aria-label={t('pkt.dlgClose')}><span aria-hidden="true">×</span></button></form>
+        </div>
         <p>{withSlot(t('pkt.dlgApproved'), 'lang', <strong>{langName(lang)}</strong>)}</p>
         <p>{t('pkt.dlgNothingSent')}</p>
         <p>{t('pkt.dlgHow')}</p>
-        <p>{withSlot(t('pkt.dlgCall'), 'phone', <a href={PCS_TEL}>{PCS_PHONE}</a>)}</p>
+        <dl className="dlg-links">
+          <div><dt>{t('pkt.dlgReplayLink')}</dt><dd><a href={replayUrl}>{replayUrl}</a></dd></div>
+          {recordUrl && (
+            <div>
+              <dt>{t(ev.record_check.incident ? 'pkt.dlgRecordLink' : 'pkt.dlgSearchLink')}</dt>
+              <dd><a href={recordUrl} target="_blank" rel="noopener noreferrer">{recordUrl}<span className="sr-only">{t('chk.newTab')}</span></a></dd>
+            </div>
+          )}
+        </dl>
+        {/* Houston and Harris County contacts: a night from another region (Jefferson County) does not get them. */}
+        {!ev.region && (
+          <>
+            <p>{t('pkt.dlgCall')}</p>
+            <p><a className="btn" href={PCS_TEL}>{t('pkt.dlgCallBtn', { phone: PCS_PHONE })}</a></p>
+          </>
+        )}
         <div className="row">
           <button type="button" className="btn" onClick={copyApproved}>{t('pkt.dlgCopy')}</button>
           <a className="btn" href={COMPLAINT_URL} target="_blank" rel="noopener noreferrer">
@@ -713,8 +799,16 @@ export function Packet({ ev, ai, review, setReview }: PacketProps) {
             <textarea id="dlg-draft" ref={dlgDraft} className="draft" lang={lang} rows={6} readOnly value={drafts[lang]} />
           </>
         )}
-        <form method="dialog"><button className="btn btn-primary" autoFocus>{t('pkt.dlgOk')}</button></form>
+        <form method="dialog"><button className="btn btn-primary">{t('pkt.dlgOk')}</button></form>
       </dialog>
     </>
   )
+}
+
+// The pipeline's drafted_by for the template (build.py); another value is shown as written and marked English.
+const DRAFTED_BY: Record<string, StringKey> = { 'template (deterministic, no AI)': 'pkt.whoTemplate' }
+function draftedBy(who: string | null, t: Translate): ReactNode {
+  if (!who) return t('pkt.whoUnknown')
+  const k = DRAFTED_BY[who]
+  return k ? t(k) : <span lang="en">{who}</span>
 }
